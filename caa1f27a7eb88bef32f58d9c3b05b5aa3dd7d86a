@@ -1,0 +1,9 @@
+Code-Review+2: LF Jenkins CI <releng+lf-jobbuilder@linuxfoundation.org>
+Code-Review+2: onap-release onap-release <collab-it+onap-release@linuxfoundation.org>
+Verified+1: LF Jenkins CI <releng+lf-jobbuilder@linuxfoundation.org>
+Verified+1: onap-release onap-release <collab-it+onap-release@linuxfoundation.org>
+Submitted-by: LF Jenkins CI <releng+lf-jobbuilder@linuxfoundation.org>
+Submitted-at: Tue, 21 Jul 2020 16:59:03 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/110268
+Project: ccsdk/oran
+Branch: refs/heads/master
