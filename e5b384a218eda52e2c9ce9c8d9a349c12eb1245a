@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52d8b7eb_35416db9",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2020-07-28T14:03:58Z",
+      "side": 1,
+      "message": "Will this new component run within an existing karaf container or how will it be deployed?",
+      "revId": "e5b384a218eda52e2c9ce9c8d9a349c12eb1245a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
