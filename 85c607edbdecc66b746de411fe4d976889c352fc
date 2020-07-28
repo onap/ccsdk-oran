@@ -16,6 +16,24 @@
       "revId": "85c607edbdecc66b746de411fe4d976889c352fc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16dd0b13_31fcb49b",
+        "filename": "a1-adapter/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-07-28T13:52:56Z",
+      "side": 1,
+      "message": "Yes, of course the first version should be 1.0.0... \nWe don\u0027t yet know the exact structure of this component and what parent we actually need. So this is just a placeholder to start with. We will add the correct info when we know what we need. Is that ok?",
+      "parentUuid": "f4d5aded_fa8ebc0c",
+      "revId": "85c607edbdecc66b746de411fe4d976889c352fc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
