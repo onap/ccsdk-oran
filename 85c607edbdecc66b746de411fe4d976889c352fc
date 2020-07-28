@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4d5aded_fa8ebc0c",
+        "filename": "a1-adapter/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-07-28T13:46:21Z",
+      "side": 1,
+      "message": "shouldn\u0027t the version be 1.0.0-SNAPSHOT ? and have a parent pom ?",
+      "revId": "85c607edbdecc66b746de411fe4d976889c352fc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
