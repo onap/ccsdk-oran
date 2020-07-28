@@ -16,6 +16,24 @@
       "revId": "e5b384a218eda52e2c9ce9c8d9a349c12eb1245a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84ad72ba_03f77dd7",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-07-28T14:15:25Z",
+      "side": 1,
+      "message": "It will run as a freestanding micro service.",
+      "parentUuid": "52d8b7eb_35416db9",
+      "revId": "e5b384a218eda52e2c9ce9c8d9a349c12eb1245a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
