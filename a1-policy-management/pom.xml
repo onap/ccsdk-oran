@@ -56,12 +56,12 @@
         <swagger.version>2.0.0</swagger.version>
         <json.version>20190722</json.version>
         <commons-net.version>3.6</commons-net.version>
-	<maven.compiler.source>1.10</maven.compiler.source>
-        <maven.compiler.target>1.10</maven.compiler.target>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <spotless-maven-plugin.version>1.18.0</spotless-maven-plugin.version>
 	<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <version.dmaap>1.1.11</version.dmaap>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <exec.skip>true</exec.skip>
     </properties>
     <dependencies>
@@ -238,6 +238,64 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin}</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>generate-policy-management-service-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
+                                    <build>
+                                        <cleanup>try</cleanup>
+                                        <contextDir>${basedir}</contextDir>
+                                        <dockerFile>Dockerfile</dockerFile>
+                                        <args>
+                                            <JAR>${project.build.finalName}.jar</JAR>
+                                        </args>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-policy-management-service-image</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
+                                    <build>
+                                        <contextDir>${basedir}</contextDir>
+                                        <dockerFile>Dockerfile</dockerFile>
+                                        <args>
+                                            <JAR>${project.build.finalName}.jar</JAR>
+                                        </args>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                            <tag>latest</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
