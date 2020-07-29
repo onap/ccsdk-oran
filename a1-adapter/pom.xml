@@ -27,5 +27,5 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>ccsdk-features :: ${project.artifactId}</name>
+    <name>ccsdk-oran :: ${project.artifactId}</name>
 </project>
