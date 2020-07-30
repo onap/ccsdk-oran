@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5d8a85a6_f1319c74",
+        "filename": "a1-adapter/a1-adapter-api/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-07-30T23:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5abc95b3_1c1542b9",
+      "revId": "d4a2db732b3e824f17097d66af04d7f71cd3fd2f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e69b314_54f030b9",
         "filename": "a1-adapter/features/pom.xml",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-30T19:53:00Z",
       "side": 1,
       "message": "Parent version should be version 2.0.0-SNAPSHOT",
+      "revId": "d4a2db732b3e824f17097d66af04d7f71cd3fd2f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70d4c40e_44ea2246",
+        "filename": "a1-adapter/features/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-07-30T23:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e69b314_54f030b9",
       "revId": "d4a2db732b3e824f17097d66af04d7f71cd3fd2f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
