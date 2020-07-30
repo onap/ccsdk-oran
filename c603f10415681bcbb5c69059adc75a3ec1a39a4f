@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5402e93a_688b6bc8",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-07-30T09:45:51Z",
+      "side": 1,
+      "message": "Agree - \"Agent\"  is the OSC-interal \"code name\" for this function. \nThe proper name is \"A1 Policy Management Service\"",
+      "parentUuid": "6e703c41_b9d675be",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "578a81fa_681bb555",
         "filename": "a1-policy-management/Dockerfile",
         "patchSetId": 4
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "a88c606f_7dd35105",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-07-30T09:45:51Z",
+      "side": 1,
+      "message": "Agree",
+      "parentUuid": "1305b275_c576f90e",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fa1021a_af3361cb",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
@@ -81,6 +117,24 @@
       "writtenOn": "2020-07-30T08:29:53Z",
       "side": 1,
       "message": "How about image name as \"a1policymanagementservice\"",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22864a4f_fcb554e7",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-07-30T09:45:51Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "4fa1021a_af3361cb",
       "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -101,6 +155,24 @@
       "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6162997_67ab5ed4",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-07-30T09:45:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec962ba8_5dfba095",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
