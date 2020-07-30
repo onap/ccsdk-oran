@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "81bd1677_ef1ad38b",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T17:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5402e93a_688b6bc8",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "578a81fa_681bb555",
         "filename": "a1-policy-management/Dockerfile",
         "patchSetId": 4
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "de75572d_21919a75",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T17:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "578a81fa_681bb555",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5aeab23_2dc9074a",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2020-07-30T08:29:53Z",
       "side": 1,
       "message": "\u003cgroupId\u003eorg.springframework.boot\u003c/groupId\u003e\nThough this project is within ccsdk, it doesn\u0027t inherit any features from ccsdk.",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85426ef0_f11c8242",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T17:23:14Z",
+      "side": 1,
+      "message": "John had suggested to use ccsdk parent instead of springframework. But it does not matter in reality I think. We are only using \"spring-boot-starter-parent\", and not any other features from ccsdk.",
+      "parentUuid": "a5aeab23_2dc9074a",
       "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -103,6 +157,24 @@
       "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035faec6_8e2b6127",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T17:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88c606f_7dd35105",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
