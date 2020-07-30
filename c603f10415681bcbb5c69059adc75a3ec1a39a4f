@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "99047f70_f8cb3452",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-07-30T10:58:00Z",
+      "side": 1,
+      "message": "Alright. Because we are into ccsdk, we can have onap/ccsdk-a1policymanagementservice.\nI dont think we need \"oran\" in the image name. whats your thought?",
+      "parentUuid": "80b99be1_cb10bfde",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec962ba8_5dfba095",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
