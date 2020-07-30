@@ -16,6 +16,24 @@
       "revId": "8d410e2966ffd17458ca868080c5c0ac4e1c01d2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94e291f_6d9c55b9",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T16:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "256007eb_060e763c",
+      "revId": "8d410e2966ffd17458ca868080c5c0ac4e1c01d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
