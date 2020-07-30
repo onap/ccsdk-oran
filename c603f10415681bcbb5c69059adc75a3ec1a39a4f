@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "79ad16f1_946a727a",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T11:08:32Z",
+      "side": 1,
+      "message": "I think it would be clear for everyone that this image came from our repo (and repo name is ccsdk/oran). So, in my opinion, it would be better to keep \"oran\" to avoid confusion. \nIf we just have ccsdk-a1policymanagementservice, it would not be clear which repo of ccsdk generated this image.\nFurthermore, all the Jenkinks jobs also have ccsdk-oran as prefix. So, we can relate our staging jobs with the docker image.",
+      "parentUuid": "99047f70_f8cb3452",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec962ba8_5dfba095",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
