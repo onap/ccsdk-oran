@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "80b99be1_cb10bfde",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-07-30T10:09:02Z",
+      "side": 1,
+      "message": "I found in ONAP nexus that all ccsdk related images have ccsdk as prefix, e.g., ccsdk-cds, ccsdk-apps, ccsdk-dgbuilder etc. \nhttps://nexus3.onap.org/#browse/browse:docker.snapshot:v2%2Fonap\n\nSo, I tried to follow this convention. But if we agree on removing ccsdk from image name, I can do that.",
+      "parentUuid": "22864a4f_fcb554e7",
+      "revId": "c603f10415681bcbb5c69059adc75a3ec1a39a4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec962ba8_5dfba095",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
