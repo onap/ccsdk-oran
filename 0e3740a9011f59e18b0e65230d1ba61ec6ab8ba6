@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4154638_a38562c8",
+        "filename": "a1-policy-management/config/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T12:27:38Z",
+      "side": 1,
+      "message": "2019-2020",
+      "revId": "0e3740a9011f59e18b0e65230d1ba61ec6ab8ba6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce37607_55060fa8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1UriBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T12:27:38Z",
+      "side": 1,
+      "message": "2019-2020",
+      "revId": "0e3740a9011f59e18b0e65230d1ba61ec6ab8ba6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
