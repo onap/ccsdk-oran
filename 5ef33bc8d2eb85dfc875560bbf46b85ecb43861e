@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c8095b7_389d3679",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "year?",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8589a5c_94499b7d",
+        "filename": "a1-policy-management/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "year?",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec5c768_2aefb0da",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "License",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf740b79_0fd8f351",
+        "filename": "a1-policy-management/eclipse-formatter.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "Year?",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed09460_e4f2e059",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "I dont think we need to use ccsdk springboot as we dont have any dependency with ccsdk.",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86015e8a_77762d0a",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/Application.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-04T08:18:29Z",
+      "side": 1,
+      "message": "Year? Check in all the files.",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
