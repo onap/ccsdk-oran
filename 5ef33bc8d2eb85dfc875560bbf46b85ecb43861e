@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "43a4cd8c_27a5bf1f",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-04T08:31:23Z",
+      "side": 1,
+      "message": "Following the pattern from the DFC, it should be \n\nCopyright (C) 2019-2020 Nordix Foundation. All rights reserved.",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8589a5c_94499b7d",
         "filename": "a1-policy-management/README.md",
         "patchSetId": 3
