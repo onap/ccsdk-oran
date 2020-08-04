@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "47de4de1_b8fd7413",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c8095b7_389d3679",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cec356b_cd9bdb72",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43a4cd8c_27a5bf1f",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8589a5c_94499b7d",
         "filename": "a1-policy-management/README.md",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4d63fd0_1bbaea75",
+        "filename": "a1-policy-management/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8589a5c_94499b7d",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "8678c5b3_a272ac7e",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec5c768_2aefb0da",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf740b79_0fd8f351",
         "filename": "a1-policy-management/eclipse-formatter.xml",
         "patchSetId": 3
@@ -90,6 +168,24 @@
       "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100c6fba_fbbce9d3",
+        "filename": "a1-policy-management/eclipse-formatter.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf740b79_0fd8f351",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "ca00cc4a_6e96f127",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Agree to keep ccsdk parent for now. If needed, we can update the parent to the latest version of springboot later on.",
+      "parentUuid": "7ed09460_e4f2e059",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86015e8a_77762d0a",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/Application.java",
         "patchSetId": 3
@@ -124,6 +238,24 @@
       "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33b97b2_07bfeeba",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/Application.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-04T09:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86015e8a_77762d0a",
+      "revId": "5ef33bc8d2eb85dfc875560bbf46b85ecb43861e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
