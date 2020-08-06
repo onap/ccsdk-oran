@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ ============LICENSE_START=======================================================
   ~ ONAP : ccsdk oran
@@ -27,7 +26,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>ccsdk-features :: ${project.artifactId}</name>
+    <name>ccsdk-oran :: ${project.artifactId}</name>
     <modules>
       <module>a1-adapter-api</module>
       <module>features</module>

@@ -35,7 +35,6 @@
     <properties>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
     </properties>
-
     <build>
         <plugins>
             <!-- support sonar in multi-module project -->
