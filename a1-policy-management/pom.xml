@@ -58,12 +58,12 @@
         <json.version>20190722</json.version>
         <commons-net.version>3.6</commons-net.version>
         <maven.compile.plugin.version>3.8.0</maven.compile.plugin.version>
-	<formatter-maven-plugin.version>2.8.1</formatter-maven-plugin.version>
+    <formatter-maven-plugin.version>2.8.1</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>1.18.0</spotless-maven-plugin.version>
-	<surefire-maven-plugin.version>2.22.2</surefire-maven-plugin.version>
-	<docker-maven-plugin>0.30.0</docker-maven-plugin>
-	<version.dmaap>1.1.11</version.dmaap>
-	<javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+    <surefire-maven-plugin.version>2.22.2</surefire-maven-plugin.version>
+    <docker-maven-plugin>0.30.0</docker-maven-plugin>
+    <version.dmaap>1.1.11</version.dmaap>
+    <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <exec.skip>true</exec.skip>
     </properties>
@@ -172,7 +172,7 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-	<!-- TEST -->
+    <!-- TEST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -215,7 +215,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-	    <plugin>
+        <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <version>${formatter-maven-plugin.version}</version>
@@ -223,7 +223,7 @@
                     <configFile>${project.basedir}/eclipse-formatter.xml</configFile>
                 </configuration>
                 <!-- https://code.revelc.net/formatter-maven-plugin/ use mvn formatter:format
-					spotless:apply process-sources -->
+                    spotless:apply process-sources -->
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
@@ -238,13 +238,13 @@
                     </java>
                 </configuration>
                 <!-- https://github.com/diffplug/spotless/tree/master/plugin-maven use
-					mvn spotless:apply to rewrite source files use mvn spotless:check to validate
-					source files -->
+                    mvn spotless:apply to rewrite source files use mvn spotless:check to validate
+                    source files -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-		<version>${surefire-maven-plugin.version}</version>
+        <version>${surefire-maven-plugin.version}</version>
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
