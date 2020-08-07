@@ -29,4 +29,10 @@ interface A1UriBuilder {
     String createDeleteUri(String type, String policyId);
 
     String createGetPolicyStatusUri(String type, String policyId);
+
+    String createPolicyTypesUri();
+
+    String createGetPolicyIdsUri(String type);
+
+    String createGetSchemaUri(String type);
 }

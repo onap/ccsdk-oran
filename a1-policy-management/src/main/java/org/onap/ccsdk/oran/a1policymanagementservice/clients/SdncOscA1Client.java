@@ -48,7 +48,7 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class SdncOscA1Client implements A1Client {
 
-    static final int CONCURRENCY_RIC = 1; // How may paralell requests that is sent to one NearRT RIC
+    static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
     @Value.Immutable
     @org.immutables.gson.Gson.TypeAdapters
@@ -81,7 +81,8 @@ public class SdncOscA1Client implements A1Client {
      * Constructor that creates the REST client to use.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
+     *        protocols are SDNC_OSC_STD_V1_1, SDNC_OSC_OSC_V1 and
+     *        SDNC_OSC_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
@@ -92,32 +93,35 @@ public class SdncOscA1Client implements A1Client {
             AsyncRestClientFactory restClientFactory) {
         this(protocolType, ricConfig, controllerConfig,
                 restClientFactory.createRestClient(controllerConfig.baseUrl() + "/restconf/operations"));
-        logger.debug("SdncOscA1Client for ric: {}, a1Controller: {}", ricConfig.ricId(), controllerConfig);
     }
 
     /**
      * Constructor where the REST client to use is provided.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
+     *        protocols are SDNC_OSC_STD_V1_1, SDNC_OSC_OSC_V1 and
+     *        SDNC_OSC_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      * @param restClient the REST client to use
      *
-     * @throws IllegalArgumentException when the protocolType is wrong.
+     * @throws IllegalArgumentException when the protocolType is illegal.
      */
     public SdncOscA1Client(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClient restClient) {
-        if (!(A1ProtocolType.SDNC_OSC_STD_V1_1.equals(protocolType)
-                || A1ProtocolType.SDNC_OSC_OSC_V1.equals(protocolType))) {
-            throw new IllegalArgumentException("Protocol type must be " + A1ProtocolType.SDNC_OSC_STD_V1_1 + " or "
-                    + A1ProtocolType.SDNC_OSC_OSC_V1 + ", was: " + protocolType);
+        if (A1ProtocolType.SDNC_OSC_STD_V1_1.equals(protocolType) //
+                || A1ProtocolType.SDNC_OSC_OSC_V1.equals(protocolType) //
+                || A1ProtocolType.SDNC_OSC_STD_V2_0_0.equals(protocolType)) {
+            this.restClient = restClient;
+            this.ricConfig = ricConfig;
+            this.protocolType = protocolType;
+            this.controllerConfig = controllerConfig;
+            logger.debug("SdncOscA1Client for ric: {}, a1Controller: {}", ricConfig.ricId(), controllerConfig);
+        } else {
+            throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);
         }
-        this.restClient = restClient;
-        this.ricConfig = ricConfig;
-        this.protocolType = protocolType;
-        this.controllerConfig = controllerConfig;
+
     }
 
     @Override
@@ -125,9 +129,7 @@ public class SdncOscA1Client implements A1Client {
         if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
             return Mono.just(Arrays.asList(""));
         } else {
-            OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
-            final String ricUrl = uri.createPolicyTypesUri();
-            return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
+            return post(GET_POLICY_RPC, getUriBuilder().createPolicyTypesUri(), Optional.empty()) //
                     .flatMapMany(SdncJsonHelper::parseJsonArrayOfString) //
                     .collectList();
         }
@@ -145,20 +147,27 @@ public class SdncOscA1Client implements A1Client {
         if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
             return Mono.just("{}");
         } else {
-            OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
+            A1UriBuilder uri = this.getUriBuilder();
             final String ricUrl = uri.createGetSchemaUri(policyTypeId);
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
-                    .flatMap(response -> OscA1Client.extractCreateSchema(response, policyTypeId));
+                    .flatMap(response -> extractCreateSchema(response, policyTypeId));
+        }
+    }
+
+    private Mono<String> extractCreateSchema(String controllerResponse, String policyTypeId) {
+        if (this.protocolType == A1ProtocolType.SDNC_OSC_OSC_V1) {
+            return OscA1Client.extractCreateSchema(controllerResponse, policyTypeId);
+        } else if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
+            return StdA1ClientVersion2.extractPolicySchema(controllerResponse, policyTypeId);
+        } else {
+            throw new NullPointerException("Not supported");
         }
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        return getUriBuilder() //
-                .flatMap(builder -> {
-                    String ricUrl = builder.createPutPolicyUri(policy.type().id(), policy.id());
-                    return post("putA1Policy", ricUrl, Optional.of(policy.json()));
-                });
+        String ricUrl = getUriBuilder().createPutPolicyUri(policy.type().id(), policy.id());
+        return post("putA1Policy", ricUrl, Optional.of(policy.json()));
     }
 
     @Override
@@ -172,44 +181,46 @@ public class SdncOscA1Client implements A1Client {
             return getPolicyIds() //
                     .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
         } else {
-            OscA1Client.UriBuilder uriBuilder = new OscA1Client.UriBuilder(ricConfig);
+            A1UriBuilder uriBuilder = this.getUriBuilder();
             return getPolicyTypeIdentities() //
                     .flatMapMany(Flux::fromIterable) //
-                    .flatMap(type -> oscDeleteInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
+                    .flatMap(type -> deleteAllInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
         }
     }
 
-    private Flux<String> oscGetInstancesForType(OscA1Client.UriBuilder uriBuilder, String type) {
+    private Flux<String> getInstancesForType(A1UriBuilder uriBuilder, String type) {
         return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(type), Optional.empty()) //
                 .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
-    private Flux<String> oscDeleteInstancesForType(OscA1Client.UriBuilder uriBuilder, String type) {
-        return oscGetInstancesForType(uriBuilder, type) //
+    private Flux<String> deleteAllInstancesForType(A1UriBuilder uriBuilder, String type) {
+        return getInstancesForType(uriBuilder, type) //
                 .flatMap(instance -> deletePolicyById(type, instance), CONCURRENCY_RIC);
     }
 
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
-        return tryStdProtocolVersion() //
+        return tryStdProtocolVersion2() //
+                .onErrorResume(t -> tryStdProtocolVersion1()) //
                 .onErrorResume(t -> tryOscProtocolVersion());
     }
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        return getUriBuilder() //
-                .flatMap(builder -> {
-                    String ricUrl = builder.createGetPolicyStatusUri(policy.type().id(), policy.id());
-                    return post("getA1PolicyStatus", ricUrl, Optional.empty());
-                });
+        String ricUrl = getUriBuilder().createGetPolicyStatusUri(policy.type().id(), policy.id());
+        return post("getA1PolicyStatus", ricUrl, Optional.empty());
+
     }
 
-    private Mono<A1UriBuilder> getUriBuilder() {
+    private A1UriBuilder getUriBuilder() {
         if (protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
-            return Mono.just(new StdA1ClientVersion1.UriBuilder(ricConfig));
-        } else {
-            return Mono.just(new OscA1Client.UriBuilder(ricConfig));
+            return new StdA1ClientVersion1.UriBuilder(ricConfig);
+        } else if (protocolType == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
+            return new StdA1ClientVersion2.UriBuilder(ricConfig);
+        } else if (protocolType == A1ProtocolType.SDNC_OSC_OSC_V1) {
+            return new OscA1Client.UriBuilder(ricConfig);
         }
+        throw new NullPointerException();
     }
 
     private Mono<A1ProtocolType> tryOscProtocolVersion() {
@@ -218,20 +229,26 @@ public class SdncOscA1Client implements A1Client {
                 .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_OSC_V1));
     }
 
-    private Mono<A1ProtocolType> tryStdProtocolVersion() {
+    private Mono<A1ProtocolType> tryStdProtocolVersion1() {
         StdA1ClientVersion1.UriBuilder uriBuilder = new StdA1ClientVersion1.UriBuilder(ricConfig);
-        return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(), Optional.empty()) //
+        return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(""), Optional.empty()) //
                 .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V1_1));
+    }
+
+    private Mono<A1ProtocolType> tryStdProtocolVersion2() {
+        StdA1ClientVersion2.UriBuilder uriBuilder = new StdA1ClientVersion2.UriBuilder(ricConfig);
+        return post(GET_POLICY_RPC, uriBuilder.createPolicyTypesUri(), Optional.empty()) //
+                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V2_0_0));
     }
 
     private Flux<String> getPolicyIds() {
         if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
             StdA1ClientVersion1.UriBuilder uri = new StdA1ClientVersion1.UriBuilder(ricConfig);
-            final String ricUrl = uri.createGetPolicyIdsUri();
+            final String ricUrl = uri.createGetPolicyIdsUri("");
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
                     .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
         } else {
-            OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
+            A1UriBuilder uri = this.getUriBuilder();
             return getPolicyTypeIdentities() //
                     .flatMapMany(Flux::fromIterable)
                     .flatMap(type -> post(GET_POLICY_RPC, uri.createGetPolicyIdsUri(type), Optional.empty())) //
@@ -240,11 +257,8 @@ public class SdncOscA1Client implements A1Client {
     }
 
     private Mono<String> deletePolicyById(String type, String policyId) {
-        return getUriBuilder() //
-                .flatMap(builder -> {
-                    String ricUrl = builder.createDeleteUri(type, policyId);
-                    return post("deleteA1Policy", ricUrl, Optional.empty());
-                });
+        String ricUrl = getUriBuilder().createDeleteUri(type, policyId);
+        return post("deleteA1Policy", ricUrl, Optional.empty());
     }
 
     private Mono<String> post(String rpcName, String ricUrl, Optional<String> body) {
@@ -270,8 +284,9 @@ public class SdncOscA1Client implements A1Client {
         } else {
             logger.debug("Error response: {} {}", output.httpStatus(), body);
             byte[] responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
-            WebClientResponseException responseException = new WebClientResponseException(output.httpStatus(),
-                    "statusText", null, responseBodyBytes, StandardCharsets.UTF_8, null);
+            HttpStatus httpStatus = HttpStatus.valueOf(output.httpStatus());
+            WebClientResponseException responseException = new WebClientResponseException(httpStatus.value(),
+                    httpStatus.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);
 
             return Mono.error(responseException);
         }

@@ -314,7 +314,7 @@ paths:
             text/plain;charset=ISO-8859-1:
               schema:
                 type: string
-                example: 'org.oransc.policyagent.exceptions.ServiceException: Could
+                example: 'org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: Could
                   not find type: 11'
       deprecated: false
   /policy_schemas:
@@ -374,7 +374,7 @@ paths:
             text/plain;charset=ISO-8859-1:
               schema:
                 type: string
-                example: 'org.oransc.policyagent.exceptions.ServiceException: Could
+                example: 'org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: Could
                   not find ric: ric1'
       deprecated: false
   /policy_status:
@@ -449,7 +449,7 @@ paths:
             text/plain;charset=ISO-8859-1:
               schema:
                 type: string
-                example: 'org.oransc.policyagent.exceptions.ServiceException: Could
+                example: 'org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: Could
                   not find ric: ric11'
       deprecated: false
   /ric:

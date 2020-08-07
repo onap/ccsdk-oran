@@ -36,8 +36,10 @@ public interface A1Client {
     public enum A1ProtocolType {
         UNKNOWN, //
         STD_V1_1, // STD A1 version 1.1
+        STD_V2_0_0, // STD A1 version 2.0.0
         OSC_V1, // OSC 'A1'
         SDNC_OSC_STD_V1_1, // SDNC_OSC with STD A1 version 1.1 southbound
+        SDNC_OSC_STD_V2_0_0, // SDNC_OSC with STD A1 version 2.0.0 southbound
         SDNC_OSC_OSC_V1, // SDNC_OSC with OSC 'A1' southbound
         SDNC_ONAP
     }
@@ -57,4 +59,5 @@ public interface A1Client {
     public Flux<String> deleteAllPolicies();
 
     public Mono<String> getPolicyStatus(Policy policy);
+
 }
