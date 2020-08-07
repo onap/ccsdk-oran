@@ -33,10 +33,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Client for accessing OSC A1 REST API
+ * Client for accessing ORAN A1-P Vesion 2.0 REST API
  */
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
-public class OscA1Client implements A1Client {
+public class StdA1ClientVersion2 implements A1Client {
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
     public static class UriBuilder implements A1UriBuilder {
@@ -52,7 +52,7 @@ public class OscA1Client implements A1Client {
         }
 
         /**
-         * /a1-p/policytypes/{policy_type_id}/policies
+         * /A1-P/v2​/policytypes/{policy_type_id}/policies
          */
         @Override
         public String createGetPolicyIdsUri(String type) {
@@ -65,7 +65,7 @@ public class OscA1Client implements A1Client {
         }
 
         /**
-         * ​/a1-p​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}​/status
+         * ​/A1-P/v2​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}​/status
          */
         @Override
         public String createGetPolicyStatusUri(String type, String policyId) {
@@ -73,14 +73,7 @@ public class OscA1Client implements A1Client {
         }
 
         /**
-         * ​/a1-p​/healthcheck
-         */
-        public String createHealtcheckUri() {
-            return baseUri() + "/healthcheck";
-        }
-
-        /**
-         * /a1-p/policytypes/{policy_type_id}
+         * /A1-P/v2/policytypes/{policy_type_id}
          */
         @Override
         public String createGetSchemaUri(String type) {
@@ -88,7 +81,7 @@ public class OscA1Client implements A1Client {
         }
 
         /**
-         * ​/a1-p​/policytypes​/{policy_type_id}
+         * ​/A1-P/v2​/policytypes​/{policy_type_id}
          */
         @Override
         public String createPolicyTypesUri() {
@@ -96,44 +89,44 @@ public class OscA1Client implements A1Client {
         }
 
         /**
-         * ​/a1-p​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}
+         * ​/A1-P/v2​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}
          */
         private String createPolicyUri(String type, String id) {
             return createPolicyTypeUri(type) + "/policies/" + id;
         }
 
         /**
-         * /a1-p/policytypes/{policy_type_id}
+         * /A1-P/v2/policytypes/{policy_type_id}
          */
         private String createPolicyTypeUri(String type) {
             return createPolicyTypesUri() + "/" + type;
         }
 
         private String baseUri() {
-            return ricConfig.baseUrl() + "/a1-p";
+            return ricConfig.baseUrl() + "/A1-P/v2";
         }
     }
 
     private static final String TITLE = "title";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final AsyncRestClient restClient;
-    private final UriBuilder uri;
+    private final UriBuilder uriBuiler;
 
-    public OscA1Client(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
+    public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
         this(ricConfig, restClientFactory.createRestClient(""));
     }
 
-    public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
+    public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
         logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
 
-        uri = new UriBuilder(ricConfig);
+        uriBuiler = new UriBuilder(ricConfig);
     }
 
-    public static Mono<String> extractCreateSchema(String policyTypeResponse, String policyTypeId) {
+    public static Mono<String> extractPolicySchema(String policyTypeResponse, String policyTypeId) {
         try {
             JSONObject obj = new JSONObject(policyTypeResponse);
-            JSONObject schemaObj = obj.getJSONObject("create_schema");
+            JSONObject schemaObj = obj.getJSONObject("policySchema");
             schemaObj.put(TITLE, policyTypeId);
             return Mono.just(schemaObj.toString());
         } catch (Exception e) {
@@ -158,14 +151,14 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
-        String schemaUri = uri.createGetSchemaUri(policyTypeId);
+        String schemaUri = uriBuiler.createGetSchemaUri(policyTypeId);
         return restClient.get(schemaUri) //
-                .flatMap(response -> extractCreateSchema(response, policyTypeId));
+                .flatMap(response -> extractPolicySchema(response, policyTypeId));
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uri.createPutPolicyUri(policy.type().id(), policy.id());
+        String policyUri = this.uriBuiler.createPutPolicyUri(policy.type().id(), policy.id());
         return restClient.put(policyUri, policy.json());
     }
 
@@ -176,8 +169,8 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
-        return restClient.get(uri.createHealtcheckUri()) //
-                .flatMap(notUsed -> Mono.just(A1ProtocolType.OSC_V1));
+        return restClient.get(uriBuiler.createPolicyTypesUri()) //
+                .flatMap(notUsed -> Mono.just(A1ProtocolType.STD_V2_0_0));
     }
 
     @Override
@@ -188,23 +181,23 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uri.createGetPolicyStatusUri(policy.type().id(), policy.id());
+        String statusUri = uriBuiler.createGetPolicyStatusUri(policy.type().id(), policy.id());
         return restClient.get(statusUri);
 
     }
 
     private Flux<String> getPolicyTypeIds() {
-        return restClient.get(uri.createPolicyTypesUri()) //
+        return restClient.get(uriBuiler.createPolicyTypesUri()) //
                 .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> getPolicyIdentitiesByType(String typeId) {
-        return restClient.get(uri.createGetPolicyIdsUri(typeId)) //
+        return restClient.get(uriBuiler.createGetPolicyIdsUri(typeId)) //
                 .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Mono<String> deletePolicyById(String typeId, String policyId) {
-        String policyUri = uri.createDeleteUri(typeId, policyId);
+        String policyUri = uriBuiler.createDeleteUri(typeId, policyId);
         return restClient.delete(policyUri);
     }
 

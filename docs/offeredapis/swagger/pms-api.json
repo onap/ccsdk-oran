@@ -1,33 +1,11 @@
 {
-    "swagger": "2.0",
     "basePath": "/",
-    "info": {
-        "x-audience": "external-partner",
-        "x-api-id": "60f9a0e7-343f-43bf-9194-d8d65688d465",
-        "contact": {
-            "name": "Ericsson Software Technology",
-            "email": "nonrtric@est.tech"
-        },
-        "description": "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \nIt provides support for:<ul><li>A1 Policy creation and modification.<\/li><li>Maintaining a view of supported Near-RT RIC policy types <\/li><li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. <\/li> <li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs <\/li><\/ul>",
-        "title": "A1 Policy management service",
-        "version": "1.1.0"
-    },
-    "tags": [
-        {
-            "name": "A1 Policy Management Version 1.0",
-            "description": "Policy Controller"
-        },
-        {
-            "name": "A1 Policy Management Version 2.0 (in progress)",
-            "description": "Policy Controller"
-        }
-    ],
     "paths": {
         "/policy_types": {"get": {
             "summary": "Query policy type names",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyTypesUsingGET",
+            "operationId": "getPolicyTypesUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {
@@ -58,7 +36,7 @@
                 "summary": "Returns a policy configuration",
                 "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "getPolicyUsingGET_1",
+                "operationId": "getPolicyUsingGET",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/json_object"},
@@ -85,7 +63,7 @@
                 "summary": "Delete a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE_1",
+                "operationId": "deletePolicyUsingDELETE",
                 "responses": {
                     "200": {"description": "Not used"},
                     "401": {"description": "Unauthorized"},
@@ -114,7 +92,7 @@
                 "summary": "Create or update a policy",
                 "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "putPolicyUsingPUT_1",
+                "operationId": "putPolicyUsingPUT",
                 "responses": {
                     "200": {"description": "Policy updated"},
                     "201": {"description": "Policy created"},
@@ -204,7 +182,7 @@
             "summary": "Query policies, only policy identities returned",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyIdsUsingGET",
+            "operationId": "getPolicyIdsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {
@@ -252,7 +230,7 @@
             "summary": "Returns policy type schema definitions",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicySchemasUsingGET",
+            "operationId": "getPolicySchemasUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {
@@ -282,7 +260,7 @@
             "summary": "Query policy type identities",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyTypesUsingGET_1",
+            "operationId": "getPolicyTypesUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_type_id_list_v2"},
@@ -463,7 +441,7 @@
             "summary": "Returns the name of a RIC managing one Mananged Element",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicUsingGET_1",
+            "operationId": "getRicUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -487,7 +465,7 @@
             "tags": ["A1 Policy Management Version 1.0"]
         }},
         "/services/keepalive": {"put": {
-            "summary": "Heartbeat from a serice",
+            "summary": "Heartbeat from a service",
             "deprecated": false,
             "produces": ["*/*"],
             "operationId": "keepAliveServiceUsingPUT_1",
@@ -545,7 +523,7 @@
             "summary": "Returns policy type schema definitions",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicySchemasUsingGET_1",
+            "operationId": "getPolicySchemasUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_schema_list_v2"},
@@ -583,7 +561,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
-            "operationId": "getRicUsingGET",
+            "operationId": "getRicUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_v2"},
@@ -621,7 +599,7 @@
                 "summary": "Returns a policy configuration",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getPolicyUsingGET",
+                "operationId": "getPolicyUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"type": "object"},
@@ -645,7 +623,7 @@
                 "summary": "Delete a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE",
+                "operationId": "deletePolicyUsingDELETE_1",
                 "responses": {
                     "200": {"description": "Not used"},
                     "401": {"description": "Unauthorized"},
@@ -674,7 +652,7 @@
                 "summary": "Put a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "putPolicyUsingPUT",
+                "operationId": "putPolicyUsingPUT_1",
                 "responses": {
                     "200": {"description": "Policy updated"},
                     "201": {"description": "Policy created"},
@@ -765,7 +743,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
-            "operationId": "getPolicyIdsUsingGET_1",
+            "operationId": "getPolicyIdsUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_id_list_v2"},
@@ -810,7 +788,7 @@
             "summary": "Query policies",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPoliciesUsingGET",
+            "operationId": "getPoliciesUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {
@@ -858,7 +836,7 @@
             "summary": "Returns a policy status",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyStatusUsingGET_1",
+            "operationId": "getPolicyStatusUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/json_object"},
@@ -912,7 +890,7 @@
             "summary": "Query Near-RT RIC information",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicsUsingGET_1",
+            "operationId": "getRicsUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -975,7 +953,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
-            "operationId": "getPoliciesUsingGET_1",
+            "operationId": "getPoliciesUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_info_list_v2"},
@@ -1020,7 +998,7 @@
             "summary": "Returns a policy status",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyStatusUsingGET",
+            "operationId": "getPolicyStatusUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"type": "object"},
@@ -1048,7 +1026,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "The call returns all Near-RT RICs that supports a given policy type identity",
-            "operationId": "getRicsUsingGET",
+            "operationId": "getRicsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_list_v2"},
@@ -1072,7 +1050,7 @@
             "tags": ["A1 Policy Management Version 2.0 (in progress)"]
         }}
     },
-    "host": "localhost:41579",
+    "host": "localhost:41437",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",
@@ -1379,5 +1357,27 @@
             "type": "object",
             "title": "Mono«ResponseEntity«string»»"
         }
-    }
+    },
+    "swagger": "2.0",
+    "info": {
+        "x-audience": "external-partner",
+        "x-api-id": "60f9a0e7-343f-43bf-9194-d8d65688d465",
+        "contact": {
+            "name": "Ericsson Software Technology",
+            "email": "nonrtric@est.tech"
+        },
+        "description": "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \nIt provides support for:<ul><li>A1 Policy creation and modification.<\/li><li>Maintaining a view of supported Near-RT RIC policy types <\/li><li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. <\/li> <li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs <\/li><\/ul>",
+        "title": "A1 Policy management service",
+        "version": "1.1.0"
+    },
+    "tags": [
+        {
+            "name": "A1 Policy Management Version 1.0",
+            "description": "Policy Controller"
+        },
+        {
+            "name": "A1 Policy Management Version 2.0 (in progress)",
+            "description": "Policy Controller"
+        }
+    ]
 }

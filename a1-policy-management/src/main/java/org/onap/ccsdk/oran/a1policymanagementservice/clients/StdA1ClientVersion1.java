@@ -53,7 +53,8 @@ public class StdA1ClientVersion1 implements A1Client {
         /**
          * /A1-P/v1/policies
          */
-        public String createGetPolicyIdsUri() {
+        @Override
+        public String createGetPolicyIdsUri(String type) {
             return baseUri() + "/policies";
         }
 
@@ -68,6 +69,7 @@ public class StdA1ClientVersion1 implements A1Client {
         /**
          * /A1-P/v1/policies/{policyId}/status
          */
+        @Override
         public String createGetPolicyStatusUri(String type, String policyId) {
             return policiesBaseUri() + policyId + "/status";
         }
@@ -77,7 +79,17 @@ public class StdA1ClientVersion1 implements A1Client {
         }
 
         private String policiesBaseUri() {
-            return createGetPolicyIdsUri() + "/";
+            return createGetPolicyIdsUri("") + "/";
+        }
+
+        @Override
+        public String createPolicyTypesUri() {
+            throw new NullPointerException("Not supported URI");
+        }
+
+        @Override
+        public String createGetSchemaUri(String type) {
+            throw new NullPointerException("Not supported URI");
         }
     }
 
@@ -137,7 +149,7 @@ public class StdA1ClientVersion1 implements A1Client {
     }
 
     private Flux<String> getPolicyIds() {
-        return restClient.get(uri.createGetPolicyIdsUri()) //
+        return restClient.get(uri.createGetPolicyIdsUri("")) //
                 .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 

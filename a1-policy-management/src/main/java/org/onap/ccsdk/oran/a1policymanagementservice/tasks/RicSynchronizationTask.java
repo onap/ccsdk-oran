@@ -59,7 +59,7 @@ import reactor.core.publisher.SignalType;
 public class RicSynchronizationTask {
 
     private static final Logger logger = LoggerFactory.getLogger(RicSynchronizationTask.class);
-    static final int CONCURRENCY_RIC = 1; // How may paralell requests that is sent to one NearRT RIC
+    static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
     private final A1ClientFactory a1ClientFactory;
     private final PolicyTypes policyTypes;
