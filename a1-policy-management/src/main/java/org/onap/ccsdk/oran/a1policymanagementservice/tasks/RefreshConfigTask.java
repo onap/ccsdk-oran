@@ -68,7 +68,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Regularly refreshes the configuration from Consul or from a local configuration file.
+ * Regularly refreshes the configuration from Consul or from a local
+ * configuration file.
  */
 @Component
 public class RefreshConfigTask {
@@ -198,15 +199,15 @@ public class RefreshConfigTask {
 
     private void handleUpdatedRicConfig(RicConfigUpdate updatedInfo) {
         synchronized (this.rics) {
-            String ricName = updatedInfo.getRicConfig().name();
+            String ricId = updatedInfo.getRicConfig().ricId();
             RicConfigUpdate.Type event = updatedInfo.getType();
             if (event == RicConfigUpdate.Type.ADDED) {
                 addRic(updatedInfo.getRicConfig());
             } else if (event == RicConfigUpdate.Type.REMOVED) {
-                rics.remove(ricName);
-                this.policies.removePoliciesForRic(ricName);
+                rics.remove(ricId);
+                this.policies.removePoliciesForRic(ricId);
             } else if (event == RicConfigUpdate.Type.CHANGED) {
-                Ric ric = this.rics.get(ricName);
+                Ric ric = this.rics.get(ricId);
                 if (ric == null) {
                     // Should not happen,just for robustness
                     addRic(updatedInfo.getRicConfig());

@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "RIC Repository")
+@Api(tags = Consts.V1_API_NAME)
 public class RicRepositoryController {
 
     @Autowired
@@ -64,16 +64,16 @@ public class RicRepositoryController {
     @ApiOperation(value = "Returns the name of a RIC managing one Mananged Element")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "RIC is found", response = String.class), //
-            @ApiResponse(code = 404, message = "RIC is not found", response = String.class) //
+            @ApiResponse(code = 200, message = "NearRT-RIC is found", response = String.class), //
+            @ApiResponse(code = 404, message = "NearRT-RIC is not found", response = String.class) //
         })
     public ResponseEntity<String> getRic( //
-        @ApiParam(name = "managedElementId", required = true, value = "The ID of the Managed Element") //
+        @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
         @RequestParam(name = "managedElementId", required = true) String managedElementId) {
         Optional<Ric> ric = this.rics.lookupRicForManagedElement(managedElementId);
 
         if (ric.isPresent()) {
-            return new ResponseEntity<>(ric.get().name(), HttpStatus.OK);
+            return new ResponseEntity<>(ric.get().id(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No RIC found", HttpStatus.NOT_FOUND);
         }
@@ -83,7 +83,7 @@ public class RicRepositoryController {
      * @return a Json array of all RIC data Example: http://localhost:8081/ric
      */
     @GetMapping("/rics")
-    @ApiOperation(value = "Query Near-RT RIC information")
+    @ApiOperation(value = "Query NearRT-RIC information")
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "OK", response = RicInfo.class, responseContainer = "List"), //
@@ -98,7 +98,7 @@ public class RicRepositoryController {
         List<RicInfo> result = new ArrayList<>();
         for (Ric ric : rics.getRics()) {
             if (supportingPolicyType == null || ric.isSupportingType(supportingPolicyType)) {
-                result.add(new RicInfo(ric.name(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
+                result.add(new RicInfo(ric.id(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
                     ric.getState().toString()));
             }
         }

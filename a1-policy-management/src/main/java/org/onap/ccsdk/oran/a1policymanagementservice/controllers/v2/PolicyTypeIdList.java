@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +18,28 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
-import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Collection;
 
 import org.immutables.gson.Gson;
-import org.immutables.value.Value;
 
-@Value.Immutable
 @Gson.TypeAdapters
-public interface Policy {
-    public String id();
+@ApiModel(value = "policy_type_id_list_v2", description = "Information about policy types")
+public class PolicyTypeIdList {
 
-    public String json();
+    @ApiModelProperty(value = "Policy type identities")
+    @SerializedName("policy_type_ids")
+    @JsonProperty("policy_type_ids")
+    public final Collection<String> policyTypesIds;
 
-    public String ownerServiceId();
-
-    public Ric ric();
-
-    public PolicyType type();
-
-    public Instant lastModified();
-
-    public boolean isTransient();
+    public PolicyTypeIdList(Collection<String> ids) {
+        this.policyTypesIds = ids;
+    }
 }

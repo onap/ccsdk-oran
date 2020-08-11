@@ -98,10 +98,10 @@ public class ApplicationConfig {
         return controllerConfig;
     }
 
-    public synchronized RicConfig getRic(String ricName) throws ServiceException {
-        RicConfig ricConfig = this.ricConfigs.get(ricName);
+    public synchronized RicConfig getRic(String ricId) throws ServiceException {
+        RicConfig ricConfig = this.ricConfigs.get(ricId);
         if (ricConfig == null) {
-            throw new ServiceException("Could not find ric configuration: " + ricName);
+            throw new ServiceException("Could not find ric configuration: " + ricId);
         }
         return ricConfig;
     }
@@ -133,16 +133,16 @@ public class ApplicationConfig {
 
         Map<String, RicConfig> newRicConfigs = new HashMap<>();
         for (RicConfig newConfig : parserResult.ricConfigs()) {
-            RicConfig oldConfig = this.ricConfigs.get(newConfig.name());
-            this.ricConfigs.remove(newConfig.name());
+            RicConfig oldConfig = this.ricConfigs.get(newConfig.ricId());
+            this.ricConfigs.remove(newConfig.ricId());
             if (oldConfig == null) {
-                newRicConfigs.put(newConfig.name(), newConfig);
+                newRicConfigs.put(newConfig.ricId(), newConfig);
                 modifications.add(new RicConfigUpdate(newConfig, RicConfigUpdate.Type.ADDED));
             } else if (!newConfig.equals(oldConfig)) {
                 modifications.add(new RicConfigUpdate(newConfig, RicConfigUpdate.Type.CHANGED));
-                newRicConfigs.put(newConfig.name(), newConfig);
+                newRicConfigs.put(newConfig.ricId(), newConfig);
             } else {
-                newRicConfigs.put(oldConfig.name(), oldConfig);
+                newRicConfigs.put(oldConfig.ricId(), oldConfig);
             }
         }
         for (RicConfig deletedConfig : this.ricConfigs.values()) {

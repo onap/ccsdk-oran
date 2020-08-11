@@ -30,10 +30,9 @@ import lombok.Setter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 
 /**
- * Represents the dynamic information about a Near-RT RIC.
+ * Holds information about a NearRT-RIC.
  */
 public class Ric {
 
@@ -57,8 +56,8 @@ public class Ric {
         this.ricConfig = ricConfig;
     }
 
-    public String name() {
-        return ricConfig.name();
+    public String id() {
+        return ricConfig.ricId();
     }
 
     public RicConfig getConfig() {
@@ -111,7 +110,7 @@ public class Ric {
      * @param type the policy type to support.
      */
     public synchronized void addSupportedPolicyType(PolicyType type) {
-        supportedPolicyTypes.put(type.name(), type);
+        supportedPolicyTypes.put(type.id(), type);
     }
 
     /**
@@ -134,7 +133,7 @@ public class Ric {
 
     @Override
     public synchronized String toString() {
-        return Ric.class.getSimpleName() + ": " + "name: " + name() + ", state: " + state + ", baseUrl: "
+        return Ric.class.getSimpleName() + ": " + "name: " + id() + ", state: " + state + ", baseUrl: "
             + ricConfig.baseUrl() + ", managedNodes: " + ricConfig.managedElementIds();
     }
 
@@ -143,7 +142,7 @@ public class Ric {
      */
     public enum RicState {
         /**
-         * The Policy Management Service's view of the Ric may be inconsistent.
+         * The Policy Management Service's view of the NearRT-RIC may be inconsistent.
          */
         UNAVAILABLE,
         /**
@@ -151,12 +150,13 @@ public class Ric {
          */
         AVAILABLE,
         /**
-         * The Policy Management Service is synchronizing the view of the Ric.
+         * The Policy Management Service is synchronizing the view of the NearRT-RIC.
          */
         SYNCHRONIZING,
 
         /**
-         * A consistency check between the Policy Management Service and the Ric is done
+         * A consistency check between the Policy Management Service and the NearRT-RIC
+         * is done
          */
         CONSISTENCY_CHECK
     }

@@ -51,7 +51,7 @@ public class MockA1Client implements A1Client {
     public Mono<List<String>> getPolicyTypeIdentities() {
         List<String> result = new Vector<>();
         for (PolicyType p : this.policyTypes.getAll()) {
-            result.add(p.name());
+            result.add(p.id());
         }
         return mono(result);
     }

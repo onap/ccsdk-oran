@@ -18,40 +18,34 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Collection;
+
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "PolicyInfo")
-public class PolicyInfo {
+@ApiModel(value = "ric_info_v1")
+class RicInfo {
+    @ApiModelProperty(value = "identity of the NearRT-RIC")
+    public final String ricName;
 
-    @ApiModelProperty(value = "identity of the policy")
-    public String id;
+    @ApiModelProperty(value = "O1 identities for managed entities")
+    public final Collection<String> managedElementIds;
 
-    @ApiModelProperty(value = "name of the policy type")
-    public String type;
+    @ApiModelProperty(value = "supported policy types")
+    public final Collection<String> policyTypes;
 
-    @ApiModelProperty(value = "identity of the target Near-RT RIC")
-    public String ric;
+    @ApiModelProperty(value = "state info")
+    public final String state;
 
-    @ApiModelProperty(value = "the configuration of the policy")
-    public Object json;
-
-    @ApiModelProperty(value = "the name of the service owning the policy")
-    public String service;
-
-    @ApiModelProperty(value = "timestamp, last modification time")
-    public String lastModified;
-
-    PolicyInfo() {
+    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
+        this.ricName = name;
+        this.managedElementIds = managedElementIds;
+        this.policyTypes = policyTypes;
+        this.state = state;
     }
-
-    public boolean validate() {
-        return id != null && type != null && ric != null && json != null && service != null && lastModified != null;
-    }
-
 }

@@ -50,16 +50,16 @@ public class MockA1ClientFactory extends A1ClientFactory {
 
     @Override
     public Mono<A1Client> createA1Client(Ric ric) {
-        return Mono.just(getOrCreateA1Client(ric.name()));
+        return Mono.just(getOrCreateA1Client(ric.id()));
     }
 
-    public MockA1Client getOrCreateA1Client(String ricName) {
-        if (!clients.containsKey(ricName)) {
-            logger.debug("Creating client for RIC: {}", ricName);
+    public MockA1Client getOrCreateA1Client(String ricId) {
+        if (!clients.containsKey(ricId)) {
+            logger.debug("Creating client for RIC: {}", ricId);
             MockA1Client client = spy(new MockA1Client(policyTypes, asynchDelay));
-            clients.put(ricName, client);
+            clients.put(ricId, client);
         }
-        return clients.get(ricName);
+        return clients.get(ricId);
     }
 
     public void setPolicyTypes(PolicyTypes policyTypes) {
