@@ -25,6 +25,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -101,8 +102,8 @@ public class ApplicationConfigParser {
             if (!ricUrls.add(ric.baseUrl())) {
                 throw new ServiceException("Configuration error, more than one RIC URL: " + ric.baseUrl());
             }
-            if (!ricNames.add(ric.name())) {
-                throw new ServiceException("Configuration error, more than one RIC with name: " + ric.name());
+            if (!ricNames.add(ric.ricId())) {
+                throw new ServiceException("Configuration error, more than one RIC with name: " + ric.ricId());
             }
             if (!ric.controllerName().isEmpty() && controllerConfigs.get(ric.controllerName()) == null) {
                 throw new ServiceException(
@@ -117,8 +118,8 @@ public class ApplicationConfigParser {
         for (JsonElement ricElem : getAsJsonArray(config, "ric")) {
             JsonObject ricAsJson = ricElem.getAsJsonObject();
             JsonElement controllerNameElement = ricAsJson.get(CONTROLLER);
-            ImmutableRicConfig ricConfig = ImmutableRicConfig.builder() //
-                .name(get(ricAsJson, "name").getAsString()) //
+            RicConfig ricConfig = ImmutableRicConfig.builder() //
+                .ricId(get(ricAsJson, "name", "id", "ricId").getAsString()) //
                 .baseUrl(get(ricAsJson, "baseUrl").getAsString()) //
                 .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
                 .controllerName(controllerNameElement != null ? controllerNameElement.getAsString() : "") //
@@ -160,12 +161,14 @@ public class ApplicationConfigParser {
         return managedElementIds;
     }
 
-    private static JsonElement get(JsonObject obj, String memberName) throws ServiceException {
-        JsonElement elem = obj.get(memberName);
-        if (elem == null) {
-            throw new ServiceException("Could not find member: '" + memberName + "' in: " + obj);
+    private static JsonElement get(JsonObject obj, String... alternativeMemberNames) throws ServiceException {
+        for (String memberName : alternativeMemberNames) {
+            JsonElement elem = obj.get(memberName);
+            if (elem != null) {
+                return elem;
+            }
         }
-        return elem;
+        throw new ServiceException("Could not find member: " + Arrays.toString(alternativeMemberNames) + " in: " + obj);
     }
 
     private JsonArray getAsJsonArray(JsonObject obj, String memberName) throws ServiceException {

@@ -70,7 +70,7 @@ class A1ClientFactoryTest {
 
     private static ImmutableRicConfig ricConfig(String controllerName) {
         return ImmutableRicConfig.builder() //
-            .name(RIC_NAME) //
+            .ricId(RIC_NAME) //
             .baseUrl("baseUrl") //
             .managedElementIds(new Vector<>()) //
             .controllerName(controllerName) //
@@ -118,7 +118,7 @@ class A1ClientFactoryTest {
             .expectError() //
             .verify();
 
-        assertEquals(A1ProtocolType.UNKNOWN, ric.getProtocolVersion(), "Protocol negotiation failed for " + ric.name());
+        assertEquals(A1ProtocolType.UNKNOWN, ric.getProtocolVersion(), "Protocol negotiation failed for " + ric.id());
     }
 
     private A1Client createClient(A1ProtocolType version) throws ServiceException {

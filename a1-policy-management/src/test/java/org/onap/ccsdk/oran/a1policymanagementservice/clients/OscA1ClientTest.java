@@ -67,7 +67,7 @@ class OscA1ClientTest {
     @BeforeEach
     void init() {
         RicConfig ricConfig = ImmutableRicConfig.builder() //
-            .name("name") //
+            .ricId("name") //
             .baseUrl("RicBaseUrl") //
             .managedElementIds(new ArrayList<>()) //
             .controllerName("") //
