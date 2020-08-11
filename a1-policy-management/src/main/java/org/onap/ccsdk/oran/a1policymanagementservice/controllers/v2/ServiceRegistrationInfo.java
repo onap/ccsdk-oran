@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -28,13 +28,13 @@ import io.swagger.annotations.ApiModelProperty;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ServiceRegistrationInfo")
+@ApiModel(value = "ServiceRegistrationInfoV2", description = "Information for one service")
 public class ServiceRegistrationInfo {
 
     @ApiModelProperty(value = "identity of the service", required = true, allowEmptyValue = false)
-    @SerializedName(value = "serviceName", alternate = {"name"})
+    @SerializedName(value = "serviceId", alternate = {"id"})
 
-    public String serviceName = "";
+    public String serviceId = "";
 
     @ApiModelProperty(
         value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
@@ -52,8 +52,8 @@ public class ServiceRegistrationInfo {
     public ServiceRegistrationInfo() {
     }
 
-    public ServiceRegistrationInfo(String name, long keepAliveIntervalSeconds, String callbackUrl) {
-        this.serviceName = name;
+    public ServiceRegistrationInfo(String id, long keepAliveIntervalSeconds, String callbackUrl) {
+        this.serviceId = id;
         this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
         this.callbackUrl = callbackUrl;
     }

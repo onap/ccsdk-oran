@@ -96,7 +96,7 @@ public class ServiceSupervision {
             .doOnNext(notUsed -> policies.remove(policy)) //
             .flatMap(notUsed -> deletePolicyInRic(policy))
             .doOnNext(notUsed -> logger.debug("Policy deleted due to service inactivity: {}, service: {}", policy.id(),
-                policy.ownerServiceName())) //
+                policy.ownerServiceId())) //
             .doOnNext(notUsed -> lock.unlockBlocking()) //
             .doOnError(throwable -> lock.unlockBlocking()) //
             .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.id(),
@@ -117,7 +117,7 @@ public class ServiceSupervision {
     }
 
     private Mono<String> handleDeleteFromRicFailure(Policy policy, Throwable e) {
-        logger.warn("Could not delete policy: {} from ric: {}. Cause: {}", policy.id(), policy.ric().name(),
+        logger.warn("Could not delete policy: {} from ric: {}. Cause: {}", policy.id(), policy.ric().id(),
             e.getMessage());
         return Mono.empty();
     }

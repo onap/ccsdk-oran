@@ -37,8 +37,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger configuration class that uses swagger2 documentation type and scans
- * all the controllers under org.onap.ccsdk.oran.a1policymanagementservice.controllers package. To
- * access the swagger gui go to http://ip:port/swagger-ui.html
+ * all the controllers under
+ * org.onap.ccsdk.oran.a1policymanagementservice.controllers package. To access
+ * the swagger gui go to http://ip:port/swagger-ui.html
  *
  */
 @Configuration
@@ -46,8 +47,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     static final String API_TITLE = "A1 Policy management service";
-    static final String DESCRIPTION = "This page lists all the rest apis for the service.";
-    static final String VERSION = "1.0";
+    static final String DESCRIPTION =
+        "The O-RAN Non-RT RIC PolicyAgent provides a REST API for management of policices. "
+            + "It provides support for: "
+            + "-Supervision of clients (R-APPs) to eliminate stray policies in case of failure"
+            + "-Consistency monitoring of the SMO view of policies and the actual situation in the RICs"
+            + "-Consistency monitoring of RIC capabilities (policy types)" + "-Policy configuration. "
+            + "This includes:" + "-One REST API towards all RICs in the network "
+            + "-Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), "
+            + "all policies of a type etc. "
+            + "-Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC of A1 policices.";
+    static final String VERSION = "1.1";
     @SuppressWarnings("squid:S1075") // Refactor your code to get this URI from a customizable parameter.
     static final String RESOURCES_PATH = "classpath:/META-INF/resources/";
     static final String WEBJARS_PATH = RESOURCES_PATH + "webjars/";
@@ -57,7 +67,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     /**
      * Gets the API info.
      *
-     * @return the API info.
+     * @return the API info.This page lists all the rest apis for the service.
      */
     @Bean
     public Docket api() {

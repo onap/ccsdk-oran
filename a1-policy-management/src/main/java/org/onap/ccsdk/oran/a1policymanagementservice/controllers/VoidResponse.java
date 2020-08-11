@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,31 +21,12 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ServiceStatus")
-public class ServiceStatus {
-
-    @ApiModelProperty(value = "identity of the service")
-    public final String serviceName;
-
-    @ApiModelProperty(value = "policy keep alive timeout")
-    public final long keepAliveIntervalSeconds;
-
-    @ApiModelProperty(value = "time since last invocation by the service")
-    public final long timeSinceLastActivitySeconds;
-
-    @ApiModelProperty(value = "callback for notifying of RIC synchronization")
-    public String callbackUrl;
-
-    ServiceStatus(String name, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
-        this.serviceName = name;
-        this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
-        this.timeSinceLastActivitySeconds = timeSincePingSeconds;
-        this.callbackUrl = callbackUrl;
+@ApiModel(value = "VoidResponse", description = "No response")
+public class VoidResponse {
+    private VoidResponse() {
     }
-
 }

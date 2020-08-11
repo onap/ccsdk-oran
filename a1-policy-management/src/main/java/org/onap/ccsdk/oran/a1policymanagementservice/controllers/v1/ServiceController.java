@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "Service registry and supervision")
+@Api(tags = Consts.V1_API_NAME)
 public class ServiceController {
 
     private final Services services;

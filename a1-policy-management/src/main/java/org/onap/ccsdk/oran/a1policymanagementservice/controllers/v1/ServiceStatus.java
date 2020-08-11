@@ -18,34 +18,34 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Collection;
-
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "RicInfo")
-class RicInfo {
-    @ApiModelProperty(value = "identity of the ric")
-    public final String ricName;
+@ApiModel(value = "ServiceStatusV1")
+public class ServiceStatus {
 
-    @ApiModelProperty(value = "O1 identities for managed entities")
-    public final Collection<String> managedElementIds;
+    @ApiModelProperty(value = "identity of the service")
+    public final String serviceName;
 
-    @ApiModelProperty(value = "supported policy types")
-    public final Collection<String> policyTypes;
+    @ApiModelProperty(value = "policy keep alive timeout")
+    public final long keepAliveIntervalSeconds;
 
-    @ApiModelProperty(value = "state info")
-    public final String state;
+    @ApiModelProperty(value = "time since last invocation by the service")
+    public final long timeSinceLastActivitySeconds;
 
-    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
-        this.ricName = name;
-        this.managedElementIds = managedElementIds;
-        this.policyTypes = policyTypes;
-        this.state = state;
+    @ApiModelProperty(value = "callback for notifying of RIC synchronization")
+    public String callbackUrl;
+
+    ServiceStatus(String name, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
+        this.serviceName = name;
+        this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
+        this.timeSinceLastActivitySeconds = timeSincePingSeconds;
+        this.callbackUrl = callbackUrl;
     }
+
 }
