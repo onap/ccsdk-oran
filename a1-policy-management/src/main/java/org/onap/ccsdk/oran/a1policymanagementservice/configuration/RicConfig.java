@@ -26,7 +26,7 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 public interface RicConfig {
-    public String name();
+    public String ricId();
 
     public String controllerName();
 

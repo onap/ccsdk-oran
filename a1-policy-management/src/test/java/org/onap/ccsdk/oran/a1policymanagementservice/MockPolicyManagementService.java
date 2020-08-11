@@ -134,13 +134,13 @@ class MockPolicyManagementService {
                 try {
                     String schema = readFile(file);
                     String typeName = title(schema);
-                    PolicyType type = ImmutablePolicyType.builder().name(typeName).schema(schema).build();
+                    PolicyType type = ImmutablePolicyType.builder().id(typeName).schema(schema).build();
                     policyTypes.put(type);
                 } catch (Exception e) {
                     logger.error("Could not load json schema ", e);
                 }
             }
-            policyTypes.put(ImmutablePolicyType.builder().name("").schema("{}").build());
+            policyTypes.put(ImmutablePolicyType.builder().id("").schema("{}").build());
         }
     }
 
@@ -187,7 +187,7 @@ class MockPolicyManagementService {
         Policy policy = ImmutablePolicy.builder() //
             .id("typelessPolicy") //
             .json(json) //
-            .ownerServiceName("MockPolicyManagementService") //
+            .ownerServiceId("MockPolicyManagementService") //
             .ric(ric) //
             .type(unnamedPolicyType) //
             .lastModified("now") //

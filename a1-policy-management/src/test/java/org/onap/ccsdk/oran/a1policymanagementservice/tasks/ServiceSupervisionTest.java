@@ -71,20 +71,20 @@ class ServiceSupervisionTest {
     private Service service;
     private Policies policies;
     private RicConfig ricConfig = ImmutableRicConfig.builder() //
-        .name(RIC_NAME) //
+        .ricId(RIC_NAME) //
         .baseUrl("baseUrl") //
         .managedElementIds(Collections.emptyList()) //
         .controllerName("") //
         .build();
     private Ric ric = new Ric(ricConfig);
     private PolicyType policyType = ImmutablePolicyType.builder() //
-        .name("plicyTypeName") //
+        .id("policyTypeName") //
         .schema("schema") //
         .build();
     private Policy policy = ImmutablePolicy.builder() //
         .id(POLICY_ID) //
         .json("json") //
-        .ownerServiceName(SERVICE_NAME) //
+        .ownerServiceId(SERVICE_NAME) //
         .ric(ric) //
         .type(policyType) //
         .lastModified("lastModified") //

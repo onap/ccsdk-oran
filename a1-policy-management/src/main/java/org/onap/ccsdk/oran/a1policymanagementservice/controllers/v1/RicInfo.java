@@ -18,25 +18,34 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Collection;
 
 import org.immutables.gson.Gson;
-import org.immutables.value.Value;
 
-@Value.Immutable
 @Gson.TypeAdapters
-public interface Policy {
-    public String id();
+@ApiModel(value = "RicInfoV1")
+class RicInfo {
+    @ApiModelProperty(value = "identity of the ric")
+    public final String ricName;
 
-    public String json();
+    @ApiModelProperty(value = "O1 identities for managed entities")
+    public final Collection<String> managedElementIds;
 
-    public String ownerServiceId();
+    @ApiModelProperty(value = "supported policy types")
+    public final Collection<String> policyTypes;
 
-    public Ric ric();
+    @ApiModelProperty(value = "state info")
+    public final String state;
 
-    public PolicyType type();
-
-    public String lastModified();
-
-    public boolean isTransient();
+    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
+        this.ricName = name;
+        this.managedElementIds = managedElementIds;
+        this.policyTypes = policyTypes;
+        this.state = state;
+    }
 }

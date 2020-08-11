@@ -18,31 +18,47 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import org.immutables.gson.Gson;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-@RestController
-@Api(tags = "Health check")
+@RestController("StatusControllerV2")
+@Api(tags = Consts.V2_API_NAME)
 public class StatusController {
 
-    @GetMapping("/status")
+    @Gson.TypeAdapters
+    @ApiModel(value = "StatusInfoV2")
+    class StatusInfo {
+        @ApiModelProperty(value = "status text")
+        public final String status;
+
+        StatusInfo(String status) {
+            this.status = status;
+        }
+    }
+
+    @GetMapping(path = Consts.V2_API_ROOT + "/status", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns status and statistics of this service")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "Service is living", response = String.class) //
+            @ApiResponse(code = 200, message = "Service is living", response = StatusInfo.class) //
         })
-    public Mono<ResponseEntity<String>> getStatus() {
-        return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
+    public Mono<ResponseEntity<Object>> getStatus() {
+        StatusInfo info = new StatusInfo("hunky dory");
+        return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
     }
 
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,12 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+public class Consts {
 
-@Value.Immutable
-@Gson.TypeAdapters
-public interface Policy {
-    public String id();
+    public static final String V1_API_NAME = "A1 Policy Management Version 1.0 (Deprecated)";
 
-    public String json();
-
-    public String ownerServiceId();
-
-    public Ric ric();
-
-    public PolicyType type();
-
-    public String lastModified();
-
-    public boolean isTransient();
+    private Consts() {
+    }
 }

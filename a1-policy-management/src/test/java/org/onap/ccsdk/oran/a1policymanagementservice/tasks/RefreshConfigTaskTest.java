@@ -100,8 +100,8 @@ class RefreshConfigTaskTest {
     CbsClient cbsClient;
 
     private static final String RIC_1_NAME = "ric1";
-    private static final ImmutableRicConfig CORRECT_RIC_CONIFG = ImmutableRicConfig.builder() //
-        .name(RIC_1_NAME) //
+    private static final RicConfig CORRECT_RIC_CONIFG = ImmutableRicConfig.builder() //
+        .ricId(RIC_1_NAME) //
         .baseUrl("http://localhost:8080/") //
         .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
         .controllerName("") //
@@ -327,7 +327,7 @@ class RefreshConfigTaskTest {
 
     private RicConfig getRicConfig(String name) {
         RicConfig ricConfig = ImmutableRicConfig.builder() //
-            .name(name) //
+            .ricId(name) //
             .baseUrl("url") //
             .managedElementIds(Collections.emptyList()) //
             .controllerName("controllerName") //
@@ -337,7 +337,7 @@ class RefreshConfigTaskTest {
 
     private Policy getPolicy(Ric ric) {
         ImmutablePolicyType type = ImmutablePolicyType.builder() //
-            .name("type") //
+            .id("type") //
             .schema("{}") //
             .build();
         Policy policy = ImmutablePolicy.builder() //
@@ -346,7 +346,7 @@ class RefreshConfigTaskTest {
             .lastModified("lastModified") //
             .ric(ric) //
             .json("{}") //
-            .ownerServiceName("ownerServiceName") //
+            .ownerServiceId("ownerServiceId") //
             .isTransient(false) //
             .build();
         return policy;

@@ -18,15 +18,31 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
-@Value.Immutable
-@Gson.TypeAdapters
-public interface PolicyType {
-    public String id();
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
-    public String schema();
+@RestController
+@Api(tags = Consts.V1_API_NAME)
+public class StatusController {
+
+    @GetMapping("/status")
+    @ApiOperation(value = "Returns status and statistics of this service")
+    @ApiResponses(
+        value = { //
+            @ApiResponse(code = 200, message = "Service is living", response = String.class) //
+        })
+    public Mono<ResponseEntity<String>> getStatus() {
+        return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
+    }
+
 }

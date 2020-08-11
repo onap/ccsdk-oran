@@ -123,7 +123,7 @@ public class OscA1Client implements A1Client {
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.name());
+        logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
 
         uri = new UriBuilder(ricConfig);
     }
@@ -163,13 +163,13 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uri.createPutPolicyUri(policy.type().name(), policy.id());
+        String policyUri = this.uri.createPutPolicyUri(policy.type().id(), policy.id());
         return restClient.put(policyUri, policy.json());
     }
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.type().name(), policy.id());
+        return deletePolicyById(policy.type().id(), policy.id());
     }
 
     @Override
@@ -186,7 +186,7 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uri.createGetPolicyStatusUri(policy.type().name(), policy.id());
+        String statusUri = uri.createGetPolicyStatusUri(policy.type().id(), policy.id());
         return restClient.get(statusUri);
 
     }

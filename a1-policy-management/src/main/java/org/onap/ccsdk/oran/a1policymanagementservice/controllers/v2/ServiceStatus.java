@@ -18,25 +18,34 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import org.immutables.gson.Gson;
-import org.immutables.value.Value;
 
-@Value.Immutable
 @Gson.TypeAdapters
-public interface Policy {
-    public String id();
+@ApiModel(value = "ServiceStatusV2")
+public class ServiceStatus {
 
-    public String json();
+    @ApiModelProperty(value = "identity of the service")
+    public final String serviceId;
 
-    public String ownerServiceId();
+    @ApiModelProperty(value = "policy keep alive timeout")
+    public final long keepAliveIntervalSeconds;
 
-    public Ric ric();
+    @ApiModelProperty(value = "time since last invocation by the service")
+    public final long timeSinceLastActivitySeconds;
 
-    public PolicyType type();
+    @ApiModelProperty(value = "callback for notifying of RIC synchronization")
+    public String callbackUrl;
 
-    public String lastModified();
+    ServiceStatus(String id, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
+        this.serviceId = id;
+        this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
+        this.timeSinceLastActivitySeconds = timeSincePingSeconds;
+        this.callbackUrl = callbackUrl;
+    }
 
-    public boolean isTransient();
 }
