@@ -18,7 +18,9 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
+
+import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,25 +28,31 @@ import io.swagger.annotations.ApiModelProperty;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ServiceStatus")
-public class ServiceStatus {
+@ApiModel(value = "service_registration_info_v1")
+public class ServiceRegistrationInfo {
 
-    @ApiModelProperty(value = "identity of the service")
-    public final String serviceName;
+    @SerializedName("serviceName")
+    public String serviceName = "";
 
-    @ApiModelProperty(value = "policy keep alive timeout")
-    public final long keepAliveIntervalSeconds;
+    @ApiModelProperty(
+        value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
+            + "which in regular intevals must invoke a 'keepAlive' REST call. "
+            + "When a service does not invoke this call within the given time, it is considered unavailble. "
+            + "An unavailable service will be automatically deregistered and its policies will be deleted. "
+            + "Value 0 means no timeout supervision.")
+    @SerializedName("keepAliveIntervalSeconds")
+    public long keepAliveIntervalSeconds = 0;
 
-    @ApiModelProperty(value = "time since last invocation by the service")
-    public final long timeSinceLastActivitySeconds;
+    @ApiModelProperty(value = "callback for notifying of RIC synchronization", required = false, allowEmptyValue = true)
+    @SerializedName("callbackUrl")
+    public String callbackUrl = "";
 
-    @ApiModelProperty(value = "callback for notifying of RIC synchronization")
-    public String callbackUrl;
+    public ServiceRegistrationInfo() {
+    }
 
-    ServiceStatus(String name, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
+    public ServiceRegistrationInfo(String name, long keepAliveIntervalSeconds, String callbackUrl) {
         this.serviceName = name;
         this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
-        this.timeSinceLastActivitySeconds = timeSincePingSeconds;
         this.callbackUrl = callbackUrl;
     }
 

@@ -37,9 +37,9 @@ public class Policies {
 
     public synchronized void put(Policy policy) {
         policiesId.put(policy.id(), policy);
-        multiMapPut(policiesRic, policy.ric().name(), policy);
-        multiMapPut(policiesService, policy.ownerServiceName(), policy);
-        multiMapPut(policiesType, policy.type().name(), policy);
+        multiMapPut(policiesRic, policy.ric().id(), policy);
+        multiMapPut(policiesService, policy.ownerServiceId(), policy);
+        multiMapPut(policiesType, policy.type().id(), policy);
     }
 
     private void multiMapPut(Map<String, Map<String, Policy>> multiMap, String key, Policy value) {
@@ -106,13 +106,13 @@ public class Policies {
 
     public synchronized void remove(Policy policy) {
         policiesId.remove(policy.id());
-        multiMapRemove(policiesRic, policy.ric().name(), policy);
-        multiMapRemove(policiesService, policy.ownerServiceName(), policy);
-        multiMapRemove(policiesType, policy.type().name(), policy);
+        multiMapRemove(policiesRic, policy.ric().id(), policy);
+        multiMapRemove(policiesService, policy.ownerServiceId(), policy);
+        multiMapRemove(policiesType, policy.type().id(), policy);
     }
 
-    public synchronized void removePoliciesForRic(String ricName) {
-        Collection<Policy> policiesForRic = getForRic(ricName);
+    public synchronized void removePoliciesForRic(String ricId) {
+        Collection<Policy> policiesForRic = getForRic(ricId);
         for (Policy policy : policiesForRic) {
             remove(policy);
         }

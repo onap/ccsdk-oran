@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,6 +42,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +51,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@Api(tags = "Service registry and supervision")
+@RestController("ServiceControllerV2")
+@Api(tags = Consts.V2_API_NAME)
 public class ServiceController {
 
     private final Services services;
@@ -66,17 +67,17 @@ public class ServiceController {
         this.policies = policies;
     }
 
-    @GetMapping("/services")
+    @GetMapping(path = Consts.V2_API_ROOT + "/services", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns service information")
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "OK", response = ServiceStatus.class, responseContainer = "List"), //
-            @ApiResponse(code = 404, message = "Service is not found", response = String.class)})
-    public ResponseEntity<String> getServices(//
-        @ApiParam(name = "name", required = false, value = "The name of the service") //
-        @RequestParam(name = "name", required = false) String name) {
+            @ApiResponse(code = 404, message = "Service is not found", response = ErrorResponse.ErrorInfo.class)})
+    public ResponseEntity<Object> getServices(//
+        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false, value = "The ID of the service") //
+        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String name) {
         if (name != null && this.services.get(name) == null) {
-            return new ResponseEntity<>("Service not found", HttpStatus.NOT_FOUND);
+            return ErrorResponse.create("Service type not found", HttpStatus.NOT_FOUND);
         }
 
         Collection<ServiceStatus> servicesStatus = new ArrayList<>();
@@ -97,7 +98,7 @@ public class ServiceController {
 
     private void validateRegistrationInfo(ServiceRegistrationInfo registrationInfo)
         throws ServiceException, MalformedURLException {
-        if (registrationInfo.serviceName.isEmpty()) {
+        if (registrationInfo.serviceId.isEmpty()) {
             throw new ServiceException("Missing mandatory parameter 'serviceName'");
         }
         if (registrationInfo.keepAliveIntervalSeconds < 0) {
@@ -111,19 +112,22 @@ public class ServiceController {
     @ApiOperation(value = "Register a service")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "Service updated", response = String.class),
-            @ApiResponse(code = 201, message = "Service created", response = String.class), //
-            @ApiResponse(code = 400, message = "The ServiceRegistrationInfo is not accepted", response = String.class)})
-    @PutMapping("/service")
-    public ResponseEntity<String> putService(//
+            @ApiResponse(code = 200, message = "Service updated"),
+            @ApiResponse(code = 201, message = "Service created"), //
+            @ApiResponse(
+                code = 400,
+                message = "The ServiceRegistrationInfo is not accepted",
+                response = ErrorResponse.ErrorInfo.class)})
+    @PutMapping(Consts.V2_API_ROOT + "/service")
+    public ResponseEntity<Object> putService(//
         @RequestBody ServiceRegistrationInfo registrationInfo) {
         try {
             validateRegistrationInfo(registrationInfo);
-            final boolean isCreate = this.services.get(registrationInfo.serviceName) == null;
+            final boolean isCreate = this.services.get(registrationInfo.serviceId) == null;
             this.services.put(toService(registrationInfo));
-            return new ResponseEntity<>("OK", isCreate ? HttpStatus.CREATED : HttpStatus.OK);
+            return new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ErrorResponse.create(e, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -131,36 +135,40 @@ public class ServiceController {
     @ApiResponses(
         value = { //
             @ApiResponse(code = 204, message = "OK"),
-            @ApiResponse(code = 404, message = "Service not found", response = String.class)})
-    @DeleteMapping("/services")
-    public ResponseEntity<String> deleteService(//
-        @ApiParam(name = "name", required = true, value = "The name of the service") //
-        @RequestParam(name = "name", required = true) String serviceName) {
+            @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
+    @DeleteMapping(Consts.V2_API_ROOT + "/services")
+    public ResponseEntity<Object> deleteService(//
+        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The name of the service") //
+        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
         try {
             Service service = removeService(serviceName);
             // Remove the policies from the repo and let the consistency monitoring
             // do the rest.
             removePolicies(service);
-            return new ResponseEntity<>("OK", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
         }
     }
 
-    @ApiOperation(value = "Heartbeat from a serice")
+    @ApiOperation(value = "Heartbeat from a service")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"),
-            @ApiResponse(code = 404, message = "The service is not found, needs re-registration")})
-    @PutMapping("/services/keepalive")
-    public ResponseEntity<String> keepAliveService(//
-        @ApiParam(name = "name", required = true, value = "The name of the service") //
-        @RequestParam(name = "name", required = true) String serviceName) {
+            @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"), //
+            @ApiResponse(
+                code = 404,
+                message = "The service is not found, needs re-registration",
+                response = ErrorResponse.ErrorInfo.class)})
+
+    @PutMapping(Consts.V2_API_ROOT + "/services/keepalive")
+    public ResponseEntity<Object> keepAliveService(//
+        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The ID of the service") //
+        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
         try {
             services.getService(serviceName).keepAlive();
-            return new ResponseEntity<>("OK", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (ServiceException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -178,7 +186,7 @@ public class ServiceController {
     }
 
     private Service toService(ServiceRegistrationInfo s) {
-        return new Service(s.serviceName, Duration.ofSeconds(s.keepAliveIntervalSeconds), s.callbackUrl);
+        return new Service(s.serviceId, Duration.ofSeconds(s.keepAliveIntervalSeconds), s.callbackUrl);
     }
 
 }

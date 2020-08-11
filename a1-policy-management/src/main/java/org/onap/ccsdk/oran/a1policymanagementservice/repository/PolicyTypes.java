@@ -43,7 +43,7 @@ public class PolicyTypes {
     }
 
     public synchronized void put(PolicyType type) {
-        types.put(type.name(), type);
+        types.put(type.id(), type);
     }
 
     public synchronized boolean contains(String policyType) {

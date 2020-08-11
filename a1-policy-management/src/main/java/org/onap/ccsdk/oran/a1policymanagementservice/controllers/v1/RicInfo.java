@@ -18,31 +18,34 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
+import java.util.Collection;
 
-@RestController
-@Api(tags = "Health check")
-public class StatusController {
+import org.immutables.gson.Gson;
 
-    @GetMapping("/status")
-    @ApiOperation(value = "Returns status and statistics of this service")
-    @ApiResponses(
-        value = { //
-            @ApiResponse(code = 200, message = "Service is living", response = String.class) //
-        })
-    public Mono<ResponseEntity<String>> getStatus() {
-        return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
+@Gson.TypeAdapters
+@ApiModel(value = "ric_info_v1")
+class RicInfo {
+    @ApiModelProperty(value = "identity of the ric")
+    public final String ricName;
+
+    @ApiModelProperty(value = "O1 identities for managed entities")
+    public final Collection<String> managedElementIds;
+
+    @ApiModelProperty(value = "supported policy types")
+    public final Collection<String> policyTypes;
+
+    @ApiModelProperty(value = "state info")
+    public final String state;
+
+    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
+        this.ricName = name;
+        this.managedElementIds = managedElementIds;
+        this.policyTypes = policyTypes;
+        this.state = state;
     }
-
 }

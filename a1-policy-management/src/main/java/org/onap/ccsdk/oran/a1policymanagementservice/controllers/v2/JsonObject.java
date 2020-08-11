@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,13 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import io.swagger.annotations.ApiModel;
 
 import org.immutables.gson.Gson;
-import org.immutables.value.Value;
 
-@Value.Immutable
 @Gson.TypeAdapters
-public interface Policy {
-    public String id();
-
-    public String json();
-
-    public String ownerServiceId();
-
-    public Ric ric();
-
-    public PolicyType type();
-
-    public String lastModified();
-
-    public boolean isTransient();
+@ApiModel(value = "json_object", description = "A JSON object. The schema is defined by the Policy Type")
+class JsonObject {
 }

@@ -49,15 +49,16 @@ class ConcurrencyTestRunnable implements Runnable {
     private final MockA1ClientFactory a1ClientFactory;
     private final Rics rics;
     private final PolicyTypes types;
+    private boolean failed = false;
 
-    ConcurrencyTestRunnable(String baseUrl, RicSupervision supervision, MockA1ClientFactory a1ClientFactory, Rics rics,
-        PolicyTypes types) {
+    ConcurrencyTestRunnable(AsyncRestClient client, RicSupervision supervision, MockA1ClientFactory a1ClientFactory,
+        Rics rics, PolicyTypes types) {
         this.count = nextCount.incrementAndGet();
         this.supervision = supervision;
         this.a1ClientFactory = a1ClientFactory;
         this.rics = rics;
         this.types = types;
-        this.webClient = new AsyncRestClient(baseUrl);
+        this.webClient = client;
     }
 
     private void printStatusInfo() {
@@ -94,7 +95,12 @@ class ConcurrencyTestRunnable implements Runnable {
         } catch (Exception e) {
             logger.error("Concurrency test exception " + e.toString());
             printStatusInfo();
+            failed = true;
         }
+    }
+
+    public boolean isFailed() {
+        return this.failed;
     }
 
     private Policy createPolicyObject(String id) {
@@ -105,7 +111,7 @@ class ConcurrencyTestRunnable implements Runnable {
             .json("{}") //
             .type(type) //
             .ric(ric) //
-            .ownerServiceName("") //
+            .ownerServiceId("") //
             .lastModified("") //
             .isTransient(false) //
             .build();
@@ -124,17 +130,17 @@ class ConcurrencyTestRunnable implements Runnable {
     }
 
     private void listTypes() {
-        String uri = "/policy_types";
+        String uri = "/policy-types";
         webClient.getForEntity(uri).block();
     }
 
     private void putPolicy(String name) {
-        String putUrl = "/policy?type=type1&id=" + name + "&ric=ric&service=service1";
+        String putUrl = "/policy?policytype_id=type1&policy_id=" + name + "&ric_id=ric&service_id=service1";
         webClient.putForEntity(putUrl, "{}").block();
     }
 
     private void deletePolicy(String name) {
-        String deleteUrl = "/policy?id=" + name;
+        String deleteUrl = "/policy?policy_id=" + name;
         webClient.delete(deleteUrl).block();
     }
 }

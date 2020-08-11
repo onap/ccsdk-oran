@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "RIC Repository")
+@Api(tags = Consts.V1_API_NAME)
 public class RicRepositoryController {
 
     @Autowired
@@ -73,7 +73,7 @@ public class RicRepositoryController {
         Optional<Ric> ric = this.rics.lookupRicForManagedElement(managedElementId);
 
         if (ric.isPresent()) {
-            return new ResponseEntity<>(ric.get().name(), HttpStatus.OK);
+            return new ResponseEntity<>(ric.get().id(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No RIC found", HttpStatus.NOT_FOUND);
         }
@@ -98,7 +98,7 @@ public class RicRepositoryController {
         List<RicInfo> result = new ArrayList<>();
         for (Ric ric : rics.getRics()) {
             if (supportingPolicyType == null || ric.isSupportingType(supportingPolicyType)) {
-                result.add(new RicInfo(ric.name(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
+                result.add(new RicInfo(ric.id(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
                     ric.getState().toString()));
             }
         }

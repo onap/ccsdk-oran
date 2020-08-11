@@ -185,8 +185,12 @@ public class AsyncRestClient {
         final Class<String> clazz = String.class;
         return request.retrieve() //
             .toEntity(clazz) //
-            .doOnNext(entity -> logger.trace("{} Received: {}", traceTag, entity.getBody())) //
+            .doOnNext(entity -> logReceivedData(traceTag, entity)) //
             .doOnError(throwable -> onHttpError(traceTag, throwable));
+    }
+
+    private void logReceivedData(Object traceTag, ResponseEntity<String> entity) {
+        logger.trace("{} Received: {} {}", traceTag, entity.getBody(), entity.getHeaders().getContentType());
     }
 
     private static Object createTraceTag() {

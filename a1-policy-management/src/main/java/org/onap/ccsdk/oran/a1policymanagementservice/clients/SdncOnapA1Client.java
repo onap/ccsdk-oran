@@ -67,7 +67,7 @@ public class SdncOnapA1Client implements A1Client {
     public SdncOnapA1Client(RicConfig ricConfig, ControllerConfig controllerConfig, WebClientConfig clientConfig) {
         this(ricConfig, controllerConfig,
             new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
-        logger.debug("SdncOnapA1Client for ric: {}, a1ControllerBaseUrl: {}", ricConfig.name(),
+        logger.debug("SdncOnapA1Client for ric: {}, a1ControllerBaseUrl: {}", ricConfig.ricId(),
             controllerConfig.baseUrl());
     }
 
@@ -110,7 +110,7 @@ public class SdncOnapA1Client implements A1Client {
     public Mono<String> putPolicy(Policy policy) {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
             .nearRtRicId(ricConfig.baseUrl()) //
-            .policyTypeId(policy.type().name()) //
+            .policyTypeId(policy.type().id()) //
             .policyInstanceId(policy.id()) //
             .policyInstance(policy.json()) //
             .properties(new ArrayList<>()) //
@@ -125,7 +125,7 @@ public class SdncOnapA1Client implements A1Client {
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyByTypeId(policy.type().name(), policy.id());
+        return deletePolicyByTypeId(policy.type().id(), policy.id());
     }
 
     @Override

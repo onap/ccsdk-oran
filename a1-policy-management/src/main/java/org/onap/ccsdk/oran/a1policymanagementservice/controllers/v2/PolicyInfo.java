@@ -18,7 +18,10 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,32 +29,45 @@ import io.swagger.annotations.ApiModelProperty;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "PolicyInfo")
+@ApiModel(value = "policy_info_v2", description = "Information for one A1-P Policy")
 public class PolicyInfo {
 
     @ApiModelProperty(value = "identity of the policy")
-    public String id;
+    @JsonProperty("policy_id")
+    @SerializedName("policy_id")
+    public String policyId;
 
     @ApiModelProperty(value = "name of the policy type")
-    public String type;
+    @SerializedName("policy_type_id")
+    @JsonProperty("policy_type_id")
+    public String policyTypeId;
 
     @ApiModelProperty(value = "identity of the target Near-RT RIC")
-    public String ric;
+    @SerializedName("ric_id")
+    @JsonProperty("ric_id")
+    public String ricId;
 
     @ApiModelProperty(value = "the configuration of the policy")
-    public Object json;
+    @SerializedName("policy_data")
+    @JsonProperty("policy_data")
+    public Object policyData;
 
     @ApiModelProperty(value = "the name of the service owning the policy")
-    public String service;
+    @SerializedName("service_id")
+    @JsonProperty("service_id")
+    public String serviceId;
 
     @ApiModelProperty(value = "timestamp, last modification time")
+    @SerializedName("last_modified")
+    @JsonProperty("last_modified")
     public String lastModified;
 
     PolicyInfo() {
     }
 
     public boolean validate() {
-        return id != null && type != null && ric != null && json != null && service != null && lastModified != null;
+        return policyId != null && policyTypeId != null && ricId != null && policyData != null && serviceId != null
+            && lastModified != null;
     }
 
 }

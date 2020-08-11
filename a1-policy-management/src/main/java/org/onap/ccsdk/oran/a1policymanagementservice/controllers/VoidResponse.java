@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,31 +21,12 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Collection;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "RicInfo")
-class RicInfo {
-    @ApiModelProperty(value = "identity of the ric")
-    public final String ricName;
-
-    @ApiModelProperty(value = "O1 identities for managed entities")
-    public final Collection<String> managedElementIds;
-
-    @ApiModelProperty(value = "supported policy types")
-    public final Collection<String> policyTypes;
-
-    @ApiModelProperty(value = "state info")
-    public final String state;
-
-    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
-        this.ricName = name;
-        this.managedElementIds = managedElementIds;
-        this.policyTypes = policyTypes;
-        this.state = state;
+@ApiModel(value = "void", description = "Void/empty")
+public class VoidResponse {
+    private VoidResponse() {
     }
 }
