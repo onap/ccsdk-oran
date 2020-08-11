@@ -35,27 +35,27 @@ public class Rics {
     Map<String, Ric> registeredRics = new HashMap<>();
 
     public synchronized void put(Ric ric) {
-        registeredRics.put(ric.name(), ric);
+        registeredRics.put(ric.id(), ric);
     }
 
     public synchronized Collection<Ric> getRics() {
         return new Vector<>(registeredRics.values());
     }
 
-    public synchronized Ric getRic(String name) throws ServiceException {
-        Ric ric = registeredRics.get(name);
+    public synchronized Ric getRic(String ricId) throws ServiceException {
+        Ric ric = registeredRics.get(ricId);
         if (ric == null) {
-            throw new ServiceException("Could not find ric: " + name);
+            throw new ServiceException("Could not find ric: " + ricId);
         }
         return ric;
     }
 
-    public synchronized Ric get(String name) {
-        return registeredRics.get(name);
+    public synchronized Ric get(String ricId) {
+        return registeredRics.get(ricId);
     }
 
-    public synchronized void remove(String name) {
-        registeredRics.remove(name);
+    public synchronized void remove(String ricId) {
+        registeredRics.remove(ricId);
     }
 
     public synchronized int size() {

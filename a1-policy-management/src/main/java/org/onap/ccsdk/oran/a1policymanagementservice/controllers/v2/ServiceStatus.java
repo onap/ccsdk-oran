@@ -18,7 +18,10 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,23 +29,31 @@ import io.swagger.annotations.ApiModelProperty;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ServiceStatus")
+@ApiModel(value = "service_status_v2")
 public class ServiceStatus {
 
     @ApiModelProperty(value = "identity of the service")
-    public final String serviceName;
+    @SerializedName("service_id")
+    @JsonProperty("service_id")
+    public final String serviceId;
 
     @ApiModelProperty(value = "policy keep alive timeout")
+    @SerializedName("keep_alive_interval_seconds")
+    @JsonProperty("keep_alive_interval_seconds")
     public final long keepAliveIntervalSeconds;
 
     @ApiModelProperty(value = "time since last invocation by the service")
+    @SerializedName("time_since_last_activity_seconds")
+    @JsonProperty("time_since_last_activity_seconds")
     public final long timeSinceLastActivitySeconds;
 
     @ApiModelProperty(value = "callback for notifying of RIC synchronization")
+    @SerializedName("callback_url")
+    @JsonProperty("callback_url")
     public String callbackUrl;
 
-    ServiceStatus(String name, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
-        this.serviceName = name;
+    ServiceStatus(String id, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {
+        this.serviceId = id;
         this.keepAliveIntervalSeconds = keepAliveIntervalSeconds;
         this.timeSinceLastActivitySeconds = timeSincePingSeconds;
         this.callbackUrl = callbackUrl;

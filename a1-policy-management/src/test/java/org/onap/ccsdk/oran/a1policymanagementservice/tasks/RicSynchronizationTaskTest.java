@@ -37,6 +37,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -68,13 +69,13 @@ import reactor.core.publisher.Mono;
 class RicSynchronizationTaskTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
-        .name(POLICY_TYPE_1_NAME) //
+        .id(POLICY_TYPE_1_NAME) //
         .schema("") //
         .build();
 
     private static final String RIC_1_NAME = "ric1";
     private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
-        .name(RIC_1_NAME) //
+        .ricId(RIC_1_NAME) //
         .baseUrl("baseUrl1") //
         .managedElementIds(Collections.emptyList()) //
         .controllerName("controllerName") //
@@ -84,10 +85,10 @@ class RicSynchronizationTaskTest {
         return ImmutablePolicy.builder() //
             .id(policyId) //
             .json("") //
-            .ownerServiceName("service") //
+            .ownerServiceId("service") //
             .ric(RIC_1) //
             .type(POLICY_TYPE_1) //
-            .lastModified("now") //
+            .lastModified(Instant.now()) //
             .isTransient(isTransient) //
             .build();
     }

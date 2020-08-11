@@ -18,27 +18,40 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.repository;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import java.time.Instant;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import org.immutables.gson.Gson;
-import org.immutables.value.Value;
 
-@Value.Immutable
 @Gson.TypeAdapters
-public interface Policy {
-    public String id();
+@ApiModel(value = "policy_info_v1")
+public class PolicyInfo {
 
-    public String json();
+    @ApiModelProperty(value = "identity of the policy")
+    public String id;
 
-    public String ownerServiceId();
+    @ApiModelProperty(value = "name of the policy type")
+    public String type;
 
-    public Ric ric();
+    @ApiModelProperty(value = "identity of the target Near-RT RIC")
+    public String ric;
 
-    public PolicyType type();
+    @ApiModelProperty(value = "the configuration of the policy")
+    public Object json;
 
-    public Instant lastModified();
+    @ApiModelProperty(value = "the name of the service owning the policy")
+    public String service;
 
-    public boolean isTransient();
+    @ApiModelProperty(value = "timestamp, last modification time")
+    public String lastModified;
+
+    PolicyInfo() {
+    }
+
+    public boolean validate() {
+        return id != null && type != null && ric != null && json != null && service != null && lastModified != null;
+    }
+
 }

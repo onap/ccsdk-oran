@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,13 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiModel;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
+import org.immutables.gson.Gson;
 
-@RestController
-@Api(tags = "Health check")
-public class StatusController {
-
-    @GetMapping("/status")
-    @ApiOperation(value = "Returns status and statistics of this service")
-    @ApiResponses(
-        value = { //
-            @ApiResponse(code = 200, message = "Service is living", response = String.class) //
-        })
-    public Mono<ResponseEntity<String>> getStatus() {
-        return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
+@Gson.TypeAdapters
+@ApiModel(value = "void", description = "Void/empty")
+public class VoidResponse {
+    private VoidResponse() {
     }
-
 }

@@ -28,6 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,12 +60,12 @@ import reactor.core.publisher.Mono;
 class RicSupervisionTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
-        .name(POLICY_TYPE_1_NAME) //
+        .id(POLICY_TYPE_1_NAME) //
         .schema("") //
         .build();
 
     private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
-        .name("RIC_1") //
+        .ricId("ric_1") //
         .baseUrl("baseUrl1") //
         .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
         .controllerName("controllerName") //
@@ -74,20 +75,20 @@ class RicSupervisionTest {
     private static final Policy POLICY_1 = ImmutablePolicy.builder() //
         .id(POLICY_1_ID) //
         .json("") //
-        .ownerServiceName("service") //
+        .ownerServiceId("service") //
         .ric(RIC_1) //
         .type(POLICY_TYPE_1) //
-        .lastModified("now") //
+        .lastModified(Instant.now()) //
         .isTransient(false) //
         .build();
 
     private static final Policy POLICY_2 = ImmutablePolicy.builder() //
         .id("policyId2") //
         .json("") //
-        .ownerServiceName("service") //
+        .ownerServiceId("service") //
         .ric(RIC_1) //
         .type(POLICY_TYPE_1) //
-        .lastModified("now") //
+        .lastModified(Instant.now()) //
         .isTransient(false) //
         .build();
 
@@ -284,7 +285,7 @@ class RicSupervisionTest {
     void whenRicIdleAndSameAmountOfPolicyTypesButNotSameTypes_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         PolicyType policyType2 = ImmutablePolicyType.builder() //
-            .name("policyType2") //
+            .id("policyType2") //
             .schema("") //
             .build();
 
