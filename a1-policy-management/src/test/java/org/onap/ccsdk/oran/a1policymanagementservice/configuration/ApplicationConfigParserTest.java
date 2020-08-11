@@ -144,7 +144,7 @@ class ApplicationConfigParserTest {
         JsonObject jsonRootObject = getJsonRootObject();
         JsonObject json = jsonRootObject.getAsJsonObject("config");
         json.remove("ric");
-        final String message = "Could not find member: 'ric' in: " + json;
+        final String message = "Could not find member: [ric] in: " + json;
 
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 

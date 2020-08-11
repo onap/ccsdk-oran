@@ -118,7 +118,7 @@ public class RicSupervision {
     }
 
     private void onRicCheckedError(Throwable t, RicData ricData) {
-        logger.debug("Ric: {} check stopped, exception: {}", ricData.ric.name(), t.getMessage());
+        logger.debug("Ric: {} check stopped, exception: {}", ricData.ric.id(), t.getMessage());
         if (t instanceof SynchStartedException) {
             // this is just a temporary state,
             ricData.ric.setState(RicState.AVAILABLE);
@@ -129,7 +129,7 @@ public class RicSupervision {
     }
 
     private void onRicCheckedOk(RicData ricData) {
-        logger.debug("Ric: {} checked OK", ricData.ric.name());
+        logger.debug("Ric: {} checked OK", ricData.ric.id());
         ricData.ric.setState(RicState.AVAILABLE);
         ricData.ric.getLock().unlockBlocking();
     }
@@ -138,7 +138,7 @@ public class RicSupervision {
     private Mono<RicData> setRicState(RicData ric) {
         synchronized (ric) {
             if (ric.ric.getState() == RicState.CONSISTENCY_CHECK) {
-                logger.debug("Ric: {} is already being checked", ric.ric.getConfig().name());
+                logger.debug("Ric: {} is already being checked", ric.ric.getConfig().ricId());
                 return Mono.empty();
             }
             ric.ric.setState(RicState.CONSISTENCY_CHECK);
@@ -170,7 +170,7 @@ public class RicSupervision {
 
     private Mono<RicData> validateInstances(Collection<String> ricPolicies, RicData ric) {
         synchronized (this.policies) {
-            if (ricPolicies.size() != policies.getForRic(ric.ric.name()).size()) {
+            if (ricPolicies.size() != policies.getForRic(ric.ric.id()).size()) {
                 return startSynchronization(ric);
             }
 

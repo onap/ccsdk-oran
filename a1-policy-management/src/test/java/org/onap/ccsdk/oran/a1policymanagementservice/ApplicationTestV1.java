@@ -49,9 +49,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicC
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.PolicyInfo;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceRegistrationInfo;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceStatus;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.PolicyInfo;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.ServiceRegistrationInfo;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.ServiceStatus;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
@@ -95,8 +95,8 @@ import reactor.util.annotation.Nullable;
     properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks"})
-class ApplicationTest {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
+class ApplicationTestV1 {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationTestV1.class);
 
     @Autowired
     ApplicationContext context;
@@ -266,7 +266,8 @@ class ApplicationTest {
         Policy ricPolicy = ricPolicies.get(policyId);
         assertThat(ricPolicy.json()).isEqualTo(policy.json());
 
-        // Both types should be in the Policy Management Service's storage after the synch
+        // Both types should be in the Policy Management Service's storage after the
+        // synch
         assertThat(ric1.getSupportedPolicyTypes()).hasSize(2);
         assertThat(ric2.getSupportedPolicyTypes()).hasSize(2);
     }
@@ -325,8 +326,8 @@ class ApplicationTest {
         Policy policy = policies.getPolicy(policyInstanceId);
         assertThat(policy).isNotNull();
         assertThat(policy.id()).isEqualTo(policyInstanceId);
-        assertThat(policy.ownerServiceName()).isEqualTo(serviceName);
-        assertThat(policy.ric().name()).isEqualTo("ric1");
+        assertThat(policy.ownerServiceId()).isEqualTo(serviceName);
+        assertThat(policy.ric().id()).isEqualTo("ric1");
         assertThat(policy.isTransient()).isTrue();
 
         // Put a non transient policy
@@ -359,7 +360,8 @@ class ApplicationTest {
 
     @Test
     /**
-     * Test that HttpStatus and body from failing REST call to A1 is passed on to the caller.
+     * Test that HttpStatus and body from failing REST call to A1 is passed on to
+     * the caller.
      *
      * @throws ServiceException
      */
@@ -666,10 +668,10 @@ class ApplicationTest {
         Policy policy = ImmutablePolicy.builder() //
             .id(id) //
             .json(jsonString()) //
-            .ownerServiceName(service) //
+            .ownerServiceId(service) //
             .ric(rics.getRic(ric)) //
             .type(addPolicyType(typeName, ric)) //
-            .lastModified("lastModified") //
+            .lastModified(Instant.now()) //
             .isTransient(false) //
             .build();
         policies.put(policy);
@@ -710,29 +712,6 @@ class ApplicationTest {
 
     private String jsonString() {
         return "{\"servingCellNrcgi\":\"1\"}";
-    }
-
-    @Test
-    void testConcurrency() throws Exception {
-        final Instant startTime = Instant.now();
-        List<Thread> threads = new ArrayList<>();
-        a1ClientFactory.setResponseDelay(Duration.ofMillis(1));
-        addRic("ric");
-        addPolicyType("type1", "ric");
-        addPolicyType("type2", "ric");
-
-        for (int i = 0; i < 10; ++i) {
-            Thread thread =
-                new Thread(new ConcurrencyTestRunnable(baseUrl(), supervision, a1ClientFactory, rics, policyTypes),
-                    "TestThread_" + i);
-            thread.start();
-            threads.add(thread);
-        }
-        for (Thread t : threads) {
-            t.join();
-        }
-        assertThat(policies.size()).isZero();
-        logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
     }
 
     private AsyncRestClient restClient(boolean useTrustValidation) {
@@ -779,7 +758,7 @@ class ApplicationTest {
 
     private PolicyType createPolicyType(String policyTypeName) {
         return ImmutablePolicyType.builder() //
-            .name(policyTypeName) //
+            .id(policyTypeName) //
             .schema("{\"title\":\"" + policyTypeName + "\"}") //
             .build();
     }
@@ -804,7 +783,7 @@ class ApplicationTest {
             mes.add(managedElement);
         }
         RicConfig conf = ImmutableRicConfig.builder() //
-            .name(ricName) //
+            .ricId(ricName) //
             .baseUrl(ricName) //
             .managedElementIds(mes) //
             .controllerName("") //

@@ -48,8 +48,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,8 +79,7 @@ class DmaapMessageHandlerTest {
     }
 
     static String payloadAsString() {
-        PolicyType pt = ImmutablePolicyType.builder().name("name").schema("schema").build();
-        return gson.toJson(pt);
+        return "{\"param\":\"value\"}";
     }
 
     DmaapRequestMessage dmaapRequestMessage(Operation operation) {
@@ -277,7 +274,7 @@ class DmaapMessageHandlerTest {
     @Test
     void putWithoutPayload_thenNotFoundResponseWithWarning() throws Exception {
         String message = dmaapInputMessage(Operation.PUT).toString();
-        message = message.replace(",\"payload\":{\"name\":\"name\",\"schema\":\"schema\"}", "");
+        message = message.replace("payload", "junk");
 
         final ListAppender<ILoggingEvent> logAppender =
             LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
