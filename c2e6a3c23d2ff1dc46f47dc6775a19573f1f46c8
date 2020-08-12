@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52cd3551_74e3ccc3",
+        "filename": "a1-adapter/features/a1-adapter-northbound-all/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-12T21:44:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f9a41d8_34611d63",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e4509f3_59648ea3",
         "filename": "a1-adapter/features/pom.xml",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdbaca5_4ab6eda8",
+        "filename": "a1-adapter/features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-12T21:44:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7e4509f3_59648ea3",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6d5a2d6d_ef58ae99",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-12T21:44:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d1d2d37_83389615",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad0499d5_f0ec9952",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c5a088_7c4e9a41",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-12T21:44:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ad0499d5_f0ec9952",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
