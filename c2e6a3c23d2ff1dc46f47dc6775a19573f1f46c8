@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f9a41d8_34611d63",
+        "filename": "a1-adapter/features/a1-adapter-northbound-all/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-12T17:25:43Z",
+      "side": 1,
+      "message": "I think this should match the directory name. Please remove the \"-all\" from the name of directory where this pom is placed.",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e4509f3_59648ea3",
+        "filename": "a1-adapter/features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-12T17:25:43Z",
+      "side": 1,
+      "message": "Also change this after changing the directory name.",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1d2d37_83389615",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-12T17:25:43Z",
+      "side": 1,
+      "message": "I don\u0027t see any changes in this pom file. Please remove this from the commit.",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad0499d5_f0ec9952",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-12T17:25:43Z",
+      "side": 1,
+      "message": "Please uncomment this.",
+      "revId": "c2e6a3c23d2ff1dc46f47dc6775a19573f1f46c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
