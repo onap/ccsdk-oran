@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44133bc1_f137ae2d",
+        "filename": "eclipse-formatter.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2020-08-13T12:26:55Z",
+      "side": 1,
+      "message": "You probably didn\u0027t mean to commit this one.  Can you please remove it? These git commands should do it :\ngit rm eclipse-formatter.xml\ngit commit --amend --no-edit\ngit review -R",
+      "revId": "0bc33f3d6b9d17c38cb2cf234b3d0a972c532238",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
