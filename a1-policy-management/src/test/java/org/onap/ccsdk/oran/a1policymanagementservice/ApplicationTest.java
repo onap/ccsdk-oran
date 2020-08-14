@@ -266,7 +266,8 @@ class ApplicationTest {
         Policy ricPolicy = ricPolicies.get(policyId);
         assertThat(ricPolicy.json()).isEqualTo(policy.json());
 
-        // Both types should be in the Policy Management Service's storage after the synch
+        // Both types should be in the Policy Management Service's storage after the
+        // synch
         assertThat(ric1.getSupportedPolicyTypes()).hasSize(2);
         assertThat(ric2.getSupportedPolicyTypes()).hasSize(2);
     }
@@ -359,7 +360,8 @@ class ApplicationTest {
 
     @Test
     /**
-     * Test that HttpStatus and body from failing REST call to A1 is passed on to the caller.
+     * Test that HttpStatus and body from failing REST call to A1 is passed on to
+     * the caller.
      *
      * @throws ServiceException
      */
@@ -716,20 +718,25 @@ class ApplicationTest {
     void testConcurrency() throws Exception {
         final Instant startTime = Instant.now();
         List<Thread> threads = new ArrayList<>();
+        List<ConcurrencyTestRunnable> tests = new ArrayList<>();
         a1ClientFactory.setResponseDelay(Duration.ofMillis(1));
         addRic("ric");
         addPolicyType("type1", "ric");
         addPolicyType("type2", "ric");
 
         for (int i = 0; i < 10; ++i) {
+            AsyncRestClient restClient = restClient();
             Thread thread =
-                new Thread(new ConcurrencyTestRunnable(baseUrl(), supervision, a1ClientFactory, rics, policyTypes),
+                new Thread(new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes),
                     "TestThread_" + i);
             thread.start();
             threads.add(thread);
         }
         for (Thread t : threads) {
             t.join();
+        }
+        for (ConcurrencyTestRunnable test : tests) {
+            assertThat(test.isFailed()).isFalse();
         }
         assertThat(policies.size()).isZero();
         logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
