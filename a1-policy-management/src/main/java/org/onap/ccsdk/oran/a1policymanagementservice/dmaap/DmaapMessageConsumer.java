@@ -111,7 +111,8 @@ public class DmaapMessageConsumer {
     protected boolean isDmaapConfigured() {
         String producerTopicUrl = applicationConfig.getDmaapProducerTopicUrl();
         String consumerTopicUrl = applicationConfig.getDmaapConsumerTopicUrl();
-        return (!producerTopicUrl.isEmpty() && !consumerTopicUrl.isEmpty());
+        return (producerTopicUrl != null && consumerTopicUrl != null && !producerTopicUrl.isEmpty()
+            && !consumerTopicUrl.isEmpty());
     }
 
     private static List<String> parseMessages(String jsonString) {
