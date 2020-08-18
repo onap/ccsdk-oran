@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26919fee_7f3c05c4",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-08-18T13:53:05Z",
+      "side": 1,
+      "message": "Can we discuss a little how this will work with the manually authored yaml file we use now - with the documentation \u0026 examples written in ...",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 1,
+        "endChar": 14
+      },
+      "revId": "741d655b5f4bd92980f14ad4b931d692963b9181",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741708d3_ec8efbd4",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-08-18T13:53:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we\u0027ll deprecate until Honolulu",
+      "range": {
+        "startLine": 21,
+        "startChar": 44,
+        "endLine": 21,
+        "endChar": 54
+      },
+      "revId": "741d655b5f4bd92980f14ad4b931d692963b9181",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd27cd40_51698183",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-08-18T13:53:05Z",
+      "side": 1,
+      "message": "Maybe add \"work in progress\" or \"draft\" here?",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "741d655b5f4bd92980f14ad4b931d692963b9181",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618aee6a_3954b22f",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v1/Consts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-08-18T13:53:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we\u0027ll deprecate until Honolulu",
+      "range": {
+        "startLine": 25,
+        "startChar": 80,
+        "endLine": 25,
+        "endChar": 90
+      },
+      "revId": "741d655b5f4bd92980f14ad4b931d692963b9181",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
