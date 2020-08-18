@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1be571_163e627d",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-08-18T07:07:50Z",
+      "side": 1,
+      "message": "Does this mean that the returned value is an array? Because the Zalando rules specify that the top level data structure mus tbe a JSON object, contining an array if needed:\n\"Use JSON-encoded body payload for transferring structured data. The JSON payload must follow RFC 7159 using a JSON object as top-level data structure (if possible) to allow for future extension. This also applies to collection resources, where one naturally would assume an array.\" See: https://opensource.zalando.com/restful-api-guidelines/#data-formats\n\nThis question is relevant for all four occurences of responseContainer \u003d \"List\" in this specification.",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67c4254d_78ff6dcf",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-08-18T07:07:50Z",
+      "side": 1,
+      "message": "See comment on PolicyController",
+      "range": {
+        "startLine": 90,
+        "startChar": 79,
+        "endLine": 90,
+        "endChar": 105
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04d8c05_3047dc4e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-08-18T07:07:50Z",
+      "side": 1,
+      "message": "See comment on PolicyController",
+      "range": {
+        "startLine": 74,
+        "startChar": 85,
+        "endLine": 74,
+        "endChar": 111
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
