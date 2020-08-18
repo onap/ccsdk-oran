@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "1622fca0_d5d29df8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-18T12:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4cec5a3_919ae538",
+      "range": {
+        "startLine": 90,
+        "startChar": 79,
+        "endLine": 90,
+        "endChar": 105
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e04d8c05_3047dc4e",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
         "patchSetId": 2
@@ -164,6 +188,30 @@
       "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d40a2dae_07516582",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-18T12:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e1a896f_736c8687",
+      "range": {
+        "startLine": 74,
+        "startChar": 85,
+        "endLine": 74,
+        "endChar": 111
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
