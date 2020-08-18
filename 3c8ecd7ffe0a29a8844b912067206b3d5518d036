@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2aa7db1b_580342e8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-18T08:31:05Z",
+      "side": 1,
+      "message": "Yes, I have not considered all rules yet. I plan to divide it into severalcommits.\nBut I might as well fix that in this commit (even though I really do not like a rule saying that you cannot return an array).",
+      "parentUuid": "ba1be571_163e627d",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67c4254d_78ff6dcf",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e4cec5a3_919ae538",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-18T08:31:05Z",
+      "side": 1,
+      "message": "See answer.",
+      "parentUuid": "67c4254d_78ff6dcf",
+      "range": {
+        "startLine": 90,
+        "startChar": 79,
+        "endLine": 90,
+        "endChar": 105
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e04d8c05_3047dc4e",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2020-08-18T07:07:50Z",
       "side": 1,
       "message": "See comment on PolicyController",
+      "range": {
+        "startLine": 74,
+        "startChar": 85,
+        "endLine": 74,
+        "endChar": 111
+      },
+      "revId": "3c8ecd7ffe0a29a8844b912067206b3d5518d036",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1a896f_736c8687",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-18T08:31:05Z",
+      "side": 1,
+      "message": "See answer.",
+      "parentUuid": "e04d8c05_3047dc4e",
       "range": {
         "startLine": 74,
         "startChar": 85,
