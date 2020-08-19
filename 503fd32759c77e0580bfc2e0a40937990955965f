@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4248e7_dbdb0b91",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Should also include \u0027service\u0027 as well?",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 44
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c595c3_45ac2bfc",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Shouldnt be something like \u0027the policy is not automatically re-created if the policy has disappeared from the Near-RT RIC\u0027?",
+      "range": {
+        "startLine": 132,
+        "startChar": 87,
+        "endLine": 132,
+        "endChar": 188
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf95dfdd_305c94d7",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Should also include \u0027service\u0027?\nSame comment in a number of places below.",
+      "range": {
+        "startLine": 154,
+        "startChar": 23,
+        "endLine": 154,
+        "endChar": 54
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f55956_cf45f837",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Isnt it enough with 204?. or are the different circumstances for when 200 or 204 is returned?",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 37
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1da2db_abe68ec9",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "RIC -\u003e Schema (or type)",
+      "range": {
+        "startLine": 264,
+        "startChar": 23,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f05847_d8c7b8be",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "When is 200 and when is 204 returned?",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 24
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f377779_f6d1cf6e",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Service missing?",
+      "range": {
+        "startLine": 608,
+        "startChar": 23,
+        "endLine": 608,
+        "endChar": 44
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d1ee7c_66210f05",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Is get policies going all the way down to the ric or turns around in the agent? If it turns around in the agent then only a text message is needed?  The error info contains the response code of the SB interface if I understand correctly. Same comment in several places so comment not repeated.",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 51
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a8188b_c952aae9",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "What are these definitons used for?",
+      "range": {
+        "startLine": 1106,
+        "startChar": 0,
+        "endLine": 1111,
+        "endChar": 39
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9750f279_7b3868ca",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Perhaps optional for calls turning around in the agent and mandatory for calls that are conveyed to the ric.",
+      "range": {
+        "startLine": 1119,
+        "startChar": 2,
+        "endLine": 1123,
+        "endChar": 111
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d3210a_2bc5905d",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1234,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "O1 - what does it mean? (several places)",
+      "range": {
+        "startLine": 1234,
+        "startChar": 21,
+        "endLine": 1234,
+        "endChar": 23
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a98aa97_0593a7d8",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-08-19T16:19:46Z",
+      "side": 1,
+      "message": "Enum for state?",
+      "range": {
+        "startLine": 1245,
+        "startChar": 6,
+        "endLine": 1247,
+        "endChar": 31
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
