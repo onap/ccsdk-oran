@@ -34,12 +34,6 @@
    <name>ccsdk-oran :: ${project.artifactId}</name>
    <properties>
       <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
-      <!-- Override the snapshot version from parent pom -->
-      <ccsdk.features.version>1.0.0</ccsdk.features.version>
-      <ccsdk.sli.core.version>1.0.0</ccsdk.sli.core.version>
-      <ccsdk.sli.adaptors.version>1.0.0</ccsdk.sli.adaptors.version>
-      <ccsdk.sli.northbound.version>1.0.0</ccsdk.sli.northbound.version>
-      <ccsdk.sli.plugins.version>1.0.0</ccsdk.sli.plugins.version>
    </properties>
    <modules>
       <module>model</module>
