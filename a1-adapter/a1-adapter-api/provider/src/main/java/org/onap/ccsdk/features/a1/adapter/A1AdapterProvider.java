@@ -130,7 +130,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", deleteResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
+                    log.info("responseBody::"+responseParms.getProperty("body"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
                     deleteResponse.setHttpStatus(200);
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
@@ -174,6 +176,8 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
                     log.info("responseParms::"+responseParms.getProperty("body"));
                     policyResponse.setBody(responseParms.getProperty("body"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
                     policyResponse.setHttpStatus(200);
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
@@ -217,6 +221,8 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyStatusResponse, parms);
                     log.info("responseParms::"+responseParms.getProperty("body"));
                     policyStatusResponse.setBody(responseParms.getProperty("body"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
                     policyStatusResponse.setHttpStatus(200);
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
@@ -260,6 +266,8 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyTypeResponse, parms);
                     log.info("responseParms::"+responseParms.getProperty("body"));
                     policyTypeResponse.setBody(responseParms.getProperty("body"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
                     policyTypeResponse.setHttpStatus(200);
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
@@ -303,6 +311,8 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
                     log.info("responseParms::"+responseParms.getProperty("body"));
                     policyResponse.setBody(responseParms.getProperty("body"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
                     policyResponse.setHttpStatus(200);
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
