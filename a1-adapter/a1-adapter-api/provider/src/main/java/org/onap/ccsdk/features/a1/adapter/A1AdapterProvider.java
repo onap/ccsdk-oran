@@ -61,8 +61,6 @@ import org.slf4j.LoggerFactory;
  * implements the request model for the A1 interface. This class identifies the Near-RT RIC throught the IP passed over
  * the payload and calls the corresponding Near-RT RIC over Rest API
  *
- * <pre>
- *
  */
 @SuppressWarnings("squid:S1874") // "@Deprecated" code should not be used
 public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
@@ -130,8 +128,10 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", deleteResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
-                    deleteResponse.setHttpStatus(200);
+                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
+                    deleteResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
                     deleteResponse.setHttpStatus(500);
@@ -146,7 +146,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         }
         RpcResult<DeleteA1PolicyOutput> rpcResult =
                 RpcResultBuilder.<DeleteA1PolicyOutput>status(true).withResult(deleteResponse.build()).build();
-        log.info("End of getA1Policy");
+        log.info("End of deleteA1Policy");
         return Futures.immediateFuture(rpcResult);
     }
 
@@ -172,9 +172,11 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
-                    policyResponse.setBody(responseParms.getProperty("body"));
-                    policyResponse.setHttpStatus(200);
+                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
+                    policyResponse.setBody(responseParms.getProperty("responseBody"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
+                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
                     policyResponse.setHttpStatus(500);
@@ -215,9 +217,11 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyStatusResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
-                    policyStatusResponse.setBody(responseParms.getProperty("body"));
-                    policyStatusResponse.setHttpStatus(200);
+                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
+                    policyStatusResponse.setBody(responseParms.getProperty("responseBody"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
+                    policyStatusResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
                     policyStatusResponse.setHttpStatus(500);
@@ -258,9 +262,11 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyTypeResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
-                    policyTypeResponse.setBody(responseParms.getProperty("body"));
-                    policyTypeResponse.setHttpStatus(200);
+                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
+                    policyTypeResponse.setBody(responseParms.getProperty("responseBody"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
+                    policyTypeResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
                     policyTypeResponse.setHttpStatus(500);
@@ -301,9 +307,11 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
                 log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
                 try {
                     Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
-                    log.info("responseParms::"+responseParms.getProperty("body"));
-                    policyResponse.setBody(responseParms.getProperty("body"));
-                    policyResponse.setHttpStatus(200);
+                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
+                    policyResponse.setBody(responseParms.getProperty("responseBody"));
+                    log.info("responseCode::"+responseParms.getProperty("response-code"));
+                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
+                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
                 } catch (Exception e) {
                     log.error("Caught exception executing service logic for " + svcOperation, e);
                     policyResponse.setHttpStatus(500);
