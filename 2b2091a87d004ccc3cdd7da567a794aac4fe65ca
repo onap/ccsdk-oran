@@ -1,0 +1,11 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Henrik Andersson <henrik.b.andersson@est.tech>
+Code-Review+1: Björn Magnusson <bjorn.magnusson@est.tech>
+Code-Review+1: Chengkai Yan <martin.c.yan@est.tech>
+Code-Review+1: Lathishbabu Ganesan <lathishbabu.ganesan@est.tech>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Thu, 20 Aug 2020 11:56:16 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/111316
+Project: ccsdk/oran
+Branch: refs/heads/master
