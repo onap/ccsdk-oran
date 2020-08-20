@@ -60,9 +60,9 @@ public class A1ClientFactory {
      * means that after the first successful creation it won't have to try which
      * protocol to use, but can create the client directly.
      *
-     * @param ric The RIC to get a client for.
+     * @param ric The NearRT-RIC to get a client for.
      * @return a client with the correct protocol, or a ServiceException if none of
-     *         the protocols are supported by the Ric.
+     *         the protocols are supported by the NearRT-RIC.
      */
     public Mono<A1Client> createA1Client(Ric ric) {
         return getProtocolVersion(ric) //
@@ -91,7 +91,7 @@ public class A1ClientFactory {
         String controllerName = ric.getConfig().controllerName();
         if (controllerName.isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
-            throw new ServiceException("No controller configured for RIC: " + ric.name());
+            throw new ServiceException("No controller configured for NearRT-RIC: " + ric.id());
         }
         try {
             return this.appConfig.getControllerConfig(controllerName);
@@ -105,7 +105,7 @@ public class A1ClientFactory {
         if (!ric.getConfig().controllerName().isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException(
-                "Controller config should be empty, ric: " + ric.name() + " when using protocol version: " + version);
+                "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);
         }
     }
 
@@ -124,10 +124,11 @@ public class A1ClientFactory {
                 .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_OSC_STD_V1_1)) //
                 .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_ONAP)) //
                 .doOnNext(ric::setProtocolVersion)
-                .doOnNext(version -> logger.debug("Established protocol version:{} for Ric: {}", version, ric.name())) //
-                .doOnError(notUsed -> logger.warn("Could not get protocol version from RIC: {}", ric.name())) //
+                .doOnNext(
+                    version -> logger.debug("Established protocol version:{} for NearRT-RIC: {}", version, ric.id())) //
+                .doOnError(notUsed -> logger.warn("Could not get protocol version from NearRT-RIC: {}", ric.id())) //
                 .onErrorResume(
-                    notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.name())));
+                    notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.id())));
         } else {
             return Mono.just(ric.getProtocolVersion());
         }

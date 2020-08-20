@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -134,13 +135,13 @@ class MockPolicyManagementService {
                 try {
                     String schema = readFile(file);
                     String typeName = title(schema);
-                    PolicyType type = ImmutablePolicyType.builder().name(typeName).schema(schema).build();
+                    PolicyType type = ImmutablePolicyType.builder().id(typeName).schema(schema).build();
                     policyTypes.put(type);
                 } catch (Exception e) {
                     logger.error("Could not load json schema ", e);
                 }
             }
-            policyTypes.put(ImmutablePolicyType.builder().name("").schema("{}").build());
+            policyTypes.put(ImmutablePolicyType.builder().id("").schema("{}").build());
         }
     }
 
@@ -187,10 +188,10 @@ class MockPolicyManagementService {
         Policy policy = ImmutablePolicy.builder() //
             .id("typelessPolicy") //
             .json(json) //
-            .ownerServiceName("MockPolicyManagementService") //
+            .ownerServiceId("MockPolicyManagementService") //
             .ric(ric) //
             .type(unnamedPolicyType) //
-            .lastModified("now") //
+            .lastModified(Instant.now()) //
             .isTransient(false) //
             .build();
         this.policies.put(policy);

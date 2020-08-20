@@ -81,9 +81,10 @@ public class SdncOscA1Client implements A1Client {
     /**
      * Constructor that creates the REST client to use.
      *
-     * @param protocolType the southbound protocol of the controller. Supported protocols are SDNC_OSC_STD_V1_1 and
-     *        SDNC_OSC_OSC_V1
-     * @param ricConfig the configuration of the Ric to communicate with
+     * @param protocolType the southbound protocol of the controller. Supported
+     *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
+     * @param ricConfig the configuration of the NearRT-RIC to communicate
+     *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      *
      * @throws IllegalArgumentException when the protocolType is wrong.
@@ -92,15 +93,16 @@ public class SdncOscA1Client implements A1Client {
         WebClientConfig clientConfig) {
         this(protocolType, ricConfig, controllerConfig,
             new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
-        logger.debug("SdncOscA1Client for ric: {}, a1Controller: {}", ricConfig.name(), controllerConfig);
+        logger.debug("SdncOscA1Client for ric: {}, a1Controller: {}", ricConfig.ricId(), controllerConfig);
     }
 
     /**
      * Constructor where the REST client to use is provided.
      *
-     * @param protocolType the southbound protocol of the controller. Supported protocols are SDNC_OSC_STD_V1_1 and
-     *        SDNC_OSC_OSC_V1
-     * @param ricConfig the configuration of the Ric to communicate with
+     * @param protocolType the southbound protocol of the controller. Supported
+     *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
+     * @param ricConfig the configuration of the NearRT-RIC to communicate
+     *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      * @param restClient the REST client to use
      *
@@ -155,14 +157,14 @@ public class SdncOscA1Client implements A1Client {
     public Mono<String> putPolicy(Policy policy) {
         return getUriBuilder() //
             .flatMap(builder -> {
-                String ricUrl = builder.createPutPolicyUri(policy.type().name(), policy.id());
+                String ricUrl = builder.createPutPolicyUri(policy.type().id(), policy.id());
                 return post("putA1Policy", ricUrl, Optional.of(policy.json()));
             });
     }
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.type().name(), policy.id());
+        return deletePolicyById(policy.type().id(), policy.id());
     }
 
     @Override
@@ -198,7 +200,7 @@ public class SdncOscA1Client implements A1Client {
     public Mono<String> getPolicyStatus(Policy policy) {
         return getUriBuilder() //
             .flatMap(builder -> {
-                String ricUrl = builder.createGetPolicyStatusUri(policy.type().name(), policy.id());
+                String ricUrl = builder.createGetPolicyStatusUri(policy.type().id(), policy.id());
                 return post("getA1PolicyStatus", ricUrl, Optional.empty());
             });
     }

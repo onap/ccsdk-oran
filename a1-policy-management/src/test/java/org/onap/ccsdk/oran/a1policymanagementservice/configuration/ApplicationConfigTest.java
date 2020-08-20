@@ -40,7 +40,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 class ApplicationConfigTest {
 
     private static final ImmutableRicConfig RIC_CONFIG_1 = ImmutableRicConfig.builder() //
-        .name("ric1") //
+        .ricId("ric1") //
         .baseUrl("ric1_url") //
         .managedElementIds(new Vector<>()) //
         .controllerName("") //
@@ -76,7 +76,7 @@ class ApplicationConfigTest {
         assertEquals(RicConfigUpdate.Type.ADDED, update.getType());
         assertTrue(appConfigUnderTest.getRicConfigs().contains(RIC_CONFIG_1), "Ric not added to configurations.");
 
-        assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.name()),
+        assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
             "Not correct Ric retrieved from configurations.");
 
         update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).blockFirst();
@@ -92,7 +92,7 @@ class ApplicationConfigTest {
         appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1));
 
         ImmutableRicConfig changedRicConfig = ImmutableRicConfig.builder() //
-            .name("ric1") //
+            .ricId("ric1") //
             .baseUrl("changed_ric1_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //
@@ -101,7 +101,7 @@ class ApplicationConfigTest {
         RicConfigUpdate update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig)).blockFirst();
 
         assertEquals(RicConfigUpdate.Type.CHANGED, update.getType());
-        assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.name()),
+        assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
             "Changed Ric not retrieved from configurations.");
     }
 
@@ -110,7 +110,7 @@ class ApplicationConfigTest {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
         ImmutableRicConfig ricConfig2 = ImmutableRicConfig.builder() //
-            .name("ric2") //
+            .ricId("ric2") //
             .baseUrl("ric2_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //

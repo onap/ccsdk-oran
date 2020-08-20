@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,24 +31,15 @@ import java.util.Collection;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "RicInfo")
-class RicInfo {
-    @ApiModelProperty(value = "identity of the ric")
-    public final String ricName;
+@ApiModel(value = "policy_id_list_v2", description = "A list of policy identities")
+public class PolicyIdList {
 
-    @ApiModelProperty(value = "O1 identities for managed entities")
-    public final Collection<String> managedElementIds;
+    @ApiModelProperty(value = "Policy identities")
+    @SerializedName("policy_ids")
+    @JsonProperty("policy_ids")
+    public final Collection<String> policyIds;
 
-    @ApiModelProperty(value = "supported policy types")
-    public final Collection<String> policyTypes;
-
-    @ApiModelProperty(value = "state info")
-    public final String state;
-
-    RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {
-        this.ricName = name;
-        this.managedElementIds = managedElementIds;
-        this.policyTypes = policyTypes;
-        this.state = state;
+    public PolicyIdList(Collection<String> ids) {
+        this.policyIds = ids;
     }
 }

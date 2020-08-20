@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -47,7 +48,7 @@ public class A1ClientHelper {
     }
 
     protected static Ric createRic(String url) {
-        RicConfig cfg = ImmutableRicConfig.builder().name("ric") //
+        RicConfig cfg = ImmutableRicConfig.builder().ricId("ric") //
             .baseUrl(url) //
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
             .controllerName("") //
@@ -59,16 +60,16 @@ public class A1ClientHelper {
         return ImmutablePolicy.builder() //
             .id(policyId) //
             .json(json) //
-            .ownerServiceName("service") //
+            .ownerServiceId("service") //
             .ric(createRic(nearRtRicUrl)) //
             .type(createPolicyType(type)) //
-            .lastModified("now") //
+            .lastModified(Instant.now()) //
             .isTransient(false) //
             .build();
     }
 
     protected static PolicyType createPolicyType(String name) {
-        return ImmutablePolicyType.builder().name(name).schema("schema").build();
+        return ImmutablePolicyType.builder().id(name).schema("schema").build();
     }
 
     protected static String getCreateSchema(String policyType, String policyTypeId) {
