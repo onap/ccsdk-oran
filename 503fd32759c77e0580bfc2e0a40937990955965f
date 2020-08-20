@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d51019d_4f1c7e31",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4248e7_dbdb0b91",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 44
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19c595c3_45ac2bfc",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ef0f783_43c1b1a9",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c595c3_45ac2bfc",
+      "range": {
+        "startLine": 132,
+        "startChar": 87,
+        "endLine": 132,
+        "endChar": 188
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf95dfdd_305c94d7",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2020-08-19T16:19:46Z",
       "side": 1,
       "message": "Should also include \u0027service\u0027?\nSame comment in a number of places below.",
+      "range": {
+        "startLine": 154,
+        "startChar": 23,
+        "endLine": 154,
+        "endChar": 54
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b591a18_5c3a6a05",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "The service does not currently need to be registered. So, that case does not exist.",
+      "parentUuid": "bf95dfdd_305c94d7",
       "range": {
         "startLine": 154,
         "startChar": 23,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d73b113a_d06d86ec",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "200 is generated automatically by swagger, even though only 204 is returned by the sw.",
+      "parentUuid": "86f55956_cf45f837",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 37
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f1da2db_abe68ec9",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c0783037_fe50a646",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f1da2db_abe68ec9",
+      "range": {
+        "startLine": 264,
+        "startChar": 23,
+        "endLine": 264,
+        "endChar": 26
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97f05847_d8c7b8be",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -128,6 +248,30 @@
       "writtenOn": "2020-08-19T16:19:46Z",
       "side": 1,
       "message": "When is 200 and when is 204 returned?",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 24
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2522f530_b580f8b0",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "204 is returned. 200 is generated by swagger. I will fix so that description says \"Not used\" instead.",
+      "parentUuid": "97f05847_d8c7b8be",
       "range": {
         "startLine": 502,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "9bac33ee_993ac58a",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "That case does not exists in the current impl.",
+      "parentUuid": "4f377779_f6d1cf6e",
+      "range": {
+        "startLine": 608,
+        "startChar": 23,
+        "endLine": 608,
+        "endChar": 44
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54d1ee7c_66210f05",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -174,6 +342,30 @@
       "writtenOn": "2020-08-19T16:19:46Z",
       "side": 1,
       "message": "Is get policies going all the way down to the ric or turns around in the agent? If it turns around in the agent then only a text message is needed?  The error info contains the response code of the SB interface if I understand correctly. Same comment in several places so comment not repeated.",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 51
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "325a02e7_0eb319a4",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "The design rules says that all errors should look like that. \nAll returned errors are the same. Currently, the response code is repeated in the body. \nThere are a numerous fields that can be used, but these are used now.\n\nIt is the same schema as used by ONAP A1-P version 2.0 by the way.",
+      "parentUuid": "54d1ee7c_66210f05",
       "range": {
         "startLine": 609,
         "startChar": 0,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "36ac0589_24a08d47",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "Generated by swagger. They are not referred to.",
+      "parentUuid": "d2a8188b_c952aae9",
+      "range": {
+        "startLine": 1106,
+        "startChar": 0,
+        "endLine": 1111,
+        "endChar": 39
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9750f279_7b3868ca",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -220,6 +436,30 @@
       "writtenOn": "2020-08-19T16:19:46Z",
       "side": 1,
       "message": "Perhaps optional for calls turning around in the agent and mandatory for calls that are conveyed to the ric.",
+      "range": {
+        "startLine": 1119,
+        "startChar": 2,
+        "endLine": 1123,
+        "endChar": 111
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f41a336_c48acbb8",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "The usage of this may change. All this is from a standard (that we supposed to follow).",
+      "parentUuid": "9750f279_7b3868ca",
       "range": {
         "startLine": 1119,
         "startChar": 2,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "45d30ff3_4e56a934",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1234,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "O1 - term from ORAN, on the same level as A1.",
+      "parentUuid": "69d3210a_2bc5905d",
+      "range": {
+        "startLine": 1234,
+        "startChar": 21,
+        "endLine": 1234,
+        "endChar": 23
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a98aa97_0593a7d8",
         "filename": "a1-policy-management/api/api_generated.yaml",
         "patchSetId": 6
@@ -266,6 +530,30 @@
       "writtenOn": "2020-08-19T16:19:46Z",
       "side": 1,
       "message": "Enum for state?",
+      "range": {
+        "startLine": 1245,
+        "startChar": 6,
+        "endLine": 1247,
+        "endChar": 31
+      },
+      "revId": "503fd32759c77e0580bfc2e0a40937990955965f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3442226f_01046248",
+        "filename": "a1-policy-management/api/api_generated.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-20T07:24:45Z",
+      "side": 1,
+      "message": "This is the legacy API. We cannot change that. \nI made it into an enum in the V2 version.",
+      "parentUuid": "4a98aa97_0593a7d8",
       "range": {
         "startLine": 1245,
         "startChar": 6,
