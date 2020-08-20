@@ -100,6 +100,7 @@ public class A1AdapterProviderTest {
     public void test_deleteA1PolicyType() throws SvcLogicException, InterruptedException, ExecutionException {
         String rpc = "deleteA1Policy";
         Properties respProps = new Properties();
+        respProps.setProperty("response-code", "200");
         DeleteA1PolicyInputBuilder inputBuilder = new DeleteA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(DeleteA1PolicyOutputBuilder.class),
@@ -113,6 +114,7 @@ public class A1AdapterProviderTest {
     public void test_getA1Policy() throws SvcLogicException, InterruptedException, ExecutionException {
         String rpc = "getA1Policy";
         Properties respProps = new Properties();
+        respProps.setProperty("response-code", "200");
         GetA1PolicyInputBuilder inputBuilder = new GetA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyOutputBuilder.class),
@@ -125,6 +127,7 @@ public class A1AdapterProviderTest {
     public void test_getA1PolicyType() throws SvcLogicException, InterruptedException, ExecutionException {
         String rpc = "getA1PolicyType";
         Properties respProps = new Properties();
+        respProps.setProperty("response-code", "200");
         GetA1PolicyTypeInputBuilder inputBuilder = new GetA1PolicyTypeInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyTypeOutputBuilder.class),
@@ -138,6 +141,7 @@ public class A1AdapterProviderTest {
     public void test_getA1PolicyStatus() throws SvcLogicException, InterruptedException, ExecutionException {
         String rpc = "getA1PolicyStatus";
         Properties respProps = new Properties();
+        respProps.setProperty("response-code", "200");
         GetA1PolicyStatusInputBuilder inputBuilder = new GetA1PolicyStatusInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyStatusOutputBuilder.class),
@@ -151,6 +155,7 @@ public class A1AdapterProviderTest {
     public void test_putA1Policy() throws SvcLogicException, InterruptedException, ExecutionException {
         String rpc = "putA1Policy";
         Properties respProps = new Properties();
+        respProps.setProperty("response-code", "200");
         PutA1PolicyInputBuilder inputBuilder = new PutA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(PutA1PolicyOutputBuilder.class),
