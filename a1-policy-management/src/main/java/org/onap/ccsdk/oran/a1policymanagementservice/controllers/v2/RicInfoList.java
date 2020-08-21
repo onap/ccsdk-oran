@@ -31,10 +31,10 @@ import java.util.Collection;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ric_info_list_v2", description = "List of NearRT-RIC information")
+@ApiModel(value = "ric_info_list_v2", description = "List of Near-RT RIC information")
 public class RicInfoList {
 
-    @ApiModelProperty(value = "List of NearRT-RIC information")
+    @ApiModelProperty(value = "List of Near-RT RIC information")
     @SerializedName("rics")
     @JsonProperty("rics")
     public final Collection<RicInfo> rics;

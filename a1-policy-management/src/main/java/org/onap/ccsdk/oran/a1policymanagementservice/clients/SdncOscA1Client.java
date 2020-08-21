@@ -83,7 +83,7 @@ public class SdncOscA1Client implements A1Client {
      *
      * @param protocolType the southbound protocol of the controller. Supported
      *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
-     * @param ricConfig the configuration of the NearRT-RIC to communicate
+     * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      *
@@ -101,7 +101,7 @@ public class SdncOscA1Client implements A1Client {
      *
      * @param protocolType the southbound protocol of the controller. Supported
      *        protocols are SDNC_OSC_STD_V1_1 and SDNC_OSC_OSC_V1
-     * @param ricConfig the configuration of the NearRT-RIC to communicate
+     * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      * @param restClient the REST client to use

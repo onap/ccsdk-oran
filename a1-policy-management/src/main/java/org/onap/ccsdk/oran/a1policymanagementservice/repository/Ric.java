@@ -32,7 +32,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1Protocol
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 
 /**
- * Holds information about a NearRT-RIC.
+ * Holds information about a Near-RT RIC.
  */
 public class Ric {
 
@@ -142,7 +142,7 @@ public class Ric {
      */
     public enum RicState {
         /**
-         * The Policy Management Service's view of the NearRT-RIC may be inconsistent.
+         * The Policy Management Service's view of the Near-RT RIC may be inconsistent.
          */
         UNAVAILABLE,
         /**
@@ -150,12 +150,12 @@ public class Ric {
          */
         AVAILABLE,
         /**
-         * The Policy Management Service is synchronizing the view of the NearRT-RIC.
+         * The Policy Management Service is synchronizing the view of the Near-RT RIC.
          */
         SYNCHRONIZING,
 
         /**
-         * A consistency check between the Policy Management Service and the NearRT-RIC
+         * A consistency check between the Policy Management Service and the Near-RT RIC
          * is done
          */
         CONSISTENCY_CHECK
