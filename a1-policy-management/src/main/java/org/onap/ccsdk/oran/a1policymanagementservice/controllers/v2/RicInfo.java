@@ -31,22 +31,22 @@ import java.util.Collection;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ric_info_v2", description = "Information for a NearRT-RIC")
+@ApiModel(value = "ric_info_v2", description = "Information for a Near-RT RIC")
 public class RicInfo {
 
     @Gson.TypeAdapters
-    @ApiModel(value = "ric_state_v2", description = "Represents the states for a NearRT-RIC")
+    @ApiModel(value = "ric_state_v2", description = "Represents the states for a Near-RT RIC")
     public enum RicState {
         UNAVAILABLE, AVAILABLE, SYNCHRONIZING, CONSISTENCY_CHECK
     }
 
-    private static final String STATE_DESCRIPTION = "State for the NearRT-RIC, values: \n"
-        + "UNAVAILABLE: The NearRT-RIC is not avialable, information may be inconsistent \n"
+    private static final String STATE_DESCRIPTION = "State for the Near-RT RIC, values: \n"
+        + "UNAVAILABLE: The Near-RT RIC is not avialable, information may be inconsistent \n"
         + "AVAILABLE: The normal state. Policies can be configured. +\n"
-        + "SYNCHRONIZING: The Policy Management Service is synchronizing the view of the NearRT-RIC. Policies cannot be configured. \n"
-        + "CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the NearRT-RIC. Policies cannot be configured.";
+        + "SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured. \n"
+        + "CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.";
 
-    @ApiModelProperty(value = "identity of the NearRT-RIC")
+    @ApiModelProperty(value = "identity of the Near-RT RIC")
     @SerializedName("ric_id")
     @JsonProperty("ric_id")
     public final String ricId;
