@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "752a9c83_7e0954ca",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-21T07:29:31Z",
+      "side": 0,
+      "message": "Is the java version defined in the parent then? \nShould not a component like this be in charge of the used java version?",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 53
+      },
+      "revId": "1bbed1051e4acf7cd621edb8cfafb990bd5a3319",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
