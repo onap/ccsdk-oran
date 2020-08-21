@@ -66,7 +66,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @RestController("PolicyControllerV2")
-@Api(tags = Consts.V2_API_NAME)
+@Api(tags = {Consts.V2_API_NAME}, description = "Policy management")
 public class PolicyController {
 
     public static class RejectionException extends Exception {
@@ -329,10 +329,12 @@ public class PolicyController {
         }
     }
 
+    static final String GET_POLICIES_QUERY_DETAILS =
+        "Returns a list of A1 policies matching given search criteria. <br>" //
+            + "If several query parameters are defined, the policies matching all conditions are returned.";
+
     @GetMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(
-        value = "Query policies",
-        notes = "If several query parameters are defined, the policies matching all conditions are returned")
+    @ApiOperation(value = "Query for existing A1 policies", notes = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "Policies", response = PolicyInfoList.class),
@@ -369,10 +371,10 @@ public class PolicyController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-ids", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query policies, only IDs returned")
+    @ApiOperation(value = "Query policies, only policy identities are returned", notes = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "Policy ids", response = PolicyIdList.class),
+            @ApiResponse(code = 200, message = "Policy identities", response = PolicyIdList.class),
             @ApiResponse(
                 code = 404,
                 message = "NearRT-RIC or type not found",

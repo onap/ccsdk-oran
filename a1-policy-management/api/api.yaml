@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: A1 Policy management service
-  description: 'The O-RAN Non-RT RIC PolicyAgent provides a REST API for management of policices. It provides support for: -Supervision of clients (R-APPs) to eliminate stray policies in case of failure -Consistency monitoring of the SMO view of policies and the actual situation in the RICs -Consistency monitoring of RIC capabilities (policy types) -Policy configuration. This includes: -One REST API towards all RICs in the network -Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc. -Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC
+  description: 'The O-RAN NonRT-RIC PolicyAgent provides a REST API for management of policices. It provides support for: -Supervision of clients (R-APPs) to eliminate stray policies in case of failure -Consistency monitoring of the SMO view of policies and the actual situation in the RICs -Consistency monitoring of RIC capabilities (policy types) -Policy configuration. This includes: -One REST API towards all RICs in the network -Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc. -Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC
     of A1 policices.'
   version: "1.0"
 servers:
@@ -26,7 +26,7 @@ paths:
       parameters:
       - name: ric
         in: query
-        description: The name of the Near-RT RIC to get policies for.
+        description: The name of the NearRT-RIC to get policies for.
         allowEmptyValue: false
         schema:
           type: string
@@ -76,7 +76,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -110,7 +110,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -118,7 +118,7 @@ paths:
         example: '73428e58-1670-4972-8498-e7e8f1003631'
       - name: ric
         in: query
-        description: The name of the Near-RT RIC where the policy will be created.
+        description: The name of the NearRT-RIC where the policy will be created.
         required: true
         allowEmptyValue: false
         schema:
@@ -136,7 +136,7 @@ paths:
         in: query
         description: If the policy is transient or not (boolean defaulted to false).
           A policy is transient if it will be forgotten when the service needs to
-          reconnect to the Near-RT RIC.
+          reconnect to the NearRT-RIC.
         allowEmptyValue: false
         schema:
           type: boolean
@@ -184,7 +184,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -214,7 +214,7 @@ paths:
       parameters:
       - name: ric
         in: query
-        description: The name of the Near-RT RIC to get policies for.
+        description: The name of the NearRT-RIC to get policies for.
         allowEmptyValue: false
         schema:
           type: string
@@ -268,7 +268,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy type to get the definition for.
+        description: The identity of the policy type to get the definition for.
         required: true
         allowEmptyValue: false
         schema:
@@ -326,7 +326,7 @@ paths:
       parameters:
       - name: ric
         in: query
-        description: The name of the Near-RT RIC to get the definitions for.
+        description: The name of the NearRT-RIC to get the definitions for.
         allowEmptyValue: false
         schema:
           type: string
@@ -386,7 +386,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy.
+        description: The identity of the policy.
         required: true
         allowEmptyValue: false
         schema:
@@ -425,7 +425,7 @@ paths:
       parameters:
       - name: ric
         in: query
-        description: The name of the Near-RT RIC to get types for.
+        description: The name of the NearRT-RIC to get types for.
         allowEmptyValue: false
         schema:
           type: string
@@ -461,7 +461,7 @@ paths:
       parameters:
       - name: managedElementId
         in: query
-        description: The ID of the Managed Element
+        description: The identity of the Managed Element
         required: true
         allowEmptyValue: false
         schema:
@@ -487,7 +487,7 @@ paths:
     get:
       tags:
       - RIC Repository
-      summary: Query Near-RT RIC information
+      summary: Query NearRT-RIC information
       operationId: getRicsUsingGET
       parameters:
       - name: policyType
@@ -684,7 +684,7 @@ components:
           description: timestamp, last modification time
         ric:
           type: string
-          description: identity of the target Near-RT RIC
+          description: identity of the target NearRT-RIC
         service:
           type: string
           description: the name of the service owning the policy

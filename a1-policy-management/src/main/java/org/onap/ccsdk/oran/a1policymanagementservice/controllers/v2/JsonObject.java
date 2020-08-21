@@ -25,6 +25,8 @@ import io.swagger.annotations.ApiModel;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "json_object", description = "A JSON object. The schema is defined by the Policy Type")
+@ApiModel(
+    value = "json_object",
+    description = "A JSON object defining the configuration of the policy. The schema is defined by the Policy Type.")
 class JsonObject {
 }

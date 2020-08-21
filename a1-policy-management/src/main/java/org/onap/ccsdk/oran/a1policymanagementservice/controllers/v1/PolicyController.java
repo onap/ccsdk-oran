@@ -208,7 +208,7 @@ public class PolicyController {
     }
 
     @PutMapping(path = "/policy")
-    @ApiOperation(value = "Put a policy", response = String.class)
+    @ApiOperation(value = "Put a policy", response = VoidResponse.class)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 201, message = "Policy created", response = VoidResponse.class), //
@@ -342,9 +342,14 @@ public class PolicyController {
     }
 
     @GetMapping("/policy_ids")
-    @ApiOperation(value = "Query policies, only IDs returned")
+    @ApiOperation(value = "Query policies, only policy identities returned")
     @ApiResponses(
-        value = {@ApiResponse(code = 200, message = "Policy ids", response = String.class, responseContainer = "List"),
+        value = {
+            @ApiResponse(
+                code = 200,
+                message = "Policy identitiess",
+                response = String.class,
+                responseContainer = "List"),
             @ApiResponse(code = 404, message = "NearRT-RIC or type not found", response = String.class)})
     public ResponseEntity<String> getPolicyIds( //
         @ApiParam(name = "type", required = false, value = "The name of the policy type to get policies for.") //

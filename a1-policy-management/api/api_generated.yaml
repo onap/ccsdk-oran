@@ -1,27 +1,22 @@
 swagger: '2.0'
 info:
-  description: |
-    The O-RAN NonRT-RIC PolicyAgent provides a REST API for management of policices. 
-    It provides support for: 
-    -Supervision of clients (R-APPs) to eliminate stray policies in case of failure 
-    -Consistency monitoring of the SMO view of policies and the actual situation in the NearRT-RICs 
-    -Consistency monitoring of NearRT-RIC capabilities (policy types)-Policy configuration. 
-    This includes:-One REST API towards all NearRT-RICs in the network 
-    -Query functions that can find all policies in a NearRT-RIC, all policies owned by a service (R-APP), 
-    all policies of a type etc. 
-    -Maps O1 resources (ManagedElement) as defined in O1 to the controlling NearRT-RIC of A1 policices.
+  description: |-
+    The O-RAN NonRT-RIC Policy Management Service provides a REST API for management of A1 policices. 
+    It provides support for:<ul><li>A1 Policy creation and modification.</li><li>Maintaining a view of supported NearRT-RIC policy types </li><li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> <li>Monitoring and maintaining consistency of the SMO view of A1 policies and the NearRT-RICs </li></ul>
   version: 1.1.0
   title: A1 Policy management service
   contact:
     name: Ericsson Software Technology
     email: nonrtric@est.tech
+  x-api-id: 60f9a0e7-343f-43bf-9194-d8d65688d465
+  x-audience: external-partner
 host: 'localhost:8081'
 basePath: /
 tags:
   - name: A1 Policy Management Version 1.0
     description: Policy Controller
   - name: A1 Policy Management Version 2.0 (in progress)
-    description: Policy Controller
+    description: Policy management
 paths:
   /policies:
     get:
@@ -195,7 +190,7 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 1.0
-      summary: 'Query policies, only IDs returned'
+      summary: 'Query policies, only policy identities returned'
       operationId: getPolicyIdsUsingGET_1
       produces:
         - '*/*'
@@ -220,7 +215,7 @@ paths:
           allowEmptyValue: false
       responses:
         '200':
-          description: Policy ids
+          description: Policy identitiess
           schema:
             type: array
             items:
@@ -569,8 +564,8 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Query policies
-      description: 'If several query parameters are defined, the policies matching all conditions are returned'
+      summary: Query for existing A1 policies
+      description: 'Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.'
       operationId: getPoliciesUsingGET
       produces:
         - application/json
@@ -738,7 +733,8 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: 'Query policies, only IDs returned'
+      summary: 'Query policies, only policy identities are returned'
+      description: 'Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.'
       operationId: getPolicyIdsUsingGET
       produces:
         - application/json
@@ -763,7 +759,7 @@ paths:
           allowEmptyValue: false
       responses:
         '200':
-          description: Policy ids
+          description: Policy identities
           schema:
             $ref: '#/definitions/policy_id_list_v2'
         '401':
@@ -872,7 +868,8 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns info for the NearRT-RIC with the given identity or managing one Mananged Element
+      summary: Returns info for a NearRT-RIC
+      description: Either a NearRT-RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical elemen (such as the ID of CU).
       operationId: getRicUsingGET_1
       produces:
         - application/json
@@ -908,6 +905,7 @@ paths:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
       summary: Query NearRT-RIC information
+      description: The call returns all NearRT-RICs that supports a given policy type identity
       operationId: getRicsUsingGET_1
       produces:
         - application/json
@@ -937,6 +935,7 @@ paths:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
       summary: Returns service information
+      description: Either information about a registerred service with given identity or all registerred services are returned.
       operationId: getServicesUsingGET
       produces:
         - application/json
@@ -965,6 +964,7 @@ paths:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
       summary: Register a service
+      description: 'Registerring a service is needed to:<ul><li>Get callbacks.</li><li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li></ul>'
       operationId: putServiceUsingPUT
       consumes:
         - application/json
@@ -1000,14 +1000,14 @@ paths:
     delete:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Delete a service
+      summary: Unregister a service
       operationId: deleteServiceUsingDELETE
       produces:
         - '*/*'
       parameters:
         - name: service_id
           in: query
-          description: The name of the service
+          description: The idenitity of the service
           required: true
           type: string
           allowEmptyValue: false
@@ -1015,7 +1015,7 @@ paths:
         '200':
           description: Not used
         '204':
-          description: Service deleted
+          description: Service unregisterred
           schema:
             type: object
         '401':
@@ -1104,7 +1104,7 @@ definitions:
   json_object:
     type: object
     title: json_object
-    description: A JSON object. The schema is defined by the Policy Type
+    description: A JSON object defining the configuration of the policy. The schema is defined by the Policy Type.
   policy_id_list_v2:
     type: object
     properties:
@@ -1175,7 +1175,7 @@ definitions:
     properties:
       policy_schemas:
         type: array
-        description: Policy type json schemas
+        description: 'Policy type json schemas. The schema is a json object following http://json-schema.org/draft-07/schema'
         items:
           type: object
     title: policy_schema_list_v2
