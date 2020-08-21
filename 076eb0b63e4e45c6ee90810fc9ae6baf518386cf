@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6741d66_842b109b",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-21T14:33:47Z",
+      "side": 1,
+      "message": "I think you should change this to responseBody. The same applies for other methods.",
+      "revId": "076eb0b63e4e45c6ee90810fc9ae6baf518386cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
