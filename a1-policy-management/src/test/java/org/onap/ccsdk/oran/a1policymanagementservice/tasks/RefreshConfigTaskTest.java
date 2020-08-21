@@ -144,21 +144,6 @@ class RefreshConfigTaskTest {
     }
 
     @Test
-    void startWithStubbedRefreshReturnError_thenErrorAndTerminationLogged() {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, null, null, false);
-        String errorMessage = "Error";
-        doReturn(Flux.error(new Exception(errorMessage))).when(refreshTaskUnderTest).createRefreshTask();
-
-        final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
-
-        refreshTaskUnderTest.start();
-
-        ILoggingEvent event = logAppender.list.get(0);
-        assertThat(event.getFormattedMessage())
-            .isEqualTo("Configuration refresh terminated due to exception java.lang.Exception: " + errorMessage);
-    }
-
-    @Test
     void stop_thenTaskIsDisposed() throws Exception {
         refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, null, null, false);
         refreshTaskUnderTest.systemEnvironment = new Properties();
@@ -202,7 +187,8 @@ class RefreshConfigTaskTest {
         refreshTaskUnderTest.systemEnvironment = new Properties();
 
         // When
-        doReturn(getIncorrectJson()).when(refreshTaskUnderTest).createInputStream(any());
+        final String JUNK_JSON = "{\"junk }";
+        doReturn(getJsonSteam(JUNK_JSON)).when(refreshTaskUnderTest).createInputStream(any());
         doReturn("fileName").when(appConfig).getLocalConfigurationFilePath();
 
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
@@ -269,7 +255,7 @@ class RefreshConfigTaskTest {
         doReturn(Mono.just(props)).when(refreshTaskUnderTest).getEnvironment(any());
         doReturn(Mono.just(cbsClient)).when(refreshTaskUnderTest).createCbsClient(props);
 
-        JsonObject configAsJson = getJsonRootObject(true);
+        JsonObject configAsJson = getJsonRootObject(getCorrectJson());
         String newBaseUrl = "newBaseUrl";
         modifyTheRicConfiguration(configAsJson, newBaseUrl);
         when(cbsClient.get(any())).thenReturn(Mono.just(configAsJson));
@@ -309,8 +295,8 @@ class RefreshConfigTaskTest {
         doReturn(Mono.just(props)).when(refreshTaskUnderTest).getEnvironment(any());
         doReturn(Mono.just(cbsClient)).when(refreshTaskUnderTest).createCbsClient(props);
 
-        JsonObject configAsJson = getJsonRootObject(false);
-        when(cbsClient.get(any())).thenReturn(Mono.just(configAsJson));
+        JsonObject emptyJsonObject = new JsonObject();
+        when(cbsClient.get(any())).thenReturn(Mono.just(emptyJsonObject));
 
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
 
@@ -368,9 +354,9 @@ class RefreshConfigTaskTest {
                 .addProperty("baseUrl", newBaseUrl);
     }
 
-    private JsonObject getJsonRootObject(boolean valid) throws JsonIOException, JsonSyntaxException, IOException {
-        JsonObject rootObject = JsonParser
-            .parseReader(new InputStreamReader(valid ? getCorrectJson() : getIncorrectJson())).getAsJsonObject();
+    private JsonObject getJsonRootObject(InputStream inStream)
+        throws JsonIOException, JsonSyntaxException, IOException {
+        JsonObject rootObject = JsonParser.parseReader(new InputStreamReader(inStream)).getAsJsonObject();
         return rootObject;
     }
 
@@ -380,8 +366,7 @@ class RefreshConfigTaskTest {
         return new ByteArrayInputStream((string.getBytes(StandardCharsets.UTF_8)));
     }
 
-    private static InputStream getIncorrectJson() {
-        String string = "{}"; //
-        return new ByteArrayInputStream((string.getBytes(StandardCharsets.UTF_8)));
+    private static InputStream getJsonSteam(String json) {
+        return new ByteArrayInputStream((json.getBytes(StandardCharsets.UTF_8)));
     }
 }

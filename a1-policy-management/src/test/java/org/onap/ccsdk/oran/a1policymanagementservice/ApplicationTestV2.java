@@ -255,7 +255,7 @@ class ApplicationTestV2 {
         Policy policy2 = addPolicy("policyId2", "typeName", "service", ric1Name);
         Ric ric2 = addRic("ric2");
 
-        getA1Client(ric1Name).putPolicy(policy2); // put it in the RIC (NearRT-RIC)
+        getA1Client(ric1Name).putPolicy(policy2); // put it in the RIC (Near-RT RIC)
         policies.remove(policy2); // Remove it from the repo -> should be deleted in the RIC
 
         String policyId = "policyId";

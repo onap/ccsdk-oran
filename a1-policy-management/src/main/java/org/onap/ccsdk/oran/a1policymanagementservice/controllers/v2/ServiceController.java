@@ -68,8 +68,11 @@ public class ServiceController {
         this.policies = policies;
     }
 
+    private static final String GET_SERVICE_DETAILS =
+        "Either information about a registerred service with given identity or all registerred services are returned.";
+
     @GetMapping(path = Consts.V2_API_ROOT + "/services", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns service information")
+    @ApiOperation(value = "Returns service information", notes = GET_SERVICE_DETAILS)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "OK", response = ServiceStatusList.class), //
@@ -78,7 +81,7 @@ public class ServiceController {
         @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false, value = "The identity of the service") //
         @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String name) {
         if (name != null && this.services.get(name) == null) {
-            return ErrorResponse.create("Service type not found", HttpStatus.NOT_FOUND);
+            return ErrorResponse.create("Service not found", HttpStatus.NOT_FOUND);
         }
 
         Collection<ServiceStatus> servicesStatus = new ArrayList<>();
@@ -110,7 +113,14 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Register a service")
+    private static final String REGISTER_SERVICE_DETAILS = "Registerring a service is needed to:" //
+        + "<ul>" //
+        + "<li>Get callbacks.</li>" //
+        + "<li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li>"//
+        + "</ul>" //
+    ;
+
+    @ApiOperation(value = "Register a service", notes = REGISTER_SERVICE_DETAILS)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "Service updated"),
@@ -132,15 +142,15 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Delete a service")
+    @ApiOperation(value = "Unregister a service")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 204, message = "Service deleted"),
+            @ApiResponse(code = 204, message = "Service unregisterred"),
             @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
             @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
     @DeleteMapping(Consts.V2_API_ROOT + "/services")
     public ResponseEntity<Object> deleteService(//
-        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The name of the service") //
+        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The idenitity of the service") //
         @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
         try {
             Service service = removeService(serviceName);
