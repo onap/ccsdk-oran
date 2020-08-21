@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("RicRepositoryControllerV2")
-@Api(tags = Consts.V2_API_NAME)
+@Api(tags = {Consts.V2_API_NAME})
 public class RicRepositoryController {
 
     @Autowired
@@ -59,26 +59,31 @@ public class RicRepositoryController {
         .serializeNulls() //
         .create(); //
 
+    private static final String GET_RIC_BRIEF = "Returns info for a Near-RT RIC";
+    private static final String GET_RIC_DETAILS =
+        "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>" //
+            + "The intention with Mananged Element identity is the ID used in O1 for accessing the traffical elemen (such as the ID of CU).";
+
     /**
      * Example: http://localhost:8081/v2/ric?managed_element_id=kista_1
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/ric", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns info for the NearRT-RIC with the given identity or managing one Mananged Element")
+    @ApiOperation(value = GET_RIC_BRIEF, notes = GET_RIC_DETAILS)
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "NearRT-RIC is found", response = RicInfo.class), //
-            @ApiResponse(code = 404, message = "NearRT-RIC is not found", response = ErrorResponse.ErrorInfo.class) //
+            @ApiResponse(code = 200, message = "Near-RT RIC is found", response = RicInfo.class), //
+            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class) //
         })
     public ResponseEntity<Object> getRic( //
         @ApiParam(
             name = Consts.MANAGED_ELEMENT_ID_PARAM,
             required = false,
-            value = "The identity of a Managed Element. If given, the NearRT-RIC managing the ME is returned.") //
+            value = "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.") //
         @RequestParam(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false) String managedElementId,
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = false,
-            value = "The identity of a NearRT-RIC to get information for.") //
+            value = "The identity of a Near-RT RIC to get information for.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) {
         try {
             if (managedElementId != null && ricId != null) {
@@ -88,7 +93,7 @@ public class RicRepositoryController {
                 if (ric.isPresent()) {
                     return new ResponseEntity<>(gson.toJson(toRicInfo(ric.get())), HttpStatus.OK);
                 } else {
-                    return ErrorResponse.create("No NearRT-RIC managing the ME is found", HttpStatus.NOT_FOUND);
+                    return ErrorResponse.create("No Near-RT RIC managing the ME is found", HttpStatus.NOT_FOUND);
                 }
             } else if (ricId != null) {
                 RicInfo info = toRicInfo(this.rics.getRic(ricId));
@@ -101,11 +106,14 @@ public class RicRepositoryController {
         }
     }
 
+    static final String QUERY_RIC_INFO_DETAILS =
+        "The call returns all Near-RT RICs that supports a given policy type identity";
+
     /**
      * @return a Json array of all RIC data Example: http://localhost:8081/v2/ric
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query NearRT-RIC information")
+    @ApiOperation(value = "Query Near-RT RIC information", notes = QUERY_RIC_INFO_DETAILS)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "OK", response = RicInfoList.class), //
@@ -114,7 +122,7 @@ public class RicRepositoryController {
         @ApiParam(
             name = Consts.POLICY_TYPE_ID_PARAM,
             required = false,
-            value = "The identity of a policy type. If given, all NearRT-RICs supporteing the policy type are returned") //
+            value = "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned") //
         @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType) {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
             return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
@@ -131,16 +139,18 @@ public class RicRepositoryController {
     }
 
     private RicInfo.RicState toRicState(Ric.RicState state) {
-        if (state == Ric.RicState.AVAILABLE) {
-            return RicInfo.RicState.AVAILABLE;
-        } else if (state == Ric.RicState.CONSISTENCY_CHECK) {
-            return RicInfo.RicState.CONSISTENCY_CHECK;
-        } else if (state == Ric.RicState.SYNCHRONIZING) {
-            return RicInfo.RicState.SYNCHRONIZING;
-        } else if (state == Ric.RicState.UNAVAILABLE) {
-            return RicInfo.RicState.UNAVAILABLE;
+        switch (state) {
+            case AVAILABLE:
+                return RicInfo.RicState.AVAILABLE;
+            case CONSISTENCY_CHECK:
+                return RicInfo.RicState.CONSISTENCY_CHECK;
+            case SYNCHRONIZING:
+                return RicInfo.RicState.SYNCHRONIZING;
+            case UNAVAILABLE:
+                return RicInfo.RicState.UNAVAILABLE;
+            default:
+                return RicInfo.RicState.UNAVAILABLE;
         }
-        return RicInfo.RicState.UNAVAILABLE;
     }
 
     private RicInfo toRicInfo(Ric ric) {

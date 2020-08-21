@@ -30,7 +30,7 @@ import org.immutables.gson.Gson;
 @Gson.TypeAdapters
 @ApiModel(value = "ric_info_v1")
 class RicInfo {
-    @ApiModelProperty(value = "identity of the NearRT-RIC")
+    @ApiModelProperty(value = "identity of the Near-RT RIC")
     public final String ricName;
 
     @ApiModelProperty(value = "O1 identities for managed entities")

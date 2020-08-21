@@ -64,8 +64,8 @@ public class RicRepositoryController {
     @ApiOperation(value = "Returns the name of a RIC managing one Mananged Element")
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "NearRT-RIC is found", response = String.class), //
-            @ApiResponse(code = 404, message = "NearRT-RIC is not found", response = String.class) //
+            @ApiResponse(code = 200, message = "Near-RT RIC is found", response = String.class), //
+            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = String.class) //
         })
     public ResponseEntity<String> getRic( //
         @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
@@ -83,7 +83,7 @@ public class RicRepositoryController {
      * @return a Json array of all RIC data Example: http://localhost:8081/ric
      */
     @GetMapping("/rics")
-    @ApiOperation(value = "Query NearRT-RIC information")
+    @ApiOperation(value = "Query Near-RT RIC information")
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "OK", response = RicInfo.class, responseContainer = "List"), //
