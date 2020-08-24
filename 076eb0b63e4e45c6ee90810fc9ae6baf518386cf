@@ -52,6 +52,24 @@
       "revId": "076eb0b63e4e45c6ee90810fc9ae6baf518386cf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f37b0c40_9a648583",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2020-08-24T14:05:18Z",
+      "side": 1,
+      "message": "I thought you meant for the property name. No issues. I fixed both now.",
+      "parentUuid": "62637f5b_a9749714",
+      "revId": "076eb0b63e4e45c6ee90810fc9ae6baf518386cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
