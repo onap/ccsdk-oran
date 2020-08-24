@@ -500,12 +500,12 @@ class ApplicationTestV2 {
         url = "/policy-schemas?ric_id=ric1&policytype_id=type1";
         rsp = restClient().get(url).block();
         PolicySchemaList list = gson.fromJson(rsp, PolicySchemaList.class);
-        assertThat(list.schemas.size()).isEqualTo(1);
+        assertThat(list.schemas).hasSize(1);
 
         url = "/policy-schemas?ric_id=ric1&policytype_id=type2";
         rsp = restClient().get(url).block();
         list = gson.fromJson(rsp, PolicySchemaList.class);
-        assertThat(list.schemas.size()).isEqualTo(0);
+        assertThat(list.schemas).isEmpty();
 
         // Get schema for non existing RIC
         url = "/policy-schemas?ric_id=ric1XXX";

@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -95,12 +96,10 @@ class SdncOscA1ClientTest {
 
     @Test
     void createClientWithWrongProtocol_thenErrorIsThrown() {
-        try {
-            new SdncOscA1Client(A1ProtocolType.STD_V1_1, null, null, new AsyncRestClient("", null));
-            fail("Should have thrown exception.");
-        } catch (IllegalArgumentException e) {
-            return;
-        }
+        AsyncRestClient asyncRestClient = new AsyncRestClient("", null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SdncOscA1Client(A1ProtocolType.STD_V1_1, null, null, asyncRestClient);
+        });
     }
 
     @Test
