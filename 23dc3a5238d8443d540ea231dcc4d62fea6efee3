@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68df4213_c8f10165",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-08-24T14:10:18Z",
+      "side": 1,
+      "message": "This was just done in Henrik\u0027s commit:\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/111630",
+      "revId": "23dc3a5238d8443d540ea231dcc4d62fea6efee3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
