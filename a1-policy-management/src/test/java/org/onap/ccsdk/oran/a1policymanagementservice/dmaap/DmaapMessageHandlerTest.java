@@ -22,9 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import static ch.qos.logback.classic.Level.WARN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -66,19 +63,18 @@ class DmaapMessageHandlerTest {
     private final AsyncRestClient dmaapClient = mock(AsyncRestClient.class);
     private final AsyncRestClient pmsClient = mock(AsyncRestClient.class);
     private DmaapMessageHandler testedObject;
-    private static Gson gson = new GsonBuilder() //
-        .create(); //
+    private Gson gson = new GsonBuilder().create(); //
 
     @BeforeEach
     private void setUp() throws Exception {
         testedObject = spy(new DmaapMessageHandler(dmaapClient, pmsClient));
     }
 
-    static JsonObject payloadAsJson() {
+    JsonObject payloadAsJson() {
         return gson.fromJson(payloadAsString(), JsonObject.class);
     }
 
-    static String payloadAsString() {
+    String payloadAsString() {
         return "{\"param\":\"value\"}";
     }
 
@@ -99,10 +95,6 @@ class DmaapMessageHandlerTest {
             .build();
     }
 
-    private String dmaapInputMessage(Operation operation) {
-        return gson.toJson(dmaapRequestMessage(operation));
-    }
-
     private Mono<ResponseEntity<String>> okResponse() {
         ResponseEntity<String> entity = new ResponseEntity<>("OK", HttpStatus.OK);
         return Mono.just(entity);
@@ -114,39 +106,11 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
-    void testMessageParsing() {
-        String message = dmaapInputMessage(Operation.DELETE);
-        logger.info(message);
-        DmaapRequestMessage parsedMessage = gson.fromJson(message, ImmutableDmaapRequestMessage.class);
-        assertNotNull(parsedMessage);
-        assertFalse(parsedMessage.payload().isPresent());
-
-        message = dmaapInputMessage(Operation.PUT);
-        logger.info(message);
-        parsedMessage = gson.fromJson(message, ImmutableDmaapRequestMessage.class);
-        assertNotNull(parsedMessage);
-        assertTrue(parsedMessage.payload().isPresent());
-    }
-
-    @Test
-    void unparseableMessage_thenWarning() {
-        final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
-
-        String msg = "bad message";
-        testedObject.handleDmaapMsg(msg);
-
-        assertThat(logAppender.list.get(0).getFormattedMessage()).startsWith(
-            "handleDmaapMsg failure org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: Received unparsable "
-                + "message from DMAAP: \"" + msg + "\", reason: ");
-    }
-
-    @Test
     void successfulDelete() throws IOException {
         doReturn(okResponse()).when(pmsClient).deleteForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
-        String message = dmaapInputMessage(Operation.DELETE);
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.DELETE);
 
         StepVerifier //
             .create(testedObject.createTask(message)) //
@@ -167,8 +131,9 @@ class DmaapMessageHandlerTest {
         doReturn(okResponse()).when(pmsClient).getForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-            .create(testedObject.createTask(dmaapInputMessage(Operation.GET))) //
+            .create(testedObject.createTask(message)) //
             .expectSubscription() //
             .expectNext("OK") //
             .verifyComplete(); //
@@ -188,8 +153,9 @@ class DmaapMessageHandlerTest {
         doReturn(Mono.error(webClientResponseException)).when(pmsClient).getForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-            .create(testedObject.createTask(dmaapInputMessage(Operation.GET))) //
+            .create(testedObject.createTask(message)) //
             .expectSubscription() //
             .verifyComplete(); //
 
@@ -205,8 +171,9 @@ class DmaapMessageHandlerTest {
         doReturn(okResponse()).when(pmsClient).putForEntity(anyString(), anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.PUT);
         StepVerifier //
-            .create(testedObject.createTask(dmaapInputMessage(Operation.PUT))) //
+            .create(testedObject.createTask(message)) //
             .expectSubscription() //
             .expectNext("OK") //
             .verifyComplete(); //
@@ -223,8 +190,9 @@ class DmaapMessageHandlerTest {
         doReturn(okResponse()).when(pmsClient).postForEntity(anyString(), anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.POST);
         StepVerifier //
-            .create(testedObject.createTask(dmaapInputMessage(Operation.POST))) //
+            .create(testedObject.createTask(message)) //
             .expectSubscription() //
             .expectNext("OK") //
             .verifyComplete(); //
@@ -237,12 +205,13 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
-    void exceptionWhenCallingPms_thenNotFoundResponse() throws IOException {
+    void exceptionWhenCallingPms_thenErrorResponse() throws IOException {
 
         doReturn(notOkResponse()).when(pmsClient).putForEntity(anyString(), anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
-        testedObject.createTask(dmaapInputMessage(Operation.PUT)).block();
+        DmaapRequestMessage message = dmaapRequestMessage(Operation.PUT);
+        testedObject.createTask(message).block();
 
         verify(pmsClient).putForEntity(anyString(), anyString());
         verifyNoMoreInteractions(pmsClient);
@@ -257,24 +226,18 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
-    void unsupportedOperationInMessage_thenNotFoundResponseWithNotImplementedOperation() throws Exception {
-        String message = dmaapInputMessage(Operation.PUT).toString();
-        String badOperation = "BAD";
-        message = message.replace(Operation.PUT.toString(), badOperation);
-
-        testedObject.handleDmaapMsg(message);
-
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(dmaapClient).post(anyString(), captor.capture());
-        String actualMessage = captor.getValue();
-        assertThat(actualMessage).contains("Not implemented operation") //
-            .contains("BAD_REQUEST");
-    }
-
-    @Test
     void putWithoutPayload_thenNotFoundResponseWithWarning() throws Exception {
-        String message = dmaapInputMessage(Operation.PUT).toString();
-        message = message.replace("payload", "junk");
+        DmaapRequestMessage message = ImmutableDmaapRequestMessage.builder() //
+            .apiVersion("apiVersion") //
+            .correlationId("correlationId") //
+            .operation(DmaapRequestMessage.Operation.PUT) //
+            .originatorId("originatorId") //
+            .payload(Optional.empty()) //
+            .requestId("requestId") //
+            .target("target") //
+            .timestamp("timestamp") //
+            .url(URL) //
+            .build();
 
         final ListAppender<ILoggingEvent> logAppender =
             LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
@@ -284,4 +247,5 @@ class DmaapMessageHandlerTest {
         assertThat(logAppender.list.get(0).getFormattedMessage())
             .startsWith("Expected payload in message from DMAAP: ");
     }
+
 }

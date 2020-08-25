@@ -21,13 +21,18 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import com.google.common.collect.Iterables;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapterFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
@@ -36,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -63,12 +69,17 @@ public class DmaapMessageConsumer {
 
     private DmaapMessageHandler dmaapMessageHandler = null;
 
+    private final Gson gson;
+
     @Value("${server.http-port}")
     private int localServerHttpPort;
 
     @Autowired
     public DmaapMessageConsumer(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        ServiceLoader.load(TypeAdapterFactory.class).forEach(gsonBuilder::registerTypeAdapterFactory);
+        gson = gsonBuilder.create();
     }
 
     /**
@@ -87,10 +98,10 @@ public class DmaapMessageConsumer {
         while (!isStopped()) {
             try {
                 if (isDmaapConfigured()) {
-                    Iterable<String> dmaapMsgs = fetchAllMessages();
+                    Iterable<DmaapRequestMessage> dmaapMsgs = fetchAllMessages();
                     if (dmaapMsgs != null && Iterables.size(dmaapMsgs) > 0) {
                         logger.debug("Fetched all the messages from DMAAP and will start to process the messages");
-                        for (String msg : dmaapMsgs) {
+                        for (DmaapRequestMessage msg : dmaapMsgs) {
                             processMsg(msg);
                         }
                     }
@@ -115,21 +126,47 @@ public class DmaapMessageConsumer {
             && !consumerTopicUrl.isEmpty());
     }
 
-    private static List<String> parseMessages(String jsonString) {
-        JsonArray arrayOfMessages = JsonParser.parseString(jsonString).getAsJsonArray();
-        List<String> result = new ArrayList<>();
-        for (JsonElement element : arrayOfMessages) {
-            if (element.isJsonPrimitive()) {
-                result.add(element.getAsString());
+    private <T> List<T> parseList(String jsonString, Class<T> clazz) {
+        List<T> result = new ArrayList<>();
+        JsonArray jsonArr = JsonParser.parseString(jsonString).getAsJsonArray();
+        for (JsonElement jsonElement : jsonArr) {
+            // The element can either be a JsonObject or a JsonString
+            if (jsonElement.isJsonPrimitive()) {
+                T json = gson.fromJson(jsonElement.getAsString(), clazz);
+                result.add(json);
             } else {
-                String messageAsString = element.toString();
-                result.add(messageAsString);
+                T json = gson.fromJson(jsonElement.toString(), clazz);
+                result.add(json);
             }
         }
         return result;
     }
 
-    protected Iterable<String> fetchAllMessages() throws ServiceException {
+    private void sendErrorResponse(String response) {
+        DmaapRequestMessage fakeRequest = ImmutableDmaapRequestMessage.builder() //
+            .apiVersion("") //
+            .correlationId("") //
+            .operation(DmaapRequestMessage.Operation.PUT) //
+            .originatorId("") //
+            .payload(Optional.empty()) //
+            .requestId("") //
+            .target("") //
+            .timestamp("") //
+            .url("URL") //
+            .build();
+        getDmaapMessageHandler().sendDmaapResponse(response, fakeRequest, HttpStatus.BAD_REQUEST).block();
+    }
+
+    List<DmaapRequestMessage> parseMessages(String jsonString) throws ServiceException {
+        try {
+            return parseList(jsonString, DmaapRequestMessage.class);
+        } catch (Exception e) {
+            sendErrorResponse("Not parsable request received " + e.toString());
+            throw new ServiceException("Could not parse incomming request. Reason :" + e.getMessage());
+        }
+    }
+
+    protected Iterable<DmaapRequestMessage> fetchAllMessages() throws ServiceException {
         String topicUrl = this.applicationConfig.getDmaapConsumerTopicUrl();
         AsyncRestClient consumer = getMessageRouterConsumer();
         ResponseEntity<String> response = consumer.getForEntity(topicUrl).block();
@@ -142,7 +179,7 @@ public class DmaapMessageConsumer {
         }
     }
 
-    private void processMsg(String msg) {
+    private void processMsg(DmaapRequestMessage msg) {
         logger.debug("Message Reveived from DMAAP : {}", msg);
         getDmaapMessageHandler().handleDmaapMsg(msg);
     }
