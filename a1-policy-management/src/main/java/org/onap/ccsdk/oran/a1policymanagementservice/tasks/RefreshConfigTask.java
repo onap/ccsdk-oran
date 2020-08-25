@@ -20,11 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapterFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -34,7 +32,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.Duration;
 import java.util.Properties;
-import java.util.ServiceLoader;
 
 import javax.validation.constraints.NotNull;
 
@@ -238,9 +235,6 @@ public class RefreshConfigTask {
         if (!fileExists(filepath)) {
             return Flux.empty();
         }
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        ServiceLoader.load(TypeAdapterFactory.class).forEach(gsonBuilder::registerTypeAdapterFactory);
 
         try (InputStream inputStream = createInputStream(filepath)) {
             JsonObject rootObject = getJsonElement(inputStream).getAsJsonObject();
