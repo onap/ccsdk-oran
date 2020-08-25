@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38462fd9_1ae4feba",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-25T07:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65d5e042_c4f360a2",
+      "range": {
+        "startLine": 65,
+        "startChar": 109,
+        "endLine": 65,
+        "endChar": 116
+      },
+      "revId": "c5e90e179d128d23fd60dc93a90939d15eb2147e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e12b1ba1_a8fb23ba",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-24T15:06:23Z",
       "side": 1,
       "message": "registered",
+      "range": {
+        "startLine": 72,
+        "startChar": 83,
+        "endLine": 72,
+        "endChar": 95
+      },
+      "revId": "c5e90e179d128d23fd60dc93a90939d15eb2147e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e344ff5_16c78ba5",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-25T07:19:51Z",
+      "side": 1,
+      "message": "Done. There were actually 9 places with that incorrect spelling.",
+      "parentUuid": "e12b1ba1_a8fb23ba",
       "range": {
         "startLine": 72,
         "startChar": 83,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da712992_20021749",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-25T07:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbb77268_d81c0f4c",
+      "range": {
+        "startLine": 116,
+        "startChar": 60,
+        "endLine": 116,
+        "endChar": 73
+      },
+      "revId": "c5e90e179d128d23fd60dc93a90939d15eb2147e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd8c85b9_f84a3eff",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "c5e90e179d128d23fd60dc93a90939d15eb2147e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d82eabad_ecd4bfa2",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-08-25T07:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd8c85b9_f84a3eff",
+      "range": {
+        "startLine": 148,
+        "startChar": 56,
+        "endLine": 148,
+        "endChar": 69
+      },
+      "revId": "c5e90e179d128d23fd60dc93a90939d15eb2147e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
