@@ -63,6 +63,7 @@
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <version.dmaap>1.1.11</version.dmaap>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+        <surefire-maven-plugin.version>2.22.2</surefire-maven-plugin.version><!-- Version must be this for tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <exec.skip>true</exec.skip>
     </properties>
@@ -243,6 +244,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-maven-plugin.version}</version>
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
