@@ -66,7 +66,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @RestController("PolicyControllerV2")
-@Api(tags = Consts.V2_API_NAME)
+@Api(tags = {Consts.V2_API_NAME}, description = "Policy management")
 public class PolicyController {
 
     public static class RejectionException extends Exception {
@@ -102,12 +102,12 @@ public class PolicyController {
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "Policy schemas", response = PolicySchemaList.class), //
-            @ApiResponse(code = 404, message = "NearRT-RIC is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicySchemas( //
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = false,
-            value = "The identity of the NearRT-RIC to get the definitions for.") //
+            value = "The identity of the Near-RT RIC to get the definitions for.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId,
         @ApiParam(
             name = Consts.POLICY_TYPE_ID_PARAM,
@@ -141,12 +141,12 @@ public class PolicyController {
     @ApiOperation(value = "Query policy type identities", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(
         value = {@ApiResponse(code = 200, message = "Policy type IDs", response = PolicyTypeIdList.class),
-            @ApiResponse(code = 404, message = "NearRT-RIC is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicyTypes( //
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = false,
-            value = "The identity of the NearRT-RIC to get types for.") //
+            value = "The identity of the Near-RT RIC to get types for.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) {
         if (ricId == null) {
             Collection<PolicyType> types = this.policyTypes.getAll();
@@ -188,7 +188,7 @@ public class PolicyController {
             @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class),
             @ApiResponse(
                 code = 423,
-                message = "NearRT-RIC is not operational",
+                message = "Near-RT RIC is not operational",
                 response = ErrorResponse.ErrorInfo.class)})
     public Mono<ResponseEntity<Object>> deletePolicy( //
         @ApiParam(name = Consts.POLICY_ID_PARAM, required = true, value = "The identity of the policy instance.") //
@@ -219,11 +219,11 @@ public class PolicyController {
             @ApiResponse(code = 200, message = "Policy updated", response = VoidResponse.class), //
             @ApiResponse(
                 code = 423,
-                message = "NearRT-RIC is not operational",
+                message = "Near-RT RIC is not operational",
                 response = ErrorResponse.ErrorInfo.class), //
             @ApiResponse(
                 code = 404,
-                message = "NearRT-RIC or policy type is not found",
+                message = "Near-RT RIC or policy type is not found",
                 response = ErrorResponse.ErrorInfo.class) //
         })
     public Mono<ResponseEntity<Object>> putPolicy( //
@@ -234,7 +234,7 @@ public class PolicyController {
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = true,
-            value = "The identity of the NearRT-RIC where the policy will be " + //
+            value = "The identity of the Near-RT RIC where the policy will be " + //
                 "created.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = true) String ricId, //
         @ApiParam(
@@ -246,7 +246,7 @@ public class PolicyController {
             name = Consts.TRANSIENT_PARAM,
             required = false,
             value = "If the policy is transient or not (boolean " + //
-                "defaulted to false). A policy is transient if it will not be recreated in the NearRT-RIC " + //
+                "defaulted to false). A policy is transient if it will not be recreated in the Near-RT RIC " + //
                 "when it has been lost (for instance due to a restart)") //
         @RequestParam(name = Consts.TRANSIENT_PARAM, required = false, defaultValue = "false") boolean isTransient, //
         @RequestBody Object jsonBody) {
@@ -256,7 +256,7 @@ public class PolicyController {
         PolicyType type = policyTypes.get(policyTypeId);
         keepServiceAlive(serviceId);
         if (ric == null || type == null) {
-            return ErrorResponse.createMono("NearRT-RIC or policy type not found", HttpStatus.NOT_FOUND);
+            return ErrorResponse.createMono("Near-RT RIC or policy type not found", HttpStatus.NOT_FOUND);
         }
         Policy policy = ImmutablePolicy.builder() //
             .id(instanceId) //
@@ -329,16 +329,18 @@ public class PolicyController {
         }
     }
 
+    static final String GET_POLICIES_QUERY_DETAILS =
+        "Returns a list of A1 policies matching given search criteria. <br>" //
+            + "If several query parameters are defined, the policies matching all conditions are returned.";
+
     @GetMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(
-        value = "Query policies",
-        notes = "If several query parameters are defined, the policies matching all conditions are returned")
+    @ApiOperation(value = "Query for existing A1 policies", notes = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(
         value = { //
             @ApiResponse(code = 200, message = "Policies", response = PolicyInfoList.class),
             @ApiResponse(
                 code = 404,
-                message = "NearRT-RIC, policy type or service not found",
+                message = "Near-RT RIC, policy type or service not found",
                 response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicies( //
         @ApiParam(
@@ -349,7 +351,7 @@ public class PolicyController {
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = false,
-            value = "The identity of the NearRT-RIC to get policies for.") //
+            value = "The identity of the Near-RT RIC to get policies for.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ric, //
         @ApiParam(
             name = Consts.SERVICE_ID_PARAM,
@@ -361,7 +363,7 @@ public class PolicyController {
             return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
         }
         if ((ric != null && this.rics.get(ric) == null)) {
-            return ErrorResponse.create("NearRT-RIC not found", HttpStatus.NOT_FOUND);
+            return ErrorResponse.create("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
         String filteredPolicies = policiesToJson(filter(type, ric, service));
@@ -369,13 +371,13 @@ public class PolicyController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-ids", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query policies, only IDs returned")
+    @ApiOperation(value = "Query policies, only policy identities are returned", notes = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(
         value = { //
-            @ApiResponse(code = 200, message = "Policy ids", response = PolicyIdList.class),
+            @ApiResponse(code = 200, message = "Policy identities", response = PolicyIdList.class),
             @ApiResponse(
                 code = 404,
-                message = "NearRT-RIC or type not found",
+                message = "Near-RT RIC or type not found",
                 response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicyIds( //
         @ApiParam(
@@ -386,7 +388,7 @@ public class PolicyController {
         @ApiParam(
             name = Consts.RIC_ID_PARAM,
             required = false,
-            value = "The identity of the NearRT-RIC to get policies for.") //
+            value = "The identity of the Near-RT RIC to get policies for.") //
         @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId, //
         @ApiParam(
             name = Consts.SERVICE_ID_PARAM,
@@ -398,7 +400,7 @@ public class PolicyController {
             return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
         }
         if ((ricId != null && this.rics.get(ricId) == null)) {
-            return ErrorResponse.create("NearRT-RIC not found", HttpStatus.NOT_FOUND);
+            return ErrorResponse.create("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
         String policyIdsJson = toPolicyIdsJson(filter(policyTypeId, ricId, serviceId));

@@ -44,7 +44,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Regularly checks the existing rics towards the local repository to keep it
- * consistent. When the policy types or instances in the NearRT-RIC is not
+ * consistent. When the policy types or instances in the Near-RT RIC is not
  * consistent, a synchronization is performed.
  */
 @Component

@@ -76,7 +76,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -110,7 +110,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -184,7 +184,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy instance.
+        description: The identity of the policy instance.
         required: true
         allowEmptyValue: false
         schema:
@@ -268,7 +268,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy type to get the definition for.
+        description: The identity of the policy type to get the definition for.
         required: true
         allowEmptyValue: false
         schema:
@@ -386,7 +386,7 @@ paths:
       parameters:
       - name: id
         in: query
-        description: The ID of the policy.
+        description: The identity of the policy.
         required: true
         allowEmptyValue: false
         schema:
@@ -461,7 +461,7 @@ paths:
       parameters:
       - name: managedElementId
         in: query
-        description: The ID of the Managed Element
+        description: The identity of the Managed Element
         required: true
         allowEmptyValue: false
         schema:

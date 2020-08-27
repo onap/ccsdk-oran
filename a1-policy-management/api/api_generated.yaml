@@ -1,27 +1,22 @@
 swagger: '2.0'
 info:
-  description: |
-    The O-RAN NonRT-RIC PolicyAgent provides a REST API for management of policices. 
-    It provides support for: 
-    -Supervision of clients (R-APPs) to eliminate stray policies in case of failure 
-    -Consistency monitoring of the SMO view of policies and the actual situation in the NearRT-RICs 
-    -Consistency monitoring of NearRT-RIC capabilities (policy types)-Policy configuration. 
-    This includes:-One REST API towards all NearRT-RICs in the network 
-    -Query functions that can find all policies in a NearRT-RIC, all policies owned by a service (R-APP), 
-    all policies of a type etc. 
-    -Maps O1 resources (ManagedElement) as defined in O1 to the controlling NearRT-RIC of A1 policices.
+  description: |-
+    The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. 
+    It provides support for:<ul><li>A1 Policy creation and modification.</li><li>Maintaining a view of supported Near-RT RIC policy types </li><li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> <li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs </li></ul>
   version: 1.1.0
   title: A1 Policy management service
   contact:
     name: Ericsson Software Technology
     email: nonrtric@est.tech
+  x-api-id: 60f9a0e7-343f-43bf-9194-d8d65688d465
+  x-audience: external-partner
 host: 'localhost:8081'
 basePath: /
 tags:
   - name: A1 Policy Management Version 1.0
     description: Policy Controller
   - name: A1 Policy Management Version 2.0 (in progress)
-    description: Policy Controller
+    description: Policy management
 paths:
   /policies:
     get:
@@ -34,7 +29,7 @@ paths:
       parameters:
         - name: ric
           in: query
-          description: The name of the NearRT-RIC to get policies for.
+          description: The name of the Near-RT RIC to get policies for.
           required: false
           type: string
           allowEmptyValue: false
@@ -62,7 +57,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC or type not found
+          description: Near-RT RIC or type not found
           schema:
             type: string
       deprecated: false
@@ -117,7 +112,7 @@ paths:
             type: object
         - name: ric
           in: query
-          description: The name of the NearRT-RIC where the policy will be created.
+          description: The name of the Near-RT RIC where the policy will be created.
           required: true
           type: string
           allowEmptyValue: false
@@ -129,7 +124,7 @@ paths:
           allowEmptyValue: false
         - name: transient
           in: query
-          description: If the policy is transient or not (boolean defaulted to false). A policy is transient if it will be forgotten when the service needs to reconnect to the NearRT-RIC.
+          description: If the policy is transient or not (boolean defaulted to false). A policy is transient if it will be forgotten when the service needs to reconnect to the Near-RT RIC.
           required: false
           type: boolean
           default: false
@@ -151,11 +146,11 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC or policy type is not found
+          description: Near-RT RIC or policy type is not found
           schema:
             type: string
         '423':
-          description: NearRT-RIC is not operational
+          description: Near-RT RIC is not operational
           schema:
             type: string
       deprecated: false
@@ -187,7 +182,7 @@ paths:
           schema:
             type: string
         '423':
-          description: NearRT-RIC is not operational
+          description: Near-RT RIC is not operational
           schema:
             type: string
       deprecated: false
@@ -195,14 +190,14 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 1.0
-      summary: 'Query policies, only IDs returned'
+      summary: 'Query policies, only policy identities returned'
       operationId: getPolicyIdsUsingGET_1
       produces:
         - '*/*'
       parameters:
         - name: ric
           in: query
-          description: The name of the NearRT-RIC to get policies for.
+          description: The name of the Near-RT RIC to get policies for.
           required: false
           type: string
           allowEmptyValue: false
@@ -220,7 +215,7 @@ paths:
           allowEmptyValue: false
       responses:
         '200':
-          description: Policy ids
+          description: Policy identitiess
           schema:
             type: array
             items:
@@ -230,7 +225,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC or type not found
+          description: Near-RT RIC or type not found
           schema:
             type: string
       deprecated: false
@@ -274,7 +269,7 @@ paths:
       parameters:
         - name: ric
           in: query
-          description: The name of the NearRT-RIC to get the definitions for.
+          description: The name of the Near-RT RIC to get the definitions for.
           required: false
           type: string
           allowEmptyValue: false
@@ -290,7 +285,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             type: string
       deprecated: false
@@ -334,7 +329,7 @@ paths:
       parameters:
         - name: ric
           in: query
-          description: The name of the NearRT-RIC to get types for.
+          description: The name of the Near-RT RIC to get types for.
           required: false
           type: string
           allowEmptyValue: false
@@ -350,7 +345,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             type: string
       deprecated: false
@@ -371,7 +366,7 @@ paths:
           allowEmptyValue: false
       responses:
         '200':
-          description: NearRT-RIC is found
+          description: Near-RT RIC is found
           schema:
             type: string
         '401':
@@ -379,7 +374,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             type: string
       deprecated: false
@@ -387,7 +382,7 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 1.0
-      summary: Query NearRT-RIC information
+      summary: Query Near-RT RIC information
       operationId: getRicsUsingGET
       produces:
         - '*/*'
@@ -569,8 +564,8 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Query policies
-      description: 'If several query parameters are defined, the policies matching all conditions are returned'
+      summary: Query for existing A1 policies
+      description: 'Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.'
       operationId: getPoliciesUsingGET
       produces:
         - application/json
@@ -583,7 +578,7 @@ paths:
           allowEmptyValue: false
         - name: ric_id
           in: query
-          description: The identity of the NearRT-RIC to get policies for.
+          description: The identity of the Near-RT RIC to get policies for.
           required: false
           type: string
           allowEmptyValue: false
@@ -603,7 +598,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: 'NearRT-RIC, policy type or service not found'
+          description: 'Near-RT RIC, policy type or service not found'
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -666,7 +661,7 @@ paths:
           allowEmptyValue: false
         - name: ric_id
           in: query
-          description: The identity of the NearRT-RIC where the policy will be created.
+          description: The identity of the Near-RT RIC where the policy will be created.
           required: true
           type: string
           allowEmptyValue: false
@@ -678,7 +673,7 @@ paths:
           allowEmptyValue: false
         - name: transient
           in: query
-          description: If the policy is transient or not (boolean defaulted to false). A policy is transient if it will not be recreated in the NearRT-RIC when it has been lost (for instance due to a restart)
+          description: If the policy is transient or not (boolean defaulted to false). A policy is transient if it will not be recreated in the Near-RT RIC when it has been lost (for instance due to a restart)
           required: false
           type: boolean
           default: false
@@ -694,11 +689,11 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC or policy type is not found
+          description: Near-RT RIC or policy type is not found
           schema:
             $ref: '#/definitions/error_information'
         '423':
-          description: NearRT-RIC is not operational
+          description: Near-RT RIC is not operational
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -730,7 +725,7 @@ paths:
           schema:
             $ref: '#/definitions/error_information'
         '423':
-          description: NearRT-RIC is not operational
+          description: Near-RT RIC is not operational
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -738,7 +733,8 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: 'Query policies, only IDs returned'
+      summary: 'Query policies, only policy identities are returned'
+      description: 'Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.'
       operationId: getPolicyIdsUsingGET
       produces:
         - application/json
@@ -751,7 +747,7 @@ paths:
           allowEmptyValue: false
         - name: ric_id
           in: query
-          description: The identity of the NearRT-RIC to get policies for.
+          description: The identity of the Near-RT RIC to get policies for.
           required: false
           type: string
           allowEmptyValue: false
@@ -763,7 +759,7 @@ paths:
           allowEmptyValue: false
       responses:
         '200':
-          description: Policy ids
+          description: Policy identities
           schema:
             $ref: '#/definitions/policy_id_list_v2'
         '401':
@@ -771,7 +767,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC or type not found
+          description: Near-RT RIC or type not found
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -792,7 +788,7 @@ paths:
           allowEmptyValue: false
         - name: ric_id
           in: query
-          description: The identity of the NearRT-RIC to get the definitions for.
+          description: The identity of the Near-RT RIC to get the definitions for.
           required: false
           type: string
           allowEmptyValue: false
@@ -806,7 +802,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -850,7 +846,7 @@ paths:
       parameters:
         - name: ric_id
           in: query
-          description: The identity of the NearRT-RIC to get types for.
+          description: The identity of the Near-RT RIC to get types for.
           required: false
           type: string
           allowEmptyValue: false
@@ -864,7 +860,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -872,26 +868,27 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns info for the NearRT-RIC with the given identity or managing one Mananged Element
+      summary: Returns info for a Near-RT RIC
+      description: Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).
       operationId: getRicUsingGET_1
       produces:
         - application/json
       parameters:
         - name: managed_element_id
           in: query
-          description: 'The identity of a Managed Element. If given, the NearRT-RIC managing the ME is returned.'
+          description: 'The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.'
           required: false
           type: string
           allowEmptyValue: false
         - name: ric_id
           in: query
-          description: The identity of a NearRT-RIC to get information for.
+          description: The identity of a Near-RT RIC to get information for.
           required: false
           type: string
           allowEmptyValue: false
       responses:
         '200':
-          description: NearRT-RIC is found
+          description: Near-RT RIC is found
           schema:
             $ref: '#/definitions/ric_info_v2'
         '401':
@@ -899,7 +896,7 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: NearRT-RIC is not found
+          description: Near-RT RIC is not found
           schema:
             $ref: '#/definitions/error_information'
       deprecated: false
@@ -907,14 +904,15 @@ paths:
     get:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Query NearRT-RIC information
+      summary: Query Near-RT RIC information
+      description: The call returns all Near-RT RICs that supports a given policy type identity
       operationId: getRicsUsingGET_1
       produces:
         - application/json
       parameters:
         - name: policytype_id
           in: query
-          description: 'The identity of a policy type. If given, all NearRT-RICs supporteing the policy type are returned'
+          description: 'The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned'
           required: false
           type: string
           allowEmptyValue: false
@@ -937,6 +935,7 @@ paths:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
       summary: Returns service information
+      description: Either information about a registered service with given identity or all registered services are returned.
       operationId: getServicesUsingGET
       produces:
         - application/json
@@ -965,6 +964,7 @@ paths:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
       summary: Register a service
+      description: 'Registering a service is needed to:<ul><li>Get callbacks.</li><li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li></ul>'
       operationId: putServiceUsingPUT
       consumes:
         - application/json
@@ -1000,14 +1000,14 @@ paths:
     delete:
       tags:
         - A1 Policy Management Version 2.0 (in progress)
-      summary: Delete a service
+      summary: Unregister a service
       operationId: deleteServiceUsingDELETE
       produces:
         - '*/*'
       parameters:
         - name: service_id
           in: query
-          description: The name of the service
+          description: The idenitity of the service
           required: true
           type: string
           allowEmptyValue: false
@@ -1015,7 +1015,7 @@ paths:
         '200':
           description: Not used
         '204':
-          description: Service deleted
+          description: Service unregistered
           schema:
             type: object
         '401':
@@ -1104,7 +1104,7 @@ definitions:
   json_object:
     type: object
     title: json_object
-    description: A JSON object. The schema is defined by the Policy Type
+    description: A JSON object defining the configuration of the policy. The schema is defined by the Policy Type.
   policy_id_list_v2:
     type: object
     properties:
@@ -1139,7 +1139,7 @@ definitions:
         description: 'timestamp, last modification time'
       ric:
         type: string
-        description: identity of the target NearRT-RIC
+        description: identity of the target Near-RT RIC
       service:
         type: string
         description: the name of the service owning the policy
@@ -1164,7 +1164,7 @@ definitions:
         description: name of the policy type
       ric_id:
         type: string
-        description: identity of the target NearRT-RIC
+        description: identity of the target Near-RT RIC
       service_id:
         type: string
         description: the name of the service owning the policy
@@ -1175,7 +1175,7 @@ definitions:
     properties:
       policy_schemas:
         type: array
-        description: Policy type json schemas
+        description: 'Policy type json schemas. The schema is a json object following http://json-schema.org/draft-07/schema'
         items:
           type: object
     title: policy_schema_list_v2
@@ -1195,11 +1195,11 @@ definitions:
     properties:
       rics:
         type: array
-        description: List of NearRT-RIC information
+        description: List of Near-RT RIC information
         items:
           $ref: '#/definitions/ric_info_v2'
     title: ric_info_list_v2
-    description: List of NearRT-RIC information
+    description: List of Near-RT RIC information
   ric_info_v1:
     type: object
     properties:
@@ -1215,7 +1215,7 @@ definitions:
           type: string
       ricName:
         type: string
-        description: identity of the NearRT-RIC
+        description: identity of the Near-RT RIC
       state:
         type: string
         description: state info
@@ -1235,22 +1235,22 @@ definitions:
           type: string
       ric_id:
         type: string
-        description: identity of the NearRT-RIC
+        description: identity of the Near-RT RIC
       state:
         type: string
         description: |-
-          State for the NearRT-RIC, values: 
-          UNAVAILABLE: The NearRT-RIC is not avialable, information may be inconsistent 
+          State for the Near-RT RIC, values: 
+          UNAVAILABLE: The Near-RT RIC is not avialable, information may be inconsistent 
           AVAILABLE: The normal state. Policies can be configured. +
-          SYNCHRONIZING: The Policy Management Service is synchronizing the view of the NearRT-RIC. Policies cannot be configured. 
-          CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the NearRT-RIC. Policies cannot be configured.
+          SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured. 
+          CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.
         enum:
           - UNAVAILABLE
           - AVAILABLE
           - SYNCHRONIZING
           - CONSISTENCY_CHECK
     title: ric_info_v2
-    description: Information for a NearRT-RIC
+    description: Information for a Near-RT RIC
   service_list_v2:
     type: object
     properties:

@@ -43,12 +43,12 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
 
 /**
- * Synchronizes the content of a NearRT-RIC with the content in the repository.
+ * Synchronizes the content of a Near-RT RIC with the content in the repository.
  * This means:
  * <p>
  * load all policy types
  * <p>
- * send all policy instances to the NearRT-RIC
+ * send all policy instances to the Near-RT RIC
  * <p>
  * if that fails remove all policy instances
  * <p>

@@ -22,6 +22,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice;
 
 import com.google.common.base.Predicates;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -32,6 +35,8 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.StringVendorExtension;
+import springfox.documentation.service.VendorExtension;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -48,16 +53,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     static final String API_TITLE = "A1 Policy management service";
-    static final String DESCRIPTION =
-        "The O-RAN NonRT-RIC PolicyAgent provides a REST API for management of policices. \n"
-            + "It provides support for: \n"
-            + "-Supervision of clients (R-APPs) to eliminate stray policies in case of failure \n"
-            + "-Consistency monitoring of the SMO view of policies and the actual situation in the NearRT-RICs \n"
-            + "-Consistency monitoring of NearRT-RIC capabilities (policy types)" + "-Policy configuration. \n"
-            + "This includes:" + "-One REST API towards all NearRT-RICs in the network \n"
-            + "-Query functions that can find all policies in a NearRT-RIC, all policies owned by a service (R-APP), \n"
-            + "all policies of a type etc. \n"
-            + "-Maps O1 resources (ManagedElement) as defined in O1 to the controlling NearRT-RIC of A1 policices.\n";
+    static final String DESCRIPTION = //
+        "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \n" //
+            + "It provides support for:" //
+            + "<ul>" //
+            + "<li>A1 Policy creation and modification.</li>" //
+            + "<li>Maintaining a view of supported Near-RT RIC policy types </li>" //
+            + "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> " //
+            + "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs </li>" //
+            + "</ul>"//
+    ;
     static final String VERSION = "1.1.0";
     @SuppressWarnings("squid:S1075") // Refactor your code to get this URI from a customizable parameter.
     static final String RESOURCES_PATH = "classpath:/META-INF/resources/";
@@ -90,7 +95,18 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
             .description(DESCRIPTION) //
             .version(VERSION) //
             .contact(contact()) //
+            .extensions(vendorExtentions()) //
             .build();
+    }
+
+    @SuppressWarnings("rawtypes") // VendorExtension is a raw type. References to generic type VendorExtension<T>
+                                  // should be parameterizedJava(16777788)
+    private static List<VendorExtension> vendorExtentions() {
+        final String URN = "60f9a0e7-343f-43bf-9194-d8d65688d465";
+        List<VendorExtension> extentions = new ArrayList<>();
+        extentions.add(new StringVendorExtension("x-api-id", URN));
+        extentions.add(new StringVendorExtension("x-audience", "external-partner"));
+        return extentions;
     }
 
     private static Contact contact() {
