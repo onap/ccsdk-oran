@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46021684_43347839",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/dmaap/DmaapMessageConsumer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-08-27T07:20:35Z",
+      "side": 1,
+      "message": "I think it would be good to also include the actual faulty message in the response, to help when troubleshooting.",
+      "revId": "cc4fd8ed779892e37efa033fed9a623fa51f0e9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
