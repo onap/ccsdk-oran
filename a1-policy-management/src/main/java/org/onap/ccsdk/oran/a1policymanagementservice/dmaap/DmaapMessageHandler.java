@@ -40,12 +40,12 @@ import reactor.core.publisher.Mono;
 /**
  * The class handles incoming requests from DMAAP.
  * <p>
- * That means: invoke a REST call towards this services and to send back a response though DMAAP
+ * That means: invoke a REST call towards this services and to send back a
+ * response though DMAAP
  */
 public class DmaapMessageHandler {
     private static final Logger logger = LoggerFactory.getLogger(DmaapMessageHandler.class);
-    private static Gson gson = new GsonBuilder() //
-        .create(); //
+    private static Gson gson = new GsonBuilder().create();
     private final AsyncRestClient dmaapClient;
     private final AsyncRestClient pmsClient;
 
@@ -54,7 +54,7 @@ public class DmaapMessageHandler {
         this.dmaapClient = dmaapClient;
     }
 
-    public void handleDmaapMsg(String msg) {
+    public void handleDmaapMsg(DmaapRequestMessage msg) {
         try {
             String result = this.createTask(msg).block();
             logger.debug("handleDmaapMsg: {}", result);
@@ -63,17 +63,10 @@ public class DmaapMessageHandler {
         }
     }
 
-    Mono<String> createTask(String msg) {
-        try {
-            DmaapRequestMessage dmaapRequestMessage = gson.fromJson(msg, ImmutableDmaapRequestMessage.class);
-            return this.invokePolicyManagementService(dmaapRequestMessage) //
-                .onErrorResume(t -> handlePolicyManagementServiceCallError(t, dmaapRequestMessage)) //
-                .flatMap(
-                    response -> sendDmaapResponse(response.getBody(), dmaapRequestMessage, response.getStatusCode()));
-        } catch (Exception e) {
-            String errorMsg = "Received unparsable message from DMAAP: \"" + msg + "\", reason: " + e.getMessage();
-            return Mono.error(new ServiceException(errorMsg)); // Cannot make any response
-        }
+    Mono<String> createTask(DmaapRequestMessage dmaapRequestMessage) {
+        return this.invokePolicyManagementService(dmaapRequestMessage) //
+            .onErrorResume(t -> handlePolicyManagementServiceCallError(t, dmaapRequestMessage)) //
+            .flatMap(response -> sendDmaapResponse(response.getBody(), dmaapRequestMessage, response.getStatusCode()));
     }
 
     private Mono<ResponseEntity<String>> handlePolicyManagementServiceCallError(Throwable error,
@@ -93,6 +86,12 @@ public class DmaapMessageHandler {
         }
         return sendDmaapResponse(errorMessage, dmaapRequestMessage, status) //
             .flatMap(notUsed -> Mono.empty());
+    }
+
+    public Mono<String> sendDmaapResponse(String response, DmaapRequestMessage dmaapRequestMessage, HttpStatus status) {
+        return createDmaapResponseMessage(dmaapRequestMessage, response, status) //
+            .flatMap(this::sendToDmaap) //
+            .onErrorResume(this::handleResponseCallError);
     }
 
     private Mono<ResponseEntity<String>> invokePolicyManagementService(DmaapRequestMessage dmaapRequestMessage) {
@@ -122,20 +121,13 @@ public class DmaapMessageHandler {
         }
     }
 
-    private Mono<String> sendDmaapResponse(String response, DmaapRequestMessage dmaapRequestMessage,
-        HttpStatus status) {
-        return createDmaapResponseMessage(dmaapRequestMessage, response, status) //
-            .flatMap(this::sendToDmaap) //
-            .onErrorResume(this::handleResponseCallError);
-    }
-
     private Mono<String> sendToDmaap(String body) {
         logger.debug("sendToDmaap: {} ", body);
         return dmaapClient.post("", "[" + body + "]");
     }
 
     private Mono<String> handleResponseCallError(Throwable t) {
-        logger.debug("Failed to send response to DMaaP: {}", t.getMessage());
+        logger.warn("Failed to send response to DMaaP: {}", t.getMessage());
         return Mono.empty();
     }
 
@@ -152,6 +144,5 @@ public class DmaapMessageHandler {
             .build();
         String str = gson.toJson(dmaapResponseMessage);
         return Mono.just(str);
-
     }
 }
