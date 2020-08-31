@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
