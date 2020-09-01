@@ -65,6 +65,17 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("squid:S1874") // "@Deprecated" code should not be used
 public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
+    private static final String A1_ADAPTER_API = "A1-ADAPTER-API";
+    private static final String RESPONSE_BODY = "responseBody";
+    private static final String RESPONSE_CODE = "response-code";
+    private static final String SYNC = "sync";
+
+    private static final String ADDING_INPUT_DATA_MESSAGE = "Adding INPUT data for {} input: {}";
+    private static final String A1_ADAPTER_CLIENT_GRAPH_MESSAGE = "A1AdapterClient has a Directed Graph for '{}'";
+    private static final String SERVICE_EXCEPTION_MESSAGE = "Caught exception executing service logic for {}, {}";
+    private static final String NO_SERVICE_LOGIC_ACTIVE_MESSAGE = "No service logic active for A1Adapter: '{}'";
+    private static final String LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE = "Caught exception looking for service logic, {}";
+
     private static final Logger log = LoggerFactory.getLogger(A1AdapterProvider.class);
 
     private static final String APPLICATION_NAME = "a1Adapter-api";
@@ -113,35 +124,28 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Properties parms = new Properties();
         DeleteA1PolicyOutputBuilder deleteResponse = new DeleteA1PolicyOutputBuilder();
         // add input to parms
-        log.info("Adding INPUT data for " + svcOperation + " input: " + input);
+        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
         DeleteA1PolicyInputBuilder inputBuilder = new DeleteA1PolicyInputBuilder(input);
         MdsalHelper.toProperties(parms, inputBuilder.build());
-        log.info("Printing SLI parameters to be passed");
-        // iterate properties file to get key-value pairs
-        for (String key : parms.stringPropertyNames()) {
-            String value = parms.getProperty(key);
-            log.info("The SLI parameter in " + key + " is: " + value);
-        }
+        logSliParameters(parms);
         // Call SLI sync method
         try {
-            if (a1AdapterClient.hasGraph("A1-ADAPTER-API", svcOperation, null, "sync")) {
-                log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
+            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
+                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
                 try {
-                    Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", deleteResponse, parms);
-                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
-                    log.info("responseCode::"+responseParms.getProperty("response-code"));
-                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
-                    deleteResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
+                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, deleteResponse, parms);
+                    logResponse(responseParms);
+                    deleteResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
                 } catch (Exception e) {
-                    log.error("Caught exception executing service logic for " + svcOperation, e);
+                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
                     deleteResponse.setHttpStatus(500);
                 }
             } else {
-                log.error("No service logic active for A1Adapter: '" + svcOperation + "'");
+                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
                 deleteResponse.setHttpStatus(503);
             }
         } catch (Exception e) {
-            log.error("Caught exception looking for service logic", e);
+            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
             deleteResponse.setHttpStatus(500);
         }
         RpcResult<DeleteA1PolicyOutput> rpcResult =
@@ -157,36 +161,29 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Properties parms = new Properties();
         GetA1PolicyOutputBuilder policyResponse = new GetA1PolicyOutputBuilder();
         // add input to parms
-        log.info("Adding INPUT data for " + svcOperation + " input: " + input);
+        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
         GetA1PolicyInputBuilder inputBuilder = new GetA1PolicyInputBuilder(input);
         MdsalHelper.toProperties(parms, inputBuilder.build());
-        log.info("Printing SLI parameters to be passed");
-        // iterate properties file to get key-value pairs
-        for (String key : parms.stringPropertyNames()) {
-            String value = parms.getProperty(key);
-            log.info("The SLI parameter in " + key + " is: " + value);
-        }
+        logSliParameters(parms);
         // Call SLI sync method
         try {
-            if (a1AdapterClient.hasGraph("A1-ADAPTER-API", svcOperation, null, "sync")) {
-                log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
+            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
+                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
                 try {
-                    Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
-                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
-                    policyResponse.setBody(responseParms.getProperty("responseBody"));
-                    log.info("responseCode::"+responseParms.getProperty("response-code"));
-                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
-                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
+                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyResponse, parms);
+                    logResponse(responseParms);
+                    policyResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
+                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
                 } catch (Exception e) {
-                    log.error("Caught exception executing service logic for " + svcOperation, e);
+                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
                     policyResponse.setHttpStatus(500);
                 }
             } else {
-                log.error("No service logic active for A1Adapter: '" + svcOperation + "'");
+                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
                 policyResponse.setHttpStatus(503);
             }
         } catch (Exception e) {
-            log.error("Caught exception looking for service logic", e);
+            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
             policyResponse.setHttpStatus(500);
         }
         RpcResult<GetA1PolicyOutput> rpcResult =
@@ -202,36 +199,29 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Properties parms = new Properties();
         GetA1PolicyStatusOutputBuilder policyStatusResponse = new GetA1PolicyStatusOutputBuilder();
         // add input to parms
-        log.info("Adding INPUT data for " + svcOperation + " input: " + input);
+        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
         GetA1PolicyStatusInputBuilder inputBuilder = new GetA1PolicyStatusInputBuilder(input);
         MdsalHelper.toProperties(parms, inputBuilder.build());
-        log.info("Printing SLI parameters to be passed");
-        // iterate properties file to get key-value pairs
-        for (String key : parms.stringPropertyNames()) {
-            String value = parms.getProperty(key);
-            log.info("The SLI parameter in " + key + " is: " + value);
-        }
+        logSliParameters(parms);
         // Call SLI sync method
         try {
-            if (a1AdapterClient.hasGraph("A1-ADAPTER-API", svcOperation, null, "sync")) {
-                log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
+            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
+                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
                 try {
-                    Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyStatusResponse, parms);
-                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
-                    policyStatusResponse.setBody(responseParms.getProperty("responseBody"));
-                    log.info("responseCode::"+responseParms.getProperty("response-code"));
-                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
-                    policyStatusResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
+                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyStatusResponse, parms);
+                    logResponse(responseParms);
+                    policyStatusResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
+                    policyStatusResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
                 } catch (Exception e) {
-                    log.error("Caught exception executing service logic for " + svcOperation, e);
+                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
                     policyStatusResponse.setHttpStatus(500);
                 }
             } else {
-                log.error("No service logic active for A1Adapter: '" + svcOperation + "'");
+                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
                 policyStatusResponse.setHttpStatus(503);
             }
         } catch (Exception e) {
-            log.error("Caught exception looking for service logic", e);
+            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
             policyStatusResponse.setHttpStatus(500);
         }
         RpcResult<GetA1PolicyStatusOutput> rpcResult =
@@ -247,36 +237,29 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Properties parms = new Properties();
         GetA1PolicyTypeOutputBuilder policyTypeResponse = new GetA1PolicyTypeOutputBuilder();
         // add input to parms
-        log.info("Adding INPUT data for " + svcOperation + " input: " + input);
+        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
         GetA1PolicyTypeInputBuilder inputBuilder = new GetA1PolicyTypeInputBuilder(input);
         MdsalHelper.toProperties(parms, inputBuilder.build());
-        log.info("Printing SLI parameters to be passed");
-        // iterate properties file to get key-value pairs
-        for (String key : parms.stringPropertyNames()) {
-            String value = parms.getProperty(key);
-            log.info("The SLI parameter in " + key + " is: " + value);
-        }
+        logSliParameters(parms);
         // Call SLI sync method
         try {
-            if (a1AdapterClient.hasGraph("A1-ADAPTER-API", svcOperation, null, "sync")) {
-                log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
+            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
+                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
                 try {
-                    Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyTypeResponse, parms);
-                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
-                    policyTypeResponse.setBody(responseParms.getProperty("responseBody"));
-                    log.info("responseCode::"+responseParms.getProperty("response-code"));
-                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
-                    policyTypeResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
+                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyTypeResponse, parms);
+                    logResponse(responseParms);
+                    policyTypeResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
+                    policyTypeResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
                 } catch (Exception e) {
-                    log.error("Caught exception executing service logic for " + svcOperation, e);
+                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
                     policyTypeResponse.setHttpStatus(500);
                 }
             } else {
-                log.error("No service logic active for A1Adapter: '" + svcOperation + "'");
+                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
                 policyTypeResponse.setHttpStatus(503);
             }
         } catch (Exception e) {
-            log.error("Caught exception looking for service logic", e);
+            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
             policyTypeResponse.setHttpStatus(500);
         }
         RpcResult<GetA1PolicyTypeOutput> rpcResult =
@@ -292,36 +275,29 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Properties parms = new Properties();
         PutA1PolicyOutputBuilder policyResponse = new PutA1PolicyOutputBuilder();
         // add input to parms
-        log.info("Adding INPUT data for " + svcOperation + " input: " + input);
+        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
         PutA1PolicyInputBuilder inputBuilder = new PutA1PolicyInputBuilder(input);
         MdsalHelper.toProperties(parms, inputBuilder.build());
-        log.info("Printing SLI parameters to be passed");
-        // iterate properties file to get key-value pairs
-        for (String key : parms.stringPropertyNames()) {
-            String value = parms.getProperty(key);
-            log.info("The SLI parameter in " + key + " is: " + value);
-        }
+        logSliParameters(parms);
         // Call SLI sync method
         try {
-            if (a1AdapterClient.hasGraph("A1-ADAPTER-API", svcOperation, null, "sync")) {
-                log.info("A1AdapterClient has a Directed Graph for '" + svcOperation + "'");
+            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
+                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
                 try {
-                    Properties responseParms = a1AdapterClient.execute("A1-ADAPTER-API", svcOperation, null, "sync", policyResponse, parms);
-                    log.info("responseBody::"+responseParms.getProperty("responseBody"));
-                    policyResponse.setBody(responseParms.getProperty("responseBody"));
-                    log.info("responseCode::"+responseParms.getProperty("response-code"));
-                    log.info("responseMessage::"+responseParms.getProperty("response-message"));
-                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty("response-code")));
+                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyResponse, parms);
+                    logResponse(responseParms);
+                    policyResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
+                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
                 } catch (Exception e) {
-                    log.error("Caught exception executing service logic for " + svcOperation, e);
+                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
                     policyResponse.setHttpStatus(500);
                 }
             } else {
-                log.error("No service logic active for A1Adapter: '" + svcOperation + "'");
+                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
                 policyResponse.setHttpStatus(503);
             }
         } catch (Exception e) {
-            log.error("Caught exception looking for service logic", e);
+            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
             policyResponse.setHttpStatus(500);
         }
         RpcResult<PutA1PolicyOutput> rpcResult =
@@ -330,4 +306,18 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return Futures.immediateFuture(rpcResult);
     }
 
+    private void logSliParameters(Properties parms) {
+        log.info("Printing SLI parameters to be passed");
+        // iterate properties file to get key-value pairs
+        for (String key : parms.stringPropertyNames()) {
+            String value = parms.getProperty(key);
+            log.info("The SLI parameter in {} is: {}", key, value);
+        }
+    }
+
+    private void logResponse(Properties responseParms) {
+        log.info("responseBody::{}", responseParms.getProperty(RESPONSE_BODY));
+        log.info("responseCode::{}", responseParms.getProperty(RESPONSE_CODE));
+        log.info("responseMessage::{}", responseParms.getProperty("response-message"));
+    }
 }
