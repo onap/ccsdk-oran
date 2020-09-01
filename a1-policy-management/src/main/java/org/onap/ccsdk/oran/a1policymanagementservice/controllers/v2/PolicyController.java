@@ -115,18 +115,25 @@ public class PolicyController {
             value = "The identity of the policy type to get the definition for. When this parameter is given, max one schema will be returned") //
         @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String policyTypeId) {
         try {
-            if (ricId == null && policyTypeId == null) {
+            Ric ric = ricId == null ? null : rics.getRic(ricId);
+            if (ric == null && policyTypeId == null) {
                 Collection<PolicyType> types = this.policyTypes.getAll();
                 return new ResponseEntity<>(toPolicyTypeSchemasJson(types), HttpStatus.OK);
-            } else if (ricId != null && policyTypeId != null) {
-                Collection<PolicyType> types = new ArrayList<>();
-                if (rics.getRic(ricId).isSupportingType(policyTypeId)) {
-                    types.add(policyTypes.getType(policyTypeId));
+            } else if (ric != null && policyTypeId != null) {
+                synchronized (ric) {
+                    assertRicStateIdleSync(ric);
+                    Collection<PolicyType> types = new ArrayList<>();
+                    if (rics.getRic(ricId).isSupportingType(policyTypeId)) {
+                        types.add(policyTypes.getType(policyTypeId));
+                    }
+                    return new ResponseEntity<>(toPolicyTypeSchemasJson(types), HttpStatus.OK);
                 }
-                return new ResponseEntity<>(toPolicyTypeSchemasJson(types), HttpStatus.OK);
-            } else if (ricId != null) {
-                Collection<PolicyType> types = rics.getRic(ricId).getSupportedPolicyTypes();
-                return new ResponseEntity<>(toPolicyTypeSchemasJson(types), HttpStatus.OK);
+            } else if (ric != null) {
+                synchronized (ric) {
+                    assertRicStateIdleSync(ric);
+                    Collection<PolicyType> types = rics.getRic(ricId).getSupportedPolicyTypes();
+                    return new ResponseEntity<>(toPolicyTypeSchemasJson(types), HttpStatus.OK);
+                }
             } else {
                 Collection<PolicyType> types = new ArrayList<>();
                 types.add(policyTypes.getType(policyTypeId));
@@ -318,13 +325,19 @@ public class PolicyController {
         return Mono.just("{}");
     }
 
+    private void assertRicStateIdleSync(Ric ric) throws ServiceException {
+        if (ric.getState() != Ric.RicState.AVAILABLE) {
+            throw new ServiceException("Near-RT RIC: " + ric.id() + " is " + ric.getState());
+        }
+    }
+
     private Mono<Object> assertRicStateIdle(Ric ric) {
         if (ric.getState() == Ric.RicState.AVAILABLE) {
             return Mono.just("{}");
         } else {
-            logger.debug("Request rejected RIC not IDLE, ric: {}", ric);
+            logger.debug("Request rejected Near-RT RIC not IDLE, ric: {}", ric);
             RejectionException e = new RejectionException(
-                "Ric is not operational, RIC name: " + ric.id() + ", state: " + ric.getState(), HttpStatus.LOCKED);
+                "Near-RT RIC: is not operational, id: " + ric.id() + ", state: " + ric.getState(), HttpStatus.LOCKED);
             return Mono.error(e);
         }
     }
