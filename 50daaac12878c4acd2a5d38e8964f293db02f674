@@ -22,6 +22,30 @@
       "revId": "50daaac12878c4acd2a5d38e8964f293db02f674",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5492ce08_9c0469ba",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-01T08:31:33Z",
+      "side": 1,
+      "message": "The test framework has a \"long\" timeout. The test will fail if the condition is not fulfilled",
+      "parentUuid": "40113a83_95149707",
+      "range": {
+        "startLine": 812,
+        "startChar": 8,
+        "endLine": 812,
+        "endChar": 33
+      },
+      "revId": "50daaac12878c4acd2a5d38e8964f293db02f674",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
