@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40113a83_95149707",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-09-01T08:10:05Z",
+      "side": 1,
+      "message": "is a timeout needed here in case it hangs?",
+      "range": {
+        "startLine": 812,
+        "startChar": 8,
+        "endLine": 812,
+        "endChar": 33
+      },
+      "revId": "50daaac12878c4acd2a5d38e8964f293db02f674",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
