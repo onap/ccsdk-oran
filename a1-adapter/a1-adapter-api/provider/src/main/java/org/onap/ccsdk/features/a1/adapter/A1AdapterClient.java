@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory;
 
 public class A1AdapterClient {
 
+    private static final String PARAMETERS_PASSED_TO_SLI = "Parameters passed to SLI";
+    private static final String PARAMETERS_RETURNED_BY_SLI = "Parameters returned by SLI";
+
     private static final Logger LOG = LoggerFactory.getLogger(A1AdapterClient.class);
 
     private SvcLogicService svcLogicService = null;
@@ -51,23 +54,11 @@ public class A1AdapterClient {
         Properties localProp;
         localProp = MdsalHelper.toProperties(parms, serviceData);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters passed to SLI");
-
-            for (Object key : localProp.keySet()) {
-                String parmName = (String) key;
-                String parmValue = localProp.getProperty(parmName);
-
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
         Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters returned by SLI");
-            for (Object key : respProps.keySet()) {
-                String parmName = (String) key;
-                String parmValue = respProps.getProperty(parmName);
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
         if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
             return respProps;
@@ -81,23 +72,11 @@ public class A1AdapterClient {
         Properties localProp;
         localProp = MdsalHelper.toProperties(parms, serviceData);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters passed to SLI");
-
-            for (Object key : localProp.keySet()) {
-                String parmName = (String) key;
-                String parmValue = localProp.getProperty(parmName);
-
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
         Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters returned by SLI");
-            for (Object key : respProps.keySet()) {
-                String parmName = (String) key;
-                String parmValue = respProps.getProperty(parmName);
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
         if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
             return respProps;
@@ -111,23 +90,11 @@ public class A1AdapterClient {
         Properties localProp;
         localProp = MdsalHelper.toProperties(parms, serviceData);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters passed to SLI");
-
-            for (Object key : localProp.keySet()) {
-                String parmName = (String) key;
-                String parmValue = localProp.getProperty(parmName);
-
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
         Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters returned by SLI");
-            for (Object key : respProps.keySet()) {
-                String parmName = (String) key;
-                String parmValue = respProps.getProperty(parmName);
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
         if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
             return respProps;
@@ -141,23 +108,11 @@ public class A1AdapterClient {
         Properties localProp;
         localProp = MdsalHelper.toProperties(parms, serviceData);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters passed to SLI");
-
-            for (Object key : localProp.keySet()) {
-                String parmName = (String) key;
-                String parmValue = localProp.getProperty(parmName);
-
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
         Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters returned by SLI");
-            for (Object key : respProps.keySet()) {
-                String parmName = (String) key;
-                String parmValue = respProps.getProperty(parmName);
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
         if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
             return respProps;
@@ -171,28 +126,27 @@ public class A1AdapterClient {
         Properties localProp;
         localProp = MdsalHelper.toProperties(parms, serviceData);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters passed to SLI");
-
-            for (Object key : localProp.keySet()) {
-                String parmName = (String) key;
-                String parmValue = localProp.getProperty(parmName);
-
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
         Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Parameters returned by SLI");
-            for (Object key : respProps.keySet()) {
-                String parmName = (String) key;
-                String parmValue = respProps.getProperty(parmName);
-                LOG.debug(parmName + " = " + parmValue);
-            }
+            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
         if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
             return respProps;
         }
         MdsalHelper.toBuilder(respProps, serviceData);
         return respProps;
+    }
+
+    private void logParameters(String message, Properties localProp) {
+        LOG.debug(message);
+
+        for (Object key : localProp.keySet()) {
+            String parmName = (String) key;
+            String parmValue = localProp.getProperty(parmName);
+
+            LOG.debug("{}={}", parmName, parmValue);
+        }
     }
 }
