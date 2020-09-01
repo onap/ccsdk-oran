@@ -253,9 +253,9 @@ class ApplicationTest {
         supervision.checkAllRics(); // The created policy should be put in the RIC
 
         // Wait until synch is completed
-        await().untilAsserted(() -> RicState.SYNCHRONIZING.equals(rics.getRic(ric1Name).getState()));
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(rics.getRic(ric1Name).getState()));
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(rics.getRic("ric2").getState()));
+        waitForRicState(ric1Name, RicState.SYNCHRONIZING);
+        waitForRicState(ric1Name, RicState.AVAILABLE);
+        waitForRicState("ric2", RicState.AVAILABLE);
 
         Policies ricPolicies = getA1Client(ric1Name).getPolicies();
         assertThat(ricPolicies.size()).isEqualTo(1);
@@ -465,6 +465,9 @@ class ApplicationTest {
     void testGetPolicySchemas() throws Exception {
         addPolicyType("type1", "ric1");
         addPolicyType("type2", "ric2");
+
+        waitForRicState("ric1", RicState.AVAILABLE);
+        waitForRicState("ric2", RicState.AVAILABLE);
 
         String url = "/policy-schemas";
         String rsp = this.restClient().get(url).block();
@@ -802,6 +805,11 @@ class ApplicationTest {
             .expectErrorMatches(
                 t -> checkWebClientError(t, expStatus, responseContains, expectApplicationProblemJsonMediaType)) //
             .verify();
+    }
+
+    private void waitForRicState(String ricId, RicState state) throws ServiceException {
+        Ric ric = rics.getRic(ricId);
+        await().untilAsserted(() -> state.equals(ric.getState()));
     }
 
     private boolean checkWebClientError(Throwable throwable, HttpStatus expStatus, String responseContains,
