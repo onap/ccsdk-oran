@@ -45,13 +45,12 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("java:S1192") // Same text in several traces
 class SdncJsonHelper {
     private static Gson gson = new GsonBuilder() //
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
-        .create();
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
+            .create();
     private static final String OUTPUT = "output";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private SdncJsonHelper() {
-    }
+    private SdncJsonHelper() {}
 
     public static Flux<String> parseJsonArrayOfString(String inputString) {
         try {
@@ -97,13 +96,13 @@ class SdncJsonHelper {
 
     public static Mono<String> getValueFromResponse(String response, String key) {
         return getOutput(response) //
-            .flatMap(responseParams -> {
-                if (!responseParams.has(key)) {
-                    return Mono.just("");
-                }
-                String value = responseParams.get(key).toString();
-                return Mono.just(value);
-            });
+                .flatMap(responseParams -> {
+                    if (!responseParams.has(key)) {
+                        return Mono.just("");
+                    }
+                    String value = responseParams.get(key).toString();
+                    return Mono.just(value);
+                });
     }
 
     public static Mono<String> extractPolicySchema(String inputString) {

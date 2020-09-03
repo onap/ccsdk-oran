@@ -90,18 +90,18 @@ public class AsyncRestClient {
         logger.trace("{} POST body: {}", traceTag, body);
         Mono<String> bodyProducer = body != null ? Mono.just(body) : Mono.empty();
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.post() //
-                    .uri(uri) //
-                    .contentType(MediaType.APPLICATION_JSON) //
-                    .body(bodyProducer, String.class);
-                return retrieve(traceTag, request);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.post() //
+                            .uri(uri) //
+                            .contentType(MediaType.APPLICATION_JSON) //
+                            .body(bodyProducer, String.class);
+                    return retrieve(traceTag, request);
+                });
     }
 
     public Mono<String> post(String uri, @Nullable String body) {
         return postForEntity(uri, body) //
-            .flatMap(this::toBody);
+                .flatMap(this::toBody);
     }
 
     public Mono<String> postWithAuthHeader(String uri, String body, String username, String password) {
@@ -109,15 +109,15 @@ public class AsyncRestClient {
         logger.debug("{} POST (auth) uri = '{}{}''", traceTag, baseUrl, uri);
         logger.trace("{} POST body: {}", traceTag, body);
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.post() //
-                    .uri(uri) //
-                    .headers(headers -> headers.setBasicAuth(username, password)) //
-                    .contentType(MediaType.APPLICATION_JSON) //
-                    .bodyValue(body);
-                return retrieve(traceTag, request) //
-                    .flatMap(this::toBody);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.post() //
+                            .uri(uri) //
+                            .headers(headers -> headers.setBasicAuth(username, password)) //
+                            .contentType(MediaType.APPLICATION_JSON) //
+                            .bodyValue(body);
+                    return retrieve(traceTag, request) //
+                            .flatMap(this::toBody);
+                });
     }
 
     public Mono<ResponseEntity<String>> putForEntity(String uri, String body) {
@@ -125,13 +125,13 @@ public class AsyncRestClient {
         logger.debug("{} PUT uri = '{}{}''", traceTag, baseUrl, uri);
         logger.trace("{} PUT body: {}", traceTag, body);
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.put() //
-                    .uri(uri) //
-                    .contentType(MediaType.APPLICATION_JSON) //
-                    .bodyValue(body);
-                return retrieve(traceTag, request);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.put() //
+                            .uri(uri) //
+                            .contentType(MediaType.APPLICATION_JSON) //
+                            .bodyValue(body);
+                    return retrieve(traceTag, request);
+                });
     }
 
     public Mono<ResponseEntity<String>> putForEntity(String uri) {
@@ -139,54 +139,54 @@ public class AsyncRestClient {
         logger.debug("{} PUT uri = '{}{}''", traceTag, baseUrl, uri);
         logger.trace("{} PUT body: <empty>", traceTag);
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.put() //
-                    .uri(uri);
-                return retrieve(traceTag, request);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.put() //
+                            .uri(uri);
+                    return retrieve(traceTag, request);
+                });
     }
 
     public Mono<String> put(String uri, String body) {
         return putForEntity(uri, body) //
-            .flatMap(this::toBody);
+                .flatMap(this::toBody);
     }
 
     public Mono<ResponseEntity<String>> getForEntity(String uri) {
         Object traceTag = createTraceTag();
         logger.debug("{} GET uri = '{}{}''", traceTag, baseUrl, uri);
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.get().uri(uri);
-                return retrieve(traceTag, request);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.get().uri(uri);
+                    return retrieve(traceTag, request);
+                });
     }
 
     public Mono<String> get(String uri) {
         return getForEntity(uri) //
-            .flatMap(this::toBody);
+                .flatMap(this::toBody);
     }
 
     public Mono<ResponseEntity<String>> deleteForEntity(String uri) {
         Object traceTag = createTraceTag();
         logger.debug("{} DELETE uri = '{}{}''", traceTag, baseUrl, uri);
         return getWebClient() //
-            .flatMap(client -> {
-                RequestHeadersSpec<?> request = client.delete().uri(uri);
-                return retrieve(traceTag, request);
-            });
+                .flatMap(client -> {
+                    RequestHeadersSpec<?> request = client.delete().uri(uri);
+                    return retrieve(traceTag, request);
+                });
     }
 
     public Mono<String> delete(String uri) {
         return deleteForEntity(uri) //
-            .flatMap(this::toBody);
+                .flatMap(this::toBody);
     }
 
     private Mono<ResponseEntity<String>> retrieve(Object traceTag, RequestHeadersSpec<?> request) {
         final Class<String> clazz = String.class;
         return request.retrieve() //
-            .toEntity(clazz) //
-            .doOnNext(entity -> logReceivedData(traceTag, entity)) //
-            .doOnError(throwable -> onHttpError(traceTag, throwable));
+                .toEntity(clazz) //
+                .doOnNext(entity -> logReceivedData(traceTag, entity)) //
+                .doOnError(throwable -> onHttpError(traceTag, throwable));
     }
 
     private void logReceivedData(Object traceTag, ResponseEntity<String> entity) {
@@ -201,7 +201,7 @@ public class AsyncRestClient {
         if (t instanceof WebClientResponseException) {
             WebClientResponseException exception = (WebClientResponseException) t;
             logger.debug("{} HTTP error status = '{}', body '{}'", traceTag, exception.getStatusCode(),
-                exception.getResponseBodyAsString());
+                    exception.getResponseBodyAsString());
         } else {
             logger.debug("{} HTTP error", traceTag, t);
         }
@@ -234,7 +234,7 @@ public class AsyncRestClient {
     }
 
     private static synchronized KeyStore getTrustStore(String trustStorePath, String trustStorePass)
-        throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
+            throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
         if (clientTrustStore == null) {
             KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
             store.load(new FileInputStream(ResourceUtils.getFile(trustStorePath)), trustStorePass.toCharArray());
@@ -244,66 +244,66 @@ public class AsyncRestClient {
     }
 
     private SslContext createSslContextRejectingUntrustedPeers(String trustStorePath, String trustStorePass,
-        KeyManagerFactory keyManager)
-        throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
+            KeyManagerFactory keyManager)
+            throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
 
         final KeyStore trustStore = getTrustStore(trustStorePath, trustStorePass);
         List<Certificate> certificateList = Collections.list(trustStore.aliases()).stream() //
-            .filter(alias -> isCertificateEntry(trustStore, alias)) //
-            .map(alias -> getCertificate(trustStore, alias)) //
-            .collect(Collectors.toList());
+                .filter(alias -> isCertificateEntry(trustStore, alias)) //
+                .map(alias -> getCertificate(trustStore, alias)) //
+                .collect(Collectors.toList());
         final X509Certificate[] certificates = certificateList.toArray(new X509Certificate[certificateList.size()]);
 
         return SslContextBuilder.forClient() //
-            .keyManager(keyManager) //
-            .trustManager(certificates) //
-            .build();
+                .keyManager(keyManager) //
+                .trustManager(certificates) //
+                .build();
     }
 
     private SslContext createSslContext(KeyManagerFactory keyManager)
-        throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
+            throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
         if (this.clientConfig.isTrustStoreUsed()) {
             return createSslContextRejectingUntrustedPeers(this.clientConfig.trustStore(),
-                this.clientConfig.trustStorePassword(), keyManager);
+                    this.clientConfig.trustStorePassword(), keyManager);
         } else {
             // Trust anyone
             return SslContextBuilder.forClient() //
-                .keyManager(keyManager) //
-                .trustManager(InsecureTrustManagerFactory.INSTANCE) //
-                .build();
+                    .keyManager(keyManager) //
+                    .trustManager(InsecureTrustManagerFactory.INSTANCE) //
+                    .build();
         }
     }
 
     private TcpClient createTcpClientSecure(SslContext sslContext) {
         return TcpClient.create(ConnectionProvider.newConnection()) //
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
-            .secure(c -> c.sslContext(sslContext)) //
-            .doOnConnected(connection -> {
-                connection.addHandlerLast(new ReadTimeoutHandler(30));
-                connection.addHandlerLast(new WriteTimeoutHandler(30));
-            });
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
+                .secure(c -> c.sslContext(sslContext)) //
+                .doOnConnected(connection -> {
+                    connection.addHandlerLast(new ReadTimeoutHandler(30));
+                    connection.addHandlerLast(new WriteTimeoutHandler(30));
+                });
     }
 
     private TcpClient createTcpClientInsecure() {
         return TcpClient.create(ConnectionProvider.newConnection()) //
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
-            .doOnConnected(connection -> {
-                connection.addHandlerLast(new ReadTimeoutHandler(30));
-                connection.addHandlerLast(new WriteTimeoutHandler(30));
-            });
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
+                .doOnConnected(connection -> {
+                    connection.addHandlerLast(new ReadTimeoutHandler(30));
+                    connection.addHandlerLast(new WriteTimeoutHandler(30));
+                });
     }
 
     private WebClient createWebClient(String baseUrl, TcpClient tcpClient) {
         HttpClient httpClient = HttpClient.from(tcpClient);
         ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder() //
-            .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) //
-            .build();
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) //
+                .build();
         return WebClient.builder() //
-            .clientConnector(connector) //
-            .baseUrl(baseUrl) //
-            .exchangeStrategies(exchangeStrategies) //
-            .build();
+                .clientConnector(connector) //
+                .baseUrl(baseUrl) //
+                .exchangeStrategies(exchangeStrategies) //
+                .build();
     }
 
     private Mono<WebClient> getWebClient() {
@@ -311,7 +311,7 @@ public class AsyncRestClient {
             try {
                 if (this.sslEnabled) {
                     final KeyManagerFactory keyManager =
-                        KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                            KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
                     final KeyStore keyStore = KeyStore.getInstance(this.clientConfig.keyStoreType());
                     final String keyStoreFile = this.clientConfig.keyStore();
                     final String keyStorePassword = this.clientConfig.keyStorePassword();

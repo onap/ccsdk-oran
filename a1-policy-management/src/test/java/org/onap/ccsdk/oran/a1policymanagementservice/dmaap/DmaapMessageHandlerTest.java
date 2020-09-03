@@ -80,19 +80,19 @@ class DmaapMessageHandlerTest {
 
     DmaapRequestMessage dmaapRequestMessage(Operation operation) {
         Optional<JsonObject> payload =
-            ((operation == Operation.PUT || operation == Operation.POST) ? Optional.of(payloadAsJson())
-                : Optional.empty());
+                ((operation == Operation.PUT || operation == Operation.POST) ? Optional.of(payloadAsJson())
+                        : Optional.empty());
         return ImmutableDmaapRequestMessage.builder() //
-            .apiVersion("apiVersion") //
-            .correlationId("correlationId") //
-            .operation(operation) //
-            .originatorId("originatorId") //
-            .payload(payload) //
-            .requestId("requestId") //
-            .target("target") //
-            .timestamp("timestamp") //
-            .url(URL) //
-            .build();
+                .apiVersion("apiVersion") //
+                .correlationId("correlationId") //
+                .operation(operation) //
+                .originatorId("originatorId") //
+                .payload(payload) //
+                .requestId("requestId") //
+                .target("target") //
+                .timestamp("timestamp") //
+                .url(URL) //
+                .build();
     }
 
     private Mono<ResponseEntity<String>> okResponse() {
@@ -113,10 +113,10 @@ class DmaapMessageHandlerTest {
         DmaapRequestMessage message = dmaapRequestMessage(Operation.DELETE);
 
         StepVerifier //
-            .create(testedObject.createTask(message)) //
-            .expectSubscription() //
-            .expectNext("OK") //
-            .verifyComplete(); //
+                .create(testedObject.createTask(message)) //
+                .expectSubscription() //
+                .expectNext("OK") //
+                .verifyComplete(); //
 
         verify(pmsClient).deleteForEntity(URL);
         verifyNoMoreInteractions(pmsClient);
@@ -133,10 +133,10 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-            .create(testedObject.createTask(message)) //
-            .expectSubscription() //
-            .expectNext("OK") //
-            .verifyComplete(); //
+                .create(testedObject.createTask(message)) //
+                .expectSubscription() //
+                .expectNext("OK") //
+                .verifyComplete(); //
 
         verify(pmsClient).getForEntity(URL);
         verifyNoMoreInteractions(pmsClient);
@@ -149,21 +149,21 @@ class DmaapMessageHandlerTest {
     void exceptionFromPmsWhenGet_thenPostError() throws IOException {
         String errorBody = "Unavailable";
         WebClientResponseException webClientResponseException = new WebClientResponseException(
-            HttpStatus.SERVICE_UNAVAILABLE.value(), "", (HttpHeaders) null, errorBody.getBytes(), (Charset) null);
+                HttpStatus.SERVICE_UNAVAILABLE.value(), "", (HttpHeaders) null, errorBody.getBytes(), (Charset) null);
         doReturn(Mono.error(webClientResponseException)).when(pmsClient).getForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-            .create(testedObject.createTask(message)) //
-            .expectSubscription() //
-            .verifyComplete(); //
+                .create(testedObject.createTask(message)) //
+                .expectSubscription() //
+                .verifyComplete(); //
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(dmaapClient).post(anyString(), captor.capture());
         String actualMessage = captor.getValue();
         assertThat(actualMessage).contains(HttpStatus.SERVICE_UNAVAILABLE.toString()) //
-            .contains(errorBody);
+                .contains(errorBody);
     }
 
     @Test
@@ -173,10 +173,10 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.PUT);
         StepVerifier //
-            .create(testedObject.createTask(message)) //
-            .expectSubscription() //
-            .expectNext("OK") //
-            .verifyComplete(); //
+                .create(testedObject.createTask(message)) //
+                .expectSubscription() //
+                .expectNext("OK") //
+                .verifyComplete(); //
 
         verify(pmsClient).putForEntity(URL, payloadAsString());
         verifyNoMoreInteractions(pmsClient);
@@ -192,10 +192,10 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.POST);
         StepVerifier //
-            .create(testedObject.createTask(message)) //
-            .expectSubscription() //
-            .expectNext("OK") //
-            .verifyComplete(); //
+                .create(testedObject.createTask(message)) //
+                .expectSubscription() //
+                .expectNext("OK") //
+                .verifyComplete(); //
 
         verify(pmsClient).postForEntity(URL, payloadAsString());
         verifyNoMoreInteractions(pmsClient);
@@ -220,7 +220,7 @@ class DmaapMessageHandlerTest {
         verify(dmaapClient).post(anyString(), captor.capture());
         String actualMessage = captor.getValue();
         assertThat(actualMessage).as("Message \"%s\" sent to DMaaP contains %s", actualMessage, HttpStatus.BAD_GATEWAY)
-            .contains(HttpStatus.BAD_GATEWAY.toString());
+                .contains(HttpStatus.BAD_GATEWAY.toString());
 
         verifyNoMoreInteractions(dmaapClient);
     }
@@ -228,24 +228,24 @@ class DmaapMessageHandlerTest {
     @Test
     void putWithoutPayload_thenNotFoundResponseWithWarning() throws Exception {
         DmaapRequestMessage message = ImmutableDmaapRequestMessage.builder() //
-            .apiVersion("apiVersion") //
-            .correlationId("correlationId") //
-            .operation(DmaapRequestMessage.Operation.PUT) //
-            .originatorId("originatorId") //
-            .payload(Optional.empty()) //
-            .requestId("requestId") //
-            .target("target") //
-            .timestamp("timestamp") //
-            .url(URL) //
-            .build();
+                .apiVersion("apiVersion") //
+                .correlationId("correlationId") //
+                .operation(DmaapRequestMessage.Operation.PUT) //
+                .originatorId("originatorId") //
+                .payload(Optional.empty()) //
+                .requestId("requestId") //
+                .target("target") //
+                .timestamp("timestamp") //
+                .url(URL) //
+                .build();
 
         final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
+                LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
 
         testedObject.handleDmaapMsg(message);
 
         assertThat(logAppender.list.get(0).getFormattedMessage())
-            .startsWith("Expected payload in message from DMAAP: ");
+                .startsWith("Expected payload in message from DMAAP: ");
     }
 
 }

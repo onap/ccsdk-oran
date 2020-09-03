@@ -36,8 +36,7 @@ import reactor.core.publisher.Mono;
 
 public class A1ClientHelper {
 
-    private A1ClientHelper() {
-    }
+    private A1ClientHelper() {}
 
     protected static Mono<String> createOutputJsonResponse(String key, String value) {
         JSONObject paramsJson = new JSONObject();
@@ -49,23 +48,23 @@ public class A1ClientHelper {
 
     protected static Ric createRic(String url) {
         RicConfig cfg = ImmutableRicConfig.builder().ricId("ric") //
-            .baseUrl(url) //
-            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-            .controllerName("") //
-            .build();
+                .baseUrl(url) //
+                .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
+                .controllerName("") //
+                .build();
         return new Ric(cfg);
     }
 
     protected static Policy createPolicy(String nearRtRicUrl, String policyId, String json, String type) {
         return ImmutablePolicy.builder() //
-            .id(policyId) //
-            .json(json) //
-            .ownerServiceId("service") //
-            .ric(createRic(nearRtRicUrl)) //
-            .type(createPolicyType(type)) //
-            .lastModified(Instant.now()) //
-            .isTransient(false) //
-            .build();
+                .id(policyId) //
+                .json(json) //
+                .ownerServiceId("service") //
+                .ric(createRic(nearRtRicUrl)) //
+                .type(createPolicyType(type)) //
+                .lastModified(Instant.now()) //
+                .isTransient(false) //
+                .build();
     }
 
     protected static PolicyType createPolicyType(String name) {

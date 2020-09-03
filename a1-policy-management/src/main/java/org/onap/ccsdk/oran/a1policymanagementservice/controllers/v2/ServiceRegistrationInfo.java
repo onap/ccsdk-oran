@@ -37,8 +37,7 @@ public class ServiceRegistrationInfo {
     @JsonProperty("service_id")
     public String serviceId = "";
 
-    @ApiModelProperty(
-        value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
+    @ApiModelProperty(value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
             + "which in regular intevals must invoke a 'keepAlive' REST call. "
             + "When a service does not invoke this call within the given time, it is considered unavailble. "
             + "An unavailable service will be automatically deregistered and its policies will be deleted. "
@@ -52,8 +51,7 @@ public class ServiceRegistrationInfo {
     @JsonProperty("callback_url")
     public String callbackUrl = "";
 
-    public ServiceRegistrationInfo() {
-    }
+    public ServiceRegistrationInfo() {}
 
     public ServiceRegistrationInfo(String id, long keepAliveIntervalSeconds, String callbackUrl) {
         this.serviceId = id;

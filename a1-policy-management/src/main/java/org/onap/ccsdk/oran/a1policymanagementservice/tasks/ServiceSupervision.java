@@ -62,7 +62,7 @@ public class ServiceSupervision {
     }
 
     public ServiceSupervision(Services services, Policies policies, A1ClientFactory a1ClientFactory,
-        Duration checkInterval) {
+            Duration checkInterval) {
         this.services = services;
         this.policies = policies;
         this.a1ClientFactory = a1ClientFactory;
@@ -77,32 +77,32 @@ public class ServiceSupervision {
 
     private Flux<?> createTask() {
         return Flux.interval(this.checkInterval) //
-            .flatMap(notUsed -> checkAllServices());
+                .flatMap(notUsed -> checkAllServices());
     }
 
     Flux<Policy> checkAllServices() {
         return Flux.fromIterable(services.getAll()) //
-            .filter(Service::isExpired) //
-            .doOnNext(service -> logger.info("Service is expired: {}", service.getName())) //
-            .doOnNext(service -> services.remove(service.getName())) //
-            .flatMap(this::getAllPoliciesForService) //
-            .flatMap(this::deletePolicy, CONCURRENCY_RIC);
+                .filter(Service::isExpired) //
+                .doOnNext(service -> logger.info("Service is expired: {}", service.getName())) //
+                .doOnNext(service -> services.remove(service.getName())) //
+                .flatMap(this::getAllPoliciesForService) //
+                .flatMap(this::deletePolicy, CONCURRENCY_RIC);
     }
 
     @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
     private Flux<Policy> deletePolicy(Policy policy) {
         Lock lock = policy.ric().getLock();
         return lock.lock(LockType.SHARED) //
-            .doOnNext(notUsed -> policies.remove(policy)) //
-            .flatMap(notUsed -> deletePolicyInRic(policy))
-            .doOnNext(notUsed -> logger.debug("Policy deleted due to service inactivity: {}, service: {}", policy.id(),
-                policy.ownerServiceId())) //
-            .doOnNext(notUsed -> lock.unlockBlocking()) //
-            .doOnError(throwable -> lock.unlockBlocking()) //
-            .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.id(),
-                throwable.getMessage())) //
-            .flatMapMany(notUsed -> Flux.just(policy)) //
-            .onErrorResume(throwable -> Flux.empty());
+                .doOnNext(notUsed -> policies.remove(policy)) //
+                .flatMap(notUsed -> deletePolicyInRic(policy))
+                .doOnNext(notUsed -> logger.debug("Policy deleted due to service inactivity: {}, service: {}",
+                        policy.id(), policy.ownerServiceId())) //
+                .doOnNext(notUsed -> lock.unlockBlocking()) //
+                .doOnError(throwable -> lock.unlockBlocking()) //
+                .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.id(),
+                        throwable.getMessage())) //
+                .flatMapMany(notUsed -> Flux.just(policy)) //
+                .onErrorResume(throwable -> Flux.empty());
     }
 
     private Flux<Policy> getAllPoliciesForService(Service service) {
@@ -111,14 +111,14 @@ public class ServiceSupervision {
 
     private Mono<Policy> deletePolicyInRic(Policy policy) {
         return a1ClientFactory.createA1Client(policy.ric()) //
-            .flatMap(client -> client.deletePolicy(policy) //
-                .onErrorResume(exception -> handleDeleteFromRicFailure(policy, exception)) //
-                .map(nothing -> policy));
+                .flatMap(client -> client.deletePolicy(policy) //
+                        .onErrorResume(exception -> handleDeleteFromRicFailure(policy, exception)) //
+                        .map(nothing -> policy));
     }
 
     private Mono<String> handleDeleteFromRicFailure(Policy policy, Throwable e) {
         logger.warn("Could not delete policy: {} from ric: {}. Cause: {}", policy.id(), policy.ric().id(),
-            e.getMessage());
+                e.getMessage());
         return Mono.empty();
     }
 }

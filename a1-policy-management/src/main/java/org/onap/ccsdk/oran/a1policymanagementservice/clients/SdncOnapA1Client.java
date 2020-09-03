@@ -66,9 +66,9 @@ public class SdncOnapA1Client implements A1Client {
 
     public SdncOnapA1Client(RicConfig ricConfig, ControllerConfig controllerConfig, WebClientConfig clientConfig) {
         this(ricConfig, controllerConfig,
-            new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
+                new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
         logger.debug("SdncOnapA1Client for ric: {}, a1ControllerBaseUrl: {}", ricConfig.ricId(),
-            controllerConfig.baseUrl());
+                controllerConfig.baseUrl());
     }
 
     public SdncOnapA1Client(RicConfig ricConfig, ControllerConfig controllerConfig, AsyncRestClient restClient) {
@@ -80,47 +80,47 @@ public class SdncOnapA1Client implements A1Client {
     @Override
     public Mono<List<String>> getPolicyTypeIdentities() {
         return getPolicyTypeIds() //
-            .collectList();
+                .collectList();
     }
 
     @Override
     public Mono<List<String>> getPolicyIdentities() {
         return getPolicyTypeIds() //
-            .flatMap(this::getPolicyIdentitiesByType) //
-            .collectList();
+                .flatMap(this::getPolicyIdentitiesByType) //
+                .collectList();
     }
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
-            .nearRtRicId(ricConfig.baseUrl()) //
-            .policyTypeId(policyTypeId) //
-            .build();
+                .nearRtRicId(ricConfig.baseUrl()) //
+                .policyTypeId(policyTypeId) //
+                .build();
         String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST getPolicyType inputJsonString = {}", inputJsonString);
 
         return restClient
-            .postWithAuthHeader(URL_PREFIX + "getPolicyType", inputJsonString, controllerConfig.userName(),
-                controllerConfig.password()) //
-            .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-type")) //
-            .flatMap(SdncJsonHelper::extractPolicySchema);
+                .postWithAuthHeader(URL_PREFIX + "getPolicyType", inputJsonString, controllerConfig.userName(),
+                        controllerConfig.password()) //
+                .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-type")) //
+                .flatMap(SdncJsonHelper::extractPolicySchema);
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
-            .nearRtRicId(ricConfig.baseUrl()) //
-            .policyTypeId(policy.type().id()) //
-            .policyInstanceId(policy.id()) //
-            .policyInstance(policy.json()) //
-            .properties(new ArrayList<>()) //
-            .build();
+                .nearRtRicId(ricConfig.baseUrl()) //
+                .policyTypeId(policy.type().id()) //
+                .policyInstanceId(policy.id()) //
+                .policyInstance(policy.json()) //
+                .properties(new ArrayList<>()) //
+                .build();
 
         String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST putPolicy inputJsonString = {}", inputJsonString);
 
         return restClient.postWithAuthHeader(URL_PREFIX + "createPolicyInstance", inputJsonString,
-            controllerConfig.userName(), controllerConfig.password());
+                controllerConfig.userName(), controllerConfig.password());
     }
 
     @Override
@@ -131,13 +131,13 @@ public class SdncOnapA1Client implements A1Client {
     @Override
     public Flux<String> deleteAllPolicies() {
         return getPolicyTypeIds() //
-            .flatMap(this::deletePoliciesForType); //
+                .flatMap(this::deletePoliciesForType); //
     }
 
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
         return getPolicyTypeIdentities() //
-            .flatMap(notUsed -> Mono.just(A1ProtocolType.SDNC_ONAP));
+                .flatMap(notUsed -> Mono.just(A1ProtocolType.SDNC_ONAP));
     }
 
     @Override
@@ -147,48 +147,48 @@ public class SdncOnapA1Client implements A1Client {
 
     private Flux<String> getPolicyTypeIds() {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
-            .nearRtRicId(ricConfig.baseUrl()) //
-            .build();
+                .nearRtRicId(ricConfig.baseUrl()) //
+                .build();
         String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST getPolicyTypeIdentities inputJsonString = {}", inputJsonString);
 
         return restClient
-            .postWithAuthHeader(URL_PREFIX + "getPolicyTypes", inputJsonString, controllerConfig.userName(),
-                controllerConfig.password()) //
-            .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-type-id-list")) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .postWithAuthHeader(URL_PREFIX + "getPolicyTypes", inputJsonString, controllerConfig.userName(),
+                        controllerConfig.password()) //
+                .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-type-id-list")) //
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> getPolicyIdentitiesByType(String policyTypeId) {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
-            .nearRtRicId(ricConfig.baseUrl()) //
-            .policyTypeId(policyTypeId) //
-            .build();
+                .nearRtRicId(ricConfig.baseUrl()) //
+                .policyTypeId(policyTypeId) //
+                .build();
         String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST getPolicyIdentities inputJsonString = {}", inputJsonString);
 
         return restClient
-            .postWithAuthHeader(URL_PREFIX + "getPolicyInstances", inputJsonString, controllerConfig.userName(),
-                controllerConfig.password()) //
-            .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-instance-id-list")) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .postWithAuthHeader(URL_PREFIX + "getPolicyInstances", inputJsonString, controllerConfig.userName(),
+                        controllerConfig.password()) //
+                .flatMap(response -> SdncJsonHelper.getValueFromResponse(response, "policy-instance-id-list")) //
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> deletePoliciesForType(String typeId) {
         return getPolicyIdentitiesByType(typeId) //
-            .flatMap(policyId -> deletePolicyByTypeId(typeId, policyId)); //
+                .flatMap(policyId -> deletePolicyByTypeId(typeId, policyId)); //
     }
 
     private Mono<String> deletePolicyByTypeId(String policyTypeId, String policyId) {
         SdncOnapAdapterInput inputParams = ImmutableSdncOnapAdapterInput.builder() //
-            .nearRtRicId(ricConfig.baseUrl()) //
-            .policyTypeId(policyTypeId) //
-            .policyInstanceId(policyId) //
-            .build();
+                .nearRtRicId(ricConfig.baseUrl()) //
+                .policyTypeId(policyTypeId) //
+                .policyInstanceId(policyId) //
+                .build();
         String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST deletePolicy inputJsonString = {}", inputJsonString);
 
         return restClient.postWithAuthHeader(URL_PREFIX + "deletePolicyInstance", inputJsonString,
-            controllerConfig.userName(), controllerConfig.password());
+                controllerConfig.userName(), controllerConfig.password());
     }
 }

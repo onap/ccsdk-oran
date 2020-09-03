@@ -19,6 +19,7 @@
   ~ ============LICENSE_END=======================================================
   ~
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -26,7 +27,7 @@
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.1-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -34,19 +35,6 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <name>ccsdk-oran :: ${project.artifactId}</name>
-
-    <issueManagement>
-        <system>JIRA</system>
-        <url>https://jira.onap.org/</url>
-    </issueManagement>
-
-    <repositories>
-        <repository>
-            <id>onap-releases</id>
-            <name>onap-releases</name>
-            <url>https://nexus.onap.org/content/repositories/releases/</url>
-        </repository>
-    </repositories>
 
     <properties>
         <java.version.source>11</java.version.source>
@@ -67,6 +55,7 @@
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <exec.skip>true</exec.skip>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -172,7 +161,7 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.version}</version>
         </dependency>
-	<!-- TEST -->
+        <!-- TEST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -209,17 +198,19 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-	    <plugin>
+            <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <version>${formatter-maven-plugin.version}</version>
                 <configuration>
+                    <lineEnding>LF</lineEnding>
                     <configFile>${project.basedir}/eclipse-formatter.xml</configFile>
                 </configuration>
                 <!-- https://code.revelc.net/formatter-maven-plugin/ use mvn formatter:format
@@ -230,8 +221,9 @@
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>${spotless-maven-plugin.version}</version>
                 <configuration>
+                    <lineEndings>UNIX</lineEndings>
                     <java>
-                        <removeUnusedImports />
+                        <removeUnusedImports/>
                         <importOrder>
                             <order>com,java,javax,org</order>
                         </importOrder>
