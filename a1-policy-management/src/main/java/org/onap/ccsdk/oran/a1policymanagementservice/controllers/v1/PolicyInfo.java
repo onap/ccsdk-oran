@@ -47,8 +47,7 @@ public class PolicyInfo {
     @ApiModelProperty(value = "timestamp, last modification time")
     public String lastModified;
 
-    PolicyInfo() {
-    }
+    PolicyInfo() {}
 
     public boolean validate() {
         return id != null && type != null && ric != null && json != null && service != null && lastModified != null;

@@ -101,7 +101,7 @@ public class MockA1Client implements A1Client {
     public Flux<String> deleteAllPolicies() {
         this.policies.clear();
         return mono("OK") //
-            .flatMapMany(Flux::just);
+                .flatMapMany(Flux::just);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MockA1Client implements A1Client {
     Mono<String> monoError(String responseBody, HttpStatus status) {
         byte[] responseBodyBytes = responseBody.getBytes(StandardCharsets.UTF_8);
         WebClientResponseException a1Exception = new WebClientResponseException(status.value(),
-            status.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);
+                status.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);
         return Mono.error(a1Exception);
     }
 

@@ -72,25 +72,25 @@ class ServiceSupervisionTest {
     private Service service;
     private Policies policies;
     private RicConfig ricConfig = ImmutableRicConfig.builder() //
-        .ricId(RIC_NAME) //
-        .baseUrl("baseUrl") //
-        .managedElementIds(Collections.emptyList()) //
-        .controllerName("") //
-        .build();
+            .ricId(RIC_NAME) //
+            .baseUrl("baseUrl") //
+            .managedElementIds(Collections.emptyList()) //
+            .controllerName("") //
+            .build();
     private Ric ric = new Ric(ricConfig);
     private PolicyType policyType = ImmutablePolicyType.builder() //
-        .id("policyTypeName") //
-        .schema("schema") //
-        .build();
+            .id("policyTypeName") //
+            .schema("schema") //
+            .build();
     private Policy policy = ImmutablePolicy.builder() //
-        .id(POLICY_ID) //
-        .json("json") //
-        .ownerServiceId(SERVICE_NAME) //
-        .ric(ric) //
-        .type(policyType) //
-        .lastModified(Instant.now()) //
-        .isTransient(false) //
-        .build();
+            .id(POLICY_ID) //
+            .json("json") //
+            .ownerServiceId(SERVICE_NAME) //
+            .ric(ric) //
+            .type(policyType) //
+            .lastModified(Instant.now()) //
+            .isTransient(false) //
+            .build();
 
     @Test
     void serviceExpired_policyAndServiceAreDeletedInRepoAndPolicyIsDeletedInRic() {
@@ -100,7 +100,7 @@ class ServiceSupervisionTest {
         when(a1ClientMock.deletePolicy(any(Policy.class))).thenReturn(Mono.just("Policy deleted"));
 
         ServiceSupervision serviceSupervisionUnderTest =
-            new ServiceSupervision(services, policies, a1ClientFactoryMock);
+                new ServiceSupervision(services, policies, a1ClientFactoryMock);
 
         await().atMost(Durations.FIVE_SECONDS).with().pollInterval(Durations.ONE_SECOND).until(service::isExpired);
 
@@ -122,7 +122,7 @@ class ServiceSupervisionTest {
         when(a1ClientMock.deletePolicy(any(Policy.class))).thenReturn(Mono.error(new Exception(originalErrorMessage)));
 
         ServiceSupervision serviceSupervisionUnderTest =
-            new ServiceSupervision(services, policies, a1ClientFactoryMock);
+                new ServiceSupervision(services, policies, a1ClientFactoryMock);
 
         await().atMost(Durations.FIVE_SECONDS).with().pollInterval(Durations.ONE_SECOND).until(service::isExpired);
 
@@ -136,7 +136,7 @@ class ServiceSupervisionTest {
         ILoggingEvent loggingEvent = logAppender.list.get(0);
         assertThat(loggingEvent.getLevel()).isEqualTo(WARN);
         String expectedLogMessage =
-            "Could not delete policy: " + POLICY_ID + " from ric: " + RIC_NAME + ". Cause: " + originalErrorMessage;
+                "Could not delete policy: " + POLICY_ID + " from ric: " + RIC_NAME + ". Cause: " + originalErrorMessage;
         assertThat(loggingEvent.getFormattedMessage()).isEqualTo(expectedLogMessage);
     }
 
@@ -145,7 +145,7 @@ class ServiceSupervisionTest {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(2));
 
         ServiceSupervision serviceSupervisionUnderTest =
-            new ServiceSupervision(services, policies, a1ClientFactoryMock);
+                new ServiceSupervision(services, policies, a1ClientFactoryMock);
 
         serviceSupervisionUnderTest.checkAllServices().blockLast();
 
@@ -161,7 +161,7 @@ class ServiceSupervisionTest {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(0));
 
         ServiceSupervision serviceSupervisionUnderTest =
-            new ServiceSupervision(services, policies, a1ClientFactoryMock);
+                new ServiceSupervision(services, policies, a1ClientFactoryMock);
 
         serviceSupervisionUnderTest.checkAllServices().blockLast();
 

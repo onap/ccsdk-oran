@@ -97,7 +97,7 @@ public class StdA1ClientVersion1 implements A1Client {
     @Override
     public Mono<List<String>> getPolicyIdentities() {
         return getPolicyIds() //
-            .collectList();
+                .collectList();
     }
 
     @Override
@@ -123,13 +123,13 @@ public class StdA1ClientVersion1 implements A1Client {
     @Override
     public Flux<String> deleteAllPolicies() {
         return getPolicyIds() //
-            .flatMap(this::deletePolicyById); //
+                .flatMap(this::deletePolicyById); //
     }
 
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
         return getPolicyIdentities() //
-            .flatMap(x -> Mono.just(A1ProtocolType.STD_V1_1));
+                .flatMap(x -> Mono.just(A1ProtocolType.STD_V1_1));
     }
 
     @Override
@@ -139,7 +139,7 @@ public class StdA1ClientVersion1 implements A1Client {
 
     private Flux<String> getPolicyIds() {
         return restClient.get(uri.createGetPolicyIdsUri()) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Mono<String> deletePolicyById(String policyId) {

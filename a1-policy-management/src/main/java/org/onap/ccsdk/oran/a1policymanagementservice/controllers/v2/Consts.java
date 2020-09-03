@@ -31,6 +31,5 @@ public class Consts {
     public static final String V2_API_ROOT = "/v2";
     public static final String V2_API_NAME = "A1 Policy Management Version 2.0 (in progress)";
 
-    private Consts() {
-    }
+    private Consts() {}
 }

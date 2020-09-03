@@ -54,22 +54,21 @@ public class RicRepositoryController {
     PolicyTypes types;
 
     private static Gson gson = new GsonBuilder() //
-        .serializeNulls() //
-        .create(); //
+            .serializeNulls() //
+            .create(); //
 
     /**
      * Example: http://localhost:8081/rics?managedElementId=kista_1
      */
     @GetMapping("/ric")
     @ApiOperation(value = "Returns the name of a RIC managing one Mananged Element")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Near-RT RIC is found", response = String.class), //
             @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = String.class) //
-        })
+    })
     public ResponseEntity<String> getRic( //
-        @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
-        @RequestParam(name = "managedElementId", required = true) String managedElementId) {
+            @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
+            @RequestParam(name = "managedElementId", required = true) String managedElementId) {
         Optional<Ric> ric = this.rics.lookupRicForManagedElement(managedElementId);
 
         if (ric.isPresent()) {
@@ -84,13 +83,12 @@ public class RicRepositoryController {
      */
     @GetMapping("/rics")
     @ApiOperation(value = "Query Near-RT RIC information")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "OK", response = RicInfo.class, responseContainer = "List"), //
             @ApiResponse(code = 404, message = "Policy type is not found", response = String.class)})
     public ResponseEntity<String> getRics( //
-        @ApiParam(name = "policyType", required = false, value = "The name of the policy type") //
-        @RequestParam(name = "policyType", required = false) String supportingPolicyType) {
+            @ApiParam(name = "policyType", required = false, value = "The name of the policy type") //
+            @RequestParam(name = "policyType", required = false) String supportingPolicyType) {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
             return new ResponseEntity<>("Policy type not found", HttpStatus.NOT_FOUND);
         }
@@ -99,7 +97,7 @@ public class RicRepositoryController {
         for (Ric ric : rics.getRics()) {
             if (supportingPolicyType == null || ric.isSupportingType(supportingPolicyType)) {
                 result.add(new RicInfo(ric.id(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
-                    ric.getState().toString()));
+                        ric.getState().toString()));
             }
         }
 

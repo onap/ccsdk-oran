@@ -144,21 +144,21 @@ public class OscA1Client implements A1Client {
     @Override
     public Mono<List<String>> getPolicyTypeIdentities() {
         return getPolicyTypeIds() //
-            .collectList();
+                .collectList();
     }
 
     @Override
     public Mono<List<String>> getPolicyIdentities() {
         return getPolicyTypeIds() //
-            .flatMap(this::getPolicyIdentitiesByType) //
-            .collectList();
+                .flatMap(this::getPolicyIdentitiesByType) //
+                .collectList();
     }
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
         String schemaUri = uri.createGetSchemaUri(policyTypeId);
         return restClient.get(schemaUri) //
-            .flatMap(response -> extractCreateSchema(response, policyTypeId));
+                .flatMap(response -> extractCreateSchema(response, policyTypeId));
     }
 
     @Override
@@ -175,13 +175,13 @@ public class OscA1Client implements A1Client {
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
         return restClient.get(uri.createHealtcheckUri()) //
-            .flatMap(notUsed -> Mono.just(A1ProtocolType.OSC_V1));
+                .flatMap(notUsed -> Mono.just(A1ProtocolType.OSC_V1));
     }
 
     @Override
     public Flux<String> deleteAllPolicies() {
         return getPolicyTypeIds() //
-            .flatMap(this::deletePoliciesForType, CONCURRENCY_RIC);
+                .flatMap(this::deletePoliciesForType, CONCURRENCY_RIC);
     }
 
     @Override
@@ -193,12 +193,12 @@ public class OscA1Client implements A1Client {
 
     private Flux<String> getPolicyTypeIds() {
         return restClient.get(uri.createPolicyTypesUri()) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> getPolicyIdentitiesByType(String typeId) {
         return restClient.get(uri.createGetPolicyIdsUri(typeId)) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Mono<String> deletePolicyById(String typeId, String policyId) {
@@ -208,6 +208,6 @@ public class OscA1Client implements A1Client {
 
     private Flux<String> deletePoliciesForType(String typeId) {
         return getPolicyIdentitiesByType(typeId) //
-            .flatMap(policyId -> deletePolicyById(typeId, policyId), CONCURRENCY_RIC);
+                .flatMap(policyId -> deletePolicyById(typeId, policyId), CONCURRENCY_RIC);
     }
 }

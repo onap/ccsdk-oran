@@ -66,7 +66,7 @@ public class RicSynchronizationTask {
     private final Services services;
 
     public RicSynchronizationTask(A1ClientFactory a1ClientFactory, PolicyTypes policyTypes, Policies policies,
-        Services services) {
+            Services services) {
         this.a1ClientFactory = a1ClientFactory;
         this.policyTypes = policyTypes;
         this.policies = policies;
@@ -82,27 +82,28 @@ public class RicSynchronizationTask {
         }
 
         ric.getLock().lock(LockType.EXCLUSIVE) //
-            .flatMap(notUsed -> setRicState(ric)) //
-            .flatMap(lock -> this.a1ClientFactory.createA1Client(ric)) //
-            .flatMapMany(client -> runSynchronization(ric, client)) //
-            .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable))
-            .subscribe(new BaseSubscriber<Object>() {
-                @Override
-                protected void hookOnError(Throwable throwable) {
-                    logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), throwable.getMessage());
-                    ric.setState(RicState.UNAVAILABLE);
-                }
+                .flatMap(notUsed -> setRicState(ric)) //
+                .flatMap(lock -> this.a1ClientFactory.createA1Client(ric)) //
+                .flatMapMany(client -> runSynchronization(ric, client)) //
+                .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable))
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    protected void hookOnError(Throwable throwable) {
+                        logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(),
+                                throwable.getMessage());
+                        ric.setState(RicState.UNAVAILABLE);
+                    }
 
-                @Override
-                protected void hookOnComplete() {
-                    onSynchronizationComplete(ric);
-                }
+                    @Override
+                    protected void hookOnComplete() {
+                        onSynchronizationComplete(ric);
+                    }
 
-                @Override
-                protected void hookFinally(SignalType type) {
-                    ric.getLock().unlockBlocking();
-                }
-            });
+                    @Override
+                    protected void hookFinally(SignalType type) {
+                        ric.getLock().unlockBlocking();
+                    }
+                });
     }
 
     @SuppressWarnings("squid:S2445") // Blocks should be synchronized on "private final" fields
@@ -136,12 +137,12 @@ public class RicSynchronizationTask {
             String url = service.getCallbackUrl();
             if (url.length() > 0) {
                 createNotificationClient(url) //
-                    .put("", body) //
-                    .subscribe( //
-                        notUsed -> logger.debug("Service {} notified", service.getName()),
-                        throwable -> logger.warn("Service notification failed for service: {}. Cause: {}",
-                            service.getName(), throwable.getMessage()),
-                        () -> logger.debug("All services notified"));
+                        .put("", body) //
+                        .subscribe( //
+                                notUsed -> logger.debug("Service {} notified", service.getName()),
+                                throwable -> logger.warn("Service notification failed for service: {}. Cause: {}",
+                                        service.getName(), throwable.getMessage()),
+                                () -> logger.debug("All services notified"));
             }
         }
     }
@@ -151,10 +152,10 @@ public class RicSynchronizationTask {
         deleteAllPoliciesInRepository(ric);
 
         Flux<PolicyType> synchronizedTypes = this.a1ClientFactory.createA1Client(ric) //
-            .flatMapMany(a1Client -> synchronizePolicyTypes(ric, a1Client));
+                .flatMapMany(a1Client -> synchronizePolicyTypes(ric, a1Client));
         Flux<?> deletePoliciesInRic = this.a1ClientFactory.createA1Client(ric) //
-            .flatMapMany(A1Client::deleteAllPolicies) //
-            .doOnComplete(() -> deleteAllPoliciesInRepository(ric));
+                .flatMapMany(A1Client::deleteAllPolicies) //
+                .doOnComplete(() -> deleteAllPoliciesInRepository(ric));
 
         return Flux.concat(synchronizedTypes, deletePoliciesInRic);
     }
@@ -165,11 +166,11 @@ public class RicSynchronizationTask {
 
     private Flux<PolicyType> synchronizePolicyTypes(Ric ric, A1Client a1Client) {
         return a1Client.getPolicyTypeIdentities() //
-            .doOnNext(x -> ric.clearSupportedPolicyTypes()) //
-            .flatMapMany(Flux::fromIterable) //
-            .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().ricId(), typeId)) //
-            .flatMap(policyTypeId -> getPolicyType(policyTypeId, a1Client), CONCURRENCY_RIC) //
-            .doOnNext(ric::addSupportedPolicyType); //
+                .doOnNext(x -> ric.clearSupportedPolicyTypes()) //
+                .flatMapMany(Flux::fromIterable) //
+                .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().ricId(), typeId)) //
+                .flatMap(policyTypeId -> getPolicyType(policyTypeId, a1Client), CONCURRENCY_RIC) //
+                .doOnNext(ric::addSupportedPolicyType); //
     }
 
     private Mono<PolicyType> getPolicyType(String policyTypeId, A1Client a1Client) {
@@ -177,7 +178,7 @@ public class RicSynchronizationTask {
             return Mono.just(policyTypes.get(policyTypeId));
         }
         return a1Client.getPolicyTypeSchema(policyTypeId) //
-            .flatMap(schema -> createPolicyType(policyTypeId, schema));
+                .flatMap(schema -> createPolicyType(policyTypeId, schema));
     }
 
     private Mono<PolicyType> createPolicyType(String policyTypeId, String schema) {
@@ -195,7 +196,7 @@ public class RicSynchronizationTask {
     private Flux<Policy> putPolicy(Policy policy, Ric ric, A1Client a1Client) {
         logger.debug("Recreating policy: {}, for ric: {}", policy.id(), ric.getConfig().ricId());
         return a1Client.putPolicy(policy) //
-            .flatMapMany(notUsed -> Flux.just(policy));
+                .flatMapMany(notUsed -> Flux.just(policy));
     }
 
     private boolean checkTransient(Policy policy) {
@@ -207,8 +208,8 @@ public class RicSynchronizationTask {
 
     private Flux<Policy> recreateAllPoliciesInRic(Ric ric, A1Client a1Client) {
         return Flux.fromIterable(policies.getForRic(ric.id())) //
-            .filter(policy -> !checkTransient(policy)) //
-            .flatMap(policy -> putPolicy(policy, ric, a1Client), CONCURRENCY_RIC);
+                .filter(policy -> !checkTransient(policy)) //
+                .flatMap(policy -> putPolicy(policy, ric, a1Client), CONCURRENCY_RIC);
     }
 
 }

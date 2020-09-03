@@ -57,17 +57,17 @@ class ApplicationConfigParserTest {
 
         topicUrl = result.dmaapConsumerTopicUrl();
         assertEquals(
-            "http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-READ/users/policy-agent?timeout=15000&limit=100",
-            topicUrl, "controller contents");
+                "http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-READ/users/policy-agent?timeout=15000&limit=100",
+                topicUrl, "controller contents");
 
         Map<String, ControllerConfig> controllers = result.controllerConfigs();
         assertEquals(1, controllers.size(), "size");
         ImmutableControllerConfig expectedControllerConfig = ImmutableControllerConfig.builder() //
-            .baseUrl("http://localhost:8083/") //
-            .name("controller1") //
-            .userName("user") //
-            .password("password") //
-            .build(); //
+                .baseUrl("http://localhost:8083/") //
+                .name("controller1") //
+                .userName("user") //
+                .password("password") //
+                .build(); //
         assertEquals(expectedControllerConfig, controllers.get("controller1"), "controller contents");
     }
 
@@ -78,7 +78,7 @@ class ApplicationConfigParserTest {
 
     private static InputStream getCorrectJson() throws IOException {
         URL url = ApplicationConfigParser.class.getClassLoader()
-            .getResource("test_application_configuration_with_dmaap_config.json");
+                .getResource("test_application_configuration_with_dmaap_config.json");
         String string = Resources.toString(url, Charsets.UTF_8);
         return new ByteArrayInputStream((string.getBytes(StandardCharsets.UTF_8)));
     }
@@ -92,12 +92,12 @@ class ApplicationConfigParserTest {
         json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
         DataPublishing data = new Gson().fromJson(json.toString(), DataPublishing.class);
         final String expectedMessage =
-            "Invalid configuration. Number of streams must be one, config: " + data.toString();
+                "Invalid configuration. Number of streams must be one, config: " + data.toString();
 
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 
         assertEquals(expectedMessage, actualException.getMessage(),
-            "Wrong error message when the DMaaP config has several streams publishing");
+                "Wrong error message when the DMaaP config has several streams publishing");
     }
 
     class DataPublishing {
@@ -107,7 +107,7 @@ class ApplicationConfigParserTest {
         @Override
         public String toString() {
             return String.format("[dmaap_publisher=%s, fake_info_object=%s]", dmaap_publisher.toString(),
-                fake_info_object.toString());
+                    fake_info_object.toString());
         }
     }
 
@@ -120,12 +120,12 @@ class ApplicationConfigParserTest {
         json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
         DataSubscribing data = new Gson().fromJson(json.toString(), DataSubscribing.class);
         final String expectedMessage =
-            "Invalid configuration. Number of streams must be one, config: " + data.toString();
+                "Invalid configuration. Number of streams must be one, config: " + data.toString();
 
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 
         assertEquals(expectedMessage, actualException.getMessage(),
-            "Wrong error message when the DMaaP config has several streams subscribing");
+                "Wrong error message when the DMaaP config has several streams subscribing");
     }
 
     private class DataSubscribing {
@@ -135,7 +135,7 @@ class ApplicationConfigParserTest {
         @Override
         public String toString() {
             return String.format("[dmaap_subscriber=%s, fake_info_object=%s]", dmaap_subscriber.toString(),
-                fake_info_object.toString());
+                    fake_info_object.toString());
         }
     }
 
@@ -152,8 +152,8 @@ class ApplicationConfigParserTest {
     }
 
     JsonObject getDmaapInfo(JsonObject jsonRootObject, String streamsPublishesOrSubscribes,
-        String dmaapPublisherOrSubscriber) throws Exception {
+            String dmaapPublisherOrSubscriber) throws Exception {
         return jsonRootObject.getAsJsonObject("config").getAsJsonObject(streamsPublishesOrSubscribes)
-            .getAsJsonObject(dmaapPublisherOrSubscriber).getAsJsonObject("dmaap_info");
+                .getAsJsonObject(dmaapPublisherOrSubscriber).getAsJsonObject("dmaap_info");
     }
 }

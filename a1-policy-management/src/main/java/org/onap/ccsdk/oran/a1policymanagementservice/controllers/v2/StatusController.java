@@ -52,10 +52,9 @@ public class StatusController {
 
     @GetMapping(path = Consts.V2_API_ROOT + "/status", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns status and statistics of this service")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service is living", response = StatusInfo.class) //
-        })
+    })
     public Mono<ResponseEntity<Object>> getStatus() {
         StatusInfo info = new StatusInfo("hunky dory");
         return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));

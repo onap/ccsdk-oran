@@ -87,7 +87,7 @@ public class Lock {
     @Override
     public synchronized String toString() {
         return "Lock cnt: " + this.lockCounter + " exclusive: " + this.isExclusive + " queued: "
-            + this.lockRequestQueue.size();
+                + this.lockRequestQueue.size();
     }
 
     /** returns the current number of granted locks */

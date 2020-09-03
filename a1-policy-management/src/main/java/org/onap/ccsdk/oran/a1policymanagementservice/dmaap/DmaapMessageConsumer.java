@@ -123,7 +123,7 @@ public class DmaapMessageConsumer {
         String producerTopicUrl = applicationConfig.getDmaapProducerTopicUrl();
         String consumerTopicUrl = applicationConfig.getDmaapConsumerTopicUrl();
         return (producerTopicUrl != null && consumerTopicUrl != null && !producerTopicUrl.isEmpty()
-            && !consumerTopicUrl.isEmpty());
+                && !consumerTopicUrl.isEmpty());
     }
 
     private <T> List<T> parseList(String jsonString, Class<T> clazz) {
@@ -144,16 +144,16 @@ public class DmaapMessageConsumer {
 
     private void sendErrorResponse(String response) {
         DmaapRequestMessage fakeRequest = ImmutableDmaapRequestMessage.builder() //
-            .apiVersion("") //
-            .correlationId("") //
-            .operation(DmaapRequestMessage.Operation.PUT) //
-            .originatorId("") //
-            .payload(Optional.empty()) //
-            .requestId("") //
-            .target("") //
-            .timestamp("") //
-            .url("URL") //
-            .build();
+                .apiVersion("") //
+                .correlationId("") //
+                .operation(DmaapRequestMessage.Operation.PUT) //
+                .originatorId("") //
+                .payload(Optional.empty()) //
+                .requestId("") //
+                .target("") //
+                .timestamp("") //
+                .url("URL") //
+                .build();
         getDmaapMessageHandler().sendDmaapResponse(response, fakeRequest, HttpStatus.BAD_REQUEST).block();
     }
 
@@ -175,7 +175,7 @@ public class DmaapMessageConsumer {
             return parseMessages(response.getBody());
         } else {
             throw new ServiceException("Cannot fetch because of Error respons: " + response.getStatusCode().toString()
-                + " " + response.getBody());
+                    + " " + response.getBody());
         }
     }
 
@@ -189,7 +189,7 @@ public class DmaapMessageConsumer {
             String pmsBaseUrl = "http://localhost:" + this.localServerHttpPort;
             AsyncRestClient pmsClient = new AsyncRestClient(pmsBaseUrl, this.applicationConfig.getWebClientConfig());
             AsyncRestClient producer = new AsyncRestClient(this.applicationConfig.getDmaapProducerTopicUrl(),
-                this.applicationConfig.getWebClientConfig());
+                    this.applicationConfig.getWebClientConfig());
             this.dmaapMessageHandler = new DmaapMessageHandler(producer, pmsClient);
         }
         return this.dmaapMessageHandler;

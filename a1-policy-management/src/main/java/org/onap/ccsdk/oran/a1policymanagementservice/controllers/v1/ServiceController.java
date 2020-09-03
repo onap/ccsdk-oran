@@ -59,7 +59,7 @@ public class ServiceController {
     private final Policies policies;
 
     private static Gson gson = new GsonBuilder() //
-        .create(); //
+            .create(); //
 
     @Autowired
     ServiceController(Services services, Policies policies) {
@@ -69,13 +69,12 @@ public class ServiceController {
 
     @GetMapping("/services")
     @ApiOperation(value = "Returns service information")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "OK", response = ServiceStatus.class, responseContainer = "List"), //
             @ApiResponse(code = 404, message = "Service is not found", response = String.class)})
     public ResponseEntity<String> getServices(//
-        @ApiParam(name = "name", required = false, value = "The name of the service") //
-        @RequestParam(name = "name", required = false) String name) {
+            @ApiParam(name = "name", required = false, value = "The name of the service") //
+            @RequestParam(name = "name", required = false) String name) {
         if (name != null && this.services.get(name) == null) {
             return new ResponseEntity<>("Service not found", HttpStatus.NOT_FOUND);
         }
@@ -93,11 +92,11 @@ public class ServiceController {
 
     private ServiceStatus toServiceStatus(Service s) {
         return new ServiceStatus(s.getName(), s.getKeepAliveInterval().toSeconds(), s.timeSinceLastPing().toSeconds(),
-            s.getCallbackUrl());
+                s.getCallbackUrl());
     }
 
     private void validateRegistrationInfo(ServiceRegistrationInfo registrationInfo)
-        throws ServiceException, MalformedURLException {
+            throws ServiceException, MalformedURLException {
         if (registrationInfo.serviceName.isEmpty()) {
             throw new ServiceException("Missing mandatory parameter 'serviceName'");
         }
@@ -110,14 +109,13 @@ public class ServiceController {
     }
 
     @ApiOperation(value = "Register a service")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service updated", response = String.class),
             @ApiResponse(code = 201, message = "Service created", response = String.class), //
             @ApiResponse(code = 400, message = "The ServiceRegistrationInfo is not accepted", response = String.class)})
     @PutMapping("/service")
     public ResponseEntity<String> putService(//
-        @RequestBody ServiceRegistrationInfo registrationInfo) {
+            @RequestBody ServiceRegistrationInfo registrationInfo) {
         try {
             validateRegistrationInfo(registrationInfo);
             final boolean isCreate = this.services.get(registrationInfo.serviceName) == null;
@@ -129,15 +127,14 @@ public class ServiceController {
     }
 
     @ApiOperation(value = "Delete a service")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 204, message = "Service deleted"),
             @ApiResponse(code = 204, message = "Not used", response = VoidResponse.class),
             @ApiResponse(code = 404, message = "Service not found", response = String.class)})
     @DeleteMapping("/services")
     public ResponseEntity<String> deleteService(//
-        @ApiParam(name = "name", required = true, value = "The name of the service") //
-        @RequestParam(name = "name", required = true) String serviceName) {
+            @ApiParam(name = "name", required = true, value = "The name of the service") //
+            @RequestParam(name = "name", required = true) String serviceName) {
         try {
             Service service = removeService(serviceName);
             // Remove the policies from the repo and let the consistency monitoring
@@ -150,14 +147,13 @@ public class ServiceController {
     }
 
     @ApiOperation(value = "Heartbeat from a serice")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"),
             @ApiResponse(code = 404, message = "The service is not found, needs re-registration")})
     @PutMapping("/services/keepalive")
     public ResponseEntity<String> keepAliveService(//
-        @ApiParam(name = "name", required = true, value = "The name of the service") //
-        @RequestParam(name = "name", required = true) String serviceName) {
+            @ApiParam(name = "name", required = true, value = "The name of the service") //
+            @RequestParam(name = "name", required = true) String serviceName) {
         try {
             services.getService(serviceName).keepAlive();
             return new ResponseEntity<>("OK", HttpStatus.OK);

@@ -24,6 +24,5 @@ public class Consts {
 
     public static final String V1_API_NAME = "A1 Policy Management Version 1.0";
 
-    private Consts() {
-    }
+    private Consts() {}
 }

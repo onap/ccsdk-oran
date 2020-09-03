@@ -73,14 +73,14 @@ class LockTest {
         Lock lock = new Lock();
 
         Mono<Lock> seq = lock.lock(LockType.EXCLUSIVE) //
-            .flatMap(l -> lock.lock(LockType.EXCLUSIVE)) //
-            .flatMap(l -> lock.unlock());
+                .flatMap(l -> lock.lock(LockType.EXCLUSIVE)) //
+                .flatMap(l -> lock.unlock());
 
         asynchUnlock(lock);
         StepVerifier.create(seq) //
-            .expectSubscription() //
-            .expectNext(lock) //
-            .verifyComplete();
+                .expectSubscription() //
+                .expectNext(lock) //
+                .verifyComplete();
 
         assertThat(lock.getLockCounter()).isZero();
 

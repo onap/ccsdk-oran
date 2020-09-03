@@ -67,11 +67,11 @@ class OscA1ClientTest {
     @BeforeEach
     void init() {
         RicConfig ricConfig = ImmutableRicConfig.builder() //
-            .ricId("name") //
-            .baseUrl("RicBaseUrl") //
-            .managedElementIds(new ArrayList<>()) //
-            .controllerName("") //
-            .build();
+                .ricId("name") //
+                .baseUrl("RicBaseUrl") //
+                .managedElementIds(new ArrayList<>()) //
+                .controllerName("") //
+                .build();
         asyncRestClientMock = mock(AsyncRestClient.class);
         clientUnderTest = new OscA1Client(ricConfig, asyncRestClientMock);
     }
@@ -93,7 +93,7 @@ class OscA1ClientTest {
         Mono<String> policyIdsType1Resp = Mono.just(Arrays.asList(POLICY_1_ID).toString());
         Mono<String> policyIdsType2Resp = Mono.just(Arrays.asList(POLICY_2_ID).toString());
         when(asyncRestClientMock.get(anyString())).thenReturn(policyTypeIdsResp).thenReturn(policyIdsType1Resp)
-            .thenReturn(policyIdsType2Resp);
+                .thenReturn(policyIdsType2Resp);
 
         List<String> returned = clientUnderTest.getPolicyIdentities().block();
 
@@ -113,7 +113,7 @@ class OscA1ClientTest {
         Mono<String> returnedMono = clientUnderTest.getPolicyTypeSchema(POLICY_TYPE_1_ID);
         verify(asyncRestClientMock).get(POLICYTYPES_URL + POLICY_TYPE_1_ID);
         StepVerifier.create(returnedMono).expectNext(A1ClientHelper.getCreateSchema(policyType, POLICY_TYPE_1_ID))
-            .expectComplete().verify();
+                .expectComplete().verify();
     }
 
     @Test
@@ -144,9 +144,10 @@ class OscA1ClientTest {
         when(asyncRestClientMock.put(anyString(), anyString())).thenReturn(Mono.empty());
 
         clientUnderTest
-            .putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID)).block();
+                .putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID))
+                .block();
         verify(asyncRestClientMock).put(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID,
-            POLICY_JSON_VALID);
+                POLICY_JSON_VALID);
     }
 
     @Test
@@ -154,7 +155,7 @@ class OscA1ClientTest {
         when(asyncRestClientMock.delete(anyString())).thenReturn(Mono.empty());
 
         Mono<String> returnedMono = clientUnderTest
-            .deletePolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID));
+                .deletePolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID));
         verify(asyncRestClientMock).delete(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID);
         StepVerifier.create(returnedMono).expectComplete().verify();
     }
@@ -165,7 +166,7 @@ class OscA1ClientTest {
         Mono<String> policyIdsType1Resp = Mono.just(Arrays.asList(POLICY_1_ID).toString());
         Mono<String> policyIdsType2Resp = Mono.just(Arrays.asList(POLICY_2_ID).toString());
         when(asyncRestClientMock.get(anyString())).thenReturn(policyTypeIdsResp).thenReturn(policyIdsType1Resp)
-            .thenReturn(policyIdsType2Resp);
+                .thenReturn(policyIdsType2Resp);
         when(asyncRestClientMock.delete(anyString())).thenReturn(Mono.empty());
 
         Flux<String> returnedFlux = clientUnderTest.deleteAllPolicies();

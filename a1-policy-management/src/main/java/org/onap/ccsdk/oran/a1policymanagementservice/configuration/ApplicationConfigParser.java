@@ -87,15 +87,15 @@ public class ApplicationConfigParser {
         checkConfigurationConsistency(ricConfigs, controllerConfigs);
 
         return ImmutableConfigParserResult.builder() //
-            .dmaapConsumerTopicUrl(dmaapConsumerTopicUrl) //
-            .dmaapProducerTopicUrl(dmaapProducerTopicUrl) //
-            .ricConfigs(ricConfigs) //
-            .controllerConfigs(controllerConfigs) //
-            .build();
+                .dmaapConsumerTopicUrl(dmaapConsumerTopicUrl) //
+                .dmaapProducerTopicUrl(dmaapProducerTopicUrl) //
+                .ricConfigs(ricConfigs) //
+                .controllerConfigs(controllerConfigs) //
+                .build();
     }
 
     private void checkConfigurationConsistency(List<RicConfig> ricConfigs,
-        Map<String, ControllerConfig> controllerConfigs) throws ServiceException {
+            Map<String, ControllerConfig> controllerConfigs) throws ServiceException {
         Set<String> ricUrls = new HashSet<>();
         Set<String> ricNames = new HashSet<>();
         for (RicConfig ric : ricConfigs) {
@@ -107,7 +107,7 @@ public class ApplicationConfigParser {
             }
             if (!ric.controllerName().isEmpty() && controllerConfigs.get(ric.controllerName()) == null) {
                 throw new ServiceException(
-                    "Configuration error, controller configuration not found: " + ric.controllerName());
+                        "Configuration error, controller configuration not found: " + ric.controllerName());
             }
 
         }
@@ -119,11 +119,11 @@ public class ApplicationConfigParser {
             JsonObject ricAsJson = ricElem.getAsJsonObject();
             JsonElement controllerNameElement = ricAsJson.get(CONTROLLER);
             RicConfig ricConfig = ImmutableRicConfig.builder() //
-                .ricId(get(ricAsJson, "name", "id", "ricId").getAsString()) //
-                .baseUrl(get(ricAsJson, "baseUrl").getAsString()) //
-                .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
-                .controllerName(controllerNameElement != null ? controllerNameElement.getAsString() : "") //
-                .build();
+                    .ricId(get(ricAsJson, "name", "id", "ricId").getAsString()) //
+                    .baseUrl(get(ricAsJson, "baseUrl").getAsString()) //
+                    .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
+                    .controllerName(controllerNameElement != null ? controllerNameElement.getAsString() : "") //
+                    .build();
             result.add(ricConfig);
         }
         return result;
@@ -137,15 +137,15 @@ public class ApplicationConfigParser {
         for (JsonElement element : getAsJsonArray(config, CONTROLLER)) {
             JsonObject controllerAsJson = element.getAsJsonObject();
             ImmutableControllerConfig controllerConfig = ImmutableControllerConfig.builder() //
-                .name(get(controllerAsJson, "name").getAsString()) //
-                .baseUrl(get(controllerAsJson, "baseUrl").getAsString()) //
-                .password(get(controllerAsJson, "password").getAsString()) //
-                .userName(get(controllerAsJson, "userName").getAsString()) // )
-                .build();
+                    .name(get(controllerAsJson, "name").getAsString()) //
+                    .baseUrl(get(controllerAsJson, "baseUrl").getAsString()) //
+                    .password(get(controllerAsJson, "password").getAsString()) //
+                    .userName(get(controllerAsJson, "userName").getAsString()) // )
+                    .build();
 
             if (result.put(controllerConfig.name(), controllerConfig) != null) {
                 throw new ServiceException(
-                    "Configuration error, more than one controller with name: " + controllerConfig.name());
+                        "Configuration error, more than one controller with name: " + controllerConfig.name());
             }
         }
         return result;
@@ -179,7 +179,7 @@ public class ApplicationConfigParser {
         Set<Entry<String, JsonElement>> streamConfigEntries = streamCfg.entrySet();
         if (streamConfigEntries.size() != 1) {
             throw new ServiceException(
-                "Invalid configuration. Number of streams must be one, config: " + streamConfigEntries);
+                    "Invalid configuration. Number of streams must be one, config: " + streamConfigEntries);
         }
         JsonObject streamConfigEntry = streamConfigEntries.iterator().next().getValue().getAsJsonObject();
         JsonObject dmaapInfo = get(streamConfigEntry, "dmaap_info").getAsJsonObject();

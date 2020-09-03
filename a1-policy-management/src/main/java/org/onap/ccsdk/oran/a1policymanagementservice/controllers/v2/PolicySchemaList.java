@@ -38,7 +38,7 @@ import org.immutables.gson.Gson;
 public class PolicySchemaList {
 
     @ApiModelProperty(
-        value = "Policy type json schemas. The schema is a json object following http://json-schema.org/draft-07/schema")
+            value = "Policy type json schemas. The schema is a json object following http://json-schema.org/draft-07/schema")
     @SerializedName("policy_schemas")
     @JsonProperty("policy_schemas")
     public final Collection<Object> schemas;
