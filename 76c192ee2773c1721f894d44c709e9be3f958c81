@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c3894fd_aa7dd6bc",
+        "filename": "version.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-09-03T15:16:30Z",
+      "side": 1,
+      "message": "it needs to be 0",
+      "revId": "76c192ee2773c1721f894d44c709e9be3f958c81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
