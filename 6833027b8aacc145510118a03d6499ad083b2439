@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e92839e7_b013fbb9",
+        "filename": "version.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-09-03T10:17:18Z",
+      "side": 1,
+      "message": "Several other places in CCSDK use 1.0.1 for Guilin \n(but others use 1.0.0, 2.0.1 ... etc)\n\nI suggest 1.0.1 which seems most popular - so we stay aligned with the majority of CCSDK version numbers",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "6833027b8aacc145510118a03d6499ad083b2439",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
