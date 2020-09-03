@@ -69,28 +69,28 @@ import reactor.core.publisher.Mono;
 class RicSynchronizationTaskTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
-        .id(POLICY_TYPE_1_NAME) //
-        .schema("") //
-        .build();
+            .id(POLICY_TYPE_1_NAME) //
+            .schema("") //
+            .build();
 
     private static final String RIC_1_NAME = "ric1";
     private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
-        .ricId(RIC_1_NAME) //
-        .baseUrl("baseUrl1") //
-        .managedElementIds(Collections.emptyList()) //
-        .controllerName("controllerName") //
-        .build());
+            .ricId(RIC_1_NAME) //
+            .baseUrl("baseUrl1") //
+            .managedElementIds(Collections.emptyList()) //
+            .controllerName("controllerName") //
+            .build());
 
     private static Policy createPolicy(String policyId, boolean isTransient) {
         return ImmutablePolicy.builder() //
-            .id(policyId) //
-            .json("") //
-            .ownerServiceId("service") //
-            .ric(RIC_1) //
-            .type(POLICY_TYPE_1) //
-            .lastModified(Instant.now()) //
-            .isTransient(isTransient) //
-            .build();
+                .id(policyId) //
+                .json("") //
+                .ownerServiceId("service") //
+                .ric(RIC_1) //
+                .type(POLICY_TYPE_1) //
+                .lastModified(Instant.now()) //
+                .isTransient(isTransient) //
+                .build();
     }
 
     private static final Policy POLICY_1 = createPolicy("policyId1", false);
@@ -127,7 +127,7 @@ class RicSynchronizationTaskTest {
         policies.put(POLICY_1);
 
         RicSynchronizationTask synchronizerUnderTest =
-            new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -153,7 +153,7 @@ class RicSynchronizationTaskTest {
         simulateRicWithOnePolicyType();
 
         RicSynchronizationTask synchronizerUnderTest =
-            spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
+                spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
 
         AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
         when(restClientMock.put(anyString(), anyString())).thenReturn(Mono.just("Ok"));
@@ -185,7 +185,7 @@ class RicSynchronizationTaskTest {
         when(a1ClientMock.getPolicyTypeSchema(POLICY_TYPE_1_NAME)).thenReturn(Mono.just(typeSchema));
 
         RicSynchronizationTask synchronizerUnderTest =
-            new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -214,7 +214,7 @@ class RicSynchronizationTaskTest {
         when(a1ClientMock.putPolicy(any(Policy.class))).thenReturn(Mono.just("OK"));
 
         RicSynchronizationTask synchronizerUnderTest =
-            new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -237,11 +237,11 @@ class RicSynchronizationTaskTest {
         simulateRicWithNoPolicyTypes();
 
         when(a1ClientMock.deleteAllPolicies()) //
-            .thenReturn(Flux.error(new Exception("Exception"))) //
-            .thenReturn(Flux.just("OK"));
+                .thenReturn(Flux.error(new Exception("Exception"))) //
+                .thenReturn(Flux.just("OK"));
 
         RicSynchronizationTask synchronizerUnderTest =
-            new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -266,15 +266,15 @@ class RicSynchronizationTaskTest {
         when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(new Exception(originalErrorMessage)));
 
         RicSynchronizationTask synchronizerUnderTest =
-            new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
 
         final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
+                LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
 
         synchronizerUnderTest.run(RIC_1);
 
         verifyCorrectLogMessage(0, logAppender,
-            "Synchronization failure for ric: " + RIC_1_NAME + ", reason: " + originalErrorMessage);
+                "Synchronization failure for ric: " + RIC_1_NAME + ", reason: " + originalErrorMessage);
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
@@ -296,10 +296,10 @@ class RicSynchronizationTaskTest {
         simulateRicWithOnePolicyType();
 
         final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
+                LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
 
         RicSynchronizationTask synchronizerUnderTest =
-            spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
+                spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
 
         AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
         String originalErrorMessage = "Exception";
@@ -310,7 +310,7 @@ class RicSynchronizationTaskTest {
         ILoggingEvent loggingEvent = logAppender.list.get(0);
         assertThat(loggingEvent.getLevel()).isEqualTo(WARN);
         verifyCorrectLogMessage(0, logAppender,
-            "Service notification failed for service: " + SERVICE_1_NAME + ". Cause: " + originalErrorMessage);
+                "Service notification failed for service: " + SERVICE_1_NAME + ". Cause: " + originalErrorMessage);
     }
 
     private void setUpCreationOfA1Client() {
@@ -333,7 +333,7 @@ class RicSynchronizationTaskTest {
     }
 
     private void verifyCorrectLogMessage(int messageIndex, ListAppender<ILoggingEvent> logAppender,
-        String expectedMessage) {
+            String expectedMessage) {
         ILoggingEvent loggingEvent = logAppender.list.get(messageIndex);
         assertThat(loggingEvent.getFormattedMessage()).isEqualTo(expectedMessage);
     }

@@ -94,7 +94,7 @@ public class RefreshConfigTask {
 
     @Autowired
     public RefreshConfigTask(ApplicationConfig appConfig, Rics rics, Policies policies, Services services,
-        PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
+            PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
         this.appConfig = appConfig;
         this.rics = rics;
         this.policies = policies;
@@ -107,9 +107,10 @@ public class RefreshConfigTask {
         logger.debug("Starting refreshConfigTask");
         stop();
         refreshTask = createRefreshTask() //
-            .subscribe(notUsed -> logger.debug("Refreshed configuration data"),
-                throwable -> logger.error("Configuration refresh terminated due to exception {}", throwable.toString()),
-                () -> logger.error("Configuration refresh terminated"));
+                .subscribe(
+                        notUsed -> logger.debug("Refreshed configuration data"), throwable -> logger
+                                .error("Configuration refresh terminated due to exception {}", throwable.toString()),
+                        () -> logger.error("Configuration refresh terminated"));
     }
 
     public void stop() {
@@ -120,44 +121,44 @@ public class RefreshConfigTask {
 
     Flux<RicConfigUpdate.Type> createRefreshTask() {
         Flux<JsonObject> loadFromFile = Flux.interval(Duration.ZERO, CONFIG_REFRESH_INTERVAL) //
-            .filter(notUsed -> !this.isConsulUsed) //
-            .flatMap(notUsed -> loadConfigurationFromFile()) //
-            .onErrorResume(this::ignoreErrorFlux) //
-            .doOnNext(json -> logger.debug("loadFromFile succeeded")) //
-            .doOnTerminate(() -> logger.error("loadFromFile Terminate"));
+                .filter(notUsed -> !this.isConsulUsed) //
+                .flatMap(notUsed -> loadConfigurationFromFile()) //
+                .onErrorResume(this::ignoreErrorFlux) //
+                .doOnNext(json -> logger.debug("loadFromFile succeeded")) //
+                .doOnTerminate(() -> logger.error("loadFromFile Terminate"));
 
         Flux<JsonObject> loadFromConsul = Flux.interval(Duration.ZERO, CONFIG_REFRESH_INTERVAL) //
-            .flatMap(i -> getEnvironment(systemEnvironment)) //
-            .flatMap(this::createCbsClient) //
-            .flatMap(this::getFromCbs) //
-            .onErrorResume(this::ignoreErrorMono) //
-            .doOnNext(json -> logger.debug("loadFromConsul succeeded")) //
-            .doOnNext(json -> this.isConsulUsed = true) //
-            .doOnTerminate(() -> logger.error("loadFromConsul Terminated"));
+                .flatMap(i -> getEnvironment(systemEnvironment)) //
+                .flatMap(this::createCbsClient) //
+                .flatMap(this::getFromCbs) //
+                .onErrorResume(this::ignoreErrorMono) //
+                .doOnNext(json -> logger.debug("loadFromConsul succeeded")) //
+                .doOnNext(json -> this.isConsulUsed = true) //
+                .doOnTerminate(() -> logger.error("loadFromConsul Terminated"));
 
         return Flux.merge(loadFromFile, loadFromConsul) //
-            .flatMap(this::parseConfiguration) //
-            .flatMap(this::updateConfig) //
-            .doOnNext(this::handleUpdatedRicConfig) //
-            .flatMap(configUpdate -> Flux.just(configUpdate.getType())) //
-            .doOnTerminate(() -> logger.error("Configuration refresh task is terminated"));
+                .flatMap(this::parseConfiguration) //
+                .flatMap(this::updateConfig) //
+                .doOnNext(this::handleUpdatedRicConfig) //
+                .flatMap(configUpdate -> Flux.just(configUpdate.getType())) //
+                .doOnTerminate(() -> logger.error("Configuration refresh task is terminated"));
     }
 
     Mono<EnvProperties> getEnvironment(Properties systemEnvironment) {
         return EnvironmentProcessor.readEnvironmentVariables(systemEnvironment) //
-            .onErrorResume(t -> Mono.empty());
+                .onErrorResume(t -> Mono.empty());
     }
 
     Mono<CbsClient> createCbsClient(EnvProperties env) {
         return CbsClientFactory.createCbsClient(env) //
-            .onErrorResume(this::ignoreErrorMono);
+                .onErrorResume(this::ignoreErrorMono);
     }
 
     private Mono<JsonObject> getFromCbs(CbsClient cbsClient) {
         try {
             final CbsRequest getConfigRequest = CbsRequests.getAll(RequestDiagnosticContext.create());
             return cbsClient.get(getConfigRequest) //
-                .onErrorResume(this::ignoreErrorMono);
+                    .onErrorResume(this::ignoreErrorMono);
         } catch (Exception e) {
             return ignoreErrorMono(e);
         }
@@ -223,7 +224,7 @@ public class RefreshConfigTask {
 
     void runRicSynchronization(Ric ric) {
         RicSynchronizationTask synchronizationTask =
-            new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services);
         synchronizationTask.run(ric);
     }
 

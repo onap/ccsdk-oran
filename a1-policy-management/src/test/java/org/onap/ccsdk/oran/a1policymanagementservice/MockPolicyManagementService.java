@@ -57,8 +57,7 @@ import org.springframework.util.StringUtils;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@TestPropertySource(
-    properties = { //
+@TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks"})
 class MockPolicyManagementService {
@@ -170,7 +169,7 @@ class MockPolicyManagementService {
             await().until(() -> rics.size() == noOfRicsInConfigFile);
         } catch (Exception e) {
             logger.info("Loaded rics: {}, and no of rics in config file: {} never matched!", rics.size(),
-                StringUtils.countOccurrencesOf(json, "baseUrl"));
+                    StringUtils.countOccurrencesOf(json, "baseUrl"));
         }
     }
 
@@ -186,14 +185,14 @@ class MockPolicyManagementService {
         String json = getConfigJsonFromFile();
 
         Policy policy = ImmutablePolicy.builder() //
-            .id("typelessPolicy") //
-            .json(json) //
-            .ownerServiceId("MockPolicyManagementService") //
-            .ric(ric) //
-            .type(unnamedPolicyType) //
-            .lastModified(Instant.now()) //
-            .isTransient(false) //
-            .build();
+                .id("typelessPolicy") //
+                .json(json) //
+                .ownerServiceId("MockPolicyManagementService") //
+                .ric(ric) //
+                .type(unnamedPolicyType) //
+                .lastModified(Instant.now()) //
+                .isTransient(false) //
+                .build();
         this.policies.put(policy);
     }
 

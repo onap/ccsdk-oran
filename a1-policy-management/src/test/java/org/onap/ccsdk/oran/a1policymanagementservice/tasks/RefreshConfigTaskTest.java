@@ -102,19 +102,19 @@ class RefreshConfigTaskTest {
 
     private static final String RIC_1_NAME = "ric1";
     private static final RicConfig CORRECT_RIC_CONIFG = ImmutableRicConfig.builder() //
-        .ricId(RIC_1_NAME) //
-        .baseUrl("http://localhost:8080/") //
-        .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-        .controllerName("") //
-        .build();
+            .ricId(RIC_1_NAME) //
+            .baseUrl("http://localhost:8080/") //
+            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
+            .controllerName("") //
+            .build();
 
     private static EnvProperties properties() {
         return ImmutableEnvProperties.builder() //
-            .consulHost("host") //
-            .consulPort(123) //
-            .cbsName("cbsName") //
-            .appName("appName") //
-            .build();
+                .consulHost("host") //
+                .consulPort(123) //
+                .cbsName("cbsName") //
+                .appName("appName") //
+                .build();
     }
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
@@ -122,9 +122,9 @@ class RefreshConfigTaskTest {
     }
 
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
-        boolean stubConfigFileExists) {
+            boolean stubConfigFileExists) {
         RefreshConfigTask obj = spy(new RefreshConfigTask(appConfig, rics, policies, new Services(), new PolicyTypes(),
-            new A1ClientFactory(appConfig)));
+                new A1ClientFactory(appConfig)));
         if (stubConfigFileExists) {
             doReturn(configFileExists).when(obj).fileExists(any());
         }
@@ -163,12 +163,12 @@ class RefreshConfigTaskTest {
         doReturn("fileName").when(appConfig).getLocalConfigurationFilePath();
 
         StepVerifier //
-            .create(refreshTaskUnderTest.createRefreshTask()) //
-            .expectSubscription() //
-            .expectNext(Type.ADDED) //
-            .expectNext(Type.ADDED) //
-            .thenCancel() //
-            .verify();
+                .create(refreshTaskUnderTest.createRefreshTask()) //
+                .expectSubscription() //
+                .expectNext(Type.ADDED) //
+                .expectNext(Type.ADDED) //
+                .thenCancel() //
+                .verify();
 
         // Then
         verify(refreshTaskUnderTest).loadConfigurationFromFile();
@@ -194,11 +194,11 @@ class RefreshConfigTaskTest {
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
 
         StepVerifier //
-            .create(refreshTaskUnderTest.createRefreshTask()) //
-            .expectSubscription() //
-            .expectNoEvent(Duration.ofMillis(100)) //
-            .thenCancel() //
-            .verify();
+                .create(refreshTaskUnderTest.createRefreshTask()) //
+                .expectSubscription() //
+                .expectNoEvent(Duration.ofMillis(100)) //
+                .thenCancel() //
+                .verify();
 
         // Then
         verify(refreshTaskUnderTest).loadConfigurationFromFile();
@@ -206,7 +206,7 @@ class RefreshConfigTaskTest {
 
         await().until(() -> logAppender.list.size() > 0);
         assertThat(logAppender.list.get(0).getFormattedMessage())
-            .startsWith("Local configuration file not loaded: fileName, ");
+                .startsWith("Local configuration file not loaded: fileName, ");
     }
 
     @Test
@@ -223,15 +223,15 @@ class RefreshConfigTaskTest {
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, WARN);
 
         StepVerifier //
-            .create(refreshTaskUnderTest.createRefreshTask()) //
-            .expectSubscription() //
-            .expectNoEvent(Duration.ofMillis(1000)) //
-            .thenCancel() //
-            .verify();
+                .create(refreshTaskUnderTest.createRefreshTask()) //
+                .expectSubscription() //
+                .expectNoEvent(Duration.ofMillis(1000)) //
+                .thenCancel() //
+                .verify();
 
         await().until(() -> logAppender.list.size() > 0);
         assertThat(logAppender.list.get(0).getFormattedMessage())
-            .isEqualTo("Could not refresh application configuration. java.io.IOException");
+                .isEqualTo("Could not refresh application configuration. java.io.IOException");
     }
 
     @Test
@@ -262,13 +262,13 @@ class RefreshConfigTaskTest {
         doNothing().when(refreshTaskUnderTest).runRicSynchronization(any(Ric.class));
 
         StepVerifier //
-            .create(refreshTaskUnderTest.createRefreshTask()) //
-            .expectSubscription() //
-            .expectNext(Type.CHANGED) //
-            .expectNext(Type.ADDED) //
-            .expectNext(Type.REMOVED) //
-            .thenCancel() //
-            .verify();
+                .create(refreshTaskUnderTest.createRefreshTask()) //
+                .expectSubscription() //
+                .expectNext(Type.CHANGED) //
+                .expectNext(Type.ADDED) //
+                .expectNext(Type.REMOVED) //
+                .thenCancel() //
+                .verify();
 
         assertThat(appConfig.getRicConfigs()).hasSize(2);
         assertThat(appConfig.getRic(RIC_1_NAME).baseUrl()).isEqualTo(newBaseUrl);
@@ -301,61 +301,61 @@ class RefreshConfigTaskTest {
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
 
         StepVerifier //
-            .create(refreshTaskUnderTest.createRefreshTask()) //
-            .expectSubscription() //
-            .expectNoEvent(Duration.ofMillis(1000)) //
-            .thenCancel() //
-            .verify();
+                .create(refreshTaskUnderTest.createRefreshTask()) //
+                .expectSubscription() //
+                .expectNoEvent(Duration.ofMillis(1000)) //
+                .thenCancel() //
+                .verify();
 
         await().until(() -> logAppender.list.size() > 0);
         assertThat(logAppender.list.get(0).getFormattedMessage()).startsWith(
-            "Could not parse configuration org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: ");
+                "Could not parse configuration org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: ");
     }
 
     private RicConfig getRicConfig(String name) {
         RicConfig ricConfig = ImmutableRicConfig.builder() //
-            .ricId(name) //
-            .baseUrl("url") //
-            .managedElementIds(Collections.emptyList()) //
-            .controllerName("controllerName") //
-            .build();
+                .ricId(name) //
+                .baseUrl("url") //
+                .managedElementIds(Collections.emptyList()) //
+                .controllerName("controllerName") //
+                .build();
         return ricConfig;
     }
 
     private Policy getPolicy(Ric ric) {
         ImmutablePolicyType type = ImmutablePolicyType.builder() //
-            .id("type") //
-            .schema("{}") //
-            .build();
+                .id("type") //
+                .schema("{}") //
+                .build();
         Policy policy = ImmutablePolicy.builder() //
-            .id("id") //
-            .type(type) //
-            .lastModified(Instant.now()) //
-            .ric(ric) //
-            .json("{}") //
-            .ownerServiceId("ownerServiceId") //
-            .isTransient(false) //
-            .build();
+                .id("id") //
+                .type(type) //
+                .lastModified(Instant.now()) //
+                .ric(ric) //
+                .json("{}") //
+                .ownerServiceId("ownerServiceId") //
+                .isTransient(false) //
+                .build();
         return policy;
     }
 
     ConfigParserResult configParserResult(RicConfig... rics) {
         return ImmutableConfigParserResult.builder() //
-            .ricConfigs(Arrays.asList(rics)) //
-            .dmaapConsumerTopicUrl("") //
-            .dmaapProducerTopicUrl("") //
-            .controllerConfigs(new HashMap<>()) //
-            .build();
+                .ricConfigs(Arrays.asList(rics)) //
+                .dmaapConsumerTopicUrl("") //
+                .dmaapProducerTopicUrl("") //
+                .controllerConfigs(new HashMap<>()) //
+                .build();
     }
 
     private void modifyTheRicConfiguration(JsonObject configAsJson, String newBaseUrl) {
         ((JsonObject) configAsJson.getAsJsonObject("config") //
-            .getAsJsonArray("ric").get(0)) //
-                .addProperty("baseUrl", newBaseUrl);
+                .getAsJsonArray("ric").get(0)) //
+                        .addProperty("baseUrl", newBaseUrl);
     }
 
     private JsonObject getJsonRootObject(InputStream inStream)
-        throws JsonIOException, JsonSyntaxException, IOException {
+            throws JsonIOException, JsonSyntaxException, IOException {
         JsonObject rootObject = JsonParser.parseReader(new InputStreamReader(inStream)).getAsJsonObject();
         return rootObject;
     }

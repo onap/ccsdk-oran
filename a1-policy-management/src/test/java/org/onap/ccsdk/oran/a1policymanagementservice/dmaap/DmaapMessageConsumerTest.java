@@ -143,12 +143,12 @@ class DmaapMessageConsumerTest {
         when(messageRouterConsumerMock.getForEntity(any())).thenReturn(response);
 
         final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(DmaapMessageConsumer.class, WARN);
+                LoggingUtils.getLogListAppender(DmaapMessageConsumer.class, WARN);
 
         messageConsumerUnderTest.start().join();
 
         assertThat(logAppender.list.get(0).getFormattedMessage())
-            .isEqualTo("Cannot fetch because of Error respons: 400 BAD_REQUEST Error");
+                .isEqualTo("Cannot fetch because of Error respons: 400 BAD_REQUEST Error");
 
         verify(messageConsumerUnderTest).sleep(DmaapMessageConsumer.TIME_BETWEEN_DMAAP_RETRIES);
     }
@@ -204,9 +204,9 @@ class DmaapMessageConsumerTest {
         doReturn(messageHandlerMock).when(messageConsumerUnderTest).getDmaapMessageHandler();
         doReturn(Mono.just("OK")).when(messageHandlerMock).sendDmaapResponse(any(), any(), any());
         Exception actualException =
-            assertThrows(ServiceException.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
+                assertThrows(ServiceException.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
         assertThat(actualException.getMessage())
-            .contains("Could not parse incomming request. Reason :com.google.gson.stream.MalformedJsonException");
+                .contains("Could not parse incomming request. Reason :com.google.gson.stream.MalformedJsonException");
 
         verify(messageHandlerMock).sendDmaapResponse(any(), any(), any());
     }
@@ -216,9 +216,9 @@ class DmaapMessageConsumerTest {
         messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
         doReturn(messageHandlerMock).when(messageConsumerUnderTest).getDmaapMessageHandler();
         doReturn(Mono.error(new Exception("Sending response failed"))).when(messageHandlerMock).sendDmaapResponse(any(),
-            any(), any());
+                any(), any());
         Exception actualException =
-            assertThrows(Exception.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
+                assertThrows(Exception.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
         assertThat(actualException.getMessage()).contains("Sending response failed");
 
         verify(messageHandlerMock).sendDmaapResponse(any(), any(), any());
@@ -239,16 +239,16 @@ class DmaapMessageConsumerTest {
 
     private DmaapRequestMessage dmaapRequestMessage(Operation operation) {
         return ImmutableDmaapRequestMessage.builder() //
-            .apiVersion("apiVersion") //
-            .correlationId("correlationId") //
-            .operation(operation) //
-            .originatorId("originatorId") //
-            .payload(new JsonObject()) //
-            .requestId("requestId") //
-            .target("target") //
-            .timestamp("timestamp") //
-            .url("URL") //
-            .build();
+                .apiVersion("apiVersion") //
+                .correlationId("correlationId") //
+                .operation(operation) //
+                .originatorId("originatorId") //
+                .payload(new JsonObject()) //
+                .requestId("requestId") //
+                .target("target") //
+                .timestamp("timestamp") //
+                .url("URL") //
+                .build();
     }
 
 }

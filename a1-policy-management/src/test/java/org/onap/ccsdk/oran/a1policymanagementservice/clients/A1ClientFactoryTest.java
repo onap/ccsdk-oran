@@ -70,11 +70,11 @@ class A1ClientFactoryTest {
 
     private static ImmutableRicConfig ricConfig(String controllerName) {
         return ImmutableRicConfig.builder() //
-            .ricId(RIC_NAME) //
-            .baseUrl("baseUrl") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName(controllerName) //
-            .build();
+                .ricId(RIC_NAME) //
+                .baseUrl("baseUrl") //
+                .managedElementIds(new Vector<>()) //
+                .controllerName(controllerName) //
+                .build();
     }
 
     @BeforeEach
@@ -114,9 +114,9 @@ class A1ClientFactoryTest {
         doReturn(clientMock1, clientMock2, clientMock3, clientMock4).when(factoryUnderTest).createClient(any(), any());
 
         StepVerifier.create(factoryUnderTest.createA1Client(ric)) //
-            .expectSubscription() //
-            .expectError() //
-            .verify();
+                .expectSubscription() //
+                .expectError() //
+                .verify();
 
         assertEquals(A1ProtocolType.UNKNOWN, ric.getProtocolVersion(), "Protocol negotiation failed for " + ric.id());
     }
@@ -156,11 +156,11 @@ class A1ClientFactoryTest {
 
     private void whenGetGetControllerConfigReturn() throws ServiceException {
         ControllerConfig controllerCfg = ImmutableControllerConfig.builder() //
-            .name("name") //
-            .baseUrl("baseUrl") //
-            .password("pass") //
-            .userName("user") //
-            .build();
+                .name("name") //
+                .baseUrl("baseUrl") //
+                .password("pass") //
+                .userName("user") //
+                .build();
         when(applicationConfigMock.getControllerConfig(any())).thenReturn(controllerCfg);
     }
 

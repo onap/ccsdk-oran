@@ -62,12 +62,11 @@ public class PolicyInfo {
     @JsonProperty("last_modified")
     public String lastModified;
 
-    PolicyInfo() {
-    }
+    PolicyInfo() {}
 
     public boolean validate() {
         return policyId != null && policyTypeId != null && ricId != null && policyData != null && serviceId != null
-            && lastModified != null;
+                && lastModified != null;
     }
 
 }

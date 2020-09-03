@@ -55,14 +55,14 @@ class EnvironmentProcessorTest {
         systemEnvironment.put(HOSTNAME, HOSTNAME_VALUE);
 
         EnvProperties expectedEnvProperties = ImmutableEnvProperties.builder() //
-            .consulHost(CONSUL_HOST_VALUE) //
-            .consulPort(Integer.valueOf(consulPort)) //
-            .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
-            .appName(HOSTNAME_VALUE) //
-            .build();
+                .consulHost(CONSUL_HOST_VALUE) //
+                .consulPort(Integer.valueOf(consulPort)) //
+                .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
+                .appName(HOSTNAME_VALUE) //
+                .build();
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectNext(expectedEnvProperties).expectComplete();
+                .expectNext(expectedEnvProperties).expectComplete();
     }
 
     @Test
@@ -70,9 +70,9 @@ class EnvironmentProcessorTest {
         Properties systemEnvironment = new Properties();
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
-                && throwable.getMessage().equals("$CONSUL_HOST environment has not been defined"))
-            .verify();
+                .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
+                        && throwable.getMessage().equals("$CONSUL_HOST environment has not been defined"))
+                .verify();
     }
 
     @Test
@@ -84,20 +84,20 @@ class EnvironmentProcessorTest {
 
         String defaultConsulPort = "8500";
         EnvProperties expectedEnvProperties = ImmutableEnvProperties.builder() //
-            .consulHost(CONSUL_HOST_VALUE) //
-            .consulPort(Integer.valueOf(defaultConsulPort)) //
-            .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
-            .appName(HOSTNAME_VALUE) //
-            .build();
+                .consulHost(CONSUL_HOST_VALUE) //
+                .consulPort(Integer.valueOf(defaultConsulPort)) //
+                .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
+                .appName(HOSTNAME_VALUE) //
+                .build();
 
         final ListAppender<ILoggingEvent> logAppender =
-            LoggingUtils.getLogListAppender(EnvironmentProcessor.class, WARN);
+                LoggingUtils.getLogListAppender(EnvironmentProcessor.class, WARN);
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectNext(expectedEnvProperties).expectComplete();
+                .expectNext(expectedEnvProperties).expectComplete();
 
         assertThat(logAppender.list.get(0).getFormattedMessage())
-            .isEqualTo("$CONSUL_PORT variable will be set to default port " + defaultConsulPort);
+                .isEqualTo("$CONSUL_PORT variable will be set to default port " + defaultConsulPort);
     }
 
     @Test
@@ -106,9 +106,9 @@ class EnvironmentProcessorTest {
         systemEnvironment.put(CONSUL_HOST, CONSUL_HOST_VALUE);
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
-                && throwable.getMessage().equals("$CONFIG_BINDING_SERVICE environment has not been defined"))
-            .verify();
+                .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
+                        && throwable.getMessage().equals("$CONFIG_BINDING_SERVICE environment has not been defined"))
+                .verify();
     }
 
     @Test
@@ -121,14 +121,14 @@ class EnvironmentProcessorTest {
         systemEnvironment.put("SERVICE_NAME", HOSTNAME_VALUE);
 
         EnvProperties expectedEnvProperties = ImmutableEnvProperties.builder() //
-            .consulHost(CONSUL_HOST_VALUE) //
-            .consulPort(Integer.valueOf(consulPort)) //
-            .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
-            .appName(HOSTNAME_VALUE) //
-            .build();
+                .consulHost(CONSUL_HOST_VALUE) //
+                .consulPort(Integer.valueOf(consulPort)) //
+                .cbsName(CONFIG_BINDING_SERVICE_VALUE) //
+                .appName(HOSTNAME_VALUE) //
+                .build();
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectNext(expectedEnvProperties).expectComplete();
+                .expectNext(expectedEnvProperties).expectComplete();
     }
 
     @Test
@@ -138,8 +138,9 @@ class EnvironmentProcessorTest {
         systemEnvironment.put(CONFIG_BINDING_SERVICE, CONFIG_BINDING_SERVICE_VALUE);
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-            .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException && throwable.getMessage()
-                .equals("Neither $HOSTNAME/$SERVICE_NAME have not been defined as system environment"))
-            .verify();
+                .expectErrorMatches(
+                        throwable -> throwable instanceof EnvironmentLoaderException && throwable.getMessage()
+                                .equals("Neither $HOSTNAME/$SERVICE_NAME have not been defined as system environment"))
+                .verify();
     }
 }

@@ -41,10 +41,10 @@ public class RicInfo {
     }
 
     private static final String STATE_DESCRIPTION = "State for the Near-RT RIC, values: \n"
-        + "UNAVAILABLE: The Near-RT RIC is not avialable, information may be inconsistent \n"
-        + "AVAILABLE: The normal state. Policies can be configured. +\n"
-        + "SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured. \n"
-        + "CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.";
+            + "UNAVAILABLE: The Near-RT RIC is not avialable, information may be inconsistent \n"
+            + "AVAILABLE: The normal state. Policies can be configured. +\n"
+            + "SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured. \n"
+            + "CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.";
 
     @ApiModelProperty(value = "identity of the Near-RT RIC")
     @SerializedName("ric_id")

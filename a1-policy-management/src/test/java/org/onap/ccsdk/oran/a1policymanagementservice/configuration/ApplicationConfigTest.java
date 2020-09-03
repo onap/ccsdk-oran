@@ -40,19 +40,19 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 class ApplicationConfigTest {
 
     private static final ImmutableRicConfig RIC_CONFIG_1 = ImmutableRicConfig.builder() //
-        .ricId("ric1") //
-        .baseUrl("ric1_url") //
-        .managedElementIds(new Vector<>()) //
-        .controllerName("") //
-        .build();
+            .ricId("ric1") //
+            .baseUrl("ric1_url") //
+            .managedElementIds(new Vector<>()) //
+            .controllerName("") //
+            .build();
 
     ConfigParserResult configParserResult(RicConfig... rics) {
         return ImmutableConfigParserResult.builder() //
-            .ricConfigs(Arrays.asList(rics)) //
-            .dmaapConsumerTopicUrl("dmaapConsumerTopicUrl") //
-            .dmaapProducerTopicUrl("dmaapProducerTopicUrl") //
-            .controllerConfigs(new HashMap<>()) //
-            .build();
+                .ricConfigs(Arrays.asList(rics)) //
+                .dmaapConsumerTopicUrl("dmaapConsumerTopicUrl") //
+                .dmaapProducerTopicUrl("dmaapProducerTopicUrl") //
+                .controllerConfigs(new HashMap<>()) //
+                .build();
     }
 
     @Test
@@ -77,7 +77,7 @@ class ApplicationConfigTest {
         assertTrue(appConfigUnderTest.getRicConfigs().contains(RIC_CONFIG_1), "Ric not added to configurations.");
 
         assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
-            "Not correct Ric retrieved from configurations.");
+                "Not correct Ric retrieved from configurations.");
 
         update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).blockFirst();
         assertNull(update, "Nothing should be updated");
@@ -92,17 +92,17 @@ class ApplicationConfigTest {
         appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1));
 
         ImmutableRicConfig changedRicConfig = ImmutableRicConfig.builder() //
-            .ricId("ric1") //
-            .baseUrl("changed_ric1_url") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName("") //
-            .build();
+                .ricId("ric1") //
+                .baseUrl("changed_ric1_url") //
+                .managedElementIds(new Vector<>()) //
+                .controllerName("") //
+                .build();
 
         RicConfigUpdate update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig)).blockFirst();
 
         assertEquals(RicConfigUpdate.Type.CHANGED, update.getType());
         assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
-            "Changed Ric not retrieved from configurations.");
+                "Changed Ric not retrieved from configurations.");
     }
 
     @Test
@@ -110,11 +110,11 @@ class ApplicationConfigTest {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
         ImmutableRicConfig ricConfig2 = ImmutableRicConfig.builder() //
-            .ricId("ric2") //
-            .baseUrl("ric2_url") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName("") //
-            .build();
+                .ricId("ric2") //
+                .baseUrl("ric2_url") //
+                .managedElementIds(new Vector<>()) //
+                .controllerName("") //
+                .build();
 
         appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1, ricConfig2));
 

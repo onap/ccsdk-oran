@@ -134,7 +134,7 @@ public class Ric {
     @Override
     public synchronized String toString() {
         return Ric.class.getSimpleName() + ": " + "name: " + id() + ", state: " + state + ", baseUrl: "
-            + ricConfig.baseUrl() + ", managedNodes: " + ricConfig.managedElementIds();
+                + ricConfig.baseUrl() + ", managedNodes: " + ricConfig.managedElementIds();
     }
 
     /**

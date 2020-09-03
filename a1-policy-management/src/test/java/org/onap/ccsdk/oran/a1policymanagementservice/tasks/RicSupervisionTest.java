@@ -60,37 +60,37 @@ import reactor.core.publisher.Mono;
 class RicSupervisionTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
-        .id(POLICY_TYPE_1_NAME) //
-        .schema("") //
-        .build();
+            .id(POLICY_TYPE_1_NAME) //
+            .schema("") //
+            .build();
 
     private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
-        .ricId("ric_1") //
-        .baseUrl("baseUrl1") //
-        .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-        .controllerName("controllerName") //
-        .build());
+            .ricId("ric_1") //
+            .baseUrl("baseUrl1") //
+            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
+            .controllerName("controllerName") //
+            .build());
 
     private static final String POLICY_1_ID = "policyId1";
     private static final Policy POLICY_1 = ImmutablePolicy.builder() //
-        .id(POLICY_1_ID) //
-        .json("") //
-        .ownerServiceId("service") //
-        .ric(RIC_1) //
-        .type(POLICY_TYPE_1) //
-        .lastModified(Instant.now()) //
-        .isTransient(false) //
-        .build();
+            .id(POLICY_1_ID) //
+            .json("") //
+            .ownerServiceId("service") //
+            .ric(RIC_1) //
+            .type(POLICY_TYPE_1) //
+            .lastModified(Instant.now()) //
+            .isTransient(false) //
+            .build();
 
     private static final Policy POLICY_2 = ImmutablePolicy.builder() //
-        .id("policyId2") //
-        .json("") //
-        .ownerServiceId("service") //
-        .ric(RIC_1) //
-        .type(POLICY_TYPE_1) //
-        .lastModified(Instant.now()) //
-        .isTransient(false) //
-        .build();
+            .id("policyId2") //
+            .json("") //
+            .ownerServiceId("service") //
+            .ric(RIC_1) //
+            .type(POLICY_TYPE_1) //
+            .lastModified(Instant.now()) //
+            .isTransient(false) //
+            .build();
 
     @Mock
     private A1Client a1ClientMock;
@@ -285,9 +285,9 @@ class RicSupervisionTest {
     void whenRicIdleAndSameAmountOfPolicyTypesButNotSameTypes_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         PolicyType policyType2 = ImmutablePolicyType.builder() //
-            .id("policyType2") //
-            .schema("") //
-            .build();
+                .id("policyType2") //
+                .schema("") //
+                .build();
 
         RIC_1.setState(RicState.AVAILABLE);
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);

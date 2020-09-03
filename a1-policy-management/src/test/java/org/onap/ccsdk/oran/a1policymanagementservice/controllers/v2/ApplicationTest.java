@@ -87,8 +87,7 @@ import reactor.util.annotation.Nullable;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(
-    properties = { //
+@TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks"})
 class ApplicationTest {
@@ -119,8 +118,8 @@ class ApplicationTest {
     Services services;
 
     private static Gson gson = new GsonBuilder() //
-        .serializeNulls() //
-        .create(); //
+            .serializeNulls() //
+            .create(); //
 
     public static class MockApplicationConfig extends ApplicationConfig {
         @Override
@@ -218,13 +217,13 @@ class ApplicationTest {
         // This tests also validation of trusted certs restClient(true)
         rsp = restClient(true).get(url).block();
         assertThat(rsp).contains("ric2") //
-            .doesNotContain("ric1") //
-            .contains("AVAILABLE");
+                .doesNotContain("ric1") //
+                .contains("AVAILABLE");
 
         // All RICs
         rsp = restClient().get("/rics").block();
         assertThat(rsp).contains("ric2") //
-            .contains("ric1");
+                .contains("ric1");
 
         // Non existing policy type
         url = "/rics?policytype_id=XXXX";
@@ -293,13 +292,13 @@ class ApplicationTest {
     }
 
     private String putPolicyUrl(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
-        boolean isTransient) {
+            boolean isTransient) {
         String url;
         if (policyTypeName.isEmpty()) {
             url = "/policy?policy_id=" + policyInstanceId + "&ric_id=" + ricId + "&service_id=" + serviceName;
         } else {
             url = "/policy?policy_id=" + policyInstanceId + "&ric_id=" + ricId + "&service_id=" + serviceName
-                + "&policytype_id=" + policyTypeName;
+                    + "&policytype_id=" + policyTypeName;
         }
         if (isTransient) {
             url += "&transient=true";
@@ -381,7 +380,7 @@ class ApplicationTest {
         byte[] responseBodyBytes = responseBody.getBytes(StandardCharsets.UTF_8);
 
         WebClientResponseException a1Exception = new WebClientResponseException(httpStatus.value(), "statusText", null,
-            responseBodyBytes, StandardCharsets.UTF_8, null);
+                responseBodyBytes, StandardCharsets.UTF_8, null);
         doReturn(Mono.error(a1Exception)).when(a1Client).putPolicy(any());
 
         // PUT Policy
@@ -472,7 +471,7 @@ class ApplicationTest {
         String url = "/policy-schemas";
         String rsp = this.restClient().get(url).block();
         assertThat(rsp).contains("type1") //
-            .contains("[{\"title\":\"type2\"}");
+                .contains("{\"title\":\"type2\"}");
 
         PolicySchemaList info = parseSchemas(rsp);
         assertThat(info.schemas).hasSize(2);
@@ -487,7 +486,7 @@ class ApplicationTest {
         url = "/policy-schemas?policytype_id=type1";
         rsp = restClient().get(url).block();
         assertThat(rsp).contains("type1") //
-            .contains("title");
+                .contains("title");
 
         // Both type and ric specified
         url = "/policy-schemas?ric_id=ric1&policytype_id=type1";
@@ -562,15 +561,15 @@ class ApplicationTest {
         String rsp = restClient().get(url).block();
         logger.info(rsp);
         assertThat(rsp).contains("id1") //
-            .contains("id2") //
-            .doesNotContain("id3");
+                .contains("id2") //
+                .doesNotContain("id3");
 
         url = "/policies?policytype_id=type1&service_id=service2";
         rsp = restClient().get(url).block();
         logger.info(rsp);
         assertThat(rsp).doesNotContain("id1") //
-            .contains("id2") //
-            .doesNotContain("id3");
+                .contains("id2") //
+                .doesNotContain("id3");
 
         // Test get policies for non existing type
         url = "/policies?policytype_id=type1XXX";
@@ -591,8 +590,8 @@ class ApplicationTest {
         String rsp = restClient().get(url).block();
         logger.info(rsp);
         assertThat(rsp).contains("id1") //
-            .contains("id2") //
-            .doesNotContain("id3");
+                .contains("id2") //
+                .doesNotContain("id3");
 
         url = "/policy-ids?policytype_id=type1&service_id=service1&ric=ric1";
         rsp = restClient().get(url).block();
@@ -648,9 +647,9 @@ class ApplicationTest {
         testErrorCode(restClient().put("/services", "crap"), HttpStatus.BAD_REQUEST, false);
         testErrorCode(restClient().put("/services", "{}"), HttpStatus.BAD_REQUEST, false);
         testErrorCode(restClient().put("/services", createServiceJson(serviceName, -123)), HttpStatus.BAD_REQUEST,
-            false);
+                false);
         testErrorCode(restClient().put("/services", createServiceJson(serviceName, 0, "missing.portandprotocol.com")),
-            HttpStatus.BAD_REQUEST, false);
+                HttpStatus.BAD_REQUEST, false);
 
         // GET non existing service
         testErrorCode(restClient().get("/services?service_id=XXX"), HttpStatus.NOT_FOUND);
@@ -690,14 +689,14 @@ class ApplicationTest {
     private Policy addPolicy(String id, String typeName, String service, String ric) throws ServiceException {
         addRic(ric);
         Policy policy = ImmutablePolicy.builder() //
-            .id(id) //
-            .json(jsonString()) //
-            .ownerServiceId(service) //
-            .ric(rics.getRic(ric)) //
-            .type(addPolicyType(typeName, ric)) //
-            .lastModified(Instant.now()) //
-            .isTransient(false) //
-            .build();
+                .id(id) //
+                .json(jsonString()) //
+                .ownerServiceId(service) //
+                .ric(rics.getRic(ric)) //
+                .type(addPolicyType(typeName, ric)) //
+                .lastModified(Instant.now()) //
+                .isTransient(false) //
+                .build();
         policies.put(policy);
         return policy;
     }
@@ -751,7 +750,7 @@ class ApplicationTest {
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
             ConcurrencyTestRunnable test =
-                new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
+                    new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
             Thread thread = new Thread(test, "TestThread_" + i);
             thread.start();
             threads.add(thread);
@@ -770,14 +769,14 @@ class ApplicationTest {
     private AsyncRestClient restClient(boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
         config = ImmutableWebClientConfig.builder() //
-            .keyStoreType(config.keyStoreType()) //
-            .keyStorePassword(config.keyStorePassword()) //
-            .keyStore(config.keyStore()) //
-            .keyPassword(config.keyPassword()) //
-            .isTrustStoreUsed(useTrustValidation) //
-            .trustStore(config.trustStore()) //
-            .trustStorePassword(config.trustStorePassword()) //
-            .build();
+                .keyStoreType(config.keyStoreType()) //
+                .keyStorePassword(config.keyStorePassword()) //
+                .keyStore(config.keyStore()) //
+                .keyPassword(config.keyPassword()) //
+                .isTrustStoreUsed(useTrustValidation) //
+                .trustStore(config.trustStore()) //
+                .trustStorePassword(config.trustStorePassword()) //
+                .build();
 
         return new AsyncRestClient(baseUrl(), config);
     }
@@ -799,12 +798,12 @@ class ApplicationTest {
     }
 
     private void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains,
-        boolean expectApplicationProblemJsonMediaType) {
+            boolean expectApplicationProblemJsonMediaType) {
         StepVerifier.create(request) //
-            .expectSubscription() //
-            .expectErrorMatches(
-                t -> checkWebClientError(t, expStatus, responseContains, expectApplicationProblemJsonMediaType)) //
-            .verify();
+                .expectSubscription() //
+                .expectErrorMatches(
+                        t -> checkWebClientError(t, expStatus, responseContains, expectApplicationProblemJsonMediaType)) //
+                .verify();
     }
 
     private void waitForRicState(String ricId, RicState state) throws ServiceException {
@@ -813,7 +812,7 @@ class ApplicationTest {
     }
 
     private boolean checkWebClientError(Throwable throwable, HttpStatus expStatus, String responseContains,
-        boolean expectApplicationProblemJsonMediaType) {
+            boolean expectApplicationProblemJsonMediaType) {
         assertTrue(throwable instanceof WebClientResponseException);
         WebClientResponseException responseException = (WebClientResponseException) throwable;
         assertThat(responseException.getStatusCode()).isEqualTo(expStatus);
@@ -830,9 +829,9 @@ class ApplicationTest {
 
     private PolicyType createPolicyType(String policyTypeName) {
         return ImmutablePolicyType.builder() //
-            .id(policyTypeName) //
-            .schema("{\"title\":\"" + policyTypeName + "\"}") //
-            .build();
+                .id(policyTypeName) //
+                .schema("{\"title\":\"" + policyTypeName + "\"}") //
+                .build();
     }
 
     private PolicyType addPolicyType(String policyTypeName, String ricId) {
@@ -855,11 +854,11 @@ class ApplicationTest {
             mes.add(managedElement);
         }
         RicConfig conf = ImmutableRicConfig.builder() //
-            .ricId(ricId) //
-            .baseUrl(ricId) //
-            .managedElementIds(mes) //
-            .controllerName("") //
-            .build();
+                .ricId(ricId) //
+                .baseUrl(ricId) //
+                .managedElementIds(mes) //
+                .controllerName("") //
+                .build();
         Ric ric = new Ric(conf);
         ric.setState(Ric.RicState.AVAILABLE);
         this.rics.put(ric);

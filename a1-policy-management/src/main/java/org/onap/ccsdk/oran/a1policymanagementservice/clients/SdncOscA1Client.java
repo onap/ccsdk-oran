@@ -68,8 +68,8 @@ public class SdncOscA1Client implements A1Client {
     }
 
     static com.google.gson.Gson gson = new GsonBuilder() //
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
-        .create(); //
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
+            .create(); //
 
     private static final String GET_POLICY_RPC = "getA1Policy";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -90,9 +90,9 @@ public class SdncOscA1Client implements A1Client {
      * @throws IllegalArgumentException when the protocolType is wrong.
      */
     public SdncOscA1Client(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
-        WebClientConfig clientConfig) {
+            WebClientConfig clientConfig) {
         this(protocolType, ricConfig, controllerConfig,
-            new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
+                new AsyncRestClient(controllerConfig.baseUrl() + "/restconf/operations", clientConfig));
         logger.debug("SdncOscA1Client for ric: {}, a1Controller: {}", ricConfig.ricId(), controllerConfig);
     }
 
@@ -109,11 +109,11 @@ public class SdncOscA1Client implements A1Client {
      * @throws IllegalArgumentException when the protocolType is wrong.
      */
     public SdncOscA1Client(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
-        AsyncRestClient restClient) {
+            AsyncRestClient restClient) {
         if (!(A1ProtocolType.SDNC_OSC_STD_V1_1.equals(protocolType)
-            || A1ProtocolType.SDNC_OSC_OSC_V1.equals(protocolType))) {
+                || A1ProtocolType.SDNC_OSC_OSC_V1.equals(protocolType))) {
             throw new IllegalArgumentException("Protocol type must be " + A1ProtocolType.SDNC_OSC_STD_V1_1 + " or "
-                + A1ProtocolType.SDNC_OSC_OSC_V1 + ", was: " + protocolType);
+                    + A1ProtocolType.SDNC_OSC_OSC_V1 + ", was: " + protocolType);
         }
         this.restClient = restClient;
         this.ricConfig = ricConfig;
@@ -129,8 +129,8 @@ public class SdncOscA1Client implements A1Client {
             OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
             final String ricUrl = uri.createPolicyTypesUri();
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
-                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString) //
-                .collectList();
+                    .flatMapMany(SdncJsonHelper::parseJsonArrayOfString) //
+                    .collectList();
         }
 
     }
@@ -138,7 +138,7 @@ public class SdncOscA1Client implements A1Client {
     @Override
     public Mono<List<String>> getPolicyIdentities() {
         return getPolicyIds() //
-            .collectList();
+                .collectList();
     }
 
     @Override
@@ -149,17 +149,17 @@ public class SdncOscA1Client implements A1Client {
             OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
             final String ricUrl = uri.createGetSchemaUri(policyTypeId);
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
-                .flatMap(response -> OscA1Client.extractCreateSchema(response, policyTypeId));
+                    .flatMap(response -> OscA1Client.extractCreateSchema(response, policyTypeId));
         }
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
         return getUriBuilder() //
-            .flatMap(builder -> {
-                String ricUrl = builder.createPutPolicyUri(policy.type().id(), policy.id());
-                return post("putA1Policy", ricUrl, Optional.of(policy.json()));
-            });
+                .flatMap(builder -> {
+                    String ricUrl = builder.createPutPolicyUri(policy.type().id(), policy.id());
+                    return post("putA1Policy", ricUrl, Optional.of(policy.json()));
+                });
     }
 
     @Override
@@ -171,38 +171,38 @@ public class SdncOscA1Client implements A1Client {
     public Flux<String> deleteAllPolicies() {
         if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
             return getPolicyIds() //
-                .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
+                    .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
         } else {
             OscA1Client.UriBuilder uriBuilder = new OscA1Client.UriBuilder(ricConfig);
             return getPolicyTypeIdentities() //
-                .flatMapMany(Flux::fromIterable) //
-                .flatMap(type -> oscDeleteInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
+                    .flatMapMany(Flux::fromIterable) //
+                    .flatMap(type -> oscDeleteInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
         }
     }
 
     private Flux<String> oscGetInstancesForType(OscA1Client.UriBuilder uriBuilder, String type) {
         return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(type), Optional.empty()) //
-            .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> oscDeleteInstancesForType(OscA1Client.UriBuilder uriBuilder, String type) {
         return oscGetInstancesForType(uriBuilder, type) //
-            .flatMap(instance -> deletePolicyById(type, instance), CONCURRENCY_RIC);
+                .flatMap(instance -> deletePolicyById(type, instance), CONCURRENCY_RIC);
     }
 
     @Override
     public Mono<A1ProtocolType> getProtocolVersion() {
         return tryStdProtocolVersion() //
-            .onErrorResume(t -> tryOscProtocolVersion());
+                .onErrorResume(t -> tryOscProtocolVersion());
     }
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
         return getUriBuilder() //
-            .flatMap(builder -> {
-                String ricUrl = builder.createGetPolicyStatusUri(policy.type().id(), policy.id());
-                return post("getA1PolicyStatus", ricUrl, Optional.empty());
-            });
+                .flatMap(builder -> {
+                    String ricUrl = builder.createGetPolicyStatusUri(policy.type().id(), policy.id());
+                    return post("getA1PolicyStatus", ricUrl, Optional.empty());
+                });
     }
 
     private Mono<A1UriBuilder> getUriBuilder() {
@@ -216,13 +216,13 @@ public class SdncOscA1Client implements A1Client {
     private Mono<A1ProtocolType> tryOscProtocolVersion() {
         OscA1Client.UriBuilder oscApiuriBuilder = new OscA1Client.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, oscApiuriBuilder.createHealtcheckUri(), Optional.empty()) //
-            .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_OSC_V1));
+                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_OSC_V1));
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion() {
         StdA1ClientVersion1.UriBuilder uriBuilder = new StdA1ClientVersion1.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(), Optional.empty()) //
-            .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V1_1));
+                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V1_1));
     }
 
     private Flux<String> getPolicyIds() {
@@ -230,36 +230,36 @@ public class SdncOscA1Client implements A1Client {
             StdA1ClientVersion1.UriBuilder uri = new StdA1ClientVersion1.UriBuilder(ricConfig);
             final String ricUrl = uri.createGetPolicyIdsUri();
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
-                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                    .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
         } else {
             OscA1Client.UriBuilder uri = new OscA1Client.UriBuilder(ricConfig);
             return getPolicyTypeIdentities() //
-                .flatMapMany(Flux::fromIterable)
-                .flatMap(type -> post(GET_POLICY_RPC, uri.createGetPolicyIdsUri(type), Optional.empty())) //
-                .flatMap(SdncJsonHelper::parseJsonArrayOfString);
+                    .flatMapMany(Flux::fromIterable)
+                    .flatMap(type -> post(GET_POLICY_RPC, uri.createGetPolicyIdsUri(type), Optional.empty())) //
+                    .flatMap(SdncJsonHelper::parseJsonArrayOfString);
         }
     }
 
     private Mono<String> deletePolicyById(String type, String policyId) {
         return getUriBuilder() //
-            .flatMap(builder -> {
-                String ricUrl = builder.createDeleteUri(type, policyId);
-                return post("deleteA1Policy", ricUrl, Optional.empty());
-            });
+                .flatMap(builder -> {
+                    String ricUrl = builder.createDeleteUri(type, policyId);
+                    return post("deleteA1Policy", ricUrl, Optional.empty());
+                });
     }
 
     private Mono<String> post(String rpcName, String ricUrl, Optional<String> body) {
         AdapterRequest inputParams = ImmutableAdapterRequest.builder() //
-            .nearRtRicUrl(ricUrl) //
-            .body(body) //
-            .build();
+                .nearRtRicUrl(ricUrl) //
+                .body(body) //
+                .build();
         final String inputJsonString = SdncJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST inputJsonString = {}", inputJsonString);
 
         return restClient
-            .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.userName(),
-                this.controllerConfig.password()) //
-            .flatMap(this::extractResponseBody);
+                .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.userName(),
+                        this.controllerConfig.password()) //
+                .flatMap(this::extractResponseBody);
     }
 
     private Mono<String> extractResponse(JSONObject responseOutput) {
@@ -272,7 +272,7 @@ public class SdncOscA1Client implements A1Client {
             logger.debug("Error response: {} {}", output.httpStatus(), body);
             byte[] responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
             WebClientResponseException responseException = new WebClientResponseException(output.httpStatus(),
-                "statusText", null, responseBodyBytes, StandardCharsets.UTF_8, null);
+                    "statusText", null, responseBodyBytes, StandardCharsets.UTF_8, null);
 
             return Mono.error(responseException);
         }
@@ -280,7 +280,7 @@ public class SdncOscA1Client implements A1Client {
 
     private Mono<String> extractResponseBody(String responseStr) {
         return SdncJsonHelper.getOutput(responseStr) //
-            .flatMap(this::extractResponse);
+                .flatMap(this::extractResponse);
     }
 
     private String controllerUrl(String rpcName) {

@@ -27,6 +27,5 @@ import org.immutables.gson.Gson;
 @Gson.TypeAdapters
 @ApiModel(value = "void", description = "Void/empty")
 public class VoidResponse {
-    private VoidResponse() {
-    }
+    private VoidResponse() {}
 }

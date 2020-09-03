@@ -53,7 +53,7 @@ class ConcurrencyTestRunnable implements Runnable {
     private boolean failed = false;
 
     ConcurrencyTestRunnable(AsyncRestClient client, RicSupervision supervision, MockA1ClientFactory a1ClientFactory,
-        Rics rics, PolicyTypes types) {
+            Rics rics, PolicyTypes types) {
         this.count = nextCount.incrementAndGet();
         this.supervision = supervision;
         this.a1ClientFactory = a1ClientFactory;
@@ -108,14 +108,14 @@ class ConcurrencyTestRunnable implements Runnable {
         Ric ric = this.rics.get("ric");
         PolicyType type = this.types.get("type1");
         return ImmutablePolicy.builder() //
-            .id(id) //
-            .json("{}") //
-            .type(type) //
-            .ric(ric) //
-            .ownerServiceId("") //
-            .lastModified(Instant.now()) //
-            .isTransient(false) //
-            .build();
+                .id(id) //
+                .json("{}") //
+                .type(type) //
+                .ric(ric) //
+                .ownerServiceId("") //
+                .lastModified(Instant.now()) //
+                .isTransient(false) //
+                .build();
     }
 
     private void createInconsistency() {

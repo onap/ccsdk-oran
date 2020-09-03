@@ -69,8 +69,8 @@ class AsyncRestClientTest {
     @Test
     void testGetNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
-            .setBody(TEST_JSON));
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
+                .setBody(TEST_JSON));
 
         Mono<String> returnedMono = clientUnderTest.get(REQUEST_URL);
         StepVerifier.create(returnedMono).expectNext(TEST_JSON).expectComplete().verify();
@@ -82,14 +82,14 @@ class AsyncRestClientTest {
 
         Mono<String> returnedMono = clientUnderTest.get(REQUEST_URL);
         StepVerifier.create(returnedMono)
-            .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
+                .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
     }
 
     @Test
     void testPutNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
-            .setBody(TEST_JSON));
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
+                .setBody(TEST_JSON));
 
         Mono<String> returnedMono = clientUnderTest.put(REQUEST_URL, TEST_JSON);
         StepVerifier.create(returnedMono).expectNext(TEST_JSON).expectComplete().verify();
@@ -101,7 +101,7 @@ class AsyncRestClientTest {
 
         Mono<String> returnedMono = clientUnderTest.put(REQUEST_URL, TEST_JSON);
         StepVerifier.create(returnedMono)
-            .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
+                .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
     }
 
     @Test
@@ -118,14 +118,14 @@ class AsyncRestClientTest {
 
         Mono<String> returnedMono = clientUnderTest.delete(REQUEST_URL);
         StepVerifier.create(returnedMono)
-            .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
+                .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
     }
 
     @Test
     void testPostNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
-            .setBody(TEST_JSON));
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
+                .setBody(TEST_JSON));
 
         Mono<String> returnedMono = clientUnderTest.post(REQUEST_URL, TEST_JSON);
         StepVerifier.create(returnedMono).expectNext(TEST_JSON).expectComplete().verify();
@@ -137,14 +137,14 @@ class AsyncRestClientTest {
 
         Mono<String> returnedMono = clientUnderTest.post(REQUEST_URL, TEST_JSON);
         StepVerifier.create(returnedMono)
-            .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
+                .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
     }
 
     @Test
     void testPostWithAuthHeaderNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
-            .setBody(TEST_JSON));
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
+                .setBody(TEST_JSON));
 
         Mono<String> returnedMono = clientUnderTest.postWithAuthHeader(REQUEST_URL, TEST_JSON, USERNAME, PASSWORD);
         StepVerifier.create(returnedMono).expectNext(TEST_JSON).expectComplete().verify();
@@ -156,6 +156,6 @@ class AsyncRestClientTest {
 
         Mono<String> returnedMono = clientUnderTest.postWithAuthHeader(REQUEST_URL, TEST_JSON, USERNAME, PASSWORD);
         StepVerifier.create(returnedMono)
-            .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
+                .expectErrorMatches(throwable -> throwable instanceof WebClientResponseException).verify();
     }
 }

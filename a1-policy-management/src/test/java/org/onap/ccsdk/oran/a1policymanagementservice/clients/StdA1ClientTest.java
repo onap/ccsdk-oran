@@ -102,7 +102,7 @@ class StdA1ClientTest {
         when(asyncRestClientMock.put(anyString(), anyString())).thenReturn(Mono.just(POLICY_JSON));
 
         Mono<String> policyMono =
-            clientUnderTest.putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON, POLICY_TYPE));
+                clientUnderTest.putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON, POLICY_TYPE));
 
         verify(asyncRestClientMock).put(policiesBaseUrl() + POLICY_1_ID, POLICY_JSON);
         StepVerifier.create(policyMono).expectNext(POLICY_JSON).expectComplete().verify();

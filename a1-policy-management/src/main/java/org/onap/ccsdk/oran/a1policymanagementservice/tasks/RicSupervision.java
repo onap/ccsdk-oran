@@ -83,7 +83,7 @@ public class RicSupervision {
 
     @Autowired
     public RicSupervision(Rics rics, Policies policies, A1ClientFactory a1ClientFactory, PolicyTypes policyTypes,
-        Services services) {
+            Services services) {
         this.rics = rics;
         this.policies = policies;
         this.a1ClientFactory = a1ClientFactory;
@@ -102,19 +102,19 @@ public class RicSupervision {
 
     private Flux<RicData> createTask() {
         return Flux.fromIterable(rics.getRics()) //
-            .flatMap(this::createRicData) //
-            .flatMap(this::checkOneRic);
+                .flatMap(this::createRicData) //
+                .flatMap(this::checkOneRic);
     }
 
     private Mono<RicData> checkOneRic(RicData ricData) {
         return checkRicState(ricData) //
-            .flatMap(x -> ricData.ric.getLock().lock(LockType.EXCLUSIVE)) //
-            .flatMap(notUsed -> setRicState(ricData)) //
-            .flatMap(x -> checkRicPolicies(ricData)) //
-            .flatMap(x -> checkRicPolicyTypes(ricData)) //
-            .doOnNext(x -> onRicCheckedOk(ricData)) //
-            .doOnError(t -> onRicCheckedError(t, ricData)) //
-            .onErrorResume(throwable -> Mono.empty());
+                .flatMap(x -> ricData.ric.getLock().lock(LockType.EXCLUSIVE)) //
+                .flatMap(notUsed -> setRicState(ricData)) //
+                .flatMap(x -> checkRicPolicies(ricData)) //
+                .flatMap(x -> checkRicPolicyTypes(ricData)) //
+                .doOnNext(x -> onRicCheckedOk(ricData)) //
+                .doOnError(t -> onRicCheckedError(t, ricData)) //
+                .onErrorResume(throwable -> Mono.empty());
     }
 
     private void onRicCheckedError(Throwable t, RicData ricData) {
@@ -148,14 +148,14 @@ public class RicSupervision {
 
     private Mono<RicData> createRicData(Ric ric) {
         return Mono.just(ric) //
-            .flatMap(aRic -> this.a1ClientFactory.createA1Client(ric)) //
-            .flatMap(a1Client -> Mono.just(new RicData(ric, a1Client)));
+                .flatMap(aRic -> this.a1ClientFactory.createA1Client(ric)) //
+                .flatMap(a1Client -> Mono.just(new RicData(ric, a1Client)));
     }
 
     private Mono<RicData> checkRicState(RicData ric) {
         if (ric.ric.getState() == RicState.UNAVAILABLE) {
             return startSynchronization(ric) //
-                .onErrorResume(t -> Mono.empty());
+                    .onErrorResume(t -> Mono.empty());
         } else if (ric.ric.getState() == RicState.SYNCHRONIZING || ric.ric.getState() == RicState.CONSISTENCY_CHECK) {
             return Mono.empty();
         } else {
@@ -165,7 +165,7 @@ public class RicSupervision {
 
     private Mono<RicData> checkRicPolicies(RicData ric) {
         return ric.getClient().getPolicyIdentities() //
-            .flatMap(ricP -> validateInstances(ricP, ric));
+                .flatMap(ricP -> validateInstances(ricP, ric));
     }
 
     private Mono<RicData> validateInstances(Collection<String> ricPolicies, RicData ric) {
@@ -185,7 +185,7 @@ public class RicSupervision {
 
     private Mono<RicData> checkRicPolicyTypes(RicData ric) {
         return ric.getClient().getPolicyTypeIdentities() //
-            .flatMap(ricTypes -> validateTypes(ricTypes, ric));
+                .flatMap(ricTypes -> validateTypes(ricTypes, ric));
     }
 
     private Mono<RicData> validateTypes(Collection<String> ricTypes, RicData ric) {

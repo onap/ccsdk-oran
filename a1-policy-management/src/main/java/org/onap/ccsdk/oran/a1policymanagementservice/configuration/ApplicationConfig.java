@@ -80,14 +80,14 @@ public class ApplicationConfig {
 
     public WebClientConfig getWebClientConfig() {
         return ImmutableWebClientConfig.builder() //
-            .keyStoreType(this.sslKeyStoreType) //
-            .keyStorePassword(this.sslKeyStorePassword) //
-            .keyStore(this.sslKeyStore) //
-            .keyPassword(this.sslKeyPassword) //
-            .isTrustStoreUsed(this.sslTrustStoreUsed) //
-            .trustStore(this.sslTrustStore) //
-            .trustStorePassword(this.sslTrustStorePassword) //
-            .build();
+                .keyStoreType(this.sslKeyStoreType) //
+                .keyStorePassword(this.sslKeyStorePassword) //
+                .keyStore(this.sslKeyStore) //
+                .keyPassword(this.sslKeyPassword) //
+                .isTrustStoreUsed(this.sslTrustStoreUsed) //
+                .trustStore(this.sslTrustStore) //
+                .trustStorePassword(this.sslTrustStorePassword) //
+                .build();
     }
 
     public synchronized ControllerConfig getControllerConfig(String name) throws ServiceException {
@@ -123,7 +123,7 @@ public class ApplicationConfig {
     }
 
     public synchronized Flux<RicConfigUpdate> setConfiguration(
-        ApplicationConfigParser.ConfigParserResult parserResult) {
+            ApplicationConfigParser.ConfigParserResult parserResult) {
 
         Collection<RicConfigUpdate> modifications = new ArrayList<>();
         this.controllerConfigs = parserResult.controllerConfigs();

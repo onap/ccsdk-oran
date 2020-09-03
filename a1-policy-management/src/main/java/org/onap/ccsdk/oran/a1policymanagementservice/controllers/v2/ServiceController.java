@@ -60,7 +60,7 @@ public class ServiceController {
     private final Policies policies;
 
     private static Gson gson = new GsonBuilder() //
-        .create(); //
+            .create(); //
 
     @Autowired
     ServiceController(Services services, Policies policies) {
@@ -69,17 +69,16 @@ public class ServiceController {
     }
 
     private static final String GET_SERVICE_DETAILS =
-        "Either information about a registered service with given identity or all registered services are returned.";
+            "Either information about a registered service with given identity or all registered services are returned.";
 
     @GetMapping(path = Consts.V2_API_ROOT + "/services", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns service information", notes = GET_SERVICE_DETAILS)
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "OK", response = ServiceStatusList.class), //
             @ApiResponse(code = 404, message = "Service is not found", response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getServices(//
-        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false, value = "The identity of the service") //
-        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String name) {
+            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false, value = "The identity of the service") //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String name) {
         if (name != null && this.services.get(name) == null) {
             return ErrorResponse.create("Service not found", HttpStatus.NOT_FOUND);
         }
@@ -97,11 +96,11 @@ public class ServiceController {
 
     private ServiceStatus toServiceStatus(Service s) {
         return new ServiceStatus(s.getName(), s.getKeepAliveInterval().toSeconds(), s.timeSinceLastPing().toSeconds(),
-            s.getCallbackUrl());
+                s.getCallbackUrl());
     }
 
     private void validateRegistrationInfo(ServiceRegistrationInfo registrationInfo)
-        throws ServiceException, MalformedURLException {
+            throws ServiceException, MalformedURLException {
         if (registrationInfo.serviceId.isEmpty()) {
             throw new ServiceException("Missing mandatory parameter 'serviceName'");
         }
@@ -114,24 +113,21 @@ public class ServiceController {
     }
 
     private static final String REGISTER_SERVICE_DETAILS = "Registering a service is needed to:" //
-        + "<ul>" //
-        + "<li>Get callbacks.</li>" //
-        + "<li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li>"//
-        + "</ul>" //
+            + "<ul>" //
+            + "<li>Get callbacks.</li>" //
+            + "<li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li>"//
+            + "</ul>" //
     ;
 
     @ApiOperation(value = "Register a service", notes = REGISTER_SERVICE_DETAILS)
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service updated"),
             @ApiResponse(code = 201, message = "Service created"), //
-            @ApiResponse(
-                code = 400,
-                message = "The ServiceRegistrationInfo is not accepted",
-                response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(code = 400, message = "The ServiceRegistrationInfo is not accepted",
+                    response = ErrorResponse.ErrorInfo.class)})
     @PutMapping(Consts.V2_API_ROOT + "/services")
     public ResponseEntity<Object> putService(//
-        @RequestBody ServiceRegistrationInfo registrationInfo) {
+            @RequestBody ServiceRegistrationInfo registrationInfo) {
         try {
             validateRegistrationInfo(registrationInfo);
             final boolean isCreate = this.services.get(registrationInfo.serviceId) == null;
@@ -143,15 +139,14 @@ public class ServiceController {
     }
 
     @ApiOperation(value = "Unregister a service")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 204, message = "Service unregistered"),
             @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
             @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
     @DeleteMapping(Consts.V2_API_ROOT + "/services")
     public ResponseEntity<Object> deleteService(//
-        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The idenitity of the service") //
-        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
+            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The idenitity of the service") //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
         try {
             Service service = removeService(serviceName);
             // Remove the policies from the repo and let the consistency monitoring
@@ -164,18 +159,15 @@ public class ServiceController {
     }
 
     @ApiOperation(value = "Heartbeat indicates that the service is running")
-    @ApiResponses(
-        value = { //
+    @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"), //
-            @ApiResponse(
-                code = 404,
-                message = "The service is not found, needs re-registration",
-                response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(code = 404, message = "The service is not found, needs re-registration",
+                    response = ErrorResponse.ErrorInfo.class)})
 
     @PutMapping(Consts.V2_API_ROOT + "/services/keepalive")
     public ResponseEntity<Object> keepAliveService(//
-        @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The identity of the service") //
-        @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
+            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The identity of the service") //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
         try {
             services.getService(serviceName).keepAlive();
             return new ResponseEntity<>(HttpStatus.OK);

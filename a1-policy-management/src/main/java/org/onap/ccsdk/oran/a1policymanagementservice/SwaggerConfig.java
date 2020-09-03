@@ -54,14 +54,14 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     static final String API_TITLE = "A1 Policy management service";
     static final String DESCRIPTION = //
-        "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \n" //
-            + "It provides support for:" //
-            + "<ul>" //
-            + "<li>A1 Policy creation and modification.</li>" //
-            + "<li>Maintaining a view of supported Near-RT RIC policy types </li>" //
-            + "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> " //
-            + "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs </li>" //
-            + "</ul>"//
+            "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \n" //
+                    + "It provides support for:" //
+                    + "<ul>" //
+                    + "<li>A1 Policy creation and modification.</li>" //
+                    + "<li>Maintaining a view of supported Near-RT RIC policy types </li>" //
+                    + "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> " //
+                    + "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs </li>" //
+                    + "</ul>"//
     ;
     static final String VERSION = "1.1.0";
     @SuppressWarnings("squid:S1075") // Refactor your code to get this URI from a customizable parameter.
@@ -78,25 +78,25 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2) //
-            .apiInfo(apiInfo()) //
-            .select() //
-            .apis(RequestHandlerSelectors.any()) //
-            .paths(PathSelectors.any()) //
-            .paths(Predicates.not(PathSelectors.regex("/error"))) //
-            // this endpoint is not implemented, but was visible for Swagger
-            .paths(Predicates.not(PathSelectors.regex("/actuator.*"))) //
-            // this endpoint is implemented by spring framework, exclude for now
-            .build();
+                .apiInfo(apiInfo()) //
+                .select() //
+                .apis(RequestHandlerSelectors.any()) //
+                .paths(PathSelectors.any()) //
+                .paths(Predicates.not(PathSelectors.regex("/error"))) //
+                // this endpoint is not implemented, but was visible for Swagger
+                .paths(Predicates.not(PathSelectors.regex("/actuator.*"))) //
+                // this endpoint is implemented by spring framework, exclude for now
+                .build();
     }
 
     private static ApiInfo apiInfo() {
         return new ApiInfoBuilder() //
-            .title(API_TITLE) //
-            .description(DESCRIPTION) //
-            .version(VERSION) //
-            .contact(contact()) //
-            .extensions(vendorExtentions()) //
-            .build();
+                .title(API_TITLE) //
+                .description(DESCRIPTION) //
+                .version(VERSION) //
+                .contact(contact()) //
+                .extensions(vendorExtentions()) //
+                .build();
     }
 
     @SuppressWarnings("rawtypes") // VendorExtension is a raw type. References to generic type VendorExtension<T>
@@ -116,10 +116,10 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(SWAGGER_UI) //
-            .addResourceLocations(RESOURCES_PATH);
+                .addResourceLocations(RESOURCES_PATH);
 
         registry.addResourceHandler(WEBJARS) //
-            .addResourceLocations(WEBJARS_PATH);
+                .addResourceLocations(WEBJARS_PATH);
     }
 
 }

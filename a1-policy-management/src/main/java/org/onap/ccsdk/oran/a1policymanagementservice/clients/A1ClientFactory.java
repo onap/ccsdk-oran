@@ -66,7 +66,7 @@ public class A1ClientFactory {
      */
     public Mono<A1Client> createA1Client(Ric ric) {
         return getProtocolVersion(ric) //
-            .flatMap(version -> createA1ClientMono(ric, version));
+                .flatMap(version -> createA1ClientMono(ric, version));
     }
 
     A1Client createClient(Ric ric, A1ProtocolType version) throws ServiceException {
@@ -78,7 +78,7 @@ public class A1ClientFactory {
             return new OscA1Client(ric.getConfig(), this.appConfig.getWebClientConfig());
         } else if (version == A1ProtocolType.SDNC_OSC_STD_V1_1 || version == A1ProtocolType.SDNC_OSC_OSC_V1) {
             return new SdncOscA1Client(version, ric.getConfig(), getControllerConfig(ric),
-                this.appConfig.getWebClientConfig());
+                    this.appConfig.getWebClientConfig());
         } else if (version == A1ProtocolType.SDNC_ONAP) {
             return new SdncOnapA1Client(ric.getConfig(), getControllerConfig(ric), this.appConfig.getWebClientConfig());
         } else {
@@ -105,7 +105,7 @@ public class A1ClientFactory {
         if (!ric.getConfig().controllerName().isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException(
-                "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);
+                    "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);
         }
     }
 
@@ -120,15 +120,15 @@ public class A1ClientFactory {
     private Mono<A1Client.A1ProtocolType> getProtocolVersion(Ric ric) {
         if (ric.getProtocolVersion() == A1ProtocolType.UNKNOWN) {
             return fetchVersion(ric, A1ProtocolType.STD_V1_1) //
-                .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.OSC_V1)) //
-                .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_OSC_STD_V1_1)) //
-                .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_ONAP)) //
-                .doOnNext(ric::setProtocolVersion)
-                .doOnNext(
-                    version -> logger.debug("Established protocol version:{} for Near-RT RIC: {}", version, ric.id())) //
-                .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id())) //
-                .onErrorResume(
-                    notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.id())));
+                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.OSC_V1)) //
+                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_OSC_STD_V1_1)) //
+                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_ONAP)) //
+                    .doOnNext(ric::setProtocolVersion)
+                    .doOnNext(version -> logger.debug("Established protocol version:{} for Near-RT RIC: {}", version,
+                            ric.id())) //
+                    .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id())) //
+                    .onErrorResume(
+                            notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.id())));
         } else {
             return Mono.just(ric.getProtocolVersion());
         }
@@ -136,6 +136,6 @@ public class A1ClientFactory {
 
     private Mono<A1ProtocolType> fetchVersion(Ric ric, A1ProtocolType protocolType) {
         return createA1ClientMono(ric, protocolType) //
-            .flatMap(A1Client::getProtocolVersion);
+                .flatMap(A1Client::getProtocolVersion);
     }
 }
