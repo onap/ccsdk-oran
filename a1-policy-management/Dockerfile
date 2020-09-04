@@ -50,5 +50,5 @@ RUN chmod -R 777 /opt/app/policy-agent/data/
 USER a1pms
 
 ADD target/${JAR} /opt/app/policy-agent/a1-policy-management-service.jar
-
+CMD chown -R a1pms /var
 CMD ["java", "-jar", "/opt/app/policy-agent/a1-policy-management-service.jar"]
