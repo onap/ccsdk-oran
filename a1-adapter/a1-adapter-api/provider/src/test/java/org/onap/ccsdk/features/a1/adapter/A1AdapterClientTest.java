@@ -20,17 +20,18 @@
 
 package org.onap.ccsdk.features.a1.adapter;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutputBuilder;
@@ -41,13 +42,8 @@ import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOut
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * This class Tests all the methods in A1AdapterClientTest
- *
- */
-
-@RunWith(MockitoJUnitRunner.Silent.class)
-public class A1AdapterClientTest {
+@ExtendWith(MockitoExtension.class)
+class A1AdapterClientTest {
 
     protected static final Logger LOG = LoggerFactory.getLogger(A1AdapterClientTest.class);
 
@@ -57,13 +53,13 @@ public class A1AdapterClientTest {
     private static String module = "A1-ADAPTER-API";
     private static String mode = "sync";
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         a1AdapterClient = new A1AdapterClient(svcLogicService);
     }
 
     @Test
-    public void test_execute_getPolicyType() throws SvcLogicException, InterruptedException, ExecutionException {
+    void getPolicyType() throws Exception {
         String rpc = "deleteA1Policy";
         Properties params = new Properties();
         Properties respProps = new Properties();
@@ -75,7 +71,7 @@ public class A1AdapterClientTest {
     }
 
     @Test
-    public void test_execute_getPolicyStatus() throws SvcLogicException, InterruptedException, ExecutionException {
+    void getPolicyStatus() throws Exception {
         String rpc = "getA1PolicyStatus";
         Properties params = new Properties();
         Properties respProps = new Properties();
@@ -87,7 +83,7 @@ public class A1AdapterClientTest {
     }
 
     @Test
-    public void test_execute_getPolicy() throws SvcLogicException, InterruptedException, ExecutionException {
+    void getPolicy() throws Exception {
         String rpc = "getA1Policy";
         Properties params = new Properties();
         Properties respProps = new Properties();
@@ -99,7 +95,7 @@ public class A1AdapterClientTest {
     }
 
     @Test
-    public void test_execute_deletePolicy() throws SvcLogicException, InterruptedException, ExecutionException {
+    void deletePolicy() throws Exception {
         String rpc = "deleteA1Policy";
         Properties params = new Properties();
         Properties respProps = new Properties();
@@ -111,7 +107,7 @@ public class A1AdapterClientTest {
     }
 
     @Test
-    public void test_execute_putPolicy() throws SvcLogicException, InterruptedException, ExecutionException {
+    void putPolicy() throws Exception {
         String rpc = "putA1Policy";
         Properties params = new Properties();
         Properties respProps = new Properties();

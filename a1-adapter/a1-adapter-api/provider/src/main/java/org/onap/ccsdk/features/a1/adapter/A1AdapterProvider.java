@@ -20,8 +20,12 @@
 
 package org.onap.ccsdk.features.a1.adapter;
 
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
+
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,30 +55,27 @@ import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInp
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutputBuilder;
+import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Defines a base implementation for your provider. This class overrides the generated interface from the YANG model and
- * implements the request model for the A1 interface. This class identifies the Near-RT RIC throught the IP passed over
- * the payload and calls the corresponding Near-RT RIC over Rest API
- *
+ * This class overrides the generated interface from the YANG model and implements the request model for the A1
+ * interface. This class identifies the Near-RT RIC throught the IP passed over the payload and calls the corresponding
+ * Near-RT RIC over Rest API.
  */
 @SuppressWarnings("squid:S1874") // "@Deprecated" code should not be used
 public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
+
+    private static final String START_OPERATION_MESSAGE = "Start of {}";
+    private static final String END_OPERATION_MESSAGE = "End of {}";
 
     private static final String A1_ADAPTER_API = "A1-ADAPTER-API";
     private static final String RESPONSE_BODY = "responseBody";
     private static final String RESPONSE_CODE = "response-code";
     private static final String SYNC = "sync";
-
-    private static final String ADDING_INPUT_DATA_MESSAGE = "Adding INPUT data for {} input: {}";
-    private static final String A1_ADAPTER_CLIENT_GRAPH_MESSAGE = "A1AdapterClient has a Directed Graph for '{}'";
-    private static final String SERVICE_EXCEPTION_MESSAGE = "Caught exception executing service logic for {}, {}";
-    private static final String NO_SERVICE_LOGIC_ACTIVE_MESSAGE = "No service logic active for A1Adapter: '{}'";
-    private static final String LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE = "Caught exception looking for service logic, {}";
 
     private static final Logger log = LoggerFactory.getLogger(A1AdapterProvider.class);
 
@@ -88,7 +89,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
     private final A1AdapterClient a1AdapterClient;
 
     public A1AdapterProvider(final DataBroker dataBroker, final NotificationPublishService notificationPublishService,
-            final RpcProviderRegistry rpcProviderRegistry, final A1AdapterClient a1AdapterClient) {
+        final RpcProviderRegistry rpcProviderRegistry, final A1AdapterClient a1AdapterClient) {
 
         log.info("Creating provider for {}", APPLICATION_NAME);
         executor = Executors.newFixedThreadPool(1);
@@ -118,192 +119,129 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
     }
 
     @Override
-    public ListenableFuture<RpcResult<DeleteA1PolicyOutput>> deleteA1Policy(DeleteA1PolicyInput input) {
-        log.info("Start of deleteA1Policy");
+    public ListenableFuture<RpcResult<DeleteA1PolicyOutput>> deleteA1Policy(DeleteA1PolicyInput deletePolicyInput) {
         final String svcOperation = "deleteA1Policy";
-        Properties parms = new Properties();
-        DeleteA1PolicyOutputBuilder deleteResponse = new DeleteA1PolicyOutputBuilder();
-        // add input to parms
-        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
-        DeleteA1PolicyInputBuilder inputBuilder = new DeleteA1PolicyInputBuilder(input);
-        MdsalHelper.toProperties(parms, inputBuilder.build());
-        logSliParameters(parms);
-        // Call SLI sync method
-        try {
-            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
-                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
-                try {
-                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, deleteResponse, parms);
-                    logResponse(responseParms);
-                    deleteResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
-                } catch (Exception e) {
-                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
-                    deleteResponse.setHttpStatus(500);
-                }
-            } else {
-                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
-                deleteResponse.setHttpStatus(503);
-            }
-        } catch (Exception e) {
-            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
-            deleteResponse.setHttpStatus(500);
-        }
-        RpcResult<DeleteA1PolicyOutput> rpcResult =
-                RpcResultBuilder.<DeleteA1PolicyOutput>status(true).withResult(deleteResponse.build()).build();
-        log.info("End of deleteA1Policy");
-        return Futures.immediateFuture(rpcResult);
+        log.info(START_OPERATION_MESSAGE, svcOperation);
+        DeleteA1PolicyOutputBuilder deletePolicyResponse = new DeleteA1PolicyOutputBuilder();
+        setUpAndExecuteOperation(svcOperation, new DeleteA1PolicyInputBuilder(deletePolicyInput), deletePolicyResponse);
+
+        RpcResult<DeleteA1PolicyOutput> deletePolicyResult =
+            RpcResultBuilder.<DeleteA1PolicyOutput>status(true).withResult(deletePolicyResponse.build()).build();
+        log.info(END_OPERATION_MESSAGE, svcOperation);
+        return Futures.immediateFuture(deletePolicyResult);
     }
 
     @Override
-    public ListenableFuture<RpcResult<GetA1PolicyOutput>> getA1Policy(GetA1PolicyInput input) {
-        log.info("Start of getA1Policy");
+    public ListenableFuture<RpcResult<GetA1PolicyOutput>> getA1Policy(GetA1PolicyInput getPolicyInput) {
         final String svcOperation = "getA1Policy";
-        Properties parms = new Properties();
-        GetA1PolicyOutputBuilder policyResponse = new GetA1PolicyOutputBuilder();
-        // add input to parms
-        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
-        GetA1PolicyInputBuilder inputBuilder = new GetA1PolicyInputBuilder(input);
-        MdsalHelper.toProperties(parms, inputBuilder.build());
-        logSliParameters(parms);
-        // Call SLI sync method
-        try {
-            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
-                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
-                try {
-                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyResponse, parms);
-                    logResponse(responseParms);
-                    policyResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
-                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
-                } catch (Exception e) {
-                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
-                    policyResponse.setHttpStatus(500);
-                }
-            } else {
-                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
-                policyResponse.setHttpStatus(503);
-            }
-        } catch (Exception e) {
-            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
-            policyResponse.setHttpStatus(500);
-        }
-        RpcResult<GetA1PolicyOutput> rpcResult =
-                RpcResultBuilder.<GetA1PolicyOutput>status(true).withResult(policyResponse.build()).build();
-        log.info("End of getA1Policy");
-        return Futures.immediateFuture(rpcResult);
+        log.info(START_OPERATION_MESSAGE, svcOperation);
+        GetA1PolicyOutputBuilder getPolicyResponse = new GetA1PolicyOutputBuilder();
+        setUpAndExecuteOperation(svcOperation, new GetA1PolicyInputBuilder(getPolicyInput), getPolicyResponse);
+
+        RpcResult<GetA1PolicyOutput> getPolicyResult =
+            RpcResultBuilder.<GetA1PolicyOutput>status(true).withResult(getPolicyResponse.build()).build();
+        log.info(END_OPERATION_MESSAGE, svcOperation);
+        return Futures.immediateFuture(getPolicyResult);
     }
 
     @Override
-    public ListenableFuture<RpcResult<GetA1PolicyStatusOutput>> getA1PolicyStatus(GetA1PolicyStatusInput input) {
-        log.info("Start of getA1PolicyStatus");
+    public ListenableFuture<RpcResult<GetA1PolicyStatusOutput>> getA1PolicyStatus(
+        GetA1PolicyStatusInput getPolicyStatusInput) {
         final String svcOperation = "getA1PolicyStatus";
-        Properties parms = new Properties();
-        GetA1PolicyStatusOutputBuilder policyStatusResponse = new GetA1PolicyStatusOutputBuilder();
-        // add input to parms
-        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
-        GetA1PolicyStatusInputBuilder inputBuilder = new GetA1PolicyStatusInputBuilder(input);
-        MdsalHelper.toProperties(parms, inputBuilder.build());
-        logSliParameters(parms);
-        // Call SLI sync method
-        try {
-            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
-                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
-                try {
-                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyStatusResponse, parms);
-                    logResponse(responseParms);
-                    policyStatusResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
-                    policyStatusResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
-                } catch (Exception e) {
-                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
-                    policyStatusResponse.setHttpStatus(500);
-                }
-            } else {
-                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
-                policyStatusResponse.setHttpStatus(503);
-            }
-        } catch (Exception e) {
-            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
-            policyStatusResponse.setHttpStatus(500);
-        }
-        RpcResult<GetA1PolicyStatusOutput> rpcResult =
-                RpcResultBuilder.<GetA1PolicyStatusOutput>status(true).withResult(policyStatusResponse.build()).build();
-        log.info("End of getA1PolicyStatus");
-        return Futures.immediateFuture(rpcResult);
+        log.info(START_OPERATION_MESSAGE, svcOperation);
+        GetA1PolicyStatusOutputBuilder getPolicyStatusResponse = new GetA1PolicyStatusOutputBuilder();
+        setUpAndExecuteOperation(svcOperation, new GetA1PolicyStatusInputBuilder(getPolicyStatusInput),
+            getPolicyStatusResponse);
+
+        RpcResult<GetA1PolicyStatusOutput> getPolicyStatusResult =
+            RpcResultBuilder.<GetA1PolicyStatusOutput>status(true).withResult(getPolicyStatusResponse.build()).build();
+        log.info(END_OPERATION_MESSAGE, svcOperation);
+        return Futures.immediateFuture(getPolicyStatusResult);
     }
 
     @Override
-    public ListenableFuture<RpcResult<GetA1PolicyTypeOutput>> getA1PolicyType(GetA1PolicyTypeInput input) {
-        log.info("Start of getA1PolicyType");
+    public ListenableFuture<RpcResult<GetA1PolicyTypeOutput>> getA1PolicyType(GetA1PolicyTypeInput getPolicyTypeInput) {
         final String svcOperation = "getA1PolicyType";
-        Properties parms = new Properties();
-        GetA1PolicyTypeOutputBuilder policyTypeResponse = new GetA1PolicyTypeOutputBuilder();
-        // add input to parms
-        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
-        GetA1PolicyTypeInputBuilder inputBuilder = new GetA1PolicyTypeInputBuilder(input);
-        MdsalHelper.toProperties(parms, inputBuilder.build());
-        logSliParameters(parms);
-        // Call SLI sync method
-        try {
-            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
-                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
-                try {
-                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyTypeResponse, parms);
-                    logResponse(responseParms);
-                    policyTypeResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
-                    policyTypeResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
-                } catch (Exception e) {
-                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
-                    policyTypeResponse.setHttpStatus(500);
-                }
-            } else {
-                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
-                policyTypeResponse.setHttpStatus(503);
-            }
-        } catch (Exception e) {
-            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
-            policyTypeResponse.setHttpStatus(500);
-        }
-        RpcResult<GetA1PolicyTypeOutput> rpcResult =
-                RpcResultBuilder.<GetA1PolicyTypeOutput>status(true).withResult(policyTypeResponse.build()).build();
-        log.info("End of getA1PolicyType");
-        return Futures.immediateFuture(rpcResult);
+        log.info(START_OPERATION_MESSAGE, svcOperation);
+        GetA1PolicyTypeOutputBuilder getPolicyTypeResponse = new GetA1PolicyTypeOutputBuilder();
+        setUpAndExecuteOperation(svcOperation, new GetA1PolicyTypeInputBuilder(getPolicyTypeInput),
+            getPolicyTypeResponse);
+
+        RpcResult<GetA1PolicyTypeOutput> getPolicyTypeResult =
+            RpcResultBuilder.<GetA1PolicyTypeOutput>status(true).withResult(getPolicyTypeResponse.build()).build();
+        log.info(END_OPERATION_MESSAGE, svcOperation);
+        return Futures.immediateFuture(getPolicyTypeResult);
     }
 
     @Override
-    public ListenableFuture<RpcResult<PutA1PolicyOutput>> putA1Policy(PutA1PolicyInput input) {
-        log.info("Start of putA1Policy");
+    public ListenableFuture<RpcResult<PutA1PolicyOutput>> putA1Policy(PutA1PolicyInput putPolicyInput) {
         final String svcOperation = "putA1Policy";
-        Properties parms = new Properties();
-        PutA1PolicyOutputBuilder policyResponse = new PutA1PolicyOutputBuilder();
+        log.info(START_OPERATION_MESSAGE, svcOperation);
+        PutA1PolicyOutputBuilder putPolicyResponse = new PutA1PolicyOutputBuilder();
+        setUpAndExecuteOperation(svcOperation, new PutA1PolicyInputBuilder(putPolicyInput), putPolicyResponse);
+
+        RpcResult<PutA1PolicyOutput> putPolicyResult =
+            RpcResultBuilder.<PutA1PolicyOutput>status(true).withResult(putPolicyResponse.build()).build();
+        log.info(END_OPERATION_MESSAGE, svcOperation);
+        return Futures.immediateFuture(putPolicyResult);
+    }
+
+    private <T> boolean hasGraph(final String svcOperation, Builder<T> response) {
+        try {
+            return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
+        } catch (Exception e) {
+            log.error("Caught exception looking for service logic, {}", e.getMessage());
+            setHttpResponse(response, SC_INTERNAL_SERVER_ERROR);
+        }
+        return false;
+    }
+
+    private <U, T> void setUpAndExecuteOperation(final String svcOperation, Builder<U> inputBuilder,
+        Builder<T> responseBuilder) {
+        log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
         // add input to parms
-        log.info(ADDING_INPUT_DATA_MESSAGE, svcOperation, input);
-        PutA1PolicyInputBuilder inputBuilder = new PutA1PolicyInputBuilder(input);
+        Properties parms = new Properties();
         MdsalHelper.toProperties(parms, inputBuilder.build());
         logSliParameters(parms);
         // Call SLI sync method
-        try {
-            if (a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC)) {
-                log.info(A1_ADAPTER_CLIENT_GRAPH_MESSAGE, svcOperation);
-                try {
-                    Properties responseParms = a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, policyResponse, parms);
-                    logResponse(responseParms);
-                    policyResponse.setBody(responseParms.getProperty(RESPONSE_BODY));
-                    policyResponse.setHttpStatus(Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
-                } catch (Exception e) {
-                    log.error(SERVICE_EXCEPTION_MESSAGE, svcOperation, e.getMessage());
-                    policyResponse.setHttpStatus(500);
-                }
-            } else {
-                log.error(NO_SERVICE_LOGIC_ACTIVE_MESSAGE, svcOperation);
-                policyResponse.setHttpStatus(503);
-            }
-        } catch (Exception e) {
-            log.error(LOOKUP_SERVICE_LOGIC_EXCEPTION_MESSAGE, e.getMessage());
-            policyResponse.setHttpStatus(500);
+        if (hasGraph(svcOperation, responseBuilder)) {
+            log.info("A1AdapterClient has a Directed Graph for '{}'", svcOperation);
+            executeOperation(svcOperation, parms, responseBuilder);
+        } else {
+            log.error("No service logic active for A1Adapter: '{}'", svcOperation);
+            setHttpResponse(responseBuilder, Integer.valueOf(SC_SERVICE_UNAVAILABLE));
         }
-        RpcResult<PutA1PolicyOutput> rpcResult =
-                RpcResultBuilder.<PutA1PolicyOutput>status(true).withResult(policyResponse.build()).build();
-        log.info("End of putA1Policy");
-        return Futures.immediateFuture(rpcResult);
+    }
+
+    private <T> void executeOperation(final String svcOperation, Properties parms, Builder<T> response) {
+        try {
+            Properties responseParms =
+                a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
+            logResponse(responseParms);
+            setBody(response, responseParms.getProperty(RESPONSE_BODY));
+            setHttpResponse(response, Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
+        } catch (Exception e) {
+            log.error("Caught exception executing service logic for {}, {}", svcOperation, e.getMessage());
+            setHttpResponse(response, Integer.valueOf(SC_INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    private <T> void setBody(Builder<T> responseBuilder, String body) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            method.invoke(responseBuilder, body);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private <T> void setHttpResponse(Builder<T> responseBuilder, Integer response) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            method.invoke(responseBuilder, response);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
     }
 
     private void logSliParameters(Properties parms) {
@@ -319,5 +257,13 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         log.info("responseBody::{}", responseParms.getProperty(RESPONSE_BODY));
         log.info("responseCode::{}", responseParms.getProperty(RESPONSE_CODE));
         log.info("responseMessage::{}", responseParms.getProperty("response-message"));
+    }
+
+    public class MissingResponseMethodRuntimeException extends RuntimeException {
+        private static final long serialVersionUID = -6803869291161765099L;
+
+        MissingResponseMethodRuntimeException(Exception e) {
+            super(e);
+        }
     }
 }
