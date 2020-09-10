@@ -66,7 +66,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @RestController("PolicyControllerV2")
-@Api(tags = {Consts.V2_API_NAME}, description = "Policy management")
+@Api(tags = {Consts.V2_API_NAME})
 public class PolicyController {
 
     public static class RejectionException extends Exception {

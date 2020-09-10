@@ -24,11 +24,6 @@ import java.util.Properties;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.MdsalHelper;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutputBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +31,8 @@ public class A1AdapterClient {
 
     private static final String PARAMETERS_PASSED_TO_SLI = "Parameters passed to SLI";
     private static final String PARAMETERS_RETURNED_BY_SLI = "Parameters returned by SLI";
+    private static final String FAILURE = "failure";
+    private static final String SVC_LOGIC_STATUS = "SvcLogic.status";
 
     private static final Logger LOG = LoggerFactory.getLogger(A1AdapterClient.class);
 
@@ -49,10 +46,11 @@ public class A1AdapterClient {
         return svcLogicService.hasGraph(module, rpc, version, mode);
     }
 
+    @SuppressWarnings("squid:S1874") // "@Deprecated" code should not be used
     public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyTypeOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+        Object policyData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, policyData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -60,82 +58,10 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
-        return respProps;
-    }
-
-    public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyStatusOutputBuilder serviceData, Properties parms) throws SvcLogicException {
-        Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
-        }
-        Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
-        }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
-            return respProps;
-        }
-        MdsalHelper.toBuilder(respProps, serviceData);
-        return respProps;
-    }
-
-    public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
-        Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
-        }
-        Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
-        }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
-            return respProps;
-        }
-        MdsalHelper.toBuilder(respProps, serviceData);
-        return respProps;
-    }
-
-    public Properties execute(String module, String rpc, String version, String mode,
-            DeleteA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
-        Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
-        }
-        Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
-        }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
-            return respProps;
-        }
-        MdsalHelper.toBuilder(respProps, serviceData);
-        return respProps;
-    }
-
-    public Properties execute(String module, String rpc, String version, String mode,
-            PutA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
-        Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
-        }
-        Properties respProps = svcLogicService.execute(module, rpc, version, mode, localProp);
-        if (LOG.isDebugEnabled()) {
-            logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
-        }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
-            return respProps;
-        }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, policyData);
         return respProps;
     }
 
