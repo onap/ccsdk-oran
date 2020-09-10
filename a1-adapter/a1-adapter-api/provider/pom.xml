@@ -105,7 +105,6 @@
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>utils-provider</artifactId>
-            <!-- <version>${sdnctl.sli.version}</version> -->
         </dependency>
     </dependencies>
 

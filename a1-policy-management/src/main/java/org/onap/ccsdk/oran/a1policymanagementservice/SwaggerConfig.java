@@ -99,8 +99,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .build();
     }
 
-    @SuppressWarnings("rawtypes") // VendorExtension is a raw type. References to generic type VendorExtension<T>
-                                  // should be parameterizedJava(16777788)
+    @SuppressWarnings("java:S3740") // VendorExtension is a raw type. References to generic type VendorExtension<T>
+                                     // should be parameterizedJava(16777788)
     private static List<VendorExtension> vendorExtentions() {
         final String URN = "60f9a0e7-343f-43bf-9194-d8d65688d465";
         List<VendorExtension> extentions = new ArrayList<>();

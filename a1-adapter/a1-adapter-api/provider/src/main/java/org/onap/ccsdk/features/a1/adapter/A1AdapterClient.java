@@ -36,6 +36,8 @@ public class A1AdapterClient {
 
     private static final String PARAMETERS_PASSED_TO_SLI = "Parameters passed to SLI";
     private static final String PARAMETERS_RETURNED_BY_SLI = "Parameters returned by SLI";
+    private static final String FAILURE = "failure";
+    private static final String SVC_LOGIC_STATUS = "SvcLogic.status";
 
     private static final Logger LOG = LoggerFactory.getLogger(A1AdapterClient.class);
 
@@ -50,9 +52,9 @@ public class A1AdapterClient {
     }
 
     public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyTypeOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+            GetA1PolicyTypeOutputBuilder getPolicyTypeData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, getPolicyTypeData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -60,17 +62,17 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, getPolicyTypeData);
         return respProps;
     }
 
     public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyStatusOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+            GetA1PolicyStatusOutputBuilder getPolicyStatusData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, getPolicyStatusData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -78,17 +80,17 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, getPolicyStatusData);
         return respProps;
     }
 
     public Properties execute(String module, String rpc, String version, String mode,
-            GetA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+            GetA1PolicyOutputBuilder getPolicyData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, getPolicyData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -96,17 +98,17 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, getPolicyData);
         return respProps;
     }
 
     public Properties execute(String module, String rpc, String version, String mode,
-            DeleteA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+            DeleteA1PolicyOutputBuilder deletePolicyData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, deletePolicyData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -114,17 +116,17 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, deletePolicyData);
         return respProps;
     }
 
     public Properties execute(String module, String rpc, String version, String mode,
-            PutA1PolicyOutputBuilder serviceData, Properties parms) throws SvcLogicException {
+            PutA1PolicyOutputBuilder putPolicyData, Properties parms) throws SvcLogicException {
         Properties localProp;
-        localProp = MdsalHelper.toProperties(parms, serviceData);
+        localProp = MdsalHelper.toProperties(parms, putPolicyData);
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_PASSED_TO_SLI, localProp);
         }
@@ -132,10 +134,10 @@ public class A1AdapterClient {
         if (LOG.isDebugEnabled()) {
             logParameters(PARAMETERS_RETURNED_BY_SLI, localProp);
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
+        if (FAILURE.equalsIgnoreCase(respProps.getProperty(SVC_LOGIC_STATUS))) {
             return respProps;
         }
-        MdsalHelper.toBuilder(respProps, serviceData);
+        MdsalHelper.toBuilder(respProps, putPolicyData);
         return respProps;
     }
 
