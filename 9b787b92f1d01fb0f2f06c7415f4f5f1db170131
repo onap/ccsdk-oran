@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "076bfa5f_90b4b8c5",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "To me it seems like the nested try/catch is not needed  (?) \nThe only thing that differs is the logged text (which should differ anyway if there are \ndifferent exceptions).\nIf different behavior is needed for different exceptions, I think it can be good to instead catch the different exceptions.   \nNo big deal though.",
+      "range": {
+        "startLine": 136,
+        "startChar": 16,
+        "endLine": 136,
+        "endChar": 35
+      },
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f1c7b5b_0ba80577",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "same comment",
+      "range": {
+        "startLine": 196,
+        "startChar": 7,
+        "endLine": 196,
+        "endChar": 13
+      },
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6da614a_acd2f82c",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "same comment",
+      "range": {
+        "startLine": 224,
+        "startChar": 36,
+        "endLine": 224,
+        "endChar": 39
+      },
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d449990_e6347f3b",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "same comment",
+      "range": {
+        "startLine": 268,
+        "startChar": 34,
+        "endLine": 268,
+        "endChar": 37
+      },
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3744b0a3_825706ba",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/java/org/onap/ccsdk/features/a1/adapter/A1AdapterProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "same comment.",
+      "range": {
+        "startLine": 312,
+        "startChar": 20,
+        "endLine": 312,
+        "endChar": 31
+      },
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1403cbbb_6c51f19b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-09-11T06:05:48Z",
+      "side": 1,
+      "message": "Have you chhecked that removing description not affect the generated openapi.yaml?",
+      "revId": "9b787b92f1d01fb0f2f06c7415f4f5f1db170131",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
