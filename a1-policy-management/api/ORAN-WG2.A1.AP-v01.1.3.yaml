@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  title: 'A1-P Policy Management Service'
+  version: 1.1.3
+  description: |
+    API for Policy Management Service.
+    © 2019, O-RAN Alliance.
+    All rights reserved.
+externalDocs:
+  description: 'ORAN-WG2.A1.AP-v01.01 A1 interface: Application protocol'
+  url: 'https://www.o-ran.org/specifications'
+servers:
+  - url: '{apiRoot}/A1-P/v1'
+    variables:
+      apiRoot:
+        default: 'https://example.com'
+        description: 'apiRoot as defined in clause 4.2.1 in ORAN-WG2.A1.AP'
+paths:
+  '/policies':
+    get:
+      description: 'Get all policy identities'
+      tags:
+      - All Policy Identities
+      responses:
+        200:
+          description: 'Array of all policy identities'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PolicyId"
+                minItems: 0
+        429:
+          "$ref": "#/components/responses/429-TooManyRequests"
+        503:
+          "$ref": "#/components/responses/503-ServiceUnavailable"
+
+  '/policies/{policyId}':
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          "$ref": "#/components/schemas/PolicyId"
+    put:
+      description: 'Create, or update, a policy'
+      tags:
+      - Individual Policy Object
+      parameters:
+        - name: notificationDestination
+          in: query
+          required: false
+          schema:
+            "$ref": "#/components/schemas/NotificationDestination"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PolicyObject"
+      responses:
+        200:
+          description: 'The policy was updated'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PolicyObject"
+        201:
+          description: 'The policy was created'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PolicyObject"
+          headers:
+            Location:
+              description: 'Contains the URI of the created policy'
+              required: true
+              schema:
+                type: string
+        400:
+          "$ref": "#/components/responses/400-BadRequest"
+        409:
+          "$ref": "#/components/responses/409-Conflict"
+        429:
+          "$ref": "#/components/responses/429-TooManyRequests"
+        503:
+          "$ref": "#/components/responses/503-ServiceUnavailable"
+        507:
+          "$ref": "#/components/responses/507-InsufficientStorage"
+      callbacks:
+        policyStatusNotification:
+          '{$request.query.notificationDestination}':
+            post:
+              description: 'Notify about status changes for this policy'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      "$ref": "#/components/schemas/PolicyStatusObject"
+              responses:
+                204:
+                  description: 'Notification received'
+    get:
+      description: 'Query a policy'
+      tags:
+      - Individual Policy Object
+      responses:
+        200:
+          description: 'The requested policy'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PolicyObject"
+        404:
+          "$ref": "#/components/responses/404-NotFound"
+        409:
+          "$ref": "#/components/responses/409-Conflict"
+        429:
+          "$ref": "#/components/responses/429-TooManyRequests"
+        503:
+          "$ref": "#/components/responses/503-ServiceUnavailable"
+    delete:
+      description: 'Delete a policy'
+      tags:
+      - Individual Policy Object
+      responses:
+        204:
+          description: 'The policy was deleted'
+        404:
+          "$ref": "#/components/responses/404-NotFound"
+        429:
+          "$ref": "#/components/responses/429-TooManyRequests"
+        503:
+          "$ref": "#/components/responses/503-ServiceUnavailable"
+
+  '/policies/{policyId}/status':
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          "$ref": "#/components/schemas/PolicyId"
+    get:
+      description: 'Query a policy status'
+      tags:
+      - Individual Policy Status Object
+      responses:
+        200:
+          description: 'The requested policy status'
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PolicyStatusObject"
+        404:
+          "$ref": "#/components/responses/404-NotFound"
+        409:
+          "$ref": "#/components/responses/409-Conflict"
+        429:
+          "$ref": "#/components/responses/429-TooManyRequests"
+        503:
+          "$ref": "#/components/responses/503-ServiceUnavailable"
+
+components:
+  schemas:
+    #
+    # Representation objects
+    #
+    PolicyObject:
+      description: 'A generic policy object that can be used to transport any policy. Additionally, a policy shall be valid according to the schema of its specific policy type.'
+      type: object
+
+    PolicyStatusObject:
+      description: 'A generic policy status object that can be used to transport any policy status. Additionally, a policy status shall be valid according to the schema of its specific policy type.'
+      type: object
+
+    ProblemDetails:
+      description: 'A problem detail to carry details in a HTTP response according to RFC 7807'
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: number
+        detail:
+          type: string
+        instance:
+          type: string
+
+    #
+    # Simple data types
+    #
+    NotificationDestination:
+      description: 'A complete callback URI defined according to IETF RFC 3986 where to send notifications'
+      type: string
+
+    PolicyId:
+      description: 'Policy identifier assigned by the A1-P Consumer when a policy is created'
+      type: string
+
+  responses:
+    400-BadRequest:
+      description: 'Object in payload not properly formulated or not related to the method'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    404-NotFound:
+      description: 'No resource found at the URI'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    405-MethodNotAllowed:
+      description: 'Method not allowed for the URI'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    409-Conflict:
+      description: 'Request could not be processed in the current state of the resource'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    429-TooManyRequests:
+      description: 'Too many requests have been sent in a given amount of time'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    503-ServiceUnavailable:
+      description: 'The provider is currently unable to handle the request due to a temporary overload'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+    507-InsufficientStorage:
+      description: 'The method could not be performed on the resource because the provider is unable to store the representation needed to successfully complete the request'
+      content:
+        application/problem+json:
+          schema:
+            "$ref": "#/components/schemas/ProblemDetails"
+
+
