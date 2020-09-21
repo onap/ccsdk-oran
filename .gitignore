@@ -32,3 +32,6 @@ classes
 out/
 .DS_STORE
 .metadata
+
+## Documentation ignores ##
+.tox
