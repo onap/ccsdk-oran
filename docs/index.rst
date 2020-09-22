@@ -8,6 +8,8 @@ ccsdk/oran
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :caption: Contents:
 
+   ./developer-guide.rst
 
