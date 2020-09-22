@@ -2,4 +2,3 @@
 #
 4608e6d8ed3035ee38d2ad1fc2deae815b060970                                   	saml/onap-gerrit-ccsdk-oran-committers
 daebbf523be390041a1a9c0e340a6d833aae5043                                   	GitHub Replication
-ldap:cn=onap-gerrit-ccsdk-oran-committers,ou=Groups,dc=freestandards,dc=org	ldap/onap-gerrit-ccsdk-oran-committers
