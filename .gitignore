@@ -10,6 +10,7 @@ org.eclipse.core.resources.prefs
 .checkstyle
 maven-eclipse.xml
 workspace
+.pydevproject
 
 ## Compilation Files ##
 *.class
@@ -35,3 +36,4 @@ out/
 
 ## Documentation ignores ##
 .tox
+_build/
