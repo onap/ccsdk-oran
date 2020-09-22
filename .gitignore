@@ -21,6 +21,8 @@ MANIFEST.MF
 **/yang-gen-sal
 *.interp
 sli/model/src/main/java
+node_modules
+package-lock.json
 
 ## Misc Ignores (OS specific etc) ##
 bin/

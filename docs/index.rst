@@ -1,13 +1,15 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
-   Copyright 2020 Nordix Foundation.
+.. http://creativecommons.org/licenses/by/4.0
+.. Copyright 2020 Nordix Foundation.
 .. _master_index:
-
-.. _ccsdk/oran
 
 ccsdk/oran
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :caption: Contents:
 
-
+   ./developer-guide.rst
+   ./pms_api.rst
+   ./release-notes.rst
