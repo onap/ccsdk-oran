@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a163545_a20f3b16",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/resources/OSGI-INF/blueprint/impl-blueprint.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-09-23T13:18:05Z",
+      "side": 1,
+      "message": "Better to keep argument in same order as deifned in constructor:\n\npublic A1AdapterProvider(final NotificationPublishService notificationPublishService,\nfinal RpcProviderRegistry rpcProviderRegistry, final A1AdapterClient a1AdapterClient) {",
+      "revId": "ed9902ee3951d79b5ea26d938bca321cf4f1a408",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
