@@ -16,6 +16,24 @@
       "revId": "ed9902ee3951d79b5ea26d938bca321cf4f1a408",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9acb7488_fff9bea4",
+        "filename": "a1-adapter/a1-adapter-api/provider/src/main/resources/OSGI-INF/blueprint/impl-blueprint.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-09-23T13:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a163545_a20f3b16",
+      "revId": "ed9902ee3951d79b5ea26d938bca321cf4f1a408",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
