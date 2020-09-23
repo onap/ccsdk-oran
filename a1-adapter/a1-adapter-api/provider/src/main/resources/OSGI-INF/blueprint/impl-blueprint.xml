@@ -30,9 +30,6 @@
         <argument ref="svcLogicService"/>
     </bean>
 
-    <reference id="dataBroker" interface="org.opendaylight.controller.md.sal.binding.api.DataBroker"
-               odl:type="default"/>
-
     <reference id="notificationService"
                interface="org.opendaylight.controller.md.sal.binding.api.NotificationPublishService"
                odl:type="default"/>
@@ -41,9 +38,8 @@
                odl:type="default"/>
 
     <bean id="provider" class="org.onap.ccsdk.features.a1.adapter.A1AdapterProvider">
-        <argument ref="dataBroker"/>
-        <argument ref="rpcRegistry"/>
         <argument ref="notificationService"/>
+        <argument ref="rpcRegistry"/>
         <argument ref="client"/>
     </bean>
 
