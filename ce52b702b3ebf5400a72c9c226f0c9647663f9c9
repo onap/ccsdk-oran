@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dba30f0_e6bc4b50",
+        "filename": "a1-policy-management/api/ORAN-WG2.A1.AP-v01.1.3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-09-24T12:25:12Z",
+      "side": 1,
+      "message": "License is unclear ... Ongoing discussions",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "ce52b702b3ebf5400a72c9c226f0c9647663f9c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
