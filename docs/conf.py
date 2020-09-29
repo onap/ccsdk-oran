@@ -9,6 +9,8 @@ linkcheck_ignore = [
     'http://localhost',
 ]
 
+extensions = ['sphinx_tabs.tabs']
+
 intersphinx_mapping = {}
 
 html_last_updated_fmt = '%d-%b-%y %H:%M'
