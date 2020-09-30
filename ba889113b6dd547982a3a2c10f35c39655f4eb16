@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7127165f_4b1d2ebb",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-09-30T11:43:13Z",
+      "side": 1,
+      "message": "Will need a comment here about why OSC certs are included ....",
+      "range": {
+        "startLine": 38,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 17
+      },
+      "revId": "ba889113b6dd547982a3a2c10f35c39655f4eb16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
