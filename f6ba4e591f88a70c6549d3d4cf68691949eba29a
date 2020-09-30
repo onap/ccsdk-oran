@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e80c8843_3b8535b3",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2020-09-30T09:21:18Z",
+      "side": 1,
+      "message": "Please remove the above two paragraphs as this is outdated now. There is no a1simulator and a1controller cert in the new truststore.",
+      "revId": "f6ba4e591f88a70c6549d3d4cf68691949eba29a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
