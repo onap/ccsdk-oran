@@ -7,7 +7,19 @@ linkcheck_ignore = [
     'http://localhost',
 ]
 
-extensions = ['sphinx_tabs.tabs']
+extensions = ['sphinx_tabs.tabs', 'sphinxcontrib.redoc',
+]
+
+redoc = [
+            {
+                'name': 'PMS API',
+                'page': './offeredapis/pms-api',
+                'spec': './offeredapis/api_policyManagementService/swagger.json',
+                'embed': True,
+            }
+        ]
+
+redoc_uri = 'https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js'
 
 intersphinx_mapping = {}
 
