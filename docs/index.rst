@@ -7,10 +7,9 @@ ccsdk/oran
 ----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
+   offeredapis/offeredapis.rst
    ./developer-guide.rst
-   ./pms-api.rst
-   ./a1-adapter-api.rst
    ./release-notes.rst
