@@ -13,4 +13,5 @@ sphinxcontrib-seqdiag
 sphinxcontrib-swaggerdoc
 sphinxcontrib-plantuml
 sphinx_bootstrap_theme
+sphinxcontrib-redoc
 lfdocs-conf
