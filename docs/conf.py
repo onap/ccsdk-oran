@@ -1,7 +1,5 @@
 from docs_conf.conf import *
 
-#branch configuration
-
 branch = 'latest'
 master_doc = 'index'
 
@@ -16,4 +14,4 @@ intersphinx_mapping = {}
 html_last_updated_fmt = '%d-%b-%y %H:%M'
 
 def setup(app):
-    app.add_stylesheet("css/ribbon.css")
+    app.add_css_file("css/ribbon.css")
