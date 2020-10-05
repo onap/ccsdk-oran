@@ -63,6 +63,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.annotation.Nullable;
 
 /**
  * Regularly refreshes the configuration from Consul or from a local
@@ -195,6 +196,14 @@ public class RefreshConfigTask {
         return (filepath != null && (new File(filepath).exists()));
     }
 
+    private void removePoliciciesInRic(@Nullable Ric ric) {
+        if (ric != null) {
+            RicSynchronizationTask synch =
+                    new RicSynchronizationTask(this.a1ClientFactory, this.policyTypes, this.policies, this.services);
+            synch.run(ric);
+        }
+    }
+
     private void handleUpdatedRicConfig(RicConfigUpdate updatedInfo) {
         synchronized (this.rics) {
             String ricId = updatedInfo.getRicConfig().ricId();
@@ -202,8 +211,9 @@ public class RefreshConfigTask {
             if (event == RicConfigUpdate.Type.ADDED) {
                 addRic(updatedInfo.getRicConfig());
             } else if (event == RicConfigUpdate.Type.REMOVED) {
-                rics.remove(ricId);
+                Ric ric = rics.remove(ricId);
                 this.policies.removePoliciesForRic(ricId);
+                removePoliciciesInRic(ric);
             } else if (event == RicConfigUpdate.Type.CHANGED) {
                 Ric ric = this.rics.get(ricId);
                 if (ric == null) {
