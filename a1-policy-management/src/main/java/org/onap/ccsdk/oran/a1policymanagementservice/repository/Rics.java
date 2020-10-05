@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Vector;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.springframework.lang.Nullable;
 
 /**
  * Dynamic representation of all Rics in the system.
@@ -54,8 +55,8 @@ public class Rics {
         return registeredRics.get(ricId);
     }
 
-    public synchronized void remove(String ricId) {
-        registeredRics.remove(ricId);
+    public synchronized @Nullable Ric remove(String ricId) {
+        return registeredRics.remove(ricId);
     }
 
     public synchronized int size() {
