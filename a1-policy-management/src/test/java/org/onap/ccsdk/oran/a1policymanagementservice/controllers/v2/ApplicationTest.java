@@ -30,6 +30,9 @@ import static org.mockito.Mockito.doReturn;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -198,6 +202,18 @@ class ApplicationTest {
             ric.getLock().unlockBlocking();
             assertThat(ric.getLock().getLockCounter()).isZero();
             assertThat(ric.getState()).isEqualTo(Ric.RicState.AVAILABLE);
+        }
+    }
+
+    @Test
+
+    void createApiDoc() throws FileNotFoundException {
+        String url = "https://localhost:" + this.port + "/v2/api-docs";
+        ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        String indented = (new JSONObject(resp.getBody())).toString(4);
+        try (PrintStream out = new PrintStream(new FileOutputStream("api/api_generated.json"))) {
+            out.print(indented);
         }
     }
 
@@ -729,10 +745,6 @@ class ApplicationTest {
         }
     }
 
-    private String baseUrl() {
-        return "https://localhost:" + port + Consts.V2_API_ROOT;
-    }
-
     private String jsonString() {
         return "{\"servingCellNrcgi\":\"1\"}";
     }
@@ -766,7 +778,7 @@ class ApplicationTest {
         logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
     }
 
-    private AsyncRestClient restClient(boolean useTrustValidation) {
+    private AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
         config = ImmutableWebClientConfig.builder() //
                 .keyStoreType(config.keyStoreType()) //
@@ -778,7 +790,12 @@ class ApplicationTest {
                 .trustStorePassword(config.trustStorePassword()) //
                 .build();
 
-        return new AsyncRestClient(baseUrl(), config);
+        return new AsyncRestClient(baseUrl, config);
+    }
+
+    private AsyncRestClient restClient(boolean useTrustValidation) {
+        String baseUrl = "https://localhost:" + port + Consts.V2_API_ROOT;
+        return restClient(baseUrl, useTrustValidation);
     }
 
     private AsyncRestClient restClient() {
