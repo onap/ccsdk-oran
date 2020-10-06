@@ -16,6 +16,24 @@
       "revId": "d31db00a2ae80dd66fc6a3f34959501f47dab1f3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff0a704a_6af60fcb",
+        "filename": "docs/offeredapis/redoc/api_policyManagementService.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-06T14:35:26Z",
+      "side": 1,
+      "message": "This is the way it is done in the NBI documentation, I\u0027m just copying their way of doing it. (https://gerrit.onap.org/r/gitweb?p\u003dexternalapi/nbi.git;a\u003dblob;f\u003ddocs/offeredapis/redoc/api_serviceCatalog.js;h\u003d58cc5ca35ede9a43750eb4c049ea8bc6b2fae5f0;hb\u003dHEAD) \nI guess it has something to do with the redoc script, https://cdn.jsdelivr.net/npm/redoc@2.0.0-alpha.17/bundles/redoc.standalone.js, and that it needs to download the json file from a URL. \nWould it be better to point out the json file in the Git repository, if that is possible?",
+      "parentUuid": "f886e615_741b0a32",
+      "revId": "d31db00a2ae80dd66fc6a3f34959501f47dab1f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
