@@ -2,7 +2,8 @@
    International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2020 Nordix Foundation
-.. _offeredapis:
+
+.. _offered_apis:
 
 
 Offered APIs
@@ -20,8 +21,8 @@ Global ORAN architecture
 Following illustration provides a global view about **ORAN** architecture,
 integration with other ONAP components and API resource/operation provided.
 
-.. image:: ../images/onap_ccsdk_oran.jpg
-   :width: 800px
+.. image:: ../media/onap_ccsdk_oran.png
+   :width: 500pt
 
 
 API Endpoint
@@ -74,6 +75,8 @@ API Table
 
    "PMS API", ":download:`link <./swagger/pms-api.json>`"
 
+
+.. _pms_api:
 
 PMS API
 .......
