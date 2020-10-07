@@ -75,6 +75,24 @@
       "revId": "d31db00a2ae80dd66fc6a3f34959501f47dab1f3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b493e645_642433ef",
+        "filename": "docs/offeredapis/redoc/api_policyManagementService.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-07T13:30:06Z",
+      "side": 1,
+      "message": "Thank you for the suggestion! I have tried it in the new patch set.",
+      "parentUuid": "a5cc5fc1_9817662d",
+      "revId": "d31db00a2ae80dd66fc6a3f34959501f47dab1f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
