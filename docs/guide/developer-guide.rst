@@ -12,7 +12,7 @@ A1 Adapter
 
 TBD
 
-The A1 Adapter can be accessed over the REST API. See :ref:`a1-adapter-api` for how to use the API.
+The A1 Adapter can be accessed over the REST API. See :ref:`offered_apis` for how to use the API.
 
 
 A1 Policy Management
@@ -29,7 +29,7 @@ The CCSDK Policy Management Service (PMS) provides a REST API for management of 
    * Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc.
    * Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC.
 
-The Policy Management Service can be accessed over the REST API. See :ref:`pms-api` for how to use the API.
+The Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for how to use the API.
 
 Configuration of certs
 ----------------------

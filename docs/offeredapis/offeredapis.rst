@@ -2,7 +2,8 @@
    International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2020 Nordix Foundation
-.. _offeredapis:
+
+.. _offered_apis:
 
 
 Offered APIs
@@ -74,6 +75,8 @@ API Table
 
    "PMS API", ":download:`link <./swagger/pms-api.json>`"
 
+
+.. _pms_api:
 
 PMS API
 .......
