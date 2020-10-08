@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 
 import reactor.core.publisher.Flux;
@@ -85,8 +84,8 @@ public class StdA1ClientVersion1 implements A1Client {
     private final AsyncRestClient restClient;
     private final UriBuilder uri;
 
-    public StdA1ClientVersion1(RicConfig ricConfig, WebClientConfig webClientConfig) {
-        this(new AsyncRestClient("", webClientConfig), ricConfig);
+    public StdA1ClientVersion1(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
+        this(restClientFactory.createRestClient(""), ricConfig);
     }
 
     public StdA1ClientVersion1(AsyncRestClient restClient, RicConfig ricConfig) {

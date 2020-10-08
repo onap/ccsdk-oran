@@ -49,6 +49,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
@@ -118,6 +119,11 @@ class RicSynchronizationTaskTest {
         RIC_1.clearSupportedPolicyTypes();
     }
 
+    private RicSynchronizationTask createTask() {
+        ApplicationConfig config = new ApplicationConfig();
+        return new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services, config);
+    };
+
     @Test
     void ricAlreadySynchronizing_thenNoSynchronization() {
         RIC_1.setState(RicState.SYNCHRONIZING);
@@ -126,8 +132,7 @@ class RicSynchronizationTaskTest {
         policyTypes.put(POLICY_TYPE_1);
         policies.put(POLICY_1);
 
-        RicSynchronizationTask synchronizerUnderTest =
-                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+        RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -152,8 +157,7 @@ class RicSynchronizationTaskTest {
         setUpCreationOfA1Client();
         simulateRicWithOnePolicyType();
 
-        RicSynchronizationTask synchronizerUnderTest =
-                spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
+        RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
         AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
         when(restClientMock.put(anyString(), anyString())).thenReturn(Mono.just("Ok"));
@@ -184,8 +188,7 @@ class RicSynchronizationTaskTest {
         String typeSchema = "schema";
         when(a1ClientMock.getPolicyTypeSchema(POLICY_TYPE_1_NAME)).thenReturn(Mono.just(typeSchema));
 
-        RicSynchronizationTask synchronizerUnderTest =
-                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+        RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -213,8 +216,7 @@ class RicSynchronizationTaskTest {
         when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.just("OK"));
         when(a1ClientMock.putPolicy(any(Policy.class))).thenReturn(Mono.just("OK"));
 
-        RicSynchronizationTask synchronizerUnderTest =
-                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+        RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -240,8 +242,7 @@ class RicSynchronizationTaskTest {
                 .thenReturn(Flux.error(new Exception("Exception"))) //
                 .thenReturn(Flux.just("OK"));
 
-        RicSynchronizationTask synchronizerUnderTest =
-                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+        RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
 
@@ -265,8 +266,7 @@ class RicSynchronizationTaskTest {
         String originalErrorMessage = "Exception";
         when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(new Exception(originalErrorMessage)));
 
-        RicSynchronizationTask synchronizerUnderTest =
-                new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services);
+        RicSynchronizationTask synchronizerUnderTest = createTask();
 
         final ListAppender<ILoggingEvent> logAppender =
                 LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
@@ -298,8 +298,7 @@ class RicSynchronizationTaskTest {
         final ListAppender<ILoggingEvent> logAppender =
                 LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
 
-        RicSynchronizationTask synchronizerUnderTest =
-                spy(new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services));
+        RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
         AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
         String originalErrorMessage = "Exception";

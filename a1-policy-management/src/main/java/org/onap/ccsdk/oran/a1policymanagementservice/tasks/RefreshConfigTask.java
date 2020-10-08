@@ -224,7 +224,7 @@ public class RefreshConfigTask {
 
     void runRicSynchronization(Ric ric) {
         RicSynchronizationTask synchronizationTask =
-                new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services);
+                new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, appConfig);
         synchronizationTask.run(ric);
     }
 

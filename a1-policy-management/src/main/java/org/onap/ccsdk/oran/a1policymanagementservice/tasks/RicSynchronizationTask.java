@@ -25,6 +25,8 @@ import static org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicSt
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -64,13 +66,15 @@ public class RicSynchronizationTask {
     private final PolicyTypes policyTypes;
     private final Policies policies;
     private final Services services;
+    private final AsyncRestClientFactory restClientFactory;
 
     public RicSynchronizationTask(A1ClientFactory a1ClientFactory, PolicyTypes policyTypes, Policies policies,
-            Services services) {
+            Services services, ApplicationConfig config) {
         this.a1ClientFactory = a1ClientFactory;
         this.policyTypes = policyTypes;
         this.policies = policies;
         this.services = services;
+        this.restClientFactory = new AsyncRestClientFactory(config.getWebClientConfig());
     }
 
     public void run(Ric ric) {
@@ -161,7 +165,7 @@ public class RicSynchronizationTask {
     }
 
     AsyncRestClient createNotificationClient(final String url) {
-        return new AsyncRestClient(url, this.a1ClientFactory.getAppConfig().getWebClientConfig());
+        return restClientFactory.createRestClient(url);
     }
 
     private Flux<PolicyType> synchronizePolicyTypes(Ric ric, A1Client a1Client) {
