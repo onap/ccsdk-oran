@@ -82,7 +82,6 @@ import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.api.CbsClient;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.EnvProperties;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.ImmutableEnvProperties;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -123,24 +122,15 @@ class RefreshConfigTaskTest {
 
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
             boolean stubConfigFileExists) {
+        doReturn("fileName").when(appConfig).getLocalConfigurationFilePath();
+        doReturn(null).when(appConfig).getWebClientConfig();
+
         RefreshConfigTask obj = spy(new RefreshConfigTask(appConfig, rics, policies, new Services(), new PolicyTypes(),
                 new A1ClientFactory(appConfig)));
         if (stubConfigFileExists) {
             doReturn(configFileExists).when(obj).fileExists(any());
         }
         return obj;
-    }
-
-    @Test
-    void startWithStubbedRefresh_thenTerminationLogged() {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, null, null, false);
-        doReturn(Flux.empty()).when(refreshTaskUnderTest).createRefreshTask();
-
-        final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
-
-        refreshTaskUnderTest.start();
-
-        assertThat(logAppender.list.get(0).getFormattedMessage()).isEqualTo("Configuration refresh terminated");
     }
 
     @Test
@@ -160,7 +150,6 @@ class RefreshConfigTaskTest {
         refreshTaskUnderTest.systemEnvironment = new Properties();
         // When
         doReturn(getCorrectJson()).when(refreshTaskUnderTest).createInputStream(any());
-        doReturn("fileName").when(appConfig).getLocalConfigurationFilePath();
 
         StepVerifier //
                 .create(refreshTaskUnderTest.createRefreshTask()) //
@@ -189,7 +178,6 @@ class RefreshConfigTaskTest {
         // When
         final String JUNK_JSON = "{\"junk }";
         doReturn(getJsonSteam(JUNK_JSON)).when(refreshTaskUnderTest).createInputStream(any());
-        doReturn("fileName").when(appConfig).getLocalConfigurationFilePath();
 
         final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
 

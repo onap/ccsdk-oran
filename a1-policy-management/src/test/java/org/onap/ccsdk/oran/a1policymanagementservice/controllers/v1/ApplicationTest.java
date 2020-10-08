@@ -44,6 +44,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
@@ -722,7 +723,8 @@ class ApplicationTest {
                 .trustStorePassword(config.trustStorePassword()) //
                 .build();
 
-        return new AsyncRestClient(baseUrl(), config);
+        AsyncRestClientFactory f = new AsyncRestClientFactory(config);
+        return f.createRestClient(baseUrl());
     }
 
     private AsyncRestClient restClient() {

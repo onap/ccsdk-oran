@@ -46,8 +46,6 @@ import org.mockito.ArgumentCaptor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +55,6 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 class DmaapMessageHandlerTest {
-    private static final Logger logger = LoggerFactory.getLogger(DmaapMessageHandlerTest.class);
     private static final String URL = "url";
 
     private final AsyncRestClient dmaapClient = mock(AsyncRestClient.class);
