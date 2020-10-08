@@ -70,10 +70,10 @@ API Table
 
 
 .. csv-table::
-   :header: "API name", "|swagger-icon|"
-   :widths: 10,5
+   :header: "API name", "|swagger-icon|", "|swagger-icon|"
+   :widths: 10,5, 5
 
-   "PMS API", ":download:`link <./swagger/pms-api.json>`"
+   "PMS API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
 
 
 .. _pms_api:
