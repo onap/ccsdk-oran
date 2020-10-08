@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "148dcc4d_985f9df7",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-08T07:59:03Z",
+      "side": 1,
+      "message": "Thank you so much Kapil for helping out with this!\nI just have two questions. \nIs this change necessary to make it work? \nDid you do this change manually? \nWe have created a test that automatically generates this json file, so it would be a pity if this could not be used.",
+      "revId": "3c0cb32c558ebec18600ee5ec3c00e7fc323f099",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
