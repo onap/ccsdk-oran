@@ -16,6 +16,24 @@
       "revId": "3c0cb32c558ebec18600ee5ec3c00e7fc323f099",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a96541_5baeb96c",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-08T13:00:01Z",
+      "side": 1,
+      "message": "Actually the auto generated swagger content was good.. but keeping swagger version and swagger metadata info on top makes it easier to read out from JSON itself that what it is all about.\n\nSo I just made some changes manually (though not required/mandatory)",
+      "parentUuid": "148dcc4d_985f9df7",
+      "revId": "3c0cb32c558ebec18600ee5ec3c00e7fc323f099",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
