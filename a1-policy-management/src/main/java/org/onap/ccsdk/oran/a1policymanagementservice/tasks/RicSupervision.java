@@ -24,6 +24,7 @@ import java.util.Collection;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -58,6 +59,7 @@ public class RicSupervision {
     private final PolicyTypes policyTypes;
     private final A1ClientFactory a1ClientFactory;
     private final Services services;
+    private final ApplicationConfig config;
 
     private static class SynchStartedException extends ServiceException {
         private static final long serialVersionUID = 1L;
@@ -83,12 +85,13 @@ public class RicSupervision {
 
     @Autowired
     public RicSupervision(Rics rics, Policies policies, A1ClientFactory a1ClientFactory, PolicyTypes policyTypes,
-            Services services) {
+            Services services, ApplicationConfig config) {
         this.rics = rics;
         this.policies = policies;
         this.a1ClientFactory = a1ClientFactory;
         this.policyTypes = policyTypes;
         this.services = services;
+        this.config = config;
     }
 
     /**
@@ -207,6 +210,6 @@ public class RicSupervision {
     }
 
     RicSynchronizationTask createSynchronizationTask() {
-        return new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services);
+        return new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, config);
     }
 }

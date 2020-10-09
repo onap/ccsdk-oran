@@ -20,8 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
-import lombok.Getter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
@@ -40,12 +38,14 @@ public class A1ClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(A1ClientFactory.class);
 
-    @Getter
     private final ApplicationConfig appConfig;
+
+    private final AsyncRestClientFactory restClientFactory;
 
     @Autowired
     public A1ClientFactory(ApplicationConfig appConfig) {
         this.appConfig = appConfig;
+        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig());
     }
 
     /**
@@ -72,15 +72,14 @@ public class A1ClientFactory {
     A1Client createClient(Ric ric, A1ProtocolType version) throws ServiceException {
         if (version == A1ProtocolType.STD_V1_1) {
             assertNoControllerConfig(ric, version);
-            return new StdA1ClientVersion1(ric.getConfig(), this.appConfig.getWebClientConfig());
+            return new StdA1ClientVersion1(ric.getConfig(), this.restClientFactory);
         } else if (version == A1ProtocolType.OSC_V1) {
             assertNoControllerConfig(ric, version);
-            return new OscA1Client(ric.getConfig(), this.appConfig.getWebClientConfig());
+            return new OscA1Client(ric.getConfig(), this.restClientFactory);
         } else if (version == A1ProtocolType.SDNC_OSC_STD_V1_1 || version == A1ProtocolType.SDNC_OSC_OSC_V1) {
-            return new SdncOscA1Client(version, ric.getConfig(), getControllerConfig(ric),
-                    this.appConfig.getWebClientConfig());
+            return new SdncOscA1Client(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
         } else if (version == A1ProtocolType.SDNC_ONAP) {
-            return new SdncOnapA1Client(ric.getConfig(), getControllerConfig(ric), this.appConfig.getWebClientConfig());
+            return new SdncOnapA1Client(ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
         } else {
             logger.error("Unhandled protocol: {}", version);
             throw new ServiceException("Unhandled protocol");

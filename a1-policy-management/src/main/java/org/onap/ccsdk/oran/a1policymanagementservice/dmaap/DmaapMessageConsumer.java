@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
@@ -71,6 +72,8 @@ public class DmaapMessageConsumer {
 
     private final Gson gson;
 
+    private final AsyncRestClientFactory restClientFactory;
+
     @Value("${server.http-port}")
     private int localServerHttpPort;
 
@@ -80,6 +83,7 @@ public class DmaapMessageConsumer {
         GsonBuilder gsonBuilder = new GsonBuilder();
         ServiceLoader.load(TypeAdapterFactory.class).forEach(gsonBuilder::registerTypeAdapterFactory);
         gson = gsonBuilder.create();
+        this.restClientFactory = new AsyncRestClientFactory(applicationConfig.getWebClientConfig());
     }
 
     /**
@@ -187,9 +191,9 @@ public class DmaapMessageConsumer {
     protected DmaapMessageHandler getDmaapMessageHandler() {
         if (this.dmaapMessageHandler == null) {
             String pmsBaseUrl = "http://localhost:" + this.localServerHttpPort;
-            AsyncRestClient pmsClient = new AsyncRestClient(pmsBaseUrl, this.applicationConfig.getWebClientConfig());
-            AsyncRestClient producer = new AsyncRestClient(this.applicationConfig.getDmaapProducerTopicUrl(),
-                    this.applicationConfig.getWebClientConfig());
+            AsyncRestClient pmsClient = restClientFactory.createRestClient(pmsBaseUrl);
+            AsyncRestClient producer =
+                    restClientFactory.createRestClient(this.applicationConfig.getDmaapProducerTopicUrl());
             this.dmaapMessageHandler = new DmaapMessageHandler(producer, pmsClient);
         }
         return this.dmaapMessageHandler;
@@ -204,7 +208,7 @@ public class DmaapMessageConsumer {
     }
 
     protected AsyncRestClient getMessageRouterConsumer() {
-        return new AsyncRestClient("", this.applicationConfig.getWebClientConfig());
+        return restClientFactory.createRestClient("");
     }
 
 }
