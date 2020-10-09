@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f8cc4848_d55cd980",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-09T06:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dca0d47c_8f7c97dc",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3157e4cc_db264c88",
         "filename": "docs/architecture/architecture.rst",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "300f07a1_8e6407bd",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-09T06:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3157e4cc_db264c88",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d2be65e_c5503142",
         "filename": "docs/offeredapis/offeredapis.rst",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c94bc444_1dc57e65",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-09T06:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d2be65e_c5503142",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
