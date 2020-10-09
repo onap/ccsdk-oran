@@ -10,6 +10,9 @@ ccsdk/oran
    :maxdepth: 1
    :caption: Contents:
 
-   ./offeredapis/offeredapis.rst
+   ./architecture/architecture.rst
    ./guide/developer-guide.rst
-   ./release-notes.rst
+   ./offeredapis/offeredapis.rst
+   ./consumedapis/consumedapis.rst
+   ./humaninterfaces/humaninterfaces.rst
+   ./releasenotes/release-notes.rst
