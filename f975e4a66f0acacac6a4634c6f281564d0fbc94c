@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dca0d47c_8f7c97dc",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-09T00:13:49Z",
+      "side": 1,
+      "message": "use pt instead px to make image scalable (for better view use 500pt)",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3157e4cc_db264c88",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-09T00:13:49Z",
+      "side": 1,
+      "message": "This seems to be a single line note, will look odd in multiple lines.",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2be65e_c5503142",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-09T00:13:49Z",
+      "side": 1,
+      "message": "Upload yaml icon image and use same as 2nd column",
+      "revId": "f975e4a66f0acacac6a4634c6f281564d0fbc94c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
