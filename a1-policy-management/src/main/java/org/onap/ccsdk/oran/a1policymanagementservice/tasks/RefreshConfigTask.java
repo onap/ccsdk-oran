@@ -199,7 +199,7 @@ public class RefreshConfigTask {
     private void removePoliciciesInRic(@Nullable Ric ric) {
         if (ric != null) {
             RicSynchronizationTask synch =
-                    new RicSynchronizationTask(this.a1ClientFactory, this.policyTypes, this.policies, this.services);
+                    new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, appConfig);
             synch.run(ric);
         }
     }
