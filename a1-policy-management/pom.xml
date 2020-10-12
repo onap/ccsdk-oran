@@ -133,17 +133,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId>
-            <artifactId>dmaapClient</artifactId>
-            <version>${version.dmaap}</version>
-        </dependency>
-        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
         </dependency>
         <!-- Actuator dependencies -->
         <dependency>
