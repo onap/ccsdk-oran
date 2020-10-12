@@ -43,6 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
@@ -137,8 +138,7 @@ class RicSupervisionTest {
         setUpGetPolicyIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_1_ID)));
         setUpGetPolicyTypeIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_TYPE_1_NAME)));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         supervisorUnderTest.checkAllRics();
 
@@ -152,8 +152,7 @@ class RicSupervisionTest {
         RIC_1.setState(RicState.UNAVAILABLE);
         rics.put(RIC_1);
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
 
@@ -171,8 +170,7 @@ class RicSupervisionTest {
         RIC_1.setState(RicState.SYNCHRONIZING);
         rics.put(RIC_1);
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         supervisorUnderTest.checkAllRics();
 
@@ -189,8 +187,7 @@ class RicSupervisionTest {
 
         setUpGetPolicyIdentitiesToReturn(new Exception("Failed"));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
@@ -209,8 +206,7 @@ class RicSupervisionTest {
 
         setUpGetPolicyIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_1_ID)));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
 
@@ -233,8 +229,7 @@ class RicSupervisionTest {
 
         setUpGetPolicyIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_1_ID, "Another_policy")));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
 
@@ -256,8 +251,7 @@ class RicSupervisionTest {
         setUpGetPolicyIdentitiesToReturn(Collections.emptyList());
         setUpGetPolicyTypeIdentitiesToReturn(new Exception("Failed"));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
@@ -276,8 +270,7 @@ class RicSupervisionTest {
         setUpGetPolicyIdentitiesToReturn(Collections.emptyList());
         setUpGetPolicyTypeIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_TYPE_1_NAME, "another_policy_type")));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
 
@@ -305,8 +298,7 @@ class RicSupervisionTest {
         setUpGetPolicyIdentitiesToReturn(Collections.emptyList());
         setUpGetPolicyTypeIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_TYPE_1_NAME, "another_policy_type")));
 
-        RicSupervision supervisorUnderTest =
-                spy(new RicSupervision(rics, policies, a1ClientFactory, types, null, null));
+        RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
 
@@ -334,5 +326,10 @@ class RicSupervisionTest {
         } else if (returnValue instanceof Exception) {
             when(a1ClientMock.getPolicyTypeIdentities()).thenReturn(Mono.error((Exception) returnValue));
         }
+    }
+
+    private RicSupervision createRicSupervision() {
+        ApplicationConfig config = new ApplicationConfig();
+        return new RicSupervision(rics, policies, a1ClientFactory, types, null, config);
     }
 }

@@ -5,7 +5,7 @@
             "summary": "Query policy type names",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyTypesUsingGET_1",
+            "operationId": "getPolicyTypesUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -36,7 +36,7 @@
                 "summary": "Returns a policy configuration",
                 "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "getPolicyUsingGET",
+                "operationId": "getPolicyUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/json_object"},
@@ -63,7 +63,7 @@
                 "summary": "Delete a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE",
+                "operationId": "deletePolicyUsingDELETE_1",
                 "responses": {
                     "200": {"description": "Not used"},
                     "401": {"description": "Unauthorized"},
@@ -92,7 +92,7 @@
                 "summary": "Create or update a policy",
                 "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "putPolicyUsingPUT",
+                "operationId": "putPolicyUsingPUT_1",
                 "responses": {
                     "200": {"description": "Policy updated"},
                     "201": {"description": "Policy created"},
@@ -166,7 +166,7 @@
             "summary": "Returns status and statistics of this service",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getStatusUsingGET",
+            "operationId": "getStatusUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/status_info_v2"},
@@ -182,7 +182,7 @@
             "summary": "Query policies, only policy identities returned",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyIdsUsingGET_1",
+            "operationId": "getPolicyIdsUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -230,7 +230,7 @@
             "summary": "Returns policy type schema definitions",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicySchemasUsingGET_1",
+            "operationId": "getPolicySchemasUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -260,7 +260,7 @@
             "summary": "Query policy type identities",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyTypesUsingGET",
+            "operationId": "getPolicyTypesUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_type_id_list_v2"},
@@ -523,7 +523,7 @@
             "summary": "Returns policy type schema definitions",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicySchemasUsingGET",
+            "operationId": "getPolicySchemasUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_schema_list_v2"},
@@ -599,7 +599,7 @@
                 "summary": "Returns a policy configuration",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getPolicyUsingGET_1",
+                "operationId": "getPolicyUsingGET",
                 "responses": {
                     "200": {
                         "schema": {"type": "object"},
@@ -623,7 +623,7 @@
                 "summary": "Delete a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE_1",
+                "operationId": "deletePolicyUsingDELETE",
                 "responses": {
                     "200": {"description": "Not used"},
                     "401": {"description": "Unauthorized"},
@@ -652,7 +652,7 @@
                 "summary": "Put a policy",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "putPolicyUsingPUT_1",
+                "operationId": "putPolicyUsingPUT",
                 "responses": {
                     "200": {"description": "Policy updated"},
                     "201": {"description": "Policy created"},
@@ -726,7 +726,7 @@
             "summary": "Returns status and statistics of this service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getStatusUsingGET_1",
+            "operationId": "getStatusUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -743,7 +743,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
-            "operationId": "getPolicyIdsUsingGET",
+            "operationId": "getPolicyIdsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_id_list_v2"},
@@ -788,7 +788,7 @@
             "summary": "Query policies",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPoliciesUsingGET_1",
+            "operationId": "getPoliciesUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -836,7 +836,7 @@
             "summary": "Returns a policy status",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyStatusUsingGET",
+            "operationId": "getPolicyStatusUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/json_object"},
@@ -953,7 +953,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
-            "operationId": "getPoliciesUsingGET",
+            "operationId": "getPoliciesUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_info_list_v2"},
@@ -998,7 +998,7 @@
             "summary": "Returns a policy status",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyStatusUsingGET_1",
+            "operationId": "getPolicyStatusUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "object"},
@@ -1050,7 +1050,7 @@
             "tags": ["A1 Policy Management Version 2.0 (in progress)"]
         }}
     },
-    "host": "localhost:41617",
+    "host": "localhost:33209",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",

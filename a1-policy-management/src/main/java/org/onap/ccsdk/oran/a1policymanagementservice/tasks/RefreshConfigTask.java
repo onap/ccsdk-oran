@@ -39,6 +39,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
@@ -92,6 +93,7 @@ public class RefreshConfigTask {
     private final Policies policies;
     private final Services services;
     private final PolicyTypes policyTypes;
+    private final AsyncRestClientFactory restClientFactory;
 
     @Autowired
     public RefreshConfigTask(ApplicationConfig appConfig, Rics rics, Policies policies, Services services,
@@ -102,6 +104,7 @@ public class RefreshConfigTask {
         this.services = services;
         this.policyTypes = policyTypes;
         this.a1ClientFactory = a1ClientFactory;
+        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig());
     }
 
     public void start() {
@@ -199,7 +202,7 @@ public class RefreshConfigTask {
     private void removePoliciciesInRic(@Nullable Ric ric) {
         if (ric != null) {
             RicSynchronizationTask synch =
-                    new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, appConfig);
+                    new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, restClientFactory);
             synch.run(ric);
         }
     }
@@ -234,7 +237,7 @@ public class RefreshConfigTask {
 
     void runRicSynchronization(Ric ric) {
         RicSynchronizationTask synchronizationTask =
-                new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, appConfig);
+                new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, restClientFactory);
         synchronizationTask.run(ric);
     }
 
