@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc1908c_9cce6c4b",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-10-13T14:50:52Z",
+      "side": 1,
+      "message": "A1 adapter",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
