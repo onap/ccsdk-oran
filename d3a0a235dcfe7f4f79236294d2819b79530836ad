@@ -22,6 +22,69 @@
       "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad74981_6d4a8232",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4011
+      },
+      "writtenOn": "2020-10-13T15:16:10Z",
+      "side": 1,
+      "message": "A1 ADAPTER API",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 11
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e529343_b81c6231",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4011
+      },
+      "writtenOn": "2020-10-13T15:16:10Z",
+      "side": 1,
+      "message": ".. _a1_adapter_api:",
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cdfdd0f_0bb53f9b",
+        "filename": "docs/offeredapis/swagger/a1-adapter-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4011
+      },
+      "writtenOn": "2020-10-13T15:16:10Z",
+      "side": 1,
+      "message": "Trailing space",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 18
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
