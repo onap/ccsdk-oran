@@ -36,6 +36,7 @@ The Policy Management Service can be accessed over the REST API. See :ref:`pms_a
 
 Dependencies
 ------------
+
 This project uses various frameworks which are managed with Maven
 dependency management tool (see *pom.xml* file at root level) :
 
@@ -59,16 +60,21 @@ that are available. The second contains logging and security configurations.
 Configuration of certs
 ----------------------
 
-The Policy Management Service uses the default keystore and truststore that are built into the container. The paths and passwords for these stores are located in a yaml file:
- oran/a1-policy-management/config/application.yaml
+The Policy Management Service uses the default keystore and truststore that are built into the container. The paths and
+passwords for these stores are located in a yaml file: ::
 
-There is also Policy Management Service's own cert in the default truststore for mocking purposes and unit-testing (ApplicationTest.java).
+   oran/a1-policy-management/config/application.yaml
 
-The default keystore, truststore, and application.yaml files can be overridden by mounting new files using the "volumes" field of docker-compose or docker run command.
+There is also Policy Management Service's own cert in the default truststore for mocking purposes and unit-testing
+(ApplicationTest.java).
 
-Assuming that the keystore, truststore, and application.yaml files are located in the same directory as docker-compose, the volumes field should have these entries:
+The default keystore, truststore, and application.yaml files can be overridden by mounting new files using the "volumes"
+field of docker-compose or docker run command.
 
-`volumes:`
+Assuming that the keystore, truststore, and application.yaml files are located in the same directory as docker-compose,
+the volumes field should have these entries: ::
+
+   `volumes:`
       `- ./new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks:ro`
 
       `- ./new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks:ro`
@@ -77,13 +83,13 @@ Assuming that the keystore, truststore, and application.yaml files are located i
 
 The target paths in the container should not be modified.
 
-Example docker run command for mounting new files (assuming they are located in the current directory):
+Example docker run command for mounting new files (assuming they are located in the current directory): ::
 
-`docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" o-ran-sc/nonrtric-policy-agent:2.1.0-SNAPSHOT`
+   docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" o-ran-sc/nonrtric-policy-agent:2.1.0-SNAPSHOT
 
-A1 Adapter
-++++++++++
+A1 Adapter (Internal)
++++++++++++++++++++++
 
-TBD
+The O-RAN A1 Adapter provides an internal REST CONF API for management of A1 policices, useful for test and verification.
 
-The A1 Adapter can be accessed over the REST API. See :ref:`offered_apis` for how to use the API.
+The A1 Adapter can be accessed over the REST CONF API. See :ref:`a1_adapter_api` for how to use the API.

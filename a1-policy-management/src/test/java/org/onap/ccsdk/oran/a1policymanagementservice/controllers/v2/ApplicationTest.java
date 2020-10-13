@@ -212,7 +212,7 @@ class ApplicationTest {
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         String indented = (new JSONObject(resp.getBody())).toString(4);
-        try (PrintStream out = new PrintStream(new FileOutputStream("api/api_generated.json"))) {
+        try (PrintStream out = new PrintStream(new FileOutputStream("../docs/offeredapis/swagger/pms-api.json"))) {
             out.print(indented);
         }
     }
