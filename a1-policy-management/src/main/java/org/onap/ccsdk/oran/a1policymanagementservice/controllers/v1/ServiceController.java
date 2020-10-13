@@ -146,7 +146,7 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Heartbeat from a serice")
+    @ApiOperation(value = "Heartbeat from a service")
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"),
             @ApiResponse(code = 404, message = "The service is not found, needs re-registration")})
