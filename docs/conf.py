@@ -15,6 +15,12 @@ redoc = [
                 'page': 'offeredapis/pms-api',
                 'spec': './offeredapis/swagger/pms-api.json',
                 'embed': True,
+            },
+            {
+                'name': 'A1 ADAPTER API',
+                'page': 'offeredapis/a1-adapter-api',
+                'spec': './offeredapis/swagger/a1-adapter-api.json',
+                'embed': True,
             }
         ]
 

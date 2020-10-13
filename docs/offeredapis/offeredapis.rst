@@ -77,6 +77,7 @@ API Table
    :widths: 10,5, 5
 
    "PMS API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "A1 ADAPTER API", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
 
 
 .. _pms_api:
@@ -84,4 +85,10 @@ API Table
 PMS API
 .......
 `PMS API <./pms-api.html>`_
+
+.. _a1_adapter_api:
+
+A1 ADAPTER API
+..............
+`A1 ADAPTER API <./a1-adapter-api.html>`_
 
