@@ -12,7 +12,7 @@ Offered APIs
 Introduction
 ************
 
-The north bound ...
+The north bound REST API of the Policy Management Service provides convenient methods to handle policies.
 
 
 Global ORAN architecture
@@ -25,17 +25,11 @@ integration with other ONAP components and API resource/operation provided.
    :width: 500pt
 
 
-API Endpoint
-************
-
-TBD
-
-
 API Version
 ***********
 
 APIs are described with a  state version with "v" following the API Name,
-e.g.:  ``TBD``.
+e.g.:  ``v2/policy``.
 The schema associated with a REST API must have its version number aligned
 with that of the REST API.
 
@@ -77,6 +71,7 @@ API Table
    :widths: 10,5, 5
 
    "PMS API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
 
 
 .. _pms_api:
@@ -84,4 +79,10 @@ API Table
 PMS API
 .......
 `PMS API <./pms-api.html>`_
+
+.. _a1_adapter_api:
+
+A1 ADAPTER API
+..............
+`A1 ADAPTER API (Internal) <./a1-adapter-api.html>`_
 

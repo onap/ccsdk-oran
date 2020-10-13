@@ -156,7 +156,7 @@ class MockPolicyManagementService {
     private void keepServerAlive() throws InterruptedException, IOException {
         waitForConfigurationToBeLoaded();
         loadInstances();
-        logger.info("Keeping server alive!");
+        logger.info("Keeping server alive! Listening on port: {}", port);
         synchronized (this) {
             this.wait();
         }
