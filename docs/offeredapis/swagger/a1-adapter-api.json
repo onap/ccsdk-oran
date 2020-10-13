@@ -1,0 +1,374 @@
+{
+  "apiVersion": "1.0.0",
+  "swagger": "2.0",
+  "basePath": "/",
+    "info": {
+        "x-audience": "external-partner",
+        "contact": {
+            "name": "Ericsson Software Technology",
+            "email": "nonrtric@est.tech"
+        },
+        "description": "The O-RAN A1 Adapter provides TBD",
+        "title": "A1 Adapter",
+        "version": "1.1.0"
+    },
+  "paths": {
+      "/restconf/operations/A1-ADAPTER-API:putA1Policy": {"post": {
+          "summary": "Create or update a policy",
+          "nickname": "putA1Policy",
+          "produces": "application/json",
+          "responses": {
+              "200": {
+                  "schema": {"$ref": "#/models/(putA1Policy)output"},
+                  "description": "Policy created/updated",
+                  "examples": {
+                      "application/json": {
+                          "A1-ADAPTER-API:body": {},
+                          "A1-ADAPTER-API:http-status": 200
+                      }
+                  }
+              }
+          },
+          "parameters": [
+            {
+                "schema": {"$ref": "#/models/(putA1Policy)input"},
+                "in": "body",
+                "name": null,
+                "description": null,
+                "required": false
+            }
+          ]
+        }
+    },
+      "/operations/A1-ADAPTER-API:getA1Policy": {"post": {
+          "summary": "Get policy configuration/s",
+          "nickname": "getA1Policy",
+          "produces": "application/json",
+          "responses": {
+              "200": {
+                  "schema": {"$ref": "#/models/(getA1Policy)output"},
+                  "description": "Policy found",
+                  "examples": {
+                      "application/json": {
+                          "A1-ADAPTER-API:body": {
+                              "id": "Policy 1",
+                              "json": {
+                                "scope": {
+                                  "ueId": "UE1 ",
+                                  "cellId": "Cell 1"
+                                },
+                                "qosObjectives": {
+                                  "gfbr": 319.5,
+                                  "mfbr": 782.75,
+                                  "priorityLevel": 268.5,
+                                  "pdb": 44.0
+                                },
+                                "qoeObjectives": {
+                                  "qoeScore": 329.0,
+                                  "initialBuffering": 27.75,
+                                  "reBuffFreq": 539.0,
+                                  "stallRatio": 343.0
+                                },
+                                "resources": []
+                              },
+                              "ownerServiceName": "Service 1",
+                              "ric": "ric1",
+                              "type": "STD_PolicyModelUnconstrained_0.2.0",
+                              "lastModified": "Wed, 01 Apr 2020 07:45:45 GMT"
+                          },
+                          "A1-ADAPTER-API:http-status": 200
+                      }
+                  }
+              }
+          },
+          "parameters": [
+            {
+                "schema": {"$ref": "#/models/(getA1Policy)input"},
+                "in": "body",
+                "name": null,
+                "description": null,
+                "required": false
+            }
+          ]
+        }
+    },
+      "/restconf/operations/A1-ADAPTER-API:getA1PolicyStatus": {"post": {
+          "summary": "Get a policy status",
+          "nickname": "getA1PolicyStatus",
+          "produces": "application/json",
+          "responses": {
+              "200": {
+                  "schema": {"$ref": "#/models/(getA1PolicyStatus)output"},
+                  "description": "Policy status",
+                  "examples": {
+                      "application/json": {
+                          "A1-ADAPTER-API:body": {
+                              "enforceStatus": "UNDEFINED"
+                          },
+                          "A1-ADAPTER-API:http-status": 200
+                      }
+                  }
+                  
+              }
+          },
+          "parameters": [
+            {
+                "schema": {"$ref": "#/models/(getA1PolicyStatus)input"},
+                "in": "body",
+                "name": null,
+                "description": null,
+                "required": false
+            }
+          ]
+        }
+    },
+      "/restconf/operations/A1-ADAPTER-API:getA1PolicyType": {"post": {
+          "summary": "Get a policy type schema definition",
+          "nickname": "getA1PolicyType",
+          "produces": "application/json",
+          "responses": {
+              "200": {
+                  "schema": {"$ref": "#/models/(getA1PolicyType)output"},
+                  "description": "Policy schema",
+                  "examples": {
+                      "application/json": {
+                          "A1-ADAPTER-API:body": {
+                              "$schema": "http://json-schema.org/draft-07/schema#",
+                              "title": "Example_QoETarget_1.0.0",
+                              "description": "Example QoE Target policy type",
+                              "type": "object",
+                              "properties": {
+                                "scope": {
+                                  "type": "object",
+                                  "properties": {
+                                    "ueId": {
+                                      "type": "string"
+                                    },
+                                    "sliceId": {
+                                      "type": "string"
+                                    },
+                                    "qosId": {
+                                      "type": "string"
+                                    },
+                                    "cellId": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "ueId",
+                                    "sliceId"
+                                  ]
+                                },
+                                "statement": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qoeScore": {
+                                      "type": "number"
+                                    },
+                                    "initialBuffering": {
+                                      "type": "number"
+                                    },
+                                    "reBuffFreq": {
+                                      "type": "number"
+                                    },
+                                    "stallRatio": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "minProperties": 1,
+                                  "additionalProperties": false
+                                }
+                              }
+                          },
+                          "A1-ADAPTER-API:http-status": 200
+                      }
+                  }
+              }
+          },
+          "parameters": [
+            {
+                "schema": {"$ref": "#/models/(getA1PolicyType)input"},
+                "in": "body",
+                "name": null,
+                "description": null,
+                "required": false
+            }
+          ]
+        }
+    },
+      "/restconf/operations/A1-ADAPTER-API:deleteA1Policy": {"post": {
+          "summary": "Delete a policy",
+          "nickname": "deleteA1Policy",
+          "produces": "application/json",
+          "responses": {
+              "200": {
+                  "schema": {"$ref": "#/models/(deleteA1Policy)output"},
+                  "description": "Policy deleted",
+                  "examples": {
+                      "application/json": {
+                          "A1-ADAPTER-API:body": {},
+                          "A1-ADAPTER-API:http-status": 200
+                      }
+                  }
+              }
+          },
+          "parameters": [
+            {
+                "schema": {"$ref": "#/models/(deleteA1Policy)input"},
+                "in": "body",
+                "name": null,
+                "description": null,
+                "required": false
+            }
+          ]
+        }
+    }
+  },
+  "models": {
+    "(putA1Policy)input": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:near-rt-ric-url": {
+          "required": false,
+          "type": "Some near-rt-ric-url",
+          "example": "http://nearRtRic-sim1:8085/a1-p/policytypes/11/policies/5000"
+        },
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "Some body",
+          "example": {
+              "blocking_rate":20,
+              "enforce":true,
+              "trigger_threshold":10,
+              "window_length":10
+          }
+        }
+      },
+      "id": "(putA1Policy)input"
+    },
+    "(putA1Policy)output": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "Some body"
+        },
+        "A1-ADAPTER-API:http-status": {
+          "required": false,
+          "type": "-2147483648"
+        }
+      },
+      "id": "(putA1Policy)output"
+    },
+    "(getA1Policy)input": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:near-rt-ric-url": {
+          "required": false,
+          "type": "Some near-rt-ric-url",
+          "example": "http://localhost:8081/policy?id=Policy 1"
+        }
+      },
+      "id": "(getA1Policy)input"
+    },
+    "(getA1Policy)output": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "object"        },
+        "A1-ADAPTER-API:http-status": {
+          "required": false,
+          "type": "-2147483648"
+        }
+      },
+      "id": "(getA1Policy)output"
+    },
+    "(getA1PolicyStatus)input": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:near-rt-ric-url": {
+          "required": false,
+          "type": "Some near-rt-ric-url",
+          "example": "http://ricsim_g2_1:8085/A1-P/v1/policies/5000/status"
+        }
+      },
+      "id": "(getA1PolicyStatus)input"
+    },
+    "(getA1PolicyStatus)output": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "Some body"
+        },
+        "A1-ADAPTER-API:http-status": {
+          "required": false,
+          "type": "-2147483648"
+        }
+      },
+      "id": "(getA1PolicyStatus)output"
+    },
+    "(getA1PolicyType)input": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:near-rt-ric-url": {
+          "required": false,
+          "type": "Some near-rt-ric-url",
+          "example": "http://nearRtRic-sim1:8085/a1-p/policytypes/11"
+        }
+      },
+      "id": "(getA1PolicyType)input"
+    },
+    "(getA1PolicyType)output": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "Some body"
+        },
+        "A1-ADAPTER-API:http-status": {
+          "required": false,
+          "type": "-2147483648"
+        }
+      },
+      "id": "(getA1PolicyType)output"
+    },
+    "(deleteA1Policy)input": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:near-rt-ric-url": {
+          "required": false,
+          "type": "Some near-rt-ric-url",
+          "example": "http://localhost:8282/restconf/operations/A1-ADAPTER-API:deleteA1Policy"
+        }
+      },
+      "id": "(deleteA1Policy)input"
+    },
+    "(deleteA1Policy)output": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "properties": {
+        "A1-ADAPTER-API:body": {
+          "required": false,
+          "type": "Some body"
+        },
+        "A1-ADAPTER-API:http-status": {
+          "required": false,
+          "type": "-2147483648"
+        }
+      },
+      "id": "(deleteA1Policy)output"
+    }
+  }
+}
