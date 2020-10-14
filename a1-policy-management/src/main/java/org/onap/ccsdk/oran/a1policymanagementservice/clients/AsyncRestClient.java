@@ -188,7 +188,7 @@ public class AsyncRestClient {
             logger.debug("{} HTTP error status = '{}', body '{}'", traceTag, exception.getStatusCode(),
                     exception.getResponseBodyAsString());
         } else {
-            logger.debug("{} HTTP error", traceTag, t);
+            logger.debug("{} HTTP error {}", traceTag, t.getMessage());
         }
     }
 

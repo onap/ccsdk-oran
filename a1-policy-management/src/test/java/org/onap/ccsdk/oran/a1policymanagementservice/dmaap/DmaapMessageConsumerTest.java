@@ -20,36 +20,26 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
-import static ch.qos.logback.classic.Level.WARN;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
@@ -57,8 +47,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,149 +69,111 @@ class DmaapMessageConsumerTest {
         LoggingUtils.getLogListAppender(DmaapMessageConsumer.class);
     }
 
-    @Test
-    void dmaapNotConfigured_thenSleepAndRetryUntilConfig() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+    private void setTaskNumberOfLoops(int number) {
+        ArrayList<Integer> l = new ArrayList<>();
+        for (int i = 0; i < number; ++i) {
+            l.add(i);
+        }
+        Flux<Integer> f = Flux.fromIterable(l);
+        doReturn(f).when(messageConsumerUnderTest).infiniteFlux();
+    }
 
-        doNothing().when(messageConsumerUnderTest).sleep(any(Duration.class));
-        doReturn(false, false, false, true).when(messageConsumerUnderTest).isStopped();
-        doReturn(false, true, true).when(messageConsumerUnderTest).isDmaapConfigured();
-        doReturn(new LinkedList<>()).when(messageConsumerUnderTest).fetchAllMessages();
-
-        messageConsumerUnderTest.start().join();
-
-        InOrder orderVerifier = inOrder(messageConsumerUnderTest);
-        orderVerifier.verify(messageConsumerUnderTest).sleep(DmaapMessageConsumer.TIME_BETWEEN_DMAAP_RETRIES);
-        orderVerifier.verify(messageConsumerUnderTest).fetchAllMessages();
+    private void disableTaskDelay() {
+        doReturn(Mono.empty()).when(messageConsumerUnderTest).delay();
     }
 
     @Test
-    void dmaapConfigurationRemoved_thenStopPollingDmaapSleepAndRetry() throws Exception {
+    void successfulCase_dmaapNotConfigured_thenSleepAndRetryUntilConfig() throws Exception {
         messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
 
-        doNothing().when(messageConsumerUnderTest).sleep(any(Duration.class));
-        doReturn(false, false, false, false, true).when(messageConsumerUnderTest).isStopped();
-        doReturn(true, true, false).when(messageConsumerUnderTest).isDmaapConfigured();
-        doReturn(new LinkedList<>()).when(messageConsumerUnderTest).fetchAllMessages();
+        setTaskNumberOfLoops(3);
+        disableTaskDelay();
 
-        messageConsumerUnderTest.start().join();
+        doReturn("getDmaapConsumerTopicUrl").when(this.applicationConfigMock).getDmaapConsumerTopicUrl();
+        doReturn(false, false, true).when(messageConsumerUnderTest).isDmaapConfigured();
+        doReturn(Mono.just(dmaapRequestMessageString())).when(messageConsumerUnderTest)
+                .getFromMessageRouter(anyString());
 
-        InOrder orderVerifier = inOrder(messageConsumerUnderTest);
-        orderVerifier.verify(messageConsumerUnderTest).fetchAllMessages();
-        orderVerifier.verify(messageConsumerUnderTest).sleep(DmaapMessageConsumer.TIME_BETWEEN_DMAAP_RETRIES);
+        doReturn(Mono.just("responseFromHandler")).when(messageConsumerUnderTest).handleDmaapMsg(any());
+
+        String s = messageConsumerUnderTest.createTask().blockLast();
+        assertEquals("responseFromHandler", s);
+        verify(messageConsumerUnderTest, times(2)).delay();
+        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(dmaapRequestMessage());
     }
 
     @Test
-    void dmaapConfiguredAndNoMessages_thenPollOnce() throws Exception {
+    void returnErrorFromDmapp_thenSleepAndRetry() throws Exception {
+        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+
+        setTaskNumberOfLoops(2);
+        disableTaskDelay();
         setUpMrConfig();
 
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        {
+            Mono<String> dmaapError = Mono.error(new ServiceException("dmaapError"));
+            Mono<String> dmaapResponse = Mono.just(dmaapRequestMessageString());
+            doReturn(dmaapError, dmaapResponse).when(messageConsumerUnderTest).getFromMessageRouter(anyString());
+        }
 
-        Mono<ResponseEntity<String>> response = Mono.empty();
+        doReturn(Mono.just("response1")).when(messageConsumerUnderTest).handleDmaapMsg(any());
 
-        doReturn(false, true).when(messageConsumerUnderTest).isStopped();
-        doReturn(messageRouterConsumerMock).when(messageConsumerUnderTest).getMessageRouterConsumer();
-        doReturn(response).when(messageRouterConsumerMock).getForEntity(any());
+        String s = messageConsumerUnderTest.createTask().blockLast();
 
-        messageConsumerUnderTest.start().join();
-
-        verify(messageRouterConsumerMock).getForEntity(any());
-        verifyNoMoreInteractions(messageRouterConsumerMock);
+        verify(messageConsumerUnderTest, times(2)).getFromMessageRouter(anyString());
+        verify(messageConsumerUnderTest, times(0)).sendErrorResponse(anyString());
+        verify(messageConsumerUnderTest, times(1)).delay();
+        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(dmaapRequestMessage());
+        assertEquals("response1", s);
     }
 
     @Test
-    void dmaapConfiguredAndErrorGettingMessages_thenLogWarningAndSleep() throws Exception {
+    void unParsableMessage_thenSendResponseAndContinue() throws Exception {
+        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        setTaskNumberOfLoops(2);
         setUpMrConfig();
 
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        {
+            Mono<String> dmaapError = Mono.just("Non valid JSON \"");
+            Mono<String> dmaapResponse = Mono.just(dmaapRequestMessageString());
+            doReturn(dmaapError, dmaapResponse).when(messageConsumerUnderTest).getFromMessageRouter(anyString());
+        }
 
-        doNothing().when(messageConsumerUnderTest).sleep(any(Duration.class));
-        doReturn(false, true).when(messageConsumerUnderTest).isStopped();
-        doReturn(messageRouterConsumerMock).when(messageConsumerUnderTest).getMessageRouterConsumer();
+        doReturn(Mono.just("response1")).when(messageConsumerUnderTest).handleDmaapMsg(any());
 
-        Mono<ResponseEntity<String>> response = Mono.just(new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST));
-        when(messageRouterConsumerMock.getForEntity(any())).thenReturn(response);
+        String s = messageConsumerUnderTest.createTask().blockLast();
+        assertEquals("response1", s);
 
-        final ListAppender<ILoggingEvent> logAppender =
-                LoggingUtils.getLogListAppender(DmaapMessageConsumer.class, WARN);
-
-        messageConsumerUnderTest.start().join();
-
-        assertThat(logAppender.list.get(0).getFormattedMessage())
-                .isEqualTo("Cannot fetch because of Error respons: 400 BAD_REQUEST Error");
-
-        verify(messageConsumerUnderTest).sleep(DmaapMessageConsumer.TIME_BETWEEN_DMAAP_RETRIES);
+        verify(messageConsumerUnderTest, times(2)).getFromMessageRouter(anyString());
+        verify(messageConsumerUnderTest, times(1)).sendErrorResponse(anyString());
+        verify(messageConsumerUnderTest, times(0)).delay();
+        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(dmaapRequestMessage());
     }
 
-    @Test
-    void dmaapConfiguredAndOneMessage_thenPollOnceAndProcessMessage() throws Exception {
-        // The message from MR is here an array of Json objects
-        setUpMrConfig();
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
-
-        String messages = jsonArray(gson.toJson(dmaapRequestMessage(Operation.PUT)));
-
-        doReturn(false, true).when(messageConsumerUnderTest).isStopped();
-        doReturn(messageRouterConsumerMock).when(messageConsumerUnderTest).getMessageRouterConsumer();
-
-        Mono<ResponseEntity<String>> response = Mono.just(new ResponseEntity<>(messages, HttpStatus.OK));
-        when(messageRouterConsumerMock.getForEntity(any())).thenReturn(response);
-
-        doReturn(messageHandlerMock).when(messageConsumerUnderTest).getDmaapMessageHandler();
-
-        messageConsumerUnderTest.start().join();
-
-        ArgumentCaptor<DmaapRequestMessage> captor = ArgumentCaptor.forClass(DmaapRequestMessage.class);
-        verify(messageHandlerMock).handleDmaapMsg(captor.capture());
-        DmaapRequestMessage messageAfterJsonParsing = captor.getValue();
-        assertThat(messageAfterJsonParsing.apiVersion()).isNotEmpty();
-
-        verifyNoMoreInteractions(messageHandlerMock);
+    private String dmaapRequestMessageString() {
+        String json = gson.toJson(dmaapRequestMessage());
+        return jsonArray(json);
     }
 
     @Test
     void testMessageParsing() throws ServiceException {
         messageConsumerUnderTest = new DmaapMessageConsumer(applicationConfigMock);
-        String json = gson.toJson(dmaapRequestMessage(Operation.PUT));
+        String json = gson.toJson(dmaapRequestMessage());
         {
             String jsonArrayOfObject = jsonArray(json);
-            List<DmaapRequestMessage> parsedMessage = messageConsumerUnderTest.parseMessages(jsonArrayOfObject);
+            DmaapRequestMessage parsedMessage =
+                    messageConsumerUnderTest.parseReceivedMessage(jsonArrayOfObject).blockLast();
             assertNotNull(parsedMessage);
-            assertTrue(parsedMessage.get(0).payload().isPresent());
+            assertTrue(parsedMessage.payload().isPresent());
         }
         {
             String jsonArrayOfString = jsonArray(quote(json));
-            List<DmaapRequestMessage> parsedMessage = messageConsumerUnderTest.parseMessages(jsonArrayOfString);
+            DmaapRequestMessage parsedMessage =
+                    messageConsumerUnderTest.parseReceivedMessage(jsonArrayOfString).blockLast();
             assertNotNull(parsedMessage);
-            assertTrue(parsedMessage.get(0).payload().isPresent());
+            assertTrue(parsedMessage.payload().isPresent());
         }
 
-    }
-
-    @Test
-    void incomingUnparsableRequest_thenSendResponse() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
-        doReturn(messageHandlerMock).when(messageConsumerUnderTest).getDmaapMessageHandler();
-        doReturn(Mono.just("OK")).when(messageHandlerMock).sendDmaapResponse(any(), any(), any());
-        Exception actualException =
-                assertThrows(ServiceException.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
-        assertThat(actualException.getMessage())
-                .contains("Could not parse incomming request. Reason :com.google.gson.stream.MalformedJsonException");
-
-        verify(messageHandlerMock).sendDmaapResponse(any(), any(), any());
-    }
-
-    @Test
-    void incomingUnparsableRequest_thenSendingResponseFailed() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
-        doReturn(messageHandlerMock).when(messageConsumerUnderTest).getDmaapMessageHandler();
-        doReturn(Mono.error(new Exception("Sending response failed"))).when(messageHandlerMock).sendDmaapResponse(any(),
-                any(), any());
-        Exception actualException =
-                assertThrows(Exception.class, () -> messageConsumerUnderTest.parseMessages("[\"abc:\"def\"]"));
-        assertThat(actualException.getMessage()).contains("Sending response failed");
-
-        verify(messageHandlerMock).sendDmaapResponse(any(), any(), any());
     }
 
     private void setUpMrConfig() {
@@ -237,11 +189,11 @@ class DmaapMessageConsumerTest {
         return "\"" + s.replace("\"", "\\\"") + "\"";
     }
 
-    private DmaapRequestMessage dmaapRequestMessage(Operation operation) {
+    private DmaapRequestMessage dmaapRequestMessage() {
         return ImmutableDmaapRequestMessage.builder() //
                 .apiVersion("apiVersion") //
                 .correlationId("correlationId") //
-                .operation(operation) //
+                .operation(Operation.PUT) //
                 .originatorId("originatorId") //
                 .payload(new JsonObject()) //
                 .requestId("requestId") //
