@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aba1ed0_1072620f",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-14T08:35:30Z",
+      "side": 1,
+      "message": "As this is ready, so have it replaced with actual details !",
+      "revId": "1b01fead464dfd66c750061c4245930bcc4467e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
