@@ -134,17 +134,6 @@ class RefreshConfigTaskTest {
     }
 
     @Test
-    void stop_thenTaskIsDisposed() throws Exception {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, null, null, false);
-        refreshTaskUnderTest.systemEnvironment = new Properties();
-
-        refreshTaskUnderTest.start();
-        refreshTaskUnderTest.stop();
-
-        assertThat(refreshTaskUnderTest.getRefreshTask().isDisposed()).as("Refresh task is disposed").isTrue();
-    }
-
-    @Test
     void whenTheConfigurationFits_thenConfiguredRicsArePutInRepository() throws Exception {
         refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_EXISTS);
         refreshTaskUnderTest.systemEnvironment = new Properties();
