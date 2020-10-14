@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "7b7fd2a4_a0def721",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-14T07:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc1908c_9cce6c4b",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2cbfcce_734e6288",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-14T07:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad74981_6d4a8232",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 11
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e529343_b81c6231",
         "filename": "docs/offeredapis/offeredapis.rst",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8383ee6_4884e23a",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-14T07:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e529343_b81c6231",
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6403e978_47f9c52e",
+        "filename": "docs/offeredapis/swagger/a1-adapter-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-14T07:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cdfdd0f_0bb53f9b",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 18
+      },
+      "revId": "d3a0a235dcfe7f4f79236294d2819b79530836ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
