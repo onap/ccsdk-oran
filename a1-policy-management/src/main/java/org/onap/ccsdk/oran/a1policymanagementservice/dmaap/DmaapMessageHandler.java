@@ -54,20 +54,13 @@ public class DmaapMessageHandler {
         this.dmaapClient = dmaapClient;
     }
 
-    public void handleDmaapMsg(DmaapRequestMessage msg) {
-        try {
-            String result = this.createTask(msg).block();
-            logger.debug("handleDmaapMsg: {}", result);
-        } catch (Exception throwable) {
-            logger.warn("handleDmaapMsg failure {}", throwable.getMessage());
-        }
-    }
-
-    Mono<String> createTask(DmaapRequestMessage dmaapRequestMessage) {
+    public Mono<String> handleDmaapMsg(DmaapRequestMessage dmaapRequestMessage) {
         return this.invokePolicyManagementService(dmaapRequestMessage) //
                 .onErrorResume(t -> handlePolicyManagementServiceCallError(t, dmaapRequestMessage)) //
                 .flatMap(response -> sendDmaapResponse(response.getBody(), dmaapRequestMessage,
-                        response.getStatusCode()));
+                        response.getStatusCode()))
+                .doOnError(t -> logger.warn("Failed to handle DMAAP message : {}", t.getMessage()))//
+                .onErrorResume(t -> Mono.empty());
     }
 
     private Mono<ResponseEntity<String>> handlePolicyManagementServiceCallError(Throwable error,
