@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24e7d2f5_bb6ea82b",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-10-15T13:03:26Z",
+      "side": 1,
+      "message": "ref should be for a1_adapter_api - which is already present in next line.\n\nmentioning pms_api under internal api documentation will lead to confustion, moreover ref:pms_api is already kept above.",
+      "revId": "6c5da45ec5495166d819c044f3330c95f8d07642",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
