@@ -52,6 +52,24 @@
       "revId": "1b01fead464dfd66c750061c4245930bcc4467e2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6780d3_f6b027a0",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-15T07:47:19Z",
+      "side": 1,
+      "message": "Sorry! I must have had a brain freeze yesterday... Now it is fixed.",
+      "parentUuid": "77cfa340_dea84402",
+      "revId": "1b01fead464dfd66c750061c4245930bcc4467e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
