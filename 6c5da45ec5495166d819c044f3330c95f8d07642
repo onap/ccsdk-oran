@@ -16,6 +16,24 @@
       "revId": "6c5da45ec5495166d819c044f3330c95f8d07642",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0bb81d1_a8ba7849",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-10-16T11:43:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e7d2f5_bb6ea82b",
+      "revId": "6c5da45ec5495166d819c044f3330c95f8d07642",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
