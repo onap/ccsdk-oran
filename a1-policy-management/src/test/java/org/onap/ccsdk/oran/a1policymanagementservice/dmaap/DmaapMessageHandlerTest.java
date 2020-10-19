@@ -110,7 +110,7 @@ class DmaapMessageHandlerTest {
         DmaapRequestMessage message = dmaapRequestMessage(Operation.DELETE);
 
         StepVerifier //
-                .create(testedObject.createTask(message)) //
+                .create(testedObject.handleDmaapMsg(message)) //
                 .expectSubscription() //
                 .expectNext("OK") //
                 .verifyComplete(); //
@@ -130,7 +130,7 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-                .create(testedObject.createTask(message)) //
+                .create(testedObject.handleDmaapMsg(message)) //
                 .expectSubscription() //
                 .expectNext("OK") //
                 .verifyComplete(); //
@@ -152,7 +152,7 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.GET);
         StepVerifier //
-                .create(testedObject.createTask(message)) //
+                .create(testedObject.handleDmaapMsg(message)) //
                 .expectSubscription() //
                 .verifyComplete(); //
 
@@ -170,7 +170,7 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.PUT);
         StepVerifier //
-                .create(testedObject.createTask(message)) //
+                .create(testedObject.handleDmaapMsg(message)) //
                 .expectSubscription() //
                 .expectNext("OK") //
                 .verifyComplete(); //
@@ -189,7 +189,7 @@ class DmaapMessageHandlerTest {
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.POST);
         StepVerifier //
-                .create(testedObject.createTask(message)) //
+                .create(testedObject.handleDmaapMsg(message)) //
                 .expectSubscription() //
                 .expectNext("OK") //
                 .verifyComplete(); //
@@ -208,7 +208,7 @@ class DmaapMessageHandlerTest {
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
 
         DmaapRequestMessage message = dmaapRequestMessage(Operation.PUT);
-        testedObject.createTask(message).block();
+        testedObject.handleDmaapMsg(message).block();
 
         verify(pmsClient).putForEntity(anyString(), anyString());
         verifyNoMoreInteractions(pmsClient);
@@ -239,7 +239,8 @@ class DmaapMessageHandlerTest {
         final ListAppender<ILoggingEvent> logAppender =
                 LoggingUtils.getLogListAppender(DmaapMessageHandler.class, WARN);
 
-        testedObject.handleDmaapMsg(message);
+        doReturn(notOkResponse()).when(pmsClient).putForEntity(anyString(), anyString());
+        testedObject.handleDmaapMsg(message).block();
 
         assertThat(logAppender.list.get(0).getFormattedMessage())
                 .startsWith("Expected payload in message from DMAAP: ");
