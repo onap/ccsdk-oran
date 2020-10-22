@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
@@ -46,9 +48,9 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 class StdA1ClientV2Test {
 
-    private static final String RIC_URL = "RicUrl";
+    private static final String RIC_URL = "https://ric.com";
 
-    private static final String RIC_BASE_URL = "RicBaseUrl/A1-P/v2";
+    private static final String RIC_BASE_URL = RIC_URL + "/A1-P/v2";
 
     private static final String POLICYTYPES_IDENTITIES_URL = RIC_BASE_URL + "/policytypes";
     private static final String POLICIES = "/policies";
@@ -69,7 +71,7 @@ class StdA1ClientV2Test {
     void init() {
         RicConfig ricConfig = ImmutableRicConfig.builder() //
                 .ricId("name") //
-                .baseUrl("RicBaseUrl") //
+                .baseUrl(RIC_URL) //
                 .managedElementIds(new ArrayList<>()) //
                 .controllerName("") //
                 .build();
@@ -146,8 +148,11 @@ class StdA1ClientV2Test {
         clientUnderTest
                 .putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID))
                 .block();
-        verify(asyncRestClientMock).put(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID,
-                POLICY_JSON_VALID);
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(asyncRestClientMock).put(urlCaptor.capture(), eq(POLICY_JSON_VALID));
+        String actualUrl = urlCaptor.getValue();
+        String expUrl = POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID;
+        assertThat(actualUrl).contains(expUrl);
     }
 
     @Test

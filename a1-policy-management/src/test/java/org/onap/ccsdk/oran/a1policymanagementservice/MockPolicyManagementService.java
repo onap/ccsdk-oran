@@ -192,6 +192,7 @@ class MockPolicyManagementService {
                 .type(unnamedPolicyType) //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
+                .statusNotificationUri("statusNotificationUri") //
                 .build();
         this.policies.put(policy);
     }

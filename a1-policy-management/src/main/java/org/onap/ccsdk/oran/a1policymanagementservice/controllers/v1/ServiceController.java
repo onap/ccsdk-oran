@@ -58,8 +58,7 @@ public class ServiceController {
     private final Services services;
     private final Policies policies;
 
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static Gson gson = new GsonBuilder().create();
 
     @Autowired
     ServiceController(Services services, Policies policies) {

@@ -46,7 +46,7 @@ public class StdA1ClientVersion1 implements A1Client {
          * /A1-P/v1/policies/{policyId}
          */
         @Override
-        public String createPutPolicyUri(String type, String policyId) {
+        public String createPutPolicyUri(String type, String policyId, String statusNotificationUri) {
             return policiesBaseUri() + policyId;
         }
 
@@ -113,7 +113,8 @@ public class StdA1ClientVersion1 implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        return restClient.put(uri.createPutPolicyUri(policy.type().id(), policy.id()), policy.json());
+        return restClient.put(uri.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri()),
+                policy.json());
     }
 
     @Override

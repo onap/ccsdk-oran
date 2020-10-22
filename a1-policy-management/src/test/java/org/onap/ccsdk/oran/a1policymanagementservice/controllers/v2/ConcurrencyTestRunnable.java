@@ -20,6 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,6 +54,8 @@ class ConcurrencyTestRunnable implements Runnable {
     private final Rics rics;
     private final PolicyTypes types;
     private boolean failed = false;
+
+    private static Gson gson = new GsonBuilder().create();
 
     ConcurrencyTestRunnable(AsyncRestClient client, RicSupervision supervision, MockA1ClientFactory a1ClientFactory,
             Rics rics, PolicyTypes types) {
@@ -85,7 +90,7 @@ class ConcurrencyTestRunnable implements Runnable {
                     createInconsistency();
                     this.supervision.checkAllRics();
                 }
-                String name = "policy:" + count + ":" + i;
+                String name = "policy_" + count + "_" + i;
                 putPolicy(name);
                 putPolicy(name + "-");
                 listPolicies();
@@ -115,6 +120,7 @@ class ConcurrencyTestRunnable implements Runnable {
                 .ownerServiceId("") //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
+                .statusNotificationUri("/policy_status?id=XXX") //
                 .build();
     }
 
@@ -122,11 +128,10 @@ class ConcurrencyTestRunnable implements Runnable {
         MockA1Client client = a1ClientFactory.getOrCreateA1Client("ric");
         Policy policy = createPolicyObject("junk");
         client.putPolicy(policy).block();
-
     }
 
     private void listPolicies() {
-        String uri = "/policies";
+        String uri = "/policy_instances";
         webClient.getForEntity(uri).block();
     }
 
@@ -136,12 +141,28 @@ class ConcurrencyTestRunnable implements Runnable {
     }
 
     private void putPolicy(String name) {
-        String putUrl = "/policy?policytype_id=type1&policy_id=" + name + "&ric_id=ric&service_id=service1";
-        webClient.putForEntity(putUrl, "{}").block();
+        String putUrl = "/policies";
+        String body = putPolicyBody("service1", "ric", "type1", name, false);
+        webClient.putForEntity(putUrl, body).block();
+    }
+
+    private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
+            boolean isTransient) {
+        PolicyInfo info = new PolicyInfo();
+        info.policyId = policyInstanceId;
+        info.policyTypeId = policyTypeName;
+        info.ricId = ricId;
+        info.serviceId = serviceName;
+        info.policyData = gson.fromJson("{}", Object.class);
+
+        if (isTransient) {
+            info.isTransient = isTransient;
+        }
+        return gson.toJson(info);
     }
 
     private void deletePolicy(String name) {
-        String deleteUrl = "/policy?policy_id=" + name;
+        String deleteUrl = "/policies/" + name;
         webClient.delete(deleteUrl).block();
     }
 }

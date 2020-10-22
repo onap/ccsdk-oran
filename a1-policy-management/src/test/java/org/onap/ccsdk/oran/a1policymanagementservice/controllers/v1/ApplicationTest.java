@@ -119,9 +119,7 @@ class ApplicationTest {
     @Autowired
     Services services;
 
-    private static Gson gson = new GsonBuilder() //
-            .serializeNulls() //
-            .create(); //
+    private static Gson gson = new GsonBuilder().create();
 
     public static class MockApplicationConfig extends ApplicationConfig {
         @Override
@@ -670,6 +668,7 @@ class ApplicationTest {
                 .type(addPolicyType(typeName, ric)) //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
+                .statusNotificationUri("/policy_status?id=XXX") //
                 .build();
         policies.put(policy);
         return policy;

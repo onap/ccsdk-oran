@@ -91,9 +91,7 @@ public class PolicyController {
     private Services services;
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static Gson gson = new GsonBuilder() //
-            .serializeNulls() //
-            .create(); //
+    private static Gson gson = new GsonBuilder().create();
 
     @GetMapping("/policy_schemas")
     @ApiOperation(value = "Returns policy type schema definitions")
@@ -239,6 +237,7 @@ public class PolicyController {
                 .ownerServiceId(service) //
                 .lastModified(Instant.now()) //
                 .isTransient(isTransient) //
+                .statusNotificationUri("") //
                 .build();
 
         final boolean isCreate = this.policies.get(policy.id()) == null;

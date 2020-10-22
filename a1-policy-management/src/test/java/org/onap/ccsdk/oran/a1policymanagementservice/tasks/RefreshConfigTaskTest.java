@@ -312,6 +312,7 @@ class RefreshConfigTaskTest {
                 .json("{}") //
                 .ownerServiceId("ownerServiceId") //
                 .isTransient(false) //
+                .statusNotificationUri("/policy_status?id=XXX") //
                 .build();
         return policy;
     }

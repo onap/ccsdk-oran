@@ -41,4 +41,6 @@ public interface Policy {
     public Instant lastModified();
 
     public boolean isTransient();
+
+    public String statusNotificationUri();
 }

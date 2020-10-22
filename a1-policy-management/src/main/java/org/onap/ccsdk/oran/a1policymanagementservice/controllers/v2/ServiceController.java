@@ -47,6 +47,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,8 +60,7 @@ public class ServiceController {
     private final Services services;
     private final Policies policies;
 
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static Gson gson = new GsonBuilder().create();
 
     @Autowired
     ServiceController(Services services, Policies policies) {
@@ -102,7 +102,7 @@ public class ServiceController {
     private void validateRegistrationInfo(ServiceRegistrationInfo registrationInfo)
             throws ServiceException, MalformedURLException {
         if (registrationInfo.serviceId.isEmpty()) {
-            throw new ServiceException("Missing mandatory parameter 'serviceName'");
+            throw new ServiceException("Missing mandatory parameter 'service-id'");
         }
         if (registrationInfo.keepAliveIntervalSeconds < 0) {
             throw new ServiceException("Keepalive interval shoul be greater or equal to 0");
@@ -143,12 +143,11 @@ public class ServiceController {
             @ApiResponse(code = 204, message = "Service unregistered"),
             @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
             @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
-    @DeleteMapping(Consts.V2_API_ROOT + "/services")
+    @DeleteMapping(Consts.V2_API_ROOT + "/services/{serviceId}")
     public ResponseEntity<Object> deleteService(//
-            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The idenitity of the service") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
+            @PathVariable("serviceId") String serviceId) {
         try {
-            Service service = removeService(serviceName);
+            Service service = removeService(serviceId);
             // Remove the policies from the repo and let the consistency monitoring
             // do the rest.
             removePolicies(service);
@@ -164,12 +163,11 @@ public class ServiceController {
             @ApiResponse(code = 404, message = "The service is not found, needs re-registration",
                     response = ErrorResponse.ErrorInfo.class)})
 
-    @PutMapping(Consts.V2_API_ROOT + "/services/keepalive")
+    @PutMapping(Consts.V2_API_ROOT + "/services/{service_id}/keepalive")
     public ResponseEntity<Object> keepAliveService(//
-            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = true, value = "The identity of the service") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = true) String serviceName) {
+            @PathVariable(Consts.SERVICE_ID_PARAM) String serviceId) {
         try {
-            services.getService(serviceName).keepAlive();
+            services.getService(serviceId).keepAlive();
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ServiceException e) {
             return ErrorResponse.create(e, HttpStatus.NOT_FOUND);

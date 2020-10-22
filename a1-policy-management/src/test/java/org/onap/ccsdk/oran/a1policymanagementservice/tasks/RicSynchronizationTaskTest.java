@@ -92,6 +92,7 @@ class RicSynchronizationTaskTest {
                 .type(POLICY_TYPE_1) //
                 .lastModified(Instant.now()) //
                 .isTransient(isTransient) //
+                .statusNotificationUri("statusNotificationUri") //
                 .build();
     }
 

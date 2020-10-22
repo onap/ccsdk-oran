@@ -54,7 +54,6 @@ public class RicRepositoryController {
     PolicyTypes types;
 
     private static Gson gson = new GsonBuilder() //
-            .serializeNulls() //
             .create(); //
 
     /**

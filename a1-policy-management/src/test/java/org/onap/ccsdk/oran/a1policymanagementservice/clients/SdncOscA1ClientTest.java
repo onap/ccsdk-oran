@@ -268,7 +268,8 @@ class SdncOscA1ClientTest {
 
     @Test
     void putPolicy_STD_V2() {
-        String expUrl = RIC_1_URL + "/A1-P/v2/policytypes/type1/policies/policy1";
+        String expUrl =
+                RIC_1_URL + "/A1-P/v2/policytypes/type1/policies/policy1?notificationDestination=https://test.com";
         putPolicy(A1ProtocolType.SDNC_OSC_STD_V2_0_0, expUrl);
     }
 

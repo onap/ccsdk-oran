@@ -90,6 +90,7 @@ class ServiceSupervisionTest {
             .type(policyType) //
             .lastModified(Instant.now()) //
             .isTransient(false) //
+            .statusNotificationUri("statusNotificationUri") //
             .build();
 
     @Test
