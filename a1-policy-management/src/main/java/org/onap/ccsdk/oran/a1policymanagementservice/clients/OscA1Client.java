@@ -47,7 +47,7 @@ public class OscA1Client implements A1Client {
         }
 
         @Override
-        public String createPutPolicyUri(String type, String policyId) {
+        public String createPutPolicyUri(String type, String policyId, String notificationDestinationUri) {
             return createPolicyUri(type, policyId);
         }
 
@@ -165,7 +165,7 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uri.createPutPolicyUri(policy.type().id(), policy.id());
+        String policyUri = this.uri.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
         return restClient.put(policyUri, policy.json());
     }
 

@@ -166,7 +166,8 @@ public class SdncOscA1Client implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String ricUrl = getUriBuilder().createPutPolicyUri(policy.type().id(), policy.id());
+        String ricUrl =
+                getUriBuilder().createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
         return post("putA1Policy", ricUrl, Optional.of(policy.json()));
     }
 
@@ -216,7 +217,7 @@ public class SdncOscA1Client implements A1Client {
         if (protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
             return new StdA1ClientVersion1.UriBuilder(ricConfig);
         } else if (protocolType == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
-            return new StdA1ClientVersion2.UriBuilder(ricConfig);
+            return new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
         } else if (protocolType == A1ProtocolType.SDNC_OSC_OSC_V1) {
             return new OscA1Client.UriBuilder(ricConfig);
         }
@@ -236,7 +237,7 @@ public class SdncOscA1Client implements A1Client {
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion2() {
-        StdA1ClientVersion2.UriBuilder uriBuilder = new StdA1ClientVersion2.UriBuilder(ricConfig);
+        StdA1ClientVersion2.OranV2UriBuilder uriBuilder = new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createPolicyTypesUri(), Optional.empty()) //
                 .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V2_0_0));
     }

@@ -239,6 +239,7 @@ public class PolicyController {
                 .ownerServiceId(service) //
                 .lastModified(Instant.now()) //
                 .isTransient(isTransient) //
+                .statusNotificationUri("") //
                 .build();
 
         final boolean isCreate = this.policies.get(policy.id()) == null;

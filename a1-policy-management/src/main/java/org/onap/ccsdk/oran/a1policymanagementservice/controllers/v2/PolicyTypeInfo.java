@@ -18,21 +18,31 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.clients;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
-/**
- * Builder for A1 influenced REST APIs
- */
-interface A1UriBuilder {
-    String createPutPolicyUri(String type, String policyId, String notificationDestinationUri);
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
-    String createDeleteUri(String type, String policyId);
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-    String createGetPolicyStatusUri(String type, String policyId);
+import org.immutables.gson.Gson;
 
-    String createPolicyTypesUri();
+@Gson.TypeAdapters
+@ApiModel(value = "policy_type_v2", description = "Policy type")
+public class PolicyTypeInfo {
 
-    String createGetPolicyIdsUri(String type);
+    @ApiModelProperty(
+            value = "Policy type json scema. The schema is a json object following http://json-schema.org/draft-07/schema")
+    @SerializedName("policy_schema")
+    @JsonProperty("policy_schema")
+    public final Object schema;
 
-    String createGetSchemaUri(String type);
+    public PolicyTypeInfo(String schemaAsString) {
+        JsonObject jsonObj = JsonParser.parseString(schemaAsString).getAsJsonObject();
+        this.schema = jsonObj;
+    }
+
 }

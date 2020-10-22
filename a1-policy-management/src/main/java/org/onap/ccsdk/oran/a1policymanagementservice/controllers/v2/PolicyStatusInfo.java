@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,34 +21,38 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.time.Instant;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policy_schema_list_v2", description = "Policy type json schemas")
-public class PolicySchemaList {
+@ApiModel(value = "policy_status_info_v2", description = "Status for one A1-P Policy")
+public class PolicyStatusInfo {
 
-    @ApiModelProperty(
-            value = "Policy type json schemas. The schema is a json object following http://json-schema.org/draft-07/schema")
-    @SerializedName("policy_schemas")
-    @JsonProperty("policy_schemas")
-    public final Collection<Object> schemas;
+    @ApiModelProperty(value = "timestamp, last modification time")
+    @SerializedName("last_modified")
+    @JsonProperty("last_modified")
+    public String lastModified;
 
-    public PolicySchemaList(Collection<String> schemasAsStrings) {
-        this.schemas = new ArrayList<>();
-        for (String str : schemasAsStrings) {
-            JsonObject jsonObj = JsonParser.parseString(str).getAsJsonObject();
-            this.schemas.add(jsonObj);
-        }
+    @ApiModelProperty(value = "the Policy status")
+    @SerializedName("status")
+    @JsonProperty("status")
+    public Object status;
+
+    public PolicyStatusInfo() {}
+
+    public PolicyStatusInfo(Instant lastModified, Object statusFromNearRTRic) {
+        this.lastModified = lastModified.toString();
+        this.status = statusFromNearRTRic;
+    }
+
+    public boolean validate() {
+        return lastModified != null;
     }
 
 }

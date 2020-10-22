@@ -670,6 +670,7 @@ class ApplicationTest {
                 .type(addPolicyType(typeName, ric)) //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
+                .statusNotificationUri("/policy_status?id=XXX") //
                 .build();
         policies.put(policy);
         return policy;

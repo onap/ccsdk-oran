@@ -32,41 +32,45 @@ import org.immutables.gson.Gson;
 @ApiModel(value = "policy_info_v2", description = "Information for one A1-P Policy")
 public class PolicyInfo {
 
-    @ApiModelProperty(value = "identity of the policy")
-    @JsonProperty("policy_id")
+    @ApiModelProperty(value = "identity of the policy", required = true)
+    @JsonProperty(value = "policy_id", required = true)
     @SerializedName("policy_id")
     public String policyId;
 
-    @ApiModelProperty(value = "name of the policy type")
+    @ApiModelProperty(value = "identity of the policy type", required = true)
+    @JsonProperty(value = "policy_type_id", required = true)
     @SerializedName("policy_type_id")
-    @JsonProperty("policy_type_id")
     public String policyTypeId;
 
-    @ApiModelProperty(value = "identity of the target Near-RT RIC")
+    @ApiModelProperty(value = "identity of the target Near-RT RIC", required = true)
+    @JsonProperty(value = "ric_id", required = true)
     @SerializedName("ric_id")
-    @JsonProperty("ric_id")
     public String ricId;
 
-    @ApiModelProperty(value = "the configuration of the policy")
+    @ApiModelProperty(value = "the configuration of the policy", required = true)
+    @JsonProperty(value = "policy_data", required = true)
     @SerializedName("policy_data")
-    @JsonProperty("policy_data")
     public Object policyData;
 
-    @ApiModelProperty(value = "the name of the service owning the policy")
+    @ApiModelProperty(value = "the name of the service owning the policy", required = true)
+    @JsonProperty(value = "service_id", required = true)
     @SerializedName("service_id")
-    @JsonProperty("service_id")
     public String serviceId;
 
-    @ApiModelProperty(value = "timestamp, last modification time")
-    @SerializedName("last_modified")
-    @JsonProperty("last_modified")
-    public String lastModified;
+    @ApiModelProperty(value = "the name of the service owning the policy", required = false)
+    @JsonProperty(value = "transient", required = false)
+    @SerializedName("transient")
+    public boolean isTransient;
+
+    @ApiModelProperty(value = "Callback URI for policy status updates", required = false)
+    @JsonProperty(value = "status_notification_uri", required = false)
+    @SerializedName("status_notification_uri")
+    public String statusNotificationUri;
 
     PolicyInfo() {}
 
     public boolean validate() {
-        return policyId != null && policyTypeId != null && ricId != null && policyData != null && serviceId != null
-                && lastModified != null;
+        return policyId != null && policyTypeId != null && ricId != null && policyData != null && serviceId != null;
     }
 
 }

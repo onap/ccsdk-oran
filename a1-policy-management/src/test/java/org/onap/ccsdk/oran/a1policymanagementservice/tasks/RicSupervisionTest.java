@@ -81,6 +81,7 @@ class RicSupervisionTest {
             .type(POLICY_TYPE_1) //
             .lastModified(Instant.now()) //
             .isTransient(false) //
+            .statusNotificationUri("statusNotificationUri") //
             .build();
 
     private static final Policy POLICY_2 = ImmutablePolicy.builder() //
@@ -91,6 +92,7 @@ class RicSupervisionTest {
             .type(POLICY_TYPE_1) //
             .lastModified(Instant.now()) //
             .isTransient(false) //
+            .statusNotificationUri("statusNotificationUri") //
             .build();
 
     @Mock

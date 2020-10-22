@@ -28,6 +28,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilderFactory;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -39,16 +41,25 @@ import reactor.core.publisher.Mono;
 public class StdA1ClientVersion2 implements A1Client {
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
-    public static class UriBuilder implements A1UriBuilder {
+    public static class OranV2UriBuilder implements A1UriBuilder {
         private final RicConfig ricConfig;
 
-        public UriBuilder(RicConfig ricConfig) {
+        public OranV2UriBuilder(RicConfig ricConfig) {
             this.ricConfig = ricConfig;
         }
 
         @Override
-        public String createPutPolicyUri(String type, String policyId) {
-            return createPolicyUri(type, policyId);
+        public String createPutPolicyUri(String type, String policyId, String statusNotificationUri) {
+            String policyUri = createPolicyUri(type, policyId);
+            if (statusNotificationUri.isEmpty()) {
+                return policyUri;
+            }
+            UriBuilderFactory builderFactory = new DefaultUriBuilderFactory(policyUri);
+            return builderFactory.builder() //
+                    .queryParam("notificationDestination", statusNotificationUri) //
+                    .build() //
+                    .normalize() //
+                    .toASCIIString();
         }
 
         /**
@@ -110,7 +121,7 @@ public class StdA1ClientVersion2 implements A1Client {
     private static final String TITLE = "title";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final AsyncRestClient restClient;
-    private final UriBuilder uriBuiler;
+    private final OranV2UriBuilder uriBuiler;
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
         this(ricConfig, restClientFactory.createRestClient(""));
@@ -120,7 +131,7 @@ public class StdA1ClientVersion2 implements A1Client {
         this.restClient = restClient;
         logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
 
-        uriBuiler = new UriBuilder(ricConfig);
+        uriBuiler = new OranV2UriBuilder(ricConfig);
     }
 
     public static Mono<String> extractPolicySchema(String policyTypeResponse, String policyTypeId) {
@@ -158,7 +169,8 @@ public class StdA1ClientVersion2 implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uriBuiler.createPutPolicyUri(policy.type().id(), policy.id());
+        String policyUri =
+                this.uriBuiler.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
         return restClient.put(policyUri, policy.json());
     }
 

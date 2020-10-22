@@ -56,6 +56,7 @@ public class A1ClientHelper {
     }
 
     protected static Policy createPolicy(String nearRtRicUrl, String policyId, String json, String type) {
+        String callbackUrl = "https://test.com";
         return ImmutablePolicy.builder() //
                 .id(policyId) //
                 .json(json) //
@@ -64,6 +65,7 @@ public class A1ClientHelper {
                 .type(createPolicyType(type)) //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
+                .statusNotificationUri(callbackUrl) //
                 .build();
     }
 
