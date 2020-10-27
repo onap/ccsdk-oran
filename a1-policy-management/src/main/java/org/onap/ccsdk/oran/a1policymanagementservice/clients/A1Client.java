@@ -38,10 +38,9 @@ public interface A1Client {
         STD_V1_1, // STD A1 version 1.1
         STD_V2_0_0, // STD A1 version 2.0.0
         OSC_V1, // OSC 'A1'
-        SDNC_OSC_STD_V1_1, // SDNC_OSC with STD A1 version 1.1 southbound
-        SDNC_OSC_STD_V2_0_0, // SDNC_OSC with STD A1 version 2.0.0 southbound
-        SDNC_OSC_OSC_V1, // SDNC_OSC with OSC 'A1' southbound
-        SDNC_ONAP
+        CCSDK_A1_ADAPTER_STD_V1_1, // CCSDK_A1_ADAPTER with STD A1 version 1.1 southbound
+        CCSDK_A1_ADAPTER_STD_V2_0_0, // CCSDK_A1_ADAPTER with STD A1 version 2.0.0 southbound
+        CCSDK_A1_ADAPTER_OSC_V1 // CCSDK_A1_ADAPTER with OSC 'A1' southbound
     }
 
     public Mono<A1ProtocolType> getProtocolVersion();

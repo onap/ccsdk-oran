@@ -46,7 +46,7 @@ import reactor.core.publisher.Mono;
  * Client for accessing the A1 adapter in the SDNC controller in OSC.
  */
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
-public class SdncOscA1Client implements A1Client {
+public class CcsdkA1AdapterClient implements A1Client {
 
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
@@ -81,15 +81,15 @@ public class SdncOscA1Client implements A1Client {
      * Constructor that creates the REST client to use.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are SDNC_OSC_STD_V1_1, SDNC_OSC_OSC_V1 and
-     *        SDNC_OSC_STD_V2_0_0 with
+     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1, CCSDK_A1_ADAPTER_OSC_V1 and
+     *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
      *
      * @throws IllegalArgumentException when the protocolType is wrong.
      */
-    public SdncOscA1Client(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
+    public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClientFactory restClientFactory) {
         this(protocolType, ricConfig, controllerConfig,
                 restClientFactory.createRestClient(controllerConfig.baseUrl() + "/restconf/operations"));
@@ -99,8 +99,8 @@ public class SdncOscA1Client implements A1Client {
      * Constructor where the REST client to use is provided.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are SDNC_OSC_STD_V1_1, SDNC_OSC_OSC_V1 and
-     *        SDNC_OSC_STD_V2_0_0 with
+     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1, CCSDK_A1_ADAPTER_OSC_V1 and
+     *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
      * @param controllerConfig the configuration of the SDNC controller to use
@@ -108,11 +108,11 @@ public class SdncOscA1Client implements A1Client {
      *
      * @throws IllegalArgumentException when the protocolType is illegal.
      */
-    public SdncOscA1Client(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
+    public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClient restClient) {
-        if (A1ProtocolType.SDNC_OSC_STD_V1_1.equals(protocolType) //
-                || A1ProtocolType.SDNC_OSC_OSC_V1.equals(protocolType) //
-                || A1ProtocolType.SDNC_OSC_STD_V2_0_0.equals(protocolType)) {
+        if (A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1.equals(protocolType) //
+                || A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1.equals(protocolType) //
+                || A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0.equals(protocolType)) {
             this.restClient = restClient;
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
@@ -126,7 +126,7 @@ public class SdncOscA1Client implements A1Client {
 
     @Override
     public Mono<List<String>> getPolicyTypeIdentities() {
-        if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
+        if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             return Mono.just(Arrays.asList(""));
         } else {
             return post(GET_POLICY_RPC, getUriBuilder().createPolicyTypesUri(), Optional.empty()) //
@@ -144,7 +144,7 @@ public class SdncOscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
-        if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
+        if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             return Mono.just("{}");
         } else {
             A1UriBuilder uri = this.getUriBuilder();
@@ -155,9 +155,9 @@ public class SdncOscA1Client implements A1Client {
     }
 
     private Mono<String> extractCreateSchema(String controllerResponse, String policyTypeId) {
-        if (this.protocolType == A1ProtocolType.SDNC_OSC_OSC_V1) {
+        if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1) {
             return OscA1Client.extractCreateSchema(controllerResponse, policyTypeId);
-        } else if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
+        } else if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return StdA1ClientVersion2.extractPolicySchema(controllerResponse, policyTypeId);
         } else {
             throw new NullPointerException("Not supported");
@@ -178,7 +178,7 @@ public class SdncOscA1Client implements A1Client {
 
     @Override
     public Flux<String> deleteAllPolicies() {
-        if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
+        if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             return getPolicyIds() //
                     .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
         } else {
@@ -214,11 +214,11 @@ public class SdncOscA1Client implements A1Client {
     }
 
     private A1UriBuilder getUriBuilder() {
-        if (protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
+        if (protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             return new StdA1ClientVersion1.UriBuilder(ricConfig);
-        } else if (protocolType == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
+        } else if (protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
-        } else if (protocolType == A1ProtocolType.SDNC_OSC_OSC_V1) {
+        } else if (protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1) {
             return new OscA1Client.UriBuilder(ricConfig);
         }
         throw new NullPointerException();
@@ -227,23 +227,23 @@ public class SdncOscA1Client implements A1Client {
     private Mono<A1ProtocolType> tryOscProtocolVersion() {
         OscA1Client.UriBuilder oscApiuriBuilder = new OscA1Client.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, oscApiuriBuilder.createHealtcheckUri(), Optional.empty()) //
-                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_OSC_V1));
+                .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1));
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion1() {
         StdA1ClientVersion1.UriBuilder uriBuilder = new StdA1ClientVersion1.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(""), Optional.empty()) //
-                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V1_1));
+                .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1));
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion2() {
         StdA1ClientVersion2.OranV2UriBuilder uriBuilder = new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createPolicyTypesUri(), Optional.empty()) //
-                .flatMap(x -> Mono.just(A1ProtocolType.SDNC_OSC_STD_V2_0_0));
+                .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0));
     }
 
     private Flux<String> getPolicyIds() {
-        if (this.protocolType == A1ProtocolType.SDNC_OSC_STD_V1_1) {
+        if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             StdA1ClientVersion1.UriBuilder uri = new StdA1ClientVersion1.UriBuilder(ricConfig);
             final String ricUrl = uri.createGetPolicyIdsUri("");
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
