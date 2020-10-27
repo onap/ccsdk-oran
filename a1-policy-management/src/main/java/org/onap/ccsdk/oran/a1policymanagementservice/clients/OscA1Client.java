@@ -195,12 +195,12 @@ public class OscA1Client implements A1Client {
 
     private Flux<String> getPolicyTypeIds() {
         return restClient.get(uri.createPolicyTypesUri()) //
-                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString);
     }
 
     private Flux<String> getPolicyIdentitiesByType(String typeId) {
         return restClient.get(uri.createGetPolicyIdsUri(typeId)) //
-                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString);
     }
 
     private Mono<String> deletePolicyById(String typeId, String policyId) {

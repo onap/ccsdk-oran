@@ -79,11 +79,9 @@ public class A1ClientFactory {
         } else if (version == A1ProtocolType.OSC_V1) {
             assertNoControllerConfig(ric, version);
             return new OscA1Client(ric.getConfig(), this.restClientFactory);
-        } else if (version == A1ProtocolType.SDNC_OSC_STD_V1_1 || version == A1ProtocolType.SDNC_OSC_OSC_V1
-                || version == A1ProtocolType.SDNC_OSC_STD_V2_0_0) {
-            return new SdncOscA1Client(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
-        } else if (version == A1ProtocolType.SDNC_ONAP) {
-            return new SdncOnapA1Client(ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
+        } else if (version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1 || version == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1
+                || version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
+            return new CcsdkA1AdapterClient(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
         } else {
             logger.error("Unhandled protocol: {}", version);
             throw new ServiceException("Unhandled protocol");
@@ -125,8 +123,7 @@ public class A1ClientFactory {
             return fetchVersion(ric, A1ProtocolType.STD_V2_0_0) //
                     .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.STD_V1_1)) //
                     .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.OSC_V1)) //
-                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_OSC_STD_V1_1)) //
-                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.SDNC_ONAP)) //
+                    .onErrorResume(notUsed -> fetchVersion(ric, A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1)) //
                     .doOnNext(ric::setProtocolVersion)
                     .doOnNext(version -> logger.debug("Established protocol version:{} for Near-RT RIC: {}", version,
                             ric.id())) //

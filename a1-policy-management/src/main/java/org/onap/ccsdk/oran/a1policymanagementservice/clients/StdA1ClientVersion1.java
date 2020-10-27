@@ -151,7 +151,7 @@ public class StdA1ClientVersion1 implements A1Client {
 
     private Flux<String> getPolicyIds() {
         return restClient.get(uri.createGetPolicyIdsUri("")) //
-                .flatMapMany(SdncJsonHelper::parseJsonArrayOfString);
+                .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString);
     }
 
     private Mono<String> deletePolicyById(String policyId) {

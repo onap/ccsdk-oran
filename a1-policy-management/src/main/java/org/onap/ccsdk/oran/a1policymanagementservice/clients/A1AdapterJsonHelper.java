@@ -40,17 +40,17 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Common json functionality used by the SDNC clients
+ * Common json functionality used by the CCSDK A1 Adapter clients
  */
 @SuppressWarnings("java:S1192") // Same text in several traces
-class SdncJsonHelper {
+class A1AdapterJsonHelper {
     private static Gson gson = new GsonBuilder() //
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
             .create();
     private static final String OUTPUT = "output";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private SdncJsonHelper() {}
+    private A1AdapterJsonHelper() {}
 
     public static Flux<String> parseJsonArrayOfString(String inputString) {
         try {
