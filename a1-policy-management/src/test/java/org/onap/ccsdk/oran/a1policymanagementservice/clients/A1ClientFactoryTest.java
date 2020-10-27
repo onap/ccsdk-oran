@@ -135,7 +135,6 @@ class A1ClientFactoryTest {
     void create_check_types_controllers() throws ServiceException {
         this.ric = new Ric(ricConfig("anythingButEmpty"));
         whenGetGetControllerConfigReturn();
-        assertTrue(createClient(A1ProtocolType.SDNC_ONAP) instanceof SdncOnapA1Client);
 
         whenGetGetControllerConfigReturn();
         assertTrue(createClient(A1ProtocolType.SDNC_OSC_STD_V1_1) instanceof SdncOscA1Client);

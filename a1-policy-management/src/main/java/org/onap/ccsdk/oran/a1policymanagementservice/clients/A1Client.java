@@ -40,8 +40,7 @@ public interface A1Client {
         OSC_V1, // OSC 'A1'
         SDNC_OSC_STD_V1_1, // SDNC_OSC with STD A1 version 1.1 southbound
         SDNC_OSC_STD_V2_0_0, // SDNC_OSC with STD A1 version 2.0.0 southbound
-        SDNC_OSC_OSC_V1, // SDNC_OSC with OSC 'A1' southbound
-        SDNC_ONAP
+        SDNC_OSC_OSC_V1 // SDNC_OSC with OSC 'A1' southbound
     }
 
     public Mono<A1ProtocolType> getProtocolVersion();
