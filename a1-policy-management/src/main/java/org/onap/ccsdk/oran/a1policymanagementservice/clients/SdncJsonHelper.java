@@ -40,7 +40,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Common json functionality used by the SDNC clients
+ * Common json functionality used by the CCSDK A1 Adapter clients
  */
 @SuppressWarnings("java:S1192") // Same text in several traces
 class SdncJsonHelper {
