@@ -65,7 +65,7 @@ public class PolicyInfo {
     @ApiModelProperty(value = "Callback URI for policy status updates", required = false)
     @JsonProperty(value = "status_notification_uri", required = false)
     @SerializedName("status_notification_uri")
-    public String statusNotificationUri;
+    public String statusNotificationUri = "";
 
     PolicyInfo() {}
 
