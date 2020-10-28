@@ -190,6 +190,9 @@ public class PolicyController {
     })
     public Mono<ResponseEntity<Object>> putPolicy(@RequestBody PolicyInfo policyInfo) {
 
+        if (!policyInfo.validate()) {
+            return ErrorResponse.createMono("Missing required parameter in body", HttpStatus.BAD_REQUEST);
+        }
         String jsonString = gson.toJson(policyInfo.policyData);
         Ric ric = rics.get(policyInfo.ricId);
         PolicyType type = policyTypes.get(policyInfo.policyTypeId);
@@ -286,7 +289,7 @@ public class PolicyController {
             @ApiResponse(code = 200, message = "Policies", response = PolicyInfoList.class),
             @ApiResponse(code = 404, message = "Near-RT RIC, policy type or service not found",
                     response = ErrorResponse.ErrorInfo.class)})
-    public ResponseEntity<Object> getPolicies( //
+    public ResponseEntity<Object> getPolicyInstances( //
             @ApiParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
                     value = "The identity of the policy type to get policies for.") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String type, //
