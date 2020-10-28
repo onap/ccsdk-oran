@@ -22,6 +22,30 @@
       "revId": "99614242dc2d0ba524b8e70dc40369680a1ad6a6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc1ece2_9d01e4da",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/SdncJsonHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4875
+      },
+      "writtenOn": "2020-10-28T12:14:19Z",
+      "side": 1,
+      "message": "yes, agree",
+      "parentUuid": "e6439ce3_a2a321de",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "99614242dc2d0ba524b8e70dc40369680a1ad6a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
