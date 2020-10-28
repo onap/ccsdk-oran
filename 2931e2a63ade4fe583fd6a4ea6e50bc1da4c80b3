@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d073d852_38da220e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/CcsdkA1AdapterClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-10-28T09:56:00Z",
+      "side": 1,
+      "message": "You should change comment where needed too.\nPlease check if any variable names etc. needs to be changed. \nCheck README files etc.",
+      "range": {
+        "startLine": 46,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "2931e2a63ade4fe583fd6a4ea6e50bc1da4c80b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
