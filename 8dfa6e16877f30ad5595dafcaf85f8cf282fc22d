@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad9ecbcb_3589d8b8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1Client.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-10-28T08:50:02Z",
+      "side": 1,
+      "message": "The names of these constants should be changed, since it is not OSC anymore. \nSuggestion: \nCCSDK_A1_ADAPTER_STD_V1_1 etc.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "8dfa6e16877f30ad5595dafcaf85f8cf282fc22d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3710acb_b7f3dd3c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-10-28T08:50:02Z",
+      "side": 1,
+      "message": "The name of this class does not make sense anymore. \nSee the comments about the enum literals.",
+      "range": {
+        "startLine": 84,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "8dfa6e16877f30ad5595dafcaf85f8cf282fc22d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
