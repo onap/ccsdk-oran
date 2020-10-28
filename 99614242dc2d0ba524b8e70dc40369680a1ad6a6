@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6439ce3_a2a321de",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/SdncJsonHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-10-28T11:23:02Z",
+      "side": 1,
+      "message": "Should not the class name rather be A1AdapterJsonHelper than SdncJsonHelper?",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "99614242dc2d0ba524b8e70dc40369680a1ad6a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
