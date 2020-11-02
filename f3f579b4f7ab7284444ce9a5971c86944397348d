@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: John  Keeney <john.keeney@est.tech>
+Code-Review+1: Dan Timoney <dtimoney@att.com>
+Code-Review+2: Gaurav Agrawal <gaurav.agrawal@huawei.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Mon, 02 Nov 2020 12:25:12 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/114474
+Project: ccsdk/oran
+Branch: refs/heads/guilin
