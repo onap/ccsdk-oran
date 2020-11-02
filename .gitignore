@@ -10,6 +10,9 @@ org.eclipse.core.resources.prefs
 .checkstyle
 maven-eclipse.xml
 workspace
+.pydevproject
+.vscode
+.factorypath
 
 ## Compilation Files ##
 *.class

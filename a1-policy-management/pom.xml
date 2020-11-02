@@ -54,6 +54,7 @@
         <surefire-maven-plugin.version>2.22.2</surefire-maven-plugin.version><!-- Version must be this for tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <exec.skip>true</exec.skip>
+        <ccsdk.project.version>${project.version}</ccsdk.project.version>
     </properties>
 
     <dependencies>
@@ -202,6 +203,21 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/TagVersion.groovy</source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
@@ -330,8 +346,9 @@
                                             <JAR>${project.build.finalName}.jar</JAR>
                                         </args>
                                         <tags>
-                                            <tag>${project.version}</tag>
-                                            <tag>latest</tag>
+                                            <tag>${project.docker.latestminortag.version}</tag>
+                                            <tag>${project.docker.latestfulltag.version}</tag>
+                                            <tag>${project.docker.latesttagtimestamp.version}</tag>
                                         </tags>
                                     </build>
                                 </image>

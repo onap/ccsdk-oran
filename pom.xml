@@ -36,8 +36,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>a1-policy-management</module>
         <module>a1-adapter</module>
+        <module>a1-policy-management</module>
     </modules>
 
     <properties>
