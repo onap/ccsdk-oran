@@ -283,7 +283,7 @@ public class PolicyController {
             "Returns a list of A1 policies matching given search criteria. <br>" //
                     + "If several query parameters are defined, the policies matching all conditions are returned.";
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/policy_instances", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = Consts.V2_API_ROOT + "/policy-instances", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Query for A1 policy instances", notes = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Policies", response = PolicyInfoList.class),

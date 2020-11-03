@@ -24,23 +24,26 @@ import java.time.Duration;
 import java.time.Instant;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Service {
     @Getter
     private final String name;
+
+    @Getter
     private final Duration keepAliveInterval;
+
     private Instant lastPing;
-    private final String callbackUrl;
+
+    @Getter
+    @Setter // For test
+    private String callbackUrl;
 
     public Service(String name, Duration keepAliveInterval, String callbackUrl) {
         this.name = name;
         this.keepAliveInterval = keepAliveInterval;
         this.callbackUrl = callbackUrl;
         keepAlive();
-    }
-
-    public synchronized Duration getKeepAliveInterval() {
-        return this.keepAliveInterval;
     }
 
     public synchronized void keepAlive() {
@@ -53,10 +56,6 @@ public class Service {
 
     public synchronized Duration timeSinceLastPing() {
         return Duration.between(this.lastPing, Instant.now());
-    }
-
-    public synchronized String getCallbackUrl() {
-        return this.callbackUrl;
     }
 
 }

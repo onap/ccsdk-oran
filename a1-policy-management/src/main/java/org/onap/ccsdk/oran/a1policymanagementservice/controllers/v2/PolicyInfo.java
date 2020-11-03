@@ -38,8 +38,8 @@ public class PolicyInfo {
     public String policyId;
 
     @ApiModelProperty(value = "identity of the policy type", required = true)
-    @JsonProperty(value = "policy_type_id", required = true)
-    @SerializedName("policy_type_id")
+    @JsonProperty(value = "policytype_id", required = true)
+    @SerializedName("policytype_id")
     public String policyTypeId;
 
     @ApiModelProperty(value = "identity of the target Near-RT RIC", required = true)

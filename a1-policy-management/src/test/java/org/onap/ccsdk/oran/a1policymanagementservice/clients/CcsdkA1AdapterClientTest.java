@@ -43,9 +43,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.OngoingStubbing;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
-import org.onap.ccsdk.oran.a1policymanagementservice.clients.ImmutableAdapterOutput.Builder;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterOutput;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterRequest;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.ImmutableAdapterOutput.Builder;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -171,7 +171,8 @@ class CcsdkA1AdapterClientTest {
     @Test
     void getTypeSchema_OSC() throws IOException {
         String expUrl = RIC_1_URL + "/a1-p/policytypes/policyTypeId";
-        testGetTypeSchema(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl, "policyTypeId", "test_osc_get_schema_response.json");
+        testGetTypeSchema(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl, "policyTypeId",
+                "test_osc_get_schema_response.json");
     }
 
     @Test

@@ -79,7 +79,8 @@ public class A1ClientFactory {
         } else if (version == A1ProtocolType.OSC_V1) {
             assertNoControllerConfig(ric, version);
             return new OscA1Client(ric.getConfig(), this.restClientFactory);
-        } else if (version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1 || version == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1
+        } else if (version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1
+                || version == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1
                 || version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return new CcsdkA1AdapterClient(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
         } else {

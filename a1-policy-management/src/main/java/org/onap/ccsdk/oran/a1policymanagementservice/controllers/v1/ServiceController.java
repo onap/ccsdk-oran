@@ -100,7 +100,7 @@ public class ServiceController {
             throw new ServiceException("Missing mandatory parameter 'serviceName'");
         }
         if (registrationInfo.keepAliveIntervalSeconds < 0) {
-            throw new ServiceException("Keepalive interval shoul be greater or equal to 0");
+            throw new ServiceException("Keepalive interval should be greater or equal to 0");
         }
         if (!registrationInfo.callbackUrl.isEmpty()) {
             new URL(registrationInfo.callbackUrl);
