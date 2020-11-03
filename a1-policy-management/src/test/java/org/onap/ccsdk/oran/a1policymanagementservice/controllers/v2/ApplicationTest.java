@@ -52,6 +52,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicC
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
@@ -63,6 +64,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RicSupervision;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.ServiceSupervision;
@@ -121,6 +123,9 @@ class ApplicationTest {
 
     @Autowired
     Services services;
+
+    @Autowired
+    RappSimulatorController rAppSimulator;
 
     private static Gson gson = new GsonBuilder().create();
 
@@ -192,6 +197,7 @@ class ApplicationTest {
         policyTypes.clear();
         services.clear();
         a1ClientFactory.reset();
+        this.rAppSimulator.getTestResults().clear();
     }
 
     @AfterEach
@@ -355,7 +361,7 @@ class ApplicationTest {
         policy = policies.getPolicy(policyInstanceId);
         assertThat(policy.isTransient()).isFalse();
 
-        url = "/policy_instances";
+        url = "/policy-instances";
         String rsp = restClient().get(url).block();
         assertThat(rsp).as("Response contains policy instance ID.").contains(policyInstanceId);
 
@@ -417,7 +423,7 @@ class ApplicationTest {
         String body = putPolicyBody("service1", "ric1", "", "id1");
         restClient().put("/policies", body).block();
 
-        String rsp = restClient().get("/policy_instances").block();
+        String rsp = restClient().get("/policy-instances").block();
         PolicyInfoList info = gson.fromJson(rsp, PolicyInfoList.class);
         assertThat(info.policies).hasSize(1);
         PolicyInfo policyInfo = info.policies.iterator().next();
@@ -518,7 +524,7 @@ class ApplicationTest {
     void testGetPolicyInstances() throws Exception {
         addPolicy("id1", "type1", "service1");
 
-        String url = "/policy_instances";
+        String url = "/policy-instances";
         String rsp = restClient().get(url).block();
         logger.info(rsp);
         PolicyInfoList info = gson.fromJson(rsp, PolicyInfoList.class);
@@ -536,14 +542,14 @@ class ApplicationTest {
         addPolicy("id2", "type1", "service2");
         addPolicy("id3", "type2", "service1");
 
-        String url = "/policy_instances?policytype_id=type1";
+        String url = "/policy-instances?policytype_id=type1";
         String rsp = restClient().get(url).block();
         logger.info(rsp);
         assertThat(rsp).contains("id1") //
                 .contains("id2") //
                 .doesNotContain("id3");
 
-        url = "/policy_instances?policytype_id=type1&service_id=service2";
+        url = "/policy-instances?policytype_id=type1&service_id=service2";
         rsp = restClient().get(url).block();
         logger.info(rsp);
         assertThat(rsp).doesNotContain("id1") //
@@ -551,11 +557,11 @@ class ApplicationTest {
                 .doesNotContain("id3");
 
         // Test get policies for non existing type
-        url = "/policy_instances?policytype_id=type1XXX";
+        url = "/policy-instances?policytype_id=type1XXX";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND);
 
         // Test get policies for non existing RIC
-        url = "/policy_instances?ric_id=XXX";
+        url = "/policy-instances?ric_id=XXX";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND);
     }
 
@@ -672,7 +678,25 @@ class ApplicationTest {
         rsp = restClient().get(url).block();
         info = gson.fromJson(rsp, PolicyStatusInfo.class);
         assertThat(info.status.toString()).isEqualTo("{}");
+    }
 
+    @Test
+    void testServiceNotification() throws ServiceException {
+        putService("junkService");
+        Service junkService = this.services.get("junkService");
+        junkService.setCallbackUrl("https://junk");
+        putService("service");
+
+        Ric ric = addRic("ric1");
+        ric.setState(Ric.RicState.UNAVAILABLE);
+        supervision.checkAllRics();
+        waitForRicState("ric1", RicState.AVAILABLE);
+
+        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+        ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
+        assertThat(callbackInfo.ricId).isEqualTo("ric1");
+        assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
     }
 
     private Policy addPolicy(String id, String typeName, String service, String ric) throws ServiceException {
@@ -685,7 +709,7 @@ class ApplicationTest {
                 .type(addPolicyType(typeName, ric)) //
                 .lastModified(Instant.now()) //
                 .isTransient(false) //
-                .statusNotificationUri("/policy_status?id=XXX") //
+                .statusNotificationUri("/policy-status?id=XXX") //
                 .build();
         policies.put(policy);
         return policy;
@@ -696,7 +720,8 @@ class ApplicationTest {
     }
 
     private String createServiceJson(String name, long keepAliveIntervalSeconds) {
-        return createServiceJson(name, keepAliveIntervalSeconds, "https://examples.javacodegeeks.com/core-java/");
+        String callbackUrl = baseUrl() + RappSimulatorController.SERVICE_CALLBACK_URL;
+        return createServiceJson(name, keepAliveIntervalSeconds, callbackUrl);
     }
 
     private String createServiceJson(String name, long keepAliveIntervalSeconds, String url) {
@@ -767,6 +792,10 @@ class ApplicationTest {
         AsyncRestClientFactory f = new AsyncRestClientFactory(config);
         return f.createRestClient(baseUrl);
 
+    }
+
+    private String baseUrl() {
+        return "https://localhost:" + port;
     }
 
     private AsyncRestClient restClient(boolean useTrustValidation) {

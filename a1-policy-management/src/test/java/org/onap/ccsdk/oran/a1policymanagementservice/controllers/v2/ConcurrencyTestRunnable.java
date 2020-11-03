@@ -131,7 +131,7 @@ class ConcurrencyTestRunnable implements Runnable {
     }
 
     private void listPolicies() {
-        String uri = "/policy_instances";
+        String uri = "/policy-instances";
         webClient.getForEntity(uri).block();
     }
 

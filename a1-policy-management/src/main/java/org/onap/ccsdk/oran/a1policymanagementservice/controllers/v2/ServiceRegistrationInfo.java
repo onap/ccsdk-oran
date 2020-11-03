@@ -46,7 +46,8 @@ public class ServiceRegistrationInfo {
     @JsonProperty("keep_alive_interval_seconds")
     public long keepAliveIntervalSeconds = 0;
 
-    @ApiModelProperty(value = "callback for notifying of RIC synchronization", required = false, allowEmptyValue = true)
+    @ApiModelProperty(value = "callback for notifying of Near-RT RIC state changes", required = false,
+            allowEmptyValue = true)
     @SerializedName("callback_url")
     @JsonProperty("callback_url")
     public String callbackUrl = "";

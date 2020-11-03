@@ -31,12 +31,12 @@ import java.util.Collection;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policy_type_id_list_v2", description = "Information about policy types")
+@ApiModel(value = "policytype_id_list_v2", description = "Information about policy types")
 public class PolicyTypeIdList {
 
     @ApiModelProperty(value = "Policy type identities")
-    @SerializedName("policy_type_ids")
-    @JsonProperty("policy_type_ids")
+    @SerializedName("policytype_ids")
+    @JsonProperty("policytype_ids")
     public final Collection<String> policyTypesIds;
 
     public PolicyTypeIdList(Collection<String> ids) {

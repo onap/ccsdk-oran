@@ -57,8 +57,8 @@ public class RicInfo {
     public final Collection<String> managedElementIds;
 
     @ApiModelProperty(value = "supported policy types")
-    @SerializedName("policy_type_ids")
-    @JsonProperty("policy_type_ids")
+    @SerializedName("policytype_ids")
+    @JsonProperty("policytype_ids")
     public final Collection<String> policyTypeIds;
 
     @ApiModelProperty(value = STATE_DESCRIPTION, name = "state")

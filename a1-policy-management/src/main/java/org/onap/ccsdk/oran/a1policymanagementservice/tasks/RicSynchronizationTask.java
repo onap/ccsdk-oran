@@ -24,8 +24,8 @@ import static org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicSt
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbacks;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -33,7 +33,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,22 +131,7 @@ public class RicSynchronizationTask {
     private void onSynchronizationComplete(Ric ric) {
         logger.debug("Synchronization completed for: {}", ric.id());
         ric.setState(RicState.AVAILABLE);
-        notifyAllServices("Synchronization completed for:" + ric.id());
-    }
-
-    private void notifyAllServices(String body) {
-        for (Service service : services.getAll()) {
-            String url = service.getCallbackUrl();
-            if (url.length() > 0) {
-                createNotificationClient(url) //
-                        .put("", body) //
-                        .subscribe( //
-                                notUsed -> logger.debug("Service {} notified", service.getName()),
-                                throwable -> logger.warn("Service notification failed for service: {}. Cause: {}",
-                                        service.getName(), throwable.getMessage()),
-                                () -> logger.debug("All services notified"));
-            }
-        }
+        notifyServices(ric);
     }
 
     private Flux<Object> deleteAllPolicyInstances(Ric ric, Throwable t) {
@@ -163,8 +147,9 @@ public class RicSynchronizationTask {
         return Flux.concat(synchronizedTypes, deletePoliciesInRic);
     }
 
-    AsyncRestClient createNotificationClient(final String url) {
-        return restClientFactory.createRestClient(url);
+    void notifyServices(Ric ric) {
+        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+        callbacks.notifyServicesRicSynchronized(ric, services);
     }
 
     private Flux<PolicyType> synchronizePolicyTypes(Ric ric, A1Client a1Client) {

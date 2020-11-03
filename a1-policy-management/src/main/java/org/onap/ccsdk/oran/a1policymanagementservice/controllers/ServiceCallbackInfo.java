@@ -18,11 +18,9 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModel;
@@ -31,18 +29,33 @@ import io.swagger.annotations.ApiModelProperty;
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policytype_v2", description = "Policy type")
-public class PolicyTypeInfo {
+@ApiModel(value = "service_callback_info_v2",
+        description = "Information transferred as in Service callbacks (callback_url)")
+public class ServiceCallbackInfo {
 
-    @ApiModelProperty(
-            value = "Policy type json scema. The schema is a json object following http://json-schema.org/draft-07/schema")
-    @SerializedName("policy_schema")
-    @JsonProperty("policy_schema")
-    public final Object schema;
+    private static final String EVENT_TYPE_DESCRIPTION = "values:\n" //
+            + "AVAILABLE: the  Near-RT RIC has become available for A1 Policy management";
 
-    public PolicyTypeInfo(String schemaAsString) {
-        JsonObject jsonObj = JsonParser.parseString(schemaAsString).getAsJsonObject();
-        this.schema = jsonObj;
+    @Gson.TypeAdapters
+    @ApiModel(value = "event_type_v2", description = EVENT_TYPE_DESCRIPTION)
+    public enum EventType {
+        AVAILABLE
     }
 
+    @ApiModelProperty(value = "identity of a Near-RT RIC", required = true)
+    @SerializedName("ric_id")
+    @JsonProperty(value = "ric_id", required = true)
+    public String ricId;
+
+    @ApiModelProperty(value = EVENT_TYPE_DESCRIPTION, required = true)
+    @SerializedName("event_type")
+    @JsonProperty(value = "event_type", required = true)
+    public EventType eventType;
+
+    public ServiceCallbackInfo(String ricId, EventType eventType) {
+        this.ricId = ricId;
+        this.eventType = eventType;
+    }
+
+    public ServiceCallbackInfo() {}
 }

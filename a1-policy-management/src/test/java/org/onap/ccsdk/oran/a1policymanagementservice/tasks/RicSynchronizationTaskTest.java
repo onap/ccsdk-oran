@@ -23,9 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import static ch.qos.logback.classic.Level.WARN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -48,7 +46,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
@@ -162,20 +159,14 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
-        AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
-        when(restClientMock.put(anyString(), anyString())).thenReturn(Mono.just("Ok"));
-
         synchronizerUnderTest.run(RIC_1);
 
         verify(a1ClientMock, times(1)).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
 
         verify(synchronizerUnderTest).run(RIC_1);
-        verify(synchronizerUnderTest).createNotificationClient(SERVICE_1_CALLBACK_URL);
+        verify(synchronizerUnderTest).notifyServices(any());
         verifyNoMoreInteractions(synchronizerUnderTest);
-
-        verify(restClientMock).put("", "Synchronization completed for:" + RIC_1_NAME);
-        verifyNoMoreInteractions(restClientMock);
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isZero();
@@ -287,43 +278,9 @@ class RicSynchronizationTaskTest {
         assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
-    @Test
-    void ricIdlePolicyTypeInRepo_thenSynchronizationWithErrorOnServiceNotificationErrorLogged() {
-        RIC_1.setState(RicState.AVAILABLE);
-
-        policyTypes.put(POLICY_TYPE_1);
-
-        services.put(SERVICE_1);
-
-        setUpCreationOfA1Client();
-        simulateRicWithOnePolicyType();
-
-        final ListAppender<ILoggingEvent> logAppender =
-                LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
-
-        RicSynchronizationTask synchronizerUnderTest = spy(createTask());
-
-        AsyncRestClient restClientMock = setUpCreationOfAsyncRestClient(synchronizerUnderTest);
-        String originalErrorMessage = "Exception";
-        when(restClientMock.put(anyString(), anyString())).thenReturn(Mono.error(new Exception(originalErrorMessage)));
-
-        synchronizerUnderTest.run(RIC_1);
-
-        ILoggingEvent loggingEvent = logAppender.list.get(0);
-        assertThat(loggingEvent.getLevel()).isEqualTo(WARN);
-        verifyCorrectLogMessage(0, logAppender,
-                "Service notification failed for service: " + SERVICE_1_NAME + ". Cause: " + originalErrorMessage);
-    }
-
     private void setUpCreationOfA1Client() {
         when(a1ClientFactoryMock.createA1Client(any(Ric.class))).thenReturn(Mono.just(a1ClientMock));
         doReturn(Flux.empty()).when(a1ClientMock).deleteAllPolicies();
-    }
-
-    private AsyncRestClient setUpCreationOfAsyncRestClient(RicSynchronizationTask synchronizerUnderTest) {
-        AsyncRestClient restClientMock = mock(AsyncRestClient.class);
-        doReturn(restClientMock).when(synchronizerUnderTest).createNotificationClient(anyString());
-        return restClientMock;
     }
 
     private void simulateRicWithOnePolicyType() {
