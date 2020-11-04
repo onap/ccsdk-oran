@@ -97,13 +97,13 @@ public class PolicyController {
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policyTypeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/v2/policy-types/{policytype_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns a policy type definition")
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Policy type", response = PolicyTypeInfo.class), //
-            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(code = 404, message = "Policy type is not found", response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicyType( //
-            @PathVariable("policyTypeId") String policyTypeId) {
+            @PathVariable("policytype_id") String policyTypeId) {
         try {
             PolicyType type = policyTypes.getType(policyTypeId);
             PolicyTypeInfo info = new PolicyTypeInfo(type.schema());
@@ -134,7 +134,7 @@ public class PolicyController {
         }
     }
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/policies/{policy_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = Consts.V2_API_ROOT + "/policies/{policy_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns a policy") //
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Policy found", response = PolicyInfo.class), //
@@ -150,7 +150,7 @@ public class PolicyController {
         }
     }
 
-    @DeleteMapping(Consts.V2_API_ROOT + "/policies/{policy_id}")
+    @DeleteMapping(Consts.V2_API_ROOT + "/policies/{policy_id:.+}")
     @ApiOperation(value = "Delete a policy")
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),

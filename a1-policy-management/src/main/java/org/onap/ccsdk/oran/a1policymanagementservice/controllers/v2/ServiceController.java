@@ -143,9 +143,9 @@ public class ServiceController {
             @ApiResponse(code = 204, message = "Service unregistered"),
             @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
             @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
-    @DeleteMapping(Consts.V2_API_ROOT + "/services/{serviceId}")
+    @DeleteMapping(Consts.V2_API_ROOT + "/services/{service_id:.+}")
     public ResponseEntity<Object> deleteService(//
-            @PathVariable("serviceId") String serviceId) {
+            @PathVariable("service_id") String serviceId) {
         try {
             Service service = removeService(serviceId);
             // Remove the policies from the repo and let the consistency monitoring

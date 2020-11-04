@@ -333,10 +333,10 @@ class ApplicationTest {
 
     @Test
     void testPutPolicy() throws Exception {
-        String serviceName = "service1";
-        String ricId = "ric1";
-        String policyTypeName = "type1";
-        String policyInstanceId = "instance1";
+        String serviceName = "service.1";
+        String ricId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String policyInstanceId = "instance_1.2.3";
 
         putService(serviceName);
         addPolicyType(policyTypeName, ricId);
@@ -352,7 +352,7 @@ class ApplicationTest {
         assertThat(policy).isNotNull();
         assertThat(policy.id()).isEqualTo(policyInstanceId);
         assertThat(policy.ownerServiceId()).isEqualTo(serviceName);
-        assertThat(policy.ric().id()).isEqualTo("ric1");
+        assertThat(policy.ric().id()).isEqualTo(ricId);
         assertThat(policy.isTransient()).isTrue();
 
         // Put a non transient policy
@@ -463,10 +463,11 @@ class ApplicationTest {
 
     @Test
     void testDeletePolicy() throws Exception {
-        addPolicy("id", "typeName", "service1", "ric1");
+        String policyId = "id.1";
+        addPolicy(policyId, "typeName", "service1", "ric1");
         assertThat(policies.size()).isEqualTo(1);
 
-        String url = "/policies/id";
+        String url = "/policies/" + policyId;
         ResponseEntity<String> entity = restClient().deleteForEntity(url).block();
 
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -478,11 +479,13 @@ class ApplicationTest {
 
     @Test
     void testGetPolicyType() throws Exception {
-        addPolicyType("type1", "ric1");
+        String typeId = "AC.D";
+        addPolicyType(typeId, "ric1");
 
         waitForRicState("ric1", RicState.AVAILABLE);
 
-        String url = "/policy-types/type1";
+        String url = "/policy-types/" + typeId;
+
         String rsp = this.restClient().get(url).block();
 
         PolicyTypeInfo info = gson.fromJson(rsp, PolicyTypeInfo.class);
@@ -595,12 +598,12 @@ class ApplicationTest {
     @Test
     void testPutAndGetService() throws Exception {
         // PUT
-        String serviceName = "name";
+        String serviceName = "ac.dc";
         putService(serviceName, 0, HttpStatus.CREATED);
         putService(serviceName, 0, HttpStatus.OK);
 
         // GET one service
-        String url = "/services?service_id=name";
+        String url = "/services?service_id=" + serviceName;
         String rsp = restClient().get(url).block();
         ServiceStatusList info = gson.fromJson(rsp, ServiceStatusList.class);
         assertThat(info.statusList).hasSize(1);
@@ -615,13 +618,13 @@ class ApplicationTest {
         logger.info(rsp);
 
         // Keep alive
-        url = "/services/name/keepalive";
+        url = "/services/" + serviceName + "/keepalive";
         ResponseEntity<?> entity = restClient().putForEntity(url).block();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // DELETE service
         assertThat(services.size()).isEqualTo(1);
-        url = "/services/name";
+        url = "/services/" + serviceName;
         restClient().delete(url).block();
         assertThat(services.size()).isZero();
 
