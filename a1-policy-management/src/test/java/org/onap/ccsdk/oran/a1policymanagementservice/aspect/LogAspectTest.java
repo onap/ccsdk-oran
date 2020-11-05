@@ -32,20 +32,14 @@ import ch.qos.logback.core.read.ListAppender;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
 
 @ExtendWith(MockitoExtension.class)
 class LogAspectTest {
-    @Rule
-    MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Mock
     private ProceedingJoinPoint proceedingJoinPoint;
 
