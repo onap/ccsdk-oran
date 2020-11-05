@@ -20,10 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
-import com.google.common.base.Predicates;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -82,9 +81,9 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .select() //
                 .apis(RequestHandlerSelectors.any()) //
                 .paths(PathSelectors.any()) //
-                .paths(Predicates.not(PathSelectors.regex("/error"))) //
+                .paths(Predicate.not(PathSelectors.regex("/error"))) //
                 // this endpoint is not implemented, but was visible for Swagger
-                .paths(Predicates.not(PathSelectors.regex("/actuator.*"))) //
+                .paths(Predicate.not(PathSelectors.regex("/actuator.*"))) //
                 // this endpoint is implemented by spring framework, exclude for now
                 .build();
     }
