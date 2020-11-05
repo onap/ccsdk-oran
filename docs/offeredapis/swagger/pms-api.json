@@ -3,27 +3,19 @@
     "paths": {
         "/policy_types": {"get": {
             "summary": "Query policy type names",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyTypesUsingGET_1",
+            "operationId": "getPolicyTypesUsingGET",
             "responses": {
                 "200": {
-                    "schema": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
+                    "schema": {"type": "string"},
                     "description": "Policy type names"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Near-RT RIC is not found"
-                }
+                "404": {"description": "Near-RT RIC is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "ric",
                 "description": "The name of the Near-RT RIC to get types for.",
                 "type": "string",
@@ -33,7 +25,6 @@
         }},
         "/v2/status": {"get": {
             "summary": "Returns status and statistics of this service",
-            "deprecated": false,
             "produces": ["application/json"],
             "operationId": "getStatusUsingGET_1",
             "responses": {
@@ -49,9 +40,8 @@
         }},
         "/v2/policy-types": {"get": {
             "summary": "Query policy type identities",
-            "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyTypesUsingGET",
+            "operationId": "getPolicyTypesUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policytype_id_list_v2"},
@@ -66,7 +56,6 @@
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "ric_id",
                 "description": "The identity of the Near-RT RIC to get types for.",
                 "type": "string",
@@ -77,27 +66,19 @@
         "/services": {
             "get": {
                 "summary": "Returns service information",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getServicesUsingGET_1",
+                "operationId": "getServicesUsingGET",
                 "responses": {
                     "200": {
-                        "schema": {
-                            "type": "array",
-                            "items": {"$ref": "#/definitions/service_status_v1"}
-                        },
+                        "schema": {"type": "string"},
                         "description": "OK"
                     },
                     "401": {"description": "Unauthorized"},
                     "403": {"description": "Forbidden"},
-                    "404": {
-                        "schema": {"type": "string"},
-                        "description": "Service is not found"
-                    }
+                    "404": {"description": "Service is not found"}
                 },
                 "parameters": [{
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "name",
                     "description": "The name of the service",
                     "type": "string",
@@ -107,28 +88,20 @@
             },
             "delete": {
                 "summary": "Delete a service",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deleteServiceUsingDELETE_1",
+                "operationId": "deleteServiceUsingDELETE",
                 "responses": {
                     "200": {
                         "schema": {"type": "string"},
                         "description": "OK"
                     },
                     "401": {"description": "Unauthorized"},
-                    "204": {
-                        "schema": {"type": "string"},
-                        "description": "Service deleted"
-                    },
+                    "204": {"description": "Service deleted"},
                     "403": {"description": "Forbidden"},
-                    "404": {
-                        "schema": {"type": "string"},
-                        "description": "Service not found"
-                    }
+                    "404": {"description": "Service not found"}
                 },
                 "parameters": [{
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "name",
                     "description": "The name of the service",
                     "type": "string",
@@ -139,21 +112,17 @@
         },
         "/v2/services/{service_id}": {"delete": {
             "summary": "Unregister a service",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "deleteServiceUsingDELETE",
+            "operationId": "deleteServiceUsingDELETE_1",
             "responses": {
-                "200": {"description": "Not used"},
-                "401": {"description": "Unauthorized"},
-                "204": {
+                "200": {
                     "schema": {"type": "object"},
-                    "description": "Service unregistered"
+                    "description": "Not used"
                 },
+                "401": {"description": "Unauthorized"},
+                "204": {"description": "Service unregistered"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "Service not found"
-                }
+                "404": {"description": "Service not found"}
             },
             "parameters": [{
                 "in": "path",
@@ -167,12 +136,11 @@
         "/policy": {
             "get": {
                 "summary": "Returns a policy configuration",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getPolicyUsingGET_1",
+                "operationId": "getPolicyUsingGET",
                 "responses": {
                     "200": {
-                        "schema": {"type": "object"},
+                        "schema": {"type": "string"},
                         "description": "Policy found"
                     },
                     "401": {"description": "Unauthorized"},
@@ -181,7 +149,6 @@
                 },
                 "parameters": [{
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "id",
                     "description": "The identity of the policy instance.",
                     "type": "string",
@@ -191,26 +158,21 @@
             },
             "delete": {
                 "summary": "Delete a policy",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE_1",
+                "operationId": "deletePolicyUsingDELETE",
                 "responses": {
-                    "200": {"description": "Not used"},
-                    "401": {"description": "Unauthorized"},
-                    "423": {
-                        "schema": {"type": "string"},
-                        "description": "Near-RT RIC is not operational"
+                    "200": {
+                        "schema": {"$ref": "#/definitions/Mono«ResponseEntity«object»»"},
+                        "description": "Not used"
                     },
+                    "401": {"description": "Unauthorized"},
+                    "423": {"description": "Near-RT RIC is not operational"},
                     "204": {"description": "Policy deleted"},
                     "403": {"description": "Forbidden"},
-                    "404": {
-                        "schema": {"type": "string"},
-                        "description": "Policy is not found"
-                    }
+                    "404": {"description": "Policy is not found"}
                 },
                 "parameters": [{
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "id",
                     "description": "The identity of the policy instance.",
                     "type": "string",
@@ -220,27 +182,22 @@
             },
             "put": {
                 "summary": "Put a policy",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "putPolicyUsingPUT_1",
+                "operationId": "putPolicyUsingPUT",
                 "responses": {
-                    "200": {"description": "Policy updated"},
+                    "200": {
+                        "schema": {"$ref": "#/definitions/Mono«ResponseEntity«object»»"},
+                        "description": "Policy updated"
+                    },
                     "201": {"description": "Policy created"},
                     "401": {"description": "Unauthorized"},
-                    "423": {
-                        "schema": {"type": "string"},
-                        "description": "Near-RT RIC is not operational"
-                    },
+                    "423": {"description": "Near-RT RIC is not operational"},
                     "403": {"description": "Forbidden"},
-                    "404": {
-                        "schema": {"type": "string"},
-                        "description": "Near-RT RIC or policy type is not found"
-                    }
+                    "404": {"description": "Near-RT RIC or policy type is not found"}
                 },
                 "parameters": [
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "id",
                         "description": "The identity of the policy instance.",
                         "type": "string",
@@ -255,7 +212,6 @@
                     },
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "ric",
                         "description": "The name of the Near-RT RIC where the policy will be created.",
                         "type": "string",
@@ -263,7 +219,6 @@
                     },
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "service",
                         "description": "The name of the service creating the policy.",
                         "type": "string",
@@ -272,16 +227,13 @@
                     {
                         "default": false,
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "transient",
-                        "x-example": false,
                         "description": "If the policy is transient or not (boolean defaulted to false). A policy is transient if it will be forgotten when the service needs to reconnect to the Near-RT RIC.",
                         "type": "boolean",
                         "required": false
                     },
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "type",
                         "description": "The name of the policy type.",
                         "type": "string",
@@ -294,28 +246,20 @@
         },
         "/policies": {"get": {
             "summary": "Query policies",
-            "deprecated": false,
             "produces": ["*/*"],
             "operationId": "getPoliciesUsingGET",
             "responses": {
                 "200": {
-                    "schema": {
-                        "type": "array",
-                        "items": {"$ref": "#/definitions/policy_info_v1"}
-                    },
+                    "schema": {"type": "string"},
                     "description": "Policies"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Near-RT RIC or type not found"
-                }
+                "404": {"description": "Near-RT RIC or type not found"}
             },
             "parameters": [
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "ric",
                     "description": "The name of the Near-RT RIC to get policies for.",
                     "type": "string",
@@ -323,7 +267,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "service",
                     "description": "The name of the service to get policies for.",
                     "type": "string",
@@ -331,7 +274,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "type",
                     "description": "The name of the policy type to get policies for.",
                     "type": "string",
@@ -343,9 +285,8 @@
         "/v2/policies/{policy_id}": {
             "get": {
                 "summary": "Returns a policy",
-                "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "getPolicyUsingGET",
+                "operationId": "getPolicyUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/policy_info_v2"},
@@ -369,22 +310,18 @@
             },
             "delete": {
                 "summary": "Delete a policy",
-                "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deletePolicyUsingDELETE",
+                "operationId": "deletePolicyUsingDELETE_1",
                 "responses": {
-                    "200": {"description": "Not used"},
-                    "401": {"description": "Unauthorized"},
-                    "423": {
-                        "schema": {"$ref": "#/definitions/error_information"},
-                        "description": "Near-RT RIC is not operational"
+                    "200": {
+                        "schema": {"$ref": "#/definitions/Mono«ResponseEntity«object»»"},
+                        "description": "Not used"
                     },
+                    "401": {"description": "Unauthorized"},
+                    "423": {"description": "Near-RT RIC is not operational"},
                     "204": {"description": "Policy deleted"},
                     "403": {"description": "Forbidden"},
-                    "404": {
-                        "schema": {"$ref": "#/definitions/error_information"},
-                        "description": "Policy is not found"
-                    }
+                    "404": {"description": "Policy is not found"}
                 },
                 "parameters": [{
                     "in": "path",
@@ -398,24 +335,19 @@
         },
         "/policy_schema": {"get": {
             "summary": "Returns one policy type schema definition",
-            "deprecated": false,
             "produces": ["*/*"],
             "operationId": "getPolicySchemaUsingGET",
             "responses": {
                 "200": {
-                    "schema": {"type": "object"},
+                    "schema": {"type": "string"},
                     "description": "Policy schema"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "The policy type is not found"
-                }
+                "404": {"description": "The policy type is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "id",
                 "description": "The identity of the policy type to get the definition for.",
                 "type": "string",
@@ -425,27 +357,19 @@
         }},
         "/rics": {"get": {
             "summary": "Query Near-RT RIC information",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicsUsingGET_1",
+            "operationId": "getRicsUsingGET",
             "responses": {
                 "200": {
-                    "schema": {
-                        "type": "array",
-                        "items": {"$ref": "#/definitions/ric_info_v1"}
-                    },
+                    "schema": {"type": "string"},
                     "description": "OK"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Policy type is not found"
-                }
+                "404": {"description": "Policy type is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "policyType",
                 "description": "The name of the policy type",
                 "type": "string",
@@ -455,24 +379,19 @@
         }},
         "/policy_status": {"get": {
             "summary": "Returns a policy status",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyStatusUsingGET_1",
+            "operationId": "getPolicyStatusUsingGET",
             "responses": {
                 "200": {
-                    "schema": {"type": "object"},
+                    "schema": {"$ref": "#/definitions/Mono«ResponseEntity«string»»"},
                     "description": "Policy status"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Policy is not found"
-                }
+                "404": {"description": "Policy is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "id",
                 "description": "The identity of the policy.",
                 "type": "string",
@@ -482,9 +401,8 @@
         }},
         "/v2/policies/{policy_id}/status": {"get": {
             "summary": "Returns a policy status",
-            "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getPolicyStatusUsingGET",
+            "operationId": "getPolicyStatusUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/policy_status_info_v2"},
@@ -508,10 +426,9 @@
         }},
         "/v2/rics": {"get": {
             "summary": "Query Near-RT RIC information",
-            "deprecated": false,
             "produces": ["application/json"],
             "description": "The call returns all Near-RT RICs that supports a given policy type identity",
-            "operationId": "getRicsUsingGET",
+            "operationId": "getRicsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_list_v2"},
@@ -526,7 +443,6 @@
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "policytype_id",
                 "description": "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned",
                 "type": "string",
@@ -536,21 +452,17 @@
         }},
         "/v2/configuration": {"put": {
             "summary": "Replace the current configuration with the given configuration",
-            "deprecated": false,
             "produces": ["*/*"],
             "operationId": "putConfigurationUsingPUT",
             "responses": {
-                "200": {"description": "Configuration updated"},
+                "200": {
+                    "schema": {"$ref": "#/definitions/Mono«ResponseEntity«object»»"},
+                    "description": "Configuration updated"
+                },
                 "201": {"description": "Created"},
-                "400": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "Invalid configuration provided"
-                },
+                "400": {"description": "Invalid configuration provided"},
                 "401": {"description": "Unauthorized"},
-                "500": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "Something went wrong when replacing the configuration. Try again."
-                },
+                "500": {"description": "Something went wrong when replacing the configuration. Try again."},
                 "403": {"description": "Forbidden"},
                 "404": {"description": "Not Found"}
             },
@@ -566,28 +478,20 @@
         }},
         "/policy_ids": {"get": {
             "summary": "Query policies, only policy identities returned",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getPolicyIdsUsingGET_1",
+            "operationId": "getPolicyIdsUsingGET",
             "responses": {
                 "200": {
-                    "schema": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
+                    "schema": {"type": "string"},
                     "description": "Policy identitiess"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Near-RT RIC or type not found"
-                }
+                "404": {"description": "Near-RT RIC or type not found"}
             },
             "parameters": [
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "ric",
                     "description": "The name of the Near-RT RIC to get policies for.",
                     "type": "string",
@@ -595,7 +499,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "service",
                     "description": "The name of the service to get policies for.",
                     "type": "string",
@@ -603,7 +506,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "type",
                     "description": "The name of the policy type to get policies for.",
                     "type": "string",
@@ -614,27 +516,19 @@
         }},
         "/policy_schemas": {"get": {
             "summary": "Returns policy type schema definitions",
-            "deprecated": false,
             "produces": ["*/*"],
             "operationId": "getPolicySchemasUsingGET",
             "responses": {
                 "200": {
-                    "schema": {
-                        "type": "array",
-                        "items": {"type": "object"}
-                    },
+                    "schema": {"type": "string"},
                     "description": "Policy schemas"
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Near-RT RIC is not found"
-                }
+                "404": {"description": "Near-RT RIC is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "ric",
                 "description": "The name of the Near-RT RIC to get the definitions for.",
                 "type": "string",
@@ -644,7 +538,6 @@
         }},
         "/v2/policy-instances": {"get": {
             "summary": "Query for A1 policy instances",
-            "deprecated": false,
             "produces": ["application/json"],
             "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
             "operationId": "getPolicyInstancesUsingGET",
@@ -663,7 +556,6 @@
             "parameters": [
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "policytype_id",
                     "description": "The identity of the policy type to get policies for.",
                     "type": "string",
@@ -671,7 +563,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "ric_id",
                     "description": "The identity of the Near-RT RIC to get policies for.",
                     "type": "string",
@@ -679,7 +570,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "service_id",
                     "description": "The identity of the service to get policies for.",
                     "type": "string",
@@ -691,10 +581,9 @@
         "/v2/services": {
             "get": {
                 "summary": "Returns service information",
-                "deprecated": false,
                 "produces": ["application/json"],
                 "description": "Either information about a registered service with given identity or all registered services are returned.",
-                "operationId": "getServicesUsingGET",
+                "operationId": "getServicesUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/service_list_v2"},
@@ -709,7 +598,6 @@
                 },
                 "parameters": [{
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "service_id",
                     "description": "The identity of the service",
                     "type": "string",
@@ -719,23 +607,16 @@
             },
             "put": {
                 "summary": "Register a service",
-                "deprecated": false,
                 "produces": ["*/*"],
                 "description": "Registering a service is needed to:<ul><li>Get callbacks.<\/li><li>Activate supervision of the service. If a service is inactive, its policies will be deleted.<\/li><\/ul>",
-                "operationId": "putServiceUsingPUT",
+                "operationId": "putServiceUsingPUT_1",
                 "responses": {
                     "200": {
                         "schema": {"type": "object"},
                         "description": "Service updated"
                     },
-                    "201": {
-                        "schema": {"type": "object"},
-                        "description": "Service created"
-                    },
-                    "400": {
-                        "schema": {"$ref": "#/definitions/error_information"},
-                        "description": "The ServiceRegistrationInfo is not accepted"
-                    },
+                    "201": {"description": "Service created"},
+                    "400": {"description": "The ServiceRegistrationInfo is not accepted"},
                     "401": {"description": "Unauthorized"},
                     "403": {"description": "Forbidden"},
                     "404": {"description": "Not Found"}
@@ -753,9 +634,8 @@
         },
         "/ric": {"get": {
             "summary": "Returns the name of a RIC managing one Mananged Element",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicUsingGET_1",
+            "operationId": "getRicUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -763,14 +643,10 @@
                 },
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"type": "string"},
-                    "description": "Near-RT RIC is not found"
-                }
+                "404": {"description": "Near-RT RIC is not found"}
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "managedElementId",
                 "description": "The identity of the Managed Element",
                 "type": "string",
@@ -780,9 +656,8 @@
         }},
         "/services/keepalive": {"put": {
             "summary": "Heartbeat from a service",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT_1",
+            "operationId": "keepAliveServiceUsingPUT",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -795,7 +670,6 @@
             },
             "parameters": [{
                 "in": "query",
-                "allowEmptyValue": false,
                 "name": "name",
                 "description": "The name of the service",
                 "type": "string",
@@ -806,9 +680,8 @@
         }},
         "/v2/services/{service_id}/keepalive": {"put": {
             "summary": "Heartbeat indicates that the service is running",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT",
+            "operationId": "keepAliveServiceUsingPUT_1",
             "responses": {
                 "200": {
                     "schema": {"type": "object"},
@@ -817,10 +690,7 @@
                 "201": {"description": "Created"},
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
-                "404": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "The service is not found, needs re-registration"
-                }
+                "404": {"description": "The service is not found, needs re-registration"}
             },
             "parameters": [{
                 "in": "path",
@@ -834,12 +704,11 @@
         }},
         "/status": {"get": {
             "summary": "Returns status and statistics of this service",
-            "deprecated": false,
             "produces": ["*/*"],
             "operationId": "getStatusUsingGET",
             "responses": {
                 "200": {
-                    "schema": {"type": "string"},
+                    "schema": {"$ref": "#/definitions/Mono«ResponseEntity«string»»"},
                     "description": "Service is living"
                 },
                 "401": {"description": "Unauthorized"},
@@ -850,10 +719,9 @@
         }},
         "/v2/rics/ric": {"get": {
             "summary": "Returns info for one Near-RT RIC",
-            "deprecated": false,
             "produces": ["application/json"],
             "description": "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
-            "operationId": "getRicUsingGET",
+            "operationId": "getRicUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_v2"},
@@ -869,7 +737,6 @@
             "parameters": [
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "managed_element_id",
                     "description": "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.",
                     "type": "string",
@@ -877,7 +744,6 @@
                 },
                 {
                     "in": "query",
-                    "allowEmptyValue": false,
                     "name": "ric_id",
                     "description": "The identity of a Near-RT RIC to get information for.",
                     "type": "string",
@@ -888,12 +754,14 @@
         }},
         "/r-app/pms-callback": {"post": {
             "summary": "Callback for Near-RT RIC status",
-            "deprecated": false,
             "produces": ["application/json"],
             "description": "The URL to this call is registerred at Service registration.",
             "operationId": "jobStatusCallbackUsingPOST",
             "responses": {
-                "200": {"description": "OK"},
+                "200": {
+                    "schema": {"$ref": "#/definitions/void"},
+                    "description": "OK"
+                },
                 "201": {"description": "Created"},
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
@@ -911,7 +779,6 @@
         }},
         "/v2/policy-types/{policytype_id}": {"get": {
             "summary": "Returns a policy type definition",
-            "deprecated": false,
             "produces": ["application/json"],
             "operationId": "getPolicyTypeUsingGET",
             "responses": {
@@ -937,22 +804,15 @@
         }},
         "/service": {"put": {
             "summary": "Register a service",
-            "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "putServiceUsingPUT_1",
+            "operationId": "putServiceUsingPUT",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
                     "description": "Service updated"
                 },
-                "201": {
-                    "schema": {"type": "string"},
-                    "description": "Service created"
-                },
-                "400": {
-                    "schema": {"type": "string"},
-                    "description": "The ServiceRegistrationInfo is not accepted"
-                },
+                "201": {"description": "Service created"},
+                "400": {"description": "The ServiceRegistrationInfo is not accepted"},
                 "401": {"description": "Unauthorized"},
                 "403": {"description": "Forbidden"},
                 "404": {"description": "Not Found"}
@@ -970,10 +830,9 @@
         "/v2/policies": {
             "get": {
                 "summary": "Query policy identities",
-                "deprecated": false,
                 "produces": ["application/json"],
                 "description": "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
-                "operationId": "getPolicyIdsUsingGET",
+                "operationId": "getPolicyIdsUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/policy_id_list_v2"},
@@ -989,7 +848,6 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "policytype_id",
                         "description": "The identity of the policy type to get policies for.",
                         "type": "string",
@@ -997,7 +855,6 @@
                     },
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "ric_id",
                         "description": "The identity of the Near-RT RIC to get policies for.",
                         "type": "string",
@@ -1005,7 +862,6 @@
                     },
                     {
                         "in": "query",
-                        "allowEmptyValue": false,
                         "name": "service_id",
                         "description": "The identity of the service to get policies for.",
                         "type": "string",
@@ -1016,12 +872,17 @@
             },
             "put": {
                 "summary": "Create or update a policy",
-                "deprecated": false,
                 "produces": ["application/json"],
-                "operationId": "putPolicyUsingPUT",
+                "operationId": "putPolicyUsingPUT_1",
                 "responses": {
-                    "200": {"description": "Policy updated"},
-                    "201": {"description": "Policy created"},
+                    "200": {
+                        "schema": {"$ref": "#/definitions/void"},
+                        "description": "Policy updated"
+                    },
+                    "201": {
+                        "schema": {"$ref": "#/definitions/void"},
+                        "description": "Policy created"
+                    },
                     "401": {"description": "Unauthorized"},
                     "423": {
                         "schema": {"$ref": "#/definitions/error_information"},
@@ -1045,7 +906,7 @@
             }
         }
     },
-    "host": "localhost:33243",
+    "host": "localhost:35809",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",
@@ -1130,10 +991,10 @@
                     "description": "State for the Near-RT RIC, values: \nUNAVAILABLE: The Near-RT RIC is not avialable, information may be inconsistent \nAVAILABLE: The normal state. Policies can be configured. +\nSYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured. \nCONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.",
                     "type": "string",
                     "enum": [
-                        "UNAVAILABLE",
                         "AVAILABLE",
+                        "CONSISTENCY_CHECK",
                         "SYNCHRONIZING",
-                        "CONSISTENCY_CHECK"
+                        "UNAVAILABLE"
                     ]
                 },
                 "policytype_ids": {
@@ -1408,7 +1269,7 @@
     "tags": [
         {
             "name": "A1 Policy Management Version 1.0",
-            "description": "Policy Controller"
+            "description": "Service Controller"
         },
         {
             "name": "A1 Policy Management Version 2.0 (in progress)",
