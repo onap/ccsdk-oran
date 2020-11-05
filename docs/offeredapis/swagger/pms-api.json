@@ -79,7 +79,7 @@
                 "summary": "Returns service information",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getServicesUsingGET",
+                "operationId": "getServicesUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {
@@ -109,7 +109,7 @@
                 "summary": "Delete a service",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deleteServiceUsingDELETE",
+                "operationId": "deleteServiceUsingDELETE_1",
                 "responses": {
                     "200": {
                         "schema": {"type": "string"},
@@ -141,7 +141,7 @@
             "summary": "Unregister a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "deleteServiceUsingDELETE_1",
+            "operationId": "deleteServiceUsingDELETE",
             "responses": {
                 "200": {"description": "Not used"},
                 "401": {"description": "Unauthorized"},
@@ -694,7 +694,7 @@
                 "deprecated": false,
                 "produces": ["application/json"],
                 "description": "Either information about a registered service with given identity or all registered services are returned.",
-                "operationId": "getServicesUsingGET_1",
+                "operationId": "getServicesUsingGET",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/service_list_v2"},
@@ -722,7 +722,7 @@
                 "deprecated": false,
                 "produces": ["*/*"],
                 "description": "Registering a service is needed to:<ul><li>Get callbacks.<\/li><li>Activate supervision of the service. If a service is inactive, its policies will be deleted.<\/li><\/ul>",
-                "operationId": "putServiceUsingPUT_1",
+                "operationId": "putServiceUsingPUT",
                 "responses": {
                     "200": {
                         "schema": {"type": "object"},
@@ -782,7 +782,7 @@
             "summary": "Heartbeat from a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT",
+            "operationId": "keepAliveServiceUsingPUT_1",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -808,7 +808,7 @@
             "summary": "Heartbeat indicates that the service is running",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT_1",
+            "operationId": "keepAliveServiceUsingPUT",
             "responses": {
                 "200": {
                     "schema": {"type": "object"},
@@ -939,7 +939,7 @@
             "summary": "Register a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "putServiceUsingPUT",
+            "operationId": "putServiceUsingPUT_1",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -1045,7 +1045,7 @@
             }
         }
     },
-    "host": "localhost:49657",
+    "host": "localhost:43299",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",
