@@ -56,4 +56,6 @@ app:
     trust-store-used: false
     trust-store-password: policy_agent
     trust-store: /opt/app/policy-agent/etc/cert/truststore.jks
+    http.proxy-host: 
+    http.proxy-port: 0
 

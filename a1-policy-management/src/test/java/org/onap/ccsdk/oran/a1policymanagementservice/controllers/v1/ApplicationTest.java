@@ -720,10 +720,11 @@ class ApplicationTest {
                 .isTrustStoreUsed(useTrustValidation) //
                 .trustStore(config.trustStore()) //
                 .trustStorePassword(config.trustStorePassword()) //
+                .httpProxyConfig(config.httpProxyConfig()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config);
-        return f.createRestClient(baseUrl());
+        return f.createRestClientNoHttpProxy(baseUrl());
     }
 
     private AsyncRestClient restClient() {

@@ -29,6 +29,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -64,6 +65,12 @@ public class ApplicationConfig {
     @Value("${app.webclient.trust-store}")
     private String sslTrustStore = "";
 
+    @Value("${app.webclient.http.proxy-host}")
+    private String httpProxyHost = "";
+
+    @Value("${app.webclient.http.proxy-port}")
+    private int httpProxyPort = 0;
+
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
     @Getter
@@ -79,6 +86,11 @@ public class ApplicationConfig {
     }
 
     public WebClientConfig getWebClientConfig() {
+        HttpProxyConfig httpProxyConfig = ImmutableHttpProxyConfig.builder() //
+                .httpProxyHost(this.httpProxyHost) //
+                .httpProxyPort(this.httpProxyPort) //
+                .build();
+
         return ImmutableWebClientConfig.builder() //
                 .keyStoreType(this.sslKeyStoreType) //
                 .keyStorePassword(this.sslKeyStorePassword) //
@@ -87,6 +99,7 @@ public class ApplicationConfig {
                 .isTrustStoreUsed(this.sslTrustStoreUsed) //
                 .trustStore(this.sslTrustStore) //
                 .trustStorePassword(this.sslTrustStorePassword) //
+                .httpProxyConfig(httpProxyConfig) //
                 .build();
     }
 

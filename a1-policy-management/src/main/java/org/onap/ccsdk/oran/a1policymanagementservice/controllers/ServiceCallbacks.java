@@ -48,7 +48,7 @@ public class ServiceCallbacks {
     private final AsyncRestClient restClient;
 
     public ServiceCallbacks(AsyncRestClientFactory restClientFactory) {
-        this.restClient = restClientFactory.createRestClient("");
+        this.restClient = restClientFactory.createRestClientNoHttpProxy("");
     }
 
     public void notifyServicesRicSynchronized(Ric ric, Services services) {

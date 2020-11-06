@@ -81,7 +81,8 @@ public class CcsdkA1AdapterClient implements A1Client {
      * Constructor that creates the REST client to use.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1, CCSDK_A1_ADAPTER_OSC_V1 and
+     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1,
+     *        CCSDK_A1_ADAPTER_OSC_V1 and
      *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
@@ -92,14 +93,15 @@ public class CcsdkA1AdapterClient implements A1Client {
     public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClientFactory restClientFactory) {
         this(protocolType, ricConfig, controllerConfig,
-                restClientFactory.createRestClient(controllerConfig.baseUrl() + "/restconf/operations"));
+                restClientFactory.createRestClientNoHttpProxy(controllerConfig.baseUrl() + "/restconf/operations"));
     }
 
     /**
      * Constructor where the REST client to use is provided.
      *
      * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1, CCSDK_A1_ADAPTER_OSC_V1 and
+     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1,
+     *        CCSDK_A1_ADAPTER_OSC_V1 and
      *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig the configuration of the Near-RT RIC to communicate
      *        with
@@ -108,7 +110,7 @@ public class CcsdkA1AdapterClient implements A1Client {
      *
      * @throws IllegalArgumentException when the protocolType is illegal.
      */
-    public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
+    CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClient restClient) {
         if (A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1.equals(protocolType) //
                 || A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1.equals(protocolType) //

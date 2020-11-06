@@ -182,7 +182,7 @@ public class DmaapMessageConsumer {
 
     protected Mono<String> getFromMessageRouter(String topicUrl) {
         logger.trace("getFromMessageRouter {}", topicUrl);
-        AsyncRestClient c = restClientFactory.createRestClient("");
+        AsyncRestClient c = restClientFactory.createRestClientNoHttpProxy("");
         return c.get(topicUrl);
     }
 
@@ -229,9 +229,9 @@ public class DmaapMessageConsumer {
     private DmaapMessageHandler getDmaapMessageHandler() {
         if (this.dmaapMessageHandler == null) {
             String pmsBaseUrl = "http://localhost:" + this.localServerHttpPort;
-            AsyncRestClient pmsClient = restClientFactory.createRestClient(pmsBaseUrl);
+            AsyncRestClient pmsClient = restClientFactory.createRestClientNoHttpProxy(pmsBaseUrl);
             AsyncRestClient producer =
-                    restClientFactory.createRestClient(this.applicationConfig.getDmaapProducerTopicUrl());
+                    restClientFactory.createRestClientNoHttpProxy(this.applicationConfig.getDmaapProducerTopicUrl());
             this.dmaapMessageHandler = new DmaapMessageHandler(producer, pmsClient);
         }
         return this.dmaapMessageHandler;
