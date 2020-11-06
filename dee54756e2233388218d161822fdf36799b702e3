@@ -16,6 +16,24 @@
       "revId": "dee54756e2233388218d161822fdf36799b702e3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e378073_c22e49c9",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-06T08:09:35Z",
+      "side": 1,
+      "message": "Well spotted. Thank you!\nDone",
+      "parentUuid": "9abaee05_311518e0",
+      "revId": "dee54756e2233388218d161822fdf36799b702e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
