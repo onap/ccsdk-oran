@@ -28,6 +28,7 @@ import io.netty.handler.timeout.WriteTimeoutHandler;
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.immutables.value.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -42,6 +43,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
+import reactor.netty.tcp.ProxyProvider.Proxy;
 import reactor.netty.tcp.TcpClient;
 
 /**
@@ -54,19 +56,19 @@ public class AsyncRestClient {
     private final String baseUrl;
     private static final AtomicInteger sequenceNumber = new AtomicInteger();
     private final SslContext sslContext;
+    private final HttpProxyConfig httpProxyConfig;
 
-    /**
-     * Note that only http (not https) will work when this constructor is used.
-     * 
-     * @param baseUrl
-     */
-    public AsyncRestClient(String baseUrl) {
-        this(baseUrl, null);
+    @Value.Immutable
+    public interface HttpProxyConfig {
+        public String httpProxyHost();
+
+        public int httpProxyPort();
     }
 
-    public AsyncRestClient(String baseUrl, SslContext sslContext) {
+    public AsyncRestClient(String baseUrl, SslContext sslContext, HttpProxyConfig httpProxyConfig) {
         this.baseUrl = baseUrl;
         this.sslContext = sslContext;
+        this.httpProxyConfig = httpProxyConfig;
     }
 
     public Mono<ResponseEntity<String>> postForEntity(String uri, @Nullable String body) {
@@ -200,27 +202,27 @@ public class AsyncRestClient {
         }
     }
 
-    private TcpClient createTcpClientSecure(SslContext sslContext) {
-        return TcpClient.create(ConnectionProvider.newConnection()) //
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
-                .secure(c -> c.sslContext(sslContext)) //
-                .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(30));
-                    connection.addHandlerLast(new WriteTimeoutHandler(30));
-                });
-    }
-
-    private TcpClient createTcpClientInsecure() {
-        return TcpClient.create(ConnectionProvider.newConnection()) //
+    private TcpClient createTcpClient() {
+        TcpClient client = TcpClient.create(ConnectionProvider.newConnection()) //
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000) //
                 .doOnConnected(connection -> {
                     connection.addHandlerLast(new ReadTimeoutHandler(30));
                     connection.addHandlerLast(new WriteTimeoutHandler(30));
                 });
+        if (this.sslContext != null) {
+            client = client.secure(c -> c.sslContext(sslContext));
+        }
+        if (this.httpProxyConfig != null) {
+            client = client.proxy(proxy -> {
+                proxy.type(Proxy.HTTP).host(httpProxyConfig.httpProxyHost()).port(httpProxyConfig.httpProxyPort());
+            });
+        }
+        return client;
     }
 
     private WebClient createWebClient(String baseUrl, TcpClient tcpClient) {
         HttpClient httpClient = HttpClient.from(tcpClient);
+
         ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder() //
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) //
@@ -235,13 +237,8 @@ public class AsyncRestClient {
     private Mono<WebClient> getWebClient() {
         if (this.webClient == null) {
             try {
-                if (this.sslContext != null) {
-                    TcpClient tcpClient = createTcpClientSecure(sslContext);
-                    this.webClient = createWebClient(this.baseUrl, tcpClient);
-                } else {
-                    TcpClient tcpClient = createTcpClientInsecure();
-                    this.webClient = createWebClient(this.baseUrl, tcpClient);
-                }
+                TcpClient tcpClient = createTcpClient();
+                this.webClient = createWebClient(this.baseUrl, tcpClient);
             } catch (Exception e) {
                 logger.error("Could not create WebClient {}", e.getMessage());
                 return Mono.error(e);

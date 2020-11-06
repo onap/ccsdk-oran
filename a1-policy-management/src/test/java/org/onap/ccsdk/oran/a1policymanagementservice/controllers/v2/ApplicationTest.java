@@ -790,10 +790,12 @@ class ApplicationTest {
                 .isTrustStoreUsed(useTrustValidation) //
                 .trustStore(config.trustStore()) //
                 .trustStorePassword(config.trustStorePassword()) //
+                .httpProxyHost(config.httpProxyHost()) //
+                .httpProxyPort(config.httpProxyPort()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config);
-        return f.createRestClient(baseUrl);
+        return f.createRestClientNoHttpProxy(baseUrl);
 
     }
 

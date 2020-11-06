@@ -49,29 +49,51 @@ import org.springframework.util.ResourceUtils;
 /**
  * Factory for a generic reactive REST client.
  */
+@SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class AsyncRestClientFactory {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final SslContextFactory sslContextFactory;
+    private final AsyncRestClient.HttpProxyConfig httpProxyConfig;
 
     public AsyncRestClientFactory(WebClientConfig clientConfig) {
         if (clientConfig != null) {
             this.sslContextFactory = new CachingSslContextFactory(clientConfig);
+            if (clientConfig.httpProxyPort() > 0 && !clientConfig.httpProxyHost().isEmpty()) {
+                httpProxyConfig = ImmutableHttpProxyConfig.builder()//
+                        .httpProxyHost(clientConfig.httpProxyHost()) //
+                        .httpProxyPort(clientConfig.httpProxyPort()) //
+                        .build();
+                logger.info("Using HTTP proxy {}:{}", clientConfig.httpProxyHost(), clientConfig.httpProxyPort());
+            } else {
+                httpProxyConfig = null;
+            }
         } else {
+            logger.warn("HTTPS will not work");
             this.sslContextFactory = null;
+            httpProxyConfig = null;
         }
     }
 
+    public AsyncRestClient createRestClientNoHttpProxy(String baseUrl) {
+        return createRestClient(baseUrl, false);
+    }
+
     public AsyncRestClient createRestClient(String baseUrl) {
+        return createRestClient(baseUrl, true);
+    }
+
+    private AsyncRestClient createRestClient(String baseUrl, boolean useHttpProxy) {
+        AsyncRestClient.HttpProxyConfig proxyConfig = useHttpProxy ? this.httpProxyConfig : null;
         if (this.sslContextFactory != null) {
             try {
-                return new AsyncRestClient(baseUrl, this.sslContextFactory.createSslContext());
+                return new AsyncRestClient(baseUrl, this.sslContextFactory.createSslContext(), proxyConfig);
             } catch (Exception e) {
                 String exceptionString = e.toString();
                 logger.error("Could not init SSL context, reason: {}", exceptionString);
             }
         }
-        return new AsyncRestClient(baseUrl);
+        return new AsyncRestClient(baseUrl, null, proxyConfig);
     }
 
     private class SslContextFactory {

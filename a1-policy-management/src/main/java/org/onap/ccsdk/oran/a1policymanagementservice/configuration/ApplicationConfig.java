@@ -64,6 +64,12 @@ public class ApplicationConfig {
     @Value("${app.webclient.trust-store}")
     private String sslTrustStore = "";
 
+    @Value("${app.webclient.http.proxy-host}")
+    private String httpProxyHost = "";
+
+    @Value("${app.webclient.http.proxy-port}")
+    private int httpProxyPort = 0;
+
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
     @Getter
@@ -87,6 +93,8 @@ public class ApplicationConfig {
                 .isTrustStoreUsed(this.sslTrustStoreUsed) //
                 .trustStore(this.sslTrustStore) //
                 .trustStorePassword(this.sslTrustStorePassword) //
+                .httpProxyHost(this.httpProxyHost) //
+                .httpProxyPort(this.httpProxyPort) //
                 .build();
     }
 

@@ -97,7 +97,8 @@ public class PolicyController {
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
-    @GetMapping(path = "/v2/policy-types/{policytype_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policytype_id:.+}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns a policy type definition")
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Policy type", response = PolicyTypeInfo.class), //

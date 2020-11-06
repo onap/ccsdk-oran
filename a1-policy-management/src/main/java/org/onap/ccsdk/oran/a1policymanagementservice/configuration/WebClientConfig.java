@@ -42,4 +42,7 @@ public interface WebClientConfig {
 
     public String trustStore();
 
+    public String httpProxyHost();
+
+    public int httpProxyPort();
 }
