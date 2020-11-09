@@ -97,7 +97,8 @@ public class PolicyController {
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
-    @GetMapping(path = "/v2/policy-types/{policytype_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policytype_id:.+}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns a policy type definition")
     @ApiResponses(value = { //
             @ApiResponse(code = 200, message = "Policy type", response = PolicyTypeInfo.class), //
@@ -261,12 +262,6 @@ public class PolicyController {
         return Mono.just("{}");
     }
 
-    private void assertRicStateIdleSync(Ric ric) throws ServiceException {
-        if (ric.getState() != Ric.RicState.AVAILABLE) {
-            throw new ServiceException("Near-RT RIC: " + ric.id() + " is " + ric.getState());
-        }
-    }
-
     private Mono<Object> assertRicStateIdle(Ric ric) {
         if (ric.getState() == Ric.RicState.AVAILABLE) {
             return Mono.just("{}");
@@ -407,6 +402,7 @@ public class PolicyController {
         policyInfo.ricId = p.ric().id();
         policyInfo.policyTypeId = p.type().id();
         policyInfo.serviceId = p.ownerServiceId();
+        policyInfo.isTransient = p.isTransient();
         if (!p.statusNotificationUri().isEmpty()) {
             policyInfo.statusNotificationUri = p.statusNotificationUri();
         }
