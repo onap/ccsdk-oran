@@ -33,6 +33,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,15 +65,17 @@ public class RicSynchronizationTask {
     private final PolicyTypes policyTypes;
     private final Policies policies;
     private final Services services;
+    private final Rics rics;
     private final AsyncRestClientFactory restClientFactory;
 
     public RicSynchronizationTask(A1ClientFactory a1ClientFactory, PolicyTypes policyTypes, Policies policies,
-            Services services, AsyncRestClientFactory restClientFactory) {
+            Services services, AsyncRestClientFactory restClientFactory, Rics rics) {
         this.a1ClientFactory = a1ClientFactory;
         this.policyTypes = policyTypes;
         this.policies = policies;
         this.services = services;
         this.restClientFactory = restClientFactory;
+        this.rics = rics;
     }
 
     public void run(Ric ric) {
@@ -129,6 +132,10 @@ public class RicSynchronizationTask {
     }
 
     private void onSynchronizationComplete(Ric ric) {
+        if (this.rics.get(ric.id()) == null) {
+            logger.debug("Policies removed in removed ric: {}", ric.id());
+            return;
+        }
         logger.debug("Synchronization completed for: {}", ric.id());
         ric.setState(RicState.AVAILABLE);
         notifyServices(ric);
