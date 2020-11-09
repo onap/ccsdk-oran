@@ -57,10 +57,12 @@ public class PolicyInfo {
     @SerializedName("service_id")
     public String serviceId;
 
-    @ApiModelProperty(value = "the name of the service owning the policy", required = false)
-    @JsonProperty(value = "transient", required = false)
+    @ApiModelProperty(
+            value = "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
+            required = false)
+    @JsonProperty(value = "transient", required = false, defaultValue = "false")
     @SerializedName("transient")
-    public boolean isTransient;
+    public boolean isTransient = false;
 
     @ApiModelProperty(value = "Callback URI for policy status updates", required = false)
     @JsonProperty(value = "status_notification_uri", required = false)

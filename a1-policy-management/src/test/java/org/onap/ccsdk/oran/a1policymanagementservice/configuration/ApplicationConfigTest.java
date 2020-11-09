@@ -21,12 +21,11 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.junit.jupiter.api.Test;
@@ -34,13 +33,26 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser.ConfigParserResult;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationConfigTest {
 
     private static final ImmutableRicConfig RIC_CONFIG_1 = ImmutableRicConfig.builder() //
             .ricId("ric1") //
+            .baseUrl("ric1_url") //
+            .managedElementIds(new Vector<>()) //
+            .controllerName("") //
+            .build();
+
+    private static final ImmutableRicConfig RIC_CONFIG_2 = ImmutableRicConfig.builder() //
+            .ricId("ric2") //
+            .baseUrl("ric1_url") //
+            .managedElementIds(new Vector<>()) //
+            .controllerName("") //
+            .build();
+
+    private static final ImmutableRicConfig RIC_CONFIG_3 = ImmutableRicConfig.builder() //
+            .ricId("ric3") //
             .baseUrl("ric1_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //
@@ -56,72 +68,67 @@ class ApplicationConfigTest {
     }
 
     @Test
-    void gettingNotAddedRicShouldThrowException() {
+    void addRics() throws Exception {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
-        appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1));
-
-        Exception exception = assertThrows(ServiceException.class, () -> {
-            appConfigUnderTest.getRic("name");
-        });
-
-        assertEquals("Could not find ric configuration: name", exception.getMessage());
-    }
-
-    @Test
-    void addRicShouldNotifyAllObserversOfRicAdded() throws Exception {
-        ApplicationConfig appConfigUnderTest = new ApplicationConfig();
-
-        RicConfigUpdate update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).blockFirst();
-        assertEquals(RicConfigUpdate.Type.ADDED, update.getType());
+        List<RicConfigUpdate> update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)) //
+                .collectList().block();
+        assertEquals(1, update.size());
+        assertEquals(RicConfigUpdate.Type.ADDED, update.get(0).getType());
         assertTrue(appConfigUnderTest.getRicConfigs().contains(RIC_CONFIG_1), "Ric not added to configurations.");
 
         assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
                 "Not correct Ric retrieved from configurations.");
 
-        update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).blockFirst();
-        assertNull(update, "Nothing should be updated");
-        assertTrue(appConfigUnderTest.getRicConfigs().contains(RIC_CONFIG_1), "Ric should remain.");
+        update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).collectList().block();
+        assertEquals(0, update.size());
+
+        update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1, RIC_CONFIG_2)).collectList()
+                .block();
+        assertEquals(1, update.size());
+        assertEquals(RicConfigUpdate.Type.ADDED, update.get(0).getType());
 
     }
 
     @Test
-    void changedRicShouldNotifyAllObserversOfRicChanged() throws Exception {
+    void changedRic() throws Exception {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
-        appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1));
+        List<RicConfigUpdate> update = appConfigUnderTest
+                .setConfiguration(configParserResult(RIC_CONFIG_1, RIC_CONFIG_2, RIC_CONFIG_3)).collectList().block();
+        assertEquals(3, update.size());
 
         ImmutableRicConfig changedRicConfig = ImmutableRicConfig.builder() //
-                .ricId("ric1") //
+                .ricId(RIC_CONFIG_1.ricId()) //
                 .baseUrl("changed_ric1_url") //
                 .managedElementIds(new Vector<>()) //
                 .controllerName("") //
                 .build();
 
-        RicConfigUpdate update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig)).blockFirst();
+        update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig, RIC_CONFIG_2, RIC_CONFIG_3))
+                .collectList().block();
+        assertEquals(1, update.size());
 
-        assertEquals(RicConfigUpdate.Type.CHANGED, update.getType());
+        assertEquals(RicConfigUpdate.Type.CHANGED, update.get(0).getType());
         assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
                 "Changed Ric not retrieved from configurations.");
     }
 
     @Test
-    void removedRicShouldNotifyAllObserversOfRicRemoved() {
+    void removedRic() {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
-        ImmutableRicConfig ricConfig2 = ImmutableRicConfig.builder() //
-                .ricId("ric2") //
-                .baseUrl("ric2_url") //
-                .managedElementIds(new Vector<>()) //
-                .controllerName("") //
-                .build();
+        List<RicConfigUpdate> update = appConfigUnderTest
+                .setConfiguration(configParserResult(RIC_CONFIG_1, RIC_CONFIG_2, RIC_CONFIG_3)).collectList().block();
+        assertEquals(3, update.size());
 
-        appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1, ricConfig2));
-
-        RicConfigUpdate update = appConfigUnderTest.setConfiguration(configParserResult(ricConfig2)).blockFirst();
-
-        assertEquals(RicConfigUpdate.Type.REMOVED, update.getType());
-        assertEquals(1, appConfigUnderTest.getRicConfigs().size(), "Ric not deleted from configurations.");
+        update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_2, RIC_CONFIG_3)) //
+                .collectList() //
+                .block();
+        assertEquals(1, update.size());
+        assertEquals(RicConfigUpdate.Type.REMOVED, update.get(0).getType());
+        assertEquals(RIC_CONFIG_1, update.get(0).getRicConfig());
+        assertEquals(2, appConfigUnderTest.getRicConfigs().size(), "Ric not deleted from configurations.");
     }
 
 }

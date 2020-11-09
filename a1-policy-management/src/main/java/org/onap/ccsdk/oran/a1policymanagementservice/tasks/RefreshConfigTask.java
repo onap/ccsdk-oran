@@ -212,15 +212,18 @@ public class RefreshConfigTask {
             String ricId = updatedInfo.getRicConfig().ricId();
             RicConfigUpdate.Type event = updatedInfo.getType();
             if (event == RicConfigUpdate.Type.ADDED) {
+                logger.debug("RIC added {}", ricId);
                 addRic(updatedInfo.getRicConfig());
             } else if (event == RicConfigUpdate.Type.REMOVED) {
+                logger.debug("RIC removed {}", ricId);
                 Ric ric = rics.remove(ricId);
                 this.policies.removePoliciesForRic(ricId);
                 removePoliciciesInRic(ric);
             } else if (event == RicConfigUpdate.Type.CHANGED) {
+                logger.debug("RIC config updated {}", ricId);
                 Ric ric = this.rics.get(ricId);
                 if (ric == null) {
-                    // Should not happen,just for robustness
+                    logger.error("An non existing RIC config is changed, should not happen (just for robustness)");
                     addRic(updatedInfo.getRicConfig());
                 } else {
                     ric.setRicConfig(updatedInfo.getRicConfig());
