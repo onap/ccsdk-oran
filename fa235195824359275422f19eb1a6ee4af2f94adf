@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a071810_1a95650b",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-10T13:09:16Z",
+      "side": 1,
+      "message": "defined",
+      "range": {
+        "startLine": 47,
+        "startChar": 62,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80623b00_57df3154",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-10T13:09:16Z",
+      "side": 1,
+      "message": "parameters",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b542e2b_f26c4268",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-10T13:09:16Z",
+      "side": 1,
+      "message": "Remove trailing whitespace",
+      "range": {
+        "startLine": 48,
+        "startChar": 34,
+        "endLine": 48,
+        "endChar": 35
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b698ee30_1724161f",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-10T13:09:16Z",
+      "side": 1,
+      "message": "Remove trailing whitespace",
+      "range": {
+        "startLine": 68,
+        "startChar": 71,
+        "endLine": 68,
+        "endChar": 72
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a372c1f_ea8e6c27",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-10T13:09:16Z",
+      "side": 1,
+      "message": "Remove trailing whitespace",
+      "range": {
+        "startLine": 70,
+        "startChar": 20,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
