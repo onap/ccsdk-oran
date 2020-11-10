@@ -211,6 +211,6 @@ public class RicSupervision {
     }
 
     RicSynchronizationTask createSynchronizationTask() {
-        return new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, restClientFactory);
+        return new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, restClientFactory, rics);
     }
 }

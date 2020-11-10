@@ -262,12 +262,6 @@ public class PolicyController {
         return Mono.just("{}");
     }
 
-    private void assertRicStateIdleSync(Ric ric) throws ServiceException {
-        if (ric.getState() != Ric.RicState.AVAILABLE) {
-            throw new ServiceException("Near-RT RIC: " + ric.id() + " is " + ric.getState());
-        }
-    }
-
     private Mono<Object> assertRicStateIdle(Ric ric) {
         if (ric.getState() == Ric.RicState.AVAILABLE) {
             return Mono.just("{}");
@@ -408,6 +402,7 @@ public class PolicyController {
         policyInfo.ricId = p.ric().id();
         policyInfo.policyTypeId = p.type().id();
         policyInfo.serviceId = p.ownerServiceId();
+        policyInfo.isTransient = p.isTransient();
         if (!p.statusNotificationUri().isEmpty()) {
             policyInfo.statusNotificationUri = p.statusNotificationUri();
         }

@@ -57,6 +57,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
@@ -108,12 +109,14 @@ class RicSynchronizationTaskTest {
     private PolicyTypes policyTypes;
     private Policies policies;
     private Services services;
+    private Rics rics;
 
     @BeforeEach
     void init() {
         policyTypes = new PolicyTypes();
         policies = new Policies();
         services = new Services();
+        rics = new Rics();
         RIC_1.setState(RicState.UNAVAILABLE);
         RIC_1.clearSupportedPolicyTypes();
     }
@@ -121,7 +124,8 @@ class RicSynchronizationTaskTest {
     private RicSynchronizationTask createTask() {
         ApplicationConfig config = new ApplicationConfig();
         AsyncRestClientFactory restClientFactory = new AsyncRestClientFactory(config.getWebClientConfig());
-        return new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services, restClientFactory);
+        return new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services, restClientFactory,
+                rics);
     };
 
     @Test
@@ -146,6 +150,7 @@ class RicSynchronizationTaskTest {
 
     @Test
     void ricIdlePolicyTypeInRepo_thenSynchronizationWithReuseOfTypeFromRepoAndCorrectServiceNotified() {
+        rics.put(RIC_1);
         RIC_1.setState(RicState.AVAILABLE);
 
         policyTypes.put(POLICY_TYPE_1);
@@ -176,6 +181,7 @@ class RicSynchronizationTaskTest {
     @Test
     void ricIdlePolicyTypeNotInRepo_thenSynchronizationWithTypeFromRic() throws Exception {
         RIC_1.setState(RicState.AVAILABLE);
+        rics.put(RIC_1);
 
         setUpCreationOfA1Client();
         simulateRicWithOnePolicyType();
@@ -198,6 +204,7 @@ class RicSynchronizationTaskTest {
     @Test
     void ricIdleAndHavePolicies_thenSynchronizationWithRecreationOfPolicies() {
         RIC_1.setState(RicState.AVAILABLE);
+        rics.put(RIC_1);
 
         Policy transientPolicy = createPolicy("transientPolicyId", true);
 
@@ -226,6 +233,7 @@ class RicSynchronizationTaskTest {
     @Test
     void ricIdleAndErrorDeletingPoliciesFirstTime_thenSynchronizationWithDeletionOfPolicies() {
         RIC_1.setState(RicState.AVAILABLE);
+        rics.put(RIC_1);
 
         policies.put(POLICY_1);
 
