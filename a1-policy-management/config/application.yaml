@@ -30,9 +30,11 @@ management:
   endpoints:
     web:
       exposure:
+        # Enabling of springboot actuator features. See springboot documentation.
         include: "loggers,logfile,health,info,metrics,threaddump,heapdump"
 
 logging:
+  # Configuration of logging
   level:
     ROOT: ERROR
     org.springframework: ERROR
@@ -42,6 +44,8 @@ logging:
   file:
     name: /var/log/policy-agent/application.log
 server:
+   # Configuration of the HTTP/REST server. The parameter are define and handeled by the springboot framework.
+   # See springboot documentation. 
    port : 8433
    http-port: 8081
    ssl:
@@ -51,11 +55,18 @@ server:
       key-password: policy_agent
       key-alias: policy_agent
 app:
+  # Location of the component configuration file. The file will only be used if the Consul database is not used;
+  # configuration from the Consul will override the file.
   filepath: /opt/app/policy-agent/data/application_configuration.json
   webclient:
+    # Configuration of the trust store used for the HTTP client (outgoing requests)
+    # The file location and the password for the truststore is only relevant if trust-store-used == true
+    # Note that the same keystore as for the server is used.
     trust-store-used: false
     trust-store-password: policy_agent
     trust-store: /opt/app/policy-agent/etc/cert/truststore.jks
+    # Configuration of usage of HTTP Proxy for the southbound accesses. 
+    # The HTTP prox (if configured) will only be used for accessing NearRT RIC:s
     http.proxy-host: 
     http.proxy-port: 0
 
