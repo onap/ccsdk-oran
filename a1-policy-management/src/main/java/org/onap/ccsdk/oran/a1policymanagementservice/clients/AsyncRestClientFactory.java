@@ -62,7 +62,7 @@ public class AsyncRestClientFactory {
             this.sslContextFactory = new CachingSslContextFactory(clientConfig);
             this.httpProxyConfig = clientConfig.httpProxyConfig();
         } else {
-            logger.warn("HTTPS will not work");
+            logger.warn("No configuration for web client defined, HTTPS will not work");
             this.sslContextFactory = null;
             this.httpProxyConfig = null;
         }
