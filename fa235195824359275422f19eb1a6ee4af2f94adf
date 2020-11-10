@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "a4525bd0_ce69f449",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-10T14:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a071810_1a95650b",
+      "range": {
+        "startLine": 47,
+        "startChar": 62,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ecdc36_d13f328e",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-10T14:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80623b00_57df3154",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b542e2b_f26c4268",
         "filename": "a1-policy-management/config/application.yaml",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e0d8774_32f8974e",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-10T14:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b542e2b_f26c4268",
+      "range": {
+        "startLine": 48,
+        "startChar": 34,
+        "endLine": 48,
+        "endChar": 35
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "373860f8_6d15d02d",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-10T14:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b698ee30_1724161f",
+      "range": {
+        "startLine": 68,
+        "startChar": 71,
+        "endLine": 68,
+        "endChar": 72
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a372c1f_ea8e6c27",
         "filename": "a1-policy-management/config/application.yaml",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35669659_899922eb",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-10T14:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a372c1f_ea8e6c27",
+      "range": {
+        "startLine": 70,
+        "startChar": 20,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "fa235195824359275422f19eb1a6ee4af2f94adf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
