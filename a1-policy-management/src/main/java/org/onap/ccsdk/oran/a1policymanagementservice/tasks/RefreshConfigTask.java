@@ -20,20 +20,11 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.Properties;
-
-import javax.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,6 +34,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFact
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
@@ -83,6 +75,7 @@ public class RefreshConfigTask {
      */
     static final Duration CONFIG_REFRESH_INTERVAL = Duration.ofMinutes(1);
 
+    final ConfigurationFile configurationFile;
     final ApplicationConfig appConfig;
     @Getter(AccessLevel.PROTECTED)
     private Disposable refreshTask = null;
@@ -96,8 +89,9 @@ public class RefreshConfigTask {
     private final AsyncRestClientFactory restClientFactory;
 
     @Autowired
-    public RefreshConfigTask(ApplicationConfig appConfig, Rics rics, Policies policies, Services services,
-            PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
+    public RefreshConfigTask(ConfigurationFile configurationFile, ApplicationConfig appConfig, Rics rics,
+            Policies policies, Services services, PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
+        this.configurationFile = configurationFile;
         this.appConfig = appConfig;
         this.rics = rics;
         this.policies = policies;
@@ -195,10 +189,6 @@ public class RefreshConfigTask {
         return this.appConfig.setConfiguration(config);
     }
 
-    boolean fileExists(String filepath) {
-        return (filepath != null && (new File(filepath).exists()));
-    }
-
     private void removePoliciciesInRic(@Nullable Ric ric) {
         if (ric != null) {
             RicSynchronizationTask synch =
@@ -245,28 +235,10 @@ public class RefreshConfigTask {
      * Reads the configuration from file.
      */
     Flux<JsonObject> loadConfigurationFromFile() {
-        String filepath = appConfig.getLocalConfigurationFilePath();
-        if (!fileExists(filepath)) {
-            return Flux.empty();
+        Optional<JsonObject> readJson = configurationFile.readFile();
+        if (readJson.isPresent()) {
+            return Flux.just(readJson.get());
         }
-
-        try (InputStream inputStream = createInputStream(filepath)) {
-            JsonObject rootObject = getJsonElement(inputStream).getAsJsonObject();
-            ApplicationConfigParser appParser = new ApplicationConfigParser();
-            appParser.parse(rootObject);
-            logger.debug("Local configuration file loaded: {}", filepath);
-            return Flux.just(rootObject);
-        } catch (Exception e) {
-            logger.error("Local configuration file not loaded: {}, {}", filepath, e.getMessage());
-            return Flux.empty();
-        }
-    }
-
-    JsonElement getJsonElement(InputStream inputStream) {
-        return JsonParser.parseReader(new InputStreamReader(inputStream));
-    }
-
-    InputStream createInputStream(@NotNull String filepath) throws IOException {
-        return new BufferedInputStream(new FileInputStream(filepath));
+        return Flux.empty();
     }
 }
