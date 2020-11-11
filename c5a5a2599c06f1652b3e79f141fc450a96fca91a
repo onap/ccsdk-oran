@@ -2,6 +2,190 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e1026d1_6de457ae",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ConfigurationFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "You might as well throw IOException, then you can remove the ConfigurationFileWriteException.\nI think that is better because this discards the information in the original exception.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 56
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04365506_2f8b8035",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "If you follow the pattern from the PolicyController, this can be replaced by:\n\n } catch (ServiceException | JsonSyntaxException  e) {\n                return ErrorResponse.create(e, HttpStatus.BAD_REQUEST);\n } catch (IOEXception e)  {\n   return ErrorResponse.create(e, HttpStatus.INTERNAL_SERVER_ERROR);\n }",
+      "range": {
+        "startLine": 66,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 9
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b2aeb7_60f1daff",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/exceptions/ConfigurationFileWriteException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "I think this can be removed, since it only replaces the java standard IOException.",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fab54a21_7746c466",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ConfigurationFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "Since save and read of this file is done by REST calls, I think that the important thing is that error messages are returned to the caller.",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 73,
+        "endChar": 117
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72dccb5d_d875408f",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ConfigurationFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "Is not this tested by the controller test also? Then the test can be removed.",
+      "range": {
+        "startLine": 77,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 57
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05357ee7_bc4c8ee4",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "I do not understand why a file needs to be copied?\nCould not this just return:  \n\ntemporaryFolder +\"/config.json\"\n\nPUT would create and write the file and GET would return the contents.",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 48
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44d31f2d_a7ec97c9",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "I think this could be simpler.\nIf you start with no file, you can just PUT a file and wait until the configuration is loaded.",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 137,
+        "endChar": 62
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbcbdd0_d707a268",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "The reponse should contain information about the error.\nYou can use the same function as in the AplicationTest: \n\n\n private boolean checkWebClientError(Throwable throwable, HttpStatus expStatus, String responseContains,",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 44
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbe1cb96_c9622eff",
         "filename": "docs/offeredapis/swagger/pms-api.json",
         "patchSetId": 1
@@ -18,6 +202,29 @@
         "startChar": 12,
         "endLine": 3,
         "endChar": 14
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2409fe77_85998a2d",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-11T16:38:51Z",
+      "side": 1,
+      "message": "Huh? I do not think this has to do with policy management? \nI think it should be an own API tag (under an own haeding).",
+      "range": {
+        "startLine": 1415,
+        "startChar": 12,
+        "endLine": 1415,
+        "endChar": 53
       },
       "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
