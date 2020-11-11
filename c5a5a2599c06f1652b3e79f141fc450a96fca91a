@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe1cb96_c9622eff",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-11T15:33:57Z",
+      "side": 1,
+      "message": "Changes here aren\u0027t really related to this ticket ... Do these changes affect recent changes that seem to be overlapping?",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 14
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
