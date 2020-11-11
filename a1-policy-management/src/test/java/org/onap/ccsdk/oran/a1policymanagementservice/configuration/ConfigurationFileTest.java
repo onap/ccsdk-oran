@@ -19,8 +19,8 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -28,18 +28,20 @@ import static org.mockito.Mockito.when;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,22 +53,20 @@ class ConfigurationFileTest {
     public File temporaryFolder;
 
     @Test
-    void writeFileWithError_shouldThrowExceptionAndLogError() throws Exception {
+    void writeFileWithError_shouldThrowException() throws Exception {
         File tempJsonFile = new File(temporaryFolder, "config.json");
         String filePath = tempJsonFile.getAbsolutePath();
 
         ConfigurationFile configFileUnderTestSpy = spy(new ConfigurationFile(applicationConfigMock));
 
         when(applicationConfigMock.getLocalConfigurationFilePath()).thenReturn(filePath);
-        doThrow(new IOException("Error")).when(configFileUnderTestSpy).getFileWriter(any(String.class));
+        String errorMessage = "Error";
+        doThrow(new IOException(errorMessage)).when(configFileUnderTestSpy).getFileWriter(any(String.class));
 
-        ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(ConfigurationFile.class, Level.ERROR);
         Exception actualException =
-                assertThrows(ServiceException.class, () -> configFileUnderTestSpy.writeFile(new JsonObject()));
+                assertThrows(IOException.class, () -> configFileUnderTestSpy.writeFile(new JsonObject()));
 
-        assertThat(actualException.getMessage()).startsWith("Local configuration file not written");
-
-        assertThat(logAppender.list.get(0).getFormattedMessage()).startsWith("Local configuration file not written");
+        assertThat(actualException.getMessage()).isEqualTo(errorMessage);
     }
 
     @Test
@@ -115,6 +115,6 @@ class ConfigurationFileTest {
         assertThat(readContent).isEmpty();
 
         assertThat(logAppender.list.get(0).getFormattedMessage())
-                .isEqualTo("Local configuration file not loaded: " + filePath + ", Not a JSON Object: null");
+                .isEqualTo("Local configuration file not read: " + filePath + ", Not a JSON Object: null");
     }
 }

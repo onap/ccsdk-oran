@@ -45,6 +45,7 @@
         <swagger.version>2.0.0</swagger.version>
         <json.version>20190722</json.version>
         <commons-net.version>3.6</commons-net.version>
+        <commons-io.version>2.5</commons-io.version>
         <maven.compile.plugin.version>3.8.0</maven.compile.plugin.version>
         <formatter-maven-plugin.version>2.8.1</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>1.18.0</spotless-maven-plugin.version>
@@ -187,6 +188,12 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

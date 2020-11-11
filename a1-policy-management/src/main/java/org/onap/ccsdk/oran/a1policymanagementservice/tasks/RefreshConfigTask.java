@@ -71,9 +71,9 @@ public class RefreshConfigTask {
     public Properties systemEnvironment;
 
     /**
-     * The time between refreshes of the configuration.
+     * The time between refreshes of the configuration. Not final so tests can modify it.
      */
-    static final Duration CONFIG_REFRESH_INTERVAL = Duration.ofMinutes(1);
+    private static Duration configRefreshInterval = Duration.ofMinutes(1);
 
     final ConfigurationFile configurationFile;
     final ApplicationConfig appConfig;
@@ -118,14 +118,14 @@ public class RefreshConfigTask {
     }
 
     Flux<RicConfigUpdate.Type> createRefreshTask() {
-        Flux<JsonObject> loadFromFile = Flux.interval(Duration.ZERO, CONFIG_REFRESH_INTERVAL) //
+        Flux<JsonObject> loadFromFile = Flux.interval(Duration.ZERO, configRefreshInterval) //
                 .filter(notUsed -> !this.isConsulUsed) //
                 .flatMap(notUsed -> loadConfigurationFromFile()) //
                 .onErrorResume(this::ignoreErrorFlux) //
                 .doOnNext(json -> logger.debug("loadFromFile succeeded")) //
                 .doOnTerminate(() -> logger.error("loadFromFile Terminate"));
 
-        Flux<JsonObject> loadFromConsul = Flux.interval(Duration.ZERO, CONFIG_REFRESH_INTERVAL) //
+        Flux<JsonObject> loadFromConsul = Flux.interval(Duration.ZERO, configRefreshInterval) //
                 .flatMap(i -> getEnvironment(systemEnvironment)) //
                 .flatMap(this::createCbsClient) //
                 .flatMap(this::getFromCbs) //

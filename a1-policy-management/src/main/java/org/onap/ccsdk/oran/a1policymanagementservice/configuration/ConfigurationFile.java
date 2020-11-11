@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +31,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
+
 import javax.validation.constraints.NotNull;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,21 +59,19 @@ public class ConfigurationFile {
 
         try (InputStream inputStream = createInputStream(filepath)) {
             JsonObject rootObject = getJsonElement(inputStream).getAsJsonObject();
-            logger.debug("Local configuration file loaded: {}", filepath);
+            logger.debug("Local configuration file read: {}", filepath);
             return Optional.of(rootObject);
         } catch (Exception e) {
-            logger.error("Local configuration file not loaded: {}, {}", filepath, e.getMessage());
+            logger.error("Local configuration file not read: {}, {}", filepath, e.getMessage());
             return Optional.empty();
         }
     }
 
-    public synchronized void writeFile(JsonObject content) throws ServiceException {
+    public synchronized void writeFile(JsonObject content) throws IOException {
         String filepath = appConfig.getLocalConfigurationFilePath();
         try (FileWriter fileWriter = getFileWriter(filepath)) {
             gson.toJson(content, fileWriter);
-        } catch (IOException e) {
-            logger.error("Local configuration file not written: {}, {}", filepath, e.getMessage());
-            throw new ServiceException("Local configuration file not written");
+            logger.debug("Local configuration file written: {}", filepath);
         }
     }
 
