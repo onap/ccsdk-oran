@@ -1,7 +1,5 @@
 /*-
  * ========================LICENSE_START=================================
- * ONAP : ccsdk oran
- * ======================================================================
  * Copyright (C) 2020 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,14 +16,13 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
-import io.swagger.annotations.ApiModel;
+public class ConfigurationFileWriteException extends Exception {
 
-import org.immutables.gson.Gson;
+    private static final long serialVersionUID = 1L;
 
-@Gson.TypeAdapters
-@ApiModel(value = "json_object",
-        description = "A JSON object defining the configuration of the policy. The schema is defined by the Policy Type.")
-class JsonObject {
+    public ConfigurationFileWriteException() {
+        super("Local configuration file not written due to internal problem.");
+    }
 }
