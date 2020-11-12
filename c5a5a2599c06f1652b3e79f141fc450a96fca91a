@@ -445,6 +445,30 @@
       "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844aacf5_570504c3",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-12T15:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2409fe77_85998a2d",
+      "range": {
+        "startLine": 1415,
+        "startChar": 12,
+        "endLine": 1415,
+        "endChar": 53
+      },
+      "revId": "c5a5a2599c06f1652b3e79f141fc450a96fca91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
