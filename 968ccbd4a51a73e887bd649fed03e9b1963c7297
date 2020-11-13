@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "538a9b6e_da3ec07f",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2020-11-13T08:43:18Z",
+      "side": 1,
+      "message": "Should be \u0027type object\u0027 if json. Is the config loaded as json?",
+      "range": {
+        "startLine": 558,
+        "startChar": 16,
+        "endLine": 558,
+        "endChar": 45
+      },
+      "revId": "968ccbd4a51a73e887bd649fed03e9b1963c7297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
