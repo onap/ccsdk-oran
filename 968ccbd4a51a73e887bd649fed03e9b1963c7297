@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "65c15d19_3f59c903",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ConfigurationFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-13T14:17:33Z",
+      "side": 1,
+      "message": "Can I suggest this should be a log INFO - it would be very useful to see this if trying to identify how/why configuration changed. (Recall there are several ways this file/config might change)  \nMay log DEBUG the contents of the file?",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "968ccbd4a51a73e887bd649fed03e9b1963c7297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4bb3c9_1a354c4c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-13T14:17:33Z",
+      "side": 1,
+      "message": "Suggest a log here ? (see previous comment)",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 59
+      },
+      "revId": "968ccbd4a51a73e887bd649fed03e9b1963c7297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "538a9b6e_da3ec07f",
         "filename": "docs/offeredapis/swagger/pms-api.json",
         "patchSetId": 2
