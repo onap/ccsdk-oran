@@ -34,6 +34,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.Configuration
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ErrorResponse.ErrorInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,6 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("ConfigurationControllerV2")
 @Api(tags = {Consts.V2_CONFIG_API_NAME})
 public class ConfigurationController {
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationController.class);
 
     @Autowired
     ConfigurationFile configurationFile;
@@ -63,10 +66,12 @@ public class ConfigurationController {
             ApplicationConfigParser configParser = new ApplicationConfigParser();
             configParser.parse(configJson);
             configurationFile.writeFile(configJson);
+            logger.info("Configuration changed through REST call.");
         } catch (ServiceException | JsonSyntaxException e) {
             return ErrorResponse.create(String.format("Faulty configuration. %s", e.getMessage()),
                     HttpStatus.BAD_REQUEST);
         } catch (IOException ioe) {
+            logger.warn("Configuration file not written.", ioe);
             ErrorResponse.create("Internal error when writing the configuration. Try again.",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
