@@ -21,8 +21,8 @@ Global NBI architecture for Frankfurt release
 Following illustration provides a global view about Non-Real-Time-RIC architecture,
 integration with other ONAP components and API resource/operation provided.
 
-.. image:: ../media/o-ran-onap-integration.png
-   :width: 800pt
+.. image:: ../media/ONAP-A1ControllerArchitecture.png
+   :width: 500pt
 
 
 ***************
