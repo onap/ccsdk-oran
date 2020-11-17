@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "095cc932_3be5735d",
+        "filename": "docs/consumedapis/consumedapis.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4011
+      },
+      "writtenOn": "2020-11-17T10:29:45Z",
+      "side": 1,
+      "message": "There are three APIs described below.",
+      "range": {
+        "startLine": 8,
+        "startChar": 58,
+        "endLine": 8,
+        "endChar": 61
+      },
+      "revId": "50289036938fb1f0e71517ee4b8b5cd8e3ad5eb0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
