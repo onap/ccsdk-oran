@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e65a12d_b05aceb6",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2020-11-17T17:09:02Z",
+      "side": 1,
+      "message": "I think the log will look nicer if you do it like this instead:\n\n  logger.warn(\"Configuration file not written, {}\", ioe.getMessage());\n(to get rid of logging the callstack)",
+      "range": {
+        "startLine": 74,
+        "startChar": 54,
+        "endLine": 74,
+        "endChar": 64
+      },
+      "revId": "f54b0a813b08f29c1c0ab5ecfe6fe6e969bcf176",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
