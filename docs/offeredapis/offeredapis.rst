@@ -21,7 +21,7 @@ Global ORAN architecture
 Following illustration provides a global view about **ORAN** architecture,
 integration with other ONAP components and API resource/operation provided.
 
-.. image:: ../media/oran_architecture.png
+.. image:: ../media/ONAP-A1ControllerArchitecture.png
    :width: 500pt
 
 
