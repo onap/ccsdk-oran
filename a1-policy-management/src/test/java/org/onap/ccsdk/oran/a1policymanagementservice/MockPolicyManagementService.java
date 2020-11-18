@@ -60,6 +60,8 @@ import org.springframework.util.StringUtils;
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks"})
+@SuppressWarnings("java:S3577") // Class name should start or end with Test. This is not a test class per se, but a mock
+                                // of the server.
 class MockPolicyManagementService {
     private static final Logger logger = LoggerFactory.getLogger(MockPolicyManagementService.class);
 

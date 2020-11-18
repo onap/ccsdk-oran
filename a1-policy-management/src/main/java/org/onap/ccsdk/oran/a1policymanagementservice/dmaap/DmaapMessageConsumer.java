@@ -131,7 +131,7 @@ public class DmaapMessageConsumer {
 
         createTask().subscribe(//
                 value -> logger.debug("DmaapMessageConsumer next: {}", value), //
-                throwable -> logger.error("DmaapMessageConsumer error: {}", throwable), //
+                throwable -> logger.error("DmaapMessageConsumer error: {}", throwable.getMessage()), //
                 () -> logger.warn("DmaapMessageConsumer stopped") //
         );
     }
