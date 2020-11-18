@@ -680,7 +680,7 @@ class ApplicationTest {
         doReturn(Mono.error(a1Exception)).when(a1Client).getPolicyStatus(any());
         rsp = restClient().get(url).block();
         info = gson.fromJson(rsp, PolicyStatusInfo.class);
-        assertThat(info.status.toString()).isEqualTo("{}");
+        assertThat(info.status).hasToString("{}");
     }
 
     @Test

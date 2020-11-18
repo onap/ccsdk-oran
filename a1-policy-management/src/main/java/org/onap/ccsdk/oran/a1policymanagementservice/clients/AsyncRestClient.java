@@ -211,9 +211,8 @@ public class AsyncRestClient {
             client = client.secure(c -> c.sslContext(sslContext));
         }
         if (isHttpProxyConfigured()) {
-            client = client.proxy(proxy -> {
-                proxy.type(Proxy.HTTP).host(httpProxyConfig.httpProxyHost()).port(httpProxyConfig.httpProxyPort());
-            });
+            client = client.proxy(proxy -> proxy.type(Proxy.HTTP).host(httpProxyConfig.httpProxyHost())
+                    .port(httpProxyConfig.httpProxyPort()));
         }
         return client;
     }
