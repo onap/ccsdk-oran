@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "379b2326_5de485d9",
+        "filename": "a1-adapter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-18T12:27:06Z",
+      "side": 1,
+      "message": "ONAP A1 Policy adapter ... not OSC non-rt-ric  :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 43
+      },
+      "revId": "63d77b09623ff4526931516b472abb00cb4bd11f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f187101_f36d41e0",
+        "filename": "a1-adapter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-18T12:27:06Z",
+      "side": 1,
+      "message": "Parent project for the Adapter feature(?)/bundle(?) for use in a controller ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 13
+      },
+      "revId": "63d77b09623ff4526931516b472abb00cb4bd11f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e973bc_f91a162d",
+        "filename": "a1-adapter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-18T12:27:06Z",
+      "side": 1,
+      "message": "A1 Policy",
+      "range": {
+        "startLine": 3,
+        "startChar": 69,
+        "endLine": 3,
+        "endChar": 72
+      },
+      "revId": "63d77b09623ff4526931516b472abb00cb4bd11f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf44c785_c2f8f934",
+        "filename": "a1-adapter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2020-11-18T12:27:06Z",
+      "side": 1,
+      "message": "Remove. \n\nCould mention that this adapter is designed to be added to ONAP CCSDK controllers (e.g. SDNC) thus providing support for mediating connections the A1 interface to/from RAN functions.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 153
+      },
+      "revId": "63d77b09623ff4526931516b472abb00cb4bd11f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
