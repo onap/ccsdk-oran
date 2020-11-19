@@ -25,33 +25,6 @@ integration with other ONAP components and API resource/operation provided.
    :width: 500pt
 
 
-API Table
-*********
-
-.. |swagger-icon| image:: ../media/swagger.png
-                  :width: 40px
-
-.. csv-table::
-   :header: "API name", "|swagger-icon|"
-   :widths: 10,5
-
-   "PMS API", ":download:`link <./swagger/pms-api.json>`"
-   "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`"
-
-
-.. _pms_api:
-
-PMS API
-.......
-`PMS API <./pms-api.html>`_
-
-.. _a1_adapter_api:
-
-A1 ADAPTER API
-..............
-`A1 ADAPTER API (Internal) <./a1-adapter-api.html>`_
-
-
 API Version
 ***********
 
@@ -81,3 +54,35 @@ provided the following  backward compatibility rules are respected:
 
 For major modifications of the API, not backward compatible and forcing client
 implementations to be changed, the version number must be updated.
+
+
+API Table
+*********
+
+.. |swagger-icon| image:: ../media/swagger.png
+                  :width: 40px
+
+.. |yaml-icon| image:: ../media/yaml_logo.png
+                  :width: 40px
+
+
+.. csv-table::
+   :header: "API name", "|swagger-icon|", "|yaml-icon|"
+   :widths: 10,5, 5
+
+   "PMS API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
+
+
+.. _pms_api:
+
+PMS API
+.......
+`PMS API <./pms-api.html>`_
+
+.. _a1_adapter_api:
+
+A1 ADAPTER API
+..............
+`A1 ADAPTER API (Internal) <./a1-adapter-api.html>`_
+
