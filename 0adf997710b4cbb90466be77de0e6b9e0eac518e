@@ -33,6 +33,24 @@
       "revId": "0adf997710b4cbb90466be77de0e6b9e0eac518e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7eab84a_6b089dcc",
+        "filename": "docs/offeredapis/swagger/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2020-11-23T11:51:55Z",
+      "side": 1,
+      "message": "I mean it should be based on the json that is in the guilin branch, since there is no yaml file there before this commit.",
+      "parentUuid": "4db04cc3_b32a0bdc",
+      "revId": "0adf997710b4cbb90466be77de0e6b9e0eac518e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
