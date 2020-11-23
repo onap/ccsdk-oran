@@ -71,7 +71,8 @@ public class RefreshConfigTask {
     public Properties systemEnvironment;
 
     /**
-     * The time between refreshes of the configuration. Not final so tests can modify it.
+     * The time between refreshes of the configuration. Not final so tests can
+     * modify it.
      */
     private static Duration configRefreshInterval = Duration.ofMinutes(1);
 
