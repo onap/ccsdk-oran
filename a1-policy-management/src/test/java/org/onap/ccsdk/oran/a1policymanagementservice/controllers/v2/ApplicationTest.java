@@ -30,10 +30,12 @@ import static org.mockito.Mockito.doReturn;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -211,12 +213,14 @@ class ApplicationTest {
     }
 
     @Test
-    void createApiDoc() throws FileNotFoundException {
+    void createApiDoc() throws IOException {
         String url = "https://localhost:" + this.port + "/v2/api-docs";
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         String indented = (new JSONObject(resp.getBody())).toString(4);
-        try (PrintStream out = new PrintStream(new FileOutputStream("../docs/offeredapis/swagger/pms-api.json"))) {
+        String docDir = "../docs/offeredapis/swagger/";
+        Files.createDirectories(Paths.get(docDir));
+        try (PrintStream out = new PrintStream(new FileOutputStream(docDir + "pms-api.json"))) {
             out.print(indented);
         }
     }
