@@ -79,7 +79,7 @@
                 "summary": "Returns service information",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "getServicesUsingGET_1",
+                "operationId": "getServicesUsingGET",
                 "responses": {
                     "200": {
                         "schema": {
@@ -109,7 +109,7 @@
                 "summary": "Delete a service",
                 "deprecated": false,
                 "produces": ["*/*"],
-                "operationId": "deleteServiceUsingDELETE_1",
+                "operationId": "deleteServiceUsingDELETE",
                 "responses": {
                     "200": {
                         "schema": {"type": "string"},
@@ -141,7 +141,7 @@
             "summary": "Unregister a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "deleteServiceUsingDELETE",
+            "operationId": "deleteServiceUsingDELETE_1",
             "responses": {
                 "200": {"description": "Not used"},
                 "401": {"description": "Unauthorized"},
@@ -427,7 +427,7 @@
             "summary": "Query Near-RT RIC information",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicsUsingGET",
+            "operationId": "getRicsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {
@@ -511,7 +511,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "The call returns all Near-RT RICs that supports a given policy type identity",
-            "operationId": "getRicsUsingGET_1",
+            "operationId": "getRicsUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_list_v2"},
@@ -534,36 +534,59 @@
             }],
             "tags": ["A1 Policy Management Version 2.0 (in progress)"]
         }},
-        "/v2/configuration": {"put": {
-            "summary": "Replace the current configuration with the given configuration",
-            "deprecated": false,
-            "produces": ["*/*"],
-            "operationId": "putConfigurationUsingPUT",
-            "responses": {
-                "200": {"description": "Configuration updated"},
-                "201": {"description": "Created"},
-                "400": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "Invalid configuration provided"
+        "/v2/configuration": {
+            "get": {
+                "summary": "Returns the contents of the configuration file",
+                "deprecated": false,
+                "produces": ["application/json"],
+                "description": "Note that the file contents is not relevant if the Consul is used.",
+                "operationId": "getConfigurationUsingGET",
+                "responses": {
+                    "200": {
+                        "schema": {"type": "object"},
+                        "description": "Configuration"
+                    },
+                    "401": {"description": "Unauthorized"},
+                    "403": {"description": "Forbidden"},
+                    "404": {
+                        "schema": {"$ref": "#/definitions/error_information"},
+                        "description": "File is not found or readable"
+                    }
                 },
-                "401": {"description": "Unauthorized"},
-                "500": {
-                    "schema": {"$ref": "#/definitions/error_information"},
-                    "description": "Something went wrong when replacing the configuration. Try again."
-                },
-                "403": {"description": "Forbidden"},
-                "404": {"description": "Not Found"}
+                "tags": ["Component Configuration"]
             },
-            "parameters": [{
-                "schema": {"type": "string"},
-                "in": "body",
-                "name": "configuration",
-                "description": "configuration",
-                "required": true
-            }],
-            "tags": ["A1 Policy Management Configuration"],
-            "consumes": ["application/json"]
-        }},
+            "put": {
+                "summary": "Replace the current configuration file with the given configuration",
+                "deprecated": false,
+                "produces": ["*/*"],
+                "description": "Note that the file is ignored if the Consul is used.",
+                "operationId": "putConfigurationUsingPUT",
+                "responses": {
+                    "200": {"description": "Configuration updated"},
+                    "201": {"description": "Created"},
+                    "400": {
+                        "schema": {"$ref": "#/definitions/error_information"},
+                        "description": "Invalid configuration provided"
+                    },
+                    "401": {"description": "Unauthorized"},
+                    "500": {
+                        "schema": {"$ref": "#/definitions/error_information"},
+                        "description": "Something went wrong when replacing the configuration. Try again."
+                    },
+                    "403": {"description": "Forbidden"},
+                    "404": {"description": "Not Found"}
+                },
+                "parameters": [{
+                    "schema": {"type": "object"},
+                    "in": "body",
+                    "name": "configuration",
+                    "description": "configuration",
+                    "required": true
+                }],
+                "tags": ["Component Configuration"],
+                "consumes": ["application/json"]
+            }
+        },
         "/policy_ids": {"get": {
             "summary": "Query policies, only policy identities returned",
             "deprecated": false,
@@ -694,7 +717,7 @@
                 "deprecated": false,
                 "produces": ["application/json"],
                 "description": "Either information about a registered service with given identity or all registered services are returned.",
-                "operationId": "getServicesUsingGET",
+                "operationId": "getServicesUsingGET_1",
                 "responses": {
                     "200": {
                         "schema": {"$ref": "#/definitions/service_list_v2"},
@@ -722,7 +745,7 @@
                 "deprecated": false,
                 "produces": ["*/*"],
                 "description": "Registering a service is needed to:<ul><li>Get callbacks.<\/li><li>Activate supervision of the service. If a service is inactive, its policies will be deleted.<\/li><\/ul>",
-                "operationId": "putServiceUsingPUT",
+                "operationId": "putServiceUsingPUT_1",
                 "responses": {
                     "200": {
                         "schema": {"type": "object"},
@@ -755,7 +778,7 @@
             "summary": "Returns the name of a RIC managing one Mananged Element",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicUsingGET",
+            "operationId": "getRicUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -782,7 +805,7 @@
             "summary": "Heartbeat from a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT_1",
+            "operationId": "keepAliveServiceUsingPUT",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -808,7 +831,7 @@
             "summary": "Heartbeat indicates that the service is running",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "keepAliveServiceUsingPUT",
+            "operationId": "keepAliveServiceUsingPUT_1",
             "responses": {
                 "200": {
                     "schema": {"type": "object"},
@@ -853,7 +876,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
-            "operationId": "getRicUsingGET_1",
+            "operationId": "getRicUsingGET",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_v2"},
@@ -939,7 +962,7 @@
             "summary": "Register a service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "putServiceUsingPUT_1",
+            "operationId": "putServiceUsingPUT",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -1045,7 +1068,7 @@
             }
         }
     },
-    "host": "localhost:43299",
+    "host": "localhost:37823",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",
@@ -1407,16 +1430,16 @@
     },
     "tags": [
         {
-            "name": "A1 Policy Management Configuration",
-            "description": "Configuration Controller"
-        },
-        {
             "name": "A1 Policy Management Version 1.0",
             "description": "Policy Controller"
         },
         {
             "name": "A1 Policy Management Version 2.0 (in progress)",
             "description": "Policy Controller"
+        },
+        {
+            "name": "Component Configuration",
+            "description": "Configuration Controller"
         },
         {
             "name": "R-App Callbacks",
