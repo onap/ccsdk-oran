@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.Properties;
@@ -71,7 +72,8 @@ public class RefreshConfigTask {
     public Properties systemEnvironment;
 
     /**
-     * The time between refreshes of the configuration. Not final so tests can modify it.
+     * The time between refreshes of the configuration. Not final so tests can
+     * modify it.
      */
     private static Duration configRefreshInterval = Duration.ofMinutes(1);
 
@@ -236,6 +238,8 @@ public class RefreshConfigTask {
 
     /**
      * Reads the configuration from file.
+     * 
+     * @throws IOException
      */
     Flux<JsonObject> loadConfigurationFromFile() {
         Optional<JsonObject> readJson = configurationFile.readFile();

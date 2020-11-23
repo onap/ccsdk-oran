@@ -105,27 +105,36 @@ class ConfigurationControllerTest {
 
     @Test
     void putValidConfigurationWithNewRic_shouldUpdateRepository() throws Exception {
-        String url = "https://localhost:" + this.port + "/v2/configuration";
+        String url = "/v2/configuration";
 
-        File configFile = new File(getClass().getClassLoader()
-                .getResource("test_application_configuration_with_dmaap_config.json").getFile());
-        String configFileAsString = FileUtils.readFileToString(configFile, "UTF-8");
-
-        String resp = restClient().put(url, configFileAsString).block();
+        String resp = restClient().put(url, configAsString()).block();
 
         assertThat(resp).isEmpty();
         await().until(rics::size, equalTo(2));
+
+        // GET config
+        resp = restClient().get(url).block();
+        assertThat(resp).contains("config");
+    }
+
+    @Test
+    void getNoFileExists() {
+        String url = "/v2/configuration";
+        testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND, "File does not exist");
+    }
+
+    private String configAsString() throws Exception {
+        File configFile = new File(getClass().getClassLoader()
+                .getResource("test_application_configuration_with_dmaap_config.json").getFile());
+        return FileUtils.readFileToString(configFile, "UTF-8");
     }
 
     @Test
     void putInvalidConfiguration_shouldReturnError400() throws Exception {
-        String url = "https://localhost:" + this.port + "/v2/configuration";
+        String url = "/v2/configuration";
 
         // Valid JSON but invalid configuration.
         testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST, "Faulty configuration");
-
-        // Invalid JSON.
-        testErrorCode(restClient().put(url, "{\"error\":\"error\""), HttpStatus.BAD_REQUEST, "Faulty configuration");
     }
 
     private void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains) {
