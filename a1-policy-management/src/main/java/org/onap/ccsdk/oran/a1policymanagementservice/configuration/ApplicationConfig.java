@@ -65,10 +65,10 @@ public class ApplicationConfig {
     @Value("${app.webclient.trust-store}")
     private String sslTrustStore = "";
 
-    @Value("${app.webclient.http.proxy-host}")
+    @Value("${app.webclient.http.proxy-host:\"\"}")
     private String httpProxyHost = "";
 
-    @Value("${app.webclient.http.proxy-port}")
+    @Value("${app.webclient.http.proxy-port:0}")
     private int httpProxyPort = 0;
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
