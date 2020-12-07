@@ -218,7 +218,7 @@ class ApplicationTest {
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         String indented = (new JSONObject(resp.getBody())).toString(4);
-        String docDir = "../docs/offeredapis/swagger/";
+        String docDir = "api/";
         Files.createDirectories(Paths.get(docDir));
         try (PrintStream out = new PrintStream(new FileOutputStream(docDir + "pms-api.json"))) {
             out.print(indented);

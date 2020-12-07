@@ -12,8 +12,8 @@ extensions = ['sphinx_tabs.tabs', 'sphinxcontrib.redoc',]
 redoc = [
             {
                 'name': 'PMS API',
-                'page': 'offeredapis/pms-api',
-                'spec': './offeredapis/swagger/pms-api.json',
+                'page': 'pms-api',
+                'spec': '../a1-policy-management/api/pms-api.json',
                 'embed': True,
             },
             {

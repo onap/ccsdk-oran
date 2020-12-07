@@ -41,3 +41,5 @@ out/
 ## Documentation ignores ##
 .tox
 _build/
+.swagger*
+docs/offeredapis/swagger/README.md
