@@ -42,6 +42,7 @@
 
     <properties>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
     </properties>
 
     <build>
@@ -51,6 +52,30 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-resource-one</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/docs/offeredapis/swagger</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/a1-policy-management/api</directory>
+                                    <includes>
+                                        <include>pms-api.*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+               </executions>
             </plugin>
         </plugins>
     </build>

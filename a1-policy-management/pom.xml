@@ -49,6 +49,7 @@
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version><!-- Version must be higher than version 2.19.1 that is defined in the parent pom for JUnit 5 tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+        <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
         <exec.skip>true</exec.skip>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
     </properties>
@@ -318,6 +319,27 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.swagger.codegen.v3</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>${swagger-codegen-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/pms-api.json</inputSpec>
+                            <language>openapi-yaml</language>
+                            <output>${project.basedir}/api</output>
+                            <configOptions>
+                                <outputFile>pms-api.yaml</outputFile>
+                            </configOptions>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
