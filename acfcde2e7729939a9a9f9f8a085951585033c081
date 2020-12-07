@@ -34,6 +34,24 @@
       "revId": "acfcde2e7729939a9a9f9f8a085951585033c081",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb00196_5e601d3d",
+        "filename": "docs/conf.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-12-07T18:30:04Z",
+      "side": 0,
+      "message": "I am not sure on that, but I am seeing ONAP rtdv3-global-verify-master job failed to get that\n\nAs I shared link earlier, you can see it gived 404:\nhttps://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3016/docs/offeredapis/pms-api.html\n\nAbpove link is nothing but hyperlink under PMS API hading on page Offered API\u0027s\nhttps://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3016/docs/offeredapis/offeredapis.html\n\n\nMoreover https://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3016/docs/pms-api.html gives the actual API documentation, as you removed offeredapis from the path..\n\nBut on",
+      "parentUuid": "4c7c64da_96efa856",
+      "revId": "acfcde2e7729939a9a9f9f8a085951585033c081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
