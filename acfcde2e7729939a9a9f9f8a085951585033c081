@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "949d8678_131988b6",
+        "filename": "docs/conf.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-12-07T14:44:24Z",
+      "side": 0,
+      "message": "Path should have offeredapis/ included, else OfferedApi.rst will not be able to find pms-api-.html page\n\nAny change in RST,verify through build logs/docs\nhttps://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3016/docs/offeredapis/pms-api.html",
+      "revId": "acfcde2e7729939a9a9f9f8a085951585033c081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
