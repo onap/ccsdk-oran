@@ -22,17 +22,14 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
@@ -58,6 +55,7 @@ public class RicRepositoryController {
 
     /**
      * Example: http://localhost:8081/rics?managedElementId=kista_1
+     * @throws EntityNotFoundException
      */
     @GetMapping("/ric")
     @ApiOperation(value = "Returns the name of a RIC managing one Mananged Element")
@@ -67,14 +65,9 @@ public class RicRepositoryController {
     })
     public ResponseEntity<String> getRic( //
             @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
-            @RequestParam(name = "managedElementId", required = true) String managedElementId) {
-        Optional<Ric> ric = this.rics.lookupRicForManagedElement(managedElementId);
-
-        if (ric.isPresent()) {
-            return new ResponseEntity<>(ric.get().id(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No RIC found", HttpStatus.NOT_FOUND);
-        }
+            @RequestParam(name = "managedElementId", required = true) String managedElementId) throws EntityNotFoundException {
+        Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
+        return new ResponseEntity<>(ric.id(), HttpStatus.OK);
     }
 
     /**

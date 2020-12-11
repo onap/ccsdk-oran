@@ -24,16 +24,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 
 public class PolicyTypes {
     private Map<String, PolicyType> types = new HashMap<>();
 
-    public synchronized PolicyType getType(String name) throws ServiceException {
+    public synchronized PolicyType getType(String name) throws EntityNotFoundException {
         PolicyType t = types.get(name);
         if (t == null) {
-            throw new ServiceException("Could not find type: " + name);
+            throw new EntityNotFoundException("Could not find type: " + name);
         }
         return t;
     }

@@ -23,17 +23,15 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
-class ErrorResponse {
+public class ErrorResponse {
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
@@ -97,7 +95,7 @@ class ErrorResponse {
         return new ResponseEntity<>(json, headers, code);
     }
 
-    static ResponseEntity<Object> create(Exception e, HttpStatus code) {
+    public static ResponseEntity<Object> create(Exception e, HttpStatus code) {
         return create(e.toString(), code);
     }
 
