@@ -39,7 +39,7 @@ import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -104,14 +104,10 @@ public class PolicyController {
             @ApiResponse(code = 200, message = "Policy type", response = PolicyTypeInfo.class), //
             @ApiResponse(code = 404, message = "Policy type is not found", response = ErrorResponse.ErrorInfo.class)})
     public ResponseEntity<Object> getPolicyType( //
-            @PathVariable("policytype_id") String policyTypeId) {
-        try {
-            PolicyType type = policyTypes.getType(policyTypeId);
-            PolicyTypeInfo info = new PolicyTypeInfo(type.schema());
-            return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
-        } catch (ServiceException e) {
-            return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
-        }
+            @PathVariable("policytype_id") String policyTypeId) throws EntityNotFoundException {
+        PolicyType type = policyTypes.getType(policyTypeId);
+        PolicyTypeInfo info = new PolicyTypeInfo(type.schema());
+        return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-types", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -121,17 +117,13 @@ public class PolicyController {
     public ResponseEntity<Object> getPolicyTypes( //
             @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
                     value = "The identity of the Near-RT RIC to get types for.") //
-            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) {
+            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) throws EntityNotFoundException {
         if (ricId == null) {
             Collection<PolicyType> types = this.policyTypes.getAll();
             return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
         } else {
-            try {
-                Collection<PolicyType> types = rics.getRic(ricId).getSupportedPolicyTypes();
-                return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
-            } catch (ServiceException e) {
-                return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
-            }
+            Collection<PolicyType> types = rics.getRic(ricId).getSupportedPolicyTypes();
+            return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
         }
     }
 
@@ -142,13 +134,9 @@ public class PolicyController {
             @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class)} //
     )
     public ResponseEntity<Object> getPolicy( //
-            @PathVariable(name = Consts.POLICY_ID_PARAM, required = true) String id) {
-        try {
-            Policy p = policies.getPolicy(id);
-            return new ResponseEntity<>(gson.toJson(toPolicyInfo(p)), HttpStatus.OK);
-        } catch (ServiceException e) {
-            return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
-        }
+            @PathVariable(name = Consts.POLICY_ID_PARAM, required = true) String id) throws EntityNotFoundException {
+        Policy p = policies.getPolicy(id);
+        return new ResponseEntity<>(gson.toJson(toPolicyInfo(p)), HttpStatus.OK);
     }
 
     @DeleteMapping(Consts.V2_API_ROOT + "/policies/{policy_id:.+}")
@@ -160,23 +148,19 @@ public class PolicyController {
             @ApiResponse(code = 423, message = "Near-RT RIC is not operational",
                     response = ErrorResponse.ErrorInfo.class)})
     public Mono<ResponseEntity<Object>> deletePolicy( //
-            @PathVariable(Consts.POLICY_ID_PARAM) String policyId) {
-        try {
-            Policy policy = policies.getPolicy(policyId);
-            keepServiceAlive(policy.ownerServiceId());
-            Ric ric = policy.ric();
-            return ric.getLock().lock(LockType.SHARED) //
-                    .flatMap(notUsed -> assertRicStateIdle(ric)) //
-                    .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.ric())) //
-                    .doOnNext(notUsed -> policies.remove(policy)) //
-                    .flatMap(client -> client.deletePolicy(policy)) //
-                    .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
-                    .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
-                    .flatMap(notUsed -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)))
-                    .onErrorResume(this::handleException);
-        } catch (ServiceException e) {
-            return ErrorResponse.createMono(e, HttpStatus.NOT_FOUND);
-        }
+            @PathVariable(Consts.POLICY_ID_PARAM) String policyId) throws EntityNotFoundException {
+        Policy policy = policies.getPolicy(policyId);
+        keepServiceAlive(policy.ownerServiceId());
+        Ric ric = policy.ric();
+        return ric.getLock().lock(LockType.SHARED) //
+                .flatMap(notUsed -> assertRicStateIdle(ric)) //
+                .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.ric())) //
+                .doOnNext(notUsed -> policies.remove(policy)) //
+                .flatMap(client -> client.deletePolicy(policy)) //
+                .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
+                .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
+                .flatMap(notUsed -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)))
+                .onErrorResume(this::handleException);
     }
 
     @PutMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -189,7 +173,7 @@ public class PolicyController {
             @ApiResponse(code = 404, message = "Near-RT RIC or policy type is not found",
                     response = ErrorResponse.ErrorInfo.class) //
     })
-    public Mono<ResponseEntity<Object>> putPolicy(@RequestBody PolicyInfo policyInfo) {
+    public Mono<ResponseEntity<Object>> putPolicy(@RequestBody PolicyInfo policyInfo) throws EntityNotFoundException {
 
         if (!policyInfo.validate()) {
             return ErrorResponse.createMono("Missing required parameter in body", HttpStatus.BAD_REQUEST);
@@ -199,7 +183,7 @@ public class PolicyController {
         PolicyType type = policyTypes.get(policyInfo.policyTypeId);
         keepServiceAlive(policyInfo.serviceId);
         if (ric == null || type == null) {
-            return ErrorResponse.createMono("Near-RT RIC or policy type not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Near-RT RIC or policy type not found");
         }
         Policy policy = ImmutablePolicy.builder() //
                 .id(policyInfo.policyId) //
@@ -293,13 +277,14 @@ public class PolicyController {
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ric, //
             @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false,
                     value = "The identity of the service to get policies for.") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String service) //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String service)
+            throws EntityNotFoundException //
     {
         if ((type != null && this.policyTypes.get(type) == null)) {
-            return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Policy type not found");
         }
         if ((ric != null && this.rics.get(ric) == null)) {
-            return ErrorResponse.create("Near-RT RIC not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Near-RT RIC not found");
         }
 
         String filteredPolicies = policiesToJson(filter(type, ric, service));
@@ -320,13 +305,14 @@ public class PolicyController {
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId, //
             @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false,
                     value = "The identity of the service to get policies for.") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String serviceId) //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String serviceId)
+            throws EntityNotFoundException //
     {
         if ((policyTypeId != null && this.policyTypes.get(policyTypeId) == null)) {
-            return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Policy type not found");
         }
         if ((ricId != null && this.rics.get(ricId) == null)) {
-            return ErrorResponse.create("Near-RT RIC not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Near-RT RIC not found");
         }
 
         String policyIdsJson = toPolicyIdsJson(filter(policyTypeId, ricId, serviceId));
@@ -340,23 +326,20 @@ public class PolicyController {
             @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class)} //
     )
     public Mono<ResponseEntity<Object>> getPolicyStatus( //
-            @PathVariable(Consts.POLICY_ID_PARAM) String policyId) {
-        try {
-            Policy policy = policies.getPolicy(policyId);
+            @PathVariable(Consts.POLICY_ID_PARAM) String policyId) throws EntityNotFoundException {
+        Policy policy = policies.getPolicy(policyId);
 
-            return a1ClientFactory.createA1Client(policy.ric()) //
-                    .flatMap(client -> client.getPolicyStatus(policy).onErrorResume(e -> Mono.just("{}"))) //
-                    .flatMap(status -> createPolicyStatus(policy, status)) //
-                    .onErrorResume(this::handleException);
-        } catch (ServiceException e) {
-            return ErrorResponse.createMono(e, HttpStatus.NOT_FOUND);
-        }
+        return a1ClientFactory.createA1Client(policy.ric()) //
+                .flatMap(client -> client.getPolicyStatus(policy).onErrorResume(e -> Mono.just("{}"))) //
+                .flatMap(status -> createPolicyStatus(policy, status)) //
+                .onErrorResume(this::handleException);
+
     }
 
     private Mono<ResponseEntity<Object>> createPolicyStatus(Policy policy, String statusFromNearRic) {
         PolicyStatusInfo info = new PolicyStatusInfo(policy.lastModified(), fromJson(statusFromNearRic));
         String str = gson.toJson(info);
-        return Mono.just(new ResponseEntity<>((Object) str, HttpStatus.OK));
+        return Mono.just(new ResponseEntity<>(str, HttpStatus.OK));
     }
 
     private void keepServiceAlive(String name) {

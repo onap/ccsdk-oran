@@ -23,10 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Vector;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.springframework.lang.Nullable;
 
 /**
@@ -43,10 +42,10 @@ public class Rics {
         return new Vector<>(registeredRics.values());
     }
 
-    public synchronized Ric getRic(String ricId) throws ServiceException {
+    public synchronized Ric getRic(String ricId) throws EntityNotFoundException {
         Ric ric = registeredRics.get(ricId);
         if (ric == null) {
-            throw new ServiceException("Could not find ric: " + ricId);
+            throw new EntityNotFoundException("Could not find ric: " + ricId);
         }
         return ric;
     }
@@ -67,12 +66,12 @@ public class Rics {
         this.registeredRics.clear();
     }
 
-    public synchronized Optional<Ric> lookupRicForManagedElement(String managedElementId) {
+    public synchronized Ric lookupRicForManagedElement(String managedElementId) throws EntityNotFoundException {
         for (Ric ric : this.registeredRics.values()) {
             if (ric.getManagedElementIds().contains(managedElementId)) {
-                return Optional.of(ric);
+                return ric;
             }
         }
-        return Optional.empty();
+        throw new EntityNotFoundException("No Near-RT RIC managing the ME is found");
     }
 }

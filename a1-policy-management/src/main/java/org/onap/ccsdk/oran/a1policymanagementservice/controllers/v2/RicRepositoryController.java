@@ -31,9 +31,9 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
@@ -65,6 +65,8 @@ public class RicRepositoryController {
 
     /**
      * Example: http://localhost:8081/v2/rics/ric?managed_element_id=kista_1
+     * 
+     * @throws EntityNotFoundException
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics/ric", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = GET_RIC_BRIEF, notes = GET_RIC_DETAILS)
@@ -78,25 +80,18 @@ public class RicRepositoryController {
             @RequestParam(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false) String managedElementId,
             @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
                     value = "The identity of a Near-RT RIC to get information for.") //
-            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) {
-        try {
-            if (managedElementId != null && ricId != null) {
-                return ErrorResponse.create("Give one query parameter", HttpStatus.BAD_REQUEST);
-            } else if (managedElementId != null) {
-                Optional<Ric> ric = this.rics.lookupRicForManagedElement(managedElementId);
-                if (ric.isPresent()) {
-                    return new ResponseEntity<>(gson.toJson(toRicInfo(ric.get())), HttpStatus.OK);
-                } else {
-                    return ErrorResponse.create("No Near-RT RIC managing the ME is found", HttpStatus.NOT_FOUND);
-                }
-            } else if (ricId != null) {
-                RicInfo info = toRicInfo(this.rics.getRic(ricId));
-                return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
-            } else {
-                return ErrorResponse.create("Give one query parameter", HttpStatus.BAD_REQUEST);
-            }
-        } catch (ServiceException e) {
-            return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
+            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId)
+            throws EntityNotFoundException, InvalidRequestException {
+        if (managedElementId != null && ricId != null) {
+            throw new InvalidRequestException("Give one query parameter");
+        } else if (managedElementId != null) {
+            Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
+            return new ResponseEntity<>(gson.toJson(toRicInfo(ric)), HttpStatus.OK);
+        } else if (ricId != null) {
+            RicInfo info = toRicInfo(this.rics.getRic(ricId));
+            return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
+        } else {
+            throw new InvalidRequestException("Give one query parameter");
         }
     }
 
@@ -105,6 +100,7 @@ public class RicRepositoryController {
 
     /**
      * @return a Json array of all RIC data Example: http://localhost:8081/v2/ric
+     * @throws EntityNotFoundException
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Query Near-RT RIC information", notes = QUERY_RIC_INFO_DETAILS)
@@ -114,11 +110,10 @@ public class RicRepositoryController {
     public ResponseEntity<Object> getRics( //
             @ApiParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
                     value = "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned") //
-            @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType
-
-    ) {
+            @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType)
+            throws EntityNotFoundException {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
-            return ErrorResponse.create("Policy type not found", HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Policy type not found");
         }
 
         List<RicInfo> result = new ArrayList<>();

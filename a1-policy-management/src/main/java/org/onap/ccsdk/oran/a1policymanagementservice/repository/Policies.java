@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 
 public class Policies {
     private Map<String, Policy> policiesId = new HashMap<>();
@@ -72,10 +72,10 @@ public class Policies {
         return policiesId.get(id);
     }
 
-    public synchronized Policy getPolicy(String id) throws ServiceException {
+    public synchronized Policy getPolicy(String id) throws EntityNotFoundException {
         Policy p = policiesId.get(id);
         if (p == null) {
-            throw new ServiceException("Could not find policy: " + id);
+            throw new EntityNotFoundException("Could not find policy: " + id);
         }
         return p;
     }
