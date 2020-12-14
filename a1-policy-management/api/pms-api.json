@@ -427,7 +427,7 @@
             "summary": "Query Near-RT RIC information",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicsUsingGET_1",
+            "operationId": "getRicsUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -511,7 +511,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "The call returns all Near-RT RICs that supports a given policy type identity",
-            "operationId": "getRicsUsingGET",
+            "operationId": "getRicsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_list_v2"},
@@ -778,7 +778,7 @@
             "summary": "Returns the name of a RIC managing one Mananged Element",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicUsingGET_1",
+            "operationId": "getRicUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -876,7 +876,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
-            "operationId": "getRicUsingGET",
+            "operationId": "getRicUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_v2"},
@@ -1068,7 +1068,6 @@
             }
         }
     },
-    "host": "localhost:46233",
     "definitions": {
         "error_information": {
             "description": "Problem as defined in https://tools.ietf.org/html/rfc7807",

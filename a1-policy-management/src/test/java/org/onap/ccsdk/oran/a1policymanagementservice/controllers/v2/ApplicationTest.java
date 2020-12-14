@@ -217,7 +217,9 @@ class ApplicationTest {
         String url = "https://localhost:" + this.port + "/v2/api-docs";
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-        String indented = (new JSONObject(resp.getBody())).toString(4);
+        JSONObject jsonObj = new JSONObject(resp.getBody());
+        jsonObj.remove("host");
+        String indented = (jsonObj).toString(4);
         String docDir = "api/";
         Files.createDirectories(Paths.get(docDir));
         try (PrintStream out = new PrintStream(new FileOutputStream(docDir + "pms-api.json"))) {

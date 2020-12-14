@@ -14,7 +14,7 @@ info:
   x-audience: external-partner
   x-api-id: 60f9a0e7-343f-43bf-9194-d8d65688d465
 servers:
-- url: //localhost:46233/
+- url: /
 tags:
 - name: A1 Policy Management Version 1.0
   description: Policy Controller
@@ -529,7 +529,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Query Near-RT RIC information
-      operationId: getRicsUsingGET_1
+      operationId: getRicsUsingGET
       parameters:
       - name: policyType
         in: query
@@ -633,7 +633,7 @@ paths:
       summary: Query Near-RT RIC information
       description: The call returns all Near-RT RICs that supports a given policy
         type identity
-      operationId: getRicsUsingGET
+      operationId: getRicsUsingGET_1
       parameters:
       - name: policytype_id
         in: query
@@ -947,7 +947,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Returns the name of a RIC managing one Mananged Element
-      operationId: getRicUsingGET_1
+      operationId: getRicUsingGET
       parameters:
       - name: managedElementId
         in: query
@@ -1077,7 +1077,7 @@ paths:
       description: Either a Near-RT RIC identity or a Mananged Element identity can
         be specified.<br>The intention with Mananged Element identity is the ID used
         in O1 for accessing the traffical element (such as the ID of CU).
-      operationId: getRicUsingGET
+      operationId: getRicUsingGET_1
       parameters:
       - name: managed_element_id
         in: query

@@ -81,26 +81,31 @@ public class ApplicationConfig {
 
     private Map<String, ControllerConfig> controllerConfigs = new HashMap<>();
 
+    private WebClientConfig webClientConfig = null;
+
     public synchronized Collection<RicConfig> getRicConfigs() {
         return this.ricConfigs.values();
     }
 
     public WebClientConfig getWebClientConfig() {
-        HttpProxyConfig httpProxyConfig = ImmutableHttpProxyConfig.builder() //
-                .httpProxyHost(this.httpProxyHost) //
-                .httpProxyPort(this.httpProxyPort) //
-                .build();
+        if (this.webClientConfig == null) {
+            HttpProxyConfig httpProxyConfig = ImmutableHttpProxyConfig.builder() //
+                    .httpProxyHost(this.httpProxyHost) //
+                    .httpProxyPort(this.httpProxyPort) //
+                    .build();
 
-        return ImmutableWebClientConfig.builder() //
-                .keyStoreType(this.sslKeyStoreType) //
-                .keyStorePassword(this.sslKeyStorePassword) //
-                .keyStore(this.sslKeyStore) //
-                .keyPassword(this.sslKeyPassword) //
-                .isTrustStoreUsed(this.sslTrustStoreUsed) //
-                .trustStore(this.sslTrustStore) //
-                .trustStorePassword(this.sslTrustStorePassword) //
-                .httpProxyConfig(httpProxyConfig) //
-                .build();
+            this.webClientConfig = ImmutableWebClientConfig.builder() //
+                    .keyStoreType(this.sslKeyStoreType) //
+                    .keyStorePassword(this.sslKeyStorePassword) //
+                    .keyStore(this.sslKeyStore) //
+                    .keyPassword(this.sslKeyPassword) //
+                    .isTrustStoreUsed(this.sslTrustStoreUsed) //
+                    .trustStore(this.sslTrustStore) //
+                    .trustStorePassword(this.sslTrustStorePassword) //
+                    .httpProxyConfig(httpProxyConfig) //
+                    .build();
+        }
+        return this.webClientConfig;
     }
 
     public synchronized ControllerConfig getControllerConfig(String name) throws ServiceException {
