@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6217ab3_b56a472b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/exceptions/EntityNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-01-05T13:29:59Z",
+      "side": 1,
+      "message": "The InvalidRequestException extends RuntimeException, but this doesn\u0027t. I think it is a bit confusing that one of the exceptions used is a runtime exception that is not declared and the other one is not and needs to be declared. Would it not be be better to align them to not use RuntimeException so they are always declared?",
+      "range": {
+        "startLine": 23,
+        "startChar": 37,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "c942bac78e1318ac07ed166c7118093988968240",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
