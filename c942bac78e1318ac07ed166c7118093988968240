@@ -22,6 +22,30 @@
       "revId": "c942bac78e1318ac07ed166c7118093988968240",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c08d19a_5c968006",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/exceptions/EntityNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2021-01-07T12:02:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d6217ab3_b56a472b",
+      "range": {
+        "startLine": 23,
+        "startChar": 37,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "c942bac78e1318ac07ed166c7118093988968240",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
