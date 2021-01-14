@@ -105,7 +105,7 @@ class ConfigurationControllerTest {
 
     @Test
     void putValidConfigurationWithNewRic_shouldUpdateRepository() throws Exception {
-        String url = "/v2/configuration";
+        String url = "a1-policy/v2/configuration";
 
         String resp = restClient().put(url, configAsString()).block();
 
@@ -119,7 +119,7 @@ class ConfigurationControllerTest {
 
     @Test
     void getNoFileExists() {
-        String url = "/v2/configuration";
+        String url = "a1-policy/v2/configuration";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND, "File does not exist");
     }
 
@@ -131,7 +131,7 @@ class ConfigurationControllerTest {
 
     @Test
     void putInvalidConfiguration_shouldReturnError400() throws Exception {
-        String url = "/v2/configuration";
+        String url = "a1-policy/v2/configuration";
 
         // Valid JSON but invalid configuration.
         testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST, "Faulty configuration");
