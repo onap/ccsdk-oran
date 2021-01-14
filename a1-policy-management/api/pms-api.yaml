@@ -30,7 +30,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Query policy type names
-      operationId: getPolicyTypesUsingGET_1
+      operationId: getPolicyTypesUsingGET
       parameters:
       - name: ric
         in: query
@@ -58,14 +58,62 @@ paths:
           content:
             '*/*':
               schema:
-                type: string
+                $ref: '#/components/schemas/error_information'
       deprecated: false
-  /v2/status:
+  /a1-policy/v2/policy-instances:
+    get:
+      tags:
+      - A1 Policy Management Version 2.0 (in progress)
+      summary: Query for A1 policy instances
+      description: Returns a list of A1 policies matching given search criteria. <br>If
+        several query parameters are defined, the policies matching all conditions
+        are returned.
+      operationId: getPolicyInstancesUsingGET
+      parameters:
+      - name: policytype_id
+        in: query
+        description: The identity of the policy type to get policies for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: ric_id
+        in: query
+        description: The identity of the Near-RT RIC to get policies for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: service_id
+        in: query
+        description: The identity of the service to get policies for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Policies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/policy_info_list_v2'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Near-RT RIC, policy type or service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+  /a1-policy/v2/status:
     get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
       summary: Returns status and statistics of this service
-      operationId: getStatusUsingGET_1
+      operationId: getStatusUsingGET
       responses:
         200:
           description: Service is living
@@ -82,39 +130,6 @@ paths:
         404:
           description: Not Found
           content: {}
-      deprecated: false
-  /v2/policy-types:
-    get:
-      tags:
-      - A1 Policy Management Version 2.0 (in progress)
-      summary: Query policy type identities
-      operationId: getPolicyTypesUsingGET
-      parameters:
-      - name: ric_id
-        in: query
-        description: The identity of the Near-RT RIC to get types for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      responses:
-        200:
-          description: Policy type IDs
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/policytype_id_list_v2'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Near-RT RIC is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
       deprecated: false
   /services:
     get:
@@ -190,16 +205,91 @@ paths:
               schema:
                 type: string
       deprecated: false
-  /v2/services/{service_id}:
+  /a1-policy/v2/rics/ric:
+    get:
+      tags:
+      - A1 Policy Management Version 2.0 (in progress)
+      summary: Returns info for one Near-RT RIC
+      description: Either a Near-RT RIC identity or a Mananged Element identity can
+        be specified.<br>The intention with Mananged Element identity is the ID used
+        in O1 for accessing the traffical element (such as the ID of CU).
+      operationId: getRicUsingGET
+      parameters:
+      - name: managed_element_id
+        in: query
+        description: The identity of a Managed Element. If given, the Near-RT RIC
+          managing the ME is returned.
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: ric_id
+        in: query
+        description: The identity of a Near-RT RIC to get information for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Near-RT RIC is found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ric_info_v2'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Near-RT RIC is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+  /a1-policy/v2/policies/{policy_id}:
+    get:
+      tags:
+      - A1 Policy Management Version 2.0 (in progress)
+      summary: Returns a policy
+      operationId: getPolicyUsingGET_1
+      parameters:
+      - name: policy_id
+        in: path
+        description: policy_id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Policy found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/policy_info_v2'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Policy is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
     delete:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Unregister a service
-      operationId: deleteServiceUsingDELETE_1
+      summary: Delete a policy
+      operationId: deletePolicyUsingDELETE_1
       parameters:
-      - name: service_id
+      - name: policy_id
         in: path
-        description: service_id
+        description: policy_id
         required: true
         schema:
           type: string
@@ -208,9 +298,72 @@ paths:
           description: Not used
           content: {}
         204:
-          description: Service unregistered
+          description: Policy deleted
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Policy is not found
           content:
             '*/*':
+              schema:
+                $ref: '#/components/schemas/error_information'
+        423:
+          description: Near-RT RIC is not operational
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+  /a1-policy/v2/policy-types:
+    get:
+      tags:
+      - A1 Policy Management Version 2.0 (in progress)
+      summary: Query policy type identities
+      operationId: getPolicyTypesUsingGET_1
+      parameters:
+      - name: ric_id
+        in: query
+        description: The identity of the Near-RT RIC to get types for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Policy type IDs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/policytype_id_list_v2'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Near-RT RIC is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+  /a1-policy/v2/configuration:
+    get:
+      tags:
+      - Component Configuration
+      summary: Returns the contents of the configuration file
+      description: Note that the file contents is not relevant if the Consul is used.
+      operationId: getConfigurationUsingGET
+      responses:
+        200:
+          description: Configuration
+          content:
+            application/json:
               schema:
                 type: object
         401:
@@ -220,7 +373,50 @@ paths:
           description: Forbidden
           content: {}
         404:
-          description: Service not found
+          description: File is not found or readable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+    put:
+      tags:
+      - Component Configuration
+      summary: Replace the current configuration file with the given configuration
+      description: Note that the file is ignored if the Consul is used.
+      operationId: putConfigurationUsingPUT
+      requestBody:
+        description: configuration
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        200:
+          description: Configuration updated
+          content: {}
+        201:
+          description: Created
+          content: {}
+        400:
+          description: Invalid configuration provided
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/error_information'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+        500:
+          description: Something went wrong when replacing the configuration. Try
+            again.
           content:
             '*/*':
               schema:
@@ -231,7 +427,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Returns a policy configuration
-      operationId: getPolicyUsingGET_1
+      operationId: getPolicyUsingGET
       parameters:
       - name: id
         in: query
@@ -255,13 +451,16 @@ paths:
           content: {}
         404:
           description: Policy is not found
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/error_information'
       deprecated: false
     put:
       tags:
       - A1 Policy Management Version 1.0
       summary: Put a policy
-      operationId: putPolicyUsingPUT_1
+      operationId: putPolicyUsingPUT
       parameters:
       - name: id
         in: query
@@ -337,7 +536,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Delete a policy
-      operationId: deletePolicyUsingDELETE_1
+      operationId: deletePolicyUsingDELETE
       parameters:
       - name: id
         in: query
@@ -419,72 +618,37 @@ paths:
               schema:
                 type: string
       deprecated: false
-  /v2/policies/{policy_id}:
-    get:
+  /a1-policy/v2/services/{service_id}/keepalive:
+    put:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns a policy
-      operationId: getPolicyUsingGET
+      summary: Heartbeat indicates that the service is running
+      operationId: keepAliveServiceUsingPUT_1
       parameters:
-      - name: policy_id
+      - name: service_id
         in: path
-        description: policy_id
+        description: service_id
         required: true
         schema:
           type: string
       responses:
         200:
-          description: Policy found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/policy_info_v2'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Policy is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
-      deprecated: false
-    delete:
-      tags:
-      - A1 Policy Management Version 2.0 (in progress)
-      summary: Delete a policy
-      operationId: deletePolicyUsingDELETE
-      parameters:
-      - name: policy_id
-        in: path
-        description: policy_id
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Not used
-          content: {}
-        204:
-          description: Policy deleted
-          content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Policy is not found
+          description: Service supervision timer refreshed, OK
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/error_information'
-        423:
-          description: Near-RT RIC is not operational
+                type: object
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: The service is not found, needs re-registration
           content:
             '*/*':
               schema:
@@ -522,14 +686,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: string
+                $ref: '#/components/schemas/error_information'
       deprecated: false
   /rics:
     get:
       tags:
       - A1 Policy Management Version 1.0
       summary: Query Near-RT RIC information
-      operationId: getRicsUsingGET
+      operationId: getRicsUsingGET_1
       parameters:
       - name: policyType
         in: query
@@ -564,7 +728,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET_1
+      operationId: getPolicyStatusUsingGET
       parameters:
       - name: id
         in: query
@@ -593,47 +757,14 @@ paths:
               schema:
                 type: string
       deprecated: false
-  /v2/policies/{policy_id}/status:
-    get:
-      tags:
-      - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET
-      parameters:
-      - name: policy_id
-        in: path
-        description: policy_id
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Policy status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/policy_status_info_v2'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Policy is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
-      deprecated: false
-  /v2/rics:
+  /a1-policy/v2/rics:
     get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
       summary: Query Near-RT RIC information
       description: The call returns all Near-RT RICs that supports a given policy
         type identity
-      operationId: getRicsUsingGET_1
+      operationId: getRicsUsingGET
       parameters:
       - name: policytype_id
         in: query
@@ -662,82 +793,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_information'
       deprecated: false
-  /v2/configuration:
-    get:
-      tags:
-      - Component Configuration
-      summary: Returns the contents of the configuration file
-      description: Note that the file contents is not relevant if the Consul is used.
-      operationId: getConfigurationUsingGET
-      responses:
-        200:
-          description: Configuration
-          content:
-            application/json:
-              schema:
-                type: object
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: File is not found or readable
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
-      deprecated: false
-    put:
-      tags:
-      - Component Configuration
-      summary: Replace the current configuration file with the given configuration
-      description: Note that the file is ignored if the Consul is used.
-      operationId: putConfigurationUsingPUT
-      requestBody:
-        description: configuration
-        content:
-          application/json:
-            schema:
-              type: object
-        required: true
-      responses:
-        200:
-          description: Configuration updated
-          content: {}
-        201:
-          description: Created
-          content: {}
-        400:
-          description: Invalid configuration provided
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/error_information'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
-        500:
-          description: Something went wrong when replacing the configuration. Try
-            again.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/error_information'
-      deprecated: false
   /policy_ids:
     get:
       tags:
       - A1 Policy Management Version 1.0
       summary: Query policies, only policy identities returned
-      operationId: getPolicyIdsUsingGET_1
+      operationId: getPolicyIdsUsingGET
       parameters:
       - name: ric
         in: query
@@ -813,57 +874,9 @@ paths:
           content:
             '*/*':
               schema:
-                type: string
-      deprecated: false
-  /v2/policy-instances:
-    get:
-      tags:
-      - A1 Policy Management Version 2.0 (in progress)
-      summary: Query for A1 policy instances
-      description: Returns a list of A1 policies matching given search criteria. <br>If
-        several query parameters are defined, the policies matching all conditions
-        are returned.
-      operationId: getPolicyInstancesUsingGET
-      parameters:
-      - name: policytype_id
-        in: query
-        description: The identity of the policy type to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      - name: ric_id
-        in: query
-        description: The identity of the Near-RT RIC to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      - name: service_id
-        in: query
-        description: The identity of the service to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      responses:
-        200:
-          description: Policies
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/policy_info_list_v2'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Near-RT RIC, policy type or service not found
-          content:
-            application/json:
-              schema:
                 $ref: '#/components/schemas/error_information'
       deprecated: false
-  /v2/services:
+  /a1-policy/v2/services:
     get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
@@ -947,7 +960,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Returns the name of a RIC managing one Mananged Element
-      operationId: getRicUsingGET
+      operationId: getRicUsingGET_1
       parameters:
       - name: managedElementId
         in: query
@@ -1010,29 +1023,26 @@ paths:
           description: The service is not found, needs re-registration
           content: {}
       deprecated: false
-  /v2/services/{service_id}/keepalive:
-    put:
+  /a1-policy/v2/policy-types/{policytype_id}:
+    get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Heartbeat indicates that the service is running
-      operationId: keepAliveServiceUsingPUT_1
+      summary: Returns a policy type definition
+      operationId: getPolicyTypeUsingGET
       parameters:
-      - name: service_id
+      - name: policytype_id
         in: path
-        description: service_id
+        description: policytype_id
         required: true
         schema:
           type: string
       responses:
         200:
-          description: Service supervision timer refreshed, OK
+          description: Policy type
           content:
-            '*/*':
+            application/json:
               schema:
-                type: object
-        201:
-          description: Created
-          content: {}
+                $ref: '#/components/schemas/policytype_v2'
         401:
           description: Unauthorized
           content: {}
@@ -1040,9 +1050,9 @@ paths:
           description: Forbidden
           content: {}
         404:
-          description: The service is not found, needs re-registration
+          description: Policy type is not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
       deprecated: false
@@ -1051,7 +1061,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0
       summary: Returns status and statistics of this service
-      operationId: getStatusUsingGET
+      operationId: getStatusUsingGET_1
       responses:
         200:
           description: Service is living
@@ -1069,36 +1079,41 @@ paths:
           description: Not Found
           content: {}
       deprecated: false
-  /v2/rics/ric:
+  /a1-policy/v2/policies:
     get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns info for one Near-RT RIC
-      description: Either a Near-RT RIC identity or a Mananged Element identity can
-        be specified.<br>The intention with Mananged Element identity is the ID used
-        in O1 for accessing the traffical element (such as the ID of CU).
-      operationId: getRicUsingGET_1
+      summary: Query policy identities
+      description: Returns a list of A1 policies matching given search criteria. <br>If
+        several query parameters are defined, the policies matching all conditions
+        are returned.
+      operationId: getPolicyIdsUsingGET_1
       parameters:
-      - name: managed_element_id
+      - name: policytype_id
         in: query
-        description: The identity of a Managed Element. If given, the Near-RT RIC
-          managing the ME is returned.
+        description: The identity of the policy type to get policies for.
         allowEmptyValue: false
         schema:
           type: string
       - name: ric_id
         in: query
-        description: The identity of a Near-RT RIC to get information for.
+        description: The identity of the Near-RT RIC to get policies for.
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: service_id
+        in: query
+        description: The identity of the service to get policies for.
         allowEmptyValue: false
         schema:
           type: string
       responses:
         200:
-          description: Near-RT RIC is found
+          description: Policy identities
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ric_info_v2'
+                $ref: '#/components/schemas/policy_id_list_v2'
         401:
           description: Unauthorized
           content: {}
@@ -1106,7 +1121,45 @@ paths:
           description: Forbidden
           content: {}
         404:
-          description: Near-RT RIC is not found
+          description: Near-RT RIC or type not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+      deprecated: false
+    put:
+      tags:
+      - A1 Policy Management Version 2.0 (in progress)
+      summary: Create or update a policy
+      operationId: putPolicyUsingPUT_1
+      requestBody:
+        description: policyInfo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy_info_v2'
+        required: true
+      responses:
+        200:
+          description: Policy updated
+          content: {}
+        201:
+          description: Policy created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Near-RT RIC or policy type is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_information'
+        423:
+          description: Near-RT RIC is not operational
           content:
             application/json:
               schema:
@@ -1143,26 +1196,29 @@ paths:
           description: Not Found
           content: {}
       deprecated: false
-  /v2/policy-types/{policytype_id}:
-    get:
+  /a1-policy/v2/services/{service_id}:
+    delete:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Returns a policy type definition
-      operationId: getPolicyTypeUsingGET
+      summary: Unregister a service
+      operationId: deleteServiceUsingDELETE_1
       parameters:
-      - name: policytype_id
+      - name: service_id
         in: path
-        description: policytype_id
+        description: service_id
         required: true
         schema:
           type: string
       responses:
         200:
-          description: Policy type
+          description: Not used
+          content: {}
+        204:
+          description: Service unregistered
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/policytype_v2'
+                type: object
         401:
           description: Unauthorized
           content: {}
@@ -1170,9 +1226,9 @@ paths:
           description: Forbidden
           content: {}
         404:
-          description: Policy type is not found
+          description: Service not found
           content:
-            application/json:
+            '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
       deprecated: false
@@ -1218,73 +1274,26 @@ paths:
           description: Not Found
           content: {}
       deprecated: false
-  /v2/policies:
+  /a1-policy/v2/policies/{policy_id}/status:
     get:
       tags:
       - A1 Policy Management Version 2.0 (in progress)
-      summary: Query policy identities
-      description: Returns a list of A1 policies matching given search criteria. <br>If
-        several query parameters are defined, the policies matching all conditions
-        are returned.
-      operationId: getPolicyIdsUsingGET
+      summary: Returns a policy status
+      operationId: getPolicyStatusUsingGET_1
       parameters:
-      - name: policytype_id
-        in: query
-        description: The identity of the policy type to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      - name: ric_id
-        in: query
-        description: The identity of the Near-RT RIC to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      - name: service_id
-        in: query
-        description: The identity of the service to get policies for.
-        allowEmptyValue: false
-        schema:
-          type: string
-      responses:
-        200:
-          description: Policy identities
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/policy_id_list_v2'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Near-RT RIC or type not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
-      deprecated: false
-    put:
-      tags:
-      - A1 Policy Management Version 2.0 (in progress)
-      summary: Create or update a policy
-      operationId: putPolicyUsingPUT
-      requestBody:
-        description: policyInfo
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/policy_info_v2'
+      - name: policy_id
+        in: path
+        description: policy_id
         required: true
+        schema:
+          type: string
       responses:
         200:
-          description: Policy updated
-          content: {}
-        201:
-          description: Policy created
-          content: {}
+          description: Policy status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/policy_status_info_v2'
         401:
           description: Unauthorized
           content: {}
@@ -1292,13 +1301,7 @@ paths:
           description: Forbidden
           content: {}
         404:
-          description: Near-RT RIC or policy type is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_information'
-        423:
-          description: Near-RT RIC is not operational
+          description: Policy is not found
           content:
             application/json:
               schema:
