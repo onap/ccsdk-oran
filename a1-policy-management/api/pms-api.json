@@ -29,7 +29,7 @@
                 "type": "string",
                 "required": false
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/a1-policy/v2/policy-instances": {"get": {
             "summary": "Query for A1 policy instances",
@@ -75,13 +75,13 @@
                     "required": false
                 }
             ],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/a1-policy/v2/status": {"get": {
             "summary": "Returns status and statistics of this service",
             "deprecated": false,
             "produces": ["application/json"],
-            "operationId": "getStatusUsingGET",
+            "operationId": "getStatusUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/status_info_v2"},
@@ -91,7 +91,7 @@
                 "403": {"description": "Forbidden"},
                 "404": {"description": "Not Found"}
             },
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/services": {
             "get": {
@@ -122,7 +122,7 @@
                     "type": "string",
                     "required": false
                 }],
-                "tags": ["A1 Policy Management Version 1.0"]
+                "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
             },
             "delete": {
                 "summary": "Delete a service",
@@ -153,7 +153,7 @@
                     "type": "string",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 1.0"]
+                "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
             }
         },
         "/a1-policy/v2/rics/ric": {"get": {
@@ -161,7 +161,7 @@
             "deprecated": false,
             "produces": ["application/json"],
             "description": "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
-            "operationId": "getRicUsingGET",
+            "operationId": "getRicUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_v2"},
@@ -192,7 +192,7 @@
                     "required": false
                 }
             ],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/a1-policy/v2/policies/{policy_id}": {
             "get": {
@@ -219,7 +219,7 @@
                     "type": "string",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+                "tags": ["A1 Policy Management Version 2.0"]
             },
             "delete": {
                 "summary": "Delete a policy",
@@ -247,7 +247,7 @@
                     "type": "string",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+                "tags": ["A1 Policy Management Version 2.0"]
             }
         },
         "/a1-policy/v2/policy-types": {"get": {
@@ -275,7 +275,7 @@
                 "type": "string",
                 "required": false
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/a1-policy/v2/configuration": {
             "get": {
@@ -356,7 +356,7 @@
                     "type": "string",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 1.0"]
+                "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
             },
             "delete": {
                 "summary": "Delete a policy",
@@ -385,7 +385,7 @@
                     "type": "string",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 1.0"]
+                "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
             },
             "put": {
                 "summary": "Put a policy",
@@ -457,7 +457,7 @@
                         "required": false
                     }
                 ],
-                "tags": ["A1 Policy Management Version 1.0"],
+                "tags": ["A1 Policy Management Version 1.0 (deprecated)"],
                 "consumes": ["application/json"]
             }
         },
@@ -507,7 +507,7 @@
                     "required": false
                 }
             ],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/a1-policy/v2/services/{service_id}/keepalive": {"put": {
             "summary": "Heartbeat indicates that the service is running",
@@ -534,7 +534,7 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"],
+            "tags": ["A1 Policy Management Version 2.0"],
             "consumes": ["application/json"]
         }},
         "/policy_schema": {"get": {
@@ -562,13 +562,13 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/rics": {"get": {
             "summary": "Query Near-RT RIC information",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicsUsingGET_1",
+            "operationId": "getRicsUsingGET",
             "responses": {
                 "200": {
                     "schema": {
@@ -592,7 +592,7 @@
                 "type": "string",
                 "required": false
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/policy_status": {"get": {
             "summary": "Returns a policy status",
@@ -619,14 +619,14 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/a1-policy/v2/rics": {"get": {
             "summary": "Query Near-RT RIC information",
             "deprecated": false,
             "produces": ["application/json"],
             "description": "The call returns all Near-RT RICs that supports a given policy type identity",
-            "operationId": "getRicsUsingGET",
+            "operationId": "getRicsUsingGET_1",
             "responses": {
                 "200": {
                     "schema": {"$ref": "#/definitions/ric_info_list_v2"},
@@ -647,7 +647,7 @@
                 "type": "string",
                 "required": false
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/policy_ids": {"get": {
             "summary": "Query policies, only policy identities returned",
@@ -695,7 +695,7 @@
                     "required": false
                 }
             ],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/policy_schemas": {"get": {
             "summary": "Returns policy type schema definitions",
@@ -725,7 +725,7 @@
                 "type": "string",
                 "required": false
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/a1-policy/v2/services": {
             "get": {
@@ -754,7 +754,7 @@
                     "type": "string",
                     "required": false
                 }],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+                "tags": ["A1 Policy Management Version 2.0"]
             },
             "put": {
                 "summary": "Register a service",
@@ -786,7 +786,7 @@
                     "description": "registrationInfo",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"],
+                "tags": ["A1 Policy Management Version 2.0"],
                 "consumes": ["application/json"]
             }
         },
@@ -794,7 +794,7 @@
             "summary": "Returns the name of a RIC managing one Mananged Element",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getRicUsingGET_1",
+            "operationId": "getRicUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -815,7 +815,7 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/services/keepalive": {"put": {
             "summary": "Heartbeat from a service",
@@ -840,7 +840,7 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 1.0"],
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"],
             "consumes": ["application/json"]
         }},
         "/a1-policy/v2/policy-types/{policytype_id}": {"get": {
@@ -867,13 +867,13 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/status": {"get": {
             "summary": "Returns status and statistics of this service",
             "deprecated": false,
             "produces": ["*/*"],
-            "operationId": "getStatusUsingGET_1",
+            "operationId": "getStatusUsingGET",
             "responses": {
                 "200": {
                     "schema": {"type": "string"},
@@ -883,7 +883,7 @@
                 "403": {"description": "Forbidden"},
                 "404": {"description": "Not Found"}
             },
-            "tags": ["A1 Policy Management Version 1.0"]
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"]
         }},
         "/a1-policy/v2/policies": {
             "get": {
@@ -930,7 +930,7 @@
                         "required": false
                     }
                 ],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+                "tags": ["A1 Policy Management Version 2.0"]
             },
             "put": {
                 "summary": "Create or update a policy",
@@ -958,7 +958,7 @@
                     "description": "policyInfo",
                     "required": true
                 }],
-                "tags": ["A1 Policy Management Version 2.0 (in progress)"],
+                "tags": ["A1 Policy Management Version 2.0"],
                 "consumes": ["application/json"]
             }
         },
@@ -1010,7 +1010,7 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }},
         "/service": {"put": {
             "summary": "Register a service",
@@ -1041,7 +1041,7 @@
                 "description": "registrationInfo",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 1.0"],
+            "tags": ["A1 Policy Management Version 1.0 (deprecated)"],
             "consumes": ["application/json"]
         }},
         "/a1-policy/v2/policies/{policy_id}/status": {"get": {
@@ -1068,7 +1068,7 @@
                 "type": "string",
                 "required": true
             }],
-            "tags": ["A1 Policy Management Version 2.0 (in progress)"]
+            "tags": ["A1 Policy Management Version 2.0"]
         }}
     },
     "definitions": {
@@ -1089,11 +1089,6 @@
                     "example": 503
                 }
             }
-        },
-        "void": {
-            "description": "Void/empty",
-            "type": "object",
-            "title": "void"
         },
         "status_info_v2": {
             "type": "object",
@@ -1132,10 +1127,6 @@
                     "type": "string"
                 }
             }
-        },
-        "Mono«ResponseEntity«object»»": {
-            "type": "object",
-            "title": "Mono«ResponseEntity«object»»"
         },
         "ric_info_v2": {
             "description": "Information for a Near-RT RIC",
@@ -1412,10 +1403,6 @@
                     "enum": ["AVAILABLE"]
                 }
             }
-        },
-        "Mono«ResponseEntity«string»»": {
-            "type": "object",
-            "title": "Mono«ResponseEntity«string»»"
         }
     },
     "swagger": "2.0",
@@ -1432,11 +1419,11 @@
     },
     "tags": [
         {
-            "name": "A1 Policy Management Version 1.0",
+            "name": "A1 Policy Management Version 1.0 (deprecated)",
             "description": "Policy Controller"
         },
         {
-            "name": "A1 Policy Management Version 2.0 (in progress)",
+            "name": "A1 Policy Management Version 2.0",
             "description": "Policy Controller"
         },
         {

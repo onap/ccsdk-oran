@@ -29,7 +29,7 @@ public class Consts {
     public static final String MANAGED_ELEMENT_ID_PARAM = "managed_element_id";
 
     public static final String V2_API_ROOT = "a1-policy/v2";
-    public static final String V2_API_NAME = "A1 Policy Management Version 2.0 (in progress)";
+    public static final String V2_API_NAME = "A1 Policy Management Version 2.0";
     public static final String V2_CONFIG_API_NAME = "Component Configuration";
 
     private Consts() {}
