@@ -22,7 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 public class Consts {
 
-    public static final String V1_API_NAME = "A1 Policy Management Version 1.0";
+    public static final String V1_API_NAME = "A1 Policy Management Version 1.0 (deprecated)";
 
     private Consts() {}
 }

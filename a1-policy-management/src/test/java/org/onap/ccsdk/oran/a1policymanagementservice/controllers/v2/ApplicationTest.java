@@ -98,7 +98,7 @@ import reactor.util.annotation.Nullable;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks"})
+        "app.webclient.trust-store=./config/truststore.jks" })
 class ApplicationTest {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
 
@@ -219,6 +219,10 @@ class ApplicationTest {
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         JSONObject jsonObj = new JSONObject(resp.getBody());
         jsonObj.remove("host");
+        assertThat(jsonObj.getJSONObject("definitions").remove("Mono«ResponseEntity«object»»")).isNotNull();
+        assertThat(jsonObj.getJSONObject("definitions").remove("void")).isNotNull();
+        assertThat(jsonObj.getJSONObject("definitions").remove("Mono«ResponseEntity«string»»")).isNotNull();
+
         String indented = (jsonObj).toString(4);
         String docDir = "api/";
         Files.createDirectories(Paths.get(docDir));
@@ -769,8 +773,8 @@ class ApplicationTest {
 
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
-            ConcurrencyTestRunnable test =
-                    new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
+            ConcurrencyTestRunnable test = new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics,
+                    policyTypes);
             Thread thread = new Thread(test, "TestThread_" + i);
             thread.start();
             threads.add(thread);

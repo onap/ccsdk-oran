@@ -16,9 +16,9 @@ info:
 servers:
 - url: /
 tags:
-- name: A1 Policy Management Version 1.0
+- name: A1 Policy Management Version 1.0 (deprecated)
   description: Policy Controller
-- name: A1 Policy Management Version 2.0 (in progress)
+- name: A1 Policy Management Version 2.0
   description: Policy Controller
 - name: Component Configuration
   description: Configuration Controller
@@ -28,9 +28,9 @@ paths:
   /policy_types:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Query policy type names
-      operationId: getPolicyTypesUsingGET
+      operationId: getPolicyTypesUsingGET_1
       parameters:
       - name: ric
         in: query
@@ -63,7 +63,7 @@ paths:
   /a1-policy/v2/policy-instances:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Query for A1 policy instances
       description: Returns a list of A1 policies matching given search criteria. <br>If
         several query parameters are defined, the policies matching all conditions
@@ -111,7 +111,7 @@ paths:
   /a1-policy/v2/status:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns status and statistics of this service
       operationId: getStatusUsingGET
       responses:
@@ -134,9 +134,9 @@ paths:
   /services:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns service information
-      operationId: getServicesUsingGET
+      operationId: getServicesUsingGET_1
       parameters:
       - name: name
         in: query
@@ -168,9 +168,9 @@ paths:
       deprecated: false
     delete:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Delete a service
-      operationId: deleteServiceUsingDELETE
+      operationId: deleteServiceUsingDELETE_1
       parameters:
       - name: name
         in: query
@@ -208,12 +208,12 @@ paths:
   /a1-policy/v2/rics/ric:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns info for one Near-RT RIC
       description: Either a Near-RT RIC identity or a Mananged Element identity can
         be specified.<br>The intention with Mananged Element identity is the ID used
         in O1 for accessing the traffical element (such as the ID of CU).
-      operationId: getRicUsingGET
+      operationId: getRicUsingGET_1
       parameters:
       - name: managed_element_id
         in: query
@@ -251,9 +251,9 @@ paths:
   /a1-policy/v2/policies/{policy_id}:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns a policy
-      operationId: getPolicyUsingGET_1
+      operationId: getPolicyUsingGET
       parameters:
       - name: policy_id
         in: path
@@ -283,9 +283,9 @@ paths:
       deprecated: false
     delete:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Delete a policy
-      operationId: deletePolicyUsingDELETE_1
+      operationId: deletePolicyUsingDELETE
       parameters:
       - name: policy_id
         in: path
@@ -322,9 +322,9 @@ paths:
   /a1-policy/v2/policy-types:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Query policy type identities
-      operationId: getPolicyTypesUsingGET_1
+      operationId: getPolicyTypesUsingGET
       parameters:
       - name: ric_id
         in: query
@@ -425,9 +425,9 @@ paths:
   /policy:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns a policy configuration
-      operationId: getPolicyUsingGET
+      operationId: getPolicyUsingGET_1
       parameters:
       - name: id
         in: query
@@ -458,9 +458,9 @@ paths:
       deprecated: false
     put:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Put a policy
-      operationId: putPolicyUsingPUT
+      operationId: putPolicyUsingPUT_1
       parameters:
       - name: id
         in: query
@@ -534,9 +534,9 @@ paths:
       deprecated: false
     delete:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Delete a policy
-      operationId: deletePolicyUsingDELETE
+      operationId: deletePolicyUsingDELETE_1
       parameters:
       - name: id
         in: query
@@ -574,7 +574,7 @@ paths:
   /policies:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Query policies
       operationId: getPoliciesUsingGET
       parameters:
@@ -621,9 +621,9 @@ paths:
   /a1-policy/v2/services/{service_id}/keepalive:
     put:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Heartbeat indicates that the service is running
-      operationId: keepAliveServiceUsingPUT_1
+      operationId: keepAliveServiceUsingPUT
       parameters:
       - name: service_id
         in: path
@@ -657,7 +657,7 @@ paths:
   /policy_schema:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns one policy type schema definition
       operationId: getPolicySchemaUsingGET
       parameters:
@@ -691,9 +691,9 @@ paths:
   /rics:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Query Near-RT RIC information
-      operationId: getRicsUsingGET_1
+      operationId: getRicsUsingGET
       parameters:
       - name: policyType
         in: query
@@ -726,9 +726,9 @@ paths:
   /policy_status:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET
+      operationId: getPolicyStatusUsingGET_1
       parameters:
       - name: id
         in: query
@@ -760,11 +760,11 @@ paths:
   /a1-policy/v2/rics:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Query Near-RT RIC information
       description: The call returns all Near-RT RICs that supports a given policy
         type identity
-      operationId: getRicsUsingGET
+      operationId: getRicsUsingGET_1
       parameters:
       - name: policytype_id
         in: query
@@ -796,9 +796,9 @@ paths:
   /policy_ids:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Query policies, only policy identities returned
-      operationId: getPolicyIdsUsingGET
+      operationId: getPolicyIdsUsingGET_1
       parameters:
       - name: ric
         in: query
@@ -843,7 +843,7 @@ paths:
   /policy_schemas:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns policy type schema definitions
       operationId: getPolicySchemasUsingGET
       parameters:
@@ -879,11 +879,11 @@ paths:
   /a1-policy/v2/services:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns service information
       description: Either information about a registered service with given identity
         or all registered services are returned.
-      operationId: getServicesUsingGET_1
+      operationId: getServicesUsingGET
       parameters:
       - name: service_id
         in: query
@@ -913,12 +913,12 @@ paths:
       deprecated: false
     put:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Register a service
       description: Registering a service is needed to:<ul><li>Get callbacks.</li><li>Activate
         supervision of the service. If a service is inactive, its policies will be
         deleted.</li></ul>
-      operationId: putServiceUsingPUT_1
+      operationId: putServiceUsingPUT
       requestBody:
         description: registrationInfo
         content:
@@ -958,9 +958,9 @@ paths:
   /ric:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns the name of a RIC managing one Mananged Element
-      operationId: getRicUsingGET_1
+      operationId: getRicUsingGET
       parameters:
       - name: managedElementId
         in: query
@@ -992,9 +992,9 @@ paths:
   /services/keepalive:
     put:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Heartbeat from a service
-      operationId: keepAliveServiceUsingPUT
+      operationId: keepAliveServiceUsingPUT_1
       parameters:
       - name: name
         in: query
@@ -1026,7 +1026,7 @@ paths:
   /a1-policy/v2/policy-types/{policytype_id}:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns a policy type definition
       operationId: getPolicyTypeUsingGET
       parameters:
@@ -1059,7 +1059,7 @@ paths:
   /status:
     get:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns status and statistics of this service
       operationId: getStatusUsingGET_1
       responses:
@@ -1082,12 +1082,12 @@ paths:
   /a1-policy/v2/policies:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Query policy identities
       description: Returns a list of A1 policies matching given search criteria. <br>If
         several query parameters are defined, the policies matching all conditions
         are returned.
-      operationId: getPolicyIdsUsingGET_1
+      operationId: getPolicyIdsUsingGET
       parameters:
       - name: policytype_id
         in: query
@@ -1129,9 +1129,9 @@ paths:
       deprecated: false
     put:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Create or update a policy
-      operationId: putPolicyUsingPUT_1
+      operationId: putPolicyUsingPUT
       requestBody:
         description: policyInfo
         content:
@@ -1199,9 +1199,9 @@ paths:
   /a1-policy/v2/services/{service_id}:
     delete:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Unregister a service
-      operationId: deleteServiceUsingDELETE_1
+      operationId: deleteServiceUsingDELETE
       parameters:
       - name: service_id
         in: path
@@ -1235,9 +1235,9 @@ paths:
   /service:
     put:
       tags:
-      - A1 Policy Management Version 1.0
+      - A1 Policy Management Version 1.0 (deprecated)
       summary: Register a service
-      operationId: putServiceUsingPUT
+      operationId: putServiceUsingPUT_1
       requestBody:
         description: registrationInfo
         content:
@@ -1277,9 +1277,9 @@ paths:
   /a1-policy/v2/policies/{policy_id}/status:
     get:
       tags:
-      - A1 Policy Management Version 2.0 (in progress)
+      - A1 Policy Management Version 2.0
       summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET_1
+      operationId: getPolicyStatusUsingGET
       parameters:
       - name: policy_id
         in: path
@@ -1325,10 +1325,6 @@ components:
           format: int32
           example: 503
       description: Problem as defined in https://tools.ietf.org/html/rfc7807
-    void:
-      title: void
-      type: object
-      description: Void/empty
     status_info_v2:
       title: status_info_v2
       type: object
@@ -1359,9 +1355,6 @@ components:
         ric:
           type: string
           description: identity of the target Near-RT RIC
-    Mono«ResponseEntity«object»»:
-      title: Mono«ResponseEntity«object»»
-      type: object
     ric_info_v2:
       title: ric_info_v2
       type: object
@@ -1615,6 +1608,3 @@ components:
           enum:
           - AVAILABLE
       description: Information transferred as in Service callbacks (callback_url)
-    Mono«ResponseEntity«string»»:
-      title: Mono«ResponseEntity«string»»
-      type: object
