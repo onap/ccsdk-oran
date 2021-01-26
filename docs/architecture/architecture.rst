@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: CC-BY-4.0
-.. Copyright 2020 Nordix Foundation
+.. Copyright 2021 Nordix Foundation
 .. _architecture:
 
 
@@ -11,14 +11,16 @@ Introduction
 ************
 
 
-The CCSDK ORAN components provides handling of the O-RAN A1 interface.
+The CCSDK ORAN components add support for handling "A1 Policies" as defined for the O-RAN A1 interface.
+
+The O-RAN A1 interface is defined by the `O-RAN Alliance <https://www.o-ran.org>`_
 
 
 *********************************************
-Global NBI architecture for Frankfurt release
+Architecture for ONAP Guilin release
 *********************************************
 
-Following illustration provides a global view about Non-Real-Time-RIC architecture,
+This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
 
 .. image:: ../media/ONAP-A1ControllerArchitecture.png
@@ -29,5 +31,5 @@ integration with other ONAP components and API resource/operation provided.
 Developer Guide
 ***************
 
-Technical information about the ORAN components (dependencies, configuration, running & testing) could be found in :ref:`developer_guide`.
+Technical information about the O-RAN components (dependencies, configuration, running & testing) can be found in :ref:`developer_guide`.
 

@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "A1 Policy management service",
+    "title": "A1 Policy Management Service",
     "description": "The O-RAN Non-RT RIC PolicyAgent provides a REST API for management of policices. It provides support for: -Supervision of clients (R-APPs) to eliminate stray policies in case of failure -Consistency monitoring of the SMO view of policies and the actual situation in the RICs -Consistency monitoring of RIC capabilities (policy types) -Policy configuration. This includes: -One REST API towards all RICs in the network -Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc. -Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC of A1 policices.",
     "version": "1.0"
   },
@@ -16,19 +16,19 @@
   "tags": [
     {
       "name": "A1 Policy Management",
-      "description": "Policy Controller"
+      "description": "This is the north bound API of the A1 Policy Management Service (\"Policy Agent\"). This API allows *services* to interact with the Policy Agent using REST. By registering with the Policy Agent, the Policy Agent takes responsibility for synchronizing the policies created by the service in the Near RT RICs. This means that if a Near RT RIC restarts, the Policy Agent will try to recreate all the policies residing in the Near RT RIC once it is started again. If this is not possible, it will remove all policies belonging to the Near RT RIC. The Policy Agent also keeps an updated view of the policy types available, and which Near RT RICs that support which types. Also, the Policy Agent can tell if a Managed Element is managed by a certain Near RT RIC."
     },
     {
       "name": "Health check",
-      "description": "Status Controller"
+      "description": "The status of the A1 Policy Management Service"
     },
     {
       "name": "RIC Repository",
-      "description": "Ric Repository Controller"
+      "description": "The A1 Policy Management Service keeps an updated view of the Near RT RICs that are available in the system. A service can find out which Near RT RIC that manages a specific element in the network or which Near RT RICs that support a specific policy type."
     },
     {
       "name": "Service registry and supervision",
-      "description": "Service Controller"
+      "description": "A service can register itself in the A1 Policy Management Service. By providing a callback URL the service can get notifications from the A1 Policy Management Service. A service can also register a \"*Keep Alive Interval*\", in seconds. By doing this the service promises to call the A1 Policy Management Service's \"*Keep Alive*\" method, or else create or delete policies, more often than the \"*Keep Alive Interval*\" measured in seconds. If the service, for some reason, is not able to do this, the A1 Policy Management Service will consider that the service has died or vanished and will then delete all its policies, both in the internal repository and in the Near RT RICs where they were earlier created. **Note!** If the service does not provide a value for \"*Keep Alive Interval*\", then the service maintains full responsibility to delete all of its policies when they are no longer needed."
     }
   ],
   "paths": {
@@ -1130,7 +1130,7 @@
           },
           "keepAliveIntervalSeconds": {
             "type": "integer",
-            "description": "keep alive interval for the service. This is a heartbeat supervision of the service, which in regular intevals must invoke a 'keepAlive' REST call. When a service does not invoke this call within the given time, it is considered unavailble. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means no timeout supervision.",
+            "description": "Keep alive interval for the service. This is a heartbeat supervision of the service, which in regular intevals must invoke a 'keepAlive' REST call. When a service does not invoke this call within the given time, it is considered unavailble. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means no timeout supervision.",
             "format": "int64"
           },
           "serviceName": {

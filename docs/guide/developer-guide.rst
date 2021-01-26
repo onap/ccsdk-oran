@@ -1,27 +1,27 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright (C) 2020 Nordix Foundation.
+.. Copyright (C) 2021 Nordix Foundation.
 
 .. _developer_guide:
 
 Developer Guide
 ===============
 
-This document provides a quickstart for developers of the CCSDK ORAN parts.
+This document provides a quickstart for developers of the CCSDK functions for O-RAN A1 Policies.
 
 Source tree
 +++++++++++
 
-This application provides CCSDK Policy Management Service and A1 Adapter as main functional resources.
+This provides CCSDK with "A1 Policy Management Service" and "A1 Adapter" functions.
 Each resource is implemented independently in a package corresponding to its name.
 
 A1 Policy Management Service
 ++++++++++++++++++++++++++++
 
-The CCSDK Policy Management Service (PMS) is a Java 11 web application built over Spring Framework.
+The ONAP CCSDK A1 Policy Management Service is a Java 11 web application built using the Spring Framework.
 Using Spring Boot dependencies, it runs as a standalone application.
 
-PMS provides a REST API for management of policices. It provides support for:
+A1 Policy Management Service provides a REST API for management of policies. It provides support for:
 
  * Supervision of clients (R-APPs) to eliminate stray policies in case of failure
  * Consistency monitoring of the SMO view of policies and the actual situation in the RICs
@@ -32,7 +32,7 @@ PMS provides a REST API for management of policices. It provides support for:
    * Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc.
    * Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC.
 
-The Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for how to use the API.
+The Policy Management Service can be accessed over the REST API, and with an equivalent interface using DMaaP. See :ref:`pms_api` for more information about the API.
 
 Dependencies
 ------------
@@ -53,9 +53,62 @@ dependency management tool (see *pom.xml* file at root level) :
 Configuration
 -------------
 
-There are two configuration files for PMS, *config/application_configuration.json* and *config/application.yaml*.
+There are two configuration files for A1 Policy Management Service, *config/application_configuration.json* and *config/application.yaml*
 The first one contains configuration of data needed by the application, such as which Near-RT RICs
 that are available. The second contains logging and security configurations.
+
+For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Guilin>`_
+
+Static configuration (application.yaml)
+---------------------------------------
+
+The file *./config/application.yaml* is read by the application at startup. It provides the following configurable features:
+
+ * server; configuration for the WEB server
+
+   * used port for HTTP/HTTPS, this is however not the port numbers visible outside the container
+   * SSL parameters for setting up using of key store and trust store databases.
+ * webclient; configuration parameters for a web client used by the component
+
+   * SSL parameters for setting up using of key store and trust store databases.
+   * Usage of HTTP Proxy; if configured, the proxy will be used for accessing the NearRT-RICs
+
+ * logging; setting of of which information that is logged.
+ * filepath; the local path to a file used for dynamic configuration (if used). See next chapter.
+
+For details about the parameters in this file, see documentation in the file.
+
+Dynamic configuration
+---------------------
+
+The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals.
+
+The configuration includes:
+
+ * Controller configuration, which includes information on how to access the a1-adapter
+ * One entry for each NearRT-RIC, which includes:
+
+   * The base URL of the NearRT RIC
+   * A list of O1 identifiers that the NearRT RIC is controlling. An application can query this service which NearRT RIC should be addressed for controlling (for instance) a given Cell.
+   * An optional reference to the controller to use, or excluded if the NearRT-RIC can be accessed directly from this component.
+
+ * Optional configuration for using of DMAAP. There can be one stream for requests to the component and an other stream for responses.
+
+For details about the syntax of the file, there is an example in source code repository */config/application_configuration.json*. This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*.
+
+Using CBS/Consul database for dynamic configuration
+---------------------------------------------------
+
+The access of CBS is setup by means of environment variables. There is currently no support for setting these at on boarding.
+
+The following variables are required by the CBS:
+
+ * CONSUL_HOST
+ * CONSUL_PORT
+ * CONFIG_BINDING_SERVICE
+ * SERVICE_NAME
+
+
 
 Configuration of certs
 ----------------------
@@ -90,6 +143,6 @@ Example docker run command for mounting new files (assuming they are located in 
 A1 Adapter (Internal)
 +++++++++++++++++++++
 
-The O-RAN A1 Adapter provides an internal REST CONF API for management of A1 policices, useful for test and verification.
+The O-RAN A1 Adapter provides an **internal** RESTCONF API that is used by the A1 Policy Management System when accessing the A1 Interface. This API is useful for test and verification but should not used otherwise.
 
-The A1 Adapter can be accessed over the REST CONF API. See :ref:`a1_adapter_api` for how to use the API.
+See :ref:`a1_adapter_api` for details of this internal API.
