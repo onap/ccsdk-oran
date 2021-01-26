@@ -70,15 +70,15 @@ API Table
    :header: "API name", "|swagger-icon|", "|yaml-icon|"
    :widths: 10,5, 5
 
-   "PMS API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "A1 Policy Management Service API", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
    "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
 
 
 .. _pms_api:
 
-PMS API
-.......
-`PMS API <./pms-api.html>`_
+A1 Policy Management Service API
+................................
+`A1 Policy Management Service API <./pms-api.html>`_
 
 .. _a1_adapter_api:
 
