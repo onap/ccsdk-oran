@@ -30,7 +30,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Query policy type names
-      operationId: getPolicyTypesUsingGET_1
+      operationId: getPolicyTypesUsingGET
       parameters:
       - name: ric
         in: query
@@ -113,7 +113,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Returns status and statistics of this service
-      operationId: getStatusUsingGET
+      operationId: getStatusUsingGET_1
       responses:
         200:
           description: Service is living
@@ -253,7 +253,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Returns a policy
-      operationId: getPolicyUsingGET
+      operationId: getPolicyUsingGET_1
       parameters:
       - name: policy_id
         in: path
@@ -285,7 +285,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Delete a policy
-      operationId: deletePolicyUsingDELETE
+      operationId: deletePolicyUsingDELETE_1
       parameters:
       - name: policy_id
         in: path
@@ -324,7 +324,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Query policy type identities
-      operationId: getPolicyTypesUsingGET
+      operationId: getPolicyTypesUsingGET_1
       parameters:
       - name: ric_id
         in: query
@@ -427,7 +427,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns a policy configuration
-      operationId: getPolicyUsingGET_1
+      operationId: getPolicyUsingGET
       parameters:
       - name: id
         in: query
@@ -460,7 +460,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Put a policy
-      operationId: putPolicyUsingPUT_1
+      operationId: putPolicyUsingPUT
       parameters:
       - name: id
         in: query
@@ -536,7 +536,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Delete a policy
-      operationId: deletePolicyUsingDELETE_1
+      operationId: deletePolicyUsingDELETE
       parameters:
       - name: id
         in: query
@@ -728,7 +728,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET_1
+      operationId: getPolicyStatusUsingGET
       parameters:
       - name: id
         in: query
@@ -798,7 +798,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Query policies, only policy identities returned
-      operationId: getPolicyIdsUsingGET_1
+      operationId: getPolicyIdsUsingGET
       parameters:
       - name: ric
         in: query
@@ -1061,7 +1061,7 @@ paths:
       tags:
       - A1 Policy Management Version 1.0 (deprecated)
       summary: Returns status and statistics of this service
-      operationId: getStatusUsingGET_1
+      operationId: getStatusUsingGET
       responses:
         200:
           description: Service is living
@@ -1087,7 +1087,7 @@ paths:
       description: Returns a list of A1 policies matching given search criteria. <br>If
         several query parameters are defined, the policies matching all conditions
         are returned.
-      operationId: getPolicyIdsUsingGET
+      operationId: getPolicyIdsUsingGET_1
       parameters:
       - name: policytype_id
         in: query
@@ -1131,7 +1131,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Create or update a policy
-      operationId: putPolicyUsingPUT
+      operationId: putPolicyUsingPUT_1
       requestBody:
         description: policyInfo
         content:
@@ -1279,7 +1279,7 @@ paths:
       tags:
       - A1 Policy Management Version 2.0
       summary: Returns a policy status
-      operationId: getPolicyStatusUsingGET
+      operationId: getPolicyStatusUsingGET_1
       parameters:
       - name: policy_id
         in: path
