@@ -23,18 +23,17 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ric_info_list_v2", description = "List of Near-RT RIC information")
+@Schema(name = "ric_info_list_v2", description = "List of Near-RT RIC information")
 public class RicInfoList {
 
-    @ApiModelProperty(value = "List of Near-RT RIC information")
+    @Schema(description = "List of Near-RT RIC information")
     @SerializedName("rics")
     @JsonProperty("rics")
     public final Collection<RicInfo> rics;

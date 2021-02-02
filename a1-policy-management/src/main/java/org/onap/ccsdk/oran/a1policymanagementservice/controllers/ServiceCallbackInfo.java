@@ -23,13 +23,12 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "service_callback_info_v2",
+@Schema(name = "service_callback_info_v2",
         description = "Information transferred as in Service callbacks (callback_url)")
 public class ServiceCallbackInfo {
 
@@ -37,17 +36,17 @@ public class ServiceCallbackInfo {
             + "AVAILABLE: the  Near-RT RIC has become available for A1 Policy management";
 
     @Gson.TypeAdapters
-    @ApiModel(value = "event_type_v2", description = EVENT_TYPE_DESCRIPTION)
+    @Schema(name = "event_type_v2", description = EVENT_TYPE_DESCRIPTION)
     public enum EventType {
         AVAILABLE
     }
 
-    @ApiModelProperty(value = "identity of a Near-RT RIC", required = true)
+    @Schema(name = "ric_id", description = "identity of a Near-RT RIC", required = true)
     @SerializedName("ric_id")
     @JsonProperty(value = "ric_id", required = true)
     public String ricId;
 
-    @ApiModelProperty(value = EVENT_TYPE_DESCRIPTION, required = true)
+    @Schema(name = "event_type", description = EVENT_TYPE_DESCRIPTION, required = true)
     @SerializedName("event_type")
     @JsonProperty(value = "event_type", required = true)
     public EventType eventType;

@@ -23,22 +23,21 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "service_registration_info_v2", description = "Information for one service")
+@Schema(name = "service_registration_info_v2", description = "Information for one service")
 public class ServiceRegistrationInfo {
 
-    @ApiModelProperty(value = "identity of the service", required = true, allowEmptyValue = false)
-    @SerializedName(value = "service_id")
+    @Schema(description = "identity of the service", required = true)
+    @SerializedName("service_id")
     @JsonProperty("service_id")
     public String serviceId = "";
 
-    @ApiModelProperty(value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
-            + "which in regular intevals must invoke a 'keepAlive' REST call. "
+    @Schema(description = "keep alive interval for the service. This is a heartbeat supervision of the service, "
+            + "which in regular intevals must invoke a 'keepalive' REST call. "
             + "When a service does not invoke this call within the given time, it is considered unavailble. "
             + "An unavailable service will be automatically deregistered and its policies will be deleted. "
             + "Value 0 means no timeout supervision.")
@@ -46,8 +45,7 @@ public class ServiceRegistrationInfo {
     @JsonProperty("keep_alive_interval_seconds")
     public long keepAliveIntervalSeconds = 0;
 
-    @ApiModelProperty(value = "callback for notifying of Near-RT RIC state changes", required = false,
-            allowEmptyValue = true)
+    @Schema(description = "callback for notifying of Near-RT RIC state changes", required = false)
     @SerializedName("callback_url")
     @JsonProperty("callback_url")
     public String callbackUrl = "";

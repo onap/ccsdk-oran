@@ -23,11 +23,13 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +48,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("RicRepositoryControllerV2")
-@Api(tags = {Consts.V2_API_NAME})
+@Tag(name = RicRepositoryController.API_NAME)
 public class RicRepositoryController {
+
+    public static final String API_NAME = "NearRT-RIC Repository";
+    public static final String API_DESCRIPTION = "";
 
     @Autowired
     private Rics rics;
@@ -69,17 +74,21 @@ public class RicRepositoryController {
      * @throws EntityNotFoundException
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics/ric", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = GET_RIC_BRIEF, notes = GET_RIC_DETAILS)
+    @Operation(summary = GET_RIC_BRIEF, description = GET_RIC_DETAILS)
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Near-RT RIC is found", response = RicInfo.class), //
-            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class) //
+            @ApiResponse(responseCode = "200", //
+                    description = "Near-RT RIC is found", //
+                    content = @Content(schema = @Schema(implementation = RicInfo.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
     })
     public ResponseEntity<Object> getRic( //
-            @ApiParam(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false,
-                    value = "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.") //
+            @Parameter(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false,
+                    description = "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.") //
             @RequestParam(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false) String managedElementId,
-            @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
-                    value = "The identity of a Near-RT RIC to get information for.") //
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
+                    description = "The identity of a Near-RT RIC to get information for.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId)
             throws EntityNotFoundException, InvalidRequestException {
         if (managedElementId != null && ricId != null) {
@@ -103,13 +112,18 @@ public class RicRepositoryController {
      * @throws EntityNotFoundException
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query Near-RT RIC information", notes = QUERY_RIC_INFO_DETAILS)
+    @Operation(summary = "Query Near-RT RIC information", description = QUERY_RIC_INFO_DETAILS)
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "OK", response = RicInfoList.class), //
-            @ApiResponse(code = 404, message = "Policy type is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "OK", //
+                    content = @Content(schema = @Schema(implementation = RicInfoList.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy type is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public ResponseEntity<Object> getRics( //
-            @ApiParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    value = "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned") //
+            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
+                    description = "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType)
             throws EntityNotFoundException {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {

@@ -23,11 +23,13 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,8 +56,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("ServiceControllerV2")
-@Api(tags = Consts.V2_API_NAME)
+@Tag(name = ServiceController.API_NAME)
 public class ServiceController {
+
+    public static final String API_NAME = "Service Registry and Supervision";
+    public static final String API_DESCRIPTION = "";
 
     private final Services services;
     private final Policies policies;
@@ -71,13 +76,18 @@ public class ServiceController {
     private static final String GET_SERVICE_DETAILS =
             "Either information about a registered service with given identity or all registered services are returned.";
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/services", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns service information", notes = GET_SERVICE_DETAILS)
+    @GetMapping(path = Consts.V2_API_ROOT + "/services", produces = MediaType.APPLICATION_JSON_VALUE) //
+    @Operation(summary = "Returns service information", description = GET_SERVICE_DETAILS) //
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "OK", response = ServiceStatusList.class), //
-            @ApiResponse(code = 404, message = "Service is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "OK", //
+                    content = @Content(schema = @Schema(implementation = ServiceStatusList.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Service is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))//
+    })
     public ResponseEntity<Object> getServices(//
-            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false, value = "The identity of the service") //
+            @Parameter(name = Consts.SERVICE_ID_PARAM, required = false, description = "The identity of the service") //
             @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String name) {
         if (name != null && this.services.get(name) == null) {
             return ErrorResponse.create("Service not found", HttpStatus.NOT_FOUND);
@@ -119,13 +129,15 @@ public class ServiceController {
             + "</ul>" //
     ;
 
-    @ApiOperation(value = "Register a service", notes = REGISTER_SERVICE_DETAILS)
-    @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Service updated"),
-            @ApiResponse(code = 201, message = "Service created"), //
-            @ApiResponse(code = 400, message = "The ServiceRegistrationInfo is not accepted",
-                    response = ErrorResponse.ErrorInfo.class)})
     @PutMapping(Consts.V2_API_ROOT + "/services")
+    @Operation(summary = "Register a service", description = REGISTER_SERVICE_DETAILS)
+    @ApiResponses(value = { //
+            @ApiResponse(responseCode = "200", description = "Service updated"),
+            @ApiResponse(responseCode = "201", description = "Service created"), //
+            @ApiResponse(responseCode = "400", //
+                    description = "The ServiceRegistrationInfo is not accepted", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))})
+
     public ResponseEntity<Object> putService(//
             @RequestBody ServiceRegistrationInfo registrationInfo) {
         try {
@@ -138,11 +150,16 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Unregister a service")
+    @Operation(summary = "Unregister a service")
     @ApiResponses(value = { //
-            @ApiResponse(code = 204, message = "Service unregistered"),
-            @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
-            @ApiResponse(code = 404, message = "Service not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "204", description = "Service unregistered"),
+            @ApiResponse(responseCode = "200", description = "Not used",
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Service not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))
+
+    })
+
     @DeleteMapping(Consts.V2_API_ROOT + "/services/{service_id:.+}")
     public ResponseEntity<Object> deleteService(//
             @PathVariable("service_id") String serviceId) {
@@ -157,11 +174,14 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Heartbeat indicates that the service is running")
+    @Operation(summary = "Heartbeat indicates that the service is running",
+            description = "A registerred service must call this in regular intervals to indicate that it is in operation. Absence of this call will lead to that teh service will be deregisterred and all its policies are removed.")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"), //
-            @ApiResponse(code = 404, message = "The service is not found, needs re-registration",
-                    response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", description = "Service supervision timer refreshed, OK"), //
+            @ApiResponse(responseCode = "404", description = "The service is not found, needs re-registration",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))
+
+    })
 
     @PutMapping(Consts.V2_API_ROOT + "/services/{service_id}/keepalive")
     public ResponseEntity<Object> keepAliveService(//

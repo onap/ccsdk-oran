@@ -20,26 +20,17 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
-import com.google.common.base.Predicates;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.StringVendorExtension;
-import springfox.documentation.service.VendorExtension;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ConfigurationController;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositoryController;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ServiceController;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusController;
 
 /**
  * Swagger configuration class that uses swagger2 documentation type and scans
@@ -48,78 +39,81 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * the swagger gui go to http://ip:port/swagger-ui.html
  *
  */
-@Configuration
-@EnableSwagger2
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+@OpenAPIDefinition( //
+        tags = { //
+                @Tag(//
+                        name = org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.Consts.V1_API_NAME, //
+                        description = org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.Consts.V1_API_DESCRIPTION //
+                ), //
+                @Tag(//
+                        name = ConfigurationController.API_NAME, //
+                        description = ConfigurationController.API_DESCRIPTION //
+                ), //
+                @Tag(//
+                        name = PolicyController.API_NAME, //
+                        description = PolicyController.API_DESCRIPTION //
+                ), //
+                @Tag( //
+                        name = RicRepositoryController.API_NAME, //
+                        description = RicRepositoryController.API_DESCRIPTION //
+                ), //
+                @Tag( //
+                        name = ServiceController.API_NAME, //
+                        description = ServiceController.API_DESCRIPTION //
 
-    static final String API_TITLE = "A1 Policy management service";
-    static final String DESCRIPTION = //
-            "The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. \n" //
-                    + "It provides support for:" //
-                    + "<ul>" //
-                    + "<li>A1 Policy creation and modification.</li>" //
-                    + "<li>Maintaining a view of supported Near-RT RIC policy types </li>" //
-                    + "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed. </li> " //
-                    + "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs </li>" //
-                    + "</ul>"//
-    ;
-    static final String VERSION = "1.1.0";
-    @SuppressWarnings("squid:S1075") // Refactor your code to get this URI from a customizable parameter.
-    static final String RESOURCES_PATH = "classpath:/META-INF/resources/";
-    static final String WEBJARS_PATH = RESOURCES_PATH + "webjars/";
-    static final String SWAGGER_UI = "swagger-ui.html";
-    static final String WEBJARS = "/webjars/**";
+                ), //
+                @Tag( //
+                        name = StatusController.API_NAME, //
+                        description = StatusController.API_DESCRIPTION //
+                ), //
+                @Tag( //
+                        name = Consts.V2_API_SERVICE_CALLBACKS_NAME, //
+                        description = Consts.V2_API_SERVICE_CALLBACKS_DESCRIPTION //
+                ) //
+        }, //
+        info = @Info(title = SwaggerConfig.API_TITLE, //
+                version = SwaggerConfig.VERSION, //
+                description = SwaggerConfig.DESCRIPTION, //
+                license = @License(name = "Copyright (C) 2020 Nordix Foundation. Licensed under the Apache License.", //
+                        url = "http://www.apache.org/licenses/LICENSE-2.0")) //
+)
+public class SwaggerConfig {
+    private SwaggerConfig() {}
 
-    /**
-     * Gets the API info.
-     *
-     * @return the API info.This page lists all the rest apis for the service.
-     */
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2) //
-                .apiInfo(apiInfo()) //
-                .select() //
-                .apis(RequestHandlerSelectors.any()) //
-                .paths(PathSelectors.any()) //
-                .paths(PathSelectors.regex("/error").negate()) //
-                // this endpoint is not implemented, but was visible for Swagger
-                .paths(PathSelectors.regex("/actuator.*").negate()) // 
-                // this endpoint is implemented by spring framework, exclude for now
-                .build();
-    }
+    private static final String H3 = "<h3>";
+    private static final String H3_END = "</h3>";
 
-    private static ApiInfo apiInfo() {
-        return new ApiInfoBuilder() //
-                .title(API_TITLE) //
-                .description(DESCRIPTION) //
-                .version(VERSION) //
-                .contact(contact()) //
-                .extensions(vendorExtentions()) //
-                .build();
-    }
+    public static final String API_TITLE = "A1 Policy management service";
+    static final String DESCRIPTION = "<h2>General</h2>" + //
+            "<p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. <br/>The main tasks of the service are:</p>"
+            + //
+            "<ul>" + //
+            "<li>A1 Policy creation, modification and deletion.</li>" + //
+            "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li>" + //
+            "<li>Maintaining a view of supported Near-RT RIC policy types</li>" + //
+            "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed.</li>" + //
+            "</ul>" + //
+            "<h2>APIs provided by the service</h2>" + //
+            H3 + PolicyController.API_NAME + H3_END + //
+            "<p>This is an API for management of A1 Policies.</p>" + //
+            "<ul>" + //
+            "<li>A1 Policy retrieval, creation, modification and deletion.</li>" + //
+            "<li>Retrieval of supported A1 Policy types for a Near-RT RIC</li>" + //
+            "<li>Retrieval of status for existing A1 policies</li>" + //
+            "</ul>" + //
 
-    @SuppressWarnings("java:S3740") // VendorExtension is a raw type. References to generic type VendorExtension<T>
-                                    // should be parameterizedJava(16777788)
-    private static List<VendorExtension> vendorExtentions() {
-        final String URN = "60f9a0e7-343f-43bf-9194-d8d65688d465";
-        List<VendorExtension> extentions = new ArrayList<>();
-        extentions.add(new StringVendorExtension("x-api-id", URN));
-        extentions.add(new StringVendorExtension("x-audience", "external-partner"));
-        return extentions;
-    }
+            H3 + ConfigurationController.API_NAME + H3_END + //
+            "<p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p>"
+            + //
+            H3 + Consts.V2_API_SERVICE_CALLBACKS_NAME + H3_END + //
+            "<p>These are endpoints that are invoked by this service. The callbacks are registerred in this service at service registration.</p>"
+            + //
+            H3 + RicRepositoryController.API_NAME + H3_END + //
+            "<p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p>"
+            + H3 + StatusController.API_NAME + H3_END + //
+            "<p>API used for supervision of the PMS component.</p>" + //
+            H3 + ServiceController.API_NAME + H3_END + //
+            "<p>API used for registerring services that uses PMS. Each A1 policy is owned by a service. PMS can supervise each registerred service and will automatically remove policies for unavailable services.</p>";
 
-    private static Contact contact() {
-        return new Contact("Ericsson Software Technology", "", "nonrtric@est.tech");
-    }
-
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(SWAGGER_UI) //
-                .addResourceLocations(RESOURCES_PATH);
-
-        registry.addResourceHandler(WEBJARS) //
-                .addResourceLocations(WEBJARS_PATH);
-    }
-
+    public static final String VERSION = "1.1.0";
 }

@@ -20,26 +20,25 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "ric_info_v1")
+@Schema(name = "ric_info_v1")
 class RicInfo {
-    @ApiModelProperty(value = "identity of the Near-RT RIC")
+    @Schema(description = "identity of the Near-RT RIC")
     public final String ricName;
 
-    @ApiModelProperty(value = "O1 identities for managed entities")
+    @Schema(description = "O1 identities for managed entities")
     public final Collection<String> managedElementIds;
 
-    @ApiModelProperty(value = "supported policy types")
+    @Schema(description = "supported policy types")
     public final Collection<String> policyTypes;
 
-    @ApiModelProperty(value = "state info")
+    @Schema(description = "state info")
     public final String state;
 
     RicInfo(String name, Collection<String> managedElementIds, Collection<String> policyTypes, String state) {

@@ -20,25 +20,24 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "service_status_v1")
+@Schema(name = "service_status_v1")
 public class ServiceStatus {
 
-    @ApiModelProperty(value = "identity of the service")
+    @Schema(description = "identity of the service")
     public final String serviceName;
 
-    @ApiModelProperty(value = "policy keep alive timeout")
+    @Schema(description = "policy keep alive timeout")
     public final long keepAliveIntervalSeconds;
 
-    @ApiModelProperty(value = "time since last invocation by the service")
+    @Schema(description = "time since last invocation by the service")
     public final long timeSinceLastActivitySeconds;
 
-    @ApiModelProperty(value = "callback for notifying of RIC synchronization")
+    @Schema(description = "callback for notifying of RIC synchronization")
     public String callbackUrl;
 
     ServiceStatus(String name, long keepAliveIntervalSeconds, long timeSincePingSeconds, String callbackUrl) {

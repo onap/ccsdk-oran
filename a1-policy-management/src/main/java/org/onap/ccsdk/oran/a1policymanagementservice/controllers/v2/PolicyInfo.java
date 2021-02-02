@@ -23,48 +23,47 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policy_info_v2", description = "Information for one A1-P Policy")
+@Schema(name = "policy_info_v2", description = "Information for one A1-P Policy")
 public class PolicyInfo {
 
-    @ApiModelProperty(value = "identity of the policy", required = true)
+    @Schema(name = "policy_id", description = "identity of the policy", required = true)
     @JsonProperty(value = "policy_id", required = true)
     @SerializedName("policy_id")
     public String policyId;
 
-    @ApiModelProperty(value = "identity of the policy type", required = true)
+    @Schema(name = "policytype_id", description = "identity of the policy type", required = true)
     @JsonProperty(value = "policytype_id", required = true)
     @SerializedName("policytype_id")
     public String policyTypeId;
 
-    @ApiModelProperty(value = "identity of the target Near-RT RIC", required = true)
+    @Schema(name = "ric_id", description = "identity of the target Near-RT RIC", required = true)
     @JsonProperty(value = "ric_id", required = true)
     @SerializedName("ric_id")
     public String ricId;
 
-    @ApiModelProperty(value = "the configuration of the policy", required = true)
+    @Schema(name = "policy_data", description = "the configuration of the policy", required = true)
     @JsonProperty(value = "policy_data", required = true)
     @SerializedName("policy_data")
     public Object policyData;
 
-    @ApiModelProperty(value = "the name of the service owning the policy", required = true)
+    @Schema(name = "service_id", description = "the name of the service owning the policy", required = true)
     @JsonProperty(value = "service_id", required = true)
     @SerializedName("service_id")
     public String serviceId;
 
-    @ApiModelProperty(
-            value = "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
+    @Schema(name = "transient",
+            description = "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
             required = false)
     @JsonProperty(value = "transient", required = false, defaultValue = "false")
     @SerializedName("transient")
     public boolean isTransient = false;
 
-    @ApiModelProperty(value = "Callback URI for policy status updates", required = false)
+    @Schema(name = "status_notification_uri", description = "Callback URI for policy status updates", required = false)
     @JsonProperty(value = "status_notification_uri", required = false)
     @SerializedName("status_notification_uri")
     public String statusNotificationUri = "";

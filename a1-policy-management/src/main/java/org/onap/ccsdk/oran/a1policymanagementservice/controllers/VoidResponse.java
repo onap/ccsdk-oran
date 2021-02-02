@@ -20,12 +20,12 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "void", description = "Void/empty")
+@Schema(name = "void", description = "Void/empty")
 public class VoidResponse {
     private VoidResponse() {}
 }

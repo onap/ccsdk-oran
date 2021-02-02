@@ -23,18 +23,17 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "service_list_v2", description = "List of service information")
+@Schema(name = "service_list_v2", description = "List of service information")
 public class ServiceStatusList {
 
-    @ApiModelProperty(value = "List of service information")
+    @Schema(description = "List of service information")
     @SerializedName("service_list")
     @JsonProperty("service_list")
     public final Collection<ServiceStatus> statusList;
