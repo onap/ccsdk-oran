@@ -23,11 +23,14 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = Consts.V1_API_NAME)
+@Tag(name = Consts.V1_API_NAME)
 public class RicRepositoryController {
 
     @Autowired
@@ -62,13 +65,18 @@ public class RicRepositoryController {
      * @throws EntityNotFoundException
      */
     @GetMapping("/ric")
-    @ApiOperation(value = "Returns the name of a RIC managing one Mananged Element")
+    @Operation(summary = "Returns the name of a RIC managing one Mananged Element")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Near-RT RIC is found", response = String.class), //
-            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = String.class) //
+            @ApiResponse(responseCode = "200", //
+                    description = "Near-RT RIC is found", //
+                    content = @Content(schema = @Schema(implementation = String.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC is not found", //
+                    content = @Content(schema = @Schema(implementation = String.class))) //
     })
+
     public ResponseEntity<String> getRic( //
-            @ApiParam(name = "managedElementId", required = true, value = "The identity of the Managed Element") //
+            @Parameter(name = "managedElementId", required = true, description = "The identity of the Managed Element") //
             @RequestParam(name = "managedElementId", required = true) String managedElementId)
             throws EntityNotFoundException {
         Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
@@ -79,12 +87,17 @@ public class RicRepositoryController {
      * @return a Json array of all RIC data Example: http://localhost:8081/ric
      */
     @GetMapping("/rics")
-    @ApiOperation(value = "Query Near-RT RIC information")
+    @Operation(summary = "Query Near-RT RIC information")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "OK", response = RicInfo.class, responseContainer = "List"), //
-            @ApiResponse(code = 404, message = "Policy type is not found", response = String.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "OK", //
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = RicInfo.class)))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy type is not found", //
+                    content = @Content(schema = @Schema(implementation = String.class))) //
+    })
     public ResponseEntity<String> getRics( //
-            @ApiParam(name = "policyType", required = false, value = "The name of the policy type") //
+            @Parameter(name = "policyType", required = false, description = "The name of the policy type") //
             @RequestParam(name = "policyType", required = false) String supportingPolicyType) {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
             return new ResponseEntity<>("Policy type not found", HttpStatus.NOT_FOUND);

@@ -20,10 +20,12 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +34,16 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@Api(tags = Consts.V1_API_NAME)
+@Tag(name = Consts.V1_API_NAME)
 public class StatusController {
 
     @GetMapping("/status")
-    @ApiOperation(value = "Returns status and statistics of this service")
+    @Operation(summary = "Returns status and statistics of this service")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Service is living", response = String.class) //
+            @ApiResponse(responseCode = "200", description = "Service is living",
+                    content = @Content(schema = @Schema(implementation = String.class))) //
     })
+
     public Mono<ResponseEntity<String>> getStatus() {
         return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
     }

@@ -25,17 +25,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policytype_v2", description = "Policy type")
+@Schema(name = "policytype_v2", description = "Policy type")
 public class PolicyTypeInfo {
 
-    @ApiModelProperty(
-            value = "Policy type json scema. The schema is a json object following http://json-schema.org/draft-07/schema")
+    @Schema(description = "Policy type json scema. The schema is a json object following http://json-schema.org/draft-07/schema")
     @SerializedName("policy_schema")
     @JsonProperty("policy_schema")
     public final Object schema;

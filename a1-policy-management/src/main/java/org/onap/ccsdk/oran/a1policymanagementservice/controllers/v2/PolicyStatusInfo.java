@@ -23,23 +23,22 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policy_status_info_v2", description = "Status for one A1-P Policy")
+@Schema(name = "policy_status_info_v2", description = "Status for one A1-P Policy")
 public class PolicyStatusInfo {
 
-    @ApiModelProperty(value = "timestamp, last modification time")
+    @Schema(description = "timestamp, last modification time")
     @SerializedName("last_modified")
     @JsonProperty("last_modified")
     public String lastModified;
 
-    @ApiModelProperty(value = "the Policy status")
+    @Schema(description = "the Policy status")
     @SerializedName("status")
     @JsonProperty("status")
     public Object status;

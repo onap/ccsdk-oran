@@ -23,18 +23,17 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policytype_id_list_v2", description = "Information about policy types")
+@Schema(name = "policytype_id_list_v2", description = "Information about policy types")
 public class PolicyTypeIdList {
 
-    @ApiModelProperty(value = "Policy type identities")
+    @Schema(description = "Policy type identities")
     @SerializedName("policytype_ids")
     @JsonProperty("policytype_ids")
     public final Collection<String> policyTypesIds;

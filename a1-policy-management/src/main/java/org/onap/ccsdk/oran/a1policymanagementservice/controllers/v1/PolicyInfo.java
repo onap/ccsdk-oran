@@ -20,31 +20,30 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "policy_info_v1")
+@Schema(name = "policy_info_v1")
 public class PolicyInfo {
 
-    @ApiModelProperty(value = "identity of the policy")
+    @Schema(description = "identity of the policy")
     public String id;
 
-    @ApiModelProperty(value = "name of the policy type")
+    @Schema(description = "name of the policy type")
     public String type;
 
-    @ApiModelProperty(value = "identity of the target Near-RT RIC")
+    @Schema(description = "identity of the target Near-RT RIC")
     public String ric;
 
-    @ApiModelProperty(value = "the configuration of the policy")
+    @Schema(description = "the configuration of the policy")
     public Object json;
 
-    @ApiModelProperty(value = "the name of the service owning the policy")
+    @Schema(description = "the name of the service owning the policy")
     public String service;
 
-    @ApiModelProperty(value = "timestamp, last modification time")
+    @Schema(description = "timestamp, last modification time")
     public String lastModified;
 
     PolicyInfo() {}

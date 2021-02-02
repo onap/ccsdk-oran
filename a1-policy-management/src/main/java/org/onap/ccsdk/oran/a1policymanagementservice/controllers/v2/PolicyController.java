@@ -23,11 +23,13 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
@@ -67,8 +69,11 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @RestController("PolicyControllerV2")
-@Api(tags = {Consts.V2_API_NAME})
+@Tag(name = PolicyController.API_NAME)
 public class PolicyController {
+
+    public static final String API_NAME = "A1 Policy Management";
+    public static final String API_DESCRIPTION = "";
 
     public static class RejectionException extends Exception {
         private static final long serialVersionUID = 1L;
@@ -97,12 +102,16 @@ public class PolicyController {
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policytype_id:.+}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns a policy type definition")
+    @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policytype_id:.+}") //
+    @Operation(summary = "Returns a policy type definition") //
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Policy type", response = PolicyTypeInfo.class), //
-            @ApiResponse(code = 404, message = "Policy type is not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy type", //
+                    content = @Content(schema = @Schema(implementation = PolicyTypeInfo.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy type is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))//
+    })
     public ResponseEntity<Object> getPolicyType( //
             @PathVariable("policytype_id") String policyTypeId) throws EntityNotFoundException {
         PolicyType type = policyTypes.getType(policyTypeId);
@@ -111,12 +120,18 @@ public class PolicyController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-types", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query policy type identities", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Policy type IDs", response = PolicyTypeIdList.class),
-            @ApiResponse(code = 404, message = "Near-RT RIC is not found", response = ErrorResponse.ErrorInfo.class)})
+    @Operation(summary = "Query policy type identities")
+    @ApiResponses(value = { //
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy type IDs", //
+                    content = @Content(schema = @Schema(implementation = PolicyTypeIdList.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public ResponseEntity<Object> getPolicyTypes( //
-            @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
-                    value = "The identity of the Near-RT RIC to get types for.") //
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
+                    description = "The identity of the Near-RT RIC to get types for.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) throws EntityNotFoundException {
         if (ricId == null) {
             Collection<PolicyType> types = this.policyTypes.getAll();
@@ -128,11 +143,15 @@ public class PolicyController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policies/{policy_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns a policy") //
+    @Operation(summary = "Returns a policy") //
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Policy found", response = PolicyInfo.class), //
-            @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class)} //
-    )
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy found", //
+                    content = @Content(schema = @Schema(implementation = PolicyInfo.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public ResponseEntity<Object> getPolicy( //
             @PathVariable(name = Consts.POLICY_ID_PARAM, required = true) String id) throws EntityNotFoundException {
         Policy p = policies.getPolicy(id);
@@ -140,18 +159,27 @@ public class PolicyController {
     }
 
     @DeleteMapping(Consts.V2_API_ROOT + "/policies/{policy_id:.+}")
-    @ApiOperation(value = "Delete a policy")
+    @Operation(summary = "Delete a policy")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Not used", response = VoidResponse.class),
-            @ApiResponse(code = 204, message = "Policy deleted", response = VoidResponse.class),
-            @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class),
-            @ApiResponse(code = 423, message = "Near-RT RIC is not operational",
-                    response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "Not used", //
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))), //
+            @ApiResponse(responseCode = "204", //
+                    description = "Policy deleted", //
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))), //
+            @ApiResponse(responseCode = "423", //
+                    description = "Near-RT RIC is not operational", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public Mono<ResponseEntity<Object>> deletePolicy( //
             @PathVariable(Consts.POLICY_ID_PARAM) String policyId) throws EntityNotFoundException {
         Policy policy = policies.getPolicy(policyId);
         keepServiceAlive(policy.ownerServiceId());
         Ric ric = policy.ric();
+
         return ric.getLock().lock(LockType.SHARED) //
                 .flatMap(notUsed -> assertRicStateIdle(ric)) //
                 .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.ric())) //
@@ -164,14 +192,20 @@ public class PolicyController {
     }
 
     @PutMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create or update a policy")
+    @Operation(summary = "Create or update a policy")
     @ApiResponses(value = { //
-            @ApiResponse(code = 201, message = "Policy created", response = VoidResponse.class), //
-            @ApiResponse(code = 200, message = "Policy updated", response = VoidResponse.class), //
-            @ApiResponse(code = 423, message = "Near-RT RIC is not operational",
-                    response = ErrorResponse.ErrorInfo.class), //
-            @ApiResponse(code = 404, message = "Near-RT RIC or policy type is not found",
-                    response = ErrorResponse.ErrorInfo.class) //
+            @ApiResponse(responseCode = "201", //
+                    description = "Policy created", //
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))), //
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy updated", //
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))), //
+            @ApiResponse(responseCode = "423", //
+                    description = "Near-RT RIC is not operational", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC or policy type is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
     })
     public Mono<ResponseEntity<Object>> putPolicy(@RequestBody PolicyInfo policyInfo) throws EntityNotFoundException {
 
@@ -263,20 +297,24 @@ public class PolicyController {
                     + "If several query parameters are defined, the policies matching all conditions are returned.";
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-instances", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query for A1 policy instances", notes = GET_POLICIES_QUERY_DETAILS)
+    @Operation(summary = "Query for A1 policy instances", description = GET_POLICIES_QUERY_DETAILS)
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Policies", response = PolicyInfoList.class),
-            @ApiResponse(code = 404, message = "Near-RT RIC, policy type or service not found",
-                    response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "Policies", //
+                    content = @Content(schema = @Schema(implementation = PolicyInfoList.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC, policy type or service not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public ResponseEntity<Object> getPolicyInstances( //
-            @ApiParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    value = "The identity of the policy type to get policies for.") //
+            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
+                    description = "The identity of the policy type to get policies for.") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String type, //
-            @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
-                    value = "The identity of the Near-RT RIC to get policies for.") //
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
+                    description = "The identity of the Near-RT RIC to get policies for.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ric, //
-            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false,
-                    value = "The identity of the service to get policies for.") //
+            @Parameter(name = Consts.SERVICE_ID_PARAM, required = false,
+                    description = "The identity of the service to get policies for.") //
             @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String service)
             throws EntityNotFoundException //
     {
@@ -291,20 +329,25 @@ public class PolicyController {
         return new ResponseEntity<>(filteredPolicies, HttpStatus.OK);
     }
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Query policy identities", notes = GET_POLICIES_QUERY_DETAILS)
+    @GetMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE) //
+    @Operation(summary = "Query policy identities", description = GET_POLICIES_QUERY_DETAILS) //
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Policy identities", response = PolicyIdList.class), @ApiResponse(
-                    code = 404, message = "Near-RT RIC or type not found", response = ErrorResponse.ErrorInfo.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy identities", //
+                    content = @Content(schema = @Schema(implementation = PolicyIdList.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Near-RT RIC or type not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public ResponseEntity<Object> getPolicyIds( //
-            @ApiParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    value = "The identity of the policy type to get policies for.") //
+            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
+                    description = "The identity of the policy type to get policies for.") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String policyTypeId, //
-            @ApiParam(name = Consts.RIC_ID_PARAM, required = false,
-                    value = "The identity of the Near-RT RIC to get policies for.") //
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
+                    description = "The identity of the Near-RT RIC to get policies for.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId, //
-            @ApiParam(name = Consts.SERVICE_ID_PARAM, required = false,
-                    value = "The identity of the service to get policies for.") //
+            @Parameter(name = Consts.SERVICE_ID_PARAM, required = false,
+                    description = "The identity of the service to get policies for.") //
             @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String serviceId)
             throws EntityNotFoundException //
     {
@@ -320,11 +363,15 @@ public class PolicyController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policies/{policy_id}/status", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Returns a policy status") //
+    @Operation(summary = "Returns a policy status") //
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Policy status", response = PolicyStatusInfo.class), //
-            @ApiResponse(code = 404, message = "Policy is not found", response = ErrorResponse.ErrorInfo.class)} //
-    )
+            @ApiResponse(responseCode = "200", //
+                    description = "Policy status", //
+                    content = @Content(schema = @Schema(implementation = PolicyStatusInfo.class))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Policy is not found", //
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
+    })
     public Mono<ResponseEntity<Object>> getPolicyStatus( //
             @PathVariable(Consts.POLICY_ID_PARAM) String policyId) throws EntityNotFoundException {
         Policy policy = policies.getPolicy(policyId);

@@ -23,11 +23,14 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,7 +55,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = Consts.V1_API_NAME)
+@Tag(name = Consts.V1_API_NAME)
 public class ServiceController {
 
     private final Services services;
@@ -67,12 +70,18 @@ public class ServiceController {
     }
 
     @GetMapping("/services")
-    @ApiOperation(value = "Returns service information")
+    @Operation(summary = "Returns service information")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "OK", response = ServiceStatus.class, responseContainer = "List"), //
-            @ApiResponse(code = 404, message = "Service is not found", response = String.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "OK", //
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ServiceStatus.class)))), //
+            @ApiResponse(responseCode = "404", //
+                    description = "Service is not found", //
+                    content = @Content(schema = @Schema(implementation = String.class))) //
+    })
+
     public ResponseEntity<String> getServices(//
-            @ApiParam(name = "name", required = false, value = "The name of the service") //
+            @Parameter(name = "name", required = false, description = "The name of the service") //
             @RequestParam(name = "name", required = false) String name) {
         if (name != null && this.services.get(name) == null) {
             return new ResponseEntity<>("Service not found", HttpStatus.NOT_FOUND);
@@ -107,11 +116,18 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Register a service")
+    @Operation(summary = "Register a service")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Service updated", response = String.class),
-            @ApiResponse(code = 201, message = "Service created", response = String.class), //
-            @ApiResponse(code = 400, message = "The ServiceRegistrationInfo is not accepted", response = String.class)})
+            @ApiResponse(responseCode = "200", //
+                    description = "Service updated", //
+                    content = @Content(schema = @Schema(implementation = String.class))), //
+            @ApiResponse(responseCode = "201", //
+                    description = "Service created", //
+                    content = @Content(schema = @Schema(implementation = String.class))), //
+            @ApiResponse(responseCode = "400", //
+                    description = "The ServiceRegistrationInfo is not accepted", //
+                    content = @Content(schema = @Schema(implementation = String.class))) //
+    })
     @PutMapping("/service")
     public ResponseEntity<String> putService(//
             @RequestBody ServiceRegistrationInfo registrationInfo) {
@@ -125,14 +141,16 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Delete a service")
+    @Operation(summary = "Delete a service")
     @ApiResponses(value = { //
-            @ApiResponse(code = 204, message = "Service deleted"),
-            @ApiResponse(code = 204, message = "Not used", response = VoidResponse.class),
-            @ApiResponse(code = 404, message = "Service not found", response = String.class)})
+            @ApiResponse(responseCode = "204", description = "Service deleted"),
+            @ApiResponse(responseCode = "204", description = "Not used",
+                    content = @Content(schema = @Schema(implementation = VoidResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Service not found",
+                    content = @Content(schema = @Schema(implementation = String.class)))})
     @DeleteMapping("/services")
     public ResponseEntity<String> deleteService(//
-            @ApiParam(name = "name", required = true, value = "The name of the service") //
+            @Parameter(name = "name", required = true, description = "The name of the service") //
             @RequestParam(name = "name", required = true) String serviceName) {
         try {
             Service service = removeService(serviceName);
@@ -145,13 +163,16 @@ public class ServiceController {
         }
     }
 
-    @ApiOperation(value = "Heartbeat from a service")
+    @Operation(summary = "Heartbeat from a service")
     @ApiResponses(value = { //
-            @ApiResponse(code = 200, message = "Service supervision timer refreshed, OK"),
-            @ApiResponse(code = 404, message = "The service is not found, needs re-registration")})
+            @ApiResponse(responseCode = "200", description = "Service supervision timer refreshed, OK"),
+            @ApiResponse(responseCode = "404", description = "The service is not found, needs re-registration")
+
+    })
+
     @PutMapping("/services/keepalive")
     public ResponseEntity<String> keepAliveService(//
-            @ApiParam(name = "name", required = true, value = "The name of the service") //
+            @Parameter(name = "name", required = true, description = "The name of the service") //
             @RequestParam(name = "name", required = true) String serviceName) {
         try {
             services.getService(serviceName).keepAlive();

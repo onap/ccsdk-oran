@@ -22,19 +22,18 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1;
 
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.immutables.gson.Gson;
 
 @Gson.TypeAdapters
-@ApiModel(value = "service_registration_info_v1")
+@Schema(name = "service_registration_info_v1")
 public class ServiceRegistrationInfo {
 
     @SerializedName("serviceName")
     public String serviceName = "";
 
-    @ApiModelProperty(value = "keep alive interval for the service. This is a heartbeat supervision of the service, "
+    @Schema(description = "keep alive interval for the service. This is a heartbeat supervision of the service, "
             + "which in regular intevals must invoke a 'keepAlive' REST call. "
             + "When a service does not invoke this call within the given time, it is considered unavailble. "
             + "An unavailable service will be automatically deregistered and its policies will be deleted. "
@@ -42,7 +41,7 @@ public class ServiceRegistrationInfo {
     @SerializedName("keepAliveIntervalSeconds")
     public long keepAliveIntervalSeconds = 0;
 
-    @ApiModelProperty(value = "callback for notifying of RIC synchronization", required = false, allowEmptyValue = true)
+    @Schema(description = "callback for notifying of RIC synchronization")
     @SerializedName("callbackUrl")
     public String callbackUrl = "";
 

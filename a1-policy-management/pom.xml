@@ -19,7 +19,6 @@
   ~ ============LICENSE_END=======================================================
   ~
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -44,7 +43,8 @@
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
         <commons-io.version>2.5</commons-io.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
-        <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
+        <surefire-maven-plugin.version>3.0.0-M5
+        </surefire-maven-plugin.version>
         <!-- Version must be higher than version 2.19.1 that is defined in the parent pom for JUnit 5 tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
@@ -52,6 +52,11 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
