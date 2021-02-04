@@ -31,11 +31,9 @@
     </bean>
 
     <reference id="notificationService"
-               interface="org.opendaylight.controller.md.sal.binding.api.NotificationPublishService"
-               odl:type="default"/>
+               interface="org.opendaylight.mdsal.binding.api.NotificationPublishService" />
 
-    <reference id="rpcRegistry" interface="org.opendaylight.controller.sal.binding.api.RpcProviderRegistry"
-               odl:type="default"/>
+    <reference id="rpcRegistry" interface="org.opendaylight.mdsal.binding.api.RpcProviderService" />
 
     <bean id="provider" class="org.onap.ccsdk.features.a1.adapter.A1AdapterProvider">
         <argument ref="notificationService"/>

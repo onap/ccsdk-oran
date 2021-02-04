@@ -33,8 +33,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
-import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
+import org.opendaylight.mdsal.binding.api.NotificationPublishService;
+import org.opendaylight.mdsal.binding.api.RpcProviderService;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyInputBuilder;
@@ -62,7 +62,7 @@ class A1AdapterProviderTest {
     @Mock
     private NotificationPublishService mockNotificationPublishService;
     @Mock
-    private RpcProviderRegistry mockRpcProviderRegistry;
+    private RpcProviderService mockRpcService;
     @Mock
     private A1AdapterClient a1AdapterClient;
     private static String module = "A1-ADAPTER-API";
@@ -71,7 +71,7 @@ class A1AdapterProviderTest {
     @BeforeEach
     void setUp() {
         a1AdapterProviderMock = Mockito.spy(new A1AdapterProvider(mockNotificationPublishService,
-            mockRpcProviderRegistry, a1AdapterClient));
+            mockRpcService, a1AdapterClient));
     }
 
     @Test
