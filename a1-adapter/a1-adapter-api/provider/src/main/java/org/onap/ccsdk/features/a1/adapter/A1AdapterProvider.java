@@ -30,9 +30,8 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.onap.ccsdk.sli.core.sli.provider.MdsalHelper;
-import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
+import org.opendaylight.mdsal.binding.api.NotificationPublishService;
+import org.opendaylight.mdsal.binding.api.RpcProviderService;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.A1ADAPTERAPIService;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInputBuilder;
@@ -55,6 +54,7 @@ import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInp
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutputBuilder;
 import org.opendaylight.yangtools.concepts.Builder;
+import org.opendaylight.yangtools.concepts.ObjectRegistration;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
@@ -82,24 +82,24 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     private final ExecutorService executor;
     protected NotificationPublishService notificationService;
-    protected RpcProviderRegistry rpcRegistry;
-    protected BindingAwareBroker.RpcRegistration<A1ADAPTERAPIService> rpcRegistration;
+    protected RpcProviderService rpcService;
     private final A1AdapterClient a1AdapterClient;
+    private ObjectRegistration<A1ADAPTERAPIService> rpcRegistration;
 
     public A1AdapterProvider(final NotificationPublishService notificationPublishService,
-        final RpcProviderRegistry rpcProviderRegistry, final A1AdapterClient a1AdapterClient) {
+        final RpcProviderService rpcProviderService, final A1AdapterClient a1AdapterClient) {
 
         log.info("Creating provider for {}", APPLICATION_NAME);
         executor = Executors.newFixedThreadPool(1);
         this.notificationService = notificationPublishService;
-        this.rpcRegistry = rpcProviderRegistry;
+        this.rpcService = rpcProviderService;
         this.a1AdapterClient = a1AdapterClient;
         initialize();
     }
 
     public void initialize() {
         log.info("Initializing provider for {}", APPLICATION_NAME);
-        rpcRegistration = rpcRegistry.addRpcImplementation(A1ADAPTERAPIService.class, this);
+        rpcRegistration = rpcService.registerRpcImplementation(A1ADAPTERAPIService.class, this);
         log.info("Initialization complete for {}", APPLICATION_NAME);
     }
 
