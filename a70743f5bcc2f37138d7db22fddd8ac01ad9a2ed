@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b28b3b_921ff30e",
+        "filename": "csit/scripts/healthcheck/sdnc/docker-compose.yml",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2021-02-25T21:54:54Z",
+      "side": 1,
+      "message": "You\u0027ll need to add quite a few more env variables (we no longer have hardcoded. The most important ones are:\n-      - MYSQL_USER\u003d${MYSQL_USER}\n      - MYSQL_PASSWORD\u003d${MYSQL_PASSWORD}\n      - MYSQL_DATABASE\u003d${MYSQL_DATABASE}\n      - ODL_ADMIN_USERNAME\u003d${ODL_USER}\n      - ODL_ADMIN_PASSWORD\u003d${ODL_PASSWORD}\n      - ODL_USER\u003d${ODL_USER}\n      - ODL_PASSWORD\u003d${ODL_PASSWORD}\n\nNote that the values above are env variables.  That\u0027s probably preferable to make it easier to stay consistent.",
+      "revId": "a70743f5bcc2f37138d7db22fddd8ac01ad9a2ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
