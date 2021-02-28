@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cf22f34_85706387",
+        "filename": "a1-policy-management/config/application_configuration.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2021-02-28T00:04:09Z",
+      "side": 1,
+      "message": "I doubt it\u0027s admin, please reconfirm !",
+      "revId": "c9f2532ef02c24a8b699b1e5dd1ae8df45ee893f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
