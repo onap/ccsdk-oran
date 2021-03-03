@@ -21,7 +21,7 @@ networks:
 
 services:
   policy-agent:
-    image: onap/ccsdk-oran-a1policymanagementservice:1.1.2-STAGING-latest
+    image: onap/ccsdk-oran-a1policymanagementservice:1.1.2-SNAPSHOT-latest
     container_name: policy-agent
     networks:
       default:
