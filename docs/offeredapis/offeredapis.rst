@@ -15,7 +15,7 @@ Introduction
 The north bound REST API of the Policy Management Service provides convenient methods to handle policies.
 
 
-Global ORAN architecture
+Overview
 ************************
 
 Following illustration provides a global view about **ORAN** architecture,
@@ -39,21 +39,9 @@ The version number (without the revision number) is held in the URI.
 The major version number is incremented for an incompatible change.
 The minor version number is incremented for a compatible change.
 For minor modifications of the API, version numbering must not be updated,
-provided the following  backward compatibility rules are respected:
-
-- New elements in a data type must be optional (``minOccurs=0``)
-- Changes in the cardinality of an attribute in a data type must be from
-  mandatory to optional or from lower to greater
-- New attributes defined in an element must be optional (absence of
-  ``use="required"``).
-- If new enumerated values are included, the former ones and its meaning must
-  be kept.
-- If new operations are added, the existing operations must be kept
-- New parameters added to existing operations must be optional and existing
-  parameters must be kept
 
 For major modifications of the API, not backward compatible and forcing client
-implementations to be changed, the version number must be updated.
+implementations to be changed, the major version number must be updated.
 
 
 API Table
