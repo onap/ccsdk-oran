@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "effe6cc2_7744d258",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4875
+      },
+      "writtenOn": "2021-03-09T20:01:28Z",
+      "side": 1,
+      "message": "gating CSIT is using 1.1.2-SNAPSHOT as image tag.\nneed to update docker-compose.yml file in \"csit/scripts/healthcheck\"",
+      "revId": "13fcd66c6913af3c6c5a3989a7014dff28e09ebf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
