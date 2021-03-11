@@ -16,9 +16,9 @@ The CCSDK ORAN components add support for handling "A1 Policies" as defined for 
 The O-RAN A1 interface is defined by the `O-RAN Alliance <https://www.o-ran.org>`_
 
 
-*********************************************
+************************************
 Architecture for ONAP Guilin release
-*********************************************
+************************************
 
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
