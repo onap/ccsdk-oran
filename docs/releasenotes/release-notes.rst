@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution
 .. 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright (C) 2020 Nordix Foundation.
+.. Copyright (C) 2021 Nordix Foundation.
 .. _release_notes:
 
 =============
@@ -18,14 +18,15 @@ of the ORAN project.
 Version history Policy Management Service
 =========================================
 
-+------------+----------+-------------+----------------+
-| **Date**   | **Ver.** | **Author**  | **Comment**    |
-|            |          |             |                |
-+------------+----------+-------------+----------------+
-| 2020-09-10 | 1.0.0    | Dan Timoney | First version  |
-|            |          |             | Guilin Release |
-+------------+----------+-------------+----------------+
-
++------------+----------+-------------+------------------------------+
+| **Date**   | **Ver.** | **Author**  | **Comment**                  |
++------------+----------+-------------+------------------------------+
+| 2020-09-10 | 1.0.0    | Dan Timoney | First version                |
+|            |          |             | Guilin Release               |
++------------+----------+-------------+------------------------------+
+| 2021-01-29 | 1.0.2    | Dan Timoney | Guilin Maintenance Release   |
+|            |          |             | Mostly documentation updates |
++------------+----------+-------------+------------------------------+
 
 Summary
 -------
@@ -36,9 +37,8 @@ Version history A1 Adapter
 
 +------------+----------+-------------+----------------+
 | **Date**   | **Ver.** | **Author**  | **Comment**    |
-|            |          |             |                |
 +------------+----------+-------------+----------------+
-| 2019-09-10 | 1.0.0    | Dan Timoney | First version  |
+| 2020-09-10 | 1.0.0    | Dan Timoney | First version  |
 |            |          |             | Guilin Release |
 +------------+----------+-------------+----------------+
 
