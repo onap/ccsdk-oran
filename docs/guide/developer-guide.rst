@@ -71,15 +71,19 @@ The file *./config/application.yaml* is read by the application at startup. It p
  * webclient; configuration parameters for a web client used by the component
 
    * SSL parameters for setting up using of key store and trust store databases.
-   * Usage of HTTP Proxy; if configured, the proxy will be used for accessing the NearRT-RICs
 
  * logging; setting of of which information that is logged.
  * filepath; the local path to a file used for dynamic configuration (if used). See next chapter.
 
 For details about the parameters in this file, see documentation in the file.
 
-Dynamic configuration
----------------------
+Dynamic configuration (REST)
+----------------------------
+
+A REST Api to dynamically reconfigure the Service (If Consul is not used). See :ref:`pms_api` for more information.
+
+Dynamic configuration (CBS/Consul)
+----------------------------------
 
 The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals.
 
