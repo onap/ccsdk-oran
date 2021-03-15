@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1ffe0b6_390be6aa",
+        "filename": "a1-policy-management/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-03-15T17:21:12Z",
+      "side": 1,
+      "message": "Can we use non-snapshot version for released versions?",
+      "range": {
+        "startLine": 31,
+        "startChar": 330,
+        "endLine": 31,
+        "endChar": 381
+      },
+      "revId": "775944716bab3165185fbe51906ec6f6268b3c72",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
