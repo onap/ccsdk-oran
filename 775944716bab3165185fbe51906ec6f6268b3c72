@@ -22,6 +22,30 @@
       "revId": "775944716bab3165185fbe51906ec6f6268b3c72",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ffe665_ac072838",
+        "filename": "a1-policy-management/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4875
+      },
+      "writtenOn": "2021-03-15T17:28:57Z",
+      "side": 1,
+      "message": "In theory yes.\nCurrently when we run command \"mvn clean install\", only SNAPSHOT tags are generated.\nFor example, in this case guilin branch:\n\n1.0.3-SNAPSHOT\n1.0.3-SNAPSHOT-latest\n1.0.3-SNAPSHOT-null\n\nThese three tags are generated.\nWe need to do a little extra work to tag non-snapshot.",
+      "parentUuid": "f1ffe0b6_390be6aa",
+      "range": {
+        "startLine": 31,
+        "startChar": 330,
+        "endLine": 31,
+        "endChar": 381
+      },
+      "revId": "775944716bab3165185fbe51906ec6f6268b3c72",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
