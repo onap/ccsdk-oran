@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4955353_683e95e0",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5051
+      },
+      "writtenOn": "2021-03-16T15:21:09Z",
+      "side": 1,
+      "message": "I have updated the release-notes in master branch for all the versions we had. Could you just copy those here as well?\nSorry for forgetting about Honolulu branch.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "4e0e183dd6fa1cf2742e837cac28e8577fd760d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
