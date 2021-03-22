@@ -22,6 +22,30 @@
       "revId": "4e0e183dd6fa1cf2742e837cac28e8577fd760d5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7457e64a_794519fe",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-03-22T13:54:02Z",
+      "side": 1,
+      "message": "Hi Rehan. \nPlease copy over the contents from Master to here. \nThanks.,",
+      "parentUuid": "c4955353_683e95e0",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "4e0e183dd6fa1cf2742e837cac28e8577fd760d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
