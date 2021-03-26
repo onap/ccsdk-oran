@@ -27,7 +27,6 @@ import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
@@ -112,7 +111,7 @@ class ConcurrencyTestRunnable implements Runnable {
     private Policy createPolicyObject(String id) {
         Ric ric = this.rics.get("ric");
         PolicyType type = this.types.get("type1");
-        return ImmutablePolicy.builder() //
+        return Policy.builder() //
                 .id(id) //
                 .json("{}") //
                 .type(type) //

@@ -20,24 +20,26 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Value.Immutable
-@Gson.TypeAdapters
-public interface DmaapResponseMessage {
+@Getter
+@Builder
+@EqualsAndHashCode
+public class DmaapResponseMessage {
 
-    String type();
+    String type;
 
-    String correlationId();
+    String correlationId;
 
-    String timestamp();
+    String timestamp;
 
-    String originatorId();
+    String originatorId;
 
-    String requestId();
+    String requestId;
 
-    String status();
+    String status;
 
-    String message();
+    String message;
 }

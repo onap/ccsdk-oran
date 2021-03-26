@@ -27,8 +27,6 @@ import java.util.Vector;
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
@@ -57,7 +55,7 @@ public class A1ClientHelper {
 
     protected static Policy createPolicy(String nearRtRicUrl, String policyId, String json, String type) {
         String callbackUrl = "https://test.com";
-        return ImmutablePolicy.builder() //
+        return Policy.builder() //
                 .id(policyId) //
                 .json(json) //
                 .ownerServiceId("service") //
@@ -70,7 +68,7 @@ public class A1ClientHelper {
     }
 
     protected static PolicyType createPolicyType(String name) {
-        return ImmutablePolicyType.builder().id(name).schema("schema").build();
+        return PolicyType.builder().id(name).schema("schema").build();
     }
 
     protected static String getCreateSchema(String policyType, String policyTypeId) {

@@ -169,14 +169,14 @@ public class StdA1ClientVersion2 implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri =
-                this.uriBuiler.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
-        return restClient.put(policyUri, policy.json());
+        String policyUri = this.uriBuiler.createPutPolicyUri(policy.getType().getId(), policy.getId(),
+                policy.getStatusNotificationUri());
+        return restClient.put(policyUri, policy.getJson());
     }
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.type().id(), policy.id());
+        return deletePolicyById(policy.getType().getId(), policy.getId());
     }
 
     @Override
@@ -193,7 +193,7 @@ public class StdA1ClientVersion2 implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uriBuiler.createGetPolicyStatusUri(policy.type().id(), policy.id());
+        String statusUri = uriBuiler.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return restClient.get(statusUri);
 
     }

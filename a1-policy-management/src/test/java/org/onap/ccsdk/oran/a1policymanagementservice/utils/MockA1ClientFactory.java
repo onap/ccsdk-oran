@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.utils;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import java.lang.invoke.MethodHandles;
@@ -42,10 +41,12 @@ public class MockA1ClientFactory extends A1ClientFactory {
     private final Map<String, MockA1Client> clients = new HashMap<>();
     private PolicyTypes policyTypes;
     private Duration asynchDelay = Duration.ofSeconds(0);
+    private final ApplicationConfig appConfig;
 
-    public MockA1ClientFactory(PolicyTypes policyTypes) {
-        super(mock(ApplicationConfig.class));
+    public MockA1ClientFactory(ApplicationConfig config, PolicyTypes policyTypes) {
+        super(config);
         this.policyTypes = policyTypes;
+        this.appConfig = config;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class MockA1ClientFactory extends A1ClientFactory {
     public MockA1Client getOrCreateA1Client(String ricId) {
         if (!clients.containsKey(ricId)) {
             logger.debug("Creating client for RIC: {}", ricId);
-            MockA1Client client = spy(new MockA1Client(policyTypes, asynchDelay));
+            MockA1Client client = spy(new MockA1Client(ricId, appConfig, policyTypes, asynchDelay));
             clients.put(ricId, client);
         }
         return clients.get(ricId);

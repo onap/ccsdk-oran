@@ -43,10 +43,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -78,11 +77,11 @@ class ServiceSupervisionTest {
             .controllerName("") //
             .build();
     private Ric ric = new Ric(ricConfig);
-    private PolicyType policyType = ImmutablePolicyType.builder() //
+    private PolicyType policyType = PolicyType.builder() //
             .id("policyTypeName") //
             .schema("schema") //
             .build();
-    private Policy policy = ImmutablePolicy.builder() //
+    private Policy policy = Policy.builder() //
             .id(POLICY_ID) //
             .json("json") //
             .ownerServiceId(SERVICE_NAME) //
@@ -182,7 +181,8 @@ class ServiceSupervisionTest {
         service = new Service(SERVICE_NAME, keepAliveInterval, "callbackUrl");
         services.put(service);
 
-        policies = new Policies();
+        ApplicationConfig appConfig = new ApplicationConfig();
+        policies = new Policies(appConfig);
         policies.put(policy);
     }
 }

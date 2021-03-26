@@ -38,7 +38,6 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,10 +75,8 @@ class DmaapMessageHandlerTest {
     }
 
     DmaapRequestMessage dmaapRequestMessage(Operation operation) {
-        Optional<JsonObject> payload =
-                ((operation == Operation.PUT || operation == Operation.POST) ? Optional.of(payloadAsJson())
-                        : Optional.empty());
-        return ImmutableDmaapRequestMessage.builder() //
+        JsonObject payload = ((operation == Operation.PUT || operation == Operation.POST) ? payloadAsJson() : null);
+        return DmaapRequestMessage.builder() //
                 .apiVersion("apiVersion") //
                 .correlationId("correlationId") //
                 .operation(operation) //
@@ -224,12 +221,12 @@ class DmaapMessageHandlerTest {
 
     @Test
     void putWithoutPayload_thenNotFoundResponseWithWarning() throws Exception {
-        DmaapRequestMessage message = ImmutableDmaapRequestMessage.builder() //
+        DmaapRequestMessage message = DmaapRequestMessage.builder() //
                 .apiVersion("apiVersion") //
                 .correlationId("correlationId") //
                 .operation(DmaapRequestMessage.Operation.PUT) //
                 .originatorId("originatorId") //
-                .payload(Optional.empty()) //
+                .payload(null) //
                 .requestId("requestId") //
                 .target("target") //
                 .timestamp("timestamp") //

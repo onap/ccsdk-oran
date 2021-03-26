@@ -24,8 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import java.util.Optional;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -89,8 +87,8 @@ public class DmaapMessageHandler {
     }
 
     private Mono<ResponseEntity<String>> invokePolicyManagementService(DmaapRequestMessage dmaapRequestMessage) {
-        DmaapRequestMessage.Operation operation = dmaapRequestMessage.operation();
-        String uri = dmaapRequestMessage.url();
+        DmaapRequestMessage.Operation operation = dmaapRequestMessage.getOperation();
+        String uri = dmaapRequestMessage.getUrl();
 
         if (operation == Operation.DELETE) {
             return pmsClient.deleteForEntity(uri);
@@ -106,9 +104,9 @@ public class DmaapMessageHandler {
     }
 
     private String payload(DmaapRequestMessage message) {
-        Optional<JsonObject> payload = message.payload();
-        if (payload.isPresent()) {
-            return gson.toJson(payload.get());
+        JsonObject payload = message.getPayload();
+        if (payload != null) {
+            return gson.toJson(payload);
         } else {
             logger.warn("Expected payload in message from DMAAP: {}", message);
             return "";
@@ -127,14 +125,16 @@ public class DmaapMessageHandler {
 
     private Mono<String> createDmaapResponseMessage(DmaapRequestMessage dmaapRequestMessage, String response,
             HttpStatus status) {
-        DmaapResponseMessage dmaapResponseMessage = ImmutableDmaapResponseMessage.builder() //
+        DmaapResponseMessage dmaapResponseMessage = DmaapResponseMessage.builder() //
                 .status(status.toString()) //
                 .message(response == null ? "" : response) //
                 .type("response") //
-                .correlationId(dmaapRequestMessage.correlationId() == null ? "" : dmaapRequestMessage.correlationId()) //
-                .originatorId(dmaapRequestMessage.originatorId() == null ? "" : dmaapRequestMessage.originatorId()) //
-                .requestId(dmaapRequestMessage.requestId() == null ? "" : dmaapRequestMessage.requestId()) //
-                .timestamp(dmaapRequestMessage.timestamp() == null ? "" : dmaapRequestMessage.timestamp()) //
+                .correlationId(
+                        dmaapRequestMessage.getCorrelationId() == null ? "" : dmaapRequestMessage.getCorrelationId()) //
+                .originatorId(
+                        dmaapRequestMessage.getOriginatorId() == null ? "" : dmaapRequestMessage.getOriginatorId()) //
+                .requestId(dmaapRequestMessage.getRequestId() == null ? "" : dmaapRequestMessage.getRequestId()) //
+                .timestamp(dmaapRequestMessage.getTimestamp() == null ? "" : dmaapRequestMessage.getTimestamp()) //
                 .build();
         String str = gson.toJson(dmaapResponseMessage);
         return Mono.just(str);

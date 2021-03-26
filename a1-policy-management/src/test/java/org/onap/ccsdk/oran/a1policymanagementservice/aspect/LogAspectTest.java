@@ -48,6 +48,8 @@ class LogAspectTest {
 
     private LogAspect sampleAspect = new LogAspect();
 
+    LoggingUtils utils;
+
     @Test
     void testExecutetimeTime_shouldLogTime() throws Throwable {
         when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);

@@ -113,8 +113,9 @@ public class StdA1ClientVersion1 implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        return restClient.put(uri.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri()),
-                policy.json());
+        return restClient.put(
+                uri.createPutPolicyUri(policy.getType().getId(), policy.getId(), policy.getStatusNotificationUri()),
+                policy.getJson());
     }
 
     @Override
@@ -129,7 +130,7 @@ public class StdA1ClientVersion1 implements A1Client {
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.id());
+        return deletePolicyById(policy.getId());
     }
 
     @Override
@@ -146,7 +147,7 @@ public class StdA1ClientVersion1 implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        return restClient.get(uri.createGetPolicyStatusUri(policy.type().id(), policy.id()));
+        return restClient.get(uri.createGetPolicyStatusUri(policy.getType().getId(), policy.getId()));
     }
 
     private Flux<String> getPolicyIds() {

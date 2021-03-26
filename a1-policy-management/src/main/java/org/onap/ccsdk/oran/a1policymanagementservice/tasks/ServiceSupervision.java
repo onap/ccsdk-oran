@@ -91,15 +91,15 @@ public class ServiceSupervision {
 
     @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
     private Flux<Policy> deletePolicy(Policy policy) {
-        Lock lock = policy.ric().getLock();
+        Lock lock = policy.getRic().getLock();
         return lock.lock(LockType.SHARED) //
                 .doOnNext(notUsed -> policies.remove(policy)) //
                 .flatMap(notUsed -> deletePolicyInRic(policy))
                 .doOnNext(notUsed -> logger.debug("Policy deleted due to service inactivity: {}, service: {}",
-                        policy.id(), policy.ownerServiceId())) //
+                        policy.getId(), policy.getOwnerServiceId())) //
                 .doOnNext(notUsed -> lock.unlockBlocking()) //
                 .doOnError(throwable -> lock.unlockBlocking()) //
-                .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.id(),
+                .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.getId(),
                         throwable.getMessage())) //
                 .flatMapMany(notUsed -> Flux.just(policy)) //
                 .onErrorResume(throwable -> Flux.empty());
@@ -110,14 +110,14 @@ public class ServiceSupervision {
     }
 
     private Mono<Policy> deletePolicyInRic(Policy policy) {
-        return a1ClientFactory.createA1Client(policy.ric()) //
+        return a1ClientFactory.createA1Client(policy.getRic()) //
                 .flatMap(client -> client.deletePolicy(policy) //
                         .onErrorResume(exception -> handleDeleteFromRicFailure(policy, exception)) //
                         .map(nothing -> policy));
     }
 
     private Mono<String> handleDeleteFromRicFailure(Policy policy, Throwable e) {
-        logger.warn("Could not delete policy: {} from ric: {}. Cause: {}", policy.id(), policy.ric().id(),
+        logger.warn("Could not delete policy: {} from ric: {}. Cause: {}", policy.getId(), policy.getRic().id(),
                 e.getMessage());
         return Mono.empty();
     }

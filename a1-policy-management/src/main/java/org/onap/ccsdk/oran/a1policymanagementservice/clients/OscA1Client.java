@@ -165,13 +165,14 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uri.createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
-        return restClient.put(policyUri, policy.json());
+        String policyUri = this.uri.createPutPolicyUri(policy.getType().getId(), policy.getId(),
+                policy.getStatusNotificationUri());
+        return restClient.put(policyUri, policy.getJson());
     }
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.type().id(), policy.id());
+        return deletePolicyById(policy.getType().getId(), policy.getId());
     }
 
     @Override
@@ -188,7 +189,7 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uri.createGetPolicyStatusUri(policy.type().id(), policy.id());
+        String statusUri = uri.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return restClient.get(statusUri);
 
     }

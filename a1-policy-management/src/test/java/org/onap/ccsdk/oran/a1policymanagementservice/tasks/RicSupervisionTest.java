@@ -45,8 +45,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -60,7 +58,7 @@ import reactor.core.publisher.Mono;
 @ExtendWith(MockitoExtension.class)
 class RicSupervisionTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
-    private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
+    private static final PolicyType POLICY_TYPE_1 = PolicyType.builder() //
             .id(POLICY_TYPE_1_NAME) //
             .schema("") //
             .build();
@@ -73,7 +71,7 @@ class RicSupervisionTest {
             .build());
 
     private static final String POLICY_1_ID = "policyId1";
-    private static final Policy POLICY_1 = ImmutablePolicy.builder() //
+    private static final Policy POLICY_1 = Policy.builder() //
             .id(POLICY_1_ID) //
             .json("") //
             .ownerServiceId("service") //
@@ -84,7 +82,7 @@ class RicSupervisionTest {
             .statusNotificationUri("statusNotificationUri") //
             .build();
 
-    private static final Policy POLICY_2 = ImmutablePolicy.builder() //
+    private static final Policy POLICY_2 = Policy.builder() //
             .id("policyId2") //
             .json("") //
             .ownerServiceId("service") //
@@ -104,14 +102,17 @@ class RicSupervisionTest {
     @Mock
     private RicSynchronizationTask synchronizationTaskMock;
 
-    private final PolicyTypes types = new PolicyTypes();
-    private Policies policies = new Policies();
+    private final ApplicationConfig appConfig = new ApplicationConfig();
+
+    private PolicyTypes types;
+    private Policies policies;
     private Rics rics = new Rics();
 
     @BeforeEach
     void init() {
-        types.clear();
-        policies.clear();
+        types = new PolicyTypes(appConfig);
+        policies = new Policies(appConfig);
+
         rics.clear();
         RIC_1.setState(RicState.UNAVAILABLE);
         RIC_1.clearSupportedPolicyTypes();
@@ -287,7 +288,7 @@ class RicSupervisionTest {
     @Test
     void whenRicIdleAndSameAmountOfPolicyTypesButNotSameTypes_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
-        PolicyType policyType2 = ImmutablePolicyType.builder() //
+        PolicyType policyType2 = PolicyType.builder() //
                 .id("policyType2") //
                 .schema("") //
                 .build();

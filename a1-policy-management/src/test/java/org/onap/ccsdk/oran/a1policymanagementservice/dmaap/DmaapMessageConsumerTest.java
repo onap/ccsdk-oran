@@ -22,7 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -37,6 +36,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,7 +99,7 @@ class DmaapMessageConsumerTest {
         String s = messageConsumerUnderTest.createTask().blockLast();
         assertEquals("responseFromHandler", s);
         verify(messageConsumerUnderTest, times(2)).delay();
-        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(dmaapRequestMessage());
+        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(any());
     }
 
     @Test
@@ -123,7 +123,7 @@ class DmaapMessageConsumerTest {
         verify(messageConsumerUnderTest, times(2)).getFromMessageRouter(anyString());
         verify(messageConsumerUnderTest, times(0)).sendErrorResponse(anyString());
         verify(messageConsumerUnderTest, times(1)).delay();
-        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(dmaapRequestMessage());
+        verify(messageConsumerUnderTest, times(1)).handleDmaapMsg(any());
         assertEquals("response1", s);
     }
 
@@ -164,14 +164,17 @@ class DmaapMessageConsumerTest {
             DmaapRequestMessage parsedMessage =
                     messageConsumerUnderTest.parseReceivedMessage(jsonArrayOfObject).blockLast();
             assertNotNull(parsedMessage);
-            assertTrue(parsedMessage.payload().isPresent());
+            assertNotNull(parsedMessage.getPayload());
+
+            Assert.assertEquals(dmaapRequestMessage(), parsedMessage);
         }
         {
             String jsonArrayOfString = jsonArray(quote(json));
             DmaapRequestMessage parsedMessage =
                     messageConsumerUnderTest.parseReceivedMessage(jsonArrayOfString).blockLast();
             assertNotNull(parsedMessage);
-            assertTrue(parsedMessage.payload().isPresent());
+            assertNotNull(parsedMessage.getPayload());
+            Assert.assertEquals(dmaapRequestMessage(), parsedMessage);
         }
 
     }
@@ -190,7 +193,7 @@ class DmaapMessageConsumerTest {
     }
 
     private DmaapRequestMessage dmaapRequestMessage() {
-        return ImmutableDmaapRequestMessage.builder() //
+        return DmaapRequestMessage.builder() //
                 .apiVersion("apiVersion") //
                 .correlationId("correlationId") //
                 .operation(Operation.PUT) //
