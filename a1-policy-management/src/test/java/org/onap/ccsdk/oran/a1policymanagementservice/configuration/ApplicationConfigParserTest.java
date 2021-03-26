@@ -69,6 +69,8 @@ class ApplicationConfigParserTest {
                 .password("password") //
                 .build(); //
         assertEquals(expectedControllerConfig, controllers.get("controller1"), "controller contents");
+
+        assertEquals(2, result.ricConfigs().size());
     }
 
     private JsonObject getJsonRootObject() throws JsonIOException, JsonSyntaxException, IOException {

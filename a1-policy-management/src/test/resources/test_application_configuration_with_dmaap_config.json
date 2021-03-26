@@ -25,6 +25,14 @@
                "kista_3",
                "kista_4"
             ]
+         },
+         {
+            "name": "ric3_noBaseURL",
+            "baseUrl": "",
+            "managedElementIds": [
+               "kista_3",
+               "kista_4"
+            ]
          }
       ],
       "streams_publishes": {

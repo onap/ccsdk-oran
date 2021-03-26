@@ -39,11 +39,14 @@ import javax.validation.constraints.NotNull;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Parser for the Json representing of the component configuration.
  */
 public class ApplicationConfigParser {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationConfigParser.class);
 
     private static final String CONFIG = "config";
     private static final String CONTROLLER = "controller";
@@ -109,7 +112,6 @@ public class ApplicationConfigParser {
                 throw new ServiceException(
                         "Configuration error, controller configuration not found: " + ric.controllerName());
             }
-
         }
     }
 
@@ -124,7 +126,11 @@ public class ApplicationConfigParser {
                     .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
                     .controllerName(controllerNameElement != null ? controllerNameElement.getAsString() : "") //
                     .build();
-            result.add(ricConfig);
+            if (!ricConfig.baseUrl().isEmpty()) {
+                result.add(ricConfig);
+            } else {
+                logger.error("RIC configuration error {}, baseUrl is empty", ricConfig.ricId());
+            }
         }
         return result;
     }
