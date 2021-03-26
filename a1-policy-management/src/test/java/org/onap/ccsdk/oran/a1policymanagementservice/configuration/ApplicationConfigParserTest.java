@@ -69,6 +69,8 @@ class ApplicationConfigParserTest {
                 .password("password") //
                 .build(); //
         assertEquals(expectedControllerConfig, controllers.get("controller1"), "controller contents");
+
+        assertEquals(2, result.ricConfigs().size());
     }
 
     private JsonObject getJsonRootObject() throws JsonIOException, JsonSyntaxException, IOException {
@@ -91,8 +93,8 @@ class ApplicationConfigParserTest {
         fake_info_object.addProperty("fake_info", "fake");
         json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
         DataPublishing data = new Gson().fromJson(json.toString(), DataPublishing.class);
-        final String expectedMessage =
-                "Invalid configuration. Number of streams must be one, config: " + data.toString();
+        final String expectedMessage = "Invalid configuration. Number of streams must be one, config: "
+                + data.toString();
 
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 
@@ -119,8 +121,8 @@ class ApplicationConfigParserTest {
         fake_info_object.addProperty("fake_info", "fake");
         json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
         DataSubscribing data = new Gson().fromJson(json.toString(), DataSubscribing.class);
-        final String expectedMessage =
-                "Invalid configuration. Number of streams must be one, config: " + data.toString();
+        final String expectedMessage = "Invalid configuration. Number of streams must be one, config: "
+                + data.toString();
 
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 
