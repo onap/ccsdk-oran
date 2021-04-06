@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c5af11_5b92db97",
+        "filename": "csit/scripts/healthcheck/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2021-04-06T14:39:17Z",
+      "side": 1,
+      "message": "Better to use 1.1-SNAPSHOT-latest (no need to change for each snapshot change)",
+      "revId": "3163d80ac9bc4710faf7a14375b05238cc75cf5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
