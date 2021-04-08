@@ -2,6 +2,305 @@
   "comments": [
     {
       "key": {
+        "uuid": "12a57076_25319a3e",
+        "filename": "a1-policy-management/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "777 seems a bit extreme? \n(Same below)\nIs a group needed?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 17
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8dad056_4f6be3a5",
+        "filename": "a1-policy-management/api/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "typo: unregistered",
+      "range": {
+        "startLine": 447,
+        "startChar": 48,
+        "endLine": 447,
+        "endChar": 61
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c210fdd1_3dd77b77",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/CcsdkA1AdapterClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "please update to 2021",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67e26b25_04609fa7",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/CcsdkA1AdapterClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "is there a need to check for nulls?\n(Below also)",
+      "range": {
+        "startLine": 213,
+        "startChar": 65,
+        "endLine": 213,
+        "endChar": 105
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45cf2f6_10624fea",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1Client.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Null check, etc?",
+      "range": {
+        "startLine": 168,
+        "startChar": 60,
+        "endLine": 168,
+        "endChar": 68
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf15b67_2b7a9b10",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v1/ServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "typo above",
+      "range": {
+        "startLine": 146,
+        "startChar": 78,
+        "endLine": 146,
+        "endChar": 81
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5623c802_bd2bfe85",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/MultiMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Suggest using apache commons collections multimap instead. \nHandles lots of tricky error cases that are easy to miss.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff15aaea_cc2eee42",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Policies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Im not sure this is correct for transient. \nI believe transient refers to whether a policy is resent to a RIC on RIC re-sync, not related to PMS re-sync.\nSo transient policies should also be maintained?",
+      "range": {
+        "startLine": 86,
+        "startChar": 68,
+        "endLine": 86,
+        "endChar": 79
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f54269cf_eb2052b4",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Policies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Same comment about transient",
+      "range": {
+        "startLine": 132,
+        "startChar": 20,
+        "endLine": 132,
+        "endChar": 31
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "013e1169_db61cdc0",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Policies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Does this delete policy types as well as policies?",
+      "range": {
+        "startLine": 163,
+        "startChar": 32,
+        "endLine": 163,
+        "endChar": 49
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5213850b_3c771648",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Policies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Is policy id always suitable for file path? e.g. special characters?",
+      "range": {
+        "startLine": 186,
+        "startChar": 69,
+        "endLine": 186,
+        "endChar": 74
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b74f31f9_72d6c280",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Policies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "is there a need to check if the ric/policies entry already exists? Would it be overwritten?",
+      "range": {
+        "startLine": 196,
+        "startChar": 21,
+        "endLine": 196,
+        "endChar": 24
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd3cbf2_3903effa",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Same comment as per policies ... are all policytypes AND polices deleted?",
+      "range": {
+        "startLine": 91,
+        "startChar": 28,
+        "endLine": 91,
+        "endChar": 45
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea1dbc8d_71553e0a",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
         "patchSetId": 1
@@ -70,6 +369,29 @@
       "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e810f23_d5316f33",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-04-08T17:25:01Z",
+      "side": 1,
+      "message": "Again, is there a need to check if it already exists?",
+      "range": {
+        "startLine": 120,
+        "startChar": 27,
+        "endLine": 120,
+        "endChar": 30
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
