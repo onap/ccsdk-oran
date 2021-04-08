@@ -32,17 +32,19 @@ import lombok.Getter;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import reactor.core.publisher.Flux;
 
 @EnableConfigurationProperties
-@ConfigurationProperties()
 public class ApplicationConfig {
     @NotEmpty
     @Getter
     @Value("${app.filepath}")
     private String localConfigurationFilePath;
+
+    @Getter
+    @Value("${app.vardata-directory:null}")
+    private String vardataDirectory;
 
     @Value("${server.ssl.key-store-type}")
     private String sslKeyStoreType = "";

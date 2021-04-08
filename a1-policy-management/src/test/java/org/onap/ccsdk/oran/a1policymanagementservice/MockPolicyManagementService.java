@@ -34,8 +34,6 @@ import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -59,8 +57,10 @@ import org.springframework.util.StringUtils;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks"})
-@SuppressWarnings("java:S3577") // Class name should start or end with Test. This is not a test class per se, but a mock
+        "app.webclient.trust-store=./config/truststore.jks", //
+        "app.vardata-directory=./target"})
+@SuppressWarnings("java:S3577") // Class name should start or end with Test. This is not a test class per se,
+                                // but a mock
                                 // of the server.
 class MockPolicyManagementService {
     private static final Logger logger = LoggerFactory.getLogger(MockPolicyManagementService.class);
@@ -91,9 +91,8 @@ class MockPolicyManagementService {
     @TestConfiguration
     static class TestBeanFactory {
 
+        private final ApplicationConfig applicationConfig = new MockApplicationConfig();
         private final Rics rics = new Rics();
-        private final Policies policies = new Policies();
-        private final PolicyTypes policyTypes = new PolicyTypes();
 
         @Bean
         public ApplicationConfig getApplicationConfig() {
@@ -101,20 +100,10 @@ class MockPolicyManagementService {
         }
 
         @Bean
-        public MockA1ClientFactory getA1ClientFactory() {
-            PolicyTypes ricTypes = new PolicyTypes();
+        public MockA1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig appConfig) {
+            PolicyTypes ricTypes = new PolicyTypes(applicationConfig);
             loadTypes(ricTypes);
-            return new MockA1ClientFactory(ricTypes);
-        }
-
-        @Bean
-        public Policies getPolicies() {
-            return this.policies;
-        }
-
-        @Bean
-        public PolicyTypes getPolicyTypes() {
-            return this.policyTypes;
+            return new MockA1ClientFactory(appConfig, ricTypes);
         }
 
         @Bean
@@ -136,13 +125,13 @@ class MockPolicyManagementService {
                 try {
                     String schema = readFile(file);
                     String typeName = title(schema);
-                    PolicyType type = ImmutablePolicyType.builder().id(typeName).schema(schema).build();
+                    PolicyType type = PolicyType.builder().id(typeName).schema(schema).build();
                     policyTypes.put(type);
                 } catch (Exception e) {
                     logger.error("Could not load json schema ", e);
                 }
             }
-            policyTypes.put(ImmutablePolicyType.builder().id("").schema("{}").build());
+            policyTypes.put(PolicyType.builder().id("").schema("{}").build());
         }
     }
 
@@ -186,7 +175,7 @@ class MockPolicyManagementService {
         Ric ric = rics.get("ric1");
         String json = getConfigJsonFromFile();
 
-        Policy policy = ImmutablePolicy.builder() //
+        Policy policy = Policy.builder() //
                 .id("typelessPolicy") //
                 .json(json) //
                 .ownerServiceId("MockPolicyManagementService") //

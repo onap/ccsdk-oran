@@ -49,8 +49,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -68,7 +66,7 @@ import reactor.core.publisher.Mono;
 @ExtendWith(MockitoExtension.class)
 class RicSynchronizationTaskTest {
     private static final String POLICY_TYPE_1_NAME = "type1";
-    private static final PolicyType POLICY_TYPE_1 = ImmutablePolicyType.builder() //
+    private static final PolicyType POLICY_TYPE_1 = PolicyType.builder() //
             .id(POLICY_TYPE_1_NAME) //
             .schema("") //
             .build();
@@ -82,7 +80,7 @@ class RicSynchronizationTaskTest {
             .build());
 
     private static Policy createPolicy(String policyId, boolean isTransient) {
-        return ImmutablePolicy.builder() //
+        return Policy.builder() //
                 .id(policyId) //
                 .json("") //
                 .ownerServiceId("service") //
@@ -111,10 +109,12 @@ class RicSynchronizationTaskTest {
     private Services services;
     private Rics rics;
 
+    private final ApplicationConfig appConfig = new ApplicationConfig();
+
     @BeforeEach
     void init() {
-        policyTypes = new PolicyTypes();
-        policies = new Policies();
+        policyTypes = new PolicyTypes(appConfig);
+        policies = new Policies(appConfig);
         services = new Services();
         rics = new Rics();
         RIC_1.setState(RicState.UNAVAILABLE);
@@ -196,7 +196,7 @@ class RicSynchronizationTaskTest {
         verifyNoMoreInteractions(a1ClientMock);
 
         assertThat(policyTypes.size()).isEqualTo(1);
-        assertThat(policyTypes.getType(POLICY_TYPE_1_NAME).schema()).isEqualTo(typeSchema);
+        assertThat(policyTypes.getType(POLICY_TYPE_1_NAME).getSchema()).isEqualTo(typeSchema);
         assertThat(policies.size()).isZero();
         assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
     }

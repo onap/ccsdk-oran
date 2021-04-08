@@ -226,6 +226,9 @@ public class RefreshConfigTask {
     private void addRic(RicConfig config) {
         Ric ric = new Ric(config);
         this.rics.put(ric);
+        if (this.appConfig.getVardataDirectory() != null) {
+            this.policies.restoreFromDatabase(ric, this.policyTypes);
+        }
         runRicSynchronization(ric);
     }
 

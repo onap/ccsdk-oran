@@ -25,13 +25,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapterFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.ServiceLoader;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
@@ -115,7 +112,6 @@ public class DmaapMessageConsumer {
     public DmaapMessageConsumer(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
         GsonBuilder gsonBuilder = new GsonBuilder();
-        ServiceLoader.load(TypeAdapterFactory.class).forEach(gsonBuilder::registerTypeAdapterFactory);
         this.gson = gsonBuilder.create();
         this.restClientFactory = new AsyncRestClientFactory(applicationConfig.getWebClientConfig());
     }
@@ -199,12 +195,12 @@ public class DmaapMessageConsumer {
 
     protected Mono<String> sendErrorResponse(String response) {
         logger.debug("sendErrorResponse {}", response);
-        DmaapRequestMessage fakeRequest = ImmutableDmaapRequestMessage.builder() //
+        DmaapRequestMessage fakeRequest = DmaapRequestMessage.builder() //
                 .apiVersion("") //
                 .correlationId("") //
                 .operation(DmaapRequestMessage.Operation.PUT) //
                 .originatorId("") //
-                .payload(Optional.empty()) //
+                .payload(null) //
                 .requestId("") //
                 .target("") //
                 .timestamp("") //

@@ -20,13 +20,13 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.Getter;
 
-@Value.Immutable
-@Gson.TypeAdapters
-public interface PolicyType {
-    public String id();
+@Getter
+@Builder
+public class PolicyType {
+    private String id;
 
-    public String schema();
+    private String schema;
 }

@@ -22,34 +22,34 @@ package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import com.google.gson.JsonObject;
 
-import java.util.Optional;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
-
-@Value.Immutable
-@Gson.TypeAdapters
-public interface DmaapRequestMessage {
+@Getter
+@Builder
+@EqualsAndHashCode
+public class DmaapRequestMessage {
 
     public enum Operation {
         PUT, GET, DELETE, POST
     }
 
-    String correlationId();
+    String correlationId;
 
-    String target();
+    String target;
 
-    String timestamp();
+    String timestamp;
 
-    String apiVersion();
+    String apiVersion;
 
-    String originatorId();
+    String originatorId;
 
-    String requestId();
+    String requestId;
 
-    Operation operation();
+    Operation operation;
 
-    String url();
+    String url;
 
-    Optional<JsonObject> payload();
+    JsonObject payload;
 }

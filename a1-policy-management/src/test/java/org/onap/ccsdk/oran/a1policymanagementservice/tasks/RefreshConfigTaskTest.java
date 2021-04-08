@@ -65,10 +65,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.Configuration
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableConfigParserResult;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
@@ -116,14 +115,14 @@ class RefreshConfigTaskTest {
     }
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
-        return createTestObject(configFileExists, new Rics(), new Policies(), true);
+        return createTestObject(configFileExists, new Rics(), new Policies(appConfig), true);
     }
 
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
             boolean stubConfigFileExists) {
 
         RefreshConfigTask obj = spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies,
-                new Services(), new PolicyTypes(), new A1ClientFactory(appConfig)));
+                new Services(), new PolicyTypes(appConfig), new A1ClientFactory(appConfig)));
         if (stubConfigFileExists) {
             when(configurationFileMock.readFile()).thenReturn(Optional.empty());
         }
@@ -203,7 +202,7 @@ class RefreshConfigTaskTest {
     @Test
     void whenPeriodicConfigRefreshSuccess_thenNewConfigIsCreatedAndRepositoryUpdated() throws Exception {
         Rics rics = new Rics();
-        Policies policies = new Policies();
+        Policies policies = new Policies(appConfig);
         refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, rics, policies, false);
         refreshTaskUnderTest.systemEnvironment = new Properties();
 
@@ -251,7 +250,7 @@ class RefreshConfigTaskTest {
     @Test
     void whenPeriodicConfigRefreshInvalidJson_thenErrorIsLogged() throws Exception {
         Rics rics = new Rics();
-        Policies policies = new Policies();
+        Policies policies = new Policies(appConfig);
         refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, rics, policies, false);
         refreshTaskUnderTest.systemEnvironment = new Properties();
 
@@ -289,11 +288,11 @@ class RefreshConfigTaskTest {
     }
 
     private Policy getPolicy(Ric ric) {
-        ImmutablePolicyType type = ImmutablePolicyType.builder() //
+        PolicyType type = PolicyType.builder() //
                 .id("type") //
                 .schema("{}") //
                 .build();
-        Policy policy = ImmutablePolicy.builder() //
+        Policy policy = Policy.builder() //
                 .id("id") //
                 .type(type) //
                 .lastModified(Instant.now()) //

@@ -35,6 +35,9 @@ ARG JAR
 WORKDIR /opt/app/policy-agent
 RUN mkdir -p /var/log/policy-agent
 RUN mkdir -p /opt/app/policy-agent/etc/cert/
+RUN mkdir -p /var/policy-management-service
+RUN chmod -R 777 /var/policy-management-service
+
 
 RUN groupadd -r onap && useradd -ms /bin/bash a1pms -g onap
 RUN chown -R a1pms:onap /var/log/policy-agent

@@ -44,9 +44,9 @@ import java.util.List;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
@@ -56,8 +56,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -98,7 +96,10 @@ import reactor.util.annotation.Nullable;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks"})
+        "app.webclient.trust-store=./config/truststore.jks", //
+        "app.vardata-directory=./target/testdata", //
+        "app.filepath=" //
+})
 class ApplicationTest {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
 
@@ -131,68 +132,34 @@ class ApplicationTest {
 
     private static Gson gson = new GsonBuilder().create();
 
-    public static class MockApplicationConfig extends ApplicationConfig {
-        @Override
-        public String getLocalConfigurationFilePath() {
-            return ""; // No config file loaded for the test
-        }
-    }
-
     /**
      * Overrides the BeanFactory.
      */
     @TestConfiguration
     static class TestBeanFactory {
-        private final PolicyTypes policyTypes = new PolicyTypes();
-        private final Services services = new Services();
-        private final Policies policies = new Policies();
-        MockA1ClientFactory a1ClientFactory = null;
 
         @Bean
-        public ApplicationConfig getApplicationConfig() {
-            return new MockApplicationConfig();
+        A1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig appConfig, @Autowired PolicyTypes types) {
+            return new MockA1ClientFactory(appConfig, types);
         }
 
         @Bean
-        MockA1ClientFactory getA1ClientFactory() {
-            if (a1ClientFactory == null) {
-                this.a1ClientFactory = new MockA1ClientFactory(this.policyTypes);
-            }
-            return this.a1ClientFactory;
-        }
-
-        @Bean
-        public PolicyTypes getPolicyTypes() {
-            return this.policyTypes;
-        }
-
-        @Bean
-        Policies getPolicies() {
-            return this.policies;
-        }
-
-        @Bean
-        Services getServices() {
-            return this.services;
-        }
-
-        @Bean
-        public ServiceSupervision getServiceSupervision() {
+        public ServiceSupervision getServiceSupervision(@Autowired Services services,
+                @Autowired A1ClientFactory a1ClientFactory, @Autowired Policies policies) {
             Duration checkInterval = Duration.ofMillis(1);
-            return new ServiceSupervision(this.services, this.policies, this.getA1ClientFactory(), checkInterval);
+            return new ServiceSupervision(services, policies, a1ClientFactory, checkInterval);
         }
 
         @Bean
         public ServletWebServerFactory servletContainer() {
             return new TomcatServletWebServerFactory();
         }
-
     }
 
     @LocalServerPort
     private int port;
 
-    @BeforeEach
+    @AfterEach
     void reset() {
         rics.clear();
         policies.clear();
@@ -229,6 +196,31 @@ class ApplicationTest {
     }
 
     @Test
+    void testPersistence() throws ServiceException {
+        Ric ric = this.addRic("ric1");
+        PolicyType type = this.addPolicyType("type1", ric.id());
+        PolicyTypes types = new PolicyTypes(this.applicationConfig);
+        assertThat(types.size()).isEqualTo(1);
+
+        addPolicy("id", type.getId(), "service", ric.id());
+        addPolicy("id2", type.getId(), "service", ric.id());
+
+        {
+            Policies policies = new Policies(this.applicationConfig);
+            policies.restoreFromDatabase(ric, types);
+            assertThat(policies.size()).isEqualTo(2);
+        }
+
+        {
+            restClient().delete("/policies/id2").block();
+            Policies policies = new Policies(this.applicationConfig);
+            policies.restoreFromDatabase(ric, types);
+            assertThat(policies.size()).isEqualTo(1);
+        }
+
+    }
+
+    @Test
     void testGetRics() throws Exception {
         addRic("ric1");
         this.addPolicyType("type1", "ric1");
@@ -260,7 +252,7 @@ class ApplicationTest {
     @Test
     void testSynchronization() throws Exception {
         // Two polictypes will be put in the NearRT RICs
-        PolicyTypes nearRtRicPolicyTypes = new PolicyTypes();
+        PolicyTypes nearRtRicPolicyTypes = new PolicyTypes(this.applicationConfig);
         nearRtRicPolicyTypes.put(createPolicyType("typeName"));
         nearRtRicPolicyTypes.put(createPolicyType("typeName2"));
         this.a1ClientFactory.setPolicyTypes(nearRtRicPolicyTypes);
@@ -286,7 +278,7 @@ class ApplicationTest {
         Policies ricPolicies = getA1Client(ric1Name).getPolicies();
         assertThat(ricPolicies.size()).isEqualTo(1);
         Policy ricPolicy = ricPolicies.get(policyId);
-        assertThat(ricPolicy.json()).isEqualTo(policy.json());
+        assertThat(ricPolicy.getJson()).isEqualTo(policy.getJson());
 
         // Both types should be in the Policy Management Service's storage after the
         // synch
@@ -357,9 +349,9 @@ class ApplicationTest {
 
         Policy policy = policies.getPolicy(policyInstanceId);
         assertThat(policy).isNotNull();
-        assertThat(policy.id()).isEqualTo(policyInstanceId);
-        assertThat(policy.ownerServiceId()).isEqualTo(serviceName);
-        assertThat(policy.ric().id()).isEqualTo(ricId);
+        assertThat(policy.getId()).isEqualTo(policyInstanceId);
+        assertThat(policy.getOwnerServiceId()).isEqualTo(serviceName);
+        assertThat(policy.getRic().id()).isEqualTo(ricId);
         assertThat(policy.isTransient()).isTrue();
 
         // Put a non transient policy
@@ -460,7 +452,7 @@ class ApplicationTest {
             String rsp = restClient().get(url).block();
             PolicyInfo info = gson.fromJson(rsp, PolicyInfo.class);
             String policyStr = gson.toJson(info.policyData);
-            assertThat(policyStr).isEqualTo(policy.json());
+            assertThat(policyStr).isEqualTo(policy.getJson());
         }
         {
             policies.remove(policy);
@@ -711,7 +703,7 @@ class ApplicationTest {
 
     private Policy addPolicy(String id, String typeName, String service, String ric) throws ServiceException {
         addRic(ric);
-        Policy policy = ImmutablePolicy.builder() //
+        Policy policy = Policy.builder() //
                 .id(id) //
                 .json(jsonString()) //
                 .ownerServiceId(service) //
@@ -861,7 +853,7 @@ class ApplicationTest {
     }
 
     private PolicyType createPolicyType(String policyTypeName) {
-        return ImmutablePolicyType.builder() //
+        return PolicyType.builder() //
                 .id(policyTypeName) //
                 .schema("{\"title\":\"" + policyTypeName + "\"}") //
                 .build();

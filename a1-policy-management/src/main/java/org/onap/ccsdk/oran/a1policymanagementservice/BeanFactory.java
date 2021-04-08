@@ -25,10 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.connector.Connector;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -36,20 +35,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class BeanFactory {
-    private final ApplicationConfig applicationConfig = new ApplicationConfig();
+public class BeanFactory {
 
     @Value("${server.http-port}")
     private int httpPort = 0;
 
     @Bean
-    public Policies getPolicies() {
-        return new Policies();
-    }
-
-    @Bean
-    public PolicyTypes getPolicyTypes() {
-        return new PolicyTypes();
+    public ApplicationConfig getApplicationConfig() {
+        return new ApplicationConfig();
     }
 
     @Bean
@@ -58,18 +51,13 @@ class BeanFactory {
     }
 
     @Bean
-    public ApplicationConfig getApplicationConfig() {
-        return this.applicationConfig;
-    }
-
-    @Bean
-    Services getServices() {
+    public Services getServices() {
         return new Services();
     }
 
     @Bean
-    A1ClientFactory getA1ClientFactory() {
-        return new A1ClientFactory(this.applicationConfig);
+    public A1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig applicationConfig) {
+        return new A1ClientFactory(applicationConfig);
     }
 
     @Bean

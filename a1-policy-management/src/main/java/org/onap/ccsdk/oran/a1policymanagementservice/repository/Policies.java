@@ -20,48 +20,72 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.invoke.MethodHandles;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
+import lombok.Builder;
+import lombok.Getter;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.util.FileSystemUtils;
+
+@Configuration
 public class Policies {
+
+    @Getter
+    @Builder
+    private static class PersistentPolicyInfo {
+        private String id;
+        private String json;
+        private String ownerServiceId;
+        private String ricId;
+        private String typeId;
+        private String statusNotificationUri;
+        private boolean isTransient;
+        private String lastModified;
+    }
+
+    private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private Map<String, Policy> policiesId = new HashMap<>();
-    private Map<String, Map<String, Policy>> policiesRic = new HashMap<>();
-    private Map<String, Map<String, Policy>> policiesService = new HashMap<>();
-    private Map<String, Map<String, Policy>> policiesType = new HashMap<>();
+    private MultiMap<Policy> policiesRic = new MultiMap<>();
+    private MultiMap<Policy> policiesService = new MultiMap<>();
+    private MultiMap<Policy> policiesType = new MultiMap<>();
+
+    private final ApplicationConfig appConfig;
+    private static Gson gson = new GsonBuilder().create();
+
+    public Policies(@Autowired ApplicationConfig appConfig) {
+        this.appConfig = appConfig;
+    }
 
     public synchronized void put(Policy policy) {
-        policiesId.put(policy.id(), policy);
-        multiMapPut(policiesRic, policy.ric().id(), policy);
-        multiMapPut(policiesService, policy.ownerServiceId(), policy);
-        multiMapPut(policiesType, policy.type().id(), policy);
-    }
-
-    private void multiMapPut(Map<String, Map<String, Policy>> multiMap, String key, Policy value) {
-        multiMap.computeIfAbsent(key, k -> new HashMap<>()).put(value.id(), value);
-    }
-
-    private void multiMapRemove(Map<String, Map<String, Policy>> multiMap, String key, Policy value) {
-        Map<String, Policy> map = multiMap.get(key);
-        if (map != null) {
-            map.remove(value.id());
-            if (map.isEmpty()) {
-                multiMap.remove(key);
-            }
+        policiesId.put(policy.getId(), policy);
+        policiesRic.put(policy.getRic().id(), policy.getId(), policy);
+        policiesService.put(policy.getOwnerServiceId(), policy.getId(), policy);
+        policiesType.put(policy.getType().getId(), policy.getId(), policy);
+        if (this.appConfig.getVardataDirectory() != null && !policy.isTransient()) {
+            store(policy);
         }
-    }
-
-    private Collection<Policy> multiMapGet(Map<String, Map<String, Policy>> multiMap, String key) {
-        Map<String, Policy> map = multiMap.get(key);
-        if (map == null) {
-            return Collections.emptyList();
-        }
-        return new Vector<>(map.values());
     }
 
     public synchronized boolean containsPolicy(String id) {
@@ -85,15 +109,15 @@ public class Policies {
     }
 
     public synchronized Collection<Policy> getForService(String service) {
-        return multiMapGet(policiesService, service);
+        return policiesService.get(service);
     }
 
     public synchronized Collection<Policy> getForRic(String ric) {
-        return multiMapGet(policiesRic, ric);
+        return policiesRic.get(ric);
     }
 
     public synchronized Collection<Policy> getForType(String type) {
-        return multiMapGet(policiesType, type);
+        return policiesType.get(type);
     }
 
     public synchronized Policy removeId(String id) {
@@ -105,10 +129,17 @@ public class Policies {
     }
 
     public synchronized void remove(Policy policy) {
-        policiesId.remove(policy.id());
-        multiMapRemove(policiesRic, policy.ric().id(), policy);
-        multiMapRemove(policiesService, policy.ownerServiceId(), policy);
-        multiMapRemove(policiesType, policy.type().id(), policy);
+        if (!policy.isTransient()) {
+            try {
+                Files.delete(getPath(policy));
+            } catch (IOException | ServiceException e) {
+                logger.debug("Could not delete policy from database: {}", e.getMessage());
+            }
+        }
+        policiesId.remove(policy.getId());
+        policiesRic.remove(policy.getRic().id(), policy.getId());
+        policiesService.remove(policy.getOwnerServiceId(), policy.getId());
+        policiesType.remove(policy.getType().getId(), policy.getId());
     }
 
     public synchronized void removePoliciesForRic(String ricId) {
@@ -127,5 +158,90 @@ public class Policies {
             Set<String> keys = policiesId.keySet();
             removeId(keys.iterator().next());
         }
+        try {
+            if (this.appConfig.getVardataDirectory() != null) {
+                FileSystemUtils.deleteRecursively(getDatabasePath());
+            }
+        } catch (IOException | ServiceException e) {
+            logger.warn("Could not delete policy database : {}", e.getMessage());
+        }
+    }
+
+    public void store(Policy policy) {
+        try {
+            Files.createDirectories(getDatabasePath(policy.getRic()));
+            try (PrintStream out = new PrintStream(new FileOutputStream(getFile(policy)))) {
+                out.print(gson.toJson(toStorageObject(policy)));
+            }
+        } catch (Exception e) {
+            logger.warn("Could not store policy: {} {}", policy.getId(), e.getMessage());
+        }
+    }
+
+    private File getFile(Policy policy) throws ServiceException {
+        return getPath(policy).toFile();
+    }
+
+    private Path getPath(Policy policy) throws ServiceException {
+        return Path.of(getDatabaseDirectory(policy.getRic()), policy.getId() + ".json");
+    }
+
+    public void restoreFromDatabase(Ric ric, PolicyTypes types) {
+
+        try {
+            Files.createDirectories(getDatabasePath(ric));
+            for (File file : getDatabasePath(ric).toFile().listFiles()) {
+                String json = Files.readString(file.toPath());
+                PersistentPolicyInfo policyStorage = gson.fromJson(json, PersistentPolicyInfo.class);
+                this.put(toPolicy(policyStorage, ric, types));
+            }
+        } catch (ServiceException | IOException e) {
+            logger.warn("Could not restore policy database for RIC: {}, reason : {}", ric.id(), e.getMessage());
+        }
+    }
+
+    private PersistentPolicyInfo toStorageObject(Policy p) {
+        return PersistentPolicyInfo.builder() //
+                .id(p.getId()) //
+                .json(p.getJson()) //
+                .ownerServiceId(p.getOwnerServiceId()) //
+                .ricId(p.getRic().id()) //
+                .statusNotificationUri(p.getStatusNotificationUri()) //
+                .typeId(p.getType().getId()) //
+                .isTransient(p.isTransient()) //
+                .lastModified(p.getLastModified().toString()) //
+                .build();
+    }
+
+    Policy toPolicy(PersistentPolicyInfo p, Ric ric, PolicyTypes types) throws EntityNotFoundException {
+        return Policy.builder() //
+                .id(p.getId()) //
+                .isTransient(p.isTransient()) //
+                .json(p.getJson()) //
+                .lastModified(Instant.parse(p.lastModified)) //
+                .ownerServiceId(p.getOwnerServiceId()) //
+                .ric(ric) //
+                .statusNotificationUri(p.getStatusNotificationUri()) //
+                .type(types.getType(p.getTypeId())) //
+                .build();
+    }
+
+    private Path getDatabasePath(Ric ric) throws ServiceException {
+        return Path.of(getDatabaseDirectory(ric));
+    }
+
+    private String getDatabaseDirectory(Ric ric) throws ServiceException {
+        return getDatabaseDirectory() + "/" + ric.id();
+    }
+
+    private String getDatabaseDirectory() throws ServiceException {
+        if (appConfig.getVardataDirectory() == null) {
+            throw new ServiceException("No database storage provided");
+        }
+        return appConfig.getVardataDirectory() + "/database/policyInstances";
+    }
+
+    private Path getDatabasePath() throws ServiceException {
+        return Path.of(getDatabaseDirectory());
     }
 }

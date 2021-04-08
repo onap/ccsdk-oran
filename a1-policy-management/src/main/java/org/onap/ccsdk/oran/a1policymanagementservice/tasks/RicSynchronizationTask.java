@@ -26,7 +26,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbacks;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.ImmutablePolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -177,7 +176,7 @@ public class RicSynchronizationTask {
     }
 
     private Mono<PolicyType> createPolicyType(String policyTypeId, String schema) {
-        PolicyType pt = ImmutablePolicyType.builder().id(policyTypeId).schema(schema).build();
+        PolicyType pt = PolicyType.builder().id(policyTypeId).schema(schema).build();
         policyTypes.put(pt);
         return Mono.just(pt);
     }
@@ -189,7 +188,7 @@ public class RicSynchronizationTask {
     }
 
     private Flux<Policy> putPolicy(Policy policy, Ric ric, A1Client a1Client) {
-        logger.debug("Recreating policy: {}, for ric: {}", policy.id(), ric.getConfig().ricId());
+        logger.debug("Recreating policy: {}, for ric: {}", policy.getId(), ric.getConfig().ricId());
         return a1Client.putPolicy(policy) //
                 .flatMapMany(notUsed -> Flux.just(policy));
     }

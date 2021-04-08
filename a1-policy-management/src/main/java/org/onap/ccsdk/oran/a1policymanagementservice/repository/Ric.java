@@ -110,7 +110,7 @@ public class Ric {
      * @param type the policy type to support.
      */
     public synchronized void addSupportedPolicyType(PolicyType type) {
-        supportedPolicyTypes.put(type.id(), type);
+        supportedPolicyTypes.put(type.getId(), type);
     }
 
     /**

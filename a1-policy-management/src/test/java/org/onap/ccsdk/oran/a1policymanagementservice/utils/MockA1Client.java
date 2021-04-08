@@ -20,12 +20,16 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.utils;
 
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.Vector;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -38,20 +42,23 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoSink;
 
 public class MockA1Client implements A1Client {
-    Policies policies = new Policies();
+    Policies policies;
     private final PolicyTypes policyTypes;
     private final Duration asynchDelay;
 
-    public MockA1Client(PolicyTypes policyTypes, Duration asynchDelay) {
+    public MockA1Client(String ricId, ApplicationConfig appConfig, PolicyTypes policyTypes, Duration asynchDelay) {
         this.policyTypes = policyTypes;
         this.asynchDelay = asynchDelay;
+        ApplicationConfig cfg = spy(appConfig);
+        when(cfg.getVardataDirectory()).thenReturn(null);
+        this.policies = new Policies(cfg);
     }
 
     @Override
     public Mono<List<String>> getPolicyTypeIdentities() {
         List<String> result = new Vector<>();
         for (PolicyType p : this.policyTypes.getAll()) {
-            result.add(p.id());
+            result.add(p.getId());
         }
         return mono(result);
     }
@@ -60,7 +67,7 @@ public class MockA1Client implements A1Client {
     public Mono<List<String>> getPolicyIdentities() {
         Vector<String> result = new Vector<>();
         for (Policy policy : policies.getAll()) {
-            result.add(policy.id());
+            result.add(policy.getId());
         }
 
         return mono(result);
@@ -69,7 +76,7 @@ public class MockA1Client implements A1Client {
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
         try {
-            return mono(this.policyTypes.getType(policyTypeId).schema());
+            return mono(this.policyTypes.getType(policyTypeId).getSchema());
         } catch (Exception e) {
             return Mono.error(e);
         }

@@ -168,14 +168,14 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String ricUrl =
-                getUriBuilder().createPutPolicyUri(policy.type().id(), policy.id(), policy.statusNotificationUri());
-        return post("putA1Policy", ricUrl, Optional.of(policy.json()));
+        String ricUrl = getUriBuilder().createPutPolicyUri(policy.getType().getId(), policy.getId(),
+                policy.getStatusNotificationUri());
+        return post("putA1Policy", ricUrl, Optional.of(policy.getJson()));
     }
 
     @Override
     public Mono<String> deletePolicy(Policy policy) {
-        return deletePolicyById(policy.type().id(), policy.id());
+        return deletePolicyById(policy.getType().getId(), policy.getId());
     }
 
     @Override
@@ -210,7 +210,7 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String ricUrl = getUriBuilder().createGetPolicyStatusUri(policy.type().id(), policy.id());
+        String ricUrl = getUriBuilder().createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return post("getA1PolicyStatus", ricUrl, Optional.empty());
 
     }

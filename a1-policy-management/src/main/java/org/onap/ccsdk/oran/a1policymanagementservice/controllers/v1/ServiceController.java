@@ -141,12 +141,11 @@ public class ServiceController {
         }
     }
 
-    @Operation(summary = "Delete a service")
+    @Operation(summary = "Unregisters a service")
     @ApiResponses(value = { //
-            @ApiResponse(responseCode = "204", description = "Service deleted"),
-            @ApiResponse(responseCode = "204", description = "Not used",
+            @ApiResponse(responseCode = "204", description = "Service unregisterred", //
                     content = @Content(schema = @Schema(implementation = VoidResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Service not found",
+            @ApiResponse(responseCode = "404", description = "Service not found", //
                     content = @Content(schema = @Schema(implementation = String.class)))})
     @DeleteMapping("/services")
     public ResponseEntity<String> deleteService(//

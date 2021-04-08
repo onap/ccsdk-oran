@@ -22,25 +22,25 @@ package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
 import java.time.Instant;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.Getter;
 
-@Value.Immutable
-@Gson.TypeAdapters
-public interface Policy {
-    public String id();
+@Getter
+@Builder
+public class Policy {
+    private String id;
 
-    public String json();
+    private String json;
 
-    public String ownerServiceId();
+    private String ownerServiceId;
 
-    public Ric ric();
+    private Ric ric;
 
-    public PolicyType type();
+    private PolicyType type;
 
-    public Instant lastModified();
+    private Instant lastModified;
 
-    public boolean isTransient();
+    private boolean isTransient;
 
-    public String statusNotificationUri();
+    private String statusNotificationUri;
 }

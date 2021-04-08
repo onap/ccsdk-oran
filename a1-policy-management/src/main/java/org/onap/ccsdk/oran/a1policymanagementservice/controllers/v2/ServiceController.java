@@ -150,17 +150,16 @@ public class ServiceController {
         }
     }
 
+    @DeleteMapping(Consts.V2_API_ROOT + "/services/{service_id:.+}")
     @Operation(summary = "Unregister a service")
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "204", description = "Service unregistered"),
-            @ApiResponse(responseCode = "200", description = "Not used",
+            @ApiResponse(responseCode = "200", description = "Not used", //
                     content = @Content(schema = @Schema(implementation = VoidResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Service not found",
+            @ApiResponse(responseCode = "404", description = "Service not found", //
                     content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class)))
 
     })
-
-    @DeleteMapping(Consts.V2_API_ROOT + "/services/{service_id:.+}")
     public ResponseEntity<Object> deleteService(//
             @PathVariable("service_id") String serviceId) {
         try {
