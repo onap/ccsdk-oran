@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea1dbc8d_71553e0a",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-04-08T08:41:49Z",
+      "side": 1,
+      "message": "Please use multi catch (ServiceException | IOException)",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43978c40_2a78c3a5",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-04-08T08:41:49Z",
+      "side": 1,
+      "message": "Please use multi catch (ServiceException | IOException)",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 29
+      },
+      "revId": "97a9001fe632b0eaed48d324dc8d6c2c3c630f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
