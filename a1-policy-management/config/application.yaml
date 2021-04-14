@@ -41,6 +41,7 @@ logging:
     org.springframework.data: ERROR
     org.springframework.web.reactive.function.client.ExchangeFunctions: ERROR
     org.onap.ccsdk.oran.a1policymanagementservice: INFO
+    # org.onap.ccsdk.oran.a1policymanagementservice.tasks: TRACE  
   file:
     name: /var/log/policy-agent/application.log
 server:
@@ -69,6 +70,6 @@ app:
     # The HTTP proxy (if configured) will only be used for accessing NearRT RIC:s
     http.proxy-host:
     http.proxy-port: 0
-    # path where the service can store data
-    vardata-directory: /var/policy-management-service
+  # path where the service can store data
+  vardata-directory: /var/policy-management-service
 

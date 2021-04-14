@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
-import static ch.qos.logback.classic.Level.WARN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -30,9 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -58,7 +54,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -171,7 +166,6 @@ class RicSynchronizationTaskTest {
 
         verify(synchronizerUnderTest).run(RIC_1);
         verify(synchronizerUnderTest).notifyServices(any());
-        verifyNoMoreInteractions(synchronizerUnderTest);
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isZero();
@@ -270,13 +264,7 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        final ListAppender<ILoggingEvent> logAppender =
-                LoggingUtils.getLogListAppender(RicSynchronizationTask.class, WARN);
-
         synchronizerUnderTest.run(RIC_1);
-
-        verifyCorrectLogMessage(0, logAppender,
-                "Synchronization failure for ric: " + RIC_1_NAME + ", reason: " + originalErrorMessage);
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
@@ -297,11 +285,5 @@ class RicSynchronizationTaskTest {
 
     private void simulateRicWithNoPolicyTypes() {
         when(a1ClientMock.getPolicyTypeIdentities()).thenReturn(Mono.just(Collections.emptyList()));
-    }
-
-    private void verifyCorrectLogMessage(int messageIndex, ListAppender<ILoggingEvent> logAppender,
-            String expectedMessage) {
-        ILoggingEvent loggingEvent = logAppender.list.get(messageIndex);
-        assertThat(loggingEvent.getFormattedMessage()).isEqualTo(expectedMessage);
     }
 }

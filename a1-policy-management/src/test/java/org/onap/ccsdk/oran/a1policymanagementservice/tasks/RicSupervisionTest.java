@@ -158,12 +158,13 @@ class RicSupervisionTest {
         RicSupervision supervisorUnderTest = spy(createRicSupervision());
 
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
+        doReturn(Mono.just(RIC_1)).when(synchronizationTaskMock).synchronizeRic(any());
 
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
-        verify(synchronizationTaskMock).run(RIC_1);
+        verify(synchronizationTaskMock).synchronizeRic(RIC_1);
         verifyNoMoreInteractions(supervisorUnderTest);
     }
 
@@ -217,7 +218,7 @@ class RicSupervisionTest {
 
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
-        verify(synchronizationTaskMock).run(RIC_1);
+        verify(synchronizationTaskMock).synchronizeRic(RIC_1);
         verifyNoMoreInteractions(supervisorUnderTest);
     }
 
@@ -240,7 +241,7 @@ class RicSupervisionTest {
 
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
-        verify(synchronizationTaskMock).run(RIC_1);
+        verify(synchronizationTaskMock).synchronizeRic(RIC_1);
         verifyNoMoreInteractions(supervisorUnderTest);
     }
 
@@ -281,7 +282,7 @@ class RicSupervisionTest {
 
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
-        verify(synchronizationTaskMock).run(RIC_1);
+        verify(synchronizationTaskMock).synchronizeRic(RIC_1);
         verifyNoMoreInteractions(supervisorUnderTest);
     }
 
@@ -309,7 +310,7 @@ class RicSupervisionTest {
 
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
-        verify(synchronizationTaskMock).run(RIC_1);
+        verify(synchronizationTaskMock).synchronizeRic(RIC_1);
         verifyNoMoreInteractions(supervisorUnderTest);
     }
 

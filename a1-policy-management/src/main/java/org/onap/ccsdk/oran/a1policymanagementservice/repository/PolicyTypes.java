@@ -119,7 +119,7 @@ public class PolicyTypes {
                 PolicyType type = gson.fromJson(json, PolicyType.class);
                 this.types.put(type.getId(), type);
             }
-
+            logger.debug("Restored type database,no of types: {}", this.types.size());
         } catch (IOException e) {
             logger.warn("Could not restore policy type database : {}", e.getMessage());
         } catch (ServiceException e) {

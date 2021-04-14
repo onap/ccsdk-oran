@@ -159,7 +159,7 @@ paths:
     delete:
       tags:
       - A1 Policy Management V1.0
-      summary: Unregisters a service
+      summary: Unregister a service
       operationId: deleteService
       parameters:
       - name: name
@@ -172,7 +172,7 @@ paths:
           type: string
       responses:
         204:
-          description: Service unregisterred
+          description: Service unregistered
           content:
             '*/*':
               schema:

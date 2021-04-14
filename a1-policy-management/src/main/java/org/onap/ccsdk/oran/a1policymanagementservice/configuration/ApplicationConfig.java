@@ -136,8 +136,8 @@ public class ApplicationConfig {
         @Getter
         private final Type type;
 
-        RicConfigUpdate(RicConfig ric, Type event) {
-            this.ricConfig = ric;
+        public RicConfigUpdate(RicConfig config, Type event) {
+            this.ricConfig = config;
             this.type = event;
         }
     }

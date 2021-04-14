@@ -78,7 +78,7 @@ public class Ric {
      * @return a vector containing the nodes managed by this Ric.
      */
     public synchronized Collection<String> getManagedElementIds() {
-        return ricConfig.managedElementIds();
+        return new Vector<>(ricConfig.managedElementIds());
     }
 
     /**

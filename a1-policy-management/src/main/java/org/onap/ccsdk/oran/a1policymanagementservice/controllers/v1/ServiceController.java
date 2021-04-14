@@ -141,9 +141,9 @@ public class ServiceController {
         }
     }
 
-    @Operation(summary = "Unregisters a service")
+    @Operation(summary = "Unregister a service")
     @ApiResponses(value = { //
-            @ApiResponse(responseCode = "204", description = "Service unregisterred", //
+            @ApiResponse(responseCode = "204", description = "Service unregistered", //
                     content = @Content(schema = @Schema(implementation = VoidResponse.class))),
             @ApiResponse(responseCode = "404", description = "Service not found", //
                     content = @Content(schema = @Schema(implementation = String.class)))})

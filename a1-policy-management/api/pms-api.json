@@ -440,11 +440,11 @@
                 "tags": ["A1 Policy Management V1.0"]
             },
             "delete": {
-                "summary": "Unregisters a service",
+                "summary": "Unregister a service",
                 "operationId": "deleteService",
                 "responses": {
                     "204": {
-                        "description": "Service unregisterred",
+                        "description": "Service unregistered",
                         "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "404": {

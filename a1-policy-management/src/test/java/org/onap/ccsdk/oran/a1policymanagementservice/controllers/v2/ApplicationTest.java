@@ -66,6 +66,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RicSupervision;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.ServiceSupervision;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
@@ -129,6 +130,9 @@ class ApplicationTest {
 
     @Autowired
     RappSimulatorController rAppSimulator;
+
+    @Autowired
+    RefreshConfigTask refreshConfigTask;
 
     private static Gson gson = new GsonBuilder().create();
 
@@ -196,28 +200,40 @@ class ApplicationTest {
     }
 
     @Test
-    void testPersistence() throws ServiceException {
+    void testPersistency() throws ServiceException {
         Ric ric = this.addRic("ric1");
         PolicyType type = this.addPolicyType("type1", ric.id());
         PolicyTypes types = new PolicyTypes(this.applicationConfig);
         assertThat(types.size()).isEqualTo(1);
 
-        addPolicy("id", type.getId(), "service", ric.id());
-        addPolicy("id2", type.getId(), "service", ric.id());
+        final int noOfPolicies = 100;
+        for (int i = 0; i < noOfPolicies; ++i) {
+            addPolicy("id" + i, type.getId(), "service", ric.id());
+        }
 
         {
             Policies policies = new Policies(this.applicationConfig);
             policies.restoreFromDatabase(ric, types);
-            assertThat(policies.size()).isEqualTo(2);
+            assertThat(policies.size()).isEqualTo(noOfPolicies);
         }
 
         {
             restClient().delete("/policies/id2").block();
             Policies policies = new Policies(this.applicationConfig);
             policies.restoreFromDatabase(ric, types);
-            assertThat(policies.size()).isEqualTo(1);
+            assertThat(policies.size()).isEqualTo(noOfPolicies - 1);
         }
 
+        {
+            // Test adding the RIC from configuration
+            RicConfig config = ric.getConfig();
+            this.rics.remove("ric1");
+            ApplicationConfig.RicConfigUpdate update =
+                    new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
+            refreshConfigTask.handleUpdatedRicConfig(update).block();
+            ric = this.rics.getRic("ric1");
+            assertThat(ric.getSupportedPolicyTypes().size()).isEqualTo(1);
+        }
     }
 
     @Test
@@ -752,6 +768,7 @@ class ApplicationTest {
 
     @Test
     void testConcurrency() throws Exception {
+        logger.info("Concurrency test starting");
         final Instant startTime = Instant.now();
         List<Thread> threads = new ArrayList<>();
         List<ConcurrencyTestRunnable> tests = new ArrayList<>();

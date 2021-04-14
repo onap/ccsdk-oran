@@ -25,7 +25,6 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
@@ -49,6 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.FileSystemUtils;
 
+@SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 @Configuration
 public class Policies {
 
@@ -132,7 +132,7 @@ public class Policies {
         if (!policy.isTransient()) {
             try {
                 Files.delete(getPath(policy));
-            } catch (IOException | ServiceException e) {
+            } catch (Exception e) {
                 logger.debug("Could not delete policy from database: {}", e.getMessage());
             }
         }
@@ -162,7 +162,7 @@ public class Policies {
             if (this.appConfig.getVardataDirectory() != null) {
                 FileSystemUtils.deleteRecursively(getDatabasePath());
             }
-        } catch (IOException | ServiceException e) {
+        } catch (Exception e) {
             logger.warn("Could not delete policy database : {}", e.getMessage());
         }
     }
@@ -186,8 +186,7 @@ public class Policies {
         return Path.of(getDatabaseDirectory(policy.getRic()), policy.getId() + ".json");
     }
 
-    public void restoreFromDatabase(Ric ric, PolicyTypes types) {
-
+    public synchronized void restoreFromDatabase(Ric ric, PolicyTypes types) {
         try {
             Files.createDirectories(getDatabasePath(ric));
             for (File file : getDatabasePath(ric).toFile().listFiles()) {
@@ -195,7 +194,9 @@ public class Policies {
                 PersistentPolicyInfo policyStorage = gson.fromJson(json, PersistentPolicyInfo.class);
                 this.put(toPolicy(policyStorage, ric, types));
             }
-        } catch (ServiceException | IOException e) {
+            logger.debug("Restored policy database for RIC: {}, number of policies: {}", ric.id(),
+                    this.policiesRic.get(ric.id()).size());
+        } catch (Exception e) {
             logger.warn("Could not restore policy database for RIC: {}, reason : {}", ric.id(), e.getMessage());
         }
     }

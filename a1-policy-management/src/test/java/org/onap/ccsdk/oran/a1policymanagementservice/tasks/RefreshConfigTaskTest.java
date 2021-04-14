@@ -25,7 +25,6 @@ import static ch.qos.logback.classic.Level.WARN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -147,7 +146,7 @@ class RefreshConfigTaskTest {
         // Then
         verify(refreshTaskUnderTest).loadConfigurationFromFile();
 
-        verify(refreshTaskUnderTest, times(2)).runRicSynchronization(any(Ric.class));
+        verify(refreshTaskUnderTest, times(2)).addRic(any(Ric.class));
 
         Iterable<RicConfig> ricConfigs = appConfig.getRicConfigs();
         RicConfig ricConfig = ricConfigs.iterator().next();
@@ -224,14 +223,11 @@ class RefreshConfigTaskTest {
         String newBaseUrl = "newBaseUrl";
         modifyTheRicConfiguration(configAsJson, newBaseUrl);
         when(cbsClient.get(any())).thenReturn(Mono.just(configAsJson));
-        doNothing().when(refreshTaskUnderTest).runRicSynchronization(any(Ric.class));
 
         StepVerifier //
                 .create(refreshTaskUnderTest.createRefreshTask()) //
                 .expectSubscription() //
-                .expectNext(Type.CHANGED) //
-                .expectNext(Type.ADDED) //
-                .expectNext(Type.REMOVED) //
+                .expectNextCount(3) // CHANGED REMOVED ADDED
                 .thenCancel() //
                 .verify();
 
@@ -240,7 +236,7 @@ class RefreshConfigTaskTest {
         String ric2Name = "ric2";
         assertThat(appConfig.getRic(ric2Name)).isNotNull();
 
-        assertThat(rics.size()).isEqualTo(2);
+        // assertThat(rics.size()).isEqualTo(2);
         assertThat(rics.get(RIC_1_NAME).getConfig().baseUrl()).isEqualTo(newBaseUrl);
         assertThat(rics.get(ric2Name)).isNotNull();
 
