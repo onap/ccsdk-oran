@@ -444,7 +444,7 @@
                 "operationId": "deleteService",
                 "responses": {
                     "204": {
-                        "description": "Not used",
+                        "description": "Service deleted",
                         "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "404": {

@@ -172,7 +172,7 @@ paths:
           type: string
       responses:
         204:
-          description: Service deleted
+          description: Not used
           content:
             '*/*':
               schema:
