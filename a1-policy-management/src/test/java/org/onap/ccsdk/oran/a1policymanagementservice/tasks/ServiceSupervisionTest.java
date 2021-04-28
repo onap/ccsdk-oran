@@ -177,11 +177,10 @@ class ServiceSupervisionTest {
     }
 
     private void setUpRepositoryWithKeepAliveInterval(Duration keepAliveInterval) {
-        services = new Services();
+        ApplicationConfig appConfig = new ApplicationConfig();
+        services = new Services(appConfig);
         service = new Service(SERVICE_NAME, keepAliveInterval, "callbackUrl");
         services.put(service);
-
-        ApplicationConfig appConfig = new ApplicationConfig();
         policies = new Policies(appConfig);
         policies.put(policy);
     }

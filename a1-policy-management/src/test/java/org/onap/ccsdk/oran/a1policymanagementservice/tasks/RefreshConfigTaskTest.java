@@ -121,7 +121,7 @@ class RefreshConfigTaskTest {
             boolean stubConfigFileExists) {
 
         RefreshConfigTask obj = spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies,
-                new Services(), new PolicyTypes(appConfig), new A1ClientFactory(appConfig)));
+                new Services(appConfig), new PolicyTypes(appConfig), new A1ClientFactory(appConfig)));
         if (stubConfigFileExists) {
             when(configurationFileMock.readFile()).thenReturn(Optional.empty());
         }

@@ -225,15 +225,54 @@ class ApplicationTest {
         }
 
         {
-            // Test adding the RIC from configuration
+            // Test adding the RIC from configuration and that the
+            // supported type is synched
             RicConfig config = ric.getConfig();
             this.rics.remove("ric1");
             ApplicationConfig.RicConfigUpdate update =
                     new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
             refreshConfigTask.handleUpdatedRicConfig(update).block();
             ric = this.rics.getRic("ric1");
-            assertThat(ric.getSupportedPolicyTypes().size()).isEqualTo(1);
+            assertThat(ric.getSupportedPolicyTypes().size()).isEqualTo(1); // Test that the type has been synched
+            assertThat(ric.getSupportedPolicyTypes().iterator().next().getId()).isEqualTo("type1");
         }
+
+        {
+            final String SERVICE = "serviceName";
+            putService(SERVICE, 1234, HttpStatus.CREATED);
+            assertThat(this.services.size()).isEqualTo(1);
+            Service service = this.services.getService(SERVICE);
+
+            Services servicesRestored = new Services(this.applicationConfig);
+            Service serviceRestored = servicesRestored.getService(SERVICE);
+            assertThat(servicesRestored.size()).isEqualTo(1);
+            assertThat(serviceRestored.getCallbackUrl()).isEqualTo(service.getCallbackUrl());
+            assertThat(serviceRestored.getKeepAliveInterval()).isEqualTo(service.getKeepAliveInterval());
+
+            // check that the service can be deleted
+            this.services.remove(SERVICE);
+            servicesRestored = new Services(this.applicationConfig);
+            assertThat(servicesRestored.size()).isEqualTo(0);
+        }
+    }
+
+    @Test
+    void testAddingRicFromConfiguration() throws Exception {
+        // Test adding the RIC from configuration
+        putService("service");
+        RicConfig config = ricConfig("ric1", "me1");
+
+        ApplicationConfig.RicConfigUpdate update =
+                new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
+        refreshConfigTask.handleUpdatedRicConfig(update).block();
+        waitForRicState("ric1", RicState.AVAILABLE);
+
+        // Check that a service callback for the AVAILABLE RIC is invoked
+        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+        ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
+        assertThat(callbackInfo.ricId).isEqualTo("ric1");
+        assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
     }
 
     @Test
@@ -887,20 +926,25 @@ class ApplicationTest {
         return addRic(ricId, null);
     }
 
-    private Ric addRic(String ricId, String managedElement) {
-        if (rics.get(ricId) != null) {
-            return rics.get(ricId);
-        }
+    private RicConfig ricConfig(String ricId, String managedElement) {
         List<String> mes = new ArrayList<>();
         if (managedElement != null) {
             mes.add(managedElement);
         }
-        RicConfig conf = ImmutableRicConfig.builder() //
+        return ImmutableRicConfig.builder() //
                 .ricId(ricId) //
                 .baseUrl(ricId) //
                 .managedElementIds(mes) //
                 .controllerName("") //
                 .build();
+    }
+
+    private Ric addRic(String ricId, String managedElement) {
+        if (rics.get(ricId) != null) {
+            return rics.get(ricId);
+        }
+
+        RicConfig conf = ricConfig(ricId, managedElement);
         Ric ric = new Ric(conf);
         ric.setState(Ric.RicState.AVAILABLE);
         this.rics.put(ric);

@@ -51,8 +51,8 @@ public class BeanFactory {
     }
 
     @Bean
-    public Services getServices() {
-        return new Services();
+    public Services getServices(@Autowired ApplicationConfig applicationConfig) {
+        return new Services(applicationConfig);
     }
 
     @Bean

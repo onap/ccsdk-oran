@@ -1033,7 +1033,7 @@ paths:
       - Callbacks
       summary: Callback for Near-RT RIC status
       description: The URL to this call is registerred at Service registration.
-      operationId: jobStatusCallback
+      operationId: serviceCallback
       requestBody:
         content:
           application/json:

@@ -75,7 +75,7 @@ public class RappSimulatorController {
                     content = @Content(schema = @Schema(implementation = VoidResponse.class)))} //
     )
 
-    public ResponseEntity<Object> jobStatusCallback( //
+    public ResponseEntity<Object> serviceCallback( //
             @RequestBody ServiceCallbackInfo body) {
         logger.info("R-App callback body: {}", gson.toJson(body));
         this.testResults.receivedInfo.add(body);
