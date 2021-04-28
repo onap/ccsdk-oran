@@ -35,6 +35,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbacks;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
@@ -233,9 +234,11 @@ public class RefreshConfigTask {
             RicConfigUpdate.Type event = updatedInfo.getType();
             if (event == RicConfigUpdate.Type.ADDED) {
                 logger.debug("RIC added {}", ricId);
-                Ric ric = new Ric(updatedInfo.getRicConfig());
-                return trySyncronizeSupportedTypes(ric) //
+
+                return trySyncronizeSupportedTypes(new Ric(updatedInfo.getRicConfig())) //
                         .flatMap(this::addRic) //
+                        .flatMap(this::notifyServicesRicAvailable) //
+                        .doOnNext(ric -> ric.setState(RicState.AVAILABLE)) //
                         .flatMap(notUsed -> Mono.just(event));
             } else if (event == RicConfigUpdate.Type.REMOVED) {
                 logger.debug("RIC removed {}", ricId);
@@ -263,9 +266,14 @@ public class RefreshConfigTask {
         }
         logger.debug("Added RIC: {}", ric.id());
 
-        ric.setState(RicState.AVAILABLE);
-
         return Mono.just(ric);
+    }
+
+    private Mono<Ric> notifyServicesRicAvailable(Ric ric) {
+        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+        return callbacks.notifyServicesRicAvailable(ric, services) //
+                .collectList() //
+                .flatMap(list -> Mono.just(ric));
     }
 
     /**

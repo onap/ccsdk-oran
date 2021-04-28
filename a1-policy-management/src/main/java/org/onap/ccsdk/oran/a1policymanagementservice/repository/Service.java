@@ -20,6 +20,13 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -27,6 +34,40 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Service {
+
+    static class InstantAdapter extends TypeAdapter<Instant> {
+        @Override
+        public Instant read(JsonReader reader) throws IOException {
+            reader.skipValue();
+            return Instant.now(); // Pretend that the last ping was now (after a restart)
+        }
+
+        @Override
+        public void write(JsonWriter writer, Instant value) throws IOException {
+            writer.value(value.toString());
+        }
+    }
+
+    static class DurationAdapter extends TypeAdapter<Duration> {
+        @Override
+        public Duration read(JsonReader reader) throws IOException {
+            long value = reader.nextLong();
+            return Duration.ofNanos(value);
+        }
+
+        @Override
+        public void write(JsonWriter writer, Duration value) throws IOException {
+            writer.value(value.toNanos());
+        }
+    }
+
+    public static Gson createGson() {
+        return new GsonBuilder() //
+                .registerTypeAdapter(Instant.class, new Service.InstantAdapter()) //
+                .registerTypeAdapter(Duration.class, new Service.DurationAdapter()) //
+                .create();
+    }
+
     @Getter
     private final String name;
 

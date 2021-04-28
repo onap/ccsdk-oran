@@ -51,35 +51,28 @@ public class ServiceCallbacks {
         this.restClient = restClientFactory.createRestClientNoHttpProxy("");
     }
 
-    public void notifyServicesRicSynchronized(Ric ric, Services services) {
-        createTask(ric, services).subscribe(numberOfServices -> logger.debug("Services {} notified", numberOfServices),
-                throwable -> logger.error("Service notification failed, cause: {}", throwable.getMessage()),
-                () -> logger.debug("All services notified"));
-
-    }
-
-    private Mono<Integer> createTask(Ric ric, Services services) {
+    public Flux<Service> notifyServicesRicAvailable(Ric ric, Services services) {
+        final int CONCURRENCY = 10;
         return Flux.fromIterable(services.getAll()) //
-                .flatMap(service -> notifyServiceRicSynchronized(ric, service)) //
-                .collectList() //
-                .flatMap(okResponses -> Mono.just(Integer.valueOf(okResponses.size()))); //
+                .flatMap(service -> notifyService(ric, service, ServiceCallbackInfo.EventType.AVAILABLE), CONCURRENCY); //
     }
 
-    private Mono<String> notifyServiceRicSynchronized(Ric ric, Service service) {
+    private Mono<Service> notifyService(Ric ric, Service service, ServiceCallbackInfo.EventType eventType) {
         if (service.getCallbackUrl().isEmpty()) {
             return Mono.empty();
         }
 
-        ServiceCallbackInfo request = new ServiceCallbackInfo(ric.id(), ServiceCallbackInfo.EventType.AVAILABLE);
+        ServiceCallbackInfo request = new ServiceCallbackInfo(ric.id(), eventType);
         String body = gson.toJson(request);
 
         return restClient.post(service.getCallbackUrl(), body)
                 .doOnNext(resp -> logger.debug("Invoking service {} callback,   ric: {}", service.getName(), ric.id()))
                 .onErrorResume(throwable -> {
-                    logger.error("Service: {}, callback: {} failed:  {}", service.getName(), service.getCallbackUrl(),
+                    logger.warn("Service: {}, callback: {} failed:  {}", service.getName(), service.getCallbackUrl(),
                             throwable.toString());
                     return Mono.empty();
-                });
+                }) //
+                .flatMap(resp -> Mono.just(service));
     }
 
 }
