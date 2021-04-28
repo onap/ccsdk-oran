@@ -110,7 +110,7 @@ class RicSynchronizationTaskTest {
     void init() {
         policyTypes = new PolicyTypes(appConfig);
         policies = new Policies(appConfig);
-        services = new Services();
+        services = new Services(appConfig);
         rics = new Rics();
         RIC_1.setState(RicState.UNAVAILABLE);
         RIC_1.clearSupportedPolicyTypes();
@@ -165,7 +165,6 @@ class RicSynchronizationTaskTest {
         verifyNoMoreInteractions(a1ClientMock);
 
         verify(synchronizerUnderTest).run(RIC_1);
-        verify(synchronizerUnderTest).notifyServices(any());
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isZero();

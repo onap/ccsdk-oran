@@ -120,10 +120,10 @@ public class PolicyTypes {
                 this.types.put(type.getId(), type);
             }
             logger.debug("Restored type database,no of types: {}", this.types.size());
-        } catch (IOException e) {
-            logger.warn("Could not restore policy type database : {}", e.getMessage());
         } catch (ServiceException e) {
             logger.debug("Could not restore policy type database : {}", e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Could not restore policy type database : {}", e.getMessage());
         }
     }
 

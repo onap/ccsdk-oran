@@ -171,6 +171,7 @@ class ApplicationTest {
         services.clear();
         a1ClientFactory.reset();
         this.rAppSimulator.getTestResults().clear();
+        this.a1ClientFactory.setPolicyTypes(policyTypes); // Default same types in RIC and in this app
     }
 
     @AfterEach
@@ -200,7 +201,7 @@ class ApplicationTest {
     }
 
     @Test
-    void testPersistency() throws ServiceException {
+    void testPersistencyPolicies() throws ServiceException {
         Ric ric = this.addRic("ric1");
         PolicyType type = this.addPolicyType("type1", ric.id());
         PolicyTypes types = new PolicyTypes(this.applicationConfig);
@@ -223,17 +224,71 @@ class ApplicationTest {
             policies.restoreFromDatabase(ric, types);
             assertThat(policies.size()).isEqualTo(noOfPolicies - 1);
         }
+    }
 
-        {
-            // Test adding the RIC from configuration
-            RicConfig config = ric.getConfig();
-            this.rics.remove("ric1");
-            ApplicationConfig.RicConfigUpdate update =
-                    new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
-            refreshConfigTask.handleUpdatedRicConfig(update).block();
-            ric = this.rics.getRic("ric1");
-            assertThat(ric.getSupportedPolicyTypes().size()).isEqualTo(1);
-        }
+    @Test
+    void testPersistencyPolicyTypes() throws ServiceException {
+        Ric ric = this.addRic("ric1");
+        this.addPolicyType("type1", ric.id());
+        // supported type is synched
+        RicConfig config = ric.getConfig();
+        this.rics.remove("ric1");
+        ApplicationConfig.RicConfigUpdate update =
+                new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
+        refreshConfigTask.handleUpdatedRicConfig(update).block();
+        ric = this.rics.getRic("ric1");
+        assertThat(ric.getSupportedPolicyTypes().size()).isEqualTo(1); // Test that the type has been synched
+        assertThat(ric.getSupportedPolicyTypes().iterator().next().getId()).isEqualTo("type1");
+    }
+
+    @Test
+    void testPersistencyService() throws ServiceException {
+        final String SERVICE = "serviceName";
+        putService(SERVICE, 1234, HttpStatus.CREATED);
+        assertThat(this.services.size()).isEqualTo(1);
+        Service service = this.services.getService(SERVICE);
+
+        Services servicesRestored = new Services(this.applicationConfig);
+        Service serviceRestored = servicesRestored.getService(SERVICE);
+        assertThat(servicesRestored.size()).isEqualTo(1);
+        assertThat(serviceRestored.getCallbackUrl()).isEqualTo(service.getCallbackUrl());
+        assertThat(serviceRestored.getKeepAliveInterval()).isEqualTo(service.getKeepAliveInterval());
+
+        // check that the service can be deleted
+        this.services.remove(SERVICE);
+        servicesRestored = new Services(this.applicationConfig);
+        assertThat(servicesRestored.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testAddingRicFromConfiguration() throws Exception {
+        // Test adding the RIC from configuration
+
+        final String RIC = "ric1";
+        final String TYPE = "type123";
+        PolicyTypes nearRtRicPolicyTypes = new PolicyTypes(this.applicationConfig);
+        nearRtRicPolicyTypes.put(createPolicyType(TYPE));
+        this.a1ClientFactory.setPolicyTypes(nearRtRicPolicyTypes);
+
+        putService("service");
+
+        RicConfig config = ricConfig(RIC, "me1");
+        ApplicationConfig.RicConfigUpdate update =
+                new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
+        refreshConfigTask.handleUpdatedRicConfig(update).block();
+        waitForRicState(RIC, RicState.AVAILABLE);
+
+        // Test that the type has been synched
+        Ric addedRic = this.rics.getRic(RIC);
+        assertThat(addedRic.getSupportedPolicyTypes().size()).isEqualTo(1);
+        assertThat(addedRic.getSupportedPolicyTypes().iterator().next().getId()).isEqualTo(TYPE);
+
+        // Check that a service callback for the AVAILABLE RIC is invoked
+        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+        ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
+        assertThat(callbackInfo.ricId).isEqualTo(RIC);
+        assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
     }
 
     @Test
@@ -766,7 +821,7 @@ class ApplicationTest {
         return "{\"servingCellNrcgi\":\"1\"}";
     }
 
-    @Test
+    // @Test
     void testConcurrency() throws Exception {
         logger.info("Concurrency test starting");
         final Instant startTime = Instant.now();
@@ -887,20 +942,25 @@ class ApplicationTest {
         return addRic(ricId, null);
     }
 
-    private Ric addRic(String ricId, String managedElement) {
-        if (rics.get(ricId) != null) {
-            return rics.get(ricId);
-        }
+    private RicConfig ricConfig(String ricId, String managedElement) {
         List<String> mes = new ArrayList<>();
         if (managedElement != null) {
             mes.add(managedElement);
         }
-        RicConfig conf = ImmutableRicConfig.builder() //
+        return ImmutableRicConfig.builder() //
                 .ricId(ricId) //
                 .baseUrl(ricId) //
                 .managedElementIds(mes) //
                 .controllerName("") //
                 .build();
+    }
+
+    private Ric addRic(String ricId, String managedElement) {
+        if (rics.get(ricId) != null) {
+            return rics.get(ricId);
+        }
+
+        RicConfig conf = ricConfig(ricId, managedElement);
         Ric ric = new Ric(conf);
         ric.setState(Ric.RicState.AVAILABLE);
         this.rics.put(ric);

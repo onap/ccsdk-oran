@@ -1153,7 +1153,7 @@
                 "required": true
             },
             "description": "The URL to this call is registerred at Service registration.",
-            "operationId": "jobStatusCallback",
+            "operationId": "serviceCallback",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"application/json": {"schema": {"$ref": "#/components/schemas/void"}}}

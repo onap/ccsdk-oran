@@ -108,7 +108,7 @@ public class RicSynchronizationTask {
                     logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), t.getMessage()); //
                     ric.setState(RicState.UNAVAILABLE); //
                 }) //
-                .doOnNext(notUsed -> onSynchronizationComplete(ric)) //
+                .flatMap(notUsed -> onSynchronizationComplete(ric)) //
                 .onErrorResume(t -> Mono.just(ric));
     }
 
@@ -142,14 +142,17 @@ public class RicSynchronizationTask {
         return Flux.concat(synchronizedTypes, policiesDeletedInRic, policiesRecreatedInRic);
     }
 
-    private void onSynchronizationComplete(Ric ric) {
+    private Mono<Ric> onSynchronizationComplete(Ric ric) {
         if (this.rics.get(ric.id()) == null) {
             logger.debug("Policies removed in removed ric: {}", ric.id());
-            return;
+            return Mono.empty();
         }
         logger.debug("Synchronization completed for: {}", ric.id());
         ric.setState(RicState.AVAILABLE);
-        notifyServices(ric);
+        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+        return callbacks.notifyServicesRicAvailable(ric, services) //
+                .collectList() //
+                .flatMap(list -> Mono.just(ric));
     }
 
     private Flux<Object> deleteAllPolicyInstances(Ric ric, Throwable t) {
@@ -163,11 +166,6 @@ public class RicSynchronizationTask {
                 .doOnComplete(() -> deleteAllPoliciesInRepository(ric));
 
         return Flux.concat(synchronizedTypes, deletePoliciesInRic);
-    }
-
-    void notifyServices(Ric ric) {
-        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
-        callbacks.notifyServicesRicSynchronized(ric, services);
     }
 
     private Mono<PolicyType> getPolicyType(String policyTypeId, A1Client a1Client) {
