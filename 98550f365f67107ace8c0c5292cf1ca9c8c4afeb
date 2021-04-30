@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26ffbc68_52edcf72",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-04-30T07:29:53Z",
+      "side": 1,
+      "message": "Is this intentional? If it should not be run as a test maybe it is better to remove it?",
+      "range": {
+        "startLine": 824,
+        "startChar": 4,
+        "endLine": 824,
+        "endChar": 7
+      },
+      "revId": "98550f365f67107ace8c0c5292cf1ca9c8c4afeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
