@@ -219,12 +219,16 @@ public class RefreshConfigTask {
     private Mono<Ric> trySyncronizeSupportedTypes(Ric ric) {
         logger.debug("Synchronizing policy types for new RIC: {}", ric.id());
         // Synchronize the policy types
+        ric.setState(RicState.SYNCHRONIZING);
         return this.a1ClientFactory.createA1Client(ric) //
                 .flatMapMany(client -> synchronizationTask().synchronizePolicyTypes(ric, client)) //
                 .collectList() //
                 .flatMap(list -> Mono.just(ric)) //
-                .doOnError(t -> logger.warn("Failed to synchronize types in new RIC: {}, reason: {}", ric.id(),
-                        t.getMessage())) //
+                .doOnNext(notUsed -> ric.setState(RicState.AVAILABLE)) //
+                .doOnError(t -> {
+                    logger.warn("Failed to synchronize types in new RIC: {}, reason: {}", ric.id(), t.getMessage());
+                    ric.setState(RicState.UNAVAILABLE); //
+                }) //
                 .onErrorResume(t -> Mono.just(ric));
     }
 
@@ -238,7 +242,6 @@ public class RefreshConfigTask {
                 return trySyncronizeSupportedTypes(new Ric(updatedInfo.getRicConfig())) //
                         .flatMap(this::addRic) //
                         .flatMap(this::notifyServicesRicAvailable) //
-                        .doOnNext(ric -> ric.setState(RicState.AVAILABLE)) //
                         .flatMap(notUsed -> Mono.just(event));
             } else if (event == RicConfigUpdate.Type.REMOVED) {
                 logger.debug("RIC removed {}", ricId);
@@ -270,10 +273,14 @@ public class RefreshConfigTask {
     }
 
     private Mono<Ric> notifyServicesRicAvailable(Ric ric) {
-        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
-        return callbacks.notifyServicesRicAvailable(ric, services) //
-                .collectList() //
-                .flatMap(list -> Mono.just(ric));
+        if (ric.getState() == RicState.AVAILABLE) {
+            ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+            return callbacks.notifyServicesRicAvailable(ric, services) //
+                    .collectList() //
+                    .flatMap(list -> Mono.just(ric));
+        } else {
+            return Mono.just(ric);
+        }
     }
 
     /**

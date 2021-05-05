@@ -50,6 +50,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
@@ -263,10 +264,9 @@ class ApplicationTest {
 
         putService("service");
 
-        RicConfig config = ricConfig(RIC, "me1");
-        ApplicationConfig.RicConfigUpdate update =
-                new ApplicationConfig.RicConfigUpdate(config, ApplicationConfig.RicConfigUpdate.Type.ADDED);
-        refreshConfigTask.handleUpdatedRicConfig(update).block();
+        refreshConfigTask.handleUpdatedRicConfig( //
+                new RicConfigUpdate(ricConfig(RIC, "me1"), RicConfigUpdate.Type.ADDED)) //
+                .block();
         waitForRicState(RIC, RicState.AVAILABLE);
 
         // Test that the type has been synched
@@ -280,6 +280,33 @@ class ApplicationTest {
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo(RIC);
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
+    }
+
+    @Test
+    void testAddingRicFromConfiguration_nonRespondingRic() throws ServiceException {
+        putService("service");
+
+        final String RIC = "NonRespondingRic";
+        MockA1Client a1Client = a1ClientFactory.getOrCreateA1Client(RIC);
+        WebClientResponseException a1Exception = new WebClientResponseException(404, "", null, null, null);
+        doReturn(Mono.error(a1Exception)).when(a1Client).getPolicyTypeIdentities();
+
+        refreshConfigTask.handleUpdatedRicConfig( //
+                new RicConfigUpdate(ricConfig(RIC, "me1"), RicConfigUpdate.Type.ADDED)) //
+                .block();
+
+        waitForRicState(RIC, RicState.UNAVAILABLE);
+
+        // Check that no service callback for the UNAVAILABLE RIC is invoked
+        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(0);
+
+        // Run a synch and check that the AVAILABLE notificationis received
+        a1ClientFactory.reset();
+        supervision.checkAllRics();
+        waitForRicState(RIC, RicState.AVAILABLE);
+        receivedCallbacks = rAppSimulator.getTestResults();
+        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
     }
 
     @Test
