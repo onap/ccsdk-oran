@@ -22,7 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
@@ -64,10 +63,10 @@ public class DmaapMessageHandler {
     private Mono<ResponseEntity<String>> handlePolicyManagementServiceCallError(Throwable error,
             DmaapRequestMessage dmaapRequestMessage) {
         logger.debug("Policy Management Service call failed: {}", error.getMessage());
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        String errorMessage = error.getMessage();
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        var errorMessage = error.getMessage();
         if (error instanceof WebClientResponseException) {
-            WebClientResponseException exception = (WebClientResponseException) error;
+            var exception = (WebClientResponseException) error;
             status = exception.getStatusCode();
             errorMessage = exception.getResponseBodyAsString();
         } else if (error instanceof ServiceException) {
@@ -87,8 +86,8 @@ public class DmaapMessageHandler {
     }
 
     private Mono<ResponseEntity<String>> invokePolicyManagementService(DmaapRequestMessage dmaapRequestMessage) {
-        DmaapRequestMessage.Operation operation = dmaapRequestMessage.getOperation();
-        String uri = dmaapRequestMessage.getUrl();
+        var operation = dmaapRequestMessage.getOperation();
+        var uri = dmaapRequestMessage.getUrl();
 
         if (operation == Operation.DELETE) {
             return pmsClient.deleteForEntity(uri);
@@ -104,7 +103,7 @@ public class DmaapMessageHandler {
     }
 
     private String payload(DmaapRequestMessage message) {
-        JsonObject payload = message.getPayload();
+        var payload = message.getPayload();
         if (payload != null) {
             return gson.toJson(payload);
         } else {
@@ -136,7 +135,7 @@ public class DmaapMessageHandler {
                 .requestId(dmaapRequestMessage.getRequestId() == null ? "" : dmaapRequestMessage.getRequestId()) //
                 .timestamp(dmaapRequestMessage.getTimestamp() == null ? "" : dmaapRequestMessage.getTimestamp()) //
                 .build();
-        String str = gson.toJson(dmaapResponseMessage);
+        var str = gson.toJson(dmaapResponseMessage);
         return Mono.just(str);
     }
 }

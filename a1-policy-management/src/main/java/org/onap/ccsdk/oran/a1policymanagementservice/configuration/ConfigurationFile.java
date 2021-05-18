@@ -57,8 +57,8 @@ public class ConfigurationFile {
             return Optional.empty();
         }
 
-        try (InputStream inputStream = createInputStream(filepath)) {
-            JsonObject rootObject = getJsonElement(inputStream).getAsJsonObject();
+        try (var inputStream = createInputStream(filepath)) {
+            var rootObject = getJsonElement(inputStream).getAsJsonObject();
             logger.debug("Local configuration file read: {}", filepath);
             return Optional.of(rootObject);
         } catch (Exception e) {
@@ -68,8 +68,8 @@ public class ConfigurationFile {
     }
 
     public synchronized void writeFile(JsonObject content) throws IOException {
-        String filepath = appConfig.getLocalConfigurationFilePath();
-        try (FileWriter fileWriter = getFileWriter(filepath)) {
+        var filepath = appConfig.getLocalConfigurationFilePath();
+        try (var fileWriter = getFileWriter(filepath)) {
             gson.toJson(content, fileWriter);
             logger.debug("Local configuration file written: {}", filepath);
         }

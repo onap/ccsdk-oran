@@ -52,11 +52,11 @@ public class Services {
     }
 
     public synchronized Service getService(String name) throws ServiceException {
-        Service s = registeredServices.get(name);
-        if (s == null) {
+        var service = registeredServices.get(name);
+        if (service == null) {
             throw new ServiceException("Could not find service: " + name);
         }
-        return s;
+        return service;
     }
 
     public synchronized Service get(String name) {
@@ -75,12 +75,12 @@ public class Services {
     }
 
     public synchronized void remove(String name) {
-        Service service = registeredServices.remove(name);
+        var service = registeredServices.remove(name);
         if (service != null) {
             try {
                 Files.delete(getPath(service));
             } catch (Exception e) {
-
+                // Doesn't matter.
             }
         }
     }
@@ -101,8 +101,8 @@ public class Services {
     public void store(Service service) {
         try {
             Files.createDirectories(getDatabasePath());
-            try (PrintStream out = new PrintStream(new FileOutputStream(getFile(service)))) {
-                String str = gson.toJson(service);
+            try (var out = new PrintStream(new FileOutputStream(getFile(service)))) {
+                var str = gson.toJson(service);
                 out.print(str);
             }
         } catch (ServiceException e) {
@@ -124,8 +124,8 @@ public class Services {
         try {
             Files.createDirectories(getDatabasePath());
             for (File file : getDatabasePath().toFile().listFiles()) {
-                String json = Files.readString(file.toPath());
-                Service service = gson.fromJson(json, Service.class);
+                var json = Files.readString(file.toPath());
+                var service = gson.fromJson(json, Service.class);
                 this.registeredServices.put(service.getName(), service);
             }
             logger.debug("Restored type database,no of services: {}", this.registeredServices.size());

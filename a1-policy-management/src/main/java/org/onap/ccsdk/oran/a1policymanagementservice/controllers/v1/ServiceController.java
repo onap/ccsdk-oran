@@ -88,13 +88,13 @@ public class ServiceController {
         }
 
         Collection<ServiceStatus> servicesStatus = new ArrayList<>();
-        for (Service s : this.services.getAll()) {
-            if (name == null || name.equals(s.getName())) {
-                servicesStatus.add(toServiceStatus(s));
+        for (var service : this.services.getAll()) {
+            if (name == null || name.equals(service.getName())) {
+                servicesStatus.add(toServiceStatus(service));
             }
         }
 
-        String res = gson.toJson(servicesStatus);
+        var res = gson.toJson(servicesStatus);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -133,7 +133,7 @@ public class ServiceController {
             @RequestBody ServiceRegistrationInfo registrationInfo) {
         try {
             validateRegistrationInfo(registrationInfo);
-            final boolean isCreate = this.services.get(registrationInfo.serviceName) == null;
+            final var isCreate = this.services.get(registrationInfo.serviceName) == null;
             this.services.put(toService(registrationInfo));
             return new ResponseEntity<>("OK", isCreate ? HttpStatus.CREATED : HttpStatus.OK);
         } catch (Exception e) {
@@ -152,7 +152,7 @@ public class ServiceController {
             @Parameter(name = "name", required = true, description = "The name of the service") //
             @RequestParam(name = "name", required = true) String serviceName) {
         try {
-            Service service = removeService(serviceName);
+            var service = removeService(serviceName);
             // Remove the policies from the repo and let the consistency monitoring
             // do the rest.
             removePolicies(service);
@@ -182,14 +182,14 @@ public class ServiceController {
     }
 
     private Service removeService(String name) throws ServiceException {
-        Service service = this.services.getService(name); // Just to verify that it exists
+        var service = this.services.getService(name); // Just to verify that it exists
         this.services.remove(service.getName());
         return service;
     }
 
     private void removePolicies(Service service) {
         Collection<Policy> policyList = this.policies.getForService(service.getName());
-        for (Policy policy : policyList) {
+        for (var policy : policyList) {
             this.policies.remove(policy);
         }
     }

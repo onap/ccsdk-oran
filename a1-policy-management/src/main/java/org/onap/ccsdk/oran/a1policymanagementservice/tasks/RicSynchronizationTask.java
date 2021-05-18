@@ -149,7 +149,7 @@ public class RicSynchronizationTask {
         }
         logger.debug("Synchronization completed for: {}", ric.id());
         ric.setState(RicState.AVAILABLE);
-        ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+        var callbacks = new ServiceCallbacks(this.restClientFactory);
         return callbacks.notifyServicesRicAvailable(ric, services) //
                 .collectList() //
                 .flatMap(list -> Mono.just(ric));
@@ -177,13 +177,13 @@ public class RicSynchronizationTask {
     }
 
     private Mono<PolicyType> createPolicyType(String policyTypeId, String schema) {
-        PolicyType pt = PolicyType.builder().id(policyTypeId).schema(schema).build();
+        var pt = PolicyType.builder().id(policyTypeId).schema(schema).build();
         policyTypes.put(pt);
         return Mono.just(pt);
     }
 
     private void deleteAllPoliciesInRepository(Ric ric) {
-        for (Policy policy : policies.getForRic(ric.id())) {
+        for (var policy : policies.getForRic(ric.id())) {
             this.policies.remove(policy);
         }
     }

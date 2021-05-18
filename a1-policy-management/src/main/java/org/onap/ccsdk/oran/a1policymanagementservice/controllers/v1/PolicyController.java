@@ -51,7 +51,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +132,7 @@ public class PolicyController {
             @Parameter(name = "id", required = true,
                     description = "The identity of the policy type to get the definition for.") //
             @RequestParam(name = "id", required = true) String id) throws EntityNotFoundException {
-        PolicyType type = policyTypes.getType(id);
+        var type = policyTypes.getType(id);
         return new ResponseEntity<>(type.getSchema(), HttpStatus.OK);
     }
 
@@ -173,7 +172,7 @@ public class PolicyController {
     public ResponseEntity<String> getPolicy( //
             @Parameter(name = "id", required = true, description = "The identity of the policy instance.") //
             @RequestParam(name = "id", required = true) String id) throws EntityNotFoundException {
-        Policy p = policies.getPolicy(id);
+        var p = policies.getPolicy(id);
         return new ResponseEntity<>(p.getJson(), HttpStatus.OK);
     }
 
@@ -195,9 +194,9 @@ public class PolicyController {
     public Mono<ResponseEntity<Object>> deletePolicy( //
             @Parameter(name = "id", required = true, description = "The identity of the policy instance.") //
             @RequestParam(name = "id", required = true) String id) throws EntityNotFoundException {
-        Policy policy = policies.getPolicy(id);
+        var policy = policies.getPolicy(id);
         keepServiceAlive(policy.getOwnerServiceId());
-        Ric ric = policy.getRic();
+        var ric = policy.getRic();
         return ric.getLock().lock(LockType.SHARED) //
                 .flatMap(notUsed -> assertRicStateIdle(ric)) //
                 .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.getRic())) //
@@ -244,14 +243,14 @@ public class PolicyController {
             @RequestParam(name = "transient", required = false, defaultValue = "false") boolean isTransient, //
             @RequestBody Object jsonBody) {
 
-        String jsonString = gson.toJson(jsonBody);
-        Ric ric = rics.get(ricName);
-        PolicyType type = policyTypes.get(typeName);
+        var jsonString = gson.toJson(jsonBody);
+        var ric = rics.get(ricName);
+        var type = policyTypes.get(typeName);
         keepServiceAlive(service);
         if (ric == null || type == null) {
             return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
-        Policy policy = Policy.builder() //
+        var policy = Policy.builder() //
                 .id(instanceId) //
                 .json(jsonString) //
                 .type(type) //
@@ -288,7 +287,7 @@ public class PolicyController {
             WebClientResponseException e = (WebClientResponseException) throwable;
             return createResponseEntity(e.getResponseBodyAsString(), e.getStatusCode());
         } else if (throwable instanceof RejectionException) {
-            RejectionException e = (RejectionException) throwable;
+            var e = (RejectionException) throwable;
             return createResponseEntity(e.getMessage(), e.getStatus());
         } else {
             return createResponseEntity(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -299,7 +298,7 @@ public class PolicyController {
         // Check that ric is not updated
         Policy current = this.policies.get(policy.getId());
         if (current != null && !current.getRic().id().equals(policy.getRic().id())) {
-            RejectionException e = new RejectionException("Policy cannot change RIC, policyId: " + current.getId() + //
+            var e = new RejectionException("Policy cannot change RIC, policyId: " + current.getId() + //
                     ", RIC name: " + current.getRic().id() + //
                     ", new name: " + policy.getRic().id(), HttpStatus.CONFLICT);
             logger.debug("Request rejected, {}", e.getMessage());
@@ -311,8 +310,8 @@ public class PolicyController {
     private Mono<Object> checkSupportedType(Ric ric, PolicyType type) {
         if (!ric.isSupportingType(type.getId())) {
             logger.debug("Request rejected, type not supported, RIC: {}", ric);
-            RejectionException e = new RejectionException(
-                    "Type: " + type.getId() + " not supported by RIC: " + ric.id(), HttpStatus.NOT_FOUND);
+            var e = new RejectionException("Type: " + type.getId() + " not supported by RIC: " + ric.id(),
+                    HttpStatus.NOT_FOUND);
             return Mono.error(e);
         }
         return Mono.just("OK");
@@ -323,7 +322,7 @@ public class PolicyController {
             return Mono.just("OK");
         } else {
             logger.debug("Request rejected RIC not IDLE, ric: {}", ric);
-            RejectionException e = new RejectionException(
+            var e = new RejectionException(
                     "Ric is not operational, RIC name: " + ric.id() + ", state: " + ric.getState(), HttpStatus.LOCKED);
             return Mono.error(e);
         }
@@ -354,7 +353,7 @@ public class PolicyController {
             return new ResponseEntity<>("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
-        String filteredPolicies = policiesToJson(filter(type, ric, service));
+        var filteredPolicies = policiesToJson(filter(type, ric, service));
         return new ResponseEntity<>(filteredPolicies, HttpStatus.OK);
     }
 
@@ -383,7 +382,7 @@ public class PolicyController {
             return new ResponseEntity<>("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
-        String policyIdsJson = toPolicyIdsJson(filter(type, ric, service));
+        var policyIdsJson = toPolicyIdsJson(filter(type, ric, service));
         return new ResponseEntity<>(policyIdsJson, HttpStatus.OK);
     }
 
@@ -402,7 +401,7 @@ public class PolicyController {
                     name = "id", //
                     required = true) String id)
             throws EntityNotFoundException {
-        Policy policy = policies.getPolicy(id);
+        var policy = policies.getPolicy(id);
 
         return a1ClientFactory.createA1Client(policy.getRic()) //
                 .flatMap(client -> client.getPolicyStatus(policy)) //
@@ -411,9 +410,9 @@ public class PolicyController {
     }
 
     private void keepServiceAlive(String name) {
-        Service s = this.services.get(name);
-        if (s != null) {
-            s.keepAlive();
+        var service = this.services.get(name);
+        if (service != null) {
+            service.keepAlive();
         }
     }
 
@@ -426,10 +425,10 @@ public class PolicyController {
             return collection;
         }
         List<Policy> filtered = new ArrayList<>();
-        for (Policy p : collection) {
-            if (include(type, p.getType().getId()) && include(ric, p.getRic().id())
-                    && include(service, p.getOwnerServiceId())) {
-                filtered.add(p);
+        for (var policy : collection) {
+            if (include(type, policy.getType().getId()) && include(ric, policy.getRic().id())
+                    && include(service, policy.getOwnerServiceId())) {
+                filtered.add(policy);
             }
         }
         return filtered;
@@ -449,14 +448,14 @@ public class PolicyController {
 
     private String policiesToJson(Collection<Policy> policies) {
         List<PolicyInfo> v = new ArrayList<>(policies.size());
-        for (Policy p : policies) {
+        for (var policy : policies) {
             PolicyInfo policyInfo = new PolicyInfo();
-            policyInfo.id = p.getId();
-            policyInfo.json = fromJson(p.getJson());
-            policyInfo.ric = p.getRic().id();
-            policyInfo.type = p.getType().getId();
-            policyInfo.service = p.getOwnerServiceId();
-            policyInfo.lastModified = p.getLastModified().toString();
+            policyInfo.id = policy.getId();
+            policyInfo.json = fromJson(policy.getJson());
+            policyInfo.ric = policy.getRic().id();
+            policyInfo.type = policy.getType().getId();
+            policyInfo.service = policy.getOwnerServiceId();
+            policyInfo.lastModified = policy.getLastModified().toString();
             if (!policyInfo.validate()) {
                 logger.error("BUG, all fields must be set");
             }
@@ -470,15 +469,15 @@ public class PolicyController {
     }
 
     private String toPolicyTypeSchemasJson(Collection<PolicyType> types) {
-        StringBuilder result = new StringBuilder();
+        var result = new StringBuilder();
         result.append("[");
-        boolean first = true;
-        for (PolicyType t : types) {
+        var first = true;
+        for (var type : types) {
             if (!first) {
                 result.append(",");
             }
             first = false;
-            result.append(t.getSchema());
+            result.append(type.getSchema());
         }
         result.append("]");
         return result.toString();
@@ -486,16 +485,16 @@ public class PolicyController {
 
     private String toPolicyTypeIdsJson(Collection<PolicyType> types) {
         List<String> v = new ArrayList<>(types.size());
-        for (PolicyType t : types) {
-            v.add(t.getId());
+        for (var type : types) {
+            v.add(type.getId());
         }
         return gson.toJson(v);
     }
 
     private String toPolicyIdsJson(Collection<Policy> policies) {
         List<String> v = new ArrayList<>(policies.size());
-        for (Policy p : policies) {
-            v.add(p.getId());
+        for (var policy : policies) {
+            v.add(policy.getId());
         }
         return gson.toJson(v);
     }

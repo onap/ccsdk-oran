@@ -218,10 +218,10 @@ public class AsyncRestClient {
     }
 
     private WebClient createWebClient(String baseUrl, TcpClient tcpClient) {
-        HttpClient httpClient = HttpClient.from(tcpClient);
+        var httpClient = HttpClient.from(tcpClient);
 
-        ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
-        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder() //
+        var connector = new ReactorClientHttpConnector(httpClient);
+        var exchangeStrategies = ExchangeStrategies.builder() //
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) //
                 .build();
         return WebClient.builder() //
@@ -234,7 +234,7 @@ public class AsyncRestClient {
     private Mono<WebClient> getWebClient() {
         if (this.webClient == null) {
             try {
-                TcpClient tcpClient = createTcpClient();
+                var tcpClient = createTcpClient();
                 this.webClient = createWebClient(this.baseUrl, tcpClient);
             } catch (Exception e) {
                 logger.error("Could not create WebClient {}", e.getMessage());

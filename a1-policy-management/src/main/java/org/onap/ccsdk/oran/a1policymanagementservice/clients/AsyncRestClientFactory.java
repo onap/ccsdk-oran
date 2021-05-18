@@ -26,7 +26,6 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -82,7 +81,7 @@ public class AsyncRestClientFactory {
                 return new AsyncRestClient(baseUrl, this.sslContextFactory.createSslContext(),
                         useHttpProxy ? httpProxyConfig : null);
             } catch (Exception e) {
-                String exceptionString = e.toString();
+                var exceptionString = e.toString();
                 logger.error("Could not init SSL context, reason: {}", exceptionString);
             }
         }
@@ -152,12 +151,12 @@ public class AsyncRestClientFactory {
 
         private KeyManagerFactory createKeyManager() throws NoSuchAlgorithmException, CertificateException, IOException,
                 UnrecoverableKeyException, KeyStoreException {
-            final KeyManagerFactory keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            final KeyStore keyStore = KeyStore.getInstance(this.clientConfig.keyStoreType());
-            final String keyStoreFile = this.clientConfig.keyStore();
-            final String keyStorePassword = this.clientConfig.keyStorePassword();
-            final String keyPassword = this.clientConfig.keyPassword();
-            try (final InputStream inputStream = new FileInputStream(keyStoreFile)) {
+            final var keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            final var keyStore = KeyStore.getInstance(this.clientConfig.keyStoreType());
+            final var keyStoreFile = this.clientConfig.keyStore();
+            final var keyStorePassword = this.clientConfig.keyStorePassword();
+            final var keyPassword = this.clientConfig.keyPassword();
+            try (final var inputStream = new FileInputStream(keyStoreFile)) {
                 keyStore.load(inputStream, keyStorePassword.toCharArray());
             }
             keyManager.init(keyStore, keyPassword.toCharArray());
@@ -167,7 +166,7 @@ public class AsyncRestClientFactory {
         private synchronized KeyStore getTrustStore(String trustStorePath, String trustStorePass)
                 throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
 
-            KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
+            var store = KeyStore.getInstance(KeyStore.getDefaultType());
             store.load(new FileInputStream(ResourceUtils.getFile(trustStorePath)), trustStorePass.toCharArray());
             return store;
         }

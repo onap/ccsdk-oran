@@ -51,7 +51,7 @@ public class Service {
     static class DurationAdapter extends TypeAdapter<Duration> {
         @Override
         public Duration read(JsonReader reader) throws IOException {
-            long value = reader.nextLong();
+            var value = reader.nextLong();
             return Duration.ofNanos(value);
         }
 

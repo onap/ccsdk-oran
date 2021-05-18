@@ -111,7 +111,7 @@ public class ApplicationConfig {
     }
 
     public synchronized ControllerConfig getControllerConfig(String name) throws ServiceException {
-        ControllerConfig controllerConfig = this.controllerConfigs.get(name);
+        var controllerConfig = this.controllerConfigs.get(name);
         if (controllerConfig == null) {
             throw new ServiceException("Could not find controller config: " + name);
         }
@@ -119,7 +119,7 @@ public class ApplicationConfig {
     }
 
     public synchronized RicConfig getRic(String ricId) throws ServiceException {
-        RicConfig ricConfig = this.ricConfigs.get(ricId);
+        var ricConfig = this.ricConfigs.get(ricId);
         if (ricConfig == null) {
             throw new ServiceException("Could not find ric configuration: " + ricId);
         }

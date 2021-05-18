@@ -22,15 +22,12 @@ package org.onap.ccsdk.oran.a1policymanagementservice.dmaap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.slf4j.Logger;
@@ -95,7 +92,7 @@ public class DmaapMessageConsumer {
 
         void onRequest(long no) {
             logger.debug("InfiniteFlux.onRequest {}", no);
-            for (long i = 0; i < no; ++i) {
+            for (var i = 0; i < no; ++i) {
                 sink.next(counter++);
             }
         }
@@ -111,7 +108,7 @@ public class DmaapMessageConsumer {
     @Autowired
     public DmaapMessageConsumer(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
-        GsonBuilder gsonBuilder = new GsonBuilder();
+        var gsonBuilder = new GsonBuilder();
         this.gson = gsonBuilder.create();
         this.restClientFactory = new AsyncRestClientFactory(applicationConfig.getWebClientConfig());
     }
@@ -151,8 +148,8 @@ public class DmaapMessageConsumer {
 
     private <T> List<T> parseList(String jsonString, Class<T> clazz) {
         List<T> result = new ArrayList<>();
-        JsonArray jsonArr = JsonParser.parseString(jsonString).getAsJsonArray();
-        for (JsonElement jsonElement : jsonArr) {
+        var jsonArr = JsonParser.parseString(jsonString).getAsJsonArray();
+        for (var jsonElement : jsonArr) {
             // The element can either be a JsonObject or a JsonString
             if (jsonElement.isJsonPrimitive()) {
                 T json = gson.fromJson(jsonElement.getAsString(), clazz);
@@ -166,8 +163,8 @@ public class DmaapMessageConsumer {
     }
 
     protected boolean isDmaapConfigured() {
-        String producerTopicUrl = applicationConfig.getDmaapProducerTopicUrl();
-        String consumerTopicUrl = applicationConfig.getDmaapConsumerTopicUrl();
+        var producerTopicUrl = applicationConfig.getDmaapProducerTopicUrl();
+        var consumerTopicUrl = applicationConfig.getDmaapConsumerTopicUrl();
         return (producerTopicUrl != null && consumerTopicUrl != null && !producerTopicUrl.isEmpty()
                 && !consumerTopicUrl.isEmpty());
     }
@@ -178,8 +175,8 @@ public class DmaapMessageConsumer {
 
     protected Mono<String> getFromMessageRouter(String topicUrl) {
         logger.trace("getFromMessageRouter {}", topicUrl);
-        AsyncRestClient c = restClientFactory.createRestClientNoHttpProxy("");
-        return c.get(topicUrl);
+        var client = restClientFactory.createRestClientNoHttpProxy("");
+        return client.get(topicUrl);
     }
 
     protected Flux<DmaapRequestMessage> parseReceivedMessage(String jsonString) {
@@ -195,7 +192,7 @@ public class DmaapMessageConsumer {
 
     protected Mono<String> sendErrorResponse(String response) {
         logger.debug("sendErrorResponse {}", response);
-        DmaapRequestMessage fakeRequest = DmaapRequestMessage.builder() //
+        var fakeRequest = DmaapRequestMessage.builder() //
                 .apiVersion("") //
                 .correlationId("") //
                 .operation(DmaapRequestMessage.Operation.PUT) //
@@ -216,7 +213,7 @@ public class DmaapMessageConsumer {
             return delay().flatMap(o -> Mono.empty());
         }
         logger.debug("fetchFromDmaap");
-        String topicUrl = this.applicationConfig.getDmaapConsumerTopicUrl();
+        var topicUrl = this.applicationConfig.getDmaapConsumerTopicUrl();
 
         return getFromMessageRouter(topicUrl) //
                 .onErrorResume(throwable -> delay().flatMap(o -> Mono.empty()));
@@ -224,9 +221,9 @@ public class DmaapMessageConsumer {
 
     private DmaapMessageHandler getDmaapMessageHandler() {
         if (this.dmaapMessageHandler == null) {
-            String pmsBaseUrl = "http://localhost:" + this.localServerHttpPort;
-            AsyncRestClient pmsClient = restClientFactory.createRestClientNoHttpProxy(pmsBaseUrl);
-            AsyncRestClient producer =
+            var pmsBaseUrl = "http://localhost:" + this.localServerHttpPort;
+            var pmsClient = restClientFactory.createRestClientNoHttpProxy(pmsBaseUrl);
+            var producer =
                     restClientFactory.createRestClientNoHttpProxy(this.applicationConfig.getDmaapProducerTopicUrl());
             this.dmaapMessageHandler = new DmaapMessageHandler(producer, pmsClient);
         }

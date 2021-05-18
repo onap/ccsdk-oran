@@ -36,7 +36,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
     @Bean(name = "threadPoolTaskExecutor")
     public Executor getAsyncExecutor() {
         // Set this configuration value from common properties file
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(10);
         executor.setQueueCapacity(25);

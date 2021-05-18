@@ -67,7 +67,7 @@ public class BeanFactory {
 
     @Bean
     public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+        var tomcat = new TomcatServletWebServerFactory();
         if (httpPort > 0) {
             tomcat.addAdditionalTomcatConnectors(getHttpConnector(httpPort));
         }
@@ -75,7 +75,7 @@ public class BeanFactory {
     }
 
     private static Connector getHttpConnector(int httpPort) {
-        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+        var connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
         connector.setScheme("http");
         connector.setPort(httpPort);
         connector.setSecure(false);

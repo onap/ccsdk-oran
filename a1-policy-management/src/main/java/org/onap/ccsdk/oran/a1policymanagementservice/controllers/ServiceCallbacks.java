@@ -52,7 +52,7 @@ public class ServiceCallbacks {
     }
 
     public Flux<Service> notifyServicesRicAvailable(Ric ric, Services services) {
-        final int CONCURRENCY = 10;
+        final var CONCURRENCY = 10;
         return Flux.fromIterable(services.getAll()) //
                 .flatMap(service -> notifyService(ric, service, ServiceCallbackInfo.EventType.AVAILABLE), CONCURRENCY); //
     }
@@ -62,8 +62,8 @@ public class ServiceCallbacks {
             return Mono.empty();
         }
 
-        ServiceCallbackInfo request = new ServiceCallbackInfo(ric.id(), eventType);
-        String body = gson.toJson(request);
+        var request = new ServiceCallbackInfo(ric.id(), eventType);
+        var body = gson.toJson(request);
 
         return restClient.post(service.getCallbackUrl(), body)
                 .doOnNext(resp -> logger.debug("Invoking service {} callback,   ric: {}", service.getName(), ric.id()))

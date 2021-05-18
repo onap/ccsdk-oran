@@ -77,9 +77,9 @@ public class ConfigurationController {
     })
     public ResponseEntity<Object> putConfiguration(@RequestBody Object configuration) {
         try {
-            String configAsString = gson.toJson(configuration);
-            JsonObject configJson = JsonParser.parseString(configAsString).getAsJsonObject();
-            ApplicationConfigParser configParser = new ApplicationConfigParser();
+            var configAsString = gson.toJson(configuration);
+            var configJson = JsonParser.parseString(configAsString).getAsJsonObject();
+            var configParser = new ApplicationConfigParser();
             configParser.parse(configJson);
             configurationFile.writeFile(configJson);
             logger.info("Configuration changed through REST call.");

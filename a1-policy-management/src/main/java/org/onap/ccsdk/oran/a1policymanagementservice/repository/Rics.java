@@ -43,7 +43,7 @@ public class Rics {
     }
 
     public synchronized Ric getRic(String ricId) throws EntityNotFoundException {
-        Ric ric = registeredRics.get(ricId);
+        var ric = registeredRics.get(ricId);
         if (ric == null) {
             throw new EntityNotFoundException("Could not find ric: " + ricId);
         }
@@ -67,7 +67,7 @@ public class Rics {
     }
 
     public synchronized Ric lookupRicForManagedElement(String managedElementId) throws EntityNotFoundException {
-        for (Ric ric : this.registeredRics.values()) {
+        for (var ric : this.registeredRics.values()) {
             if (ric.getManagedElementIds().contains(managedElementId)) {
                 return ric;
             }

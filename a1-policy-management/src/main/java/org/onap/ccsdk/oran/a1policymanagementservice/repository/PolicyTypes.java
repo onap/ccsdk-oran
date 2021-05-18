@@ -57,11 +57,11 @@ public class PolicyTypes {
     }
 
     public synchronized PolicyType getType(String name) throws EntityNotFoundException {
-        PolicyType t = types.get(name);
-        if (t == null) {
+        var type = types.get(name);
+        if (type == null) {
             throw new EntityNotFoundException("Could not find type: " + name);
         }
-        return t;
+        return type;
     }
 
     public synchronized PolicyType get(String name) {
@@ -114,9 +114,9 @@ public class PolicyTypes {
     void restoreFromDatabase() {
         try {
             Files.createDirectories(getDatabasePath());
-            for (File file : getDatabasePath().toFile().listFiles()) {
-                String json = Files.readString(file.toPath());
-                PolicyType type = gson.fromJson(json, PolicyType.class);
+            for (var file : getDatabasePath().toFile().listFiles()) {
+                var json = Files.readString(file.toPath());
+                var type = gson.fromJson(json, PolicyType.class);
                 this.types.put(type.getId(), type);
             }
             logger.debug("Restored type database,no of types: {}", this.types.size());

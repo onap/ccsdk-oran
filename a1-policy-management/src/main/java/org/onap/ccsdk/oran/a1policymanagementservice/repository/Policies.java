@@ -97,11 +97,11 @@ public class Policies {
     }
 
     public synchronized Policy getPolicy(String id) throws EntityNotFoundException {
-        Policy p = policiesId.get(id);
-        if (p == null) {
+        var policy = policiesId.get(id);
+        if (policy == null) {
             throw new EntityNotFoundException("Could not find policy: " + id);
         }
-        return p;
+        return policy;
     }
 
     public synchronized Collection<Policy> getAll() {
@@ -121,11 +121,11 @@ public class Policies {
     }
 
     public synchronized Policy removeId(String id) {
-        Policy p = policiesId.get(id);
-        if (p != null) {
-            remove(p);
+        var policy = policiesId.get(id);
+        if (policy != null) {
+            remove(policy);
         }
-        return p;
+        return policy;
     }
 
     public synchronized void remove(Policy policy) {
@@ -170,7 +170,7 @@ public class Policies {
     public void store(Policy policy) {
         try {
             Files.createDirectories(getDatabasePath(policy.getRic()));
-            try (PrintStream out = new PrintStream(new FileOutputStream(getFile(policy)))) {
+            try (var out = new PrintStream(new FileOutputStream(getFile(policy)))) {
                 out.print(gson.toJson(toStorageObject(policy)));
             }
         } catch (Exception e) {
@@ -189,9 +189,9 @@ public class Policies {
     public synchronized void restoreFromDatabase(Ric ric, PolicyTypes types) {
         try {
             Files.createDirectories(getDatabasePath(ric));
-            for (File file : getDatabasePath(ric).toFile().listFiles()) {
-                String json = Files.readString(file.toPath());
-                PersistentPolicyInfo policyStorage = gson.fromJson(json, PersistentPolicyInfo.class);
+            for (var file : getDatabasePath(ric).toFile().listFiles()) {
+                var json = Files.readString(file.toPath());
+                var policyStorage = gson.fromJson(json, PersistentPolicyInfo.class);
                 this.put(toPolicy(policyStorage, ric, types));
             }
             logger.debug("Restored policy database for RIC: {}, number of policies: {}", ric.id(),

@@ -132,12 +132,12 @@ public class OscA1Client implements A1Client {
 
     public static Mono<String> extractCreateSchema(String policyTypeResponse, String policyTypeId) {
         try {
-            JSONObject obj = new JSONObject(policyTypeResponse);
-            JSONObject schemaObj = obj.getJSONObject("create_schema");
+            var obj = new JSONObject(policyTypeResponse);
+            var schemaObj = obj.getJSONObject("create_schema");
             schemaObj.put(TITLE, policyTypeId);
             return Mono.just(schemaObj.toString());
         } catch (Exception e) {
-            String exceptionString = e.toString();
+            var exceptionString = e.toString();
             logger.error("Unexpected response for policy type: {}, exception: {}", policyTypeResponse, exceptionString);
             return Mono.error(e);
         }
@@ -158,14 +158,14 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
-        String schemaUri = uri.createGetSchemaUri(policyTypeId);
+        var schemaUri = uri.createGetSchemaUri(policyTypeId);
         return restClient.get(schemaUri) //
                 .flatMap(response -> extractCreateSchema(response, policyTypeId));
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uri.createPutPolicyUri(policy.getType().getId(), policy.getId(),
+        var policyUri = this.uri.createPutPolicyUri(policy.getType().getId(), policy.getId(),
                 policy.getStatusNotificationUri());
         return restClient.put(policyUri, policy.getJson());
     }
@@ -189,7 +189,7 @@ public class OscA1Client implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uri.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
+        var statusUri = uri.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return restClient.get(statusUri);
 
     }
@@ -205,7 +205,7 @@ public class OscA1Client implements A1Client {
     }
 
     private Mono<String> deletePolicyById(String typeId, String policyId) {
-        String policyUri = uri.createDeleteUri(typeId, policyId);
+        var policyUri = uri.createDeleteUri(typeId, policyId);
         return restClient.delete(policyUri);
     }
 

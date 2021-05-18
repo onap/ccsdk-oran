@@ -23,7 +23,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import java.time.Duration;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -91,7 +90,7 @@ public class ServiceSupervision {
 
     @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
     private Flux<Policy> deletePolicy(Policy policy) {
-        Lock lock = policy.getRic().getLock();
+        var lock = policy.getRic().getLock();
         return lock.lock(LockType.SHARED) //
                 .doOnNext(notUsed -> policies.remove(policy)) //
                 .flatMap(notUsed -> deletePolicyInRic(policy))

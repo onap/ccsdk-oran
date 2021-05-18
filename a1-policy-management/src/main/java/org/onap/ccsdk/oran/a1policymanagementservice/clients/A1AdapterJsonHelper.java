@@ -56,8 +56,8 @@ class A1AdapterJsonHelper {
         try {
             List<String> arrayList = new ArrayList<>();
             if (!inputString.isEmpty()) {
-                JSONArray jsonArray = new JSONArray(inputString);
-                for (int i = 0; i < jsonArray.length(); i++) {
+                var jsonArray = new JSONArray(inputString);
+                for (var i = 0; i < jsonArray.length(); i++) {
                     Object value = jsonArray.get(i);
                     arrayList.add(value.toString());
                 }
@@ -71,22 +71,22 @@ class A1AdapterJsonHelper {
 
     public static <T> String createInputJsonString(T params) {
         JsonElement paramsJson = gson.toJsonTree(params);
-        JsonObject jsonObj = new JsonObject();
+        var jsonObj = new JsonObject();
         jsonObj.add("input", paramsJson);
         return gson.toJson(jsonObj);
     }
 
     public static <T> String createOutputJsonString(T params) {
         JsonElement paramsJson = gson.toJsonTree(params);
-        JsonObject jsonObj = new JsonObject();
+        var jsonObj = new JsonObject();
         jsonObj.add(OUTPUT, paramsJson);
         return gson.toJson(jsonObj);
     }
 
     public static Mono<JSONObject> getOutput(String response) {
         try {
-            JSONObject outputJson = new JSONObject(response);
-            JSONObject responseParams = outputJson.getJSONObject(OUTPUT);
+            var outputJson = new JSONObject(response);
+            var responseParams = outputJson.getJSONObject(OUTPUT);
             return Mono.just(responseParams);
         } catch (JSONException ex) { // invalid json
             logger.debug("Invalid json {}", ex.getMessage());
@@ -100,16 +100,16 @@ class A1AdapterJsonHelper {
                     if (!responseParams.has(key)) {
                         return Mono.just("");
                     }
-                    String value = responseParams.get(key).toString();
+                    var value = responseParams.get(key).toString();
                     return Mono.just(value);
                 });
     }
 
     public static Mono<String> extractPolicySchema(String inputString) {
         try {
-            JSONObject jsonObject = new JSONObject(inputString);
-            JSONObject schemaObject = jsonObject.getJSONObject("policySchema");
-            String schemaString = schemaObject.toString();
+            var jsonObject = new JSONObject(inputString);
+            var schemaObject = jsonObject.getJSONObject("policySchema");
+            var schemaString = schemaObject.toString();
             return Mono.just(schemaString);
         } catch (JSONException ex) { // invalid json
             logger.debug("Invalid json {}", ex.getMessage());

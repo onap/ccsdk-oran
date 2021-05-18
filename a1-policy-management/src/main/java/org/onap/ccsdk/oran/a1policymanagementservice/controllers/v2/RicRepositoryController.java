@@ -94,10 +94,10 @@ public class RicRepositoryController {
         if (managedElementId != null && ricId != null) {
             throw new InvalidRequestException("Give one query parameter");
         } else if (managedElementId != null) {
-            Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
+            var ric = this.rics.lookupRicForManagedElement(managedElementId);
             return new ResponseEntity<>(gson.toJson(toRicInfo(ric)), HttpStatus.OK);
         } else if (ricId != null) {
-            RicInfo info = toRicInfo(this.rics.getRic(ricId));
+            var info = toRicInfo(this.rics.getRic(ricId));
             return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
         } else {
             throw new InvalidRequestException("Give one query parameter");
@@ -131,7 +131,7 @@ public class RicRepositoryController {
         }
 
         List<RicInfo> result = new ArrayList<>();
-        for (Ric ric : rics.getRics()) {
+        for (var ric : rics.getRics()) {
             if (supportingPolicyType == null || ric.isSupportingType(supportingPolicyType)) {
                 result.add(toRicInfo(ric));
             }

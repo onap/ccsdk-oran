@@ -40,11 +40,11 @@ public class LogAspect {
 
     @Around("execution(* org.onap.ccsdk.oran.a1policymanagementservice..*(..)))")
     public void executimeTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        final StopWatch stopWatch = new StopWatch();
+        final var stopWatch = new StopWatch();
         stopWatch.start();
         proceedingJoinPoint.proceed();
         stopWatch.stop();
-        MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
+        var methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         String className = methodSignature.getDeclaringType().getSimpleName();
         String methodName = methodSignature.getName();
         logger.trace("Execution time of {}.{}: {} ms", className, methodName, stopWatch.getTotalTimeMillis());

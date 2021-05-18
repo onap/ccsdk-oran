@@ -66,16 +66,16 @@ public class ApplicationConfigParser {
 
     public ConfigParserResult parse(JsonObject root) throws ServiceException {
 
-        String dmaapProducerTopicUrl = "";
-        String dmaapConsumerTopicUrl = "";
+        var dmaapProducerTopicUrl = "";
+        var dmaapConsumerTopicUrl = "";
 
-        JsonObject pmsConfigJson = root.getAsJsonObject(CONFIG);
+        var pmsConfigJson = root.getAsJsonObject(CONFIG);
 
         if (pmsConfigJson == null) {
             throw new ServiceException("Missing root configuration \"" + CONFIG + "\" in JSON: " + root);
         }
 
-        JsonObject json = pmsConfigJson.getAsJsonObject("streams_publishes");
+        var json = pmsConfigJson.getAsJsonObject("streams_publishes");
         if (json != null) {
             dmaapProducerTopicUrl = parseDmaapConfig(json);
         }
@@ -118,9 +118,9 @@ public class ApplicationConfigParser {
     private List<RicConfig> parseRics(JsonObject config) throws ServiceException {
         List<RicConfig> result = new ArrayList<>();
         for (JsonElement ricElem : getAsJsonArray(config, "ric")) {
-            JsonObject ricAsJson = ricElem.getAsJsonObject();
-            JsonElement controllerNameElement = ricAsJson.get(CONTROLLER);
-            RicConfig ricConfig = ImmutableRicConfig.builder() //
+            var ricAsJson = ricElem.getAsJsonObject();
+            var controllerNameElement = ricAsJson.get(CONTROLLER);
+            var ricConfig = ImmutableRicConfig.builder() //
                     .ricId(get(ricAsJson, "name", "id", "ricId").getAsString()) //
                     .baseUrl(get(ricAsJson, "baseUrl").getAsString()) //
                     .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
@@ -141,8 +141,8 @@ public class ApplicationConfigParser {
         }
         Map<String, ControllerConfig> result = new HashMap<>();
         for (JsonElement element : getAsJsonArray(config, CONTROLLER)) {
-            JsonObject controllerAsJson = element.getAsJsonObject();
-            ImmutableControllerConfig controllerConfig = ImmutableControllerConfig.builder() //
+            var controllerAsJson = element.getAsJsonObject();
+            var controllerConfig = ImmutableControllerConfig.builder() //
                     .name(get(controllerAsJson, "name").getAsString()) //
                     .baseUrl(get(controllerAsJson, "baseUrl").getAsString()) //
                     .password(get(controllerAsJson, "password").getAsString()) //
@@ -169,7 +169,7 @@ public class ApplicationConfigParser {
 
     private static JsonElement get(JsonObject obj, String... alternativeMemberNames) throws ServiceException {
         for (String memberName : alternativeMemberNames) {
-            JsonElement elem = obj.get(memberName);
+            var elem = obj.get(memberName);
             if (elem != null) {
                 return elem;
             }
@@ -187,8 +187,8 @@ public class ApplicationConfigParser {
             throw new ServiceException(
                     "Invalid configuration. Number of streams must be one, config: " + streamConfigEntries);
         }
-        JsonObject streamConfigEntry = streamConfigEntries.iterator().next().getValue().getAsJsonObject();
-        JsonObject dmaapInfo = get(streamConfigEntry, "dmaap_info").getAsJsonObject();
+        var streamConfigEntry = streamConfigEntries.iterator().next().getValue().getAsJsonObject();
+        var dmaapInfo = get(streamConfigEntry, "dmaap_info").getAsJsonObject();
         return getAsString(dmaapInfo, "topic_url");
     }
 

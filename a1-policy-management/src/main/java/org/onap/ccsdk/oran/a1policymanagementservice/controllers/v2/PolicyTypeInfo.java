@@ -21,7 +21,6 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 
@@ -39,7 +38,7 @@ public class PolicyTypeInfo {
     public final Object schema;
 
     public PolicyTypeInfo(String schemaAsString) {
-        JsonObject jsonObj = JsonParser.parseString(schemaAsString).getAsJsonObject();
+        var jsonObj = JsonParser.parseString(schemaAsString).getAsJsonObject();
         this.schema = jsonObj;
     }
 

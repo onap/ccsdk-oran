@@ -136,12 +136,12 @@ public class StdA1ClientVersion2 implements A1Client {
 
     public static Mono<String> extractPolicySchema(String policyTypeResponse, String policyTypeId) {
         try {
-            JSONObject obj = new JSONObject(policyTypeResponse);
-            JSONObject schemaObj = obj.getJSONObject("policySchema");
+            var obj = new JSONObject(policyTypeResponse);
+            var schemaObj = obj.getJSONObject("policySchema");
             schemaObj.put(TITLE, policyTypeId);
             return Mono.just(schemaObj.toString());
         } catch (Exception e) {
-            String exceptionString = e.toString();
+            var exceptionString = e.toString();
             logger.error("Unexpected response for policy type: {}, exception: {}", policyTypeResponse, exceptionString);
             return Mono.error(e);
         }
@@ -162,14 +162,14 @@ public class StdA1ClientVersion2 implements A1Client {
 
     @Override
     public Mono<String> getPolicyTypeSchema(String policyTypeId) {
-        String schemaUri = uriBuiler.createGetSchemaUri(policyTypeId);
+        var schemaUri = uriBuiler.createGetSchemaUri(policyTypeId);
         return restClient.get(schemaUri) //
                 .flatMap(response -> extractPolicySchema(response, policyTypeId));
     }
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String policyUri = this.uriBuiler.createPutPolicyUri(policy.getType().getId(), policy.getId(),
+        var policyUri = this.uriBuiler.createPutPolicyUri(policy.getType().getId(), policy.getId(),
                 policy.getStatusNotificationUri());
         return restClient.put(policyUri, policy.getJson());
     }
@@ -193,7 +193,7 @@ public class StdA1ClientVersion2 implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String statusUri = uriBuiler.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
+        var statusUri = uriBuiler.createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return restClient.get(statusUri);
 
     }

@@ -98,7 +98,7 @@ public class Lock {
     private void processQueuedEntries() {
         List<LockRequest> granted = new ArrayList<>();
         for (Iterator<LockRequest> i = lockRequestQueue.iterator(); i.hasNext();) {
-            LockRequest request = i.next();
+            var request = i.next();
             if (tryLock(request.lockType)) {
                 i.remove();
                 granted.add(request);
@@ -157,7 +157,7 @@ public class Lock {
         private List<LockRequest> lockRequestQueue = new LinkedList<>();
 
         public AsynchCallbackExecutor() {
-            Thread thread = new Thread(this);
+            var thread = new Thread(this);
             thread.start();
         }
 
@@ -170,7 +170,7 @@ public class Lock {
         public void run() {
             try {
                 while (true) {
-                    for (LockRequest request : consume()) {
+                    for (var request : consume()) {
                         request.callback.success(request.lock);
                     }
                     waitForNewEntries();

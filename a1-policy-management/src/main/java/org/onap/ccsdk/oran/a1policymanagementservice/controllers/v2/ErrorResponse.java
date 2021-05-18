@@ -89,9 +89,9 @@ public class ErrorResponse {
     }
 
     static ResponseEntity<Object> create(String text, HttpStatus code) {
-        ErrorInfo p = new ErrorInfo(text, code.value());
-        String json = gson.toJson(p);
-        HttpHeaders headers = new HttpHeaders();
+        var p = new ErrorInfo(text, code.value());
+        var json = gson.toJson(p);
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
         return new ResponseEntity<>(json, headers, code);
     }

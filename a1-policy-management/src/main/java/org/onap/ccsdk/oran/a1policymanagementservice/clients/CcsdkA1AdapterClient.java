@@ -168,7 +168,7 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     @Override
     public Mono<String> putPolicy(Policy policy) {
-        String ricUrl = getUriBuilder().createPutPolicyUri(policy.getType().getId(), policy.getId(),
+        var ricUrl = getUriBuilder().createPutPolicyUri(policy.getType().getId(), policy.getId(),
                 policy.getStatusNotificationUri());
         return post("putA1Policy", ricUrl, Optional.of(policy.getJson()));
     }
@@ -184,7 +184,7 @@ public class CcsdkA1AdapterClient implements A1Client {
             return getPolicyIds() //
                     .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
         } else {
-            A1UriBuilder uriBuilder = this.getUriBuilder();
+            var uriBuilder = this.getUriBuilder();
             return getPolicyTypeIdentities() //
                     .flatMapMany(Flux::fromIterable) //
                     .flatMap(type -> deleteAllInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
@@ -210,7 +210,7 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     @Override
     public Mono<String> getPolicyStatus(Policy policy) {
-        String ricUrl = getUriBuilder().createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
+        var ricUrl = getUriBuilder().createGetPolicyStatusUri(policy.getType().getId(), policy.getId());
         return post("getA1PolicyStatus", ricUrl, Optional.empty());
 
     }
@@ -227,31 +227,31 @@ public class CcsdkA1AdapterClient implements A1Client {
     }
 
     private Mono<A1ProtocolType> tryOscProtocolVersion() {
-        OscA1Client.UriBuilder oscApiuriBuilder = new OscA1Client.UriBuilder(ricConfig);
+        var oscApiuriBuilder = new OscA1Client.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, oscApiuriBuilder.createHealtcheckUri(), Optional.empty()) //
                 .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1));
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion1() {
-        StdA1ClientVersion1.UriBuilder uriBuilder = new StdA1ClientVersion1.UriBuilder(ricConfig);
+        var uriBuilder = new StdA1ClientVersion1.UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createGetPolicyIdsUri(""), Optional.empty()) //
                 .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1));
     }
 
     private Mono<A1ProtocolType> tryStdProtocolVersion2() {
-        StdA1ClientVersion2.OranV2UriBuilder uriBuilder = new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
+        var uriBuilder = new StdA1ClientVersion2.OranV2UriBuilder(ricConfig);
         return post(GET_POLICY_RPC, uriBuilder.createPolicyTypesUri(), Optional.empty()) //
                 .flatMap(x -> Mono.just(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0));
     }
 
     private Flux<String> getPolicyIds() {
         if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
-            StdA1ClientVersion1.UriBuilder uri = new StdA1ClientVersion1.UriBuilder(ricConfig);
+            var uri = new StdA1ClientVersion1.UriBuilder(ricConfig);
             final String ricUrl = uri.createGetPolicyIdsUri("");
             return post(GET_POLICY_RPC, ricUrl, Optional.empty()) //
                     .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString);
         } else {
-            A1UriBuilder uri = this.getUriBuilder();
+            var uri = this.getUriBuilder();
             return getPolicyTypeIdentities() //
                     .flatMapMany(Flux::fromIterable)
                     .flatMap(type -> post(GET_POLICY_RPC, uri.createGetPolicyIdsUri(type), Optional.empty())) //
@@ -260,16 +260,16 @@ public class CcsdkA1AdapterClient implements A1Client {
     }
 
     private Mono<String> deletePolicyById(String type, String policyId) {
-        String ricUrl = getUriBuilder().createDeleteUri(type, policyId);
+        var ricUrl = getUriBuilder().createDeleteUri(type, policyId);
         return post("deleteA1Policy", ricUrl, Optional.empty());
     }
 
     private Mono<String> post(String rpcName, String ricUrl, Optional<String> body) {
-        AdapterRequest inputParams = ImmutableAdapterRequest.builder() //
+        var inputParams = ImmutableAdapterRequest.builder() //
                 .nearRtRicUrl(ricUrl) //
                 .body(body) //
                 .build();
-        final String inputJsonString = A1AdapterJsonHelper.createInputJsonString(inputParams);
+        final var inputJsonString = A1AdapterJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST inputJsonString = {}", inputJsonString);
 
         return restClient
@@ -279,17 +279,17 @@ public class CcsdkA1AdapterClient implements A1Client {
     }
 
     private Mono<String> extractResponse(JSONObject responseOutput) {
-        AdapterOutput output = gson.fromJson(responseOutput.toString(), ImmutableAdapterOutput.class);
-        Optional<String> optionalBody = output.body();
-        String body = optionalBody.isPresent() ? optionalBody.get() : "";
+        var output = gson.fromJson(responseOutput.toString(), ImmutableAdapterOutput.class);
+        var optionalBody = output.body();
+        var body = optionalBody.isPresent() ? optionalBody.get() : "";
         if (HttpStatus.valueOf(output.httpStatus()).is2xxSuccessful()) {
             return Mono.just(body);
         } else {
             logger.debug("Error response: {} {}", output.httpStatus(), body);
-            byte[] responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
-            HttpStatus httpStatus = HttpStatus.valueOf(output.httpStatus());
-            WebClientResponseException responseException = new WebClientResponseException(httpStatus.value(),
-                    httpStatus.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);
+            var responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
+            var httpStatus = HttpStatus.valueOf(output.httpStatus());
+            var responseException = new WebClientResponseException(httpStatus.value(), httpStatus.getReasonPhrase(),
+                    null, responseBodyBytes, StandardCharsets.UTF_8, null);
 
             return Mono.error(responseException);
         }

@@ -113,9 +113,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     @Override
     public ListenableFuture<RpcResult<DeleteA1PolicyOutput>> deleteA1Policy(DeleteA1PolicyInput deletePolicyInput) {
-        final String svcOperation = "deleteA1Policy";
+        final var svcOperation = "deleteA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
-        DeleteA1PolicyOutputBuilder deletePolicyResponse = new DeleteA1PolicyOutputBuilder();
+        var deletePolicyResponse = new DeleteA1PolicyOutputBuilder();
         setUpAndExecuteOperation(svcOperation, new DeleteA1PolicyInputBuilder(deletePolicyInput), deletePolicyResponse);
 
         RpcResult<DeleteA1PolicyOutput> deletePolicyResult =
@@ -126,9 +126,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     @Override
     public ListenableFuture<RpcResult<GetA1PolicyOutput>> getA1Policy(GetA1PolicyInput getPolicyInput) {
-        final String svcOperation = "getA1Policy";
+        final var svcOperation = "getA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
-        GetA1PolicyOutputBuilder getPolicyResponse = new GetA1PolicyOutputBuilder();
+        var getPolicyResponse = new GetA1PolicyOutputBuilder();
         setUpAndExecuteOperation(svcOperation, new GetA1PolicyInputBuilder(getPolicyInput), getPolicyResponse);
 
         RpcResult<GetA1PolicyOutput> getPolicyResult =
@@ -140,9 +140,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
     @Override
     public ListenableFuture<RpcResult<GetA1PolicyStatusOutput>> getA1PolicyStatus(
         GetA1PolicyStatusInput getPolicyStatusInput) {
-        final String svcOperation = "getA1PolicyStatus";
+        final var svcOperation = "getA1PolicyStatus";
         log.info(START_OPERATION_MESSAGE, svcOperation);
-        GetA1PolicyStatusOutputBuilder getPolicyStatusResponse = new GetA1PolicyStatusOutputBuilder();
+        var getPolicyStatusResponse = new GetA1PolicyStatusOutputBuilder();
         setUpAndExecuteOperation(svcOperation, new GetA1PolicyStatusInputBuilder(getPolicyStatusInput),
             getPolicyStatusResponse);
 
@@ -154,9 +154,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     @Override
     public ListenableFuture<RpcResult<GetA1PolicyTypeOutput>> getA1PolicyType(GetA1PolicyTypeInput getPolicyTypeInput) {
-        final String svcOperation = "getA1PolicyType";
+        final var svcOperation = "getA1PolicyType";
         log.info(START_OPERATION_MESSAGE, svcOperation);
-        GetA1PolicyTypeOutputBuilder getPolicyTypeResponse = new GetA1PolicyTypeOutputBuilder();
+        var getPolicyTypeResponse = new GetA1PolicyTypeOutputBuilder();
         setUpAndExecuteOperation(svcOperation, new GetA1PolicyTypeInputBuilder(getPolicyTypeInput),
             getPolicyTypeResponse);
 
@@ -168,9 +168,9 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     @Override
     public ListenableFuture<RpcResult<PutA1PolicyOutput>> putA1Policy(PutA1PolicyInput putPolicyInput) {
-        final String svcOperation = "putA1Policy";
+        final var svcOperation = "putA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
-        PutA1PolicyOutputBuilder putPolicyResponse = new PutA1PolicyOutputBuilder();
+        var putPolicyResponse = new PutA1PolicyOutputBuilder();
         setUpAndExecuteOperation(svcOperation, new PutA1PolicyInputBuilder(putPolicyInput), putPolicyResponse);
 
         RpcResult<PutA1PolicyOutput> putPolicyResult =
@@ -193,7 +193,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         Builder<T> responseBuilder) {
         log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
         // add input to parms
-        Properties parms = new Properties();
+        var parms = new Properties();
         MdsalHelper.toProperties(parms, inputBuilder.build());
         logSliParameters(parms);
         // Call SLI sync method
@@ -221,7 +221,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     private <T> void setBody(Builder<T> responseBuilder, String body) {
         try {
-            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            var method = responseBuilder.getClass().getMethod("setBody", String.class);
             method.invoke(responseBuilder, body);
         } catch (Exception reflectionException) {
             throw new MissingResponseMethodRuntimeException(reflectionException);
@@ -230,7 +230,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
 
     private <T> void setHttpResponse(Builder<T> responseBuilder, Integer response) {
         try {
-            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            var method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
             method.invoke(responseBuilder, response);
         } catch (Exception reflectionException) {
             throw new MissingResponseMethodRuntimeException(reflectionException);

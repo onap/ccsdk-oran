@@ -37,7 +37,6 @@ import java.util.List;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +78,7 @@ public class RicRepositoryController {
             @Parameter(name = "managedElementId", required = true, description = "The identity of the Managed Element") //
             @RequestParam(name = "managedElementId", required = true) String managedElementId)
             throws EntityNotFoundException {
-        Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
+        var ric = this.rics.lookupRicForManagedElement(managedElementId);
         return new ResponseEntity<>(ric.id(), HttpStatus.OK);
     }
 
@@ -104,7 +103,7 @@ public class RicRepositoryController {
         }
 
         List<RicInfo> result = new ArrayList<>();
-        for (Ric ric : rics.getRics()) {
+        for (var ric : rics.getRics()) {
             if (supportingPolicyType == null || ric.isSupportingType(supportingPolicyType)) {
                 result.add(new RicInfo(ric.id(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
                         ric.getState().toString()));
