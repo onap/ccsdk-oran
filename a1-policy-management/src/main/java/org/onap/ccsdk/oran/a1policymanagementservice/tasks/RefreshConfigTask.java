@@ -137,7 +137,7 @@ public class RefreshConfigTask {
                 .doOnNext(json -> this.isConsulUsed = true) //
                 .doOnTerminate(() -> logger.error("loadFromConsul Terminated"));
 
-        final int CONCURRENCY = 50; // Number of RIC synched in paralell
+        final var CONCURRENCY = 50; // Number of RIC synched in paralell
 
         return Flux.merge(loadFromFile, loadFromConsul) //
                 .flatMap(this::parseConfiguration) //
@@ -186,7 +186,7 @@ public class RefreshConfigTask {
 
     private Mono<ApplicationConfigParser.ConfigParserResult> parseConfiguration(JsonObject jsonObject) {
         try {
-            ApplicationConfigParser parser = new ApplicationConfigParser();
+            var parser = new ApplicationConfigParser();
             return Mono.just(parser.parse(jsonObject));
         } catch (Exception e) {
             String str = e.toString();
@@ -274,7 +274,7 @@ public class RefreshConfigTask {
 
     private Mono<Ric> notifyServicesRicAvailable(Ric ric) {
         if (ric.getState() == RicState.AVAILABLE) {
-            ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
+            var callbacks = new ServiceCallbacks(this.restClientFactory);
             return callbacks.notifyServicesRicAvailable(ric, services) //
                     .collectList() //
                     .flatMap(list -> Mono.just(ric));
