@@ -34,6 +34,8 @@ A1 Policy Management Service provides a REST API for management of policies. It 
 
 The Policy Management Service can be accessed over the REST API, and with an equivalent interface using DMaaP. See :ref:`pms_api` for more information about the API.
 
+The configured A1 policies are stored presistently to survive a service restart. 
+
 Dependencies
 ------------
 
@@ -81,7 +83,7 @@ For details about the parameters in this file, see documentation in the file.
 Dynamic configuration
 ---------------------
 
-The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals.
+The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals. This file based configuration can be updated or read via the REST API, See :ref:`pms_api`.
 
 The configuration includes:
 
@@ -108,7 +110,7 @@ The following variables are required by the CBS:
  * CONFIG_BINDING_SERVICE
  * SERVICE_NAME
 
-
+The CBS/Consul overrides the configuration file. So when CBS/Consul is used, the configuration file is ignored. 
 
 Configuration of certs
 ----------------------
