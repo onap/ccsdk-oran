@@ -80,8 +80,11 @@ public class RefreshConfigTask {
 
     final ConfigurationFile configurationFile;
     final ApplicationConfig appConfig;
+
     @Getter(AccessLevel.PROTECTED)
     private Disposable refreshTask = null;
+
+    @Getter
     private boolean isConsulUsed = false;
 
     private final Rics rics;

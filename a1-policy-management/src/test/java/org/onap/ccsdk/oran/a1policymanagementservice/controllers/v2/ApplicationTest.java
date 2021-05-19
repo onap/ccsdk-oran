@@ -283,13 +283,12 @@ class ApplicationTest {
     }
 
     @Test
-    void testAddingRicFromConfiguration_nonRespondingRic() throws ServiceException {
+    void testAddingRicFromConfiguration_nonRespondingRic() throws Exception {
         putService("service");
 
         final String RIC = "NonRespondingRic";
         MockA1Client a1Client = a1ClientFactory.getOrCreateA1Client(RIC);
-        WebClientResponseException a1Exception = new WebClientResponseException(404, "", null, null, null);
-        doReturn(Mono.error(a1Exception)).when(a1Client).getPolicyTypeIdentities();
+        doReturn(MockA1Client.monoError("error", HttpStatus.BAD_GATEWAY)).when(a1Client).getPolicyTypeIdentities();
 
         refreshConfigTask.handleUpdatedRicConfig( //
                 new RicConfigUpdate(ricConfig(RIC, "me1"), RicConfigUpdate.Type.ADDED)) //

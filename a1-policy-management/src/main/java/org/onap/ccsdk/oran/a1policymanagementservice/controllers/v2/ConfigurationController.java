@@ -36,6 +36,8 @@ import java.util.Optional;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,9 @@ public class ConfigurationController {
     @Autowired
     ConfigurationFile configurationFile;
 
+    @Autowired
+    RefreshConfigTask refreshConfigTask;
+
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
@@ -77,6 +82,7 @@ public class ConfigurationController {
     })
     public ResponseEntity<Object> putConfiguration(@RequestBody Object configuration) {
         try {
+            validateConfigFileIsUsed();
             String configAsString = gson.toJson(configuration);
             JsonObject configJson = JsonParser.parseString(configAsString).getAsJsonObject();
             ApplicationConfigParser configParser = new ApplicationConfigParser();
@@ -86,11 +92,10 @@ public class ConfigurationController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException ioe) {
             logger.warn("Configuration file not written, {}.", ioe.getMessage());
-            return ErrorResponse.create("Internal error when writing the configuration. Try again.",
+            return ErrorResponse.create("Internal error when writing the configuration.",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            return ErrorResponse.create(String.format("Faulty configuration. %s", e.getMessage()),
-                    HttpStatus.BAD_REQUEST);
+            return ErrorResponse.create(e, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -108,6 +113,7 @@ public class ConfigurationController {
     })
     public ResponseEntity<Object> getConfiguration() {
         try {
+            validateConfigFileIsUsed();
             Optional<JsonObject> rootObject = configurationFile.readFile();
             if (rootObject.isPresent()) {
                 return new ResponseEntity<>(rootObject.get().toString(), HttpStatus.OK);
@@ -117,6 +123,13 @@ public class ConfigurationController {
         } catch (Exception e) {
             return ErrorResponse.create(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private void validateConfigFileIsUsed() throws ServiceException {
+        if (this.refreshConfigTask.isConsulUsed()) {
+            throw new ServiceException("Config file not used (Consul is used)", HttpStatus.FORBIDDEN);
+        }
+
     }
 
 }

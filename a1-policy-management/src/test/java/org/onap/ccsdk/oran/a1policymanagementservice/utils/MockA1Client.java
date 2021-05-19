@@ -124,7 +124,7 @@ public class MockA1Client implements A1Client {
         }
     }
 
-    Mono<String> monoError(String responseBody, HttpStatus status) {
+    public static Mono<String> monoError(String responseBody, HttpStatus status) {
         byte[] responseBodyBytes = responseBody.getBytes(StandardCharsets.UTF_8);
         WebClientResponseException a1Exception = new WebClientResponseException(status.value(),
                 status.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);

@@ -26,6 +26,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,7 +97,15 @@ public class ErrorResponse {
         return new ResponseEntity<>(json, headers, code);
     }
 
-    public static ResponseEntity<Object> create(Exception e, HttpStatus code) {
+    public static ResponseEntity<Object> create(Throwable e, HttpStatus code) {
+        if (e instanceof RuntimeException) {
+            code = HttpStatus.INTERNAL_SERVER_ERROR;
+        } else if (e instanceof ServiceException) {
+            ServiceException se = (ServiceException) e;
+            if (se.getHttpStatus() != null) {
+                code = se.getHttpStatus();
+            }
+        }
         return create(e.toString(), code);
     }
 
