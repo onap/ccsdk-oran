@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6446d35b_ab1ef9f9",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/ServiceCallbacks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2021-05-19T13:09:48Z",
+      "side": 1,
+      "message": "This is fine, but depends on at least Java 10.  If you have any downstreams that need to compile against earlier Java releases (for example, because their IT department has not yet approved releases of Java \u003e\u003d 10), their compiles will break with this change unless they compile for at least Java 10.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 17
+      },
+      "revId": "c00ae6f672accf863ce9e4ce4e95e2f4c436a93b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7911d8_8470762e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Service.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2021-05-19T13:09:48Z",
+      "side": 1,
+      "message": "Same comment as before - \u0027var\u0027 is new in Java 10, so if any downstream compiling against earlier releases of Java will break.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 17
+      },
+      "revId": "c00ae6f672accf863ce9e4ce4e95e2f4c436a93b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
