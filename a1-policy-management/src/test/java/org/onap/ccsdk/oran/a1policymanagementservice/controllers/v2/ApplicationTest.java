@@ -249,7 +249,7 @@ class ApplicationTest {
         // check that the service can be deleted
         this.services.remove(SERVICE);
         servicesRestored = new Services(this.applicationConfig);
-        assertThat(servicesRestored.size()).isEqualTo(0);
+        assertThat(servicesRestored.size()).isZero();
     }
 
     @Test
@@ -271,7 +271,7 @@ class ApplicationTest {
 
         // Test that the type has been synched
         Ric addedRic = this.rics.getRic(RIC);
-        assertThat(addedRic.getSupportedPolicyTypes().size()).isEqualTo(1);
+        assertThat(addedRic.getSupportedPolicyTypes()).hasSize(1);
         assertThat(addedRic.getSupportedPolicyTypes().iterator().next().getId()).isEqualTo(TYPE);
 
         // Check that a service callback for the AVAILABLE RIC is invoked
@@ -298,9 +298,9 @@ class ApplicationTest {
 
         // Check that no service callback for the UNAVAILABLE RIC is invoked
         RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(0);
+        assertThat(receivedCallbacks.getReceivedInfo()).isEmpty();
 
-        // Run a synch and check that the AVAILABLE notificationis received
+        // Run a synch and check that the AVAILABLE notification is received
         a1ClientFactory.reset();
         supervision.checkAllRics();
         waitForRicState(RIC, RicState.AVAILABLE);

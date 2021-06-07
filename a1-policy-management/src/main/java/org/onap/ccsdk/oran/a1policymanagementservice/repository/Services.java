@@ -52,11 +52,11 @@ public class Services {
     }
 
     public synchronized Service getService(String name) throws ServiceException {
-        Service s = registeredServices.get(name);
-        if (s == null) {
+        Service service = registeredServices.get(name);
+        if (service == null) {
             throw new ServiceException("Could not find service: " + name);
         }
-        return s;
+        return service;
     }
 
     public synchronized Service get(String name) {
@@ -80,7 +80,7 @@ public class Services {
             try {
                 Files.delete(getPath(service));
             } catch (Exception e) {
-
+                // Doesn't matter.
             }
         }
     }
