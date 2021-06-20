@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4</version>
+        <version>2.1.7</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -42,7 +42,6 @@
         <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
         <commons-io.version>2.5</commons-io.version>
-        <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
         <!-- Version must be higher than version 2.19.1 that is defined in the parent pom for JUnit 5 tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
@@ -369,59 +368,36 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin}</version>
+                <version>0.34.0</version>
                 <inherited>false</inherited>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
+                            <build>
+                                <cleanup>try</cleanup>
+                                <noCache>true</noCache>
+                                <contextDir>${basedir}</contextDir>
+                                <dockerFile>Dockerfile</dockerFile>
+                                <args>
+                                    <JAR>${project.build.finalName}.jar</JAR>
+                                </args>
+                                <tags>
+                                    <tag>${project.docker.latestminortag.version}</tag>
+                                    <tag>${project.docker.latestfulltag.version}</tag>
+                                    <tag>${project.docker.latesttagtimestamp.version}</tag>
+                                </tags>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>generate-policy-management-service-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
-                                    <build>
-                                        <cleanup>try</cleanup>
-                                        <contextDir>${basedir}</contextDir>
-                                        <dockerFile>Dockerfile</dockerFile>
-                                        <args>
-                                            <JAR>${project.build.finalName}.jar</JAR>
-                                        </args>
-                                        <tags>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>push-policy-management-service-image</id>
+                        <id>build-push-image</id>
                         <goals>
                             <goal>build</goal>
                             <goal>push</goal>
                         </goals>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
-                                    <build>
-                                        <contextDir>${basedir}</contextDir>
-                                        <dockerFile>Dockerfile</dockerFile>
-                                        <args>
-                                            <JAR>${project.build.finalName}.jar</JAR>
-                                        </args>
-                                        <tags>
-                                            <tag>${project.docker.latestminortag.version}</tag>
-                                            <tag>${project.docker.latestfulltag.version}</tag>
-                                            <tag>${project.docker.latesttagtimestamp.version}</tag>
-                                        </tags>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
