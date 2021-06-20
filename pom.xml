@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
-        <version>2.1.4</version>
+        <version>2.1.7</version>
         <relativePath/>
     </parent>
 
@@ -51,7 +51,7 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonar-maven-plugin.version}</version>
-            </plugin>           
+            </plugin>
         </plugins>
     </build>
 </project>
