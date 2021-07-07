@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import com.google.gson.JsonObject;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -213,10 +214,10 @@ public class RefreshConfigTask {
     }
 
     /**
-     * for an added RIC after a restart it is nesessary to get the suypported policy
+     * for an added RIC after a restart it is necessary to get the supported policy
      * types from the RIC unless a full synchronization is wanted.
-     * 
-     * @param ric the ric to get supprted types from
+     *
+     * @param ric the ric to get supported types from
      * @return the same ric
      */
     private Mono<Ric> trySyncronizeSupportedTypes(Ric ric) {
@@ -224,7 +225,8 @@ public class RefreshConfigTask {
         // Synchronize the policy types
         ric.setState(RicState.SYNCHRONIZING);
         return this.a1ClientFactory.createA1Client(ric) //
-                .flatMapMany(client -> synchronizationTask().synchronizePolicyTypes(ric, client)) //
+                .flatMapMany(
+                        client -> synchronizationTask().synchronizePolicyTypes(ric, client, Collections.emptySet())) //
                 .collectList() //
                 .flatMap(list -> Mono.just(ric)) //
                 .doOnNext(notUsed -> ric.setState(RicState.AVAILABLE)) //

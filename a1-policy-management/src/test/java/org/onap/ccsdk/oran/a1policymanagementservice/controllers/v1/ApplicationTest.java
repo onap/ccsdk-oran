@@ -212,13 +212,13 @@ class ApplicationTest {
     @Test
     void testSynchronization() throws Exception {
         // Two polictypes will be put in the NearRT RICs
+        final String ric1Name = "ric1";
         PolicyTypes nearRtRicPolicyTypes = new PolicyTypes(this.applicationConfig);
-        nearRtRicPolicyTypes.put(createPolicyType("typeName"));
-        nearRtRicPolicyTypes.put(createPolicyType("typeName2"));
+        nearRtRicPolicyTypes.put(createPolicyType("typeName"), ric1Name);
+        nearRtRicPolicyTypes.put(createPolicyType("typeName2"), ric1Name);
         this.a1ClientFactory.setPolicyTypes(nearRtRicPolicyTypes);
 
         // One type and one instance added to the Policy Management Service's storage
-        final String ric1Name = "ric1";
         Ric ric1 = addRic(ric1Name);
         Policy policy2 = addPolicy("policyId2", "typeName", "service", ric1Name);
         Ric ric2 = addRic("ric2");
@@ -742,7 +742,7 @@ class ApplicationTest {
 
     private PolicyType addPolicyType(String policyTypeName, String ricName) {
         PolicyType type = createPolicyType(policyTypeName);
-        policyTypes.put(type);
+        policyTypes.put(type, ricName);
         addRic(ricName).addSupportedPolicyType(type);
         return type;
     }

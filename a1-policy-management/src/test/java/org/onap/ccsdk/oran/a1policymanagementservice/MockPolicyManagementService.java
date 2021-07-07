@@ -126,12 +126,12 @@ class MockPolicyManagementService {
                     String schema = readFile(file);
                     String typeName = title(schema);
                     PolicyType type = PolicyType.builder().id(typeName).schema(schema).build();
-                    policyTypes.put(type);
+                    policyTypes.put(type, "ric1");
                 } catch (Exception e) {
                     logger.error("Could not load json schema ", e);
                 }
             }
-            policyTypes.put(PolicyType.builder().id("").schema("{}").build());
+            policyTypes.put(PolicyType.builder().id("").schema("{}").build(), "ric1");
         }
     }
 

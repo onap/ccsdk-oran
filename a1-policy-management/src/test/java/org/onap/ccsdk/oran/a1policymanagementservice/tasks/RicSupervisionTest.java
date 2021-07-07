@@ -134,7 +134,7 @@ class RicSupervisionTest {
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
         rics.put(RIC_1);
 
-        types.put(POLICY_TYPE_1);
+        types.put(POLICY_TYPE_1, "ric_1");
 
         policies.put(POLICY_1);
 
@@ -269,7 +269,7 @@ class RicSupervisionTest {
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
         rics.put(RIC_1);
 
-        types.put(POLICY_TYPE_1);
+        types.put(POLICY_TYPE_1, "ric_1");
 
         setUpGetPolicyIdentitiesToReturn(Collections.emptyList());
         setUpGetPolicyTypeIdentitiesToReturn(new ArrayList<>(Arrays.asList(POLICY_TYPE_1_NAME, "another_policy_type")));

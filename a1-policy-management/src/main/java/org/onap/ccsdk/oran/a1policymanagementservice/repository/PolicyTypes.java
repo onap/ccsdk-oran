@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Vector;
 
@@ -48,6 +49,7 @@ import org.springframework.util.FileSystemUtils;
 public class PolicyTypes {
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private Map<String, PolicyType> types = new HashMap<>();
+    private Map<String, Collection<String>> typeSupport = new HashMap<>();
     private final ApplicationConfig appConfig;
     private static Gson gson = new GsonBuilder().create();
 
@@ -68,9 +70,35 @@ public class PolicyTypes {
         return types.get(name);
     }
 
-    public synchronized void put(PolicyType type) {
+    public synchronized void put(PolicyType type, String supportingRic) {
         types.put(type.getId(), type);
         store(type);
+        Collection<String> supportingRics = typeSupport.get(supportingRic);
+        if (supportingRics == null) {
+            supportingRics = new HashSet<>();
+            typeSupport.put(type.getId(), supportingRics);
+        }
+        supportingRics.add(supportingRic);
+    }
+
+    public synchronized Collection<String> getSupportedTypes(String ricId) {
+        HashSet<String> suppertedTypes = new HashSet<>();
+        for (Map.Entry<String, Collection<String>> typeEntry : typeSupport.entrySet()) {
+            if (typeEntry.getValue().contains(ricId)) {
+                suppertedTypes.add(typeEntry.getKey());
+            }
+        }
+        return suppertedTypes;
+    }
+
+    public synchronized void removeSupport(String ricId, String typeId) {
+        Collection<String> supportingRics = typeSupport.get(typeId);
+        supportingRics.remove(ricId);
+        if (supportingRics.isEmpty()) {
+            typeSupport.remove(typeId);
+            PolicyType removedType = types.remove(typeId);
+            remove(removedType);
+        }
     }
 
     public synchronized boolean contains(String policyType) {
@@ -87,6 +115,7 @@ public class PolicyTypes {
 
     public synchronized void clear() {
         this.types.clear();
+        this.typeSupport.clear();
         try {
             FileSystemUtils.deleteRecursively(getDatabasePath());
         } catch (IOException | ServiceException e) {
@@ -94,7 +123,7 @@ public class PolicyTypes {
         }
     }
 
-    public void store(PolicyType type) {
+    void store(PolicyType type) {
         try {
             Files.createDirectories(getDatabasePath());
             try (PrintStream out = new PrintStream(new FileOutputStream(getFile(type)))) {
@@ -104,6 +133,16 @@ public class PolicyTypes {
             logger.debug("Could not store policy type: {} {}", type.getId(), e.getMessage());
         } catch (IOException e) {
             logger.warn("Could not store policy type: {} {}", type.getId(), e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("java:S899") // Return values should not be ignored when they contain the operation status code
+                                   // The file will always be there, so it should always return true.
+    void remove(PolicyType type) {
+        try {
+            getFile(type).delete();
+        } catch (ServiceException e) {
+            logger.debug("Could not remove policy type: {} {}", type.getId(), e.getMessage());
         }
     }
 

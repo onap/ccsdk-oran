@@ -128,7 +128,7 @@ class RicSynchronizationTaskTest {
         RIC_1.setState(RicState.SYNCHRONIZING);
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
 
-        policyTypes.put(POLICY_TYPE_1);
+        policyTypes.put(POLICY_TYPE_1, RIC_1_NAME);
         policies.put(POLICY_1);
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
@@ -148,7 +148,7 @@ class RicSynchronizationTaskTest {
         rics.put(RIC_1);
         RIC_1.setState(RicState.AVAILABLE);
 
-        policyTypes.put(POLICY_TYPE_1);
+        policyTypes.put(POLICY_TYPE_1, RIC_1_NAME);
 
         services.put(SERVICE_1);
         Service serviceWithoutCallbackUrlShouldNotBeNotified = new Service("service2", Duration.ofSeconds(1), "");
@@ -192,6 +192,28 @@ class RicSynchronizationTaskTest {
         assertThat(policyTypes.getType(POLICY_TYPE_1_NAME).getSchema()).isEqualTo(typeSchema);
         assertThat(policies.size()).isZero();
         assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
+    }
+
+    @Test
+    void policyTypeRemovedFromRic_thenSynchronizationWithTypeRemovedFromRepo() throws Exception {
+        RIC_1.setState(RicState.AVAILABLE);
+        rics.put(RIC_1);
+        policyTypes.put(POLICY_TYPE_1, RIC_1_NAME);
+        PolicyType removedType = PolicyType.builder() //
+                .id("Removed type") //
+                .schema("") //
+                .build();
+        policyTypes.put(removedType, RIC_1_NAME);
+
+        setUpCreationOfA1Client();
+        simulateRicWithOnePolicyType();
+
+        RicSynchronizationTask synchronizerUnderTest = createTask();
+
+        synchronizerUnderTest.run(RIC_1);
+
+        assertThat(policyTypes.size()).isEqualTo(1);
+        assertThat(policyTypes.contains(POLICY_TYPE_1_NAME)).isTrue();
     }
 
     @Test
