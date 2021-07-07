@@ -74,4 +74,15 @@ public class Rics {
         }
         throw new EntityNotFoundException("No Near-RT RIC managing the ME is found");
     }
+
+    public synchronized boolean isTypeSupported(String typeId) {
+        boolean typeSupported = false;
+        for (Ric ric : this.registeredRics.values()) {
+            if (ric.getSupportedPolicyTypeNames().contains(typeId)) {
+                typeSupported = true;
+                break;
+            }
+        }
+        return typeSupported;
+    }
 }

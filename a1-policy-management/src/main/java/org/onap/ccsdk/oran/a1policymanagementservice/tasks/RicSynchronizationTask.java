@@ -22,6 +22,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import static org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 
+import java.util.Collection;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
@@ -97,14 +99,15 @@ public class RicSynchronizationTask {
     }
 
     public Mono<Ric> synchronizeRic(Ric ric) {
+        Collection<String> oldSupportedTypes = ric.getSupportedPolicyTypeNames();
         return Mono.just(ric) //
                 .flatMap(notUsed -> setRicState(ric)) //
                 .flatMap(lock -> this.a1ClientFactory.createA1Client(ric)) //
-                .flatMapMany(client -> runSynchronization(ric, client)) //
-                .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable)) //
+                .flatMapMany(client -> runSynchronization(ric, client, oldSupportedTypes)) //
+                .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable, oldSupportedTypes)) //
                 .collectList() //
                 .flatMap(notUsed -> Mono.just(ric)) //
-                .doOnError(t -> { //
+                .flatMap(synchedRic -> handleNoLongerSupportedTypes(synchedRic, oldSupportedTypes)).doOnError(t -> { //
                     logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), t.getMessage()); //
                     ric.setState(RicState.UNAVAILABLE); //
                 }) //
@@ -112,13 +115,27 @@ public class RicSynchronizationTask {
                 .onErrorResume(t -> Mono.just(ric));
     }
 
-    public Flux<PolicyType> synchronizePolicyTypes(Ric ric, A1Client a1Client) {
+    public Flux<PolicyType> synchronizePolicyTypes(Ric ric, A1Client a1Client, Collection<String> oldSupportedTypes) {
         return a1Client.getPolicyTypeIdentities() //
                 .doOnNext(x -> ric.clearSupportedPolicyTypes()) //
                 .flatMapMany(Flux::fromIterable) //
                 .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().ricId(), typeId)) //
+                .doOnNext(typeId -> removeSupportedType(typeId, oldSupportedTypes)) //
                 .flatMap(policyTypeId -> getPolicyType(policyTypeId, a1Client), CONCURRENCY_RIC) //
                 .doOnNext(ric::addSupportedPolicyType); //
+    }
+
+    private void removeSupportedType(String typeId, Collection<String> oldSupportedTypes) {
+        oldSupportedTypes.remove(typeId);
+    }
+
+    private Mono<?> handleNoLongerSupportedTypes(Ric ric, Collection<String> oldSupportedTypes) {
+        for (String noLongerSupportedType : oldSupportedTypes) {
+            if (!rics.isTypeSupported(noLongerSupportedType)) {
+                policyTypes.remove(noLongerSupportedType);
+            }
+        }
+        return Mono.just(ric);
     }
 
     @SuppressWarnings("squid:S2445") // Blocks should be synchronized on "private final" fields
@@ -134,8 +151,8 @@ public class RicSynchronizationTask {
         }
     }
 
-    private Flux<Object> runSynchronization(Ric ric, A1Client a1Client) {
-        Flux<PolicyType> synchronizedTypes = synchronizePolicyTypes(ric, a1Client);
+    private Flux<Object> runSynchronization(Ric ric, A1Client a1Client, Collection<String> oldSupportedTypes) {
+        Flux<PolicyType> synchronizedTypes = synchronizePolicyTypes(ric, a1Client, oldSupportedTypes);
         Flux<?> policiesDeletedInRic = a1Client.deleteAllPolicies();
         Flux<Policy> policiesRecreatedInRic = recreateAllPoliciesInRic(ric, a1Client);
 
@@ -155,12 +172,12 @@ public class RicSynchronizationTask {
                 .flatMap(list -> Mono.just(ric));
     }
 
-    private Flux<Object> deleteAllPolicyInstances(Ric ric, Throwable t) {
+    private Flux<Object> deleteAllPolicyInstances(Ric ric, Throwable t, Collection<String> oldSupportedTypes) {
         logger.warn("Recreation of policies failed for ric: {}, reason: {}", ric.id(), t.getMessage());
         deleteAllPoliciesInRepository(ric);
 
         Flux<PolicyType> synchronizedTypes = this.a1ClientFactory.createA1Client(ric) //
-                .flatMapMany(a1Client -> synchronizePolicyTypes(ric, a1Client));
+                .flatMapMany(a1Client -> synchronizePolicyTypes(ric, a1Client, oldSupportedTypes));
         Flux<?> deletePoliciesInRic = this.a1ClientFactory.createA1Client(ric) //
                 .flatMapMany(A1Client::deleteAllPolicies) //
                 .doOnComplete(() -> deleteAllPoliciesInRepository(ric));

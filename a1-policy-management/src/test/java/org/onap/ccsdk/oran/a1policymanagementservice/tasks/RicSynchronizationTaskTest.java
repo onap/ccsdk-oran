@@ -195,6 +195,30 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    void policyTypeRemovedFromRic_thenSynchronizationWithTypeRemovedFromRepo() throws Exception {
+        RIC_1.setState(RicState.AVAILABLE);
+        rics.put(RIC_1);
+        policyTypes.put(POLICY_TYPE_1);
+        RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
+        PolicyType removedType = PolicyType.builder() //
+                .id("Removed type") //
+                .schema("") //
+                .build();
+        policyTypes.put(removedType);
+        RIC_1.addSupportedPolicyType(removedType);
+
+        setUpCreationOfA1Client();
+        simulateRicWithOnePolicyType();
+
+        RicSynchronizationTask synchronizerUnderTest = createTask();
+
+        synchronizerUnderTest.run(RIC_1);
+
+        assertThat(policyTypes.size()).isEqualTo(1);
+        assertThat(policyTypes.contains(POLICY_TYPE_1_NAME)).isTrue();
+    }
+
+    @Test
     void ricIdleAndHavePolicies_thenSynchronizationWithRecreationOfPolicies() {
         RIC_1.setState(RicState.AVAILABLE);
         rics.put(RIC_1);

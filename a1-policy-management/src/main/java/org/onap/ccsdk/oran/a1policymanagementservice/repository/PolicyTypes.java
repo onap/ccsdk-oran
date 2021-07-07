@@ -73,6 +73,11 @@ public class PolicyTypes {
         store(type);
     }
 
+    public synchronized void remove(String typeId) {
+        PolicyType removedType = types.remove(typeId);
+        remove(removedType);
+    }
+
     public synchronized boolean contains(String policyType) {
         return types.containsKey(policyType);
     }
@@ -94,7 +99,7 @@ public class PolicyTypes {
         }
     }
 
-    public void store(PolicyType type) {
+    void store(PolicyType type) {
         try {
             Files.createDirectories(getDatabasePath());
             try (PrintStream out = new PrintStream(new FileOutputStream(getFile(type)))) {
@@ -104,6 +109,16 @@ public class PolicyTypes {
             logger.debug("Could not store policy type: {} {}", type.getId(), e.getMessage());
         } catch (IOException e) {
             logger.warn("Could not store policy type: {} {}", type.getId(), e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("java:S899") // Return values should not be ignored when they contain the operation status code
+                                   // The file will always be there, so it should always return true.
+    void remove(PolicyType type) {
+        try {
+            getFile(type).delete();
+        } catch (ServiceException e) {
+            logger.debug("Could not remove policy type: {} {}", type.getId(), e.getMessage());
         }
     }
 
