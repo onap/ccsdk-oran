@@ -12,5 +12,5 @@ ${health_check}      ${SCRIPTS}/healthcheck/test/health_check.sh
 Health check test case for NONRTRIC
     [Documentation]                Health check
     Start Process                   ${health_check}  >>  log_hc.txt    shell=yes
-    ${cli_cmd_output}=              Wait For Process    timeout=600
+    ${cli_cmd_output}=              Wait For Process    timeout=1200
     Should Be Equal as Integers     ${cli_cmd_output.rc}    0
