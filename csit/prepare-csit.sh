@@ -26,7 +26,7 @@ fi
 
 TESTPLANDIR=${WORKSPACE}/${TESTPLAN}
 
-# Assume that if ROBOT_VENV is set and virtualenv with system site packages can be activated, 
+# Assume that if ROBOT_VENV is set and virtualenv with system site packages can be activated,
 # ci-management/jjb/integration/include-raw-integration-install-robotframework.sh has already
 # been executed
 
@@ -42,6 +42,21 @@ else
     git clone "https://gerrit.onap.org/r/ci-management"
     source /tmp/ci-management/jjb/integration/include-raw-integration-install-robotframework.sh
 fi
+
+#Log all cmds to stdout
+set -x
+
+sudo apt-get update
+
+sudo apt -y install python3-pip virtualenv unzip sshuttle netcat libffi-dev libssl-dev docker-compose
+sudo pip install robotframework
+sudo pip install -U requests
+sudo pip install -U robotframework-requests
+sudo pip install -U robotframework-httplibrary
+
+sudo apt-get -y install pass gnupg2
+
+sudo pip uninstall docker-py; pip uninstall docker; pip install docker;
 
 # install eteutils
 mkdir -p ${ROBOT_VENV}/src/onap
