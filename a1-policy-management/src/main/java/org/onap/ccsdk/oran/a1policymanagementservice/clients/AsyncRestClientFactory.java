@@ -72,7 +72,7 @@ public class AsyncRestClientFactory {
         return createRestClient(baseUrl, false);
     }
 
-    public AsyncRestClient createRestClient(String baseUrl) {
+    public AsyncRestClient createRestClientUseHttpProxy(String baseUrl) {
         return createRestClient(baseUrl, true);
     }
 
@@ -190,5 +190,4 @@ public class AsyncRestClientFactory {
 
         }
     }
-
 }

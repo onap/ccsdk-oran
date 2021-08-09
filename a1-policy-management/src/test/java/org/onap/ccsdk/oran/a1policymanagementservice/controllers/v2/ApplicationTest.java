@@ -97,8 +97,8 @@ import reactor.util.annotation.Nullable;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-        "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks", //
+        "server.ssl.key-store=./src/test/resources/keystore.jks", //
+        "app.webclient.trust-store=./src/test/resources/truststore.jks", //
         "app.vardata-directory=./target/testdata", //
         "app.filepath=" //
 })
@@ -309,6 +309,13 @@ class ApplicationTest {
     }
 
     @Test
+    void testTrustValidation() {
+        addRic("ric1");
+        String rsp = restClient(true).get("/rics").block(); // restClient(true) enables trust validation
+        assertThat(rsp).contains("ric1");
+    }
+
+    @Test
     void testGetRics() throws Exception {
         addRic("ric1");
         this.addPolicyType("type1", "ric1");
@@ -320,9 +327,7 @@ class ApplicationTest {
         addRic("ric2");
         this.addPolicyType("", "ric2");
         url = "/rics?policytype_id=";
-
-        // This tests also validation of trusted certs restClient(true)
-        rsp = restClient(true).get(url).block();
+        rsp = restClient().get(url).block();
         assertThat(rsp).contains("ric2") //
                 .doesNotContain("ric1") //
                 .contains("AVAILABLE");
@@ -891,8 +896,7 @@ class ApplicationTest {
     }
 
     private AsyncRestClient restClient(boolean useTrustValidation) {
-        String baseUrl = "https://localhost:" + port + Consts.V2_API_ROOT;
-        return restClient(baseUrl, useTrustValidation);
+        return restClient(baseUrl() + Consts.V2_API_ROOT, useTrustValidation);
     }
 
     private AsyncRestClient restClient() {

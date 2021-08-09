@@ -124,7 +124,7 @@ public class StdA1ClientVersion2 implements A1Client {
     private final OranV2UriBuilder uriBuiler;
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
-        this(ricConfig, restClientFactory.createRestClient(""));
+        this(ricConfig, restClientFactory.createRestClientUseHttpProxy(""));
     }
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {

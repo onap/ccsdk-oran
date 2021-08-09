@@ -193,8 +193,7 @@ class ApplicationTest {
         this.addPolicyType("", "ric2");
         url = "/rics?policyType=";
 
-        // This tests also validation of trusted certs restClient(true)
-        rsp = restClient(true).get(url).block();
+        rsp = restClient().get(url).block();
         assertThat(rsp).contains("ric2") //
                 .doesNotContain("ric1") //
                 .contains("AVAILABLE");

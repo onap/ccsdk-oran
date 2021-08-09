@@ -120,7 +120,7 @@ public class OscA1Client implements A1Client {
     private final UriBuilder uri;
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
-        this(ricConfig, restClientFactory.createRestClient(""));
+        this(ricConfig, restClientFactory.createRestClientUseHttpProxy(""));
     }
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
