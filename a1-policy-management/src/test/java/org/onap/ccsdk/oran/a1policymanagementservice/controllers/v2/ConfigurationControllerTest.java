@@ -162,14 +162,14 @@ class ConfigurationControllerTest {
                 .keyStorePassword(config.keyStorePassword()) //
                 .keyStore(config.keyStore()) //
                 .keyPassword(config.keyPassword()) //
-                .isTrustStoreUsed(true) //
+                .isTrustStoreUsed(false) //
                 .trustStore(config.trustStore()) //
                 .trustStorePassword(config.trustStorePassword()) //
                 .httpProxyConfig(config.httpProxyConfig()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config);
-        return f.createRestClient("https://localhost:" + port);
+        return f.createRestClientNoHttpProxy("https://localhost:" + port);
 
     }
 }

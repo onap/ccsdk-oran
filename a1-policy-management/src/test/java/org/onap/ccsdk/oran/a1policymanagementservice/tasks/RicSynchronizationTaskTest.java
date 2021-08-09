@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
@@ -67,6 +68,7 @@ class RicSynchronizationTaskTest {
             .build();
 
     private static final String RIC_1_NAME = "ric1";
+
     private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
             .ricId(RIC_1_NAME) //
             .baseUrl("baseUrl1") //
@@ -160,6 +162,7 @@ class RicSynchronizationTaskTest {
         RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
         synchronizerUnderTest.run(RIC_1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
         verify(a1ClientMock, times(1)).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
@@ -184,6 +187,7 @@ class RicSynchronizationTaskTest {
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
         verify(a1ClientMock).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
@@ -213,7 +217,7 @@ class RicSynchronizationTaskTest {
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
-
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
         verify(a1ClientMock).deleteAllPolicies();
         verify(a1ClientMock).putPolicy(POLICY_1);
         verifyNoMoreInteractions(a1ClientMock);
@@ -240,6 +244,7 @@ class RicSynchronizationTaskTest {
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
@@ -264,6 +269,7 @@ class RicSynchronizationTaskTest {
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
         synchronizerUnderTest.run(RIC_1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);

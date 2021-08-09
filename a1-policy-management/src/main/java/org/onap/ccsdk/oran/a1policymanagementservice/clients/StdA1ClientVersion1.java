@@ -97,7 +97,7 @@ public class StdA1ClientVersion1 implements A1Client {
     private final UriBuilder uri;
 
     public StdA1ClientVersion1(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
-        this(restClientFactory.createRestClient(""), ricConfig);
+        this(restClientFactory.createRestClientUseHttpProxy(""), ricConfig);
     }
 
     public StdA1ClientVersion1(AsyncRestClient restClient, RicConfig ricConfig) {
