@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30d7f7a5_ece97430",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2021-08-17T16:07:16Z",
+      "side": 1,
+      "message": "It would be better to use the spring-boot-25-starter-parent from ccsdk (added in another pending review) ... like so:\n    \u003cparent\u003e\n        \u003cgroupId\u003eorg.onap.ccsdk.parent\u003c/groupId\u003e\n        \u003cartifactId\u003espring-boot-25-starter-parent\u003c/artifactId\u003e\n        \u003cversion\u003e2.2.0-SNAPSHOT\u003c/version\u003e\n        \u003crelativePath/\u003e\n    \u003c/parent\u003e",
+      "revId": "1d5512aa82c0448b674e28c060e681e66a38307d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
