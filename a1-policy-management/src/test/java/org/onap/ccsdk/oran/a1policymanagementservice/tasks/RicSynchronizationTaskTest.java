@@ -161,6 +161,7 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
+        RIC_1.setState(RicState.UNAVAILABLE);
         synchronizerUnderTest.run(RIC_1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
@@ -186,6 +187,7 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
+        RIC_1.setState(RicState.UNAVAILABLE);
         synchronizerUnderTest.run(RIC_1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
@@ -216,8 +218,10 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
+        RIC_1.setState(RicState.UNAVAILABLE);
         synchronizerUnderTest.run(RIC_1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+
         verify(a1ClientMock).deleteAllPolicies();
         verify(a1ClientMock).putPolicy(POLICY_1);
         verifyNoMoreInteractions(a1ClientMock);
@@ -243,6 +247,7 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
+        RIC_1.setState(RicState.UNAVAILABLE);
         synchronizerUnderTest.run(RIC_1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
 
@@ -268,8 +273,9 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
+        RIC_1.setState(RicState.AVAILABLE);
         synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(RIC_1.getState()));
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
