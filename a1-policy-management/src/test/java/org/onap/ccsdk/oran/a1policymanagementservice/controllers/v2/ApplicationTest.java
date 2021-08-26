@@ -275,8 +275,8 @@ class ApplicationTest {
         assertThat(addedRic.getSupportedPolicyTypes().iterator().next().getId()).isEqualTo(TYPE);
 
         // Check that a service callback for the AVAILABLE RIC is invoked
-        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+        final RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo(RIC);
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
@@ -297,15 +297,15 @@ class ApplicationTest {
         waitForRicState(RIC, RicState.UNAVAILABLE);
 
         // Check that no service callback for the UNAVAILABLE RIC is invoked
-        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        assertThat(receivedCallbacks.getReceivedInfo()).isEmpty();
+        final RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo()).isEmpty());
 
         // Run a synch and check that the AVAILABLE notification is received
         a1ClientFactory.reset();
         supervision.checkAllRics();
         waitForRicState(RIC, RicState.AVAILABLE);
-        receivedCallbacks = rAppSimulator.getTestResults();
-        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
     }
 
     @Test
@@ -787,8 +787,8 @@ class ApplicationTest {
         supervision.checkAllRics();
         waitForRicState("ric1", RicState.AVAILABLE);
 
-        RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1);
+        final RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo("ric1");
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
