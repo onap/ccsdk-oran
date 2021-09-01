@@ -69,19 +69,14 @@ class RicSynchronizationTaskTest {
 
     private static final String RIC_1_NAME = "ric1";
 
-    private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
-            .ricId(RIC_1_NAME) //
-            .baseUrl("baseUrl1") //
-            .managedElementIds(Collections.emptyList()) //
-            .controllerName("controllerName") //
-            .build());
+    private static Ric ric1;
 
     private static Policy createPolicy(String policyId, boolean isTransient) {
         return Policy.builder() //
                 .id(policyId) //
                 .json("") //
                 .ownerServiceId("service") //
-                .ric(RIC_1) //
+                .ric(ric1) //
                 .type(POLICY_TYPE_1) //
                 .lastModified(Instant.now()) //
                 .isTransient(isTransient) //
@@ -89,11 +84,10 @@ class RicSynchronizationTaskTest {
                 .build();
     }
 
-    private static final Policy POLICY_1 = createPolicy("policyId1", false);
-
+    private static Policy policy1;
     private static final String SERVICE_1_NAME = "service1";
     private static final String SERVICE_1_CALLBACK_URL = "callbackUrl";
-    private static final Service SERVICE_1 = new Service(SERVICE_1_NAME, Duration.ofSeconds(1), SERVICE_1_CALLBACK_URL);
+    private static Service service1;
 
     @Mock
     private A1Client a1ClientMock;
@@ -110,12 +104,19 @@ class RicSynchronizationTaskTest {
 
     @BeforeEach
     void init() {
+        ric1 = new Ric(ImmutableRicConfig.builder() //
+                .ricId(RIC_1_NAME) //
+                .baseUrl("baseUrl1") //
+                .managedElementIds(Collections.emptyList()) //
+                .controllerName("controllerName") //
+                .build());
+        policy1 = createPolicy("policyId1", false);
         policyTypes = new PolicyTypes(appConfig);
         policies = new Policies(appConfig);
         services = new Services(appConfig);
         rics = new Rics();
-        RIC_1.setState(RicState.UNAVAILABLE);
-        RIC_1.clearSupportedPolicyTypes();
+
+        service1 = new Service(SERVICE_1_NAME, Duration.ofSeconds(1), SERVICE_1_CALLBACK_URL);
     }
 
     private RicSynchronizationTask createTask() {
@@ -127,32 +128,32 @@ class RicSynchronizationTaskTest {
 
     @Test
     void ricAlreadySynchronizing_thenNoSynchronization() {
-        RIC_1.setState(RicState.SYNCHRONIZING);
-        RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
+        ric1.setState(RicState.SYNCHRONIZING);
+        ric1.addSupportedPolicyType(POLICY_TYPE_1);
 
         policyTypes.put(POLICY_TYPE_1);
-        policies.put(POLICY_1);
+        policies.put(policy1);
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        synchronizerUnderTest.run(RIC_1);
+        synchronizerUnderTest.run(ric1);
 
         verifyNoInteractions(a1ClientMock);
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isEqualTo(1);
-        assertThat(RIC_1.getState()).isEqualTo(RicState.SYNCHRONIZING);
-        assertThat(RIC_1.getSupportedPolicyTypeNames()).hasSize(1);
+        assertThat(ric1.getState()).isEqualTo(RicState.SYNCHRONIZING);
+        assertThat(ric1.getSupportedPolicyTypeNames()).hasSize(1);
     }
 
     @Test
     void ricIdlePolicyTypeInRepo_thenSynchronizationWithReuseOfTypeFromRepoAndCorrectServiceNotified() {
-        rics.put(RIC_1);
-        RIC_1.setState(RicState.AVAILABLE);
+        rics.put(ric1);
+        ric1.setState(RicState.AVAILABLE);
 
         policyTypes.put(POLICY_TYPE_1);
 
-        services.put(SERVICE_1);
+        services.put(service1);
         Service serviceWithoutCallbackUrlShouldNotBeNotified = new Service("service2", Duration.ofSeconds(1), "");
         services.put(serviceWithoutCallbackUrlShouldNotBeNotified);
 
@@ -161,24 +162,24 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = spy(createTask());
 
-        RIC_1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+        ric1.setState(RicState.UNAVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock, times(1)).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
 
-        verify(synchronizerUnderTest).run(RIC_1);
+        verify(synchronizerUnderTest).run(ric1);
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isZero();
-        assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
+        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
     @Test
     void ricIdlePolicyTypeNotInRepo_thenSynchronizationWithTypeFromRic() throws Exception {
-        RIC_1.setState(RicState.AVAILABLE);
-        rics.put(RIC_1);
+        ric1.setState(RicState.AVAILABLE);
+        rics.put(ric1);
 
         setUpCreationOfA1Client();
         simulateRicWithOnePolicyType();
@@ -187,9 +188,9 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        RIC_1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+        ric1.setState(RicState.UNAVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
@@ -197,18 +198,18 @@ class RicSynchronizationTaskTest {
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policyTypes.getType(POLICY_TYPE_1_NAME).getSchema()).isEqualTo(typeSchema);
         assertThat(policies.size()).isZero();
-        assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
+        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
     @Test
     void ricIdleAndHavePolicies_thenSynchronizationWithRecreationOfPolicies() {
-        RIC_1.setState(RicState.AVAILABLE);
-        rics.put(RIC_1);
+        ric1.setState(RicState.AVAILABLE);
+        rics.put(ric1);
 
         Policy transientPolicy = createPolicy("transientPolicyId", true);
 
         policies.put(transientPolicy);
-        policies.put(POLICY_1);
+        policies.put(policy1);
 
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
@@ -218,25 +219,25 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        RIC_1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+        ric1.setState(RicState.UNAVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock).deleteAllPolicies();
-        verify(a1ClientMock).putPolicy(POLICY_1);
+        verify(a1ClientMock).putPolicy(policy1);
         verifyNoMoreInteractions(a1ClientMock);
 
         assertThat(policyTypes.size()).isZero();
         assertThat(policies.size()).isEqualTo(1); // The transient policy shall be deleted
-        assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
+        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
     @Test
     void ricIdleAndErrorDeletingPoliciesFirstTime_thenSynchronizationWithDeletionOfPolicies() {
-        RIC_1.setState(RicState.AVAILABLE);
-        rics.put(RIC_1);
+        ric1.setState(RicState.AVAILABLE);
+        rics.put(ric1);
 
-        policies.put(POLICY_1);
+        policies.put(policy1);
 
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
@@ -247,42 +248,40 @@ class RicSynchronizationTaskTest {
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        RIC_1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(RIC_1.getState()));
+        ric1.setState(RicState.UNAVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
 
         assertThat(policyTypes.size()).isZero();
         assertThat(policies.size()).isZero();
-        assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
+        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
     @Test
     void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
-        RIC_1.setState(RicState.AVAILABLE);
-
-        policies.put(POLICY_1);
-
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
+
+        policies.put(policy1);
 
         String originalErrorMessage = "Exception";
         when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(new Exception(originalErrorMessage)));
 
         RicSynchronizationTask synchronizerUnderTest = createTask();
 
-        RIC_1.setState(RicState.AVAILABLE);
-        synchronizerUnderTest.run(RIC_1);
-        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(RIC_1.getState()));
+        ric1.setState(RicState.AVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock, times(2)).deleteAllPolicies();
         verifyNoMoreInteractions(a1ClientMock);
 
         assertThat(policyTypes.size()).isZero();
         assertThat(policies.size()).isZero();
-        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
+        assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     private void setUpCreationOfA1Client() {
