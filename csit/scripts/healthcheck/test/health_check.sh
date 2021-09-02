@@ -29,9 +29,7 @@ cp application_configuration.json.nosdnc application_configuration.json
 cd ${SHELL_FOLDER}/../
 
 # start NONRTRIC containers with docker compose and configuration from docker-compose.yml
-curl -L https://github.com/docker/compose/releases/download/1.27.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-chmod +x docker-compose
-./docker-compose up -d
+docker-compose up -d
 
 
 checkStatus(){
