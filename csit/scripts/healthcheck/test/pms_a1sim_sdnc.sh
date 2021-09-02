@@ -26,7 +26,7 @@ cd ${SHELL_FOLDER}/../config
 cp application_configuration.json.sdnc application_configuration.json
 
 cd ${SHELL_FOLDER}/../
-docker-compose -f docker-compose.yml -f sdnc/docker-compose.yml up -d
+docker-compose --env-file .env -f docker-compose.yml -f sdnc/docker-compose.yml up -d
 
 checkStatus(){
     for i in {1..60}; do

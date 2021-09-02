@@ -25,7 +25,7 @@ cd ${SHELL_FOLDER}/../config
 cp application_configuration.json.nosdnc application_configuration.json
 
 cd ${SHELL_FOLDER}/../
-docker-compose up -d
+docker-compose --env-file .env up -d
 
 checkStatus(){
     for i in {1..60}; do
