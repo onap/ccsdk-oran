@@ -25,7 +25,9 @@ cd ${SHELL_FOLDER}/../config
 cp application_configuration.json.nosdnc application_configuration.json
 
 cd ${SHELL_FOLDER}/../
-docker-compose up -d
+curl -L https://github.com/docker/compose/releases/download/1.28.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+chmod +x docker-compose
+./docker-compose --env-file .env up -d
 
 checkStatus(){
     for i in {1..60}; do
