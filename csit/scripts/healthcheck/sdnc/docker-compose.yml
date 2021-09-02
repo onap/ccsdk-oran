@@ -20,73 +20,55 @@ networks:
     driver: bridge
 
 services:
-  mariadb:
-    image: nexus3.onap.org:10001/mariadb:10.1.11
+  db:
+    image: "${DB_IMAGE_BASE}:${DB_IMAGE_TAG}"
+    container_name: sdncdb
+    networks:
+      - default
     ports:
-      - "3306:3306"
-    container_name: mariadb
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
+      - "3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-    hostname:
-      mariadb.so.testlab.onap.org
+      - MYSQL_ROOT_PASSWORD=itsASecret
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=sdnctl
+      - MYSQL_PASSWORD=gamma
+      - MYSQL_DATABASE=sdnctl
     logging:
-      driver: "json-file"
+      driver:   "json-file"
       options:
         max-size: "30m"
         max-file: "5"
 
-  sdnc:
-    image: onap/sdnc-image:2.1.2
-    container_name: sdnc
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./sdnc/config:/opt/opendaylight/current/certs
+  a1controller:
+    image: "${A1CONTROLLER_IMAGE_BASE}:${A1CONTROLLER_IMAGE_TAG}"
+    depends_on :
+      - db
+    container_name: a1controller
+    networks:
+      - default
     entrypoint: ["/opt/onap/sdnc/bin/startODL.sh"]
     ports:
-      - "8282:8181"
-    hostname:
-      sdnc
+      - 8282:8181
+      - 8444:8443
     links:
-      - mariadb:dbhost
-      - mariadb:sdnctldb01
-      - mariadb:sdnctldb02
+      - db:dbhost
+      - db:sdnctldb01
+      - db:sdnctldb02
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=itsASecret
+      - MYSQL_USER=sdnctl
+      - MYSQL_PASSWORD=gamma
+      - MYSQL_DATABASE=sdnctl
       - SDNC_CONFIG_DIR=/opt/onap/sdnc/data/properties
       - SDNC_BIN=/opt/onap/sdnc/bin
       - ODL_CERT_DIR=/tmp
-      - ODL_ADMIN_USERNAME=${ODL_USER}
-      - ODL_ADMIN_PASSWORD=${ODL_PASSWORD}
-      - ODL_USER=${ODL_USER}
-      - ODL_PASSWORD=${ODL_PASSWORD}
-      - ODL_CERT_DIR=/opt/opendaylight/current/certs
-      - SDNC_DB_INIT=true  
-      - HONEYCOMB_USER=${HONEYCOMB_USER}
-      - HONEYCOMB_PASSWORD=${HONEYCOMB_PASSWORD}
-      - TRUSTSTORE_PASSWORD=${TRUSTSTORE_PASSWORD}
-      - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
-      - SO_USER=${SO_USER}
-      - SO_PASSWORD=${SO_PASSWORD}
-      - NENG_USER=${NENG_USER}
-      - NENG_PASSWORD=${NENG_PASSWORD}
-      - CDS_USER=${CDS_USER}
-      - CDS_PASSWORD=${CDS_PASSWORD}
-      - ANSIBLE_USER=${ANSIBLE_USER}
-      - ANSIBLE_PASSWORD=${ANSIBLE_PASSWORD}
-      - SQL_CRYPTKEY=${SQL_CRYPTKEY}
+      - ODL_ADMIN_USERNAME=admin
+      - ODL_ADMIN_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U
+      - ODL_USER=admin
+      - ODL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U
+      - SDNC_DB_INIT=true
       - A1_TRUSTSTORE_PASSWORD=a1adapter
-    depends_on:
-      - mariadb
-    dns:
-      - ${DNS_IP_ADDR-10.0.100.1}
+      - AAI_TRUSTSTORE_PASSWORD=changeit
     logging:
       driver:   "json-file"
       options:
