@@ -42,7 +42,6 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.transport.ProxyProvider;
 
 /**
  * Generic reactive REST client.
@@ -211,8 +210,9 @@ public class AsyncRestClient {
         }
 
         if (isHttpProxyConfigured()) {
-            httpClient = httpClient.proxy(proxy -> proxy.type(ProxyProvider.Proxy.HTTP)
-                    .host(httpProxyConfig.httpProxyHost()).port(httpProxyConfig.httpProxyPort()));
+            httpClient = httpClient.proxy(proxy -> proxy.type(httpProxyConfig.httpProxyType()) //
+                    .host(httpProxyConfig.httpProxyHost()) //
+                    .port(httpProxyConfig.httpProxyPort()));
         }
         return httpClient;
     }

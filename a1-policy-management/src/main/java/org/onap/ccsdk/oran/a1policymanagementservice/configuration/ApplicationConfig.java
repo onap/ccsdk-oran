@@ -33,7 +33,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConf
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
 import reactor.core.publisher.Flux;
+import reactor.netty.transport.ProxyProvider;
 
 @EnableConfigurationProperties
 public class ApplicationConfig {
@@ -73,6 +75,9 @@ public class ApplicationConfig {
     @Value("${app.webclient.http.proxy-port:0}")
     private int httpProxyPort = 0;
 
+    @Value("${app.webclient.http.proxy-type:HTTP}")
+    private String httpProxyType = "HTTP";
+
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
     @Getter
@@ -94,6 +99,7 @@ public class ApplicationConfig {
             HttpProxyConfig httpProxyConfig = ImmutableHttpProxyConfig.builder() //
                     .httpProxyHost(this.httpProxyHost) //
                     .httpProxyPort(this.httpProxyPort) //
+                    .httpProxyType(ProxyProvider.Proxy.valueOf(this.httpProxyType)) //
                     .build();
 
             this.webClientConfig = ImmutableWebClientConfig.builder() //
