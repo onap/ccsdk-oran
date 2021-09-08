@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import org.immutables.value.Value;
+import reactor.netty.transport.ProxyProvider;
 
 @Value.Immutable
 @Value.Style(redactedMask = "####")
@@ -47,6 +48,8 @@ public interface WebClientConfig {
         public String httpProxyHost();
 
         public int httpProxyPort();
+
+        public ProxyProvider.Proxy httpProxyType();
     }
 
     public HttpProxyConfig httpProxyConfig();

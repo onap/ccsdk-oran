@@ -68,8 +68,10 @@ app:
     trust-store: /opt/app/policy-agent/etc/cert/truststore.jks
     # Configuration of usage of HTTP Proxy for the southbound accesses.
     # The HTTP proxy (if configured) will only be used for accessing NearRT RIC:s
+    # proxy-type can be either HTTP, SOCKS4 or SOCKS5
     http.proxy-host:
     http.proxy-port: 0
+    http.proxy-type: HTTP
   # path where the service can store data
   vardata-directory: /var/policy-management-service
 
