@@ -7,6 +7,8 @@ This makes it very fast to start the controller and also puts less load on the C
 
 This adapter is designed to be added to ONAP CCSDK controllers (e.g. SDNC) thus providing support for mediating connections the A1 interface to/from RAN functions.
 
+It is also possible to configure a HTTP Proxy for southbound connections. In order to configure the proxy, variable a1Mediator.proxy.url in file odlsli/src/main/properties/a1-adapter-api-dg.properties must contain the URL of the proxy. This file is part of the CCSDK/distribution repository.  
+
 ## License
 
 Copyright (C) 2020 Nordix Foundation.

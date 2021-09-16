@@ -148,3 +148,13 @@ A1 Adapter (Internal)
 The O-RAN A1 Adapter provides an **internal** RESTCONF API that is used by the A1 Policy Management System when accessing the A1 Interface. This API is useful for test and verification but should not used otherwise.
 
 See :ref:`a1_adapter_api` for details of this internal API.
+
+Configuration of HTTP Proxy
+---------------------------
+
+In order to configure a HTTP Proxy for southbound connections:
+  * Modify file: odlsli/src/main/properties/a1-adapter-api-dg.properties in CCSDK/distribution
+  * Variable a1Mediator.proxy.url must contain Proxy URL
+
+
+
