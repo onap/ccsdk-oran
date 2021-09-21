@@ -1,6 +1,6 @@
 {
-   "config": {
-      "//description": "Application configuration",
+   "description": "Application configuration",
+   "config": {   
       "ric": [
          {
             "name": "ric1",
