@@ -135,8 +135,7 @@ class ConfigurationControllerTest {
         String url = "a1-policy/v2/configuration";
 
         // Valid JSON but invalid configuration.
-        testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST,
-                "Missing root configuration");
+        testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST, "");
     }
 
     private void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains) {
