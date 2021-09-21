@@ -22,6 +22,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -44,11 +46,15 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 
 class ApplicationConfigParserTest {
 
-    ApplicationConfigParser parserUnderTest = new ApplicationConfigParser();
+    ApplicationConfig applicationConfigMock = spy(new ApplicationConfig());
+    ApplicationConfigParser parserUnderTest = new ApplicationConfigParser(applicationConfigMock);
 
     @Test
     void whenCorrectConfig() throws Exception {
         JsonObject jsonRootObject = getJsonRootObject();
+
+        when(applicationConfigMock.getConfigurationFileSchemaPath())
+                .thenReturn("application_configuration_schema.json");
 
         ApplicationConfigParser.ConfigParserResult result = parserUnderTest.parse(jsonRootObject);
 

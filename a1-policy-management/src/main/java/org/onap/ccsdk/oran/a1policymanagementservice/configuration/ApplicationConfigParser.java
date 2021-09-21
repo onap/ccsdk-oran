@@ -24,6 +24,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +42,7 @@ import javax.validation.constraints.NotNull;
 
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
+import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +55,11 @@ public class ApplicationConfigParser {
 
     private static final String CONFIG = "config";
     private static final String CONTROLLER = "controller";
+    private final ApplicationConfig applicationConfig;
+
+    public ApplicationConfigParser(ApplicationConfig applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
 
     @Value.Immutable
     @Gson.TypeAdapters
@@ -65,6 +75,8 @@ public class ApplicationConfigParser {
     }
 
     public ConfigParserResult parse(JsonObject root) throws ServiceException {
+
+        validateJsonObjectAgainstSchema(root);
 
         String dmaapProducerTopicUrl = "";
         String dmaapConsumerTopicUrl = "";
@@ -95,6 +107,35 @@ public class ApplicationConfigParser {
                 .ricConfigs(ricConfigs) //
                 .controllerConfigs(controllerConfigs) //
                 .build();
+    }
+
+    private void validateJsonObjectAgainstSchema(Object object) throws ServiceException {
+        if (applicationConfig.getConfigurationFileSchemaPath() == null
+                || applicationConfig.getConfigurationFileSchemaPath().isEmpty()) {
+            return;
+        }
+
+        try {
+            String schemaAsString = readSchemaFile();
+
+            JSONObject schemaJSON = new JSONObject(schemaAsString);
+            var schema = org.everit.json.schema.loader.SchemaLoader.load(schemaJSON);
+
+            String objectAsString = object.toString();
+            JSONObject json = new JSONObject(objectAsString);
+            schema.validate(json);
+        } catch (Exception e) {
+            throw new ServiceException("Json schema validation failure: " + e.toString());
+        }
+    }
+
+    private String readSchemaFile() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String filePath = applicationConfig.getConfigurationFileSchemaPath();
+        URL url = classLoader.getResource(filePath);
+        File file = new File(url.getFile());
+        return new String(Files.readAllBytes(file.toPath()));
+
     }
 
     private void checkConfigurationConsistency(List<RicConfig> ricConfigs,

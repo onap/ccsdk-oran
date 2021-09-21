@@ -45,6 +45,10 @@ public class ApplicationConfig {
     private String localConfigurationFilePath;
 
     @Getter
+    @Value("${app.config-file_schema-path:\"\"}")
+    private String configurationFileSchemaPath;
+
+    @Getter
     @Value("${app.vardata-directory:null}")
     private String vardataDirectory;
 
