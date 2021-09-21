@@ -60,7 +60,9 @@ import reactor.test.StepVerifier;
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
-        "app.vardata-directory=./target"})
+        "app.vardata-directory=./target", //
+        "app.config-file_schema-path=application_configuration_schema.json" //
+})
 class ConfigurationControllerTest {
     @Autowired
     ApplicationContext context;
@@ -135,8 +137,7 @@ class ConfigurationControllerTest {
         String url = "a1-policy/v2/configuration";
 
         // Valid JSON but invalid configuration.
-        testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST,
-                "Missing root configuration");
+        testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST, "");
     }
 
     private void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains) {

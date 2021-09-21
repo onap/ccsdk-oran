@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "config": {
+      "type": "object",
+      "properties": {
+        "//description": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "controller": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "baseUrl": {
+                  "type": "string"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "baseUrl",
+                "userName",
+                "password"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "ric": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "baseUrl": {
+                  "type": "string"
+                },
+                "controller": {
+                  "type": "string"
+                },
+                "managedElementIds": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "baseUrl",
+                "managedElementIds"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "streams_publishes": {
+          "type": "object",
+          "properties": {
+            "dmaap_publisher": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "dmaap_info": {
+                  "type": "object",
+                  "properties": {
+                    "topic_url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "topic_url"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "dmaap_info"
+              ]
+            }
+          },
+          "required": [
+            "dmaap_publisher"
+          ]
+        },
+        "streams_subscribes": {
+          "type": "object",
+          "properties": {
+            "dmaap_subscriber": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "dmaap_info": {
+                  "type": "object",
+                  "properties": {
+                    "topic_url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "topic_url"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "dmaap_info"
+              ]
+            }
+          },
+          "required": [
+            "dmaap_subscriber"
+          ]
+        }
+      },
+      "required": [
+        "ric"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "config"
+  ], 
+}
