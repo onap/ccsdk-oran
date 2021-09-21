@@ -136,7 +136,7 @@ class ConfigurationControllerTest {
 
         // Valid JSON but invalid configuration.
         testErrorCode(restClient().put(url, "{\"error\":\"error\"}"), HttpStatus.BAD_REQUEST,
-                "Missing root configuration");
+                "Json schema validation failure");
     }
 
     private void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains) {
