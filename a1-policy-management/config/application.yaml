@@ -74,4 +74,5 @@ app:
     http.proxy-type: HTTP
   # path where the service can store data
   vardata-directory: /var/policy-management-service
+  config-file_schema-path: application_configuration_schema.json
 

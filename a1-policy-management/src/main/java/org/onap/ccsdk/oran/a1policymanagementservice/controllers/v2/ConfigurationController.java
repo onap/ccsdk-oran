@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
@@ -57,11 +58,17 @@ public class ConfigurationController {
     public static final String API_NAME = "Management of configuration";
     public static final String API_DESCRIPTION = "";
 
-    @Autowired
-    ConfigurationFile configurationFile;
+    private final ConfigurationFile configurationFile;
+    private final RefreshConfigTask refreshConfigTask;
+    private final ApplicationConfig applicationConfig;
 
-    @Autowired
-    RefreshConfigTask refreshConfigTask;
+    ConfigurationController(@Autowired ConfigurationFile configurationFile,
+            @Autowired RefreshConfigTask refreshConfigTask, @Autowired ApplicationConfig applicationConfig) {
+        this.configurationFile = configurationFile;
+        this.refreshConfigTask = refreshConfigTask;
+        this.applicationConfig = applicationConfig;
+
+    }
 
     private static Gson gson = new GsonBuilder() //
             .create(); //
@@ -85,7 +92,7 @@ public class ConfigurationController {
             validateConfigFileIsUsed();
             String configAsString = gson.toJson(configuration);
             JsonObject configJson = JsonParser.parseString(configAsString).getAsJsonObject();
-            ApplicationConfigParser configParser = new ApplicationConfigParser();
+            ApplicationConfigParser configParser = new ApplicationConfigParser(applicationConfig);
             configParser.parse(configJson);
             configurationFile.writeFile(configJson);
             logger.info("Configuration changed through REST call.");

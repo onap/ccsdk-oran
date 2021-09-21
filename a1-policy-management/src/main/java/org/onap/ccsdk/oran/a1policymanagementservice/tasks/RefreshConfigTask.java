@@ -189,7 +189,7 @@ public class RefreshConfigTask {
 
     private Mono<ApplicationConfigParser.ConfigParserResult> parseConfiguration(JsonObject jsonObject) {
         try {
-            ApplicationConfigParser parser = new ApplicationConfigParser();
+            ApplicationConfigParser parser = new ApplicationConfigParser(this.appConfig);
             return Mono.just(parser.parse(jsonObject));
         } catch (Exception e) {
             String str = e.toString();
