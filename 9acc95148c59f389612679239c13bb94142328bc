@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26a050af_4bafa4b5",
+        "filename": "a1-policy-management/config/application_configuration.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2021-09-22T12:37:06Z",
+      "side": 1,
+      "message": "maybe we should add \"//description\" (optional) to the schema to keep the examples working?",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "9acc95148c59f389612679239c13bb94142328bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
