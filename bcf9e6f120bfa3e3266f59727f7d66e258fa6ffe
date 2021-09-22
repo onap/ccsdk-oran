@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4abf834_077d639f",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-09-22T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94c1e148_12dc2524",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afb26597_601fdd24",
         "filename": "a1-policy-management/src/main/resources/application_configuration_schema.json",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2390b58d_5ee7f8fd",
+        "filename": "a1-policy-management/src/main/resources/application_configuration_schema.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-09-22T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb26597_601fdd24",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f312ee73_f35673f3",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigParserTest.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be6c3474_1676ae1e",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-09-22T16:09:00Z",
+      "side": 1,
+      "message": "This is valid json, so the success. I have an other test that sends in invalid json.",
+      "parentUuid": "f312ee73_f35673f3",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
