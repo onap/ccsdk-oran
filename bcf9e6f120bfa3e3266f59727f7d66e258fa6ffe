@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94c1e148_12dc2524",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-09-22T13:36:13Z",
+      "side": 1,
+      "message": "Maybe not mix underscores and hyphens in the parameter name? Can be a bit confusing",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb26597_601fdd24",
+        "filename": "a1-policy-management/src/main/resources/application_configuration_schema.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-09-22T13:36:13Z",
+      "side": 1,
+      "message": "Please remove trailing whitespace",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f312ee73_f35673f3",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-09-22T13:36:13Z",
+      "side": 1,
+      "message": "When a path is returned the object should be validated against the provided schema. Is it asserted in the test that this validation really is done?",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "bcf9e6f120bfa3e3266f59727f7d66e258fa6ffe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
