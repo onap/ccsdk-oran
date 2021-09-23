@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce26e16_01d5c763",
+        "filename": "csit/scripts/healthcheck/.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2021-09-23T14:10:14Z",
+      "side": 1,
+      "message": "I think the recommendation is to use mariadb. However, it probably still works with mysql. \nPls check.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "8ecb8ea7394e0c4cae29bebe4912677b47dcd65d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
