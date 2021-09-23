@@ -22,6 +22,30 @@
       "revId": "8ecb8ea7394e0c4cae29bebe4912677b47dcd65d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a25794_0895f752",
+        "filename": "csit/scripts/healthcheck/.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4875
+      },
+      "writtenOn": "2021-09-23T14:25:58Z",
+      "side": 1,
+      "message": "mysql:5.6 works too. However, update this to mariadb for consistence.",
+      "parentUuid": "fce26e16_01d5c763",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "8ecb8ea7394e0c4cae29bebe4912677b47dcd65d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
