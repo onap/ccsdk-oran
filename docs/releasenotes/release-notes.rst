@@ -158,3 +158,6 @@ Honolulu, M3
 | **Purpose of the delivery** | Improvements in ORAN, M3 version                    |
 |                             |                                                     |
 +-----------------------------+-----------------------------------------------------+
+
+Istanbul
+--------
