@@ -17,7 +17,7 @@ The O-RAN A1 interface is defined by the `O-RAN Alliance <https://www.o-ran.org>
 
 
 *********************************************
-Architecture for ONAP Honolulu release
+Architecture for ONAP Istanbul release
 *********************************************
 
 This picture provides a overview of ONAP's A1 Controller architecture,

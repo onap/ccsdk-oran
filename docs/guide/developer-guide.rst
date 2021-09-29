@@ -34,7 +34,7 @@ A1 Policy Management Service provides a REST API for management of policies. It 
 
 The Policy Management Service can be accessed over the REST API, and with an equivalent interface using DMaaP. See :ref:`pms_api` for more information about the API.
 
-The configured A1 policies are stored presistently to survive a service restart. 
+The configured A1 policies are stored persistently to survive a service restart. 
 
 Dependencies
 ------------
@@ -44,7 +44,7 @@ dependency management tool (see *pom.xml* file at root level) :
 
 - Swagger annotations
 - `Spring Framework <https://github.com/spring-projects/spring-boot>`_
-- `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for API's built with Spring
+- `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for APIs built with Spring
 - `Immutable <https://immutables.github.io/>`_ to generate simple, safe and consistent value objects
 - `JSON in Java <https://github.com/stleary/JSON-java>`_ to parse JSON documents into Java objects
 - `Apache Commons Net <https://github.com/apache/commons-net>`_ for network utilities and protocol implementations
@@ -56,13 +56,13 @@ Configuration
 -------------
 
 There are two configuration files for A1 Policy Management Service, *config/application_configuration.json* and *config/application.yaml*
-The first one contains configuration of data needed by the application, such as which Near-RT RICs
-that are available. The second contains logging and security configurations.
+The first (*config/application_configuration.json*) contains configuration needed by the application, such as which near-RT-RICs, controller, or DMaaP topic to use.
+The second (*config/application.yaml*) contains logging and security configurations.
 
-For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Honolulu>`_
+For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Istanbul>`_
 
-Static configuration (application.yaml)
----------------------------------------
+Static configuration - Settings that cannot be changed at runtime (*application.yaml*)
+--------------------------------------------------------------------------------------
 
 The file *./config/application.yaml* is read by the application at startup. It provides the following configurable features:
 
@@ -80,28 +80,27 @@ The file *./config/application.yaml* is read by the application at startup. It p
 
 For details about the parameters in this file, see documentation in the file.
 
-Dynamic configuration
----------------------
-
-The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals. This file based configuration can be updated or read via the REST API, See :ref:`pms_api`.
+Dynamic configuration - Settings that can be changed at runtime (*application_configuration.json* or REST or Consul or ConfigMap)
+-------------------------------------------------------------------------------------------------------------------------------
+The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container), or from a CBS/Consul database (Cloudify), or using the Configuration REST API. The configuration is re-read and refreshed at regular intervals.
 
 The configuration includes:
 
- * Controller configuration, which includes information on how to access the a1-adapter
- * One entry for each NearRT-RIC, which includes:
+  * Optional Controller configuration, e.g. an SDNC instance (with A1-Adapter)
+  * One entry for each near-RT-RIC, which includes:
+  
+    * The base URL of the near-RT-RIC
+    * A optional list of O1 identifiers that near-RT-RIC is controlling. An application can query this service which near-RT-RIC should be addressed for which component (e.g. cells, sectors, locations, etc.) .
+    * An optional reference to the controller to use, or excluded if the near-RT-RIC should be accessed directly from the A1 Policy Management Service.
+  
+  * Optional configuration for using of DMaaP. There can be one stream for requests to the component and an other stream for responses.
 
-   * The base URL of the NearRT RIC
-   * A list of O1 identifiers that the NearRT RIC is controlling. An application can query this service which NearRT RIC should be addressed for controlling (for instance) a given Cell.
-   * An optional reference to the controller to use, or excluded if the NearRT-RIC can be accessed directly from this component.
-
- * Optional configuration for using of DMAAP. There can be one stream for requests to the component and an other stream for responses.
-
-For details about the syntax of the file, there is an example in source code repository */config/application_configuration.json*. This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*.
+For details about the syntax of the file, there is an example in source code repository *a1-policy-management/config/application_configuration.json* This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*
 
 Using CBS/Consul database for dynamic configuration
 ---------------------------------------------------
 
-The access of CBS is setup by means of environment variables. There is currently no support for setting these at on boarding.
+Access to CBS is setup by means of environment variables. There is currently no support for setting these at on-boarding.
 
 The following variables are required by the CBS:
 
@@ -112,28 +111,22 @@ The following variables are required by the CBS:
 
 The CBS/Consul overrides the configuration file. So when CBS/Consul is used, the configuration file is ignored. 
 
-Configuration of certs
-----------------------
+Configuration of security certs
+-------------------------------
 
-The Policy Management Service uses the default keystore and truststore that are built into the container. The paths and
-passwords for these stores are located in a yaml file: ::
-
-   oran/a1-policy-management/config/application.yaml
+The A1 Policy Management Service uses the default keystore and truststore that are built into the container. The paths and
+passwords for these stores are located in a yaml file, with an example is provided in the source code repository *a1-policy-management/config/application.yaml*
 
 There is also Policy Management Service's own cert in the default truststore for mocking purposes and unit-testing
-(ApplicationTest.java).
+(*ApplicationTest.java*).
 
-The default keystore, truststore, and application.yaml files can be overridden by mounting new files using the "volumes"
-field of docker-compose or docker run command.
-
-Assuming that the keystore, truststore, and application.yaml files are located in the same directory as docker-compose,
+The default keystore, truststore, and application.yaml files can be overridden by mounting new files using the the docker "volumes"
+command for docker-compose or docker run command. Assuming that the keystore, truststore, and application.yaml files are located in the same directory as docker-compose,
 the volumes field should have these entries: ::
 
    `volumes:`
       `- ./new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks:ro`
-
       `- ./new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks:ro`
-
       `- ./new_application.yaml:/opt/app/policy-agent/config/application.yaml:ro`
 
 The target paths in the container should not be modified.
@@ -153,8 +146,11 @@ Configuration of HTTP Proxy
 ---------------------------
 
 In order to configure a HTTP Proxy for southbound connections:
-  * Modify file: odlsli/src/main/properties/a1-adapter-api-dg.properties in CCSDK/distribution
-  * Variable a1Mediator.proxy.url must contain Proxy URL
 
+  * Modify file: *odlsli/src/main/properties/a1-adapter-api-dg.properties*. This file is found in CCSDK/distribution for SDNC.
+  * In a running container this file is found at */opt/onap/ccsdk/data/properties/a1-adapter-api-dg.properties*
+  * Variable a1Mediator.proxy.url must contain the full Proxy URL
+  
+After this configuration has been changed the A1 adapter needs to be either rebuilt, or restarted if the configuration is changed inside a container, or re-read by the container if externally accessible (e.g. K8s ConfigMap).
 
 
