@@ -45,7 +45,7 @@ public class ApplicationConfig {
     private String localConfigurationFilePath;
 
     @Getter
-    @Value("${app.config-file-schema-path:\"\"}")
+    @Value("${app.config-file-schema-path:}")
     private String configurationFileSchemaPath;
 
     @Getter
