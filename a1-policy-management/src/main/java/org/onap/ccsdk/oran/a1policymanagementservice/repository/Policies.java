@@ -30,8 +30,10 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -47,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.FileSystemUtils;
+import reactor.util.annotation.Nullable;
 
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 @Configuration
@@ -149,6 +152,20 @@ public class Policies {
         }
     }
 
+    public Collection<Policy> filterPolicies(@Nullable String typeId, @Nullable String ricId,
+            @Nullable String serviceId, @Nullable String typeName) {
+
+        if (typeId != null) {
+            return filter(this.getForType(typeId), null, ricId, serviceId, typeName);
+        } else if (serviceId != null) {
+            return filter(this.getForService(serviceId), typeId, ricId, null, typeName);
+        } else if (ricId != null) {
+            return filter(this.getForRic(ricId), typeId, null, serviceId, typeName);
+        } else {
+            return filter(this.getAll(), typeId, ricId, serviceId, typeName);
+        }
+    }
+
     public synchronized int size() {
         return policiesId.size();
     }
@@ -176,6 +193,29 @@ public class Policies {
         } catch (Exception e) {
             logger.warn("Could not store policy: {} {}", policy.getId(), e.getMessage());
         }
+    }
+
+    private boolean isMatch(String filterValue, String actualValue) {
+        return filterValue == null || actualValue.equals(filterValue);
+    }
+
+    private boolean isTypeMatch(Policy policy, @Nullable String typeName) {
+        return (typeName == null) || policy.getType().getTypeId().getName().equals(typeName);
+    }
+
+    private Collection<Policy> filter(Collection<Policy> collection, String typeId, String ricId, String serviceId,
+            String typeName) {
+        if (typeId == null && ricId == null && serviceId == null && typeName == null) {
+            return collection;
+        }
+        List<Policy> filtered = new ArrayList<>(collection.size());
+        for (Policy p : collection) {
+            if (isMatch(typeId, p.getType().getId()) && isMatch(ricId, p.getRic().id())
+                    && isMatch(serviceId, p.getOwnerServiceId()) && isTypeMatch(p, typeName)) {
+                filtered.add(p);
+            }
+        }
+        return filtered;
     }
 
     private File getFile(Policy policy) throws ServiceException {

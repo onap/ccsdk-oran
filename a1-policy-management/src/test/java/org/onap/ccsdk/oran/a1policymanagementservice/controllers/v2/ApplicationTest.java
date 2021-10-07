@@ -597,22 +597,55 @@ class ApplicationTest {
 
     @Test
     void testGetPolicyTypes() throws Exception {
-        addPolicyType("type1", "ric1");
-        addPolicyType("type2", "ric2");
+        String TYPE_ID_1 = "A_type1_1.9.0";
+        String TYPE_ID_2 = "A_type1_2.0.0";
+        String TYPE_ID_3 = "A_type1_1.5.0";
+        String TYPE_ID_4 = "type3_1.9.0";
+        addPolicyType(TYPE_ID_1, "ric1");
+        addPolicyType(TYPE_ID_2, "ric2");
+        addPolicyType(TYPE_ID_3, "ric2");
+        addPolicyType(TYPE_ID_4, "ric2");
+
+        addPolicyType("junk", "ric2");
+        addPolicyType("junk_a.b.c", "ric2");
 
         String url = "/policy-types";
         String rsp = restClient().get(url).block();
-        String expResp = createPolicyTypesJson("type2", "type1");
-        assertThat(rsp).isEqualTo(expResp);
+        assertThat(rsp).contains(TYPE_ID_1, TYPE_ID_2);
 
         url = "/policy-types?ric_id=ric1";
         rsp = restClient().get(url).block();
-        expResp = createPolicyTypesJson("type1");
+        String expResp = createPolicyTypesJson(TYPE_ID_1);
         assertThat(rsp).isEqualTo(expResp);
 
         // Get policy types for non existing RIC
         url = "/policy-types?ric_id=ric1XXX";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND);
+
+        // All types with a type_name
+        url = "/policy-types?type_name=A_type1";
+        rsp = restClient().get(url).block();
+        assertThat(rsp).contains(TYPE_ID_1, TYPE_ID_2);
+
+        // All types compatible with type1_1.5.0 (which is type1_1.9.0)
+        url = "/policy-types?type_name=A_type1&&compatible_with_version=1.5.0";
+        rsp = restClient().get(url).block();
+        expResp = createPolicyTypesJson(TYPE_ID_3, TYPE_ID_1);
+        assertThat(rsp).isEqualTo(expResp);
+
+        url = "/policy-types?type_name=A_type1&&compatible_with_version=junk";
+        testErrorCode(restClient().get(url), HttpStatus.BAD_REQUEST, "Version must contain major.minor.patch code");
+
+        url = "/policy-types?type_name=A_type1&&compatible_with_version=a.b.c";
+        testErrorCode(restClient().get(url), HttpStatus.BAD_REQUEST, "Syntax error in");
+
+        url = "/policy-types?compatible_with_version=1.5.0";
+        testErrorCode(restClient().get(url), HttpStatus.BAD_REQUEST, "type_name");
+
+        url = "/policy-types?regexp=type3_.*";
+        rsp = restClient().get(url).block();
+        expResp = createPolicyTypesJson(TYPE_ID_4);
+        assertThat(rsp).isEqualTo(expResp);
     }
 
     @Test
@@ -636,6 +669,7 @@ class ApplicationTest {
         addPolicy("id1", "type1", "service1");
         addPolicy("id2", "type1", "service2");
         addPolicy("id3", "type2", "service1");
+        addPolicy("id4", "type1_1.0.0", "service1");
 
         String url = "/policy-instances?policytype_id=type1";
         String rsp = restClient().get(url).block();
@@ -651,6 +685,13 @@ class ApplicationTest {
                 .contains("id2") //
                 .doesNotContain("id3");
 
+        url = "/policy-instances?type_name=type1";
+        rsp = restClient().get(url).block();
+        assertThat(rsp).contains("id1") //
+                .contains("id2") //
+                .doesNotContain("id3") //
+                .contains("id4");
+
         // Test get policies for non existing type
         url = "/policy-instances?policytype_id=type1XXX";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND);
@@ -665,6 +706,7 @@ class ApplicationTest {
         addPolicy("id1", "type1", "service1", "ric1");
         addPolicy("id2", "type1", "service2", "ric1");
         addPolicy("id3", "type2", "service1", "ric1");
+        addPolicy("id4", "type1_1.0.0", "service1");
 
         String url = "/policies?policytype_id=type1";
         String rsp = restClient().get(url).block();
@@ -677,6 +719,13 @@ class ApplicationTest {
         rsp = restClient().get(url).block();
         PolicyIdList respList = gson.fromJson(rsp, PolicyIdList.class);
         assertThat(respList.policyIds.iterator().next()).isEqualTo("id1");
+
+        url = "/policies?policytype_name=type1&service_id=service1";
+        rsp = restClient().get(url).block();
+        assertThat(rsp).contains("id1") //
+                .contains("id3") //
+                .contains("id4");
+        assertThat(gson.fromJson(rsp, PolicyIdList.class).policyIds).hasSize(3);
 
         // Test get policy ids for non existing type
         url = "/policies?policytype_id=type1XXX";

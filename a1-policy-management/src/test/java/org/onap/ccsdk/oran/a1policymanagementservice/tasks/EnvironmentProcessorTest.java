@@ -29,7 +29,7 @@ import ch.qos.logback.core.read.ListAppender;
 import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EnvironmentLoaderException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.EnvProperties;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.ImmutableEnvProperties;
@@ -70,7 +70,7 @@ class EnvironmentProcessorTest {
         Properties systemEnvironment = new Properties();
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-                .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
+                .expectErrorMatches(throwable -> throwable instanceof ServiceException
                         && throwable.getMessage().equals("$CONSUL_HOST environment has not been defined"))
                 .verify();
     }
@@ -106,7 +106,7 @@ class EnvironmentProcessorTest {
         systemEnvironment.put(CONSUL_HOST, CONSUL_HOST_VALUE);
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-                .expectErrorMatches(throwable -> throwable instanceof EnvironmentLoaderException
+                .expectErrorMatches(throwable -> throwable instanceof ServiceException
                         && throwable.getMessage().equals("$CONFIG_BINDING_SERVICE environment has not been defined"))
                 .verify();
     }
@@ -138,9 +138,8 @@ class EnvironmentProcessorTest {
         systemEnvironment.put(CONFIG_BINDING_SERVICE, CONFIG_BINDING_SERVICE_VALUE);
 
         StepVerifier.create(EnvironmentProcessor.readEnvironmentVariables(systemEnvironment))
-                .expectErrorMatches(
-                        throwable -> throwable instanceof EnvironmentLoaderException && throwable.getMessage()
-                                .equals("Neither $HOSTNAME/$SERVICE_NAME have not been defined as system environment"))
+                .expectErrorMatches(throwable -> throwable instanceof ServiceException && throwable.getMessage()
+                        .equals("Neither $HOSTNAME/$SERVICE_NAME have not been defined as system environment"))
                 .verify();
     }
 }

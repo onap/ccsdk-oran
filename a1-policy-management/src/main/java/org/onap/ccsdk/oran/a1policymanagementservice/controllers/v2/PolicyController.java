@@ -42,6 +42,7 @@ import lombok.Getter;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -129,16 +130,36 @@ public class PolicyController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
     })
     public ResponseEntity<Object> getPolicyTypes( //
-            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
-                    description = "The identity of the Near-RT RIC to get types for.") //
-            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId) throws EntityNotFoundException {
-        if (ricId == null) {
-            Collection<PolicyType> types = this.policyTypes.getAll();
-            return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
-        } else {
-            Collection<PolicyType> types = rics.getRic(ricId).getSupportedPolicyTypes();
-            return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false, //
+                    description = "Select types for the given Near-RT RIC identity.") //
+            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId,
+
+            @Parameter(name = Consts.TYPE_NAME_PARAM, required = false, //
+                    description = "Select types with the given type name (type identity has the format <typename_version>)") //
+            @RequestParam(name = Consts.TYPE_NAME_PARAM, required = false) String typeName,
+
+            @Parameter(name = Consts.REGEXP_PARAM, required = false, //
+                    description = "Select types with type identity that matches a regular expression.") //
+            @RequestParam(name = Consts.REGEXP_PARAM, required = false) String regexp,
+
+            @Parameter(name = Consts.COMPATIBLE_WITH_VERSION_PARAM, required = false, //
+                    description = "Select types that are compatible with the given version. This parameter is only applicable in conjunction with "
+                            + Consts.TYPE_NAME_PARAM
+                            + ". As an example version 1.9.1 is compatible with 1.0.0 but not the other way around.") //
+            @RequestParam(name = Consts.COMPATIBLE_WITH_VERSION_PARAM, required = false) String compatibleWithVersion
+
+    ) throws ServiceException {
+
+        if (compatibleWithVersion != null && typeName == null) {
+            throw new ServiceException("Parameter " + Consts.COMPATIBLE_WITH_VERSION_PARAM + " can only be used when "
+                    + Consts.TYPE_NAME_PARAM + " is given", HttpStatus.BAD_REQUEST);
         }
+
+        Collection<PolicyType> types =
+                ricId != null ? rics.getRic(ricId).getSupportedPolicyTypes() : this.policyTypes.getAll();
+
+        types = PolicyTypes.filterTypes(types, typeName, regexp, compatibleWithVersion);
+        return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policies/{policy_id:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -307,24 +328,27 @@ public class PolicyController {
     })
     public ResponseEntity<Object> getPolicyInstances( //
             @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    description = "The identity of the policy type to get policies for.") //
-            @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String type, //
+                    description = "Select policies with a given type identity.") //
+            @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String typeId, //
             @Parameter(name = Consts.RIC_ID_PARAM, required = false,
-                    description = "The identity of the Near-RT RIC to get policies for.") //
+                    description = "Select policies for a given Near-RT RIC identity.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ric, //
             @Parameter(name = Consts.SERVICE_ID_PARAM, required = false,
-                    description = "The identity of the service to get policies for.") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String service)
+                    description = "Select policies owned by a given service.") //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String service,
+            @Parameter(name = Consts.TYPE_NAME_PARAM, required = false, //
+                    description = "Select policies of a given type name (type identity has the format <typename_version>)") //
+            @RequestParam(name = Consts.TYPE_NAME_PARAM, required = false) String typeName)
             throws EntityNotFoundException //
     {
-        if ((type != null && this.policyTypes.get(type) == null)) {
-            throw new EntityNotFoundException("Policy type not found");
+        if ((typeId != null && this.policyTypes.get(typeId) == null)) {
+            throw new EntityNotFoundException("Policy type identity not found");
         }
         if ((ric != null && this.rics.get(ric) == null)) {
             throw new EntityNotFoundException("Near-RT RIC not found");
         }
 
-        String filteredPolicies = policiesToJson(filter(type, ric, service));
+        String filteredPolicies = policiesToJson(policies.filterPolicies(typeId, ric, service, typeName));
         return new ResponseEntity<>(filteredPolicies, HttpStatus.OK);
     }
 
@@ -339,15 +363,18 @@ public class PolicyController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
     })
     public ResponseEntity<Object> getPolicyIds( //
-            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    description = "The identity of the policy type to get policies for.") //
+            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false, //
+                    description = "Select policies of a given policy type identity.") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String policyTypeId, //
-            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
-                    description = "The identity of the Near-RT RIC to get policies for.") //
+            @Parameter(name = Consts.RIC_ID_PARAM, required = false, //
+                    description = "Select policies of a given Near-RT RIC identity.") //
             @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId, //
-            @Parameter(name = Consts.SERVICE_ID_PARAM, required = false,
-                    description = "The identity of the service to get policies for.") //
-            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String serviceId)
+            @Parameter(name = Consts.SERVICE_ID_PARAM, required = false, //
+                    description = "Select policies owned by a given service.") //
+            @RequestParam(name = Consts.SERVICE_ID_PARAM, required = false) String serviceId,
+            @Parameter(name = Consts.TYPE_NAME_PARAM, required = false, //
+                    description = "Select policies of types with the given type name (type identity has the format <typename_version>)") //
+            @RequestParam(name = Consts.TYPE_NAME_PARAM, required = false) String typeName)
             throws EntityNotFoundException //
     {
         if ((policyTypeId != null && this.policyTypes.get(policyTypeId) == null)) {
@@ -357,7 +384,7 @@ public class PolicyController {
             throw new EntityNotFoundException("Near-RT RIC not found");
         }
 
-        String policyIdsJson = toPolicyIdsJson(filter(policyTypeId, ricId, serviceId));
+        String policyIdsJson = toPolicyIdsJson(policies.filterPolicies(policyTypeId, ricId, serviceId, typeName));
         return new ResponseEntity<>(policyIdsJson, HttpStatus.OK);
     }
 
@@ -392,36 +419,6 @@ public class PolicyController {
         Service s = this.services.get(name);
         if (s != null) {
             s.keepAlive();
-        }
-    }
-
-    private boolean include(String filter, String value) {
-        return filter == null || value.equals(filter);
-    }
-
-    private Collection<Policy> filter(Collection<Policy> collection, String type, String ric, String service) {
-        if (type == null && ric == null && service == null) {
-            return collection;
-        }
-        List<Policy> filtered = new ArrayList<>();
-        for (Policy p : collection) {
-            if (include(type, p.getType().getId()) && include(ric, p.getRic().id())
-                    && include(service, p.getOwnerServiceId())) {
-                filtered.add(p);
-            }
-        }
-        return filtered;
-    }
-
-    private Collection<Policy> filter(String type, String ric, String service) {
-        if (type != null) {
-            return filter(policies.getForType(type), null, ric, service);
-        } else if (service != null) {
-            return filter(policies.getForService(service), type, ric, null);
-        } else if (ric != null) {
-            return filter(policies.getForRic(ric), type, null, service);
-        } else {
-            return policies.getAll();
         }
     }
 
