@@ -51,7 +51,7 @@ public class PolicyInfo {
     @SerializedName("policy_data")
     public Object policyData;
 
-    @Schema(name = "service_id", description = "the name of the service owning the policy", required = true)
+    @Schema(name = "service_id", description = "the identity of the service owning the policy", required = true)
     @JsonProperty(value = "service_id", required = true)
     @SerializedName("service_id")
     public String serviceId;

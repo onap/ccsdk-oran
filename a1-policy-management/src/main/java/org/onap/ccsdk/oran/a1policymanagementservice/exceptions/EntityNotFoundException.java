@@ -20,15 +20,14 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class EntityNotFoundException extends ServiceException {
 
     private static final long serialVersionUID = 1L;
 
     public EntityNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 
-    public EntityNotFoundException(String message, Exception originalException) {
-        super(message, originalException);
-    }
 }

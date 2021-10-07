@@ -23,7 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import java.util.Optional;
 import java.util.Properties;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EnvironmentLoaderException;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.EnvProperties;
 import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.ImmutableEnvProperties;
 import org.slf4j.Logger;
@@ -51,16 +51,16 @@ class EnvironmentProcessor {
                     .cbsName(getConfigBindingService(systemEnvironment)) //
                     .appName(getService(systemEnvironment)) //
                     .build();
-        } catch (EnvironmentLoaderException e) {
+        } catch (ServiceException e) {
             return Mono.error(e);
         }
         logger.trace("Evaluated environment system variables {}", envProperties);
         return Mono.just(envProperties);
     }
 
-    private static String getConsulHost(Properties systemEnvironments) throws EnvironmentLoaderException {
+    private static String getConsulHost(Properties systemEnvironments) throws ServiceException {
         return Optional.ofNullable(systemEnvironments.getProperty("CONSUL_HOST"))
-                .orElseThrow(() -> new EnvironmentLoaderException("$CONSUL_HOST environment has not been defined"));
+                .orElseThrow(() -> new ServiceException("$CONSUL_HOST environment has not been defined"));
     }
 
     private static Integer getConsultPort(Properties systemEnvironments) {
@@ -69,17 +69,16 @@ class EnvironmentProcessor {
                 .orElseGet(EnvironmentProcessor::getDefaultPortOfConsul);
     }
 
-    private static String getConfigBindingService(Properties systemEnvironments) throws EnvironmentLoaderException {
+    private static String getConfigBindingService(Properties systemEnvironments) throws ServiceException {
         return Optional.ofNullable(systemEnvironments.getProperty("CONFIG_BINDING_SERVICE")) //
-                .orElseThrow(() -> new EnvironmentLoaderException(
-                        "$CONFIG_BINDING_SERVICE environment has not been defined"));
+                .orElseThrow(() -> new ServiceException("$CONFIG_BINDING_SERVICE environment has not been defined"));
     }
 
-    private static String getService(Properties systemEnvironments) throws EnvironmentLoaderException {
+    private static String getService(Properties systemEnvironments) throws ServiceException {
         return Optional
                 .ofNullable(Optional.ofNullable(systemEnvironments.getProperty("HOSTNAME"))
                         .orElse(systemEnvironments.getProperty("SERVICE_NAME")))
-                .orElseThrow(() -> new EnvironmentLoaderException(
+                .orElseThrow(() -> new ServiceException(
                         "Neither $HOSTNAME/$SERVICE_NAME have not been defined as system environment"));
     }
 

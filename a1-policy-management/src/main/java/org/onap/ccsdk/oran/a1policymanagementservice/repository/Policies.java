@@ -30,8 +30,10 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -47,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.FileSystemUtils;
+import reactor.util.annotation.Nullable;
 
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 @Configuration
@@ -149,6 +152,32 @@ public class Policies {
         }
     }
 
+    public Collection<Policy> filterPolicies(@Nullable String typeId, @Nullable String ricId,
+            @Nullable String serviceId, @Nullable String typeName) {
+        Collection<Policy> selection;
+        if (typeId != null) {
+            selection = filter(this.getForType(typeId), null, ricId, serviceId);
+        } else if (serviceId != null) {
+            selection = filter(this.getForService(serviceId), typeId, ricId, null);
+        } else if (ricId != null) {
+            selection = filter(this.getForRic(ricId), typeId, null, serviceId);
+        } else {
+            selection = this.getAll();
+        }
+        if (typeName == null) {
+            return selection;
+        } else {
+            ArrayList<Policy> resultFiltered = new ArrayList<>(selection.size());
+            for (Policy p : selection) {
+                PolicyType.TypeId nameVersion = p.getType().getTypeId();
+                if (nameVersion.getName().equals(typeName)) {
+                    resultFiltered.add(p);
+                }
+            }
+            return resultFiltered;
+        }
+    }
+
     public synchronized int size() {
         return policiesId.size();
     }
@@ -176,6 +205,24 @@ public class Policies {
         } catch (Exception e) {
             logger.warn("Could not store policy: {} {}", policy.getId(), e.getMessage());
         }
+    }
+
+    private boolean include(String filter, String value) {
+        return filter == null || value.equals(filter);
+    }
+
+    private Collection<Policy> filter(Collection<Policy> collection, String typeId, String ricId, String serviceId) {
+        if (typeId == null && ricId == null && serviceId == null) {
+            return collection;
+        }
+        List<Policy> filtered = new ArrayList<>();
+        for (Policy p : collection) {
+            if (include(typeId, p.getType().getId()) && include(ricId, p.getRic().id())
+                    && include(serviceId, p.getOwnerServiceId())) {
+                filtered.add(p);
+            }
+        }
+        return filtered;
     }
 
     private File getFile(Policy policy) throws ServiceException {
