@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+1: Bj�rn Magnusson <bjorn.magnusson@est.tech>
+Code-Review+1: Henrik Andersson <henrik.b.andersson@est.tech>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Thu, 07 Oct 2021 00:51:39 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/124702
+Project: ccsdk/oran
+Branch: refs/heads/master
