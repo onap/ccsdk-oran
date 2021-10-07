@@ -21,6 +21,8 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,13 +33,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public final ResponseEntity<Object> handleNotFoundException(EntityNotFoundException ex) {
-        return ErrorResponse.create(ex, HttpStatus.NOT_FOUND);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(ServiceException.class)
+    public final ResponseEntity<Object> handleServiceException(ServiceException ex) {
+        return ErrorResponse.create(ex, ex.getHttpStatus());
     }
 
-    @ExceptionHandler(InvalidRequestException.class)
-    public final ResponseEntity<Object> handleInvalidRequestException(InvalidRequestException ex) {
-        return ErrorResponse.create(ex, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(RuntimeException.class)
+    public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+        logger.error("Runtime exception {}", ex.getMessage());
+        return ErrorResponse.create(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -123,12 +123,12 @@ public class Ric {
     /**
      * Checks if a type is supported by this Ric.
      *
-     * @param typeName the name of the type to check if it is supported.
+     * @param typeId the identity of the type to check if it is supported.
      *
      * @return true if the given type is supported by this Ric, false otherwise.
      */
-    public synchronized boolean isSupportingType(String typeName) {
-        return supportedPolicyTypes.containsKey(typeName);
+    public synchronized boolean isSupportingType(String typeId) {
+        return supportedPolicyTypes.containsKey(typeId);
     }
 
     @Override

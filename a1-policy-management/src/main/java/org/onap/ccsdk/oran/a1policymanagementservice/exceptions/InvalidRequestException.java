@@ -20,15 +20,14 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class InvalidRequestException extends ServiceException {
 
     private static final long serialVersionUID = 1L;
 
     public InvalidRequestException(String message) {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 
-    public InvalidRequestException(String message, Exception originalException) {
-        super(message, originalException);
-    }
 }

@@ -138,10 +138,10 @@ public class PolicyController {
     }
 
     @GetMapping("/policy_types")
-    @Operation(summary = "Query policy type names")
+    @Operation(summary = "Query policy type identities")
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", //
-                    description = "Policy type names", //
+                    description = "Policy type identities", //
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = String.class)))), //
             @ApiResponse(responseCode = "404", //
                     description = "Near-RT RIC is not found", //
@@ -354,7 +354,7 @@ public class PolicyController {
             return new ResponseEntity<>("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
-        String filteredPolicies = policiesToJson(filter(type, ric, service));
+        String filteredPolicies = policiesToJson(policies.filterPolicies(type, ric, service, null));
         return new ResponseEntity<>(filteredPolicies, HttpStatus.OK);
     }
 
@@ -383,7 +383,7 @@ public class PolicyController {
             return new ResponseEntity<>("Near-RT RIC not found", HttpStatus.NOT_FOUND);
         }
 
-        String policyIdsJson = toPolicyIdsJson(filter(type, ric, service));
+        String policyIdsJson = toPolicyIdsJson(policies.filterPolicies(type, ric, service, null));
         return new ResponseEntity<>(policyIdsJson, HttpStatus.OK);
     }
 
@@ -414,36 +414,6 @@ public class PolicyController {
         Service s = this.services.get(name);
         if (s != null) {
             s.keepAlive();
-        }
-    }
-
-    private boolean include(String filter, String value) {
-        return filter == null || value.equals(filter);
-    }
-
-    private Collection<Policy> filter(Collection<Policy> collection, String type, String ric, String service) {
-        if (type == null && ric == null && service == null) {
-            return collection;
-        }
-        List<Policy> filtered = new ArrayList<>();
-        for (Policy p : collection) {
-            if (include(type, p.getType().getId()) && include(ric, p.getRic().id())
-                    && include(service, p.getOwnerServiceId())) {
-                filtered.add(p);
-            }
-        }
-        return filtered;
-    }
-
-    private Collection<Policy> filter(String type, String ric, String service) {
-        if (type != null) {
-            return filter(policies.getForType(type), null, ric, service);
-        } else if (service != null) {
-            return filter(policies.getForService(service), type, ric, null);
-        } else if (ric != null) {
-            return filter(policies.getForRic(ric), type, null, service);
-        } else {
-            return policies.getAll();
         }
     }
 
