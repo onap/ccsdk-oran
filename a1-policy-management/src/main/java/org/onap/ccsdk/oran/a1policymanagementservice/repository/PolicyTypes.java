@@ -30,11 +30,15 @@ import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -46,7 +50,7 @@ import org.springframework.util.FileSystemUtils;
 
 @Configuration
 public class PolicyTypes {
-    private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private Map<String, PolicyType> types = new HashMap<>();
     private final ApplicationConfig appConfig;
     private static Gson gson = new GsonBuilder().create();
@@ -79,6 +83,35 @@ public class PolicyTypes {
 
     public synchronized Collection<PolicyType> getAll() {
         return new Vector<>(types.values());
+    }
+
+    /**
+     * Filter out types matching criterias
+     * 
+     * @param types the types to select from
+     * @param typeName select types with given type name
+     * @param regexp select types where the ID matches a regular
+     *        expression
+     * @param compatibleWithVersion select types that are compatible with given
+     *        version string (major.minor.patch)
+     * @return the types that matches given criterias
+     * @throws ServiceException if there are errors in the given input
+     */
+    public static Collection<PolicyType> filterTypes(Collection<PolicyType> types, @Nullable String typeName,
+            @Nullable String regexp, @Nullable String compatibleWithVersion) throws ServiceException {
+        if (typeName != null) {
+            types = filterTypeName(types, typeName);
+        }
+
+        if (regexp != null) {
+            types = filterRegexp(types, regexp);
+        }
+
+        if (compatibleWithVersion != null) {
+            types = filterCompatibleWithVersion(types, compatibleWithVersion);
+        }
+        return types;
+
     }
 
     public synchronized int size() {
@@ -137,4 +170,51 @@ public class PolicyTypes {
     private Path getDatabasePath() throws ServiceException {
         return Path.of(getDatabaseDirectory());
     }
+
+    private static Collection<PolicyType> filterRegexp(Collection<PolicyType> types, String regexp) {
+        Collection<PolicyType> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile(regexp);
+        for (PolicyType type : types) {
+            Matcher matcher = pattern.matcher(type.getId());
+            if (matcher.find()) {
+                result.add(type);
+            }
+        }
+        return result;
+    }
+
+    private static Collection<PolicyType> filterTypeName(Collection<PolicyType> types, String typeName) {
+        Collection<PolicyType> result = new ArrayList<>();
+        for (PolicyType type : types) {
+            PolicyType.TypeId nameVersion = type.getTypeId();
+            if (nameVersion.getName().equals(typeName)) {
+                result.add(type);
+            }
+        }
+        return result;
+    }
+
+    private static boolean isTypeCompatibleWithVersion(PolicyType type, PolicyType.Version version) {
+        try {
+            PolicyType.TypeId typeId = type.getTypeId();
+            PolicyType.Version typeVersion = PolicyType.Version.ofString(typeId.getVersion());
+            return (typeVersion.major == version.major && typeVersion.minor >= version.minor);
+        } catch (Exception e) {
+            logger.warn("Ignoring type with syntactically incorrect type ID: {}", type.getId());
+            return false;
+        }
+    }
+
+    private static Collection<PolicyType> filterCompatibleWithVersion(Collection<PolicyType> types, String versionStr)
+            throws ServiceException {
+        Collection<PolicyType> result = new ArrayList<>();
+        PolicyType.Version otherVersion = PolicyType.Version.ofString(versionStr);
+        for (PolicyType type : types) {
+            if (isTypeCompatibleWithVersion(type, otherVersion)) {
+                result.add(type);
+            }
+        }
+        return result;
+    }
+
 }

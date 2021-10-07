@@ -73,7 +73,7 @@ public class ApplicationConfig {
     @Value("${app.webclient.trust-store}")
     private String sslTrustStore = "";
 
-    @Value("${app.webclient.http.proxy-host:\"\"}")
+    @Value("${app.webclient.http.proxy-host:}")
     private String httpProxyHost = "";
 
     @Value("${app.webclient.http.proxy-port:0}")
