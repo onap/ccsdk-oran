@@ -20,14 +20,15 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
+import com.google.common.io.CharStreams;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 /**
  * Parser for the Json representing of the component configuration.
@@ -129,13 +131,15 @@ public class ApplicationConfigParser {
         }
     }
 
-    private String readSchemaFile() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
+    private String readSchemaFile() throws IOException, ServiceException {
         String filePath = applicationConfig.getConfigurationFileSchemaPath();
-        URL url = classLoader.getResource(filePath);
-        File file = new File(url.getFile());
-        return new String(Files.readAllBytes(file.toPath()));
-
+        InputStream in = getClass().getResourceAsStream(filePath);
+        logger.debug("Reading application schema file from: {} with: {}", filePath, in);
+        if (in == null) {
+            throw new ServiceException("Could not read application configuration schema file: " + filePath,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return CharStreams.toString(new InputStreamReader(in, StandardCharsets.UTF_8));
     }
 
     private void checkConfigurationConsistency(List<RicConfig> ricConfigs,

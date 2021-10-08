@@ -58,7 +58,8 @@ import org.springframework.util.StringUtils;
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
-        "app.vardata-directory=./target"})
+        "app.vardata-directory=./target", //
+        "app.config-file-schema-path=/application_configuration_schema.json"})
 @SuppressWarnings("java:S3577") // Class name should start or end with Test. This is not a test class per se,
                                 // but a mock
                                 // of the server.
