@@ -55,7 +55,7 @@ class ApplicationConfigParserTest {
         JsonObject jsonRootObject = getJsonRootObject();
 
         when(applicationConfigMock.getConfigurationFileSchemaPath())
-                .thenReturn("application_configuration_schema.json");
+                .thenReturn("/application_configuration_schema.json");
 
         ApplicationConfigParser.ConfigParserResult result = parserUnderTest.parse(jsonRootObject);
 
