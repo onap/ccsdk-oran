@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fbb319f0_ce30c05b",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "This parameter represents type name (not type ID). Type ID contains both name and version (and this is only the name). \n\nThere is already a parameter for type ID (policytype_id). One could argue that it should \nbe type_id and type_name, but changing the name policytype_id would break backwards compatibility.\n\nSo, there are \npolicytype_id - type ID\ntype_name - type name",
+      "parentUuid": "6c307d3c_b4c1d19f",
+      "range": {
+        "startLine": 103,
+        "startChar": 14,
+        "endLine": 103,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7971e1f1_e89655c7",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "11d8e465_90b9398c",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "I changed the first parameter instead to: \nSelect types for the given Near-RT RIC ID\n\nthis is to give a perception of SQL.",
+      "parentUuid": "7971e1f1_e89655c7",
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4671a469_764786e7",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2021-10-15T10:47:08Z",
       "side": 1,
       "message": "Should this be type_id to be consistent with the change from type_name to type_id done in the code in this commit?",
+      "range": {
+        "startLine": 250,
+        "startChar": 14,
+        "endLine": 250,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9833ade_a83d0b95",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "This is type name (not ID).\nSelect types for the given Near-RT RIC ID.",
+      "parentUuid": "4671a469_764786e7",
       "range": {
         "startLine": 250,
         "startChar": 14,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9cc3e88d_b9f4223d",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "I changed the first parameter ric_id to:\nSelect types for the given Near-RT RIC ID.",
+      "parentUuid": "5d693d22_f465ccf5",
+      "range": {
+        "startLine": 252,
+        "startChar": 21,
+        "endLine": 252,
+        "endChar": 78
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abd71744_c04de818",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 3
@@ -99,6 +189,30 @@
       "writtenOn": "2021-10-15T10:47:08Z",
       "side": 1,
       "message": "To follow the style of the other parameters, maybe change to:\nThe regular expression matching the type ID to get types for.",
+      "range": {
+        "startLine": 261,
+        "startChar": 47,
+        "endLine": 261,
+        "endChar": 67
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee47ec42_e628afba",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "I changed the first parameter ric_id to:\nSelect types for the given Near-RT RIC ID.\n\nAnd this comment to:\nSelect types with type ID that matches a regular expression.",
+      "parentUuid": "abd71744_c04de818",
       "range": {
         "startLine": 261,
         "startChar": 47,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "e59bf39b_5a154f55",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "I changed the first parameter ric_id to:\nSelect types for the given Near-RT RIC ID.",
+      "parentUuid": "b9490b3c_0d2b9642",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 77
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "538f2788_8d990e2f",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 3
@@ -145,6 +283,30 @@
       "writtenOn": "2021-10-15T10:47:08Z",
       "side": 1,
       "message": "Should this be type_id to be consistent with the change from type_name to type_id done in the code in this commit?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 14,
+        "endLine": 1016,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3daf335_be4d14a5",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "There is no change of any existing parameters. This is a new one and it type name (not type ID).",
+      "parentUuid": "538f2788_8d990e2f",
       "range": {
         "startLine": 1016,
         "startChar": 14,
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "fe330a9a_d156c9ef",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "I will change those comments instead so it looks more select ...",
+      "parentUuid": "ca8334ab_b884658e",
+      "range": {
+        "startLine": 1018,
+        "startChar": 21,
+        "endLine": 1018,
+        "endChar": 70
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f5e1259_225eb655",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
         "patchSetId": 3
@@ -200,6 +386,30 @@
       "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a64bb2_7c1fb8cd",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-10-15T12:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5e1259_225eb655",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
