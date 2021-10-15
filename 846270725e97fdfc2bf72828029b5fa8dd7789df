@@ -225,6 +225,29 @@
     },
     {
       "key": {
+        "uuid": "80cbf684_28f1a392",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5074
+      },
+      "writtenOn": "2021-10-15T12:31:26Z",
+      "side": 1,
+      "message": "Make it clear what the parameter shall contain. \nOnly the version part of type_id, typename_version?\nSo it type_name\u003dABC then compatible_with_version\u003d1.2.0\nthen type_ids ABC_1.2.0 and ABC_1.2.1 would be returned",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 37
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9490b3c_0d2b9642",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 3
