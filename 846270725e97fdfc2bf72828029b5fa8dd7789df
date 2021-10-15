@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c307d3c_b4c1d19f",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "Should this be type_id to be consistent with the change from type_name to type_id done in the code in this commit?",
+      "range": {
+        "startLine": 103,
+        "startChar": 14,
+        "endLine": 103,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7971e1f1_e89655c7",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "To follow the style of the other parameters, maybe change to:\nThe type ID to get policies for (type ID has the format\n          \u003ctypename_version\u003e).",
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4671a469_764786e7",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "Should this be type_id to be consistent with the change from type_name to type_id done in the code in this commit?",
+      "range": {
+        "startLine": 250,
+        "startChar": 14,
+        "endLine": 250,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d693d22_f465ccf5",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "To follow the style of the other parameters, maybe change to:\nThe type ID to get policies for (type ID has the format...",
+      "range": {
+        "startLine": 252,
+        "startChar": 21,
+        "endLine": 252,
+        "endChar": 78
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abd71744_c04de818",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "To follow the style of the other parameters, maybe change to:\nThe regular expression matching the type ID to get types for.",
+      "range": {
+        "startLine": 261,
+        "startChar": 47,
+        "endLine": 261,
+        "endChar": 67
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9490b3c_0d2b9642",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "To follow the style of the other parameters, maybe change to:\nThe version that the types to get must be compatibel with.",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 77
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "538f2788_8d990e2f",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "Should this be type_id to be consistent with the change from type_name to type_id done in the code in this commit?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 14,
+        "endLine": 1016,
+        "endChar": 23
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca8334ab_b884658e",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "To follow the style of the other parameters, maybe change to:\nThe type ID to get policy types for (type ID has the format...",
+      "range": {
+        "startLine": 1018,
+        "startChar": 21,
+        "endLine": 1018,
+        "endChar": 70
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f5e1259_225eb655",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/PolicyTypes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-10-15T10:47:08Z",
+      "side": 1,
+      "message": "Please remove trailing white space",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
+      "revId": "846270725e97fdfc2bf72828029b5fa8dd7789df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
