@@ -30,7 +30,7 @@
 
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-adapter-api</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ccsdk-oran :: ${project.artifactId}</name>
