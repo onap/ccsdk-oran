@@ -40,7 +40,7 @@
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <junit-jupiter-engine.version>5.6.0</junit-jupiter-engine.version>
         <mockito-junit-jupiter.version>3.5.10</mockito-junit-jupiter.version>
-        <ccsdk.sli.core.version>1.3.1</ccsdk.sli.core.version>
+        <ccsdk.sli.core.version>1.3.2</ccsdk.sli.core.version>
     </properties>
 
     <dependencyManagement>
