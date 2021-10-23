@@ -14,4 +14,5 @@ Health check test case for NONRTRIC
     Start Process                   ${health_check}     shell=yes
     ${cli_cmd_output}=              Wait For Process    timeout=600
     Log                             ${cli_cmd_output.stdout}
+    Log                             ${cli_cmd_output.stderr}
     Should Be Equal as Integers     ${cli_cmd_output.rc}    0
