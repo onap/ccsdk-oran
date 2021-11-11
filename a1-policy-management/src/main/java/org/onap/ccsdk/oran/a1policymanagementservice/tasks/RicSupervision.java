@@ -152,7 +152,7 @@ public class RicSupervision {
     private Mono<RicData> createRicData(Ric ric) {
         return Mono.just(ric) //
                 .flatMap(aRic -> this.a1ClientFactory.createA1Client(ric)) //
-                .flatMap(a1Client -> Mono.just(new RicData(ric, a1Client)));
+                .map(a1Client -> new RicData(ric, a1Client));
     }
 
     private Mono<RicData> checkRicState(RicData ric) {

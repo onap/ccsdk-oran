@@ -207,7 +207,7 @@ public class PolicyController {
                 .flatMap(client -> client.deletePolicy(policy)) //
                 .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
                 .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
-                .flatMap(notUsed -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)))
+                .map(notUsed -> new ResponseEntity<>(HttpStatus.NO_CONTENT)) //
                 .onErrorResume(this::handleException);
     }
 

@@ -97,13 +97,12 @@ public class RicSynchronizationTask {
     }
 
     public Mono<Ric> synchronizeRic(Ric ric) {
-        return Mono.just(ric) //
-                .flatMap(notUsed -> setRicState(ric)) //
+        return setRicState(ric) //
                 .flatMap(lock -> this.a1ClientFactory.createA1Client(ric)) //
                 .flatMapMany(client -> runSynchronization(ric, client)) //
                 .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable)) //
                 .collectList() //
-                .flatMap(notUsed -> Mono.just(ric)) //
+                .map(notUsed -> ric) //
                 .doOnError(t -> { //
                     logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), t.getMessage()); //
                     ric.setState(RicState.UNAVAILABLE); //
@@ -152,7 +151,7 @@ public class RicSynchronizationTask {
         ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
         return callbacks.notifyServicesRicAvailable(ric, services) //
                 .collectList() //
-                .flatMap(list -> Mono.just(ric));
+                .map(list -> ric);
     }
 
     private Flux<Object> deleteAllPolicyInstances(Ric ric, Throwable t) {
@@ -173,13 +172,13 @@ public class RicSynchronizationTask {
             return Mono.just(policyTypes.get(policyTypeId));
         }
         return a1Client.getPolicyTypeSchema(policyTypeId) //
-                .flatMap(schema -> createPolicyType(policyTypeId, schema));
+                .map(schema -> createPolicyType(policyTypeId, schema));
     }
 
-    private Mono<PolicyType> createPolicyType(String policyTypeId, String schema) {
+    private PolicyType createPolicyType(String policyTypeId, String schema) {
         PolicyType pt = PolicyType.builder().id(policyTypeId).schema(schema).build();
         policyTypes.put(pt);
-        return Mono.just(pt);
+        return pt;
     }
 
     private void deleteAllPoliciesInRepository(Ric ric) {
