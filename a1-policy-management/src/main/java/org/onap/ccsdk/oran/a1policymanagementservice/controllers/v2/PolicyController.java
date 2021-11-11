@@ -207,8 +207,7 @@ public class PolicyController {
                 .flatMap(client -> client.deletePolicy(policy)) //
                 .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
                 .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
-                .flatMap(notUsed -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)))
-                .onErrorResume(this::handleException);
+                .map(notUsed -> new ResponseEntity<>(HttpStatus.NO_CONTENT)).onErrorResume(this::handleException);
     }
 
     @PutMapping(path = Consts.V2_API_ROOT + "/policies", produces = MediaType.APPLICATION_JSON_VALUE)

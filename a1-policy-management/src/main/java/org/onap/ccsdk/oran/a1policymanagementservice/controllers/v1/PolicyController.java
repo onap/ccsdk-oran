@@ -205,7 +205,7 @@ public class PolicyController {
                 .flatMap(client -> client.deletePolicy(policy)) //
                 .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
                 .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
-                .flatMap(notUsed -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)))
+                .map(notUsed -> new ResponseEntity<>(HttpStatus.NO_CONTENT)) //
                 .onErrorResume(this::handleException);
     }
 
@@ -273,7 +273,7 @@ public class PolicyController {
                 .doOnNext(notUsed -> policies.put(policy)) //
                 .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
                 .doOnError(trowable -> ric.getLock().unlockBlocking()) //
-                .flatMap(notUsed -> Mono.just(new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK))) //
+                .map(notUsed -> new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK)) //
                 .onErrorResume(this::handleException);
     }
 
@@ -406,7 +406,7 @@ public class PolicyController {
 
         return a1ClientFactory.createA1Client(policy.getRic()) //
                 .flatMap(client -> client.getPolicyStatus(policy)) //
-                .flatMap(status -> Mono.just(new ResponseEntity<>(status, HttpStatus.OK)))
+                .map(status -> new ResponseEntity<>(status, HttpStatus.OK)) //
                 .onErrorResume(this::handleException);
     }
 

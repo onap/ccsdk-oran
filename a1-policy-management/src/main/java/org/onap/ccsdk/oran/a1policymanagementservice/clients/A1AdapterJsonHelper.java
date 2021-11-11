@@ -96,12 +96,11 @@ class A1AdapterJsonHelper {
 
     public static Mono<String> getValueFromResponse(String response, String key) {
         return getOutput(response) //
-                .flatMap(responseParams -> {
+                .map(responseParams -> {
                     if (!responseParams.has(key)) {
-                        return Mono.just("");
+                        return "";
                     }
-                    String value = responseParams.get(key).toString();
-                    return Mono.just(value);
+                    return responseParams.get(key).toString();
                 });
     }
 

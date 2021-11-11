@@ -226,7 +226,7 @@ public class RefreshConfigTask {
         return this.a1ClientFactory.createA1Client(ric) //
                 .flatMapMany(client -> synchronizationTask().synchronizePolicyTypes(ric, client)) //
                 .collectList() //
-                .flatMap(list -> Mono.just(ric)) //
+                .map(list -> ric) //
                 .doOnNext(notUsed -> ric.setState(RicState.AVAILABLE)) //
                 .doOnError(t -> {
                     logger.warn("Failed to synchronize types in new RIC: {}, reason: {}", ric.id(), t.getMessage());
@@ -243,7 +243,7 @@ public class RefreshConfigTask {
                 logger.debug("RIC added {}", ricId);
 
                 return trySyncronizeSupportedTypes(new Ric(updatedInfo.getRicConfig())) //
-                        .flatMap(this::addRic) //
+                        .doOnNext(this::addRic) //
                         .flatMap(this::notifyServicesRicAvailable) //
                         .flatMap(notUsed -> Mono.just(event));
             } else if (event == RicConfigUpdate.Type.REMOVED) {
@@ -256,7 +256,7 @@ public class RefreshConfigTask {
                 Ric ric = this.rics.get(ricId);
                 if (ric == null) {
                     logger.error("An non existing RIC config is changed, should not happen (just for robustness)");
-                    addRic(new Ric(updatedInfo.getRicConfig())).block();
+                    addRic(new Ric(updatedInfo.getRicConfig()));
                 } else {
                     ric.setRicConfig(updatedInfo.getRicConfig());
                 }
@@ -265,14 +265,12 @@ public class RefreshConfigTask {
         }
     }
 
-    Mono<Ric> addRic(Ric ric) {
+    void addRic(Ric ric) {
         this.rics.put(ric);
         if (this.appConfig.getVardataDirectory() != null) {
             this.policies.restoreFromDatabase(ric, this.policyTypes);
         }
         logger.debug("Added RIC: {}", ric.id());
-
-        return Mono.just(ric);
     }
 
     private Mono<Ric> notifyServicesRicAvailable(Ric ric) {
@@ -280,7 +278,7 @@ public class RefreshConfigTask {
             ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
             return callbacks.notifyServicesRicAvailable(ric, services) //
                     .collectList() //
-                    .flatMap(list -> Mono.just(ric));
+                    .map(list -> ric);
         } else {
             return Mono.just(ric);
         }
