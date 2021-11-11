@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0dbe172_b7ec5c11",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-11-11T10:44:58Z",
+      "side": 1,
+      "message": "Maybe put this on a new row?",
+      "range": {
+        "startLine": 70,
+        "startChar": 55,
+        "endLine": 70,
+        "endChar": 61
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b247179f_330a6527",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-11-11T10:44:58Z",
+      "side": 1,
+      "message": "Maybe put this on a new row?",
+      "range": {
+        "startLine": 87,
+        "startChar": 55,
+        "endLine": 87,
+        "endChar": 61
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b273289_afef40c8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-11-11T10:44:58Z",
+      "side": 1,
+      "message": "Maybe put this on a new row?",
+      "range": {
+        "startLine": 101,
+        "startChar": 55,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c50fda70_eb6f7222",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-11-11T10:44:58Z",
+      "side": 1,
+      "message": "Maybe put this on a new row?",
+      "range": {
+        "startLine": 112,
+        "startChar": 55,
+        "endLine": 112,
+        "endChar": 60
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3178fb3_b1bf2eea",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2021-11-11T10:44:58Z",
+      "side": 1,
+      "message": "Maybe put this on a new row?",
+      "range": {
+        "startLine": 210,
+        "startChar": 77,
+        "endLine": 210,
+        "endChar": 78
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
