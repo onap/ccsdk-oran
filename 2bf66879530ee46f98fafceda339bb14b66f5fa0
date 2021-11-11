@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86604887_01ce23c1",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-11-11T11:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0dbe172_b7ec5c11",
+      "range": {
+        "startLine": 70,
+        "startChar": 55,
+        "endLine": 70,
+        "endChar": 61
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b247179f_330a6527",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e2c3c20_404bf9b9",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-11-11T11:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b247179f_330a6527",
+      "range": {
+        "startLine": 87,
+        "startChar": 55,
+        "endLine": 87,
+        "endChar": 61
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "47c80ab2_c430e2de",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-11-11T11:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b273289_afef40c8",
+      "range": {
+        "startLine": 101,
+        "startChar": 55,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c50fda70_eb6f7222",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9512f9e6_dfe23c0e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-11-11T11:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c50fda70_eb6f7222",
+      "range": {
+        "startLine": 112,
+        "startChar": 55,
+        "endLine": 112,
+        "endChar": 60
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3178fb3_b1bf2eea",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5596b799_88c4dbc1",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2021-11-11T11:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3178fb3_b1bf2eea",
+      "range": {
+        "startLine": 210,
+        "startChar": 77,
+        "endLine": 210,
+        "endChar": 78
+      },
+      "revId": "2bf66879530ee46f98fafceda339bb14b66f5fa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
