@@ -138,10 +138,6 @@ public class PolicyController {
                     description = "Select types with the given type name (type identity has the format <typename_version>)") //
             @RequestParam(name = Consts.TYPE_NAME_PARAM, required = false) String typeName,
 
-            @Parameter(name = Consts.REGEXP_PARAM, required = false, //
-                    description = "Select types with type identity that matches a regular expression.") //
-            @RequestParam(name = Consts.REGEXP_PARAM, required = false) String regexp,
-
             @Parameter(name = Consts.COMPATIBLE_WITH_VERSION_PARAM, required = false, //
                     description = "Select types that are compatible with the given version. This parameter is only applicable in conjunction with "
                             + Consts.TYPE_NAME_PARAM
@@ -158,7 +154,7 @@ public class PolicyController {
         Collection<PolicyType> types =
                 ricId != null ? rics.getRic(ricId).getSupportedPolicyTypes() : this.policyTypes.getAll();
 
-        types = PolicyTypes.filterTypes(types, typeName, regexp, compatibleWithVersion);
+        types = PolicyTypes.filterTypes(types, typeName, compatibleWithVersion);
         return new ResponseEntity<>(toPolicyTypeIdsJson(types), HttpStatus.OK);
     }
 

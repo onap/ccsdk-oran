@@ -94,6 +94,8 @@ public class RefreshConfigTask {
     private final PolicyTypes policyTypes;
     private final AsyncRestClientFactory restClientFactory;
 
+    private long fileLastModified = 0;
+
     @Autowired
     public RefreshConfigTask(ConfigurationFile configurationFile, ApplicationConfig appConfig, Rics rics,
             Policies policies, Services services, PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
@@ -288,6 +290,10 @@ public class RefreshConfigTask {
      * Reads the configuration from file.
      */
     Flux<JsonObject> loadConfigurationFromFile() {
+        if (configurationFile.getLastModified() == fileLastModified) {
+            return Flux.empty();
+        }
+        fileLastModified = configurationFile.getLastModified();
         Optional<JsonObject> readJson = configurationFile.readFile();
         if (readJson.isPresent()) {
             return Flux.just(readJson.get());

@@ -124,6 +124,7 @@ class RefreshConfigTaskTest {
                 new Services(appConfig), new PolicyTypes(appConfig), new A1ClientFactory(appConfig)));
         if (stubConfigFileExists) {
             when(configurationFileMock.readFile()).thenReturn(Optional.empty());
+            doReturn(123L).when(configurationFileMock).getLastModified();
         }
         return obj;
     }

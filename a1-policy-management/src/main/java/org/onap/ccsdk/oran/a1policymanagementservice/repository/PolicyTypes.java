@@ -35,8 +35,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
@@ -90,20 +88,15 @@ public class PolicyTypes {
      *
      * @param types the types to select from
      * @param typeName select types with given type name
-     * @param regexp select types where the ID matches a regular
-     *        expression
      * @param compatibleWithVersion select types that are compatible with given
      *        version string (major.minor.patch)
      * @return the types that matches given criterias
      * @throws ServiceException if there are errors in the given input
      */
     public static Collection<PolicyType> filterTypes(Collection<PolicyType> types, @Nullable String typeName,
-            @Nullable String regexp, @Nullable String compatibleWithVersion) throws ServiceException {
+            @Nullable String compatibleWithVersion) throws ServiceException {
         if (typeName != null) {
             types = filterTypeName(types, typeName);
-        }
-        if (regexp != null) {
-            types = filterRegexp(types, regexp);
         }
         if (compatibleWithVersion != null) {
             types = filterCompatibleWithVersion(types, compatibleWithVersion);
@@ -166,18 +159,6 @@ public class PolicyTypes {
 
     private Path getDatabasePath() throws ServiceException {
         return Path.of(getDatabaseDirectory());
-    }
-
-    private static Collection<PolicyType> filterRegexp(Collection<PolicyType> types, String regexp) {
-        Collection<PolicyType> result = new ArrayList<>();
-        Pattern pattern = Pattern.compile(regexp);
-        for (PolicyType type : types) {
-            Matcher matcher = pattern.matcher(type.getId());
-            if (matcher.find()) {
-                result.add(type);
-            }
-        }
-        return result;
     }
 
     private static Collection<PolicyType> filterTypeName(Collection<PolicyType> types, String typeName) {

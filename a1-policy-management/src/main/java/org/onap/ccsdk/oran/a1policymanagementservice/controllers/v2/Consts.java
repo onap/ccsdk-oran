@@ -29,7 +29,6 @@ public class Consts {
     public static final String MANAGED_ELEMENT_ID_PARAM = "managed_element_id";
     public static final String TYPE_NAME_PARAM = "type_name";
     public static final String COMPATIBLE_WITH_VERSION_PARAM = "compatible_with_version";
-    public static final String REGEXP_PARAM = "regexp";
 
     public static final String V2_API_ROOT = "/a1-policy/v2";
 

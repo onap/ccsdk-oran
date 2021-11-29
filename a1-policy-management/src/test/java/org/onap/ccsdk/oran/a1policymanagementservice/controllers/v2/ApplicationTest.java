@@ -641,11 +641,6 @@ class ApplicationTest {
 
         url = "/policy-types?compatible_with_version=1.5.0";
         testErrorCode(restClient().get(url), HttpStatus.BAD_REQUEST, "type_name");
-
-        url = "/policy-types?regexp=type3_.*";
-        rsp = restClient().get(url).block();
-        expResp = createPolicyTypesJson(TYPE_ID_4);
-        assertThat(rsp).isEqualTo(expResp);
     }
 
     @Test

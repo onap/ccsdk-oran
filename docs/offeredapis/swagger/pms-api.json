@@ -532,13 +532,6 @@
                 {
                     "schema": {"type": "string"},
                     "in": "query",
-                    "name": "regexp",
-                    "description": "Select types with type identity that matches a regular expression.",
-                    "required": false
-                },
-                {
-                    "schema": {"type": "string"},
-                    "in": "query",
                     "name": "compatible_with_version",
                     "description": "Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around.",
                     "required": false

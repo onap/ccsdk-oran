@@ -51,9 +51,18 @@ public class ConfigurationFile {
         this.appConfig = appConfig;
     }
 
+    public long getLastModified() {
+        File file = new File(appConfig.getLocalConfigurationFilePath());
+        if (file.exists()) {
+            return file.lastModified();
+        }
+        return 0;
+    }
+
     public synchronized Optional<JsonObject> readFile() {
         String filepath = appConfig.getLocalConfigurationFilePath();
-        if (!fileExists(filepath)) {
+        File file = new File(filepath);
+        if (!file.exists()) {
             return Optional.empty();
         }
 
@@ -77,10 +86,6 @@ public class ConfigurationFile {
 
     FileWriter getFileWriter(String filepath) throws IOException {
         return new FileWriter(filepath);
-    }
-
-    private boolean fileExists(String filepath) {
-        return (new File(filepath).exists());
     }
 
     private JsonElement getJsonElement(InputStream inputStream) {
