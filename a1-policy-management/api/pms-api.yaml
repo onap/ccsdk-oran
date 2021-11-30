@@ -256,14 +256,6 @@ paths:
         explode: true
         schema:
           type: string
-      - name: regexp
-        in: query
-        description: Select types with type identity that matches a regular expression.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: compatible_with_version
         in: query
         description: Select types that are compatible with the given version. This
