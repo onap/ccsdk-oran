@@ -35,6 +35,11 @@ tags:
 - name: Service Registry and Supervision
 - name: Health Check
 - name: Callbacks
+- name: Actuator
+  description: Monitor and interact
+  externalDocs:
+    description: Spring Boot Actuator Web API Documentation
+    url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
 paths:
   /policy_types:
     get:
@@ -135,6 +140,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/status_info_v2'
+  /actuator/threaddump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'threaddump'
+      operationId: handle_2_1_3
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /services:
     get:
       tags:
@@ -232,6 +250,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/loggers:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers'
+      operationId: handle_6
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /actuator/health/**:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'health-path'
+      operationId: handle_12
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/policy-types:
     get:
       tags:
@@ -251,14 +295,6 @@ paths:
         in: query
         description: Select types with the given type name (type identity has the
           format <typename_version>)
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: regexp
-        in: query
-        description: Select types with type identity that matches a regular expression.
         required: false
         style: form
         explode: true
@@ -352,6 +388,27 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/metrics/{requiredMetricName}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'metrics-requiredMetricName'
+      operationId: handle_5
+      parameters:
+      - name: requiredMetricName
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/configuration:
     get:
       tags:
@@ -552,6 +609,23 @@ paths:
             '*/*':
               schema:
                 type: string
+  /actuator:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator root web endpoint
+      operationId: links_1
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
   /policies:
     get:
       tags:
@@ -598,6 +672,47 @@ paths:
             '*/*':
               schema:
                 type: string
+  /actuator/loggers/{name}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers-name'
+      operationId: handle_7
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers-name'
+      operationId: handle_0
+      parameters:
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/services/{service_id}/keepalive:
     put:
       tags:
@@ -686,6 +801,19 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/metrics:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'metrics'
+      operationId: handle_4
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /policy_status:
     get:
       tags:
@@ -884,6 +1012,19 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/info:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'info'
+      operationId: handle_9
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /ric:
     get:
       tags:
@@ -980,6 +1121,32 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/logfile:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'logfile'
+      operationId: handle_8
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /actuator/health:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'health'
+      operationId: handle_11
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/policies:
     get:
       tags:
@@ -1183,6 +1350,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/heapdump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'heapdump'
+      operationId: handle_10
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
 components:
   schemas:
     error_information:
@@ -1466,3 +1646,10 @@ components:
           enum:
           - AVAILABLE
       description: Information transferred as in Service callbacks (callback_url)
+    Link:
+      type: object
+      properties:
+        templated:
+          type: boolean
+        href:
+          type: string
