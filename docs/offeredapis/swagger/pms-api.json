@@ -608,7 +608,7 @@
                 "schema": {"type": "string"},
                 "in": "query",
                 "name": "policytype_id",
-                "description": "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned",
+                "description": "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned",
                 "required": false
             }],
             "tags": ["NearRT-RIC Repository"]

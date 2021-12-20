@@ -485,7 +485,7 @@ paths:
       parameters:
       - name: policytype_id
         in: query
-        description: The identity of a policy type. If given, all Near-RT RICs supporteing
+        description: The identity of a policy type. If given, all Near-RT RICs supporting
           the policy type are returned
         required: false
         style: form
