@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.jetbrains.annotations.Nullable;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -45,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.Nullable;
 import org.springframework.util.FileSystemUtils;
 
 @Configuration

@@ -429,7 +429,7 @@
         }},
         "/actuator/threaddump": {"get": {
             "summary": "Actuator web endpoint 'threaddump'",
-            "operationId": "handle_2_1_3",
+            "operationId": "threaddump_4",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -519,7 +519,7 @@
         }},
         "/actuator/loggers": {"get": {
             "summary": "Actuator web endpoint 'loggers'",
-            "operationId": "handle_6",
+            "operationId": "loggers_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -528,7 +528,7 @@
         }},
         "/actuator/health/**": {"get": {
             "summary": "Actuator web endpoint 'health-path'",
-            "operationId": "handle_12",
+            "operationId": "health-path_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -627,7 +627,7 @@
         },
         "/actuator/metrics/{requiredMetricName}": {"get": {
             "summary": "Actuator web endpoint 'metrics-requiredMetricName'",
-            "operationId": "handle_5",
+            "operationId": "metrics-requiredMetricName_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -865,7 +865,7 @@
         "/actuator/loggers/{name}": {
             "post": {
                 "summary": "Actuator web endpoint 'loggers-name'",
-                "operationId": "handle_0",
+                "operationId": "loggers-name_3",
                 "responses": {"200": {
                     "description": "OK",
                     "content": {"*/*": {"schema": {"type": "object"}}}
@@ -880,7 +880,7 @@
             },
             "get": {
                 "summary": "Actuator web endpoint 'loggers-name'",
-                "operationId": "handle_7",
+                "operationId": "loggers-name_4",
                 "responses": {"200": {
                     "description": "OK",
                     "content": {"*/*": {"schema": {"type": "object"}}}
@@ -965,7 +965,7 @@
         }},
         "/actuator/metrics": {"get": {
             "summary": "Actuator web endpoint 'metrics'",
-            "operationId": "handle_4",
+            "operationId": "metrics_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -1012,7 +1012,7 @@
                 "schema": {"type": "string"},
                 "in": "query",
                 "name": "policytype_id",
-                "description": "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned",
+                "description": "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned",
                 "required": false
             }],
             "tags": ["NearRT-RIC Repository"]
@@ -1134,7 +1134,7 @@
         },
         "/actuator/info": {"get": {
             "summary": "Actuator web endpoint 'info'",
-            "operationId": "handle_9",
+            "operationId": "info_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -1217,7 +1217,7 @@
         }},
         "/actuator/logfile": {"get": {
             "summary": "Actuator web endpoint 'logfile'",
-            "operationId": "handle_8",
+            "operationId": "logfile_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -1226,7 +1226,7 @@
         }},
         "/actuator/health": {"get": {
             "summary": "Actuator web endpoint 'health'",
-            "operationId": "handle_11",
+            "operationId": "health_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -1393,7 +1393,7 @@
         }},
         "/actuator/heapdump": {"get": {
             "summary": "Actuator web endpoint 'heapdump'",
-            "operationId": "handle_10",
+            "operationId": "heapdump_2",
             "responses": {"200": {
                 "description": "OK",
                 "content": {"*/*": {"schema": {"type": "object"}}}
@@ -1411,16 +1411,17 @@
         "version": "1.1.0"
     },
     "tags": [
+        {"name": "Service Registry and Supervision"},
+        {"name": "A1 Policy Management"},
+        {"name": "A1 Policy Management V1.0"},
+        {"name": "NearRT-RIC Repository"},
+        {"name": "Callbacks"},
+        {"name": "Health Check"},
         {
             "name": "A1 Policy Management V1.0",
             "description": "(deprecated primitves)"
         },
         {"name": "Management of configuration"},
-        {"name": "A1 Policy Management"},
-        {"name": "NearRT-RIC Repository"},
-        {"name": "Service Registry and Supervision"},
-        {"name": "Health Check"},
-        {"name": "Callbacks"},
         {
             "name": "Actuator",
             "description": "Monitor and interact",
