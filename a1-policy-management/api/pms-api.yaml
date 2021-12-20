@@ -325,8 +325,7 @@ paths:
     get:
       tags:
       - Management of configuration
-      summary: Returns the contents of the configuration file
-      description: Note that the file contents is not relevant if the Consul is used.
+      summary: Returns the contents of the application configuration file
       operationId: getConfiguration
       responses:
         200:
@@ -345,7 +344,6 @@ paths:
       tags:
       - Management of configuration
       summary: Replace the current configuration file with the given configuration
-      description: Note that the file is ignored if the Consul is used.
       operationId: putConfiguration
       requestBody:
         content:
@@ -485,7 +483,7 @@ paths:
       parameters:
       - name: policytype_id
         in: query
-        description: The identity of a policy type. If given, all Near-RT RICs supporteing
+        description: The identity of a policy type. If given, all Near-RT RICs supporting
           the policy type are returned
         required: false
         style: form

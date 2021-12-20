@@ -37,8 +37,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
-import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,23 +57,19 @@ public class ConfigurationController {
     public static final String API_DESCRIPTION = "";
 
     private final ConfigurationFile configurationFile;
-    private final RefreshConfigTask refreshConfigTask;
     private final ApplicationConfig applicationConfig;
 
     ConfigurationController(@Autowired ConfigurationFile configurationFile,
-            @Autowired RefreshConfigTask refreshConfigTask, @Autowired ApplicationConfig applicationConfig) {
+            @Autowired ApplicationConfig applicationConfig) {
         this.configurationFile = configurationFile;
-        this.refreshConfigTask = refreshConfigTask;
         this.applicationConfig = applicationConfig;
-
     }
 
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
     @PutMapping(path = Consts.V2_API_ROOT + "/configuration", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Replace the current configuration file with the given configuration", //
-            description = "Note that the file is ignored if the Consul is used.")
+    @Operation(summary = "Replace the current configuration file with the given configuration")
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", //
                     description = "Configuration updated", //
@@ -89,7 +83,6 @@ public class ConfigurationController {
     })
     public ResponseEntity<Object> putConfiguration(@RequestBody Object configuration) {
         try {
-            validateConfigFileIsUsed();
             String configAsString = gson.toJson(configuration);
             JsonObject configJson = JsonParser.parseString(configAsString).getAsJsonObject();
             ApplicationConfigParser configParser = new ApplicationConfigParser(applicationConfig);
@@ -107,8 +100,7 @@ public class ConfigurationController {
     }
 
     @GetMapping(path = Consts.V2_API_ROOT + "/configuration", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Returns the contents of the configuration file", //
-            description = "Note that the file contents is not relevant if the Consul is used.") //
+    @Operation(summary = "Returns the contents of the application configuration file") //
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", //
                     description = "Configuration", //
@@ -120,7 +112,6 @@ public class ConfigurationController {
     })
     public ResponseEntity<Object> getConfiguration() {
         try {
-            validateConfigFileIsUsed();
             Optional<JsonObject> rootObject = configurationFile.readFile();
             if (rootObject.isPresent()) {
                 return new ResponseEntity<>(rootObject.get().toString(), HttpStatus.OK);
@@ -130,13 +121,6 @@ public class ConfigurationController {
         } catch (Exception e) {
             return ErrorResponse.create(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private void validateConfigFileIsUsed() throws ServiceException {
-        if (this.refreshConfigTask.isConsulUsed()) {
-            throw new ServiceException("Config file not used (Consul is used)", HttpStatus.FORBIDDEN);
-        }
-
     }
 
 }

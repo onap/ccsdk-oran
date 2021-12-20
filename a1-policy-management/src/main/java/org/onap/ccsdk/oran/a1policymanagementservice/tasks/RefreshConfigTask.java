@@ -42,12 +42,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.api.CbsClient;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.api.CbsClientFactory;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.api.CbsRequests;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.CbsRequest;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.EnvProperties;
-import org.onap.dcaegen2.services.sdk.rest.services.model.logging.RequestDiagnosticContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +54,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.annotation.Nullable;
 
 /**
- * Regularly refreshes the configuration from Consul or from a local
- * configuration file.
+ * Regularly refreshes the component configuration from a configuration file.
  */
 @Component
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
@@ -83,9 +76,6 @@ public class RefreshConfigTask {
 
     @Getter(AccessLevel.PROTECTED)
     private Disposable refreshTask = null;
-
-    @Getter
-    private boolean isConsulUsed = false;
 
     private final Rics rics;
     private final A1ClientFactory a1ClientFactory;
@@ -127,24 +117,14 @@ public class RefreshConfigTask {
 
     Flux<RicConfigUpdate.Type> createRefreshTask() {
         Flux<JsonObject> loadFromFile = regularInterval() //
-                .filter(notUsed -> !this.isConsulUsed) //
                 .flatMap(notUsed -> loadConfigurationFromFile()) //
                 .onErrorResume(this::ignoreErrorFlux) //
                 .doOnNext(json -> logger.debug("loadFromFile succeeded")) //
                 .doOnTerminate(() -> logger.error("loadFromFile Terminate"));
 
-        Flux<JsonObject> loadFromConsul = regularInterval() //
-                .flatMap(i -> getEnvironment(systemEnvironment)) //
-                .flatMap(this::createCbsClient) //
-                .flatMap(this::getFromCbs) //
-                .onErrorResume(this::ignoreErrorMono) //
-                .doOnNext(json -> logger.debug("loadFromConsul succeeded")) //
-                .doOnNext(json -> this.isConsulUsed = true) //
-                .doOnTerminate(() -> logger.error("loadFromConsul Terminated"));
-
         final int CONCURRENCY = 50; // Number of RIC synched in paralell
 
-        return Flux.merge(loadFromFile, loadFromConsul) //
+        return loadFromFile //
                 .flatMap(this::parseConfiguration) //
                 .flatMap(this::updateConfig, CONCURRENCY) //
                 .flatMap(this::handleUpdatedRicConfig) //
@@ -157,36 +137,10 @@ public class RefreshConfigTask {
                 .limitRate(1); // Limit so that only one event is emitted at a time
     }
 
-    Mono<EnvProperties> getEnvironment(Properties systemEnvironment) {
-        return EnvironmentProcessor.readEnvironmentVariables(systemEnvironment) //
-                .onErrorResume(t -> Mono.empty());
-    }
-
-    Mono<CbsClient> createCbsClient(EnvProperties env) {
-        return CbsClientFactory.createCbsClient(env) //
-                .onErrorResume(this::ignoreErrorMono);
-    }
-
-    private Mono<JsonObject> getFromCbs(CbsClient cbsClient) {
-        try {
-            final CbsRequest getConfigRequest = CbsRequests.getAll(RequestDiagnosticContext.create());
-            return cbsClient.get(getConfigRequest) //
-                    .onErrorResume(this::ignoreErrorMono);
-        } catch (Exception e) {
-            return ignoreErrorMono(e);
-        }
-    }
-
     private <R> Flux<R> ignoreErrorFlux(Throwable throwable) {
         String errMsg = throwable.toString();
         logger.warn("Could not refresh application configuration. {}", errMsg);
         return Flux.empty();
-    }
-
-    private <R> Mono<R> ignoreErrorMono(Throwable throwable) {
-        String errMsg = throwable.toString();
-        logger.warn("Could not refresh application configuration. {}", errMsg);
-        return Mono.empty();
     }
 
     private Mono<ApplicationConfigParser.ConfigParserResult> parseConfiguration(JsonObject jsonObject) {

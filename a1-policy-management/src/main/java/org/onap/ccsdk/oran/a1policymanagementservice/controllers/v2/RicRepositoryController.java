@@ -123,7 +123,7 @@ public class RicRepositoryController {
     })
     public ResponseEntity<Object> getRics( //
             @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    description = "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned") //
+                    description = "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned") //
             @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType)
             throws EntityNotFoundException {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {

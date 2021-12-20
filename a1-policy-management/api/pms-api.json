@@ -472,8 +472,7 @@
         }},
         "/a1-policy/v2/configuration": {
             "get": {
-                "summary": "Returns the contents of the configuration file",
-                "description": "Note that the file contents is not relevant if the Consul is used.",
+                "summary": "Returns the contents of the application configuration file",
                 "operationId": "getConfiguration",
                 "responses": {
                     "200": {
@@ -493,7 +492,6 @@
                     "content": {"application/json": {"schema": {"type": "object"}}},
                     "required": true
                 },
-                "description": "Note that the file is ignored if the Consul is used.",
                 "operationId": "putConfiguration",
                 "responses": {
                     "200": {
@@ -608,7 +606,7 @@
                 "schema": {"type": "string"},
                 "in": "query",
                 "name": "policytype_id",
-                "description": "The identity of a policy type. If given, all Near-RT RICs supporteing the policy type are returned",
+                "description": "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned",
                 "required": false
             }],
             "tags": ["NearRT-RIC Repository"]

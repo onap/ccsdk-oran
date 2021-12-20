@@ -20,19 +20,13 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
-import static ch.qos.logback.classic.Level.ERROR;
-import static ch.qos.logback.classic.Level.WARN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -42,9 +36,7 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Properties;
@@ -65,33 +57,19 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableConf
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.api.CbsClient;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.EnvProperties;
-import org.onap.dcaegen2.services.sdk.rest.services.cbs.client.model.ImmutableEnvProperties;
-
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
 class RefreshConfigTaskTest {
 
-    private static final boolean CONFIG_FILE_EXISTS = true;
-    private static final boolean CONFIG_FILE_DOES_NOT_EXIST = false;
-
     private RefreshConfigTask refreshTaskUnderTest;
 
     @Spy
     ApplicationConfig appConfig;
-
-    @Mock
-    CbsClient cbsClient;
 
     @Mock
     ConfigurationFile configurationFileMock;
@@ -103,15 +81,6 @@ class RefreshConfigTaskTest {
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
             .controllerName("") //
             .build();
-
-    private static EnvProperties properties() {
-        return ImmutableEnvProperties.builder() //
-                .consulHost("host") //
-                .consulPort(123) //
-                .cbsName("cbsName") //
-                .appName("appName") //
-                .build();
-    }
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
         return createTestObject(configFileExists, new Rics(), new Policies(appConfig), true);
@@ -131,7 +100,7 @@ class RefreshConfigTaskTest {
 
     @Test
     void whenTheConfigurationFits_thenConfiguredRicsArePutInRepository() throws Exception {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_EXISTS);
+        refreshTaskUnderTest = this.createTestObject(true);
         refreshTaskUnderTest.systemEnvironment = new Properties();
         // When
         when(configurationFileMock.readFile()).thenReturn(getCorrectJson());
@@ -157,7 +126,7 @@ class RefreshConfigTaskTest {
 
     @Test
     void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() throws Exception {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_EXISTS);
+        refreshTaskUnderTest = this.createTestObject(true);
 
         // When
         when(configurationFileMock.readFile()).thenReturn(Optional.empty());
@@ -174,134 +143,6 @@ class RefreshConfigTaskTest {
         assertThat(appConfig.getRicConfigs()).isEmpty();
     }
 
-    @Test
-    void whenPeriodicConfigRefreshNoConsul_thenErrorIsLogged() {
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST);
-        refreshTaskUnderTest.systemEnvironment = new Properties();
-
-        EnvProperties props = properties();
-        doReturn(Mono.just(props)).when(refreshTaskUnderTest).getEnvironment(any());
-
-        doReturn(Mono.just(cbsClient)).when(refreshTaskUnderTest).createCbsClient(props);
-        when(cbsClient.get(any())).thenReturn(Mono.error(new IOException()));
-
-        final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, WARN);
-
-        StepVerifier //
-                .create(refreshTaskUnderTest.createRefreshTask()) //
-                .expectSubscription() //
-                .expectNoEvent(Duration.ofMillis(1000)) //
-                .thenCancel() //
-                .verify();
-
-        await().until(() -> logAppender.list.size() > 0);
-        assertThat(logAppender.list.get(0).getFormattedMessage())
-                .isEqualTo("Could not refresh application configuration. java.io.IOException");
-    }
-
-    @Test
-    void whenPeriodicConfigRefreshSuccess_thenNewConfigIsCreatedAndRepositoryUpdated() throws Exception {
-        Rics rics = new Rics();
-        Policies policies = new Policies(appConfig);
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, rics, policies, false);
-        refreshTaskUnderTest.systemEnvironment = new Properties();
-
-        RicConfig changedRicConfig = getRicConfig(RIC_1_NAME);
-        rics.put(new Ric(changedRicConfig));
-        RicConfig removedRicConfig = getRicConfig("removed");
-        Ric removedRic = new Ric(removedRicConfig);
-        rics.put(removedRic);
-        appConfig.setConfiguration(configParserResult(changedRicConfig, removedRicConfig));
-
-        Policy policy = getPolicy(removedRic);
-        policies.put(policy);
-
-        EnvProperties props = properties();
-        doReturn(Mono.just(props)).when(refreshTaskUnderTest).getEnvironment(any());
-        doReturn(Mono.just(cbsClient)).when(refreshTaskUnderTest).createCbsClient(props);
-
-        JsonObject configAsJson = getCorrectJson().get();
-        String newBaseUrl = "newBaseUrl";
-        modifyTheRicConfiguration(configAsJson, newBaseUrl);
-        when(cbsClient.get(any())).thenReturn(Mono.just(configAsJson));
-
-        StepVerifier //
-                .create(refreshTaskUnderTest.createRefreshTask()) //
-                .expectSubscription() //
-                .expectNextCount(3) // CHANGED REMOVED ADDED
-                .thenCancel() //
-                .verify();
-
-        assertThat(appConfig.getRicConfigs()).hasSize(2);
-        assertThat(appConfig.getRic(RIC_1_NAME).baseUrl()).isEqualTo(newBaseUrl);
-        String ric2Name = "ric2";
-        assertThat(appConfig.getRic(ric2Name)).isNotNull();
-
-        // assertThat(rics.size()).isEqualTo(2);
-        assertThat(rics.get(RIC_1_NAME).getConfig().baseUrl()).isEqualTo(newBaseUrl);
-        assertThat(rics.get(ric2Name)).isNotNull();
-
-        assertThat(policies.size()).isZero();
-    }
-
-    @Test
-    void whenPeriodicConfigRefreshInvalidJson_thenErrorIsLogged() throws Exception {
-        Rics rics = new Rics();
-        Policies policies = new Policies(appConfig);
-        refreshTaskUnderTest = this.createTestObject(CONFIG_FILE_DOES_NOT_EXIST, rics, policies, false);
-        refreshTaskUnderTest.systemEnvironment = new Properties();
-
-        appConfig.setConfiguration(configParserResult());
-
-        EnvProperties props = properties();
-        doReturn(Mono.just(props)).when(refreshTaskUnderTest).getEnvironment(any());
-        doReturn(Mono.just(cbsClient)).when(refreshTaskUnderTest).createCbsClient(props);
-
-        JsonObject emptyJsonObject = new JsonObject();
-        when(cbsClient.get(any())).thenReturn(Mono.just(emptyJsonObject));
-
-        final ListAppender<ILoggingEvent> logAppender = LoggingUtils.getLogListAppender(RefreshConfigTask.class, ERROR);
-
-        StepVerifier //
-                .create(refreshTaskUnderTest.createRefreshTask()) //
-                .expectSubscription() //
-                .expectNoEvent(Duration.ofMillis(1000)) //
-                .thenCancel() //
-                .verify();
-
-        await().until(() -> logAppender.list.size() > 0);
-        assertThat(logAppender.list.get(0).getFormattedMessage()).startsWith(
-                "Could not parse configuration org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException: ");
-    }
-
-    private RicConfig getRicConfig(String name) {
-        RicConfig ricConfig = ImmutableRicConfig.builder() //
-                .ricId(name) //
-                .baseUrl("url") //
-                .managedElementIds(Collections.emptyList()) //
-                .controllerName("controllerName") //
-                .build();
-        return ricConfig;
-    }
-
-    private Policy getPolicy(Ric ric) {
-        PolicyType type = PolicyType.builder() //
-                .id("type") //
-                .schema("{}") //
-                .build();
-        Policy policy = Policy.builder() //
-                .id("id") //
-                .type(type) //
-                .lastModified(Instant.now()) //
-                .ric(ric) //
-                .json("{}") //
-                .ownerServiceId("ownerServiceId") //
-                .isTransient(false) //
-                .statusNotificationUri("/policy_status?id=XXX") //
-                .build();
-        return policy;
-    }
-
     ConfigParserResult configParserResult(RicConfig... rics) {
         return ImmutableConfigParserResult.builder() //
                 .ricConfigs(Arrays.asList(rics)) //
@@ -309,12 +150,6 @@ class RefreshConfigTaskTest {
                 .dmaapProducerTopicUrl("") //
                 .controllerConfigs(new HashMap<>()) //
                 .build();
-    }
-
-    private void modifyTheRicConfiguration(JsonObject configAsJson, String newBaseUrl) {
-        ((JsonObject) configAsJson.getAsJsonObject("config") //
-                .getAsJsonArray("ric").get(0)) //
-                        .addProperty("baseUrl", newBaseUrl);
     }
 
     private static Optional<JsonObject> getCorrectJson() throws IOException {
