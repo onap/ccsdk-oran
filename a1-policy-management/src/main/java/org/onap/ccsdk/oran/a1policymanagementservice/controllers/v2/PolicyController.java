@@ -141,7 +141,8 @@ public class PolicyController {
             @Parameter(name = Consts.COMPATIBLE_WITH_VERSION_PARAM, required = false, //
                     description = "Select types that are compatible with the given version. This parameter is only applicable in conjunction with "
                             + Consts.TYPE_NAME_PARAM
-                            + ". As an example version 1.9.1 is compatible with 1.0.0 but not the other way around.") //
+                            + ". As an example version 1.9.1 is compatible with 1.0.0 but not the other way around."
+                            + " Matching types will be returned sorted in ascending order.") //
             @RequestParam(name = Consts.COMPATIBLE_WITH_VERSION_PARAM, required = false) String compatibleWithVersion
 
     ) throws ServiceException {

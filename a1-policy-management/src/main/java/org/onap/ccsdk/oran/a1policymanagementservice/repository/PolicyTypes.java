@@ -33,6 +33,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -89,7 +90,9 @@ public class PolicyTypes {
      * @param types the types to select from
      * @param typeName select types with given type name
      * @param compatibleWithVersion select types that are compatible with given
-     *        version string (major.minor.patch)
+     *        version string (major.minor.patch).
+     *        Matching types will be sorted in ascending
+     *        order.
      * @return the types that matches given criterias
      * @throws ServiceException if there are errors in the given input
      */
@@ -174,8 +177,7 @@ public class PolicyTypes {
 
     private static boolean isTypeCompatibleWithVersion(PolicyType type, PolicyType.Version version) {
         try {
-            PolicyType.TypeId typeId = type.getTypeId();
-            PolicyType.Version typeVersion = PolicyType.Version.ofString(typeId.getVersion());
+            PolicyType.Version typeVersion = type.getVersion();
             return (typeVersion.major == version.major && typeVersion.minor >= version.minor);
         } catch (Exception e) {
             logger.warn("Ignoring type with syntactically incorrect type ID: {}", type.getId());
@@ -185,13 +187,14 @@ public class PolicyTypes {
 
     private static Collection<PolicyType> filterCompatibleWithVersion(Collection<PolicyType> types, String versionStr)
             throws ServiceException {
-        Collection<PolicyType> result = new ArrayList<>();
+        List<PolicyType> result = new ArrayList<>();
         PolicyType.Version otherVersion = PolicyType.Version.ofString(versionStr);
         for (PolicyType type : types) {
             if (isTypeCompatibleWithVersion(type, otherVersion)) {
                 result.add(type);
             }
         }
+        result.sort((left, right) -> left.getVersion().compareTo(right.getVersion()));
         return result;
     }
 
