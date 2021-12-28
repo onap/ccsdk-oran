@@ -304,7 +304,8 @@ paths:
         in: query
         description: Select types that are compatible with the given version. This
           parameter is only applicable in conjunction with type_name. As an example
-          version 1.9.1 is compatible with 1.0.0 but not the other way around.
+          version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching
+          types will be returned scorted in ascending order.
         required: false
         style: form
         explode: true
