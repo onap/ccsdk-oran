@@ -62,6 +62,18 @@ public class PolicyType {
                 throw new ServiceException("Syntax error in " + version, HttpStatus.BAD_REQUEST);
             }
         }
+
+        public int compareTo(Version other) {
+            if (major != other.major)
+                return major - other.major;
+            if (minor != other.minor)
+                return minor - other.minor;
+            return patch - other.patch;
+        }
+
+        public boolean isCompatibleWith(Version other) {
+            return (major == other.major && minor >= other.minor);
+        }
     }
 
     @Getter
@@ -96,6 +108,14 @@ public class PolicyType {
 
     public TypeId getTypeId() {
         return TypeId.ofString(getId());
+    }
+
+    public Version getVersion() {
+        try {
+            return Version.ofString(getTypeId().getVersion());
+        } catch (ServiceException e) {
+            return new Version(0, 0, 0);
+        }
     }
 
 }
