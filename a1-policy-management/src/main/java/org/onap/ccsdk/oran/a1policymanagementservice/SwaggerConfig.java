@@ -42,10 +42,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusContro
 @OpenAPIDefinition( //
         tags = { //
                 @Tag(//
-                        name = org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.Consts.V1_API_NAME, //
-                        description = org.onap.ccsdk.oran.a1policymanagementservice.controllers.v1.Consts.V1_API_DESCRIPTION //
-                ), //
-                @Tag(//
                         name = ConfigurationController.API_NAME, //
                         description = ConfigurationController.API_DESCRIPTION //
                 ), //
@@ -74,7 +70,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusContro
         info = @Info(title = SwaggerConfig.API_TITLE, //
                 version = SwaggerConfig.VERSION, //
                 description = SwaggerConfig.DESCRIPTION, //
-                license = @License(name = "Copyright (C) 2020 Nordix Foundation. Licensed under the Apache License.", //
+                license = @License(
+                        name = "Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.", //
                         url = "http://www.apache.org/licenses/LICENSE-2.0")) //
 )
 public class SwaggerConfig {

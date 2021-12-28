@@ -820,6 +820,16 @@ class ApplicationTest {
     }
 
     @Test
+    void testGetServiceStatus() throws Exception {
+        String url = "/status";
+        String rsp = restClient().get(url).block();
+        assertThat(rsp).contains("hunky dory");
+
+        rsp = restClient(baseUrl(), false).get(url).block(); // V1 status is used by a readinessProbe
+        assertThat(rsp).isEqualTo("hunky dory");
+    }
+
+    @Test
     void testServiceNotification() throws ServiceException {
         putService("junkService");
         Service junkService = this.services.get("junkService");
