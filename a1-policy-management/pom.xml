@@ -41,7 +41,7 @@
         <json.version>20200518</json.version>
         <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
         <!-- Version must be higher than version 2.19.1 that is defined in the parent pom for JUnit 5 tests to be run. Do not remove! -->
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.4</version>
+            <version>1.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
