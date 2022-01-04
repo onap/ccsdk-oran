@@ -20,14 +20,20 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
+import java.lang.invoke.MethodHandles;
+
 import lombok.Builder;
 import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 @Builder
 public class PolicyType {
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     @Getter
     private String id;
     @Getter
@@ -114,6 +120,7 @@ public class PolicyType {
         try {
             return Version.ofString(getTypeId().getVersion());
         } catch (ServiceException e) {
+            logger.warn("Not possible to get version from policy type ID {}, {}", getId(), e.getMessage());
             return new Version(0, 0, 0);
         }
     }
