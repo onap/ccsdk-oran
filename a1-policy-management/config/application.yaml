@@ -26,6 +26,7 @@ spring:
     allow-bean-definition-overriding: true
   aop:
     auto: false
+spring.mvc.pathmatch.matching-strategy: ant_path_matcher    
 management:
   endpoints:
     web:
