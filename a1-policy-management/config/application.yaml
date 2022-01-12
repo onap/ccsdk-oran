@@ -57,8 +57,7 @@ server:
       key-password: policy_agent
       key-alias: policy_agent
 app:
-  # Location of the component configuration file. The file will only be used if the Consul database is not used;
-  # configuration from the Consul will override the file.
+  # Location of the component configuration file.
   filepath: /opt/app/policy-agent/data/application_configuration.json
   webclient:
     # Configuration of the trust store used for the HTTP client (outgoing requests)
