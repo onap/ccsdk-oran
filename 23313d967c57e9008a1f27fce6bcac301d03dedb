@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44aaef42_823b2b31",
+        "filename": "a1-policy-management/api/pms-api.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-01-12T08:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78be5798_b2a40361",
+      "range": {
+        "startLine": 476,
+        "startChar": 83,
+        "endLine": 476,
+        "endChar": 88
+      },
+      "revId": "23313d967c57e9008a1f27fce6bcac301d03dedb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "716c8ce3_11aeeb43",
         "filename": "a1-policy-management/api/pms-api.json",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "23313d967c57e9008a1f27fce6bcac301d03dedb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32ff472c_e868fc16",
+        "filename": "a1-policy-management/api/pms-api.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-01-12T08:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "716c8ce3_11aeeb43",
+      "range": {
+        "startLine": 496,
+        "startChar": 69,
+        "endLine": 496,
+        "endChar": 75
+      },
+      "revId": "23313d967c57e9008a1f27fce6bcac301d03dedb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
