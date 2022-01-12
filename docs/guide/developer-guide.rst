@@ -42,15 +42,7 @@ Dependencies
 This project uses various frameworks which are managed with Maven
 dependency management tool (see *pom.xml* file at root level) :
 
-- Swagger annotations
-- `Spring Framework <https://github.com/spring-projects/spring-boot>`_
-- `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for API's built with Spring
-- `Immutable <https://immutables.github.io/>`_ to generate simple, safe and consistent value objects
-- `JSON in Java <https://github.com/stleary/JSON-java>`_ to parse JSON documents into Java objects
-- `Apache Commons Net <https://github.com/apache/commons-net>`_ for network utilities and protocol implementations
-- `DCAE SDK <https://github.com/onap/dcaegen2-services-sdk>`_ to get configuration from CBS
-- `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
-- `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
+To get a complete list of all dependencies, use command "mvn dependency:tree".
 
 Configuration
 -------------
@@ -83,7 +75,7 @@ For details about the parameters in this file, see documentation in the file.
 Dynamic configuration
 ---------------------
 
-The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container) or from a CBS/Consul database (Cloudify). The configuration is re-read and refreshed at regular intervals. This file based configuration can be updated or read via the REST API, See :ref:`pms_api`.
+The component has configuration that can be updated in runtime. This configuration is loaded from a file (accessible from the container). The configuration is re-read and refreshed at regular intervals. This file based configuration can be updated or read via the REST API, See :ref:`pms_api`.
 
 The configuration includes:
 
@@ -98,19 +90,6 @@ The configuration includes:
 
 For details about the syntax of the file, there is an example in source code repository */config/application_configuration.json*. This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*.
 
-Using CBS/Consul database for dynamic configuration
----------------------------------------------------
-
-The access of CBS is setup by means of environment variables. There is currently no support for setting these at on boarding.
-
-The following variables are required by the CBS:
-
- * CONSUL_HOST
- * CONSUL_PORT
- * CONFIG_BINDING_SERVICE
- * SERVICE_NAME
-
-The CBS/Consul overrides the configuration file. So when CBS/Consul is used, the configuration file is ignored. 
 
 Configuration of certs
 ----------------------
