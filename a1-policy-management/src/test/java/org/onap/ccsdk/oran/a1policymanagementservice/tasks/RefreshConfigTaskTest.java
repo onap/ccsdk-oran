@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -114,7 +115,7 @@ class RefreshConfigTaskTest {
                 .verify();
 
         // Then
-        verify(refreshTaskUnderTest).loadConfigurationFromFile();
+        verify(refreshTaskUnderTest, atLeastOnce()).loadConfigurationFromFile();
 
         verify(refreshTaskUnderTest, times(2)).addRic(any(Ric.class));
 
@@ -153,7 +154,8 @@ class RefreshConfigTaskTest {
     }
 
     private static Optional<JsonObject> getCorrectJson() throws IOException {
-        URL url = ApplicationConfigParser.class.getClassLoader().getResource("test_application_configuration.json");
+        URL url = ApplicationConfigParser.class.getClassLoader()
+                .getResource("test_application_configuration.json");
         String string = Resources.toString(url, Charsets.UTF_8);
         return Optional.of(JsonParser.parseString(string).getAsJsonObject());
     }
