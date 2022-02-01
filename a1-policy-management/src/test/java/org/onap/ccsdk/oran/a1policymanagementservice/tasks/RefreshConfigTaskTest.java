@@ -154,8 +154,7 @@ class RefreshConfigTaskTest {
     }
 
     private static Optional<JsonObject> getCorrectJson() throws IOException {
-        URL url = ApplicationConfigParser.class.getClassLoader()
-                .getResource("test_application_configuration.json");
+        URL url = ApplicationConfigParser.class.getClassLoader().getResource("test_application_configuration.json");
         String string = Resources.toString(url, Charsets.UTF_8);
         return Optional.of(JsonParser.parseString(string).getAsJsonObject());
     }

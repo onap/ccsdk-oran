@@ -63,7 +63,7 @@ public class AsyncRestClient {
 
     public Mono<ResponseEntity<String>> postForEntity(String uri, @Nullable String body) {
         Object traceTag = createTraceTag();
-        logger.debug("{} POST uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} POST uri = '{}{}'", traceTag, baseUrl, uri);
         logger.trace("{} POST body: {}", traceTag, body);
         Mono<String> bodyProducer = body != null ? Mono.just(body) : Mono.empty();
 
@@ -82,7 +82,7 @@ public class AsyncRestClient {
 
     public Mono<String> postWithAuthHeader(String uri, String body, String username, String password) {
         Object traceTag = createTraceTag();
-        logger.debug("{} POST (auth) uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} POST (auth) uri = '{}{}'", traceTag, baseUrl, uri);
         logger.trace("{} POST body: {}", traceTag, body);
 
         RequestHeadersSpec<?> request = getWebClient() //
@@ -97,7 +97,7 @@ public class AsyncRestClient {
 
     public Mono<ResponseEntity<String>> putForEntity(String uri, String body) {
         Object traceTag = createTraceTag();
-        logger.debug("{} PUT uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} PUT uri = '{}{}'", traceTag, baseUrl, uri);
         logger.trace("{} PUT body: {}", traceTag, body);
 
         RequestHeadersSpec<?> request = getWebClient() //
@@ -110,7 +110,7 @@ public class AsyncRestClient {
 
     public Mono<ResponseEntity<String>> putForEntity(String uri) {
         Object traceTag = createTraceTag();
-        logger.debug("{} PUT uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} PUT uri = '{}{}'", traceTag, baseUrl, uri);
         logger.trace("{} PUT body: <empty>", traceTag);
         RequestHeadersSpec<?> request = getWebClient() //
                 .put() //
@@ -125,7 +125,7 @@ public class AsyncRestClient {
 
     public Mono<ResponseEntity<String>> getForEntity(String uri) {
         Object traceTag = createTraceTag();
-        logger.debug("{} GET uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} GET uri = '{}{}'", traceTag, baseUrl, uri);
         RequestHeadersSpec<?> request = getWebClient() //
                 .get() //
                 .uri(uri);
@@ -139,7 +139,7 @@ public class AsyncRestClient {
 
     public Mono<ResponseEntity<String>> deleteForEntity(String uri) {
         Object traceTag = createTraceTag();
-        logger.debug("{} DELETE uri = '{}{}''", traceTag, baseUrl, uri);
+        logger.debug("{} DELETE uri = '{}{}'", traceTag, baseUrl, uri);
         RequestHeadersSpec<?> request = getWebClient() //
                 .delete() //
                 .uri(uri);
