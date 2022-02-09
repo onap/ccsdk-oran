@@ -57,6 +57,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -178,8 +179,8 @@ class ApplicationTest {
     @AfterEach
     void verifyNoRicLocks() {
         for (Ric ric : this.rics.getRics()) {
-            ric.getLock().lockBlocking(LockType.EXCLUSIVE);
-            ric.getLock().unlockBlocking();
+            Lock.Grant grant = ric.getLock().lockBlocking(LockType.EXCLUSIVE, "");
+            grant.unlockBlocking();
             assertThat(ric.getLock().getLockCounter()).isZero();
             assertThat(ric.getState()).isEqualTo(Ric.RicState.AVAILABLE);
         }
@@ -276,7 +277,7 @@ class ApplicationTest {
 
         // Check that a service callback for the AVAILABLE RIC is invoked
         final RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo()).hasSize(1));
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo(RIC);
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
@@ -305,7 +306,7 @@ class ApplicationTest {
         supervision.checkAllRics();
         waitForRicState(RIC, RicState.AVAILABLE);
 
-        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo()).hasSize(1));
     }
 
     @Test
@@ -842,7 +843,7 @@ class ApplicationTest {
         waitForRicState("ric1", RicState.AVAILABLE);
 
         final RappSimulatorController.TestResults receivedCallbacks = rAppSimulator.getTestResults();
-        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo().size()).isEqualTo(1));
+        await().untilAsserted(() -> assertThat(receivedCallbacks.getReceivedInfo()).hasSize(1));
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo("ric1");
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);

@@ -92,13 +92,12 @@ public class ServiceSupervision {
     @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
     private Flux<Policy> deletePolicy(Policy policy) {
         Lock lock = policy.getRic().getLock();
-        return lock.lock(LockType.SHARED) //
+        return lock.lock(LockType.SHARED, "ServiceSupervision") //
                 .doOnNext(notUsed -> policies.remove(policy)) //
                 .flatMap(notUsed -> deletePolicyInRic(policy))
                 .doOnNext(notUsed -> logger.debug("Policy deleted due to service inactivity: {}, service: {}",
                         policy.getId(), policy.getOwnerServiceId())) //
-                .doOnNext(notUsed -> lock.unlockBlocking()) //
-                .doOnError(throwable -> lock.unlockBlocking()) //
+                .doFinally(notUsed -> lock.unlockBlocking()) //
                 .doOnError(throwable -> logger.debug("Failed to delete inactive policy: {}, reason: {}", policy.getId(),
                         throwable.getMessage())) //
                 .flatMapMany(notUsed -> Flux.just(policy)) //

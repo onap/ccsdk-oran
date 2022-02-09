@@ -435,7 +435,7 @@ paths:
       - Service Registry and Supervision
       summary: Heartbeat indicates that the service is running
       description: A registerred service must call this in regular intervals to indicate
-        that it is in operation. Absence of this call will lead to that teh service
+        that it is in operation. Absence of this call will lead to that the service
         will be deregisterred and all its policies are removed.
       operationId: keepAliveService
       parameters:

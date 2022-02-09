@@ -43,6 +43,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -195,15 +196,17 @@ public class PolicyController {
             @PathVariable(Consts.POLICY_ID_PARAM) String policyId) throws EntityNotFoundException {
         Policy policy = policies.getPolicy(policyId);
         keepServiceAlive(policy.getOwnerServiceId());
-        Ric ric = policy.getRic();
 
-        return ric.getLock().lock(LockType.SHARED) //
-                .flatMap(notUsed -> assertRicStateIdle(ric)) //
+        return policy.getRic().getLock().lock(LockType.SHARED, "deletePolicy") //
+                .flatMap(grant -> deletePolicy(grant, policy));
+    }
+
+    Mono<ResponseEntity<Object>> deletePolicy(Lock.Grant grant, Policy policy) {
+        return assertRicStateIdle(policy.getRic()) //
                 .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.getRic())) //
                 .doOnNext(notUsed -> policies.remove(policy)) //
+                .doFinally(x -> grant.unlockBlocking()) //
                 .flatMap(client -> client.deletePolicy(policy)) //
-                .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
-                .doOnError(notUsed -> ric.getLock().unlockBlocking()) //
                 .map(notUsed -> new ResponseEntity<>(HttpStatus.NO_CONTENT)) //
                 .onErrorResume(this::handleException);
     }
@@ -247,19 +250,24 @@ public class PolicyController {
                 .statusNotificationUri(policyInfo.statusNotificationUri == null ? "" : policyInfo.statusNotificationUri) //
                 .build();
 
-        final boolean isCreate = this.policies.get(policy.getId()) == null;
+        return ric.getLock().lock(LockType.SHARED, "putPolicy") //
+                .flatMap(grant -> putPolicy(grant, policy));
+    }
 
-        return ric.getLock().lock(LockType.SHARED) //
-                .flatMap(notUsed -> assertRicStateIdle(ric)) //
-                .flatMap(notUsed -> checkSupportedType(ric, type)) //
+    private Mono<ResponseEntity<Object>> putPolicy(Lock.Grant grant, Policy policy) {
+        final boolean isCreate = this.policies.get(policy.getId()) == null;
+        final Ric ric = policy.getRic();
+
+        return assertRicStateIdle(ric) //
+                .flatMap(notUsed -> checkSupportedType(ric, policy.getType())) //
                 .flatMap(notUsed -> validateModifiedPolicy(policy)) //
                 .flatMap(notUsed -> a1ClientFactory.createA1Client(ric)) //
                 .flatMap(client -> client.putPolicy(policy)) //
                 .doOnNext(notUsed -> policies.put(policy)) //
-                .doOnNext(notUsed -> ric.getLock().unlockBlocking()) //
-                .doOnError(trowable -> ric.getLock().unlockBlocking()) //
+                .doFinally(x -> grant.unlockBlocking()) //
                 .flatMap(notUsed -> Mono.just(new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK))) //
                 .onErrorResume(this::handleException);
+
     }
 
     private Mono<ResponseEntity<Object>> handleException(Throwable throwable) {

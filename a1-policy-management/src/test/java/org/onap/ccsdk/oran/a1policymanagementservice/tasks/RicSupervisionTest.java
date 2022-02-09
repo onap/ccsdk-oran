@@ -45,6 +45,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -121,8 +122,8 @@ class RicSupervisionTest {
     @AfterEach
     void verifyNoRicLocks() {
         for (Ric ric : this.rics.getRics()) {
-            ric.getLock().lockBlocking(LockType.EXCLUSIVE);
-            ric.getLock().unlockBlocking();
+            Lock.Grant grant = ric.getLock().lockBlocking(LockType.EXCLUSIVE, "");
+            grant.unlockBlocking();
             assertThat(ric.getLock().getLockCounter()).isZero();
         }
     }

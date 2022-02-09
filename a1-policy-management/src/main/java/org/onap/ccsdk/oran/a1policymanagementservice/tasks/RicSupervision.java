@@ -113,7 +113,7 @@ public class RicSupervision {
 
     private Mono<RicData> checkOneRic(RicData ricData) {
         return checkRicState(ricData) //
-                .flatMap(x -> ricData.ric.getLock().lock(LockType.EXCLUSIVE)) //
+                .flatMap(x -> ricData.ric.getLock().lock(LockType.EXCLUSIVE, "checkOneRic")) //
                 .flatMap(notUsed -> setRicState(ricData)) //
                 .flatMap(x -> checkRicPolicies(ricData)) //
                 .flatMap(x -> checkRicPolicyTypes(ricData)) //

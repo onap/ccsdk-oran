@@ -85,7 +85,7 @@ public class RicSynchronizationTask {
             return;
         }
 
-        ric.getLock().lock(LockType.EXCLUSIVE) //
+        ric.getLock().lock(LockType.EXCLUSIVE, "RicSynchronizationTask") //
                 .flatMap(notUsed -> synchronizeRic(ric)) //
                 .subscribe(new BaseSubscriber<Object>() {
 
