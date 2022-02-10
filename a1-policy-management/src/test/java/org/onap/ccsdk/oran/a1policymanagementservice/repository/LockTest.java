@@ -65,7 +65,7 @@ class LockTest {
 
     @Test
     void testLock() throws IOException, ServiceException {
-        Lock lock = new Lock();
+        Lock lock = new Lock("l1");
         Lock.Grant grant = lock.lockBlocking(LockType.SHARED, "test");
         grant.unlockBlocking();
         assertThat(grant.getLabel()).isEqualTo("test");
@@ -81,7 +81,7 @@ class LockTest {
 
     @Test
     void testReactiveLock() {
-        Lock lock = new Lock();
+        Lock lock = new Lock("l1");
 
         Mono<?> l0 = lock.lock(LockType.EXCLUSIVE, "1").doOnNext(grant -> asynchUnlock(grant, lock));
         Mono<?> l1 = lock.lock(LockType.SHARED, "2").doOnNext(grant -> asynchUnlock(grant, lock));

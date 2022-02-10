@@ -45,6 +45,7 @@ public class Lock {
     private int lockCounter = 0;
     final Queue<LockRequest> lockRequestQueue = new LinkedList<>();
     private static AsynchCallbackExecutor callbackProcessor = new AsynchCallbackExecutor();
+    private final String label;
 
     public enum LockType {
         EXCLUSIVE, SHARED
@@ -63,6 +64,7 @@ public class Lock {
         Grant(Lock lock, String label) {
             this.lock = lock;
             this.label = label;
+            logger.trace("Lock granted {}:{}", lock.label, this.label);
         }
 
         /**
@@ -71,24 +73,39 @@ public class Lock {
          * @return the lock
          */
         public Mono<Lock> unlock() {
-            check();
-            return this.lock.unlock();
+            if (!isUnlocked()) {
+                logger.trace("Unlocking lock {}:{}", lock.label, this.label);
+                return this.lock.unlock();
+            }
+            return Mono.just(this.lock);
         }
 
         /**
          * Synchronuous unlocking
          */
         public void unlockBlocking() {
-            check();
-            this.lock.unlockBlocking();
+            if (!isUnlocked()) {
+                logger.trace("Unlocking lock {}:{}", lock.label, this.label);
+                this.lock.unlockBlocking();
+            }
         }
 
-        private void check() {
+        private boolean isUnlocked() {
             if (unlocked) {
-                logger.error("Lock already unlocked");
+                logger.debug("Lock {}:{} already unlocked", lock.label, this.label);
+                return true;
             }
             unlocked = true;
+            return false;
         }
+    }
+
+    /**
+     *
+     * @param label a label attached to the lock. For troubleshooting.
+     */
+    public Lock(String label) {
+        this.label = label;
     }
 
     /**
@@ -140,7 +157,7 @@ public class Lock {
 
     @Override
     public synchronized String toString() {
-        return "Lock cnt: " + this.lockCounter + " exclusive: " + this.isExclusive + " queued: "
+        return "Lock " + this.label + ", cnt: " + this.lockCounter + ", exclusive: " + this.isExclusive + ", queued: "
                 + this.lockRequestQueue.size();
     }
 
@@ -164,6 +181,7 @@ public class Lock {
     }
 
     private synchronized void addToQueue(MonoSink<Grant> callback, LockType lockType, String label) {
+        logger.trace("Lock request queued {}:{}", label, this.label);
         lockRequestQueue.add(new LockRequest(callback, lockType, this, label));
     }
 
@@ -172,7 +190,7 @@ public class Lock {
         try {
             this.wait();
         } catch (InterruptedException e) {
-            logger.warn("waitForUnlock interrupted", e);
+            logger.warn("waitForUnlock interrupted " + this.label, e);
             Thread.currentThread().interrupt();
         }
     }

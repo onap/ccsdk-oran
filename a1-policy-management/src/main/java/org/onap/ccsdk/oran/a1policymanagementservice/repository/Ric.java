@@ -45,7 +45,7 @@ public class Ric {
     private A1ProtocolType protocolVersion = A1ProtocolType.UNKNOWN;
 
     @Getter
-    private final Lock lock = new Lock();
+    private final Lock lock;
 
     /**
      * Creates the Ric. Initial state is {@link RicState.UNDEFINED}.
@@ -54,6 +54,7 @@ public class Ric {
      */
     public Ric(RicConfig ricConfig) {
         this.ricConfig = ricConfig;
+        this.lock = new Lock(ricConfig.ricId());
     }
 
     public String id() {
