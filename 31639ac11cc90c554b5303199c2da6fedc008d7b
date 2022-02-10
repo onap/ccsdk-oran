@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e85c076_2aecac72",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/repository/Lock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1443
+      },
+      "writtenOn": "2022-02-10T12:02:47Z",
+      "side": 1,
+      "message": "Method description can also be added for javadoc",
+      "revId": "31639ac11cc90c554b5303199c2da6fedc008d7b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
