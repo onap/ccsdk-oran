@@ -49,7 +49,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("ConfigurationControllerV2")
-@Tag(name = ConfigurationController.API_NAME)
+@Tag( //
+        name = ConfigurationController.API_NAME, //
+        description = ConfigurationController.API_DESCRIPTION //
+)
 public class ConfigurationController {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationController.class);
 

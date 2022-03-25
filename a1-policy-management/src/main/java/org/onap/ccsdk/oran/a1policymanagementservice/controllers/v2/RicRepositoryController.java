@@ -48,7 +48,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("RicRepositoryControllerV2")
-@Tag(name = RicRepositoryController.API_NAME)
+@Tag( //
+        name = RicRepositoryController.API_NAME, //
+        description = RicRepositoryController.API_DESCRIPTION //
+)
 public class RicRepositoryController {
 
     public static final String API_NAME = "NearRT-RIC Repository";
@@ -70,7 +73,7 @@ public class RicRepositoryController {
 
     /**
      * Example: http://localhost:8081/v2/rics/ric?managed_element_id=kista_1
-     * 
+     *
      * @throws EntityNotFoundException
      */
     @GetMapping(path = Consts.V2_API_ROOT + "/rics/ric", produces = MediaType.APPLICATION_JSON_VALUE)

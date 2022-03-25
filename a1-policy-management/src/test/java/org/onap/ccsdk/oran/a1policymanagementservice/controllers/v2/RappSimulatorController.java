@@ -47,7 +47,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("RappCallbacksController")
-@Tag(name = Consts.V2_API_SERVICE_CALLBACKS_NAME)
+@Tag( //
+        name = Consts.V2_API_SERVICE_CALLBACKS_NAME, //
+        description = Consts.V2_API_SERVICE_CALLBACKS_DESCRIPTION //
+)
 public class RappSimulatorController {
 
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
