@@ -36,7 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController("StatusControllerV2")
-@Tag(name = StatusController.API_NAME)
+@Tag( //
+        name = StatusController.API_NAME, //
+        description = StatusController.API_DESCRIPTION //
+)
 public class StatusController {
 
     public static final String API_NAME = "Health Check";

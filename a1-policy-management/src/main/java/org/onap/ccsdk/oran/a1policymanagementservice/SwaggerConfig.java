@@ -23,7 +23,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ConfigurationController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
@@ -40,33 +39,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusContro
  *
  */
 @OpenAPIDefinition( //
-        tags = { //
-                @Tag(//
-                        name = ConfigurationController.API_NAME, //
-                        description = ConfigurationController.API_DESCRIPTION //
-                ), //
-                @Tag(//
-                        name = PolicyController.API_NAME, //
-                        description = PolicyController.API_DESCRIPTION //
-                ), //
-                @Tag( //
-                        name = RicRepositoryController.API_NAME, //
-                        description = RicRepositoryController.API_DESCRIPTION //
-                ), //
-                @Tag( //
-                        name = ServiceController.API_NAME, //
-                        description = ServiceController.API_DESCRIPTION //
-
-                ), //
-                @Tag( //
-                        name = StatusController.API_NAME, //
-                        description = StatusController.API_DESCRIPTION //
-                ), //
-                @Tag( //
-                        name = Consts.V2_API_SERVICE_CALLBACKS_NAME, //
-                        description = Consts.V2_API_SERVICE_CALLBACKS_DESCRIPTION //
-                ) //
-        }, //
         info = @Info(title = SwaggerConfig.API_TITLE, //
                 version = SwaggerConfig.VERSION, //
                 description = SwaggerConfig.DESCRIPTION, //

@@ -70,7 +70,10 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 @RestController("PolicyControllerV2")
-@Tag(name = PolicyController.API_NAME)
+@Tag(//
+        name = PolicyController.API_NAME, //
+        description = PolicyController.API_DESCRIPTION //
+)
 public class PolicyController {
 
     public static final String API_NAME = "A1 Policy Management";

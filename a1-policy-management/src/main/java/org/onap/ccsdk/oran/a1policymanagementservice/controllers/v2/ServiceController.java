@@ -56,7 +56,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("ServiceControllerV2")
-@Tag(name = ServiceController.API_NAME)
+@Tag( //
+        name = ServiceController.API_NAME, //
+        description = ServiceController.API_DESCRIPTION //
+
+)
 public class ServiceController {
 
     public static final String API_NAME = "Service Registry and Supervision";
