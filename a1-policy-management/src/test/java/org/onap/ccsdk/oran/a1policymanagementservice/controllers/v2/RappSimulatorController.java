@@ -31,6 +31,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import lombok.Getter;
@@ -44,6 +48,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("RappCallbacksController")
@@ -61,8 +66,12 @@ public class RappSimulatorController {
         @Getter
         private Vector<ServiceCallbackInfo> receivedInfo = new Vector<>();
 
+        public List<Map<String, String>> receivedHeaders =
+                Collections.synchronizedList(new ArrayList<Map<String, String>>());
+
         public void clear() {
             receivedInfo.clear();
+            receivedHeaders.clear();
         }
     }
 
@@ -79,10 +88,18 @@ public class RappSimulatorController {
     )
 
     public ResponseEntity<Object> serviceCallback( //
-            @RequestBody ServiceCallbackInfo body) {
+            @RequestBody ServiceCallbackInfo body, @RequestHeader Map<String, String> headers) {
+        logHeaders(headers);
         logger.info("R-App callback body: {}", gson.toJson(body));
+        this.testResults.receivedHeaders.add(headers);
         this.testResults.receivedInfo.add(body);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void logHeaders(Map<String, String> headers) {
+        logger.debug("Header begin");
+        headers.forEach((key, value) -> logger.debug("  key: {}, value: {}", key, value));
+        logger.debug("Header end");
     }
 
 }

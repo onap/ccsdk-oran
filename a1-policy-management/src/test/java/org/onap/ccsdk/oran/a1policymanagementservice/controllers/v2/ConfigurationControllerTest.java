@@ -34,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
@@ -176,7 +177,7 @@ class ConfigurationControllerTest {
                 .httpProxyConfig(config.httpProxyConfig()) //
                 .build();
 
-        AsyncRestClientFactory f = new AsyncRestClientFactory(config);
+        AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
         return f.createRestClientNoHttpProxy("https://localhost:" + port);
 
     }

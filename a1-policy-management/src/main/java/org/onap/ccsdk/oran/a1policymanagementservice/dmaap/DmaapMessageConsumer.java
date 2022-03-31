@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,11 +110,11 @@ public class DmaapMessageConsumer {
     }
 
     @Autowired
-    public DmaapMessageConsumer(ApplicationConfig applicationConfig) {
+    public DmaapMessageConsumer(ApplicationConfig applicationConfig, SecurityContext securityContext) {
         this.applicationConfig = applicationConfig;
         GsonBuilder gsonBuilder = new GsonBuilder();
         this.gson = gsonBuilder.create();
-        this.restClientFactory = new AsyncRestClientFactory(applicationConfig.getWebClientConfig());
+        this.restClientFactory = new AsyncRestClientFactory(applicationConfig.getWebClientConfig(), securityContext);
     }
 
     /**

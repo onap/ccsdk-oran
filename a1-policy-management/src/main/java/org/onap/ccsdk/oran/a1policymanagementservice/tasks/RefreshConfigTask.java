@@ -31,6 +31,7 @@ import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
@@ -88,7 +89,8 @@ public class RefreshConfigTask {
 
     @Autowired
     public RefreshConfigTask(ConfigurationFile configurationFile, ApplicationConfig appConfig, Rics rics,
-            Policies policies, Services services, PolicyTypes policyTypes, A1ClientFactory a1ClientFactory) {
+            Policies policies, Services services, PolicyTypes policyTypes, A1ClientFactory a1ClientFactory,
+            SecurityContext securityContext) {
         this.configurationFile = configurationFile;
         this.appConfig = appConfig;
         this.rics = rics;
@@ -96,7 +98,7 @@ public class RefreshConfigTask {
         this.services = services;
         this.policyTypes = policyTypes;
         this.a1ClientFactory = a1ClientFactory;
-        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig());
+        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);
     }
 
     public void start() {
@@ -171,7 +173,7 @@ public class RefreshConfigTask {
     /**
      * for an added RIC after a restart it is nesessary to get the suypported policy
      * types from the RIC unless a full synchronization is wanted.
-     * 
+     *
      * @param ric the ric to get supprted types from
      * @return the same ric
      */

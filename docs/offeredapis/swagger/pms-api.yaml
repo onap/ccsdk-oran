@@ -32,12 +32,12 @@ tags:
 - name: NearRT-RIC Repository
 - name: Callbacks
 - name: Health Check
-- name: Management of configuration
 - name: Actuator
   description: Monitor and interact
   externalDocs:
     description: Spring Boot Actuator Web API Documentation
     url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
+- name: Management of configuration
 paths:
   /a1-policy/v2/policy-instances:
     get:
@@ -95,6 +95,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/threaddump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'threaddump'
+      operationId: threaddump_2
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/status:
     get:
       tags:
@@ -108,12 +121,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/status_info_v2'
-  /actuator/threaddump:
+  /actuator/loggers:
     get:
       tags:
       - Actuator
-      summary: Actuator web endpoint 'threaddump'
-      operationId: threaddump_4
+      summary: Actuator web endpoint 'loggers'
+      operationId: loggers
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /actuator/health/**:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'health-path'
+      operationId: health-path
       responses:
         200:
           description: OK
@@ -161,32 +187,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
-  /actuator/loggers:
-    get:
-      tags:
-      - Actuator
-      summary: Actuator web endpoint 'loggers'
-      operationId: loggers_2
-      responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-  /actuator/health/**:
-    get:
-      tags:
-      - Actuator
-      summary: Actuator web endpoint 'health-path'
-      operationId: health-path_2
-      responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
   /a1-policy/v2/policy-types:
     get:
       tags:
@@ -305,7 +305,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'metrics-requiredMetricName'
-      operationId: metrics-requiredMetricName_2
+      operationId: metrics-requiredMetricName
       parameters:
       - name: requiredMetricName
         in: path
@@ -376,7 +376,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator root web endpoint
-      operationId: links_1
+      operationId: links
       responses:
         200:
           description: OK
@@ -393,7 +393,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'loggers-name'
-      operationId: loggers-name_4
+      operationId: loggers-name_2
       parameters:
       - name: name
         in: path
@@ -413,7 +413,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'loggers-name'
-      operationId: loggers-name_3
+      operationId: loggers-name
       parameters:
       - name: name
         in: path
@@ -464,7 +464,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'metrics'
-      operationId: metrics_2
+      operationId: metrics
       responses:
         200:
           description: OK
@@ -571,7 +571,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'info'
-      operationId: info_2
+      operationId: info
       responses:
         200:
           description: OK
@@ -624,7 +624,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'logfile'
-      operationId: logfile_2
+      operationId: logfile
       responses:
         200:
           description: OK
@@ -637,7 +637,7 @@ paths:
       tags:
       - Actuator
       summary: Actuator web endpoint 'health'
-      operationId: health_2
+      operationId: health
       responses:
         200:
           description: OK
@@ -790,6 +790,19 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/heapdump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'heapdump'
+      operationId: heapdump
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/policies/{policy_id}/status:
     get:
       tags:
@@ -817,19 +830,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
-  /actuator/heapdump:
-    get:
-      tags:
-      - Actuator
-      summary: Actuator web endpoint 'heapdump'
-      operationId: heapdump_2
-      responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
 components:
   schemas:
     error_information:

@@ -49,6 +49,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate.Type;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
@@ -89,9 +90,10 @@ class RefreshConfigTaskTest {
 
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
             boolean stubConfigFileExists) {
-
-        RefreshConfigTask obj = spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies,
-                new Services(appConfig), new PolicyTypes(appConfig), new A1ClientFactory(appConfig)));
+        SecurityContext secContext = new SecurityContext("");
+        RefreshConfigTask obj =
+                spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies, new Services(appConfig),
+                        new PolicyTypes(appConfig), new A1ClientFactory(appConfig, secContext), secContext));
         if (stubConfigFileExists) {
             when(configurationFileMock.readFile()).thenReturn(Optional.empty());
             doReturn(123L).when(configurationFileMock).getLastModified();

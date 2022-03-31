@@ -43,6 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
@@ -335,6 +336,6 @@ class RicSupervisionTest {
 
     private RicSupervision createRicSupervision() {
         ApplicationConfig config = new ApplicationConfig();
-        return new RicSupervision(rics, policies, a1ClientFactory, types, null, config);
+        return new RicSupervision(rics, policies, a1ClientFactory, types, null, config, new SecurityContext(""));
     }
 }

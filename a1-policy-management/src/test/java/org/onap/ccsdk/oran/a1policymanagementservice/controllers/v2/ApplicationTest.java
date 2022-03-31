@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2022 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -49,6 +50,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
@@ -100,6 +102,7 @@ import reactor.util.annotation.Nullable;
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./src/test/resources/keystore.jks", //
         "app.webclient.trust-store=./src/test/resources/truststore.jks", //
+        "app.webclient.trust-store-used=true", //
         "app.vardata-directory=./target/testdata", //
         "app.filepath=" //
 })
@@ -135,6 +138,9 @@ class ApplicationTest {
 
     @Autowired
     RefreshConfigTask refreshConfigTask;
+
+    @Autowired
+    SecurityContext securityContext;
 
     private static Gson gson = new GsonBuilder().create();
 
@@ -174,6 +180,7 @@ class ApplicationTest {
         a1ClientFactory.reset();
         this.rAppSimulator.getTestResults().clear();
         this.a1ClientFactory.setPolicyTypes(policyTypes); // Default same types in RIC and in this app
+        this.securityContext.setAuthTokenFilePath(null);
     }
 
     @AfterEach
@@ -831,7 +838,13 @@ class ApplicationTest {
     }
 
     @Test
-    void testServiceNotification() throws ServiceException {
+    void testServiceNotification() throws Exception {
+
+        final String AUTH_TOKEN = "testToken";
+        Path authFile = Files.createTempFile("pmsTestAuthToken", ".txt");
+        Files.write(authFile, AUTH_TOKEN.getBytes());
+        this.securityContext.setAuthTokenFilePath(authFile);
+
         putService("junkService");
         Service junkService = this.services.get("junkService");
         junkService.setCallbackUrl("https://junk");
@@ -847,6 +860,11 @@ class ApplicationTest {
         ServiceCallbackInfo callbackInfo = receivedCallbacks.getReceivedInfo().get(0);
         assertThat(callbackInfo.ricId).isEqualTo("ric1");
         assertThat(callbackInfo.eventType).isEqualTo(ServiceCallbackInfo.EventType.AVAILABLE);
+
+        var headers = receivedCallbacks.receivedHeaders.get(0);
+        assertThat(headers).containsEntry("authorization", "Bearer " + AUTH_TOKEN);
+
+        Files.delete(authFile);
     }
 
     private Policy addPolicy(String id, String typeName, String service, String ric) throws ServiceException {
@@ -941,7 +959,7 @@ class ApplicationTest {
                 .httpProxyConfig(config.httpProxyConfig()) //
                 .build();
 
-        AsyncRestClientFactory f = new AsyncRestClientFactory(config);
+        AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
         return f.createRestClientNoHttpProxy(baseUrl);
 
     }

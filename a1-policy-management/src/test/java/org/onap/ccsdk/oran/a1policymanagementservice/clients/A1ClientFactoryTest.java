@@ -79,7 +79,8 @@ class A1ClientFactoryTest {
 
     @BeforeEach
     void createFactoryUnderTest() {
-        factoryUnderTest = spy(new A1ClientFactory(applicationConfigMock));
+        SecurityContext sec = new SecurityContext("");
+        factoryUnderTest = spy(new A1ClientFactory(applicationConfigMock, sec));
         this.ric = new Ric(ricConfig(""));
 
     }
