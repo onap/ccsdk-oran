@@ -25,6 +25,7 @@ import java.util.Collection;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
@@ -87,13 +88,13 @@ public class RicSupervision {
 
     @Autowired
     public RicSupervision(Rics rics, Policies policies, A1ClientFactory a1ClientFactory, PolicyTypes policyTypes,
-            Services services, ApplicationConfig config) {
+            Services services, ApplicationConfig config, SecurityContext securityContext) {
         this.rics = rics;
         this.policies = policies;
         this.a1ClientFactory = a1ClientFactory;
         this.policyTypes = policyTypes;
         this.services = services;
-        this.restClientFactory = new AsyncRestClientFactory(config.getWebClientConfig());
+        this.restClientFactory = new AsyncRestClientFactory(config.getWebClientConfig(), securityContext);
     }
 
     /**

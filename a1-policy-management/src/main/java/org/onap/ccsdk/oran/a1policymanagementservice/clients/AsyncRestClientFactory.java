@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2022 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,14 +50,14 @@ import org.springframework.util.ResourceUtils;
 /**
  * Factory for a generic reactive REST client.
  */
-@SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class AsyncRestClientFactory {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final SslContextFactory sslContextFactory;
     private final HttpProxyConfig httpProxyConfig;
+    private final SecurityContext securityContext;
 
-    public AsyncRestClientFactory(WebClientConfig clientConfig) {
+    public AsyncRestClientFactory(WebClientConfig clientConfig, SecurityContext securityContext) {
         if (clientConfig != null) {
             this.sslContextFactory = new CachingSslContextFactory(clientConfig);
             this.httpProxyConfig = clientConfig.httpProxyConfig();
@@ -66,6 +66,7 @@ public class AsyncRestClientFactory {
             this.sslContextFactory = null;
             this.httpProxyConfig = null;
         }
+        this.securityContext = securityContext;
     }
 
     public AsyncRestClient createRestClientNoHttpProxy(String baseUrl) {
@@ -80,13 +81,13 @@ public class AsyncRestClientFactory {
         if (this.sslContextFactory != null) {
             try {
                 return new AsyncRestClient(baseUrl, this.sslContextFactory.createSslContext(),
-                        useHttpProxy ? httpProxyConfig : null);
+                        useHttpProxy ? httpProxyConfig : null, this.securityContext);
             } catch (Exception e) {
                 String exceptionString = e.toString();
                 logger.error("Could not init SSL context, reason: {}", exceptionString);
             }
         }
-        return new AsyncRestClient(baseUrl, null, httpProxyConfig);
+        return new AsyncRestClient(baseUrl, null, httpProxyConfig, this.securityContext);
     }
 
     private class SslContextFactory {

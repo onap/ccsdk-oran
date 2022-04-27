@@ -84,7 +84,7 @@ class CcsdkA1AdapterClientTest {
 
     @Test
     void createClientWithWrongProtocol_thenErrorIsThrown() {
-        AsyncRestClient asyncRestClient = new AsyncRestClient("", null, null);
+        AsyncRestClient asyncRestClient = new AsyncRestClient("", null, null, new SecurityContext(""));
         assertThrows(IllegalArgumentException.class, () -> {
             new CcsdkA1AdapterClient(A1ProtocolType.STD_V1_1, null, null, asyncRestClient);
         });

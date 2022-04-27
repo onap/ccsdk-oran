@@ -58,7 +58,8 @@ class AsyncRestClientTest {
         InternalLoggerFactory.setDefaultFactory(JdkLoggerFactory.INSTANCE);
         Loggers.useJdkLoggers();
         mockWebServer = new MockWebServer();
-        clientUnderTest = new AsyncRestClient(mockWebServer.url(BASE_URL).toString(), null, null);
+        clientUnderTest =
+                new AsyncRestClient(mockWebServer.url(BASE_URL).toString(), null, null, new SecurityContext(""));
     }
 
     @AfterAll

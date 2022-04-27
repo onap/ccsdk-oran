@@ -44,6 +44,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -121,7 +122,8 @@ class RicSynchronizationTaskTest {
 
     private RicSynchronizationTask createTask() {
         ApplicationConfig config = new ApplicationConfig();
-        AsyncRestClientFactory restClientFactory = new AsyncRestClientFactory(config.getWebClientConfig());
+        AsyncRestClientFactory restClientFactory =
+                new AsyncRestClientFactory(config.getWebClientConfig(), new SecurityContext(""));
         return new RicSynchronizationTask(a1ClientFactoryMock, policyTypes, policies, services, restClientFactory,
                 rics);
     };

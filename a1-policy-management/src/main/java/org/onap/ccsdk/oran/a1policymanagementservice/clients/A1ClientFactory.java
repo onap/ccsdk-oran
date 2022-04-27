@@ -43,9 +43,9 @@ public class A1ClientFactory {
     private final AsyncRestClientFactory restClientFactory;
 
     @Autowired
-    public A1ClientFactory(ApplicationConfig appConfig) {
+    public A1ClientFactory(ApplicationConfig appConfig, SecurityContext securityContext) {
         this.appConfig = appConfig;
-        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig());
+        this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);
     }
 
     /**

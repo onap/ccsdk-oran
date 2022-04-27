@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.catalina.connector.Connector;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
@@ -56,8 +57,9 @@ public class BeanFactory {
     }
 
     @Bean
-    public A1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig applicationConfig) {
-        return new A1ClientFactory(applicationConfig);
+    public A1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig applicationConfig,
+            @Autowired SecurityContext securityContext) {
+        return new A1ClientFactory(applicationConfig, securityContext);
     }
 
     @Bean

@@ -43,6 +43,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -84,7 +85,7 @@ class DmaapMessageConsumerTest {
 
     @Test
     void successfulCase_dmaapNotConfigured_thenSleepAndRetryUntilConfig() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
 
         setTaskNumberOfLoops(3);
         disableTaskDelay();
@@ -104,7 +105,7 @@ class DmaapMessageConsumerTest {
 
     @Test
     void returnErrorFromDmapp_thenSleepAndRetry() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
 
         setTaskNumberOfLoops(2);
         disableTaskDelay();
@@ -129,7 +130,7 @@ class DmaapMessageConsumerTest {
 
     @Test
     void unParsableMessage_thenSendResponseAndContinue() throws Exception {
-        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock));
+        messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
         setTaskNumberOfLoops(2);
         setUpMrConfig();
 
@@ -157,7 +158,7 @@ class DmaapMessageConsumerTest {
 
     @Test
     void testMessageParsing() throws ServiceException {
-        messageConsumerUnderTest = new DmaapMessageConsumer(applicationConfigMock);
+        messageConsumerUnderTest = new DmaapMessageConsumer(applicationConfigMock, new SecurityContext(""));
         String json = gson.toJson(dmaapRequestMessage());
         {
             String jsonArrayOfObject = jsonArray(json);
