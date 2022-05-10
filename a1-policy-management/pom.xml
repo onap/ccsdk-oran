@@ -23,8 +23,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-25-starter-parent</artifactId>
-        <version>2.3.3</version>
+        <artifactId>spring-boot-26-starter-parent</artifactId>
+        <version>2.3.4-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -36,7 +36,7 @@
         <java.version.target>11</java.version.target>
         <springfox.version>3.0.0</springfox.version>
         <immutable.version>2.9.0</immutable.version>
-        <json.version>20220320</json.version>
+        <json.version>20211205</json.version>
         <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
