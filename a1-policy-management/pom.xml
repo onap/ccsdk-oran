@@ -23,8 +23,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-25-starter-parent</artifactId>
-        <version>2.3.3</version>
+        <artifactId>spring-boot-26-starter-parent</artifactId>
+        <version>2.3.4-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
