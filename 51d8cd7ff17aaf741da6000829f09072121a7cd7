@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2c5b2a5_59605855",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2022-05-10T19:03:05Z",
+      "side": 0,
+      "message": "downgrading the version ?",
+      "revId": "51d8cd7ff17aaf741da6000829f09072121a7cd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
