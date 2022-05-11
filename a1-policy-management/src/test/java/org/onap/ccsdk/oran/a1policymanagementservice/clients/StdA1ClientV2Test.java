@@ -74,6 +74,7 @@ class StdA1ClientV2Test {
                 .baseUrl(RIC_URL) //
                 .managedElementIds(new ArrayList<>()) //
                 .controllerName("") //
+                .customAdapterClass("") //
                 .build();
         asyncRestClientMock = mock(AsyncRestClient.class);
         clientUnderTest = new StdA1ClientVersion2(ricConfig, asyncRestClientMock);

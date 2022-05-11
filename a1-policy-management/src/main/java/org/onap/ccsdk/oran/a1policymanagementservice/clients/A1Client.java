@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
 import java.util.List;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 
 import reactor.core.publisher.Flux;
@@ -33,6 +34,10 @@ import reactor.core.publisher.Mono;
  */
 public interface A1Client {
 
+    public interface Factory {
+        A1Client create(RicConfig ricConfig, AsyncRestClientFactory restClientFactory);
+    }
+
     public enum A1ProtocolType {
         UNKNOWN, //
         STD_V1_1, // STD A1 version 1.1
@@ -40,7 +45,8 @@ public interface A1Client {
         OSC_V1, // OSC 'A1'
         CCSDK_A1_ADAPTER_STD_V1_1, // CCSDK_A1_ADAPTER with STD A1 version 1.1 southbound
         CCSDK_A1_ADAPTER_STD_V2_0_0, // CCSDK_A1_ADAPTER with STD A1 version 2.0.0 southbound
-        CCSDK_A1_ADAPTER_OSC_V1 // CCSDK_A1_ADAPTER with OSC 'A1' southbound
+        CCSDK_A1_ADAPTER_OSC_V1, // CCSDK_A1_ADAPTER with OSC 'A1' southbound
+        CUSTOM_PROTOCOL // Some other protocol handled by some custom A1 adapter class.
     }
 
     public Mono<A1ProtocolType> getProtocolVersion();

@@ -42,6 +42,7 @@ class ApplicationConfigTest {
             .baseUrl("ric1_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //
+            .customAdapterClass("") //
             .build();
 
     private static final ImmutableRicConfig RIC_CONFIG_2 = ImmutableRicConfig.builder() //
@@ -49,6 +50,7 @@ class ApplicationConfigTest {
             .baseUrl("ric1_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //
+            .customAdapterClass("") //
             .build();
 
     private static final ImmutableRicConfig RIC_CONFIG_3 = ImmutableRicConfig.builder() //
@@ -56,6 +58,7 @@ class ApplicationConfigTest {
             .baseUrl("ric1_url") //
             .managedElementIds(new Vector<>()) //
             .controllerName("") //
+            .customAdapterClass("") //
             .build();
 
     ConfigParserResult configParserResult(RicConfig... rics) {
@@ -103,6 +106,7 @@ class ApplicationConfigTest {
                 .baseUrl("changed_ric1_url") //
                 .managedElementIds(new Vector<>()) //
                 .controllerName("") //
+                .customAdapterClass("") //
                 .build();
 
         update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig, RIC_CONFIG_2, RIC_CONFIG_3))

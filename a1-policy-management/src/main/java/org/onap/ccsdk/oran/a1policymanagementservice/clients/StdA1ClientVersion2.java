@@ -41,6 +41,13 @@ import reactor.core.publisher.Mono;
 public class StdA1ClientVersion2 implements A1Client {
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
+    public static class Factory implements A1Client.Factory {
+        @Override
+        public A1Client create(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
+            return new StdA1ClientVersion2(ricConfig, restClientFactory);
+        }
+    }
+
     public static class OranV2UriBuilder implements A1UriBuilder {
         private final RicConfig ricConfig;
 

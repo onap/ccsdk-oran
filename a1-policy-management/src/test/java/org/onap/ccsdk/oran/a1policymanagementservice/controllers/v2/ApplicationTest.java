@@ -1046,6 +1046,7 @@ class ApplicationTest {
                 .baseUrl(ricId) //
                 .managedElementIds(mes) //
                 .controllerName("") //
+                .customAdapterClass("") //
                 .build();
     }
 

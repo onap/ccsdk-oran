@@ -40,7 +40,7 @@ public class Ric {
     private RicConfig ricConfig;
     private RicState state = RicState.UNAVAILABLE;
     private Map<String, PolicyType> supportedPolicyTypes = new HashMap<>();
-    @Getter
+
     @Setter
     private A1ProtocolType protocolVersion = A1ProtocolType.UNKNOWN;
 
@@ -71,6 +71,14 @@ public class Ric {
 
     public synchronized void setState(RicState state) {
         this.state = state;
+    }
+
+    public synchronized A1ProtocolType getProtocolVersion() {
+        if (this.ricConfig.customAdapterClass().isEmpty()) {
+            return this.protocolVersion;
+        } else {
+            return A1ProtocolType.CUSTOM_PROTOCOL;
+        }
     }
 
     /**

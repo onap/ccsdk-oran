@@ -1,6 +1,6 @@
 {
    "config": {
-      "//description" : "Test",
+      "description": "Test",
       "controller": [
          {
             "name": "controller1",
@@ -22,6 +22,7 @@
          {
             "name": "ric2",
             "baseUrl": "http://localhost:8085/",
+            "customAdapterClass": "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory",
             "managedElementIds": [
                "kista_3",
                "kista_4"

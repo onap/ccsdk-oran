@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Vector;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 
@@ -68,13 +70,18 @@ class A1ClientFactoryTest {
     private Ric ric;
     private A1ClientFactory factoryUnderTest;
 
-    private static ImmutableRicConfig ricConfig(String controllerName) {
+    private static ImmutableRicConfig ricConfig(String controllerName, String customAdapter) {
         return ImmutableRicConfig.builder() //
                 .ricId(RIC_NAME) //
                 .baseUrl("baseUrl") //
                 .managedElementIds(new Vector<>()) //
                 .controllerName(controllerName) //
+                .customAdapterClass(customAdapter) //
                 .build();
+    }
+
+    private static ImmutableRicConfig ricConfig(String controllerName) {
+        return ricConfig(controllerName, "");
     }
 
     @BeforeEach
@@ -82,7 +89,6 @@ class A1ClientFactoryTest {
         SecurityContext sec = new SecurityContext("");
         factoryUnderTest = spy(new A1ClientFactory(applicationConfigMock, sec));
         this.ric = new Ric(ricConfig(""));
-
     }
 
     @Test
@@ -107,6 +113,38 @@ class A1ClientFactoryTest {
 
         assertEquals(clientMock4, client, "Not correct client returned");
         assertEquals(A1ProtocolType.STD_V1_1, ric.getProtocolVersion(), "Not correct protocol");
+    }
+
+    public static class CustomA1AdapterFactory implements A1Client.Factory {
+        @Override
+        public A1Client create(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
+            return new StdA1ClientVersion2(ricConfig, restClientFactory);
+        }
+    }
+
+    @Test
+    void testCustomAdapterCreation() {
+
+        Ric ric = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
+        A1Client client = factoryUnderTest.createA1Client(ric).block();
+
+        assertEquals(client.getClass(), StdA1ClientVersion2.class);
+
+        ric = new Ric(ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2"));
+        client = factoryUnderTest.createA1Client(ric).block();
+
+        assertEquals(client.getClass(), StdA1ClientVersion2.class);
+
+        ric = new Ric(
+                ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory"));
+        client = factoryUnderTest.createA1Client(ric).block();
+
+        assertEquals(client.getClass(), StdA1ClientVersion2.class);
+
+        Exception e = Assertions.assertThrows(Exception.class, () -> {
+            factoryUnderTest.createClient(new Ric(ricConfig("", "junk")), A1ProtocolType.CUSTOM_PROTOCOL);
+        });
+        assertEquals("Could not find class: junk", e.getMessage());
     }
 
     @Test

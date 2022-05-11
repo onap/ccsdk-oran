@@ -75,6 +75,7 @@ class ServiceSupervisionTest {
             .baseUrl("baseUrl") //
             .managedElementIds(Collections.emptyList()) //
             .controllerName("") //
+            .customAdapterClass("") //
             .build();
     private Ric ric = new Ric(ricConfig);
     private PolicyType policyType = PolicyType.builder() //
