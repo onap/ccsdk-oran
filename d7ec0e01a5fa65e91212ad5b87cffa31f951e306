@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66e8ecca_c6477299",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2022-05-11T14:53:12Z",
+      "side": 1,
+      "message": "You could explicitly catch a classnotfound exception here to give more useful error information (Factory class is not in classpath)",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 81
+      },
+      "revId": "d7ec0e01a5fa65e91212ad5b87cffa31f951e306",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
