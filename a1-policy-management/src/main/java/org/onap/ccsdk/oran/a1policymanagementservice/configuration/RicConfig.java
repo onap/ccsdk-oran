@@ -34,4 +34,6 @@ public interface RicConfig {
 
     public ImmutableList<String> managedElementIds();
 
+    public String customAdapterClass();
+
 }

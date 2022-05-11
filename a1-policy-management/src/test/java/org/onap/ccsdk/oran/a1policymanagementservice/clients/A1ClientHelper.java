@@ -49,6 +49,7 @@ public class A1ClientHelper {
                 .baseUrl(url) //
                 .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
                 .controllerName("") //
+                .customAdapterClass("") //
                 .build();
         return new Ric(cfg);
     }

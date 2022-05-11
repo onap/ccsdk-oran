@@ -163,13 +163,13 @@ public class ApplicationConfigParser {
     private List<RicConfig> parseRics(JsonObject config) throws ServiceException {
         List<RicConfig> result = new ArrayList<>();
         for (JsonElement ricElem : getAsJsonArray(config, "ric")) {
-            JsonObject ricAsJson = ricElem.getAsJsonObject();
-            JsonElement controllerNameElement = ricAsJson.get(CONTROLLER);
+            JsonObject ricJsonObj = ricElem.getAsJsonObject();
             RicConfig ricConfig = ImmutableRicConfig.builder() //
-                    .ricId(get(ricAsJson, "name", "id", "ricId").getAsString()) //
-                    .baseUrl(get(ricAsJson, "baseUrl").getAsString()) //
-                    .managedElementIds(parseManagedElementIds(get(ricAsJson, "managedElementIds").getAsJsonArray())) //
-                    .controllerName(controllerNameElement != null ? controllerNameElement.getAsString() : "") //
+                    .ricId(get(ricJsonObj, "name", "id", "ricId").getAsString()) //
+                    .baseUrl(get(ricJsonObj, "baseUrl").getAsString()) //
+                    .managedElementIds(parseManagedElementIds(get(ricJsonObj, "managedElementIds").getAsJsonArray())) //
+                    .controllerName(getString(ricJsonObj, CONTROLLER, ""))
+                    .customAdapterClass(getString(ricJsonObj, "customAdapterClass", "")) //
                     .build();
             if (!ricConfig.baseUrl().isEmpty()) {
                 result.add(ricConfig);
@@ -178,6 +178,14 @@ public class ApplicationConfigParser {
             }
         }
         return result;
+    }
+
+    String getString(JsonObject obj, String name, String defaultValue) {
+        JsonElement elem = obj.get(name);
+        if (elem != null) {
+            return elem.getAsString();
+        }
+        return defaultValue;
     }
 
     Map<String, ControllerConfig> parseControllerConfigs(JsonObject config) throws ServiceException {

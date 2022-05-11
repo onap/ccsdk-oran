@@ -82,6 +82,7 @@ class RefreshConfigTaskTest {
             .baseUrl("http://localhost:8080/") //
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
             .controllerName("") //
+            .customAdapterClass("") //
             .build();
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {

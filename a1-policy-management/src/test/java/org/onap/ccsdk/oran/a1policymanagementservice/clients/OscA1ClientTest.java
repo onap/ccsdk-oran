@@ -71,6 +71,7 @@ class OscA1ClientTest {
                 .baseUrl("RicBaseUrl") //
                 .managedElementIds(new ArrayList<>()) //
                 .controllerName("") //
+                .customAdapterClass("") //
                 .build();
         asyncRestClientMock = mock(AsyncRestClient.class);
         clientUnderTest = new OscA1Client(ricConfig, asyncRestClientMock);
