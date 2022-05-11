@@ -1,4 +1,4 @@
-{  
+{
    "config": {
       "description": "Application configuration",
       "ric": [
@@ -13,6 +13,7 @@
          {
             "name": "ric2",
             "baseUrl": "http://localhost:8081/",
+            "customAdapterClass": "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory",
             "managedElementIds": [
                "kista_3",
                "kista_4"

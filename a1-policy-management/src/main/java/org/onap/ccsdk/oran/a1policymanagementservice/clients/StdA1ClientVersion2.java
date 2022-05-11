@@ -41,6 +41,13 @@ import reactor.core.publisher.Mono;
 public class StdA1ClientVersion2 implements A1Client {
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
+    public static class Factory implements A1Client.Factory {
+        @Override
+        public A1Client create(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
+            return new StdA1ClientVersion2(ricConfig, restClientFactory);
+        }
+    }
+
     public static class OranV2UriBuilder implements A1UriBuilder {
         private final RicConfig ricConfig;
 
@@ -114,7 +121,7 @@ public class StdA1ClientVersion2 implements A1Client {
         }
 
         private String baseUri() {
-            return ricConfig.baseUrl() + "/A1-P/v2";
+            return ricConfig.getBaseUrl() + "/A1-P/v2";
         }
     }
 
@@ -129,7 +136,7 @@ public class StdA1ClientVersion2 implements A1Client {
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
+        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
 
         uriBuiler = new OranV2UriBuilder(ricConfig);
     }

@@ -26,7 +26,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 
 import reactor.core.publisher.Flux;
@@ -66,11 +64,9 @@ class OscA1ClientTest {
 
     @BeforeEach
     void init() {
-        RicConfig ricConfig = ImmutableRicConfig.builder() //
+        RicConfig ricConfig = RicConfig.builder() //
                 .ricId("name") //
                 .baseUrl("RicBaseUrl") //
-                .managedElementIds(new ArrayList<>()) //
-                .controllerName("") //
                 .build();
         asyncRestClientMock = mock(AsyncRestClient.class);
         clientUnderTest = new OscA1Client(ricConfig, asyncRestClientMock);

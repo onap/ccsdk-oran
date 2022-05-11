@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ class A1AdapterJsonHelper {
     private static Gson gson = new GsonBuilder() //
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
             .create();
-    private static final String OUTPUT = "output";
+    private static final String OUTPUT = "A1-ADAPTER-API:output";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private A1AdapterJsonHelper() {}
@@ -63,7 +62,7 @@ class A1AdapterJsonHelper {
                 }
             }
             return Flux.fromIterable(arrayList);
-        } catch (JSONException ex) { // invalid json
+        } catch (Exception ex) { // invalid json
             logger.debug("Invalid json {}", ex.getMessage());
             return Flux.error(ex);
         }
@@ -88,7 +87,7 @@ class A1AdapterJsonHelper {
             JSONObject outputJson = new JSONObject(response);
             JSONObject responseParams = outputJson.getJSONObject(OUTPUT);
             return Mono.just(responseParams);
-        } catch (JSONException ex) { // invalid json
+        } catch (Exception ex) { // invalid json
             logger.debug("Invalid json {}", ex.getMessage());
             return Mono.error(ex);
         }
@@ -110,7 +109,7 @@ class A1AdapterJsonHelper {
             JSONObject schemaObject = jsonObject.getJSONObject("policySchema");
             String schemaString = schemaObject.toString();
             return Mono.just(schemaString);
-        } catch (JSONException ex) { // invalid json
+        } catch (Exception ex) { // invalid json
             logger.debug("Invalid json {}", ex.getMessage());
             return Mono.error(ex);
         }

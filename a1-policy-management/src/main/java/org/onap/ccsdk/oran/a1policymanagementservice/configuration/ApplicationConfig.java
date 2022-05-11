@@ -100,13 +100,13 @@ public class ApplicationConfig {
 
     public WebClientConfig getWebClientConfig() {
         if (this.webClientConfig == null) {
-            HttpProxyConfig httpProxyConfig = ImmutableHttpProxyConfig.builder() //
+            HttpProxyConfig httpProxyConfig = HttpProxyConfig.builder() //
                     .httpProxyHost(this.httpProxyHost) //
                     .httpProxyPort(this.httpProxyPort) //
                     .httpProxyType(ProxyProvider.Proxy.valueOf(this.httpProxyType)) //
                     .build();
 
-            this.webClientConfig = ImmutableWebClientConfig.builder() //
+            this.webClientConfig = WebClientConfig.builder() //
                     .keyStoreType(this.sslKeyStoreType) //
                     .keyStorePassword(this.sslKeyStorePassword) //
                     .keyStore(this.sslKeyStore) //
@@ -156,23 +156,23 @@ public class ApplicationConfig {
             ApplicationConfigParser.ConfigParserResult parserResult) {
 
         Collection<RicConfigUpdate> modifications = new ArrayList<>();
-        this.controllerConfigs = parserResult.controllerConfigs();
+        this.controllerConfigs = parserResult.getControllerConfigs();
 
-        this.dmaapConsumerTopicUrl = parserResult.dmaapConsumerTopicUrl();
-        this.dmaapProducerTopicUrl = parserResult.dmaapProducerTopicUrl();
+        this.dmaapConsumerTopicUrl = parserResult.getDmaapConsumerTopicUrl();
+        this.dmaapProducerTopicUrl = parserResult.getDmaapProducerTopicUrl();
 
         Map<String, RicConfig> newRicConfigs = new HashMap<>();
-        for (RicConfig newConfig : parserResult.ricConfigs()) {
-            RicConfig oldConfig = this.ricConfigs.get(newConfig.ricId());
-            this.ricConfigs.remove(newConfig.ricId());
+        for (RicConfig newConfig : parserResult.getRicConfigs()) {
+            RicConfig oldConfig = this.ricConfigs.get(newConfig.getRicId());
+            this.ricConfigs.remove(newConfig.getRicId());
             if (oldConfig == null) {
-                newRicConfigs.put(newConfig.ricId(), newConfig);
+                newRicConfigs.put(newConfig.getRicId(), newConfig);
                 modifications.add(new RicConfigUpdate(newConfig, RicConfigUpdate.Type.ADDED));
             } else if (!newConfig.equals(oldConfig)) {
                 modifications.add(new RicConfigUpdate(newConfig, RicConfigUpdate.Type.CHANGED));
-                newRicConfigs.put(newConfig.ricId(), newConfig);
+                newRicConfigs.put(newConfig.getRicId(), newConfig);
             } else {
-                newRicConfigs.put(oldConfig.ricId(), oldConfig);
+                newRicConfigs.put(oldConfig.getRicId(), oldConfig);
             }
         }
         for (RicConfig deletedConfig : this.ricConfigs.values()) {

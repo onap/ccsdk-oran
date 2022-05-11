@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -45,7 +45,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -65,7 +65,7 @@ class RicSupervisionTest {
             .schema("") //
             .build();
 
-    private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
+    private static final Ric RIC_1 = new Ric(RicConfig.builder() //
             .ricId("ric_1") //
             .baseUrl("baseUrl1") //
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
@@ -148,7 +148,8 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verifyNoMoreInteractions(supervisorUnderTest);
+        verify(synchronizationTaskMock, times(0)).synchronizeRic(RIC_1);
+        assertThat(RIC_1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
     @Test
@@ -156,18 +157,13 @@ class RicSupervisionTest {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.UNAVAILABLE);
         rics.put(RIC_1);
-
         RicSupervision supervisorUnderTest = spy(createRicSupervision());
-
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
         doReturn(Mono.just(RIC_1)).when(synchronizationTaskMock).synchronizeRic(any());
-
         supervisorUnderTest.checkAllRics();
-
-        verify(supervisorUnderTest).checkAllRics();
-        verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
-        verifyNoMoreInteractions(supervisorUnderTest);
+
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @Test
@@ -181,7 +177,8 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verifyNoMoreInteractions(supervisorUnderTest);
+        verify(synchronizationTaskMock, times(0)).synchronizeRic(RIC_1);
+        assertThat(RIC_1.getState()).isEqualTo(RicState.SYNCHRONIZING);
     }
 
     @Test
@@ -197,7 +194,8 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verifyNoMoreInteractions(supervisorUnderTest);
+        verify(synchronizationTaskMock, times(0)).synchronizeRic(RIC_1);
+
         assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
@@ -219,9 +217,9 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
-        verifyNoMoreInteractions(supervisorUnderTest);
+
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @Test
@@ -242,9 +240,9 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
-        verifyNoMoreInteractions(supervisorUnderTest);
+
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @Test
@@ -261,7 +259,9 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verifyNoMoreInteractions(supervisorUnderTest);
+        verify(synchronizationTaskMock, times(0)).synchronizeRic(RIC_1);
+
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @Test
@@ -283,9 +283,9 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
-        verifyNoMoreInteractions(supervisorUnderTest);
+
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @Test
@@ -311,9 +311,8 @@ class RicSupervisionTest {
         supervisorUnderTest.checkAllRics();
 
         verify(supervisorUnderTest).checkAllRics();
-        verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
-        verifyNoMoreInteractions(supervisorUnderTest);
+        assertThat(RIC_1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     @SuppressWarnings("unchecked")

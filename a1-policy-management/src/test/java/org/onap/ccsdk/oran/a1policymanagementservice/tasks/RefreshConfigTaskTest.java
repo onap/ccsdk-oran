@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Vector;
@@ -55,8 +54,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser.ConfigParserResult;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableConfigParserResult;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
@@ -77,11 +74,10 @@ class RefreshConfigTaskTest {
     ConfigurationFile configurationFileMock;
 
     private static final String RIC_1_NAME = "ric1";
-    private static final RicConfig CORRECT_RIC_CONIFG = ImmutableRicConfig.builder() //
+    private static final RicConfig CORRECT_RIC_CONIFG = RicConfig.builder() //
             .ricId(RIC_1_NAME) //
             .baseUrl("http://localhost:8080/") //
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-            .controllerName("") //
             .build();
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
@@ -91,6 +87,7 @@ class RefreshConfigTaskTest {
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
             boolean stubConfigFileExists) {
         SecurityContext secContext = new SecurityContext("");
+
         RefreshConfigTask obj =
                 spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies, new Services(appConfig),
                         new PolicyTypes(appConfig), new A1ClientFactory(appConfig, secContext), secContext));
@@ -147,11 +144,8 @@ class RefreshConfigTaskTest {
     }
 
     ConfigParserResult configParserResult(RicConfig... rics) {
-        return ImmutableConfigParserResult.builder() //
+        return ConfigParserResult.builder() //
                 .ricConfigs(Arrays.asList(rics)) //
-                .dmaapConsumerTopicUrl("") //
-                .dmaapProducerTopicUrl("") //
-                .controllerConfigs(new HashMap<>()) //
                 .build();
     }
 

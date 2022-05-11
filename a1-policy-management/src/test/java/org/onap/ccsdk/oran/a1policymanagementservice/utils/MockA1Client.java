@@ -28,6 +28,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Vector;
 
+import lombok.Setter;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -44,7 +46,12 @@ import reactor.core.publisher.MonoSink;
 public class MockA1Client implements A1Client {
     Policies policies;
     private final PolicyTypes policyTypes;
-    private final Duration asynchDelay;
+
+    @Setter
+    private Duration asynchDelay;
+
+    @Setter
+    private String errorInject;
 
     public MockA1Client(String ricId, ApplicationConfig appConfig, PolicyTypes policyTypes, Duration asynchDelay) {
         this.policyTypes = policyTypes;
@@ -117,14 +124,19 @@ public class MockA1Client implements A1Client {
     }
 
     private <T> Mono<T> mono(T value) {
-        if (this.asynchDelay.isZero()) {
-            return Mono.just(value);
-        } else {
-            return Mono.create(monoSink -> asynchResponse(monoSink, value));
+        Mono<T> res = Mono.just(value);
+        if (!this.asynchDelay.isZero()) {
+            res = Mono.create(monoSink -> asynchResponse(monoSink, value));
         }
+
+        if (this.errorInject != null) {
+            res = res.flatMap(x -> monoError(this.errorInject, HttpStatus.BAD_GATEWAY));
+        }
+
+        return res;
     }
 
-    public static Mono<String> monoError(String responseBody, HttpStatus status) {
+    public static <T> Mono<T> monoError(String responseBody, HttpStatus status) {
         byte[] responseBodyBytes = responseBody.getBytes(StandardCharsets.UTF_8);
         WebClientResponseException a1Exception = new WebClientResponseException(status.value(),
                 status.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);

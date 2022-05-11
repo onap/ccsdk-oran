@@ -46,15 +46,12 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
@@ -90,18 +87,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.util.annotation.Nullable;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-        "server.ssl.key-store=./src/test/resources/keystore.jks", //
-        "app.webclient.trust-store=./src/test/resources/truststore.jks", //
+        "server.ssl.key-store=./config/keystore.jks", //
+        "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //
         "app.vardata-directory=./target/testdata", //
         "app.filepath=" //
@@ -319,8 +314,10 @@ class ApplicationTest {
     @Test
     void testTrustValidation() {
         addRic("ric1");
+
         String rsp = restClient(true).get("/rics").block(); // restClient(true) enables trust validation
         assertThat(rsp).contains("ric1");
+
     }
 
     @Test
@@ -922,15 +919,20 @@ class ApplicationTest {
         final Instant startTime = Instant.now();
         List<Thread> threads = new ArrayList<>();
         List<ConcurrencyTestRunnable> tests = new ArrayList<>();
-        a1ClientFactory.setResponseDelay(Duration.ofMillis(1));
+        a1ClientFactory.setResponseDelay(Duration.ofMillis(2));
         addRic("ric");
         addPolicyType("type1", "ric");
         addPolicyType("type2", "ric");
 
+        final String NON_RESPONDING_RIC = "NonRespondingRic";
+        Ric nonRespondingRic = addRic(NON_RESPONDING_RIC);
+        MockA1Client a1Client = a1ClientFactory.getOrCreateA1Client(NON_RESPONDING_RIC);
+        a1Client.setErrorInject("errorInject");
+
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
-            ConcurrencyTestRunnable test =
-                    new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
+            ConcurrencyTestRunnable test = new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics,
+                    policyTypes);
             Thread thread = new Thread(test, "TestThread_" + i);
             thread.start();
             threads.add(thread);
@@ -944,19 +946,22 @@ class ApplicationTest {
         }
         assertThat(policies.size()).isZero();
         logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
+
+        assertThat(nonRespondingRic.getState()).isEqualTo(RicState.UNAVAILABLE);
+        nonRespondingRic.setState(RicState.AVAILABLE);
     }
 
     private AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
-        config = ImmutableWebClientConfig.builder() //
-                .keyStoreType(config.keyStoreType()) //
-                .keyStorePassword(config.keyStorePassword()) //
-                .keyStore(config.keyStore()) //
-                .keyPassword(config.keyPassword()) //
+        config = WebClientConfig.builder() //
+                .keyStoreType(config.getKeyStoreType()) //
+                .keyStorePassword(config.getKeyStorePassword()) //
+                .keyStore(config.getKeyStore()) //
+                .keyPassword(config.getKeyPassword()) //
                 .isTrustStoreUsed(useTrustValidation) //
-                .trustStore(config.trustStore()) //
-                .trustStorePassword(config.trustStorePassword()) //
-                .httpProxyConfig(config.httpProxyConfig()) //
+                .trustStore(config.getTrustStore()) //
+                .trustStorePassword(config.getTrustStorePassword()) //
+                .httpProxyConfig(config.getHttpProxyConfig()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
@@ -1041,11 +1046,10 @@ class ApplicationTest {
         if (managedElement != null) {
             mes.add(managedElement);
         }
-        return ImmutableRicConfig.builder() //
+        return RicConfig.builder() //
                 .ricId(ricId) //
                 .baseUrl(ricId) //
                 .managedElementIds(mes) //
-                .controllerName("") //
                 .build();
     }
 

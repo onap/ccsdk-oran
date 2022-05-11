@@ -27,9 +27,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "policy_status_info_v2", description = "Status for one A1-P Policy")
 public class PolicyStatusInfo {
 

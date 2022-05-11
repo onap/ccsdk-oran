@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import org.json.JSONObject;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -45,10 +44,9 @@ public class A1ClientHelper {
     }
 
     protected static Ric createRic(String url) {
-        RicConfig cfg = ImmutableRicConfig.builder().ricId("ric") //
+        RicConfig cfg = RicConfig.builder().ricId("ric") //
                 .baseUrl(url) //
                 .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-                .controllerName("") //
                 .build();
         return new Ric(cfg);
     }

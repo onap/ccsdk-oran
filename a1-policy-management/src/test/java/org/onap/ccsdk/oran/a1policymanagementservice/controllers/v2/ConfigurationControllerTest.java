@@ -30,13 +30,11 @@ import java.time.Duration;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
@@ -52,13 +50,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
@@ -166,15 +162,15 @@ class ConfigurationControllerTest {
 
     private AsyncRestClient restClient() {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
-        config = ImmutableWebClientConfig.builder() //
-                .keyStoreType(config.keyStoreType()) //
-                .keyStorePassword(config.keyStorePassword()) //
-                .keyStore(config.keyStore()) //
-                .keyPassword(config.keyPassword()) //
+        config = WebClientConfig.builder() //
+                .keyStoreType(config.getKeyStoreType()) //
+                .keyStorePassword(config.getKeyStorePassword()) //
+                .keyStore(config.getKeyStore()) //
+                .keyPassword(config.getKeyPassword()) //
                 .isTrustStoreUsed(false) //
-                .trustStore(config.trustStore()) //
-                .trustStorePassword(config.trustStorePassword()) //
-                .httpProxyConfig(config.httpProxyConfig()) //
+                .trustStore(config.getTrustStore()) //
+                .trustStorePassword(config.getTrustStorePassword()) //
+                .httpProxyConfig(config.getHttpProxyConfig()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));

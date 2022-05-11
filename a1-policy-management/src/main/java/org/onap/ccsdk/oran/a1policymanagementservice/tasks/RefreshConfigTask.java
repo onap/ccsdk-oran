@@ -36,11 +36,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbacks;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
@@ -130,7 +128,7 @@ public class RefreshConfigTask {
                 .flatMap(this::parseConfiguration) //
                 .flatMap(this::updateConfig, CONCURRENCY) //
                 .flatMap(this::handleUpdatedRicConfig) //
-                .doOnTerminate(() -> logger.error("Configuration refresh task is terminated"));
+                .doFinally(signal -> logger.error("Configuration refresh task is terminated: {}", signal));
     }
 
     private Flux<Long> regularInterval() {
@@ -170,40 +168,16 @@ public class RefreshConfigTask {
         return new RicSynchronizationTask(a1ClientFactory, policyTypes, policies, services, restClientFactory, rics);
     }
 
-    /**
-     * for an added RIC after a restart it is nesessary to get the suypported policy
-     * types from the RIC unless a full synchronization is wanted.
-     *
-     * @param ric the ric to get supprted types from
-     * @return the same ric
-     */
-    private Mono<Ric> trySyncronizeSupportedTypes(Ric ric) {
-        logger.debug("Synchronizing policy types for new RIC: {}", ric.id());
-        // Synchronize the policy types
-        ric.setState(RicState.SYNCHRONIZING);
-        return this.a1ClientFactory.createA1Client(ric) //
-                .flatMapMany(client -> synchronizationTask().synchronizePolicyTypes(ric, client)) //
-                .collectList() //
-                .map(list -> ric) //
-                .doOnNext(notUsed -> ric.setState(RicState.AVAILABLE)) //
-                .doOnError(t -> {
-                    logger.warn("Failed to synchronize types in new RIC: {}, reason: {}", ric.id(), t.getMessage());
-                    ric.setState(RicState.UNAVAILABLE); //
-                }) //
-                .onErrorResume(t -> Mono.just(ric));
-    }
-
     public Mono<RicConfigUpdate.Type> handleUpdatedRicConfig(RicConfigUpdate updatedInfo) {
         synchronized (this.rics) {
-            String ricId = updatedInfo.getRicConfig().ricId();
+            String ricId = updatedInfo.getRicConfig().getRicId();
             RicConfigUpdate.Type event = updatedInfo.getType();
             if (event == RicConfigUpdate.Type.ADDED) {
                 logger.debug("RIC added {}", ricId);
-
-                return trySyncronizeSupportedTypes(new Ric(updatedInfo.getRicConfig())) //
-                        .doOnNext(this::addRic) //
-                        .flatMap(this::notifyServicesRicAvailable) //
-                        .flatMap(notUsed -> Mono.just(event));
+                Ric ric = new Ric(updatedInfo.getRicConfig());
+                this.addRic(ric);
+                return this.synchronizationTask().synchronizeRic(ric) //
+                        .map(notUsed -> event);
             } else if (event == RicConfigUpdate.Type.REMOVED) {
                 logger.debug("RIC removed {}", ricId);
                 Ric ric = rics.remove(ricId);
@@ -229,17 +203,6 @@ public class RefreshConfigTask {
             this.policies.restoreFromDatabase(ric, this.policyTypes);
         }
         logger.debug("Added RIC: {}", ric.id());
-    }
-
-    private Mono<Ric> notifyServicesRicAvailable(Ric ric) {
-        if (ric.getState() == RicState.AVAILABLE) {
-            ServiceCallbacks callbacks = new ServiceCallbacks(this.restClientFactory);
-            return callbacks.notifyServicesRicAvailable(ric, services) //
-                    .collectList() //
-                    .map(list -> ric);
-        } else {
-            return Mono.just(ric);
-        }
     }
 
     /**

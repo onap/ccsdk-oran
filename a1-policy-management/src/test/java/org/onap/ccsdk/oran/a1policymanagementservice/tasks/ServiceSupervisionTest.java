@@ -34,7 +34,6 @@ import ch.qos.logback.core.read.ListAppender;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 
 import org.awaitility.Durations;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -70,11 +68,9 @@ class ServiceSupervisionTest {
     private Services services;
     private Service service;
     private Policies policies;
-    private RicConfig ricConfig = ImmutableRicConfig.builder() //
+    private RicConfig ricConfig = RicConfig.builder() //
             .ricId(RIC_NAME) //
             .baseUrl("baseUrl") //
-            .managedElementIds(Collections.emptyList()) //
-            .controllerName("") //
             .build();
     private Ric ric = new Ric(ricConfig);
     private PolicyType policyType = PolicyType.builder() //

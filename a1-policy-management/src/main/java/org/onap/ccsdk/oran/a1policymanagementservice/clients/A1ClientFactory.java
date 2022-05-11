@@ -20,9 +20,12 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.lang.reflect.Constructor;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.slf4j.Logger;
@@ -83,6 +86,8 @@ public class A1ClientFactory {
                 || version == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1
                 || version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return new CcsdkA1AdapterClient(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
+        } else if (version == A1ProtocolType.CUSTOM_PROTOCOL) {
+            return createCustomAdapter(ric);
         } else {
             logger.error("Unhandled protocol: {}", version);
             throw new ServiceException("Unhandled protocol");
@@ -90,7 +95,7 @@ public class A1ClientFactory {
     }
 
     private ControllerConfig getControllerConfig(Ric ric) throws ServiceException {
-        String controllerName = ric.getConfig().controllerName();
+        String controllerName = ric.getConfig().getControllerName();
         if (controllerName.isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException("No controller configured for Near-RT RIC: " + ric.id());
@@ -103,8 +108,27 @@ public class A1ClientFactory {
         }
     }
 
+    private A1Client createCustomAdapter(Ric ric) throws ServiceException {
+        try {
+            Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
+            if (A1Client.class.isAssignableFrom(clazz)) {
+                Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
+                return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
+            } else if (A1Client.Factory.class.isAssignableFrom(clazz)) {
+                A1Client.Factory factory = (A1Client.Factory) clazz.getDeclaredConstructor().newInstance();
+                return factory.create(ric.getConfig(), this.restClientFactory);
+            } else {
+                throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new ServiceException("Could not find class: " + ric.getConfig().getCustomAdapterClass(), e);
+        } catch (Exception e) {
+            throw new ServiceException("Cannot create custom adapter: " + ric.getConfig().getCustomAdapterClass(), e);
+        }
+    }
+
     private void assertNoControllerConfig(Ric ric, A1ProtocolType version) throws ServiceException {
-        if (!ric.getConfig().controllerName().isEmpty()) {
+        if (!ric.getConfig().getControllerName().isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException(
                     "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);
@@ -128,9 +152,7 @@ public class A1ClientFactory {
                     .doOnNext(ric::setProtocolVersion)
                     .doOnNext(version -> logger.debug("Established protocol version:{} for Near-RT RIC: {}", version,
                             ric.id())) //
-                    .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id())) //
-                    .onErrorResume(
-                            notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.id())));
+                    .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id()));
         } else {
             return Mono.just(ric.getProtocolVersion());
         }

@@ -1,6 +1,6 @@
 {
    "description": "Application configuration",
-   "config": {  
+   "config": {
       "controller": [
          {
             "name": "controller1",
@@ -13,10 +13,27 @@
          {
             "name": "ric1",
             "baseUrl": "http://ric1:8085/",
-            "controller": "controller1",
             "managedElementIds": [
                "kista_1",
                "kista_2"
+            ]
+         },
+         {
+            "name": "ric2",
+            "baseUrl": "http://localhost:8081/",
+            "customAdapterClass": "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory",
+            "managedElementIds": [
+               "kista_3",
+               "kista_4"
+            ]
+         },
+         {
+            "name": "ric3",
+            "baseUrl": "http://ric1:8085/",
+            "controller": "controller1",
+            "managedElementIds": [
+               "kista_5",
+               "kista_6"
             ]
          }
       ]

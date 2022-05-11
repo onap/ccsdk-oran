@@ -29,10 +29,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.immutables.value.Value;
+import lombok.Getter;
+
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,20 +52,30 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
-    @Value.Immutable
-    @org.immutables.gson.Gson.TypeAdapters
-    public interface AdapterRequest {
-        public String nearRtRicUrl();
+    @Getter
+    public static class AdapterRequest {
+        private String nearRtRicUrl = null;
+        private String body = null;
 
-        public Optional<String> body();
+        public AdapterRequest(String url, String body) {
+            this.nearRtRicUrl = url;
+            this.body = body;
+        }
+
+        public AdapterRequest() {}
     }
 
-    @Value.Immutable
-    @org.immutables.gson.Gson.TypeAdapters
-    public interface AdapterOutput {
-        public Optional<String> body();
+    @Getter
+    public static class AdapterOutput {
+        private String body = null;
+        private int httpStatus = 0;
 
-        public int httpStatus();
+        public AdapterOutput(int status, String body) {
+            this.httpStatus = status;
+            this.body = body;
+        }
+
+        public AdapterOutput() {}
     }
 
     static com.google.gson.Gson gson = new GsonBuilder() //
@@ -93,7 +105,7 @@ public class CcsdkA1AdapterClient implements A1Client {
     public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClientFactory restClientFactory) {
         this(protocolType, ricConfig, controllerConfig,
-                restClientFactory.createRestClientNoHttpProxy(controllerConfig.baseUrl() + "/restconf/operations"));
+                restClientFactory.createRestClientNoHttpProxy(controllerConfig.getBaseUrl() + "/rests/operations"));
     }
 
     /**
@@ -119,11 +131,11 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
             this.controllerConfig = controllerConfig;
-            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.ricId(), controllerConfig);
+            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(), controllerConfig);
         } else {
+            logger.error("Not supported protocoltype: {}", protocolType);
             throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);
         }
-
     }
 
     @Override
@@ -135,7 +147,6 @@ public class CcsdkA1AdapterClient implements A1Client {
                     .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString) //
                     .collectList();
         }
-
     }
 
     @Override
@@ -162,7 +173,7 @@ public class CcsdkA1AdapterClient implements A1Client {
         } else if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return StdA1ClientVersion2.extractPolicySchema(controllerResponse, policyTypeId);
         } else {
-            throw new NullPointerException("Not supported");
+            return Mono.error(new ServiceException("Not supported " + this.protocolType));
         }
     }
 
@@ -223,6 +234,7 @@ public class CcsdkA1AdapterClient implements A1Client {
         } else if (protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1) {
             return new OscA1Client.UriBuilder(ricConfig);
         }
+        logger.error("Not supported protocoltype: {}", protocolType);
         throw new NullPointerException();
     }
 
@@ -265,29 +277,27 @@ public class CcsdkA1AdapterClient implements A1Client {
     }
 
     private Mono<String> post(String rpcName, String ricUrl, Optional<String> body) {
-        AdapterRequest inputParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(ricUrl) //
-                .body(body) //
-                .build();
+        AdapterRequest inputParams = new AdapterRequest(ricUrl, body.isPresent() ? body.get() : null);
+
         final String inputJsonString = A1AdapterJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST inputJsonString = {}", inputJsonString);
 
         return restClient
-                .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.userName(),
-                        this.controllerConfig.password()) //
-                .flatMap(this::extractResponseBody);
+                .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.getUserName(),
+                        this.controllerConfig.getPassword()) //
+                .flatMap(resp -> extractResponseBody(resp, ricUrl));
     }
 
-    private Mono<String> extractResponse(JSONObject responseOutput) {
-        AdapterOutput output = gson.fromJson(responseOutput.toString(), ImmutableAdapterOutput.class);
-        Optional<String> optionalBody = output.body();
-        String body = optionalBody.isPresent() ? optionalBody.get() : "";
-        if (HttpStatus.valueOf(output.httpStatus()).is2xxSuccessful()) {
+    private Mono<String> extractResponse(JSONObject responseOutput, String ricUrl) {
+        AdapterOutput output = gson.fromJson(responseOutput.toString(), AdapterOutput.class);
+
+        String body = output.body == null ? "" : output.body;
+        if (HttpStatus.valueOf(output.httpStatus).is2xxSuccessful()) {
             return Mono.just(body);
         } else {
-            logger.debug("Error response: {} {}", output.httpStatus(), body);
+            logger.debug("Error response: {} {}, from: {}", output.httpStatus, body, ricUrl);
             byte[] responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
-            HttpStatus httpStatus = HttpStatus.valueOf(output.httpStatus());
+            HttpStatus httpStatus = HttpStatus.valueOf(output.httpStatus);
             WebClientResponseException responseException = new WebClientResponseException(httpStatus.value(),
                     httpStatus.getReasonPhrase(), null, responseBodyBytes, StandardCharsets.UTF_8, null);
 
@@ -295,9 +305,9 @@ public class CcsdkA1AdapterClient implements A1Client {
         }
     }
 
-    private Mono<String> extractResponseBody(String responseStr) {
+    private Mono<String> extractResponseBody(String responseStr, String ricUrl) {
         return A1AdapterJsonHelper.getOutput(responseStr) //
-                .flatMap(this::extractResponse);
+                .flatMap(responseOutput -> extractResponse(responseOutput, ricUrl));
     }
 
     private String controllerUrl(String rpcName) {

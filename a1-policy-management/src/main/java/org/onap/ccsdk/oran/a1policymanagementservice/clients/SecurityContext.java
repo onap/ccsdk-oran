@@ -47,7 +47,7 @@ public class SecurityContext {
     @Setter
     private Path authTokenFilePath;
 
-    public SecurityContext(@Value("${app.auth-token-file:\"\"}") String authTokenFilename) {
+    public SecurityContext(@Value("${app.auth-token-file:}") String authTokenFilename) {
         if (!authTokenFilename.isEmpty()) {
             this.authTokenFilePath = Path.of(authTokenFilename);
         }
@@ -63,7 +63,7 @@ public class SecurityContext {
         }
         try {
             long lastModified = authTokenFilePath.toFile().lastModified();
-            if (lastModified != this.tokenTimestamp) {
+            if (tokenTimestamp == 0 || lastModified != this.tokenTimestamp) {
                 this.authToken = Files.readString(authTokenFilePath);
                 this.tokenTimestamp = lastModified;
             }

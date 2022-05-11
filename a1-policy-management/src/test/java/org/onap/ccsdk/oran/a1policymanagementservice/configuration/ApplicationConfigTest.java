@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,29 +36,23 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 @ExtendWith(MockitoExtension.class)
 class ApplicationConfigTest {
 
-    private static final ImmutableRicConfig RIC_CONFIG_1 = ImmutableRicConfig.builder() //
+    private static final RicConfig RIC_CONFIG_1 = RicConfig.builder() //
             .ricId("ric1") //
             .baseUrl("ric1_url") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName("") //
             .build();
 
-    private static final ImmutableRicConfig RIC_CONFIG_2 = ImmutableRicConfig.builder() //
+    private static final RicConfig RIC_CONFIG_2 = RicConfig.builder() //
             .ricId("ric2") //
             .baseUrl("ric1_url") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName("") //
             .build();
 
-    private static final ImmutableRicConfig RIC_CONFIG_3 = ImmutableRicConfig.builder() //
+    private static final RicConfig RIC_CONFIG_3 = RicConfig.builder() //
             .ricId("ric3") //
             .baseUrl("ric1_url") //
-            .managedElementIds(new Vector<>()) //
-            .controllerName("") //
             .build();
 
     ConfigParserResult configParserResult(RicConfig... rics) {
-        return ImmutableConfigParserResult.builder() //
+        return ConfigParserResult.builder() //
                 .ricConfigs(Arrays.asList(rics)) //
                 .dmaapConsumerTopicUrl("dmaapConsumerTopicUrl") //
                 .dmaapProducerTopicUrl("dmaapProducerTopicUrl") //
@@ -77,7 +70,7 @@ class ApplicationConfigTest {
         assertEquals(RicConfigUpdate.Type.ADDED, update.get(0).getType());
         assertTrue(appConfigUnderTest.getRicConfigs().contains(RIC_CONFIG_1), "Ric not added to configurations.");
 
-        assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
+        assertEquals(RIC_CONFIG_1, appConfigUnderTest.getRic(RIC_CONFIG_1.getRicId()),
                 "Not correct Ric retrieved from configurations.");
 
         update = appConfigUnderTest.setConfiguration(configParserResult(RIC_CONFIG_1)).collectList().block();
@@ -98,11 +91,9 @@ class ApplicationConfigTest {
                 .setConfiguration(configParserResult(RIC_CONFIG_1, RIC_CONFIG_2, RIC_CONFIG_3)).collectList().block();
         assertEquals(3, update.size());
 
-        ImmutableRicConfig changedRicConfig = ImmutableRicConfig.builder() //
-                .ricId(RIC_CONFIG_1.ricId()) //
+        RicConfig changedRicConfig = RicConfig.builder() //
+                .ricId(RIC_CONFIG_1.getRicId()) //
                 .baseUrl("changed_ric1_url") //
-                .managedElementIds(new Vector<>()) //
-                .controllerName("") //
                 .build();
 
         update = appConfigUnderTest.setConfiguration(configParserResult(changedRicConfig, RIC_CONFIG_2, RIC_CONFIG_3))
@@ -110,7 +101,7 @@ class ApplicationConfigTest {
         assertEquals(1, update.size());
 
         assertEquals(RicConfigUpdate.Type.CHANGED, update.get(0).getType());
-        assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.ricId()),
+        assertEquals(changedRicConfig, appConfigUnderTest.getRic(RIC_CONFIG_1.getRicId()),
                 "Changed Ric not retrieved from configurations.");
     }
 
