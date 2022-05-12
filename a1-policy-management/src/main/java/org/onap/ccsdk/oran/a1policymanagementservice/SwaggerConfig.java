@@ -52,15 +52,15 @@ public class SwaggerConfig {
     private static final String H3 = "<h3>";
     private static final String H3_END = "</h3>";
 
-    public static final String API_TITLE = "A1 Policy management service";
+    public static final String API_TITLE = "A1 Policy Management Service";
     static final String DESCRIPTION = "<h2>General</h2>" + //
-            "<p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policices. <br/>The main tasks of the service are:</p>"
+            "<p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policies. <br/>The main tasks of the service are:</p>"
             + //
             "<ul>" + //
             "<li>A1 Policy creation, modification and deletion.</li>" + //
             "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li>" + //
             "<li>Maintaining a view of supported Near-RT RIC policy types</li>" + //
-            "<li>Supervision of using services (R-APPs). When a service is unavailble, its policies are removed.</li>" + //
+            "<li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li>" + //
             "</ul>" + //
             "<h2>APIs provided by the service</h2>" + //
             H3 + PolicyController.API_NAME + H3_END + //
@@ -75,14 +75,14 @@ public class SwaggerConfig {
             "<p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p>"
             + //
             H3 + Consts.V2_API_SERVICE_CALLBACKS_NAME + H3_END + //
-            "<p>These are endpoints that are invoked by this service. The callbacks are registerred in this service at service registration.</p>"
+            "<p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p>"
             + //
             H3 + RicRepositoryController.API_NAME + H3_END + //
             "<p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p>"
             + H3 + StatusController.API_NAME + H3_END + //
             "<p>API used for supervision of the PMS component.</p>" + //
             H3 + ServiceController.API_NAME + H3_END + //
-            "<p>API used for registerring services that uses PMS. Each A1 policy is owned by a service. PMS can supervise each registerred service and will automatically remove policies for unavailable services.</p>";
+            "<p>API used for registering services that uses PMS. Each A1 policy is owned by a service. PMS can supervise each registered service and will automatically remove policies for unavailable services.</p>";
 
     public static final String VERSION = "1.1.0";
 }
