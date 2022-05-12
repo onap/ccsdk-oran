@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1a72fe3_c37b2932",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2022-05-12T13:51:36Z",
+      "side": 1,
+      "message": "Ooops. This is not correct. \nPlease link to a CCSDK issue, e.g. CCSDK-3616",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "3b19711276816eb693345dbb28051942c2734ac1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
