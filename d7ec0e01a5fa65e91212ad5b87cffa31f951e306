@@ -122,6 +122,24 @@
       "revId": "d7ec0e01a5fa65e91212ad5b87cffa31f951e306",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "165bbb81_0973e433",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-12T09:15:45Z",
+      "side": 1,
+      "message": "I has to do with the builder. \nI will make a new commit using lombok instead, which supports default values and is more flexible in general. That is a bigger change.",
+      "parentUuid": "b3162f33_f30fe89c",
+      "revId": "d7ec0e01a5fa65e91212ad5b87cffa31f951e306",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
