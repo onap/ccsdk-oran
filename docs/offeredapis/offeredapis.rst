@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2020 Nordix Foundation
+.. Copyright 2022 Nordix Foundation
 
 .. _offered_apis:
 
@@ -12,7 +12,7 @@ Offered APIs
 Introduction
 ------------
 
-The north bound REST API of the A1 Policy Management Service provides convenient methods to handle policies.
+The north-bound REST API of the A1 Policy Management Service provides convenient methods to handle A1 policies.
 
 
 Overall architecture for O-RAN A1 Policy functions

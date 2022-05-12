@@ -178,7 +178,7 @@ public class ServiceController {
     }
 
     @Operation(summary = "Heartbeat indicates that the service is running",
-            description = "A registerred service must call this in regular intervals to indicate that it is in operation. Absence of this call will lead to that the service will be deregisterred and all its policies are removed.")
+            description = "A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke this operation before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. (This timeout can be set or disabled when each service is initially registered)")
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", description = "Service supervision timer refreshed, OK"), //
             @ApiResponse(responseCode = "404", description = "The service is not found, needs re-registration",

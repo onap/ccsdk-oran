@@ -33,7 +33,7 @@ import org.immutables.gson.Gson;
 @Schema(name = "policytype_v2", description = "Policy type")
 public class PolicyTypeInfo {
 
-    @Schema(description = "Policy type json scema. The schema is a json object following http://json-schema.org/draft-07/schema")
+    @Schema(description = "Policy type json schema. The schema is a json object following http://json-schema.org/draft-07/schema")
     @SerializedName("policy_schema")
     @JsonProperty("policy_schema")
     public final Object schema;

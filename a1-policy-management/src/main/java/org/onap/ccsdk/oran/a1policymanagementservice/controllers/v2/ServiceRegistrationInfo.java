@@ -36,11 +36,11 @@ public class ServiceRegistrationInfo {
     @JsonProperty("service_id")
     public String serviceId = "";
 
-    @Schema(description = "keep alive interval for the service. This is a heartbeat supervision of the service, "
-            + "which in regular intevals must invoke a 'keepalive' REST call. "
-            + "When a service does not invoke this call within the given time, it is considered unavailble. "
+    @Schema(description = "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. "
+            + "If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. "
+            + "When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. "
             + "An unavailable service will be automatically deregistered and its policies will be deleted. "
-            + "Value 0 means no timeout supervision.")
+            + "Value 0 means timeout supervision is disabled.")
     @SerializedName("keep_alive_interval_seconds")
     @JsonProperty("keep_alive_interval_seconds")
     public long keepAliveIntervalSeconds = 0;

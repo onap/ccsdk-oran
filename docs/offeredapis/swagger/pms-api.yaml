@@ -2,23 +2,23 @@ openapi: 3.0.1
 info:
   title: A1 Policy management service
   description: <h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service provides
-    a REST API for management of A1 policices. <br/>The main tasks of the service
-    are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring
-    and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining
+    a REST API for management of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1
+    Policy creation, modification and deletion.</li><li>Monitoring and maintaining
+    consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining
     a view of supported Near-RT RIC policy types</li><li>Supervision of using services
-    (R-APPs). When a service is unavailble, its policies are removed.</li></ul><h2>APIs
+    (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs
     provided by the service</h2><h3>A1 Policy Management</h3><p>This is an API for
     management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification
     and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval
     of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API
     for updating and retrieval of the component configuration. Note that there other
     ways to maintain the configuration.</p><h3>Callbacks</h3><p>These are endpoints
-    that are invoked by this service. The callbacks are registerred in this service
+    that are invoked by this service. The callbacks are registered in this service
     at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that
     provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one
     Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service
-    Registry and Supervision</h3><p>API used for registerring services that uses PMS.
-    Each A1 policy is owned by a service. PMS can supervise each registerred service
+    Registry and Supervision</h3><p>API used for registering services that uses PMS.
+    Each A1 policy is owned by a service. PMS can supervise each registered service
     and will automatically remove policies for unavailable services.</p>
   license:
     name: Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.
@@ -152,8 +152,8 @@ paths:
       tags:
       - NearRT-RIC Repository
       summary: Returns info for one Near-RT RIC
-      description: Either a Near-RT RIC identity or a Mananged Element identity can
-        be specified.<br>The intention with Mananged Element identity is the ID used
+      description: Either a Near-RT RIC identity or a Managed Element identity can
+        be specified.<br>The intention with Managed Element identity is the ID used
         in O1 for accessing the traffical element (such as the ID of CU).
       operationId: getRic
       parameters:
@@ -434,9 +434,9 @@ paths:
       tags:
       - Service Registry and Supervision
       summary: Heartbeat indicates that the service is running
-      description: A registerred service must call this in regular intervals to indicate
+      description: A registered service must call this in regular intervals to indicate
         that it is in operation. Absence of this call will lead to that the service
-        will be deregisterred and all its policies are removed.
+        will be deregistered and all its policies are removed.
       operationId: keepAliveService
       parameters:
       - name: service_id
@@ -742,7 +742,7 @@ paths:
       tags:
       - Callbacks
       summary: Callback for Near-RT RIC status
-      description: The URL to this call is registerred at Service registration.
+      description: The URL to this call is registered at Service registration.
       operationId: serviceCallback
       requestBody:
         content:
@@ -897,9 +897,9 @@ components:
         keep_alive_interval_seconds:
           type: integer
           description: keep alive interval for the service. This is a heartbeat supervision
-            of the service, which in regular intevals must invoke a 'keepalive' REST
+            of the service, which in regular intervals must invoke a 'keepalive' REST
             call. When a service does not invoke this call within the given time,
-            it is considered unavailble. An unavailable service will be automatically
+            it is considered unavailable. An unavailable service will be automatically
             deregistered and its policies will be deleted. Value 0 means no timeout
             supervision.
           format: int64
@@ -955,7 +955,7 @@ components:
       properties:
         policy_schema:
           type: object
-          description: Policy type json scema. The schema is a json object following
+          description: Policy type json schema. The schema is a json object following
             http://json-schema.org/draft-07/schema
       description: Policy type
     policytype_id_list_v2:

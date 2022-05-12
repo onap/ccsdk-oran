@@ -8,7 +8,7 @@ info:
     email: nonrtric@est.tech
   description: >-
     The O-RAN A1 Adapter provides an internal REST API for management of A1
-    policices, useful for test and verification. <b>Note!</b> For production,
+    policies, useful for test and verification. <b>Note!</b> For production,
     the
     https://docs.onap.org/projects/onap-ccsdk-oran/en/latest/offeredapis/pms-api.html
     should be used!
