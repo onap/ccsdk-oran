@@ -52,6 +52,8 @@ dependency management tool (see *pom.xml* file at root level) :
 - `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
 
+To get a complete list of all dependencies, use command "mvn dependency:tree".
+
 Configuration
 -------------
 
@@ -95,8 +97,16 @@ The configuration includes:
   
   * Optional configuration for using of DMaaP. There can be one stream for requests to the component and an other stream for responses.
 
-For details about the syntax of the file, there is an example in source code repository *a1-policy-management/config/application_configuration.json* This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*
+ * Controller configuration, which includes information on how to access the a1-adapter
+ * One entry for each NearRT-RIC, which includes:
 
+   * The base URL of the NearRT RIC
+   * A list of O1 identifiers that the NearRT RIC is controlling. An application can query this service which NearRT RIC should be addressed for controlling (for instance) a given Cell.
+   * An optional reference to the controller to use, or excluded if the NearRT-RIC can be accessed directly from this component.
+
+ * Optional configuration for using of DMAAP. There can be one stream for requests to the component and an other stream for responses.
+
+For details about the syntax of the file, there is an example in source code repository */config/application_configuration.json*. This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*.
 Using CBS/Consul database for dynamic configuration
 ---------------------------------------------------
 
@@ -133,7 +143,7 @@ The target paths in the container should not be modified.
 
 Example docker run command for mounting new files (assuming they are located in the current directory): ::
 
-   docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:1.2.0-SNAPSHOT
+   docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:1.2.6-SNAPSHOT
 
 A1 Adapter (Internal)
 +++++++++++++++++++++
