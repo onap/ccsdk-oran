@@ -45,7 +45,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -65,12 +65,11 @@ class RicSupervisionTest {
             .schema("") //
             .build();
 
-    private static final Ric RIC_1 = new Ric(ImmutableRicConfig.builder() //
+    private static final Ric RIC_1 = new Ric(RicConfig.builder() //
             .ricId("ric_1") //
             .baseUrl("baseUrl1") //
             .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
             .controllerName("controllerName") //
-            .customAdapterClass("") //
             .build());
 
     private static final String POLICY_1_ID = "policyId1";

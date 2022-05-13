@@ -123,12 +123,6 @@
         </dependency>
         <dependency>
             <groupId>org.immutables</groupId>
-            <artifactId>value</artifactId>
-            <version>${immutable.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.immutables</groupId>
             <artifactId>gson</artifactId>
             <version>${immutable.version}</version>
         </dependency>

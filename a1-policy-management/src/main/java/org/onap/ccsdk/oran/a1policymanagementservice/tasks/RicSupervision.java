@@ -64,11 +64,11 @@ public class RicSupervision {
     private final Services services;
     private final AsyncRestClientFactory restClientFactory;
 
-    private static class SynchStartedException extends ServiceException {
+    private static class SynchNeededException extends ServiceException {
         private static final long serialVersionUID = 1L;
 
-        public SynchStartedException(String message) {
-            super(message);
+        public SynchNeededException(RicData ric) {
+            super("SynchNeededException for " + ric.ric.id());
         }
     }
 
@@ -113,41 +113,30 @@ public class RicSupervision {
     }
 
     private Mono<RicData> checkOneRic(RicData ricData) {
-        return checkRicState(ricData) //
-                .flatMap(x -> ricData.ric.getLock().lock(LockType.EXCLUSIVE, "checkOneRic")) //
-                .flatMap(notUsed -> setRicState(ricData)) //
+        return ricData.ric.getLock().lock(LockType.EXCLUSIVE, "checkOneRic") //
+                .flatMap(lock -> setRickConsistencyCheckState(ricData)) //
                 .flatMap(x -> checkRicPolicies(ricData)) //
                 .flatMap(x -> checkRicPolicyTypes(ricData)) //
                 .doOnNext(x -> onRicCheckedOk(ricData)) //
-                .doOnError(t -> onRicCheckedError(t, ricData)) //
+                .onErrorResume(t -> onRicCheckedError(t, ricData)) //
+                .doFinally(sig -> ricData.ric.getLock().unlockBlocking()) //
                 .onErrorResume(throwable -> Mono.empty());
     }
 
-    private void onRicCheckedError(Throwable t, RicData ricData) {
+    private Mono<RicData> onRicCheckedError(Throwable t, RicData ricData) {
         logger.debug("Ric: {} check stopped, exception: {}", ricData.ric.id(), t.getMessage());
-        if (!(t instanceof SynchStartedException)) {
-            // If synch is started, the synch will set the final state
-            ricData.ric.setState(RicState.UNAVAILABLE);
+        ricData.ric.setState(RicState.UNAVAILABLE);
+        if ((t instanceof SynchNeededException)) {
+            return startSynchronization(ricData);
+        } else {
+            logger.warn("RicSupervision, ric: {}, exception: {}", ricData.ric.id(), t.getMessage());
+            return Mono.empty();
         }
-        ricData.ric.getLock().unlockBlocking();
     }
 
     private void onRicCheckedOk(RicData ricData) {
         logger.debug("Ric: {} checked OK", ricData.ric.id());
         ricData.ric.setState(RicState.AVAILABLE);
-        ricData.ric.getLock().unlockBlocking();
-    }
-
-    @SuppressWarnings("squid:S2445") // Blocks should be synchronized on "private final" fields
-    private Mono<RicData> setRicState(RicData ric) {
-        synchronized (ric) {
-            if (ric.ric.getState() == RicState.CONSISTENCY_CHECK) {
-                logger.debug("Ric: {} is already being checked", ric.ric.getConfig().ricId());
-                return Mono.empty();
-            }
-            ric.ric.setState(RicState.CONSISTENCY_CHECK);
-            return Mono.just(ric);
-        }
     }
 
     private Mono<RicData> createRicData(Ric ric) {
@@ -156,14 +145,11 @@ public class RicSupervision {
                 .map(a1Client -> new RicData(ric, a1Client));
     }
 
-    private Mono<RicData> checkRicState(RicData ric) {
+    private Mono<RicData> setRickConsistencyCheckState(RicData ric) {
         if (ric.ric.getState() == RicState.UNAVAILABLE) {
-            logger.debug("RicSupervision, starting ric: {} synchronization (state == UNAVAILABLE)", ric.ric.id());
-            return startSynchronization(ric) //
-                    .onErrorResume(t -> Mono.empty());
-        } else if (ric.ric.getState() == RicState.SYNCHRONIZING || ric.ric.getState() == RicState.CONSISTENCY_CHECK) {
-            return Mono.empty();
+            return Mono.error(new SynchNeededException(ric));
         } else {
+            ric.ric.setState(RicState.CONSISTENCY_CHECK);
             return Mono.just(ric);
         }
     }
@@ -178,14 +164,14 @@ public class RicSupervision {
             if (ricPolicies.size() != policies.getForRic(ric.ric.id()).size()) {
                 logger.debug("RicSupervision, starting ric: {} synchronization (noOfPolicices == {}, expected == {})",
                         ric.ric.id(), ricPolicies.size(), policies.getForRic(ric.ric.id()).size());
-                return startSynchronization(ric);
+                return Mono.error(new SynchNeededException(ric));
             }
 
             for (String policyId : ricPolicies) {
                 if (!policies.containsPolicy(policyId)) {
                     logger.debug("RicSupervision, starting ric: {} synchronization (unexpected policy in RIC: {})",
                             ric.ric.id(), policyId);
-                    return startSynchronization(ric);
+                    return Mono.error(new SynchNeededException(ric));
                 }
             }
             return Mono.just(ric);
@@ -202,22 +188,23 @@ public class RicSupervision {
             logger.debug(
                     "RicSupervision, starting ric: {} synchronization (unexpected numer of policy types in RIC: {}, expected: {})",
                     ric.ric.id(), ricTypes.size(), ric.ric.getSupportedPolicyTypes().size());
-            return startSynchronization(ric);
+            return Mono.error(new SynchNeededException(ric));
         }
         for (String typeName : ricTypes) {
             if (!ric.ric.isSupportingType(typeName)) {
                 logger.debug("RicSupervision, starting ric: {} synchronization (unexpected policy type: {})",
                         ric.ric.id(), typeName);
-                return startSynchronization(ric);
+                return Mono.error(new SynchNeededException(ric));
             }
         }
         return Mono.just(ric);
     }
 
     private Mono<RicData> startSynchronization(RicData ric) {
+        logger.debug("RicSupervision, starting ric: {} synchronization, state: {}", ric.ric.id(), ric.ric.getState());
         RicSynchronizationTask synchronizationTask = createSynchronizationTask();
         return synchronizationTask.synchronizeRic(ric.ric) //
-                .flatMap(notUsed -> Mono.error(new SynchStartedException("Syncronization started")));
+                .flatMap(notUsed -> Mono.just(ric));
 
     }
 
