@@ -25,9 +25,6 @@ import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "service_registration_info_v2", description = "Information for one service")
 public class ServiceRegistrationInfo {
 

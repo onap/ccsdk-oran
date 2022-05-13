@@ -95,7 +95,7 @@ public class A1ClientFactory {
     }
 
     private ControllerConfig getControllerConfig(Ric ric) throws ServiceException {
-        String controllerName = ric.getConfig().controllerName();
+        String controllerName = ric.getConfig().getControllerName();
         if (controllerName.isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException("No controller configured for Near-RT RIC: " + ric.id());
@@ -110,7 +110,7 @@ public class A1ClientFactory {
 
     private A1Client createCustomAdapter(Ric ric) throws ServiceException {
         try {
-            Class<?> clazz = Class.forName(ric.getConfig().customAdapterClass());
+            Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
             if (A1Client.class.isAssignableFrom(clazz)) {
                 Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
                 return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
@@ -121,14 +121,14 @@ public class A1ClientFactory {
                 throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");
             }
         } catch (ClassNotFoundException e) {
-            throw new ServiceException("Could not find class: " + ric.getConfig().customAdapterClass(), e);
+            throw new ServiceException("Could not find class: " + ric.getConfig().getCustomAdapterClass(), e);
         } catch (Exception e) {
-            throw new ServiceException("Cannot create custom adapter: " + ric.getConfig().customAdapterClass(), e);
+            throw new ServiceException("Cannot create custom adapter: " + ric.getConfig().getCustomAdapterClass(), e);
         }
     }
 
     private void assertNoControllerConfig(Ric ric, A1ProtocolType version) throws ServiceException {
-        if (!ric.getConfig().controllerName().isEmpty()) {
+        if (!ric.getConfig().getControllerName().isEmpty()) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException(
                     "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);
@@ -152,9 +152,7 @@ public class A1ClientFactory {
                     .doOnNext(ric::setProtocolVersion)
                     .doOnNext(version -> logger.debug("Established protocol version:{} for Near-RT RIC: {}", version,
                             ric.id())) //
-                    .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id())) //
-                    .onErrorResume(
-                            notUsed -> Mono.error(new ServiceException("Protocol negotiation failed for " + ric.id())));
+                    .doOnError(notUsed -> logger.warn("Could not get protocol version from Near-RT RIC: {}", ric.id()));
         } else {
             return Mono.just(ric.getProtocolVersion());
         }

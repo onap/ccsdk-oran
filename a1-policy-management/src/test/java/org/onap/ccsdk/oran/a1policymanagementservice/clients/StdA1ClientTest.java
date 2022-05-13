@@ -80,7 +80,7 @@ class StdA1ClientTest {
 
     @Test
     void testGetPolicyIdentities() {
-        doReturn(RIC_URL).when(ricConfigMock).baseUrl();
+        doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         Mono<String> policyIds = Mono.just(Arrays.asList(POLICY_1_ID, POLICY_2_ID).toString());
         when(asyncRestClientMock.get(anyString())).thenReturn(policyIds);
 
@@ -98,7 +98,7 @@ class StdA1ClientTest {
 
     @Test
     void testPutPolicyValidResponse() {
-        doReturn(RIC_URL).when(ricConfigMock).baseUrl();
+        doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         when(asyncRestClientMock.put(anyString(), anyString())).thenReturn(Mono.just(POLICY_JSON));
 
         Mono<String> policyMono =
@@ -110,7 +110,7 @@ class StdA1ClientTest {
 
     @Test
     void testDeletePolicy() {
-        doReturn(RIC_URL).when(ricConfigMock).baseUrl();
+        doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         final String url = policiesBaseUrl() + POLICY_1_ID;
         when(asyncRestClientMock.delete(url)).thenReturn(Mono.empty());
 
@@ -122,7 +122,7 @@ class StdA1ClientTest {
 
     @Test
     void testDeleteAllPolicies() {
-        doReturn(RIC_URL).when(ricConfigMock).baseUrl();
+        doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         Mono<String> policyIds = Mono.just(Arrays.asList(POLICY_1_ID, POLICY_2_ID).toString());
         when(asyncRestClientMock.get(policiesUrl())).thenReturn(policyIds);
         when(asyncRestClientMock.delete(anyString())).thenReturn(Mono.empty());

@@ -110,7 +110,7 @@ public class OscA1Client implements A1Client {
         }
 
         private String baseUri() {
-            return ricConfig.baseUrl() + "/a1-p";
+            return ricConfig.getBaseUrl() + "/a1-p";
         }
     }
 
@@ -125,7 +125,7 @@ public class OscA1Client implements A1Client {
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
+        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
 
         uri = new UriBuilder(ricConfig);
     }
