@@ -27,9 +27,6 @@ import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "policytype_v2", description = "Policy type")
 public class PolicyTypeInfo {
 

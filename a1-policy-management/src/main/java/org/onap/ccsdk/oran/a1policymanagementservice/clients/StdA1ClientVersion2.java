@@ -121,7 +121,7 @@ public class StdA1ClientVersion2 implements A1Client {
         }
 
         private String baseUri() {
-            return ricConfig.baseUrl() + "/A1-P/v2";
+            return ricConfig.getBaseUrl() + "/A1-P/v2";
         }
     }
 
@@ -136,7 +136,7 @@ public class StdA1ClientVersion2 implements A1Client {
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.ricId());
+        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
 
         uriBuiler = new OranV2UriBuilder(ricConfig);
     }

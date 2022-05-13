@@ -20,38 +20,41 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 import reactor.netty.transport.ProxyProvider;
 
-@Value.Immutable
-@Value.Style(redactedMask = "####")
-public interface WebClientConfig {
-    public String keyStoreType();
+@Builder
+@Getter
+@ToString
+public class WebClientConfig {
+    private String keyStoreType;
 
-    @Value.Redacted
-    public String keyStorePassword();
+    private String keyStorePassword;
 
-    public String keyStore();
+    private String keyStore;
 
-    @Value.Redacted
-    public String keyPassword();
+    @ToString.Exclude
+    private String keyPassword;
 
-    public boolean isTrustStoreUsed();
+    private boolean isTrustStoreUsed;
 
-    @Value.Redacted
-    public String trustStorePassword();
+    private String trustStorePassword;
 
-    public String trustStore();
+    private String trustStore;
 
-    @Value.Immutable
-    public interface HttpProxyConfig {
-        public String httpProxyHost();
+    @Builder
+    @Getter
+    @ToString
+    public static class HttpProxyConfig {
+        private String httpProxyHost;
 
-        public int httpProxyPort();
+        private int httpProxyPort;
 
-        public ProxyProvider.Proxy httpProxyType();
+        private ProxyProvider.Proxy httpProxyType;
     }
 
-    public HttpProxyConfig httpProxyConfig();
+    private HttpProxyConfig httpProxyConfig;
 
 }
