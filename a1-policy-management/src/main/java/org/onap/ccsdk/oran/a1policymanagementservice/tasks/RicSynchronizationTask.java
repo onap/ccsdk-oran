@@ -78,10 +78,10 @@ public class RicSynchronizationTask {
     }
 
     public void run(Ric ric) {
-        logger.debug("Ric synchronization task created: {}", ric.getConfig().ricId());
+        logger.debug("Ric synchronization task created: {}", ric.getConfig().getRicId());
 
         if (ric.getState() == RicState.SYNCHRONIZING) {
-            logger.debug("Ric: {} is already being synchronized", ric.getConfig().ricId());
+            logger.debug("Ric: {} is already being synchronized", ric.getConfig().getRicId());
             return;
         }
 
@@ -115,7 +115,7 @@ public class RicSynchronizationTask {
         return a1Client.getPolicyTypeIdentities() //
                 .doOnNext(x -> ric.clearSupportedPolicyTypes()) //
                 .flatMapMany(Flux::fromIterable) //
-                .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().ricId(), typeId)) //
+                .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().getRicId(), typeId)) //
                 .flatMap(policyTypeId -> getPolicyType(policyTypeId, a1Client), CONCURRENCY_RIC) //
                 .doOnNext(ric::addSupportedPolicyType); //
     }
@@ -124,10 +124,10 @@ public class RicSynchronizationTask {
     private Mono<Ric> setRicState(Ric ric) {
         synchronized (ric) {
             if (ric.getState() == RicState.SYNCHRONIZING) {
-                logger.debug("Ric: {} is already being synchronized", ric.getConfig().ricId());
+                logger.debug("Ric: {} is already being synchronized", ric.getConfig().getRicId());
                 return Mono.empty();
             }
-            logger.debug("Ric state set to SYNCHRONIZING: {}", ric.getConfig().ricId());
+            logger.debug("Ric state set to SYNCHRONIZING: {}", ric.getConfig().getRicId());
             ric.setState(RicState.SYNCHRONIZING);
             return Mono.just(ric);
         }
@@ -188,7 +188,7 @@ public class RicSynchronizationTask {
     }
 
     private Flux<Policy> putPolicy(Policy policy, Ric ric, A1Client a1Client) {
-        logger.trace("Recreating policy: {}, for ric: {}", policy.getId(), ric.getConfig().ricId());
+        logger.trace("Recreating policy: {}, for ric: {}", policy.getId(), ric.getConfig().getRicId());
         return a1Client.putPolicy(policy) //
                 .flatMapMany(notUsed -> Flux.just(policy));
     }

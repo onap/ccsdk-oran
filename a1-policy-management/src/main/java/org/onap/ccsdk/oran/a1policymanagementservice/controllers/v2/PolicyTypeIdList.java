@@ -27,9 +27,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "policytype_id_list_v2", description = "Information about policy types")
 public class PolicyTypeIdList {
 

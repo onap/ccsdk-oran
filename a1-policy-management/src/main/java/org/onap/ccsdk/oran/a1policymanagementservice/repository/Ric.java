@@ -54,11 +54,11 @@ public class Ric {
      */
     public Ric(RicConfig ricConfig) {
         this.ricConfig = ricConfig;
-        this.lock = new Lock(ricConfig.ricId());
+        this.lock = new Lock(ricConfig.getRicId());
     }
 
     public String id() {
-        return ricConfig.ricId();
+        return ricConfig.getRicId();
     }
 
     public RicConfig getConfig() {
@@ -74,7 +74,7 @@ public class Ric {
     }
 
     public synchronized A1ProtocolType getProtocolVersion() {
-        if (this.ricConfig.customAdapterClass().isEmpty()) {
+        if (this.ricConfig.getCustomAdapterClass().isEmpty()) {
             return this.protocolVersion;
         } else {
             return A1ProtocolType.CUSTOM_PROTOCOL;
@@ -87,7 +87,7 @@ public class Ric {
      * @return a vector containing the nodes managed by this Ric.
      */
     public synchronized Collection<String> getManagedElementIds() {
-        return new Vector<>(ricConfig.managedElementIds());
+        return new Vector<>(ricConfig.getManagedElementIds());
     }
 
     /**
@@ -97,7 +97,7 @@ public class Ric {
      * @return true if the given node is managed by this Ric.
      */
     public synchronized boolean isManaging(String managedElementId) {
-        return ricConfig.managedElementIds().contains(managedElementId);
+        return ricConfig.getManagedElementIds().contains(managedElementId);
     }
 
     /**
@@ -143,7 +143,7 @@ public class Ric {
     @Override
     public synchronized String toString() {
         return Ric.class.getSimpleName() + ": " + "name: " + id() + ", state: " + state + ", baseUrl: "
-                + ricConfig.baseUrl() + ", managedNodes: " + ricConfig.managedElementIds();
+                + ricConfig.getBaseUrl() + ", managedNodes: " + ricConfig.getManagedElementIds();
     }
 
     /**
