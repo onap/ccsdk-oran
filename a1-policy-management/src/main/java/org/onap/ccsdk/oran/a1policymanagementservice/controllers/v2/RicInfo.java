@@ -27,13 +27,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Collection;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "ric_info_v2", description = "Information for a Near-RT RIC")
 public class RicInfo {
 
-    @Gson.TypeAdapters
     @Schema(name = "ric_state_v2", description = "Represents the states for a Near-RT RIC")
     public enum RicState {
         UNAVAILABLE, AVAILABLE, SYNCHRONIZING, CONSISTENCY_CHECK

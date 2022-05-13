@@ -75,7 +75,7 @@ public class StdA1ClientVersion1 implements A1Client {
         }
 
         private String baseUri() {
-            return ricConfig.baseUrl() + "/A1-P/v1";
+            return ricConfig.getBaseUrl() + "/A1-P/v1";
         }
 
         private String policiesBaseUri() {

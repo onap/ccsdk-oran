@@ -60,7 +60,7 @@ public class AsyncRestClientFactory {
     public AsyncRestClientFactory(WebClientConfig clientConfig, SecurityContext securityContext) {
         if (clientConfig != null) {
             this.sslContextFactory = new CachingSslContextFactory(clientConfig);
-            this.httpProxyConfig = clientConfig.httpProxyConfig();
+            this.httpProxyConfig = clientConfig.getHttpProxyConfig();
         } else {
             logger.warn("No configuration for web client defined, HTTPS will not work");
             this.sslContextFactory = null;
@@ -105,8 +105,8 @@ public class AsyncRestClientFactory {
         private SslContext createSslContext(KeyManagerFactory keyManager)
                 throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
             if (this.clientConfig.isTrustStoreUsed()) {
-                return createSslContextRejectingUntrustedPeers(this.clientConfig.trustStore(),
-                        this.clientConfig.trustStorePassword(), keyManager);
+                return createSslContextRejectingUntrustedPeers(this.clientConfig.getTrustStore(),
+                        this.clientConfig.getTrustStorePassword(), keyManager);
             } else {
                 // Trust anyone
                 return SslContextBuilder.forClient() //
@@ -154,10 +154,10 @@ public class AsyncRestClientFactory {
         private KeyManagerFactory createKeyManager() throws NoSuchAlgorithmException, CertificateException, IOException,
                 UnrecoverableKeyException, KeyStoreException {
             final KeyManagerFactory keyManager = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            final KeyStore keyStore = KeyStore.getInstance(this.clientConfig.keyStoreType());
-            final String keyStoreFile = this.clientConfig.keyStore();
-            final String keyStorePassword = this.clientConfig.keyStorePassword();
-            final String keyPassword = this.clientConfig.keyPassword();
+            final KeyStore keyStore = KeyStore.getInstance(this.clientConfig.getKeyStoreType());
+            final String keyStoreFile = this.clientConfig.getKeyStore();
+            final String keyStorePassword = this.clientConfig.getKeyStorePassword();
+            final String keyPassword = this.clientConfig.getKeyPassword();
             try (final InputStream inputStream = new FileInputStream(keyStoreFile)) {
                 keyStore.load(inputStream, keyStorePassword.toCharArray());
             }
