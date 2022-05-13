@@ -59,25 +59,27 @@ class ApplicationConfigParserTest {
 
         ApplicationConfigParser.ConfigParserResult result = parserUnderTest.parse(jsonRootObject);
 
-        String topicUrl = result.dmaapProducerTopicUrl();
+        String topicUrl = result.getDmaapProducerTopicUrl();
         assertEquals("http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-WRITE", topicUrl, "controller contents");
 
-        topicUrl = result.dmaapConsumerTopicUrl();
+        topicUrl = result.getDmaapConsumerTopicUrl();
         assertEquals(
                 "http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-READ/users/policy-agent?timeout=15000&limit=100",
                 topicUrl, "controller contents");
 
-        Map<String, ControllerConfig> controllers = result.controllerConfigs();
+        Map<String, ControllerConfig> controllers = result.getControllerConfigs();
         assertEquals(1, controllers.size(), "size");
-        ImmutableControllerConfig expectedControllerConfig = ImmutableControllerConfig.builder() //
+        ControllerConfig expectedControllerConfig = ControllerConfig.builder() //
                 .baseUrl("http://localhost:8083/") //
                 .name("controller1") //
                 .userName("user") //
                 .password("password") //
                 .build(); //
-        assertEquals(expectedControllerConfig, controllers.get("controller1"), "controller contents");
 
-        assertEquals(2, result.ricConfigs().size());
+        ControllerConfig actual = controllers.get("controller1");
+        assertEquals(expectedControllerConfig, actual, "controller contents");
+
+        assertEquals(2, result.getRicConfigs().size());
     }
 
     private JsonObject getJsonRootObject() throws JsonIOException, JsonSyntaxException, IOException {

@@ -38,8 +38,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableControllerConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
@@ -70,8 +68,8 @@ class A1ClientFactoryTest {
     private Ric ric;
     private A1ClientFactory factoryUnderTest;
 
-    private static ImmutableRicConfig ricConfig(String controllerName, String customAdapter) {
-        return ImmutableRicConfig.builder() //
+    private static RicConfig ricConfig(String controllerName, String customAdapter) {
+        return RicConfig.builder() //
                 .ricId(RIC_NAME) //
                 .baseUrl("baseUrl") //
                 .managedElementIds(new Vector<>()) //
@@ -80,7 +78,7 @@ class A1ClientFactoryTest {
                 .build();
     }
 
-    private static ImmutableRicConfig ricConfig(String controllerName) {
+    private static RicConfig ricConfig(String controllerName) {
         return ricConfig(controllerName, "");
     }
 
@@ -193,7 +191,7 @@ class A1ClientFactoryTest {
     }
 
     private void whenGetGetControllerConfigReturn() throws ServiceException {
-        ControllerConfig controllerCfg = ImmutableControllerConfig.builder() //
+        ControllerConfig controllerCfg = ControllerConfig.builder() //
                 .name("name") //
                 .baseUrl("baseUrl") //
                 .password("pass") //

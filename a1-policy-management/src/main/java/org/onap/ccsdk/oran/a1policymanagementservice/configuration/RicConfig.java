@@ -20,20 +20,24 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collection;
 
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Value.Immutable
-public interface RicConfig {
-    public String ricId();
+@Builder
+@Getter
+@EqualsAndHashCode
+public class RicConfig {
+    private String ricId;
 
-    public String controllerName();
+    @Builder.Default
+    private String controllerName = "";
 
-    public String baseUrl();
+    private String baseUrl;
 
-    public ImmutableList<String> managedElementIds();
-
-    public String customAdapterClass();
-
+    private Collection<String> managedElementIds;
+    @Builder.Default
+    private String customAdapterClass = "";
 }

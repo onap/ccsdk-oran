@@ -142,7 +142,7 @@ public class RicSupervision {
     private Mono<RicData> setRicState(RicData ric) {
         synchronized (ric) {
             if (ric.ric.getState() == RicState.CONSISTENCY_CHECK) {
-                logger.debug("Ric: {} is already being checked", ric.ric.getConfig().ricId());
+                logger.debug("Ric: {} is already being checked", ric.ric.getConfig().getRicId());
                 return Mono.empty();
             }
             ric.ric.setState(RicState.CONSISTENCY_CHECK);

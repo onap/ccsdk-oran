@@ -53,8 +53,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFact
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableWebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
@@ -948,15 +946,15 @@ class ApplicationTest {
 
     private AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
-        config = ImmutableWebClientConfig.builder() //
-                .keyStoreType(config.keyStoreType()) //
-                .keyStorePassword(config.keyStorePassword()) //
-                .keyStore(config.keyStore()) //
-                .keyPassword(config.keyPassword()) //
+        config = WebClientConfig.builder() //
+                .keyStoreType(config.getKeyStoreType()) //
+                .keyStorePassword(config.getKeyStorePassword()) //
+                .keyStore(config.getKeyStore()) //
+                .keyPassword(config.getKeyPassword()) //
                 .isTrustStoreUsed(useTrustValidation) //
-                .trustStore(config.trustStore()) //
-                .trustStorePassword(config.trustStorePassword()) //
-                .httpProxyConfig(config.httpProxyConfig()) //
+                .trustStore(config.getTrustStore()) //
+                .trustStorePassword(config.getTrustStorePassword()) //
+                .httpProxyConfig(config.getHttpProxyConfig()) //
                 .build();
 
         AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
@@ -1041,11 +1039,10 @@ class ApplicationTest {
         if (managedElement != null) {
             mes.add(managedElement);
         }
-        return ImmutableRicConfig.builder() //
+        return RicConfig.builder() //
                 .ricId(ricId) //
                 .baseUrl(ricId) //
                 .managedElementIds(mes) //
-                .controllerName("") //
                 .customAdapterClass("") //
                 .build();
     }

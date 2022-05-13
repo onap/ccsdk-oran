@@ -25,9 +25,6 @@ import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import org.immutables.gson.Gson;
-
-@Gson.TypeAdapters
 @Schema(name = "service_callback_info_v2",
         description = "Information transferred as in Service callbacks (callback_url)")
 public class ServiceCallbackInfo {
@@ -35,7 +32,6 @@ public class ServiceCallbackInfo {
     private static final String EVENT_TYPE_DESCRIPTION = "values:\n" //
             + "AVAILABLE: the  Near-RT RIC has become available for A1 Policy management";
 
-    @Gson.TypeAdapters
     @Schema(name = "event_type_v2", description = EVENT_TYPE_DESCRIPTION)
     public enum EventType {
         AVAILABLE

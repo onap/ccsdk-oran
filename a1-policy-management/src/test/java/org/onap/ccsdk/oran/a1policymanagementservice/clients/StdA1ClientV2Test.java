@@ -38,7 +38,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 
 import reactor.core.publisher.Flux;
@@ -69,11 +68,10 @@ class StdA1ClientV2Test {
 
     @BeforeEach
     void init() {
-        RicConfig ricConfig = ImmutableRicConfig.builder() //
+        RicConfig ricConfig = RicConfig.builder() //
                 .ricId("name") //
                 .baseUrl(RIC_URL) //
                 .managedElementIds(new ArrayList<>()) //
-                .controllerName("") //
                 .customAdapterClass("") //
                 .build();
         asyncRestClientMock = mock(AsyncRestClient.class);

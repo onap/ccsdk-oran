@@ -41,8 +41,9 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.Getter;
+
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
@@ -63,16 +64,16 @@ public class ApplicationConfigParser {
         this.applicationConfig = applicationConfig;
     }
 
-    @Value.Immutable
-    @Gson.TypeAdapters
-    public interface ConfigParserResult {
-        List<RicConfig> ricConfigs();
+    @Builder
+    @Getter
+    public static class ConfigParserResult {
+        private List<RicConfig> ricConfigs;
 
-        Map<String, ControllerConfig> controllerConfigs();
+        private Map<String, ControllerConfig> controllerConfigs;
 
-        String dmaapConsumerTopicUrl();
+        private String dmaapConsumerTopicUrl;
 
-        String dmaapProducerTopicUrl();
+        private String dmaapProducerTopicUrl;
 
     }
 
@@ -103,7 +104,7 @@ public class ApplicationConfigParser {
         Map<String, ControllerConfig> controllerConfigs = parseControllerConfigs(pmsConfigJson);
         checkConfigurationConsistency(ricConfigs, controllerConfigs);
 
-        return ImmutableConfigParserResult.builder() //
+        return ConfigParserResult.builder() //
                 .dmaapConsumerTopicUrl(dmaapConsumerTopicUrl) //
                 .dmaapProducerTopicUrl(dmaapProducerTopicUrl) //
                 .ricConfigs(ricConfigs) //
@@ -147,15 +148,15 @@ public class ApplicationConfigParser {
         Set<String> ricUrls = new HashSet<>();
         Set<String> ricNames = new HashSet<>();
         for (RicConfig ric : ricConfigs) {
-            if (!ricUrls.add(ric.baseUrl())) {
-                throw new ServiceException("Configuration error, more than one RIC URL: " + ric.baseUrl());
+            if (!ricUrls.add(ric.getBaseUrl())) {
+                throw new ServiceException("Configuration error, more than one RIC URL: " + ric.getBaseUrl());
             }
-            if (!ricNames.add(ric.ricId())) {
-                throw new ServiceException("Configuration error, more than one RIC with name: " + ric.ricId());
+            if (!ricNames.add(ric.getRicId())) {
+                throw new ServiceException("Configuration error, more than one RIC with name: " + ric.getRicId());
             }
-            if (!ric.controllerName().isEmpty() && controllerConfigs.get(ric.controllerName()) == null) {
+            if (!ric.getControllerName().isEmpty() && controllerConfigs.get(ric.getControllerName()) == null) {
                 throw new ServiceException(
-                        "Configuration error, controller configuration not found: " + ric.controllerName());
+                        "Configuration error, controller configuration not found: " + ric.getControllerName());
             }
         }
     }
@@ -164,17 +165,17 @@ public class ApplicationConfigParser {
         List<RicConfig> result = new ArrayList<>();
         for (JsonElement ricElem : getAsJsonArray(config, "ric")) {
             JsonObject ricJsonObj = ricElem.getAsJsonObject();
-            RicConfig ricConfig = ImmutableRicConfig.builder() //
+            RicConfig ricConfig = RicConfig.builder() //
                     .ricId(get(ricJsonObj, "name", "id", "ricId").getAsString()) //
                     .baseUrl(get(ricJsonObj, "baseUrl").getAsString()) //
                     .managedElementIds(parseManagedElementIds(get(ricJsonObj, "managedElementIds").getAsJsonArray())) //
                     .controllerName(getString(ricJsonObj, CONTROLLER, ""))
                     .customAdapterClass(getString(ricJsonObj, "customAdapterClass", "")) //
                     .build();
-            if (!ricConfig.baseUrl().isEmpty()) {
+            if (!ricConfig.getBaseUrl().isEmpty()) {
                 result.add(ricConfig);
             } else {
-                logger.error("RIC configuration error {}, baseUrl is empty", ricConfig.ricId());
+                logger.error("RIC configuration error {}, baseUrl is empty", ricConfig.getRicId());
             }
         }
         return result;
@@ -195,16 +196,16 @@ public class ApplicationConfigParser {
         Map<String, ControllerConfig> result = new HashMap<>();
         for (JsonElement element : getAsJsonArray(config, CONTROLLER)) {
             JsonObject controllerAsJson = element.getAsJsonObject();
-            ImmutableControllerConfig controllerConfig = ImmutableControllerConfig.builder() //
+            ControllerConfig controllerConfig = ControllerConfig.builder() //
                     .name(get(controllerAsJson, "name").getAsString()) //
                     .baseUrl(get(controllerAsJson, "baseUrl").getAsString()) //
                     .password(get(controllerAsJson, "password").getAsString()) //
                     .userName(get(controllerAsJson, "userName").getAsString()) // )
                     .build();
 
-            if (result.put(controllerConfig.name(), controllerConfig) != null) {
+            if (result.put(controllerConfig.getName(), controllerConfig) != null) {
                 throw new ServiceException(
-                        "Configuration error, more than one controller with name: " + controllerConfig.name());
+                        "Configuration error, more than one controller with name: " + controllerConfig.getName());
             }
         }
         return result;

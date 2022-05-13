@@ -27,7 +27,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.immutables.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,6 @@ public class StatusController {
     public static final String API_NAME = "Health Check";
     public static final String API_DESCRIPTION = "";
 
-    @Gson.TypeAdapters
     @Schema(name = "status_info_v2")
     class StatusInfo {
         @Schema(description = "status text")

@@ -46,7 +46,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableRicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -105,7 +105,7 @@ class RicSynchronizationTaskTest {
 
     @BeforeEach
     void init() {
-        ric1 = new Ric(ImmutableRicConfig.builder() //
+        ric1 = new Ric(RicConfig.builder() //
                 .ricId(RIC_1_NAME) //
                 .baseUrl("baseUrl1") //
                 .managedElementIds(Collections.emptyList()) //
