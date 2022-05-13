@@ -20,19 +20,22 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import org.immutables.value.Value;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-@Value.Immutable
-@Value.Style(redactedMask = "####")
+@Builder
+@Getter
+@EqualsAndHashCode
+@ToString
+public class ControllerConfig {
+    private String name;
 
-public interface ControllerConfig {
-    public String name();
+    private String baseUrl;
 
-    public String baseUrl();
+    private String userName;
 
-    public String userName();
-
-    @Value.Redacted
-    public String password();
-
+    @ToString.Exclude
+    private String password;
 }

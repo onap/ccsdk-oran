@@ -60,7 +60,8 @@ public class SwaggerConfig {
             "<li>A1 Policy creation, modification and deletion.</li>" + //
             "<li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li>" + //
             "<li>Maintaining a view of supported Near-RT RIC policy types</li>" + //
-            "<li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li>" + //
+            "<li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li>"
+            + //
             "</ul>" + //
             "<h2>APIs provided by the service</h2>" + //
             H3 + PolicyController.API_NAME + H3_END + //

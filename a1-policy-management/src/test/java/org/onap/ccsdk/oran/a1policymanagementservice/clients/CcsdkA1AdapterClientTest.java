@@ -45,9 +45,7 @@ import org.mockito.stubbing.OngoingStubbing;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterOutput;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterRequest;
-import org.onap.ccsdk.oran.a1policymanagementservice.clients.ImmutableAdapterOutput.Builder;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ImmutableControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -74,7 +72,7 @@ class CcsdkA1AdapterClientTest {
     AsyncRestClient asyncRestClientMock;
 
     private ControllerConfig controllerConfig() {
-        return ImmutableControllerConfig.builder() //
+        return ControllerConfig.builder() //
                 .name("name") //
                 .baseUrl("baseUrl") //
                 .password(CONTROLLER_PASSWORD) //
@@ -113,9 +111,8 @@ class CcsdkA1AdapterClientTest {
         assertEquals(1, policyTypeIds.size());
         assertEquals(POLICY_TYPE_1_ID, policyTypeIds.get(0));
 
-        ImmutableAdapterRequest expectedParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(expUrl) //
-                .build();
+        AdapterRequest expectedParams = new AdapterRequest(expUrl, Optional.empty());
+
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedParams);
         verify(asyncRestClientMock).postWithAuthHeader(GET_A1_POLICY_URL, expInput, CONTROLLER_USERNAME,
                 CONTROLLER_PASSWORD);
@@ -160,9 +157,8 @@ class CcsdkA1AdapterClientTest {
         assertEquals(policyTypeId, respJson.getAsJsonObject().get("title").getAsString(),
                 "title should be updated to contain policyType ID");
 
-        ImmutableAdapterRequest expectedParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(expUrl) //
-                .build();
+        AdapterRequest expectedParams = new AdapterRequest(expUrl, Optional.empty());
+
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedParams);
 
         verify(asyncRestClientMock).postWithAuthHeader(GET_A1_POLICY_URL, expInput, CONTROLLER_USERNAME,
@@ -205,9 +201,8 @@ class CcsdkA1AdapterClientTest {
 
         assertEquals(1, returned.size());
         for (String expUrl : expUrls) {
-            ImmutableAdapterRequest expectedParams = ImmutableAdapterRequest.builder() //
-                    .nearRtRicUrl(expUrl) //
-                    .build();
+            AdapterRequest expectedParams = new AdapterRequest(expUrl, Optional.empty());
+
             String expInput = A1AdapterJsonHelper.createInputJsonString(expectedParams);
             verify(asyncRestClientMock).postWithAuthHeader(GET_A1_POLICY_URL, expInput, CONTROLLER_USERNAME,
                     CONTROLLER_PASSWORD);
@@ -246,10 +241,7 @@ class CcsdkA1AdapterClientTest {
                 .block();
 
         assertEquals("OK", returned);
-        AdapterRequest expectedInputParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(expUrl) //
-                .body(POLICY_JSON_VALID) //
-                .build();
+        AdapterRequest expectedInputParams = new AdapterRequest(expUrl, Optional.of(POLICY_JSON_VALID));
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedInputParams);
 
         verify(asyncRestClientMock).postWithAuthHeader(PUT_A1_URL, expInput, CONTROLLER_USERNAME, CONTROLLER_PASSWORD);
@@ -282,10 +274,7 @@ class CcsdkA1AdapterClientTest {
                 controllerConfig(), asyncRestClientMock);
 
         final String policyJson = "{}";
-        AdapterOutput adapterOutput = ImmutableAdapterOutput.builder() //
-                .body("NOK") //
-                .httpStatus(HttpStatus.BAD_REQUEST.value()) // ERROR
-                .build();
+        AdapterOutput adapterOutput = new AdapterOutput(HttpStatus.BAD_REQUEST.value(), Optional.of("NOK"));
 
         String resp = A1AdapterJsonHelper.createOutputJsonString(adapterOutput);
         whenAsyncPostThenReturn(Mono.just(resp));
@@ -311,9 +300,8 @@ class CcsdkA1AdapterClientTest {
 
         clientUnderTest.deleteAllPolicies().blockLast();
 
-        ImmutableAdapterRequest expectedParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(expUrl) //
-                .build();
+        AdapterRequest expectedParams = new AdapterRequest(expUrl, Optional.empty());
+
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedParams);
         verify(asyncRestClientMock).postWithAuthHeader(DELETE_A1_URL, expInput, CONTROLLER_USERNAME,
                 CONTROLLER_PASSWORD);
@@ -363,9 +351,8 @@ class CcsdkA1AdapterClientTest {
         assertEquals("OK", response);
 
         String expUrl = RIC_1_URL + "/A1-P/v2/policytypes/type1/policies/policy1/status";
-        ImmutableAdapterRequest expectedParams = ImmutableAdapterRequest.builder() //
-                .nearRtRicUrl(expUrl) //
-                .build();
+        AdapterRequest expectedParams = new AdapterRequest(expUrl, Optional.empty());
+
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedParams);
         verify(asyncRestClientMock).postWithAuthHeader(GET_A1_POLICY_STATUS_URL, expInput, CONTROLLER_USERNAME,
                 CONTROLLER_PASSWORD);
@@ -392,21 +379,14 @@ class CcsdkA1AdapterClientTest {
     }
 
     private String createOkResponseWithBody(Object body) {
-        AdapterOutput output = ImmutableAdapterOutput.builder() //
-                .body(gson().toJson(body)) //
-                .httpStatus(HttpStatus.OK.value()) //
-                .build();
+        AdapterOutput output = new AdapterOutput(HttpStatus.OK.value(), Optional.of(gson().toJson(body)));
         return A1AdapterJsonHelper.createOutputJsonString(output);
     }
 
     private String createOkResponseString(boolean withBody) {
-        Builder responseBuilder = ImmutableAdapterOutput.builder().httpStatus(HttpStatus.OK.value());
-        if (withBody) {
-            responseBuilder.body(HttpStatus.OK.name());
-        } else {
-            responseBuilder.body(Optional.empty());
-        }
-        return A1AdapterJsonHelper.createOutputJsonString(responseBuilder.build());
+        String body = withBody ? HttpStatus.OK.name() : null;
+        AdapterOutput output = new AdapterOutput(HttpStatus.OK.value(), Optional.ofNullable(body));
+        return A1AdapterJsonHelper.createOutputJsonString(output);
     }
 
     private OngoingStubbing<Mono<String>> whenAsyncPostThenReturn(Mono<String> response) {

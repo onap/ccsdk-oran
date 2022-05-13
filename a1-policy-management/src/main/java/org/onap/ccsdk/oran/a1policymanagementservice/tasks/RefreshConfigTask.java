@@ -195,7 +195,7 @@ public class RefreshConfigTask {
 
     public Mono<RicConfigUpdate.Type> handleUpdatedRicConfig(RicConfigUpdate updatedInfo) {
         synchronized (this.rics) {
-            String ricId = updatedInfo.getRicConfig().ricId();
+            String ricId = updatedInfo.getRicConfig().getRicId();
             RicConfigUpdate.Type event = updatedInfo.getType();
             if (event == RicConfigUpdate.Type.ADDED) {
                 logger.debug("RIC added {}", ricId);
