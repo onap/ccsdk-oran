@@ -68,8 +68,8 @@ public class RicRepositoryController {
 
     private static final String GET_RIC_BRIEF = "Returns info for one Near-RT RIC";
     private static final String GET_RIC_DETAILS =
-            "Either a Near-RT RIC identity or a Mananged Element identity can be specified.<br>" //
-                    + "The intention with Mananged Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).";
+            "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>" //
+                    + "The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).";
 
     /**
      * Example: http://localhost:8081/v2/rics/ric?managed_element_id=kista_1

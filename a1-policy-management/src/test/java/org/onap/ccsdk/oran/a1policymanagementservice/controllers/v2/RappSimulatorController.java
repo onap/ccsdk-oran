@@ -78,7 +78,7 @@ public class RappSimulatorController {
     @Getter
     private TestResults testResults = new TestResults();
 
-    private static final String CALLBACK_DESCRIPTION = "The URL to this call is registerred at Service registration.";
+    private static final String CALLBACK_DESCRIPTION = "The URL to this call is registered at Service registration.";
 
     @PostMapping(path = SERVICE_CALLBACK_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Callback for Near-RT RIC status", description = CALLBACK_DESCRIPTION)
