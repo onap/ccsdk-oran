@@ -54,6 +54,9 @@
                 },
                 "controller": {
                   "type": "string"
+                }, 
+                "customAdapterClass" : {
+                  "type": "string"
                 },
                 "managedElementIds": {
                   "type": "array",
@@ -94,18 +97,21 @@
                   },
                   "required": [
                     "topic_url"
-                  ]
+                  ],
+                  "additionalProperties": false
                 }
               },
               "required": [
                 "type",
                 "dmaap_info"
-              ]
+              ],
+              "additionalProperties": false
             }
           },
           "required": [
             "dmaap_publisher"
-          ]
+          ],
+           "additionalProperties": false
         },
         "streams_subscribes": {
           "type": "object",
@@ -125,18 +131,21 @@
                   },
                   "required": [
                     "topic_url"
-                  ]
+                  ],
+                  "additionalProperties": false
                 }
               },
               "required": [
                 "type",
                 "dmaap_info"
-              ]
+              ],
+               "additionalProperties": false
             }
           },
           "required": [
             "dmaap_subscriber"
-          ]
+          ],
+           "additionalProperties": false
         }
       },
       "required": [
@@ -147,5 +156,6 @@
   },
   "required": [
     "config"
-  ]
+  ],
+  "additionalProperties": false
 }
