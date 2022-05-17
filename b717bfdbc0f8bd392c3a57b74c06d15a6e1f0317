@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4fa10acd_623bf731",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "It is still used for gson.",
+      "parentUuid": "48a5280a_2970f4fb",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7034f97_1e7b8f9c",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientHelper.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "152c9b43_3168dd6b",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7034f97_1e7b8f9c",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d37f8a4a_9147e7ca",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1ClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb7a73b1_2fa8e881",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 56
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e43d6225_1aac46d8",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1ClientTest.java",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9632369_a85131e5",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1ClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e43d6225_1aac46d8",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e1d71a0e_fc7b7315",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/StdA1ClientV2Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af8c78f_8948a4d2",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b534a6fa_285ded64",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/StdA1ClientV2Test.java",
         "patchSetId": 1
@@ -137,6 +257,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789c7319_e647a91b",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/StdA1ClientV2Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b534a6fa_285ded64",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "79015815_251d3bf8",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1addc09f_b62aba5c",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c28f59a0_7e1f904e",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
         "patchSetId": 1
@@ -183,6 +351,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0547b9dd_af72e7c2",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c28f59a0_7e1f904e",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "c4e6e36c_cefe2541",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b69f693_9c86c193",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 48
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f4b9de_60c325f1",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
         "patchSetId": 1
@@ -229,6 +445,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e1f32d_b3bd86a1",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f4b9de_60c325f1",
+      "range": {
+        "startLine": 51,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "43233257_c8429e08",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e93032_1b45157a",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 49
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e04f294c_f9ab0d0f",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
         "patchSetId": 1
@@ -275,6 +539,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b15d3243_99adc83f",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e04f294c_f9ab0d0f",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "8418f298_ebdd2af3",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06bd1ce5_7b14d575",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 53
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "488b61d6_c09b49e9",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
         "patchSetId": 1
@@ -321,6 +633,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8aef6b5_9dd099db",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "488b61d6_c09b49e9",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "a2a2118f_57caa1a1",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5353ecb1_4cd8e731",
+      "range": {
+        "startLine": 1046,
+        "startChar": 17,
+        "endLine": 1046,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22ba91e5_fb166452",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
         "patchSetId": 1
@@ -367,6 +727,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b27ab34_e0b89f94",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22ba91e5_fb166452",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -393,6 +777,30 @@
     },
     {
       "key": {
+        "uuid": "1b05d1f0_d6cb3f2c",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4b0ccf_7d1cbe6b",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb734e71_5f14d775",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
         "patchSetId": 1
@@ -413,6 +821,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ed7313_abe0846f",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb734e71_5f14d775",
+      "range": {
+        "startLine": 152,
+        "startChar": 17,
+        "endLine": 152,
+        "endChar": 34
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -439,6 +871,30 @@
     },
     {
       "key": {
+        "uuid": "60abde16_244c68d5",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ceaec4_94e4f537",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7e5569b_fac1a6e0",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSynchronizationTaskTest.java",
         "patchSetId": 1
@@ -459,6 +915,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87910d53_a48a780e",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSynchronizationTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7e5569b_fac1a6e0",
+      "range": {
+        "startLine": 111,
+        "startChar": 17,
+        "endLine": 111,
+        "endChar": 34
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -485,6 +965,30 @@
     },
     {
       "key": {
+        "uuid": "04078fbf_980261bf",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSynchronizationTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec240a2_ba29c5a5",
+      "range": {
+        "startLine": 113,
+        "startChar": 17,
+        "endLine": 113,
+        "endChar": 35
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dc88a01_19073934",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
         "patchSetId": 1
@@ -508,6 +1012,30 @@
     },
     {
       "key": {
+        "uuid": "3c7cd631_cc67c2d5",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dc88a01_19073934",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d5bbbe_99a9d4ed",
         "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
         "patchSetId": 1
@@ -528,6 +1056,30 @@
       "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57949b7_6e175197",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2022-05-17T06:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d5bbbe_99a9d4ed",
+      "range": {
+        "startLine": 76,
+        "startChar": 13,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
