@@ -1,0 +1,533 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48a5280a_2970f4fb",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Please also remove this property.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7034f97_1e7b8f9c",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7a73b1_2fa8e881",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1ClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 56
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e43d6225_1aac46d8",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/OscA1ClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af8c78f_8948a4d2",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/StdA1ClientV2Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b534a6fa_285ded64",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/StdA1ClientV2Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1addc09f_b62aba5c",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c28f59a0_7e1f904e",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b69f693_9c86c193",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 48
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f4b9de_60c325f1",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 51,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e93032_1b45157a",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 49
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04f294c_f9ab0d0f",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06bd1ce5_7b14d575",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 53
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "488b61d6_c09b49e9",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ApplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5353ecb1_4cd8e731",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 1046,
+        "startChar": 17,
+        "endLine": 1046,
+        "endChar": 42
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22ba91e5_fb166452",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b4b0ccf_7d1cbe6b",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb734e71_5f14d775",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RefreshConfigTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 152,
+        "startChar": 17,
+        "endLine": 152,
+        "endChar": 34
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01ceaec4_94e4f537",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7e5569b_fac1a6e0",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSynchronizationTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 111,
+        "startChar": 17,
+        "endLine": 111,
+        "endChar": 34
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec240a2_ba29c5a5",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/RicSynchronizationTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 113,
+        "startChar": 17,
+        "endLine": 113,
+        "endChar": 35
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc88a01_19073934",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d5bbbe_99a9d4ed",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/tasks/ServiceSupervisionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 3763
+      },
+      "writtenOn": "2022-05-17T06:38:49Z",
+      "side": 1,
+      "message": "Isn\u0027t this also a default value that can be removed?",
+      "range": {
+        "startLine": 76,
+        "startChar": 13,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "b717bfdbc0f8bd392c3a57b74c06d15a6e1f0317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
