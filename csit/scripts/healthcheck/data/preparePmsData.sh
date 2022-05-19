@@ -86,7 +86,7 @@ expect="Policy type 2 is OK.201"
 checkRes
 echo -e "\n"
 
-for i in {1..60}; do
+for i in {1..300}; do
 	echo "policy types from policy agent:"
     curlString="curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/policy-types"
     res=$($curlString)
@@ -96,9 +96,13 @@ for i in {1..60}; do
         echo -e "\n"
         break;
     else
-        sleep $i
+        sleep 1
     fi
 done
+
+docker images
+docker ps -a
+docker logs policy-agent
 
 echo "create service ric-registration to policy agent:"
 curlString="curl -k -X PUT -sw %{http_code} -H accept:application/json -H Content-Type:application/json "$httpx://localhost:$policy_agent_port/a1-policy/v2/services" --data-binary @${SHELL_FOLDER}/testdata/v2/service.json"
