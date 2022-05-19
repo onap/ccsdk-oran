@@ -100,6 +100,10 @@ for i in {1..60}; do
     fi
 done
 
+docker images
+docker ps -a
+docker logs policy-agent
+
 echo "create service ric-registration to policy agent:"
 curlString="curl -k -X PUT -sw %{http_code} -H accept:application/json -H Content-Type:application/json "$httpx://localhost:$policy_agent_port/a1-policy/v2/services" --data-binary @${SHELL_FOLDER}/testdata/v2/service.json"
 res=$($curlString)
