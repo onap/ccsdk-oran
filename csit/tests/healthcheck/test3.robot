@@ -11,7 +11,6 @@ ${pms_a1sim_sdnc}      ${SCRIPTS}/healthcheck/test/pms_a1sim_sdnc.sh
 
 Health check test case for NONRTRIC
     [Documentation]                Deploy NONRTRIC with SDNC
-    Start Process                   ${pms_a1sim_sdnc}       shell=yes
-    ${cli_cmd_output}=              Wait For Process    timeout=600
+    ${cli_cmd_output}=              Run Process    ${pms_a1sim_sdnc}
     Log                             ${cli_cmd_output.stdout}
     Should Be Equal as Integers     ${cli_cmd_output.rc}    0
