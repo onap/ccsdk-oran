@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #  ============LICENSE_START===============================================
-#  Copyright (C) 2021 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2022 Nordix Foundation. All rights reserved.
 #  ========================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 unset http_proxy https_proxy
 SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
 docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
 docker system prune -f
 source ${SHELL_FOLDER}/setup.sh
 

@@ -14,14 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Modifications copyright (c) 2021 Nordix Foundation
+# Modifications copyright (c) 2022 Nordix Foundation
 #
 ###############################################################################
 
 unset http_proxy https_proxy
 SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
 docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
 docker system prune -f
+source ${SHELL_FOLDER}/setup.sh
 
 cd ${SHELL_FOLDER}/../config
 cp application_configuration.json.nosdnc application_configuration.json
