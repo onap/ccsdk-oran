@@ -32,6 +32,8 @@ a1_sim_OSC_port=${2:-30001}
 a1_sim_STD_port=${3:-30005}
 httpx=${4:-"http"}
 SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
+ric1_id="ric1"
+ric2_id="ric2"
 
 echo "using policy_agent port: "$policy_agent_port
 echo "using a1-sim-OSC port: "$a1_sim_OSC_port
@@ -45,8 +47,21 @@ checkRes (){
       exit 1;
   fi
 }
+checkReturnContains(){
+    for ((i=0; i<$1; i++)); do
+        res=$($2)
+        expect=$3
+        echo "Check \"$4\"		Expected to contain: \"$expect\"		Received \"$res\""
+        if [[ "$res" =~ "$expect" ]]; then
+            echo -e "$4 is as expected!\n"
+            break;
+        else
+            sleep 1
+        fi
+    done
+}
 
-echo "policy agent status:"
+echo "A1 policy management service status:"
 curlString="curl -skw %{http_code} $httpx://localhost:$policy_agent_port/status"
 res=$($curlString)
 echo "$res"
@@ -84,6 +99,14 @@ res=$($curlString)
 echo "$res"
 expect="Policy type 2 is OK.201"
 checkRes
+echo -e "\n"
+
+echo "check $ric1_id sync status:"
+checkReturnContains 60 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric1_id" "\"state\": \"AVAILABLE\"" "$ric1_id status"
+echo -e "\n"
+
+echo "check $ric2_id sync status:"
+checkReturnContains 60 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric2_id" "\"state\": \"AVAILABLE\"" "$ric2_id status"
 echo -e "\n"
 
 for i in {1..300}; do
