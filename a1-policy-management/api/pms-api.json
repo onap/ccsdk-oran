@@ -79,7 +79,7 @@
                 },
                 "keep_alive_interval_seconds": {
                     "format": "int64",
-                    "description": "keep alive interval for the service. This is a heartbeat supervision of the service, which in regular intervals must invoke a 'keepalive' REST call. When a service does not invoke this call within the given time, it is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means no timeout supervision.",
+                    "description": "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.",
                     "type": "integer"
                 }
             }
@@ -559,7 +559,7 @@
         },
         "/a1-policy/v2/services/{service_id}/keepalive": {"put": {
             "summary": "Heartbeat indicates that the service is running",
-            "description": "A registered service must call this in regular intervals to indicate that it is in operation. Absence of this call will lead to that the service will be deregistered and all its policies are removed.",
+            "description": "A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke this operation before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. (This timeout can be set or disabled when each service is initially registered)",
             "operationId": "keepAliveService",
             "responses": {
                 "200": {
@@ -868,7 +868,7 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0"
         },
         "description": "<h2>General<\/h2><p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policies. <br/>The main tasks of the service are:<\/p><ul><li>A1 Policy creation, modification and deletion.<\/li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs<\/li><li>Maintaining a view of supported Near-RT RIC policy types<\/li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.<\/li><\/ul><h2>APIs provided by the service<\/h2><h3>A1 Policy Management<\/h3><p>This is an API for management of A1 Policies.<\/p><ul><li>A1 Policy retrieval, creation, modification and deletion.<\/li><li>Retrieval of supported A1 Policy types for a Near-RT RIC<\/li><li>Retrieval of status for existing A1 policies<\/li><\/ul><h3>Management of configuration<\/h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.<\/p><h3>Callbacks<\/h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.<\/p><h3>NearRT-RIC Repository<\/h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.<\/p><h3>Health Check<\/h3><p>API used for supervision of the PMS component.<\/p><h3>Service Registry and Supervision<\/h3><p>API used for registering services that uses PMS. Each A1 policy is owned by a service. PMS can supervise each registered service and will automatically remove policies for unavailable services.<\/p>",
-        "title": "A1 Policy management service",
+        "title": "A1 Policy Management Service",
         "version": "1.1.0"
     },
     "tags": [
