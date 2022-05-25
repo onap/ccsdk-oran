@@ -48,11 +48,15 @@ checkRes (){
   fi
 }
 checkReturnContains(){
+#arg 1 max time, seconds
+#arg 2 command
+#arg 3 value (regex)
+#arg 4 description
     for ((i=0; i<$1; i++)); do
-        res=$($2)
-        expect=$3
-        echo "Check \"$4\"		Expected to contain: \"$expect\"		Received \"$res\""
-        if [[ "$res" =~ "$expect" ]]; then
+        resin=$($2)
+        exp=$3
+        echo "Check \"$4\"		Expected to contain: \"$exp\"		Received \"$resin\""
+        if [[ $resin =~ $exp ]]; then
             echo -e "$4 is as expected!\n"
             break;
         else
@@ -102,11 +106,11 @@ checkRes
 echo -e "\n"
 
 echo "check $ric1_id sync status:"
-checkReturnContains 60 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric1_id" "\"state\": \"AVAILABLE\"" "$ric1_id status"
+checkReturnContains 90 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric1_id" "\"state\"\s*:\s*\"AVAILABLE\"" "$ric1_id status"
 echo -e "\n"
 
 echo "check $ric2_id sync status:"
-checkReturnContains 60 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric2_id" "\"state\": \"AVAILABLE\"" "$ric2_id status"
+checkReturnContains 30 "curl -skw %{http_code} $httpx://localhost:$policy_agent_port/a1-policy/v2/rics/ric?ric_id=$ric2_id" "\"state\"\s*:\s*\"AVAILABLE\"" "$ric2_id status"
 echo -e "\n"
 
 for i in {1..300}; do
