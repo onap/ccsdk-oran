@@ -154,8 +154,8 @@ public class AsyncRestClient {
     }
 
     private boolean isHttpProxyConfigured() {
-        return httpProxyConfig != null && httpProxyConfig.httpProxyPort() > 0
-                && !httpProxyConfig.httpProxyHost().isEmpty();
+        return httpProxyConfig != null && httpProxyConfig.getHttpProxyPort() > 0
+                && !httpProxyConfig.getHttpProxyHost().isEmpty();
     }
 
     private HttpClient buildHttpClient() {
@@ -172,7 +172,7 @@ public class AsyncRestClient {
 
         if (isHttpProxyConfigured()) {
             httpClient = httpClient.proxy(proxy -> proxy.type(ProxyProvider.Proxy.HTTP)
-                    .host(httpProxyConfig.httpProxyHost()).port(httpProxyConfig.httpProxyPort()));
+                    .host(httpProxyConfig.getHttpProxyHost()).port(httpProxyConfig.getHttpProxyPort()));
         }
         return httpClient;
     }

@@ -37,10 +37,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.SignalType;
 
 /**
  * Synchronizes the content of a Near-RT RIC with the content in the repository.
@@ -78,27 +76,22 @@ public class RicSynchronizationTask {
     }
 
     public void run(Ric ric) {
-        logger.debug("Ric synchronization task created: {}", ric.getConfig().ricId());
+        logger.debug("Ric synchronization task created: {}", ric.getConfig().getRicId());
 
         if (ric.getState() == RicState.SYNCHRONIZING) {
-            logger.debug("Ric: {} is already being synchronized", ric.getConfig().ricId());
+            logger.debug("Ric: {} is already being synchronized", ric.getConfig().getRicId());
             return;
         }
 
         ric.getLock().lock(LockType.EXCLUSIVE, "RicSynchronizationTask") //
                 .flatMap(notUsed -> synchronizeRic(ric)) //
-                .subscribe(new BaseSubscriber<Object>() {
-
-                    @Override
-                    protected void hookFinally(SignalType type) {
-                        ric.getLock().unlockBlocking();
-                    }
-                });
+                .doFinally(sig -> ric.getLock().unlockBlocking()) //
+                .subscribe();
     }
 
     public Mono<Ric> synchronizeRic(Ric ric) {
-        return setRicState(ric) //
-                .flatMap(lock -> this.a1ClientFactory.createA1Client(ric)) //
+        return this.a1ClientFactory.createA1Client(ric) //
+                .doOnNext(client -> ric.setState(RicState.SYNCHRONIZING)) //
                 .flatMapMany(client -> runSynchronization(ric, client)) //
                 .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable)) //
                 .collectList() //
@@ -115,22 +108,9 @@ public class RicSynchronizationTask {
         return a1Client.getPolicyTypeIdentities() //
                 .doOnNext(x -> ric.clearSupportedPolicyTypes()) //
                 .flatMapMany(Flux::fromIterable) //
-                .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().ricId(), typeId)) //
+                .doOnNext(typeId -> logger.debug("For ric: {}, handling type: {}", ric.getConfig().getRicId(), typeId)) //
                 .flatMap(policyTypeId -> getPolicyType(policyTypeId, a1Client), CONCURRENCY_RIC) //
                 .doOnNext(ric::addSupportedPolicyType); //
-    }
-
-    @SuppressWarnings("squid:S2445") // Blocks should be synchronized on "private final" fields
-    private Mono<Ric> setRicState(Ric ric) {
-        synchronized (ric) {
-            if (ric.getState() == RicState.SYNCHRONIZING) {
-                logger.debug("Ric: {} is already being synchronized", ric.getConfig().ricId());
-                return Mono.empty();
-            }
-            logger.debug("Ric state set to SYNCHRONIZING: {}", ric.getConfig().ricId());
-            ric.setState(RicState.SYNCHRONIZING);
-            return Mono.just(ric);
-        }
     }
 
     private Flux<Object> runSynchronization(Ric ric, A1Client a1Client) {
@@ -188,7 +168,7 @@ public class RicSynchronizationTask {
     }
 
     private Flux<Policy> putPolicy(Policy policy, Ric ric, A1Client a1Client) {
-        logger.trace("Recreating policy: {}, for ric: {}", policy.getId(), ric.getConfig().ricId());
+        logger.trace("Recreating policy: {}, for ric: {}", policy.getId(), ric.getConfig().getRicId());
         return a1Client.putPolicy(policy) //
                 .flatMapMany(notUsed -> Flux.just(policy));
     }
