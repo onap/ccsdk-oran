@@ -56,6 +56,8 @@ server:
       key-store: /opt/app/policy-agent/etc/cert/keystore.jks
       key-password: policy_agent
       key-alias: policy_agent
+      # trust-store-password:
+      # trust-store:
 app:
   # Location of the component configuration file.
   filepath: /opt/app/policy-agent/data/application_configuration.json
@@ -80,4 +82,3 @@ app:
   # A file containing an authorization token, which shall be inserted in each HTTP header (authorization).
   # If the file name is empty, no authorization token is sent.
   auth-token-file:
-
