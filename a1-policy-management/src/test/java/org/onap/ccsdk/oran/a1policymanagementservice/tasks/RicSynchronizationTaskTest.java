@@ -233,58 +233,6 @@ class RicSynchronizationTaskTest {
         assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
-    @Test
-    void ricIdleAndErrorDeletingPoliciesFirstTime_thenSynchronizationWithDeletionOfPolicies() {
-        ric1.setState(RicState.AVAILABLE);
-        rics.put(ric1);
-
-        policies.put(policy1);
-
-        setUpCreationOfA1Client();
-        simulateRicWithNoPolicyTypes();
-
-        when(a1ClientMock.deleteAllPolicies()) //
-                .thenReturn(Flux.error(new Exception("Exception"))) //
-                .thenReturn(Flux.just("OK"));
-
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
-        ric1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(ric1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
-
-        verify(a1ClientMock, times(2)).deleteAllPolicies();
-        verifyNoMoreInteractions(a1ClientMock);
-
-        assertThat(policyTypes.size()).isZero();
-        assertThat(policies.size()).isZero();
-        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
-    }
-
-    @Test
-    void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
-        setUpCreationOfA1Client();
-        simulateRicWithNoPolicyTypes();
-
-        policies.put(policy1);
-
-        String originalErrorMessage = "Exception";
-        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(new Exception(originalErrorMessage)));
-
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
-        ric1.setState(RicState.AVAILABLE);
-        synchronizerUnderTest.run(ric1);
-        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
-
-        verify(a1ClientMock, times(2)).deleteAllPolicies();
-        verifyNoMoreInteractions(a1ClientMock);
-
-        assertThat(policyTypes.size()).isZero();
-        assertThat(policies.size()).isZero();
-        assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
-    }
-
     private void setUpCreationOfA1Client() {
         when(a1ClientFactoryMock.createA1Client(any(Ric.class))).thenReturn(Mono.just(a1ClientMock));
         doReturn(Flux.empty()).when(a1ClientMock).deleteAllPolicies();

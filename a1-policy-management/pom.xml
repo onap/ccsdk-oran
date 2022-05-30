@@ -35,7 +35,7 @@
         <java.version.source>11</java.version.source>
         <java.version.target>11</java.version.target>
         <springfox.version>3.0.0</springfox.version>
-        <immutable.version>2.9.0</immutable.version>
+        <gson.version>2.9.0</gson.version>
         <json.version>20220320</json.version>
         <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
@@ -122,15 +122,9 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.immutables</groupId>
-            <artifactId>value</artifactId>
-            <version>${immutable.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.immutables</groupId>
+            <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>${immutable.version}</version>
+            <version>${gson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
