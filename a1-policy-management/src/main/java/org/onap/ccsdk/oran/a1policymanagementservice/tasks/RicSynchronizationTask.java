@@ -96,9 +96,9 @@ public class RicSynchronizationTask {
                 .onErrorResume(throwable -> deleteAllPolicyInstances(ric, throwable)) //
                 .collectList() //
                 .map(notUsed -> ric) //
+                .doFinally(s -> ric.setState(RicState.UNAVAILABLE)) //
                 .doOnError(t -> { //
                     logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), t.getMessage()); //
-                    ric.setState(RicState.UNAVAILABLE); //
                 }) //
                 .flatMap(notUsed -> onSynchronizationComplete(ric)) //
                 .onErrorResume(t -> Mono.just(ric));

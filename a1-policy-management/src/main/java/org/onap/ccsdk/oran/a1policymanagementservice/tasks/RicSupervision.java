@@ -114,6 +114,7 @@ public class RicSupervision {
 
     private Mono<RicData> checkOneRic(RicData ricData) {
         if (ricData.ric.getState() == RicState.CONSISTENCY_CHECK || ricData.ric.getState() == RicState.SYNCHRONIZING) {
+            logger.debug("Skipping check ric: {}, state: {}", ricData.ric.id(), ricData.ric.getState());
             return Mono.empty(); // Skip, already in progress
         }
         return ricData.ric.getLock().lock(LockType.EXCLUSIVE, "checkOneRic") //

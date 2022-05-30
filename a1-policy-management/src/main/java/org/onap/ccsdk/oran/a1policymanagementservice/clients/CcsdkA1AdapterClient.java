@@ -34,6 +34,7 @@ import lombok.Getter;
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,9 +133,9 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.controllerConfig = controllerConfig;
             logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(), controllerConfig);
         } else {
+            logger.error("Not supported protocoltype: {}", protocolType);
             throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);
         }
-
     }
 
     @Override
@@ -146,7 +147,6 @@ public class CcsdkA1AdapterClient implements A1Client {
                     .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString) //
                     .collectList();
         }
-
     }
 
     @Override
@@ -173,7 +173,7 @@ public class CcsdkA1AdapterClient implements A1Client {
         } else if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
             return StdA1ClientVersion2.extractPolicySchema(controllerResponse, policyTypeId);
         } else {
-            throw new NullPointerException("Not supported");
+            return Mono.error(new ServiceException("Not supported " + this.protocolType));
         }
     }
 
@@ -234,6 +234,7 @@ public class CcsdkA1AdapterClient implements A1Client {
         } else if (protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1) {
             return new OscA1Client.UriBuilder(ricConfig);
         }
+        logger.error("Not supported protocoltype: {}", protocolType);
         throw new NullPointerException();
     }
 
