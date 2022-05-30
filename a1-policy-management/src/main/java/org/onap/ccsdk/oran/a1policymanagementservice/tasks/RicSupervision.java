@@ -114,17 +114,26 @@ public class RicSupervision {
 
     private Mono<RicData> checkOneRic(RicData ricData) {
         if (ricData.ric.getState() == RicState.CONSISTENCY_CHECK || ricData.ric.getState() == RicState.SYNCHRONIZING) {
+            logger.debug("Skipping check ric: {}, state: {}", ricData.ric.id(), ricData.ric.getState());
             return Mono.empty(); // Skip, already in progress
         }
         return ricData.ric.getLock().lock(LockType.EXCLUSIVE, "checkOneRic") //
                 .flatMap(lock -> synchIfUnavailable(ricData)) //
-                .doOnNext(ric -> ric.ric.setState(RicState.CONSISTENCY_CHECK)) //
+                .doOnNext(ric -> ricData.ric.setState(RicState.CONSISTENCY_CHECK)) //
                 .flatMap(x -> checkRicPolicies(ricData)) //
                 .flatMap(x -> checkRicPolicyTypes(ricData)) //
                 .doOnNext(x -> onRicCheckedOk(ricData)) //
                 .onErrorResume(t -> onRicCheckedError(t, ricData)) //
                 .doFinally(sig -> ricData.ric.getLock().unlockBlocking()) //
                 .onErrorResume(throwable -> Mono.empty());
+    }
+
+    private Mono<RicData> synchIfUnavailable(RicData ric) {
+        if (ric.ric.getState() == RicState.UNAVAILABLE) {
+            return Mono.error(new SynchNeededException(ric));
+        } else {
+            return Mono.just(ric);
+        }
     }
 
     private Mono<RicData> onRicCheckedError(Throwable t, RicData ricData) {
@@ -147,14 +156,6 @@ public class RicSupervision {
         return Mono.just(ric) //
                 .flatMap(aRic -> this.a1ClientFactory.createA1Client(ric)) //
                 .map(a1Client -> new RicData(ric, a1Client));
-    }
-
-    private Mono<RicData> synchIfUnavailable(RicData ric) {
-        if (ric.ric.getState() == RicState.UNAVAILABLE) {
-            return Mono.error(new SynchNeededException(ric));
-        } else {
-            return Mono.just(ric);
-        }
     }
 
     private Mono<RicData> checkRicPolicies(RicData ric) {

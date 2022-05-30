@@ -56,6 +56,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -148,6 +149,21 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
+        setUpCreationOfA1Client();
+        simulateRicWithNoPolicyTypes();
+        policies.put(policy1);
+        WebClientResponseException exception = new WebClientResponseException(404, "", null, null, null);
+        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(exception));
+        RicSynchronizationTask synchronizerUnderTest = createTask();
+        ric1.setState(RicState.AVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
+        assertThat(policies.size()).isZero();
+        assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
+    }
+
+    @Test
     void ricIdlePolicyTypeInRepo_thenSynchronizationWithReuseOfTypeFromRepoAndCorrectServiceNotified() {
         rics.put(ric1);
         ric1.setState(RicState.AVAILABLE);
@@ -231,58 +247,6 @@ class RicSynchronizationTaskTest {
         assertThat(policyTypes.size()).isZero();
         assertThat(policies.size()).isEqualTo(1); // The transient policy shall be deleted
         assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
-    }
-
-    @Test
-    void ricIdleAndErrorDeletingPoliciesFirstTime_thenSynchronizationWithDeletionOfPolicies() {
-        ric1.setState(RicState.AVAILABLE);
-        rics.put(ric1);
-
-        policies.put(policy1);
-
-        setUpCreationOfA1Client();
-        simulateRicWithNoPolicyTypes();
-
-        when(a1ClientMock.deleteAllPolicies()) //
-                .thenReturn(Flux.error(new Exception("Exception"))) //
-                .thenReturn(Flux.just("OK"));
-
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
-        ric1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(ric1);
-        await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
-
-        verify(a1ClientMock, times(2)).deleteAllPolicies();
-        verifyNoMoreInteractions(a1ClientMock);
-
-        assertThat(policyTypes.size()).isZero();
-        assertThat(policies.size()).isZero();
-        assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
-    }
-
-    @Test
-    void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
-        setUpCreationOfA1Client();
-        simulateRicWithNoPolicyTypes();
-
-        policies.put(policy1);
-
-        String originalErrorMessage = "Exception";
-        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(new Exception(originalErrorMessage)));
-
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
-        ric1.setState(RicState.AVAILABLE);
-        synchronizerUnderTest.run(ric1);
-        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
-
-        verify(a1ClientMock, times(2)).deleteAllPolicies();
-        verifyNoMoreInteractions(a1ClientMock);
-
-        assertThat(policyTypes.size()).isZero();
-        assertThat(policies.size()).isZero();
-        assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
     }
 
     private void setUpCreationOfA1Client() {

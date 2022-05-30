@@ -157,14 +157,10 @@ class RicSupervisionTest {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.UNAVAILABLE);
         rics.put(RIC_1);
-
         RicSupervision supervisorUnderTest = spy(createRicSupervision());
-
         doReturn(synchronizationTaskMock).when(supervisorUnderTest).createSynchronizationTask();
         doReturn(Mono.just(RIC_1)).when(synchronizationTaskMock).synchronizeRic(any());
-
         supervisorUnderTest.checkAllRics();
-
         verify(supervisorUnderTest).checkAllRics();
         verify(supervisorUnderTest).createSynchronizationTask();
         verify(synchronizationTaskMock).synchronizeRic(RIC_1);
