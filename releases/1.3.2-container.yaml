@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '1.3.2'
+project: 'ccsdk-oran'
+log_dir: 'ccsdk-oran-maven-docker-stage-jakarta/68/'
+ref: da4210def8b1eb998af881ff0cb275cc09449aac
+containers:
+    - name: 'ccsdk-oran-a1policymanagementservice'
+      version: '1.3.2-STAGING-latest'
