@@ -47,6 +47,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFact
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -56,6 +57,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Flux;
@@ -161,6 +163,20 @@ class RicSynchronizationTaskTest {
         await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
         assertThat(policies.size()).isZero();
         assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
+    }
+
+    @Test
+    void testConnectionError() {
+        setUpCreationOfA1Client();
+        simulateRicWithNoPolicyTypes();
+        policies.put(policy1);
+        WebClientRequestException exception =
+                new WebClientRequestException(new ServiceException("x"), null, null, null);
+        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(exception));
+        RicSynchronizationTask synchronizerUnderTest = createTask();
+        ric1.setState(RicState.AVAILABLE);
+        synchronizerUnderTest.run(ric1);
+        await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
     }
 
     @Test

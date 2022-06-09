@@ -40,6 +40,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.SignalType;
 
 /**
  * Synchronizes the content of a Near-RT RIC with the content in the repository.
@@ -96,12 +97,19 @@ public class RicSynchronizationTask {
                 .flatMapMany(client -> runSynchronization(ric, client)) //
                 .doOnError(t -> { //
                     logger.warn("Synchronization failure for ric: {}, reason: {}", ric.id(), t.getMessage()); //
-                    ric.setState(RicState.UNAVAILABLE); //
                     deletePoliciesIfNotRecreatable(t, ric);
                 }) //
                 .collectList() //
                 .flatMap(notUsed -> onSynchronizationComplete(ric)) //
-                .onErrorResume(t -> Mono.just(ric));
+                .onErrorResume(t -> Mono.just(ric)) //
+                .doFinally(signal -> onFinally(signal, ric));
+    }
+
+    private void onFinally(SignalType signal, Ric ric) {
+        if (ric.getState().equals(RicState.SYNCHRONIZING)) {
+            logger.debug("Resetting ric state after failed synch, ric: {}, signal: {}", ric.id(), signal);
+            ric.setState(RicState.UNAVAILABLE); //
+        }
     }
 
     /**

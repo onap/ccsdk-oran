@@ -66,6 +66,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
@@ -277,6 +278,9 @@ public class PolicyController {
         if (throwable instanceof WebClientResponseException) {
             WebClientResponseException e = (WebClientResponseException) throwable;
             return ErrorResponse.createMono(e.getResponseBodyAsString(), e.getStatusCode());
+        } else if (throwable instanceof WebClientException) {
+            WebClientException e = (WebClientException) throwable;
+            return ErrorResponse.createMono(e.getMessage(), HttpStatus.BAD_GATEWAY);
         } else if (throwable instanceof RejectionException) {
             RejectionException e = (RejectionException) throwable;
             return ErrorResponse.createMono(e.getMessage(), e.getStatus());
