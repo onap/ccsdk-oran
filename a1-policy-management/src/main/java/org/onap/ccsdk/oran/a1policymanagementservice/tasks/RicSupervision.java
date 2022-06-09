@@ -109,6 +109,7 @@ public class RicSupervision {
     private Flux<RicData> createTask() {
         return Flux.fromIterable(rics.getRics()) //
                 .flatMap(this::createRicData) //
+                .onErrorResume(t -> Flux.empty()) //
                 .flatMap(this::checkOneRic, CONCURRENCY);
     }
 
@@ -153,8 +154,9 @@ public class RicSupervision {
     }
 
     private Mono<RicData> createRicData(Ric ric) {
-        return Mono.just(ric) //
-                .flatMap(aRic -> this.a1ClientFactory.createA1Client(ric)) //
+        return this.a1ClientFactory.createA1Client(ric) //
+                .doOnError(t -> logger.debug("Could not create A1 client for ric: {}, reason: {}", ric.id(),
+                        t.getMessage())) //
                 .map(a1Client -> new RicData(ric, a1Client));
     }
 

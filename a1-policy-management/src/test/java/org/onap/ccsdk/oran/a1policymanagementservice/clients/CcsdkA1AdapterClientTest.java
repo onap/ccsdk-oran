@@ -338,6 +338,21 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    void getVersion_Error() {
+        clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, // Version irrelevant here
+                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
+                controllerConfig(), asyncRestClientMock);
+
+        Mono<String> e = Mono.error(new Exception("Error"));
+        whenAsyncPostThenReturn(e).thenReturn(e).thenReturn(e).thenReturn(e);
+
+        StepVerifier.create(clientUnderTest.getProtocolVersion()) //
+                .expectError(Exception.class) //
+                .verify();
+
+    }
+
+    @Test
     void testGetStatus() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, //
                 A1ClientHelper.createRic(RIC_1_URL).getConfig(), //

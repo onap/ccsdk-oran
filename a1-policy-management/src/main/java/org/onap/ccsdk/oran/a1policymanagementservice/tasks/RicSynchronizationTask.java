@@ -40,6 +40,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.SignalType;
 
 /**
  * Synchronizes the content of a Near-RT RIC with the content in the repository.
@@ -101,7 +102,14 @@ public class RicSynchronizationTask {
                 }) //
                 .collectList() //
                 .flatMap(notUsed -> onSynchronizationComplete(ric)) //
-                .onErrorResume(t -> Mono.just(ric));
+                .onErrorResume(t -> Mono.just(ric)).doFinally(signal -> onFinally(signal, ric));
+    }
+
+    private void onFinally(SignalType signal, Ric ric) {
+        if (ric.getState().equals(RicState.SYNCHRONIZING)) {
+            logger.warn("Ric: {} state after synch is unexpected: {}, signal: {}", ric.getState(), ric.id(), signal);
+            ric.setState(RicState.UNAVAILABLE); //
+        }
     }
 
     /**
@@ -133,12 +141,13 @@ public class RicSynchronizationTask {
                 .doOnNext(ric::addSupportedPolicyType); //
     }
 
-    private Flux<Object> runSynchronization(Ric ric, A1Client a1Client) {
-        Flux<PolicyType> synchronizedTypes = synchronizePolicyTypes(ric, a1Client);
-        Flux<?> policiesDeletedInRic = a1Client.deleteAllPolicies();
-        Flux<Policy> policiesRecreatedInRic = recreateAllPoliciesInRic(ric, a1Client);
-
-        return Flux.concat(synchronizedTypes, policiesDeletedInRic, policiesRecreatedInRic);
+    private Mono<?> runSynchronization(Ric ric, A1Client a1Client) {
+        return synchronizePolicyTypes(ric, a1Client) //
+                .collectList() //
+                .flatMapMany(l -> a1Client.deleteAllPolicies()) //
+                .collectList() //
+                .flatMapMany(l -> recreateAllPoliciesInRic(ric, a1Client)) //
+                .collectList();
     }
 
     private Mono<Ric> onSynchronizationComplete(Ric ric) {
