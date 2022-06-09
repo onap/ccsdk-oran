@@ -285,17 +285,17 @@ public class CcsdkA1AdapterClient implements A1Client {
         return restClient
                 .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.getUserName(),
                         this.controllerConfig.getPassword()) //
-                .flatMap(this::extractResponseBody);
+                .flatMap(resp -> extractResponseBody(resp, ricUrl));
     }
 
-    private Mono<String> extractResponse(JSONObject responseOutput) {
+    private Mono<String> extractResponse(JSONObject responseOutput, String ricUrl) {
         AdapterOutput output = gson.fromJson(responseOutput.toString(), AdapterOutput.class);
 
         String body = output.body == null ? "" : output.body;
         if (HttpStatus.valueOf(output.httpStatus).is2xxSuccessful()) {
             return Mono.just(body);
         } else {
-            logger.debug("Error response: {} {}", output.httpStatus, body);
+            logger.debug("Error response: {} {}, from: {}", output.httpStatus, body, ricUrl);
             byte[] responseBodyBytes = body.getBytes(StandardCharsets.UTF_8);
             HttpStatus httpStatus = HttpStatus.valueOf(output.httpStatus);
             WebClientResponseException responseException = new WebClientResponseException(httpStatus.value(),
@@ -305,9 +305,9 @@ public class CcsdkA1AdapterClient implements A1Client {
         }
     }
 
-    private Mono<String> extractResponseBody(String responseStr) {
+    private Mono<String> extractResponseBody(String responseStr, String ricUrl) {
         return A1AdapterJsonHelper.getOutput(responseStr) //
-                .flatMap(this::extractResponse);
+                .flatMap(responseOutput -> extractResponse(responseOutput, ricUrl));
     }
 
     private String controllerUrl(String rpcName) {

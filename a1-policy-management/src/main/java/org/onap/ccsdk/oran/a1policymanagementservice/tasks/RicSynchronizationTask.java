@@ -133,12 +133,13 @@ public class RicSynchronizationTask {
                 .doOnNext(ric::addSupportedPolicyType); //
     }
 
-    private Flux<Object> runSynchronization(Ric ric, A1Client a1Client) {
-        Flux<PolicyType> synchronizedTypes = synchronizePolicyTypes(ric, a1Client);
-        Flux<?> policiesDeletedInRic = a1Client.deleteAllPolicies();
-        Flux<Policy> policiesRecreatedInRic = recreateAllPoliciesInRic(ric, a1Client);
-
-        return Flux.concat(synchronizedTypes, policiesDeletedInRic, policiesRecreatedInRic);
+    private Mono<?> runSynchronization(Ric ric, A1Client a1Client) {
+        return synchronizePolicyTypes(ric, a1Client) //
+                .collectList() //
+                .flatMapMany(l -> a1Client.deleteAllPolicies()) //
+                .collectList() //
+                .flatMapMany(l -> recreateAllPoliciesInRic(ric, a1Client)) //
+                .collectList();
     }
 
     private Mono<Ric> onSynchronizationComplete(Ric ric) {
