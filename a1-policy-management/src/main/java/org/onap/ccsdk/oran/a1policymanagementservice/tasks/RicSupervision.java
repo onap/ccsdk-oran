@@ -106,11 +106,12 @@ public class RicSupervision {
         createTask().subscribe(null, null, () -> logger.debug("Checking all RICs completed"));
     }
 
-    private Flux<RicData> createTask() {
+    private Flux<Ric> createTask() {
         return Flux.fromIterable(rics.getRics()) //
                 .flatMap(this::createRicData) //
                 .onErrorResume(t -> Flux.empty()) //
-                .flatMap(this::checkOneRic, CONCURRENCY);
+                .flatMap(this::checkOneRic, CONCURRENCY) //
+                .map(ricData -> ricData.ric);
     }
 
     private Mono<RicData> checkOneRic(RicData ricData) {

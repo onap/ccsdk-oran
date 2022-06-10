@@ -920,10 +920,15 @@ class ApplicationTest {
         final Instant startTime = Instant.now();
         List<Thread> threads = new ArrayList<>();
         List<ConcurrencyTestRunnable> tests = new ArrayList<>();
-        a1ClientFactory.setResponseDelay(Duration.ofMillis(1));
+        a1ClientFactory.setResponseDelay(Duration.ofMillis(2));
         addRic("ric");
         addPolicyType("type1", "ric");
         addPolicyType("type2", "ric");
+
+        final String NON_RESPONDING_RIC = "NonRespondingRic";
+        Ric nonRespondingRic = addRic(NON_RESPONDING_RIC);
+        MockA1Client a1Client = a1ClientFactory.getOrCreateA1Client(NON_RESPONDING_RIC);
+        a1Client.setErrorInject("errorInject");
 
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
@@ -942,6 +947,9 @@ class ApplicationTest {
         }
         assertThat(policies.size()).isZero();
         logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
+
+        assertThat(nonRespondingRic.getState()).isEqualTo(RicState.UNAVAILABLE);
+        nonRespondingRic.setState(RicState.AVAILABLE);
     }
 
     private AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {

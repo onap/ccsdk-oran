@@ -87,6 +87,7 @@ class RefreshConfigTaskTest {
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
             boolean stubConfigFileExists) {
         SecurityContext secContext = new SecurityContext("");
+
         RefreshConfigTask obj =
                 spy(new RefreshConfigTask(configurationFileMock, appConfig, rics, policies, new Services(appConfig),
                         new PolicyTypes(appConfig), new A1ClientFactory(appConfig, secContext), secContext));
