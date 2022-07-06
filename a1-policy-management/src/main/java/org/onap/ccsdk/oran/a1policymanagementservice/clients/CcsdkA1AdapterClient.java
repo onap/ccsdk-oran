@@ -105,7 +105,7 @@ public class CcsdkA1AdapterClient implements A1Client {
     public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
             AsyncRestClientFactory restClientFactory) {
         this(protocolType, ricConfig, controllerConfig,
-                restClientFactory.createRestClientNoHttpProxy(controllerConfig.getBaseUrl() + "/restconf/operations"));
+                restClientFactory.createRestClientNoHttpProxy(controllerConfig.getBaseUrl() + "/rests/operations"));
     }
 
     /**

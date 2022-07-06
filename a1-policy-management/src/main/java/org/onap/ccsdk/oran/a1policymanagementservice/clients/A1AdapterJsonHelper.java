@@ -46,7 +46,7 @@ class A1AdapterJsonHelper {
     private static Gson gson = new GsonBuilder() //
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES) //
             .create();
-    private static final String OUTPUT = "output";
+    private static final String OUTPUT = "A1-ADAPTER-API:output";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private A1AdapterJsonHelper() {}
