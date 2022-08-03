@@ -53,7 +53,6 @@ import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInp
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutputBuilder;
-import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.concepts.ObjectRegistration;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
@@ -179,7 +178,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return Futures.immediateFuture(putPolicyResult);
     }
 
-    private <T> boolean hasGraph(final String svcOperation, Builder<T> response) {
+    private boolean hasGraph(final String svcOperation, DeleteA1PolicyOutputBuilder response) {
         try {
             return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
         } catch (Exception e) {
@@ -189,8 +188,48 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return false;
     }
 
-    private <U, T> void setUpAndExecuteOperation(final String svcOperation, Builder<U> inputBuilder,
-        Builder<T> responseBuilder) {
+    private boolean hasGraph(final String svcOperation, GetA1PolicyOutputBuilder response) {
+        try {
+            return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
+        } catch (Exception e) {
+            log.error("Caught exception looking for service logic, {}", e.getMessage());
+            setHttpResponse(response, SC_INTERNAL_SERVER_ERROR);
+        }
+        return false;
+    }
+
+    private boolean hasGraph(final String svcOperation, GetA1PolicyStatusOutputBuilder response) {
+        try {
+            return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
+        } catch (Exception e) {
+            log.error("Caught exception looking for service logic, {}", e.getMessage());
+            setHttpResponse(response, SC_INTERNAL_SERVER_ERROR);
+        }
+        return false;
+    }
+
+    private boolean hasGraph(final String svcOperation, GetA1PolicyTypeOutputBuilder response) {
+        try {
+            return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
+        } catch (Exception e) {
+            log.error("Caught exception looking for service logic, {}", e.getMessage());
+            setHttpResponse(response, SC_INTERNAL_SERVER_ERROR);
+        }
+        return false;
+    }
+
+    private boolean hasGraph(final String svcOperation, PutA1PolicyOutputBuilder response) {
+        try {
+            return a1AdapterClient.hasGraph(A1_ADAPTER_API, svcOperation, null, SYNC);
+        } catch (Exception e) {
+            log.error("Caught exception looking for service logic, {}", e.getMessage());
+            setHttpResponse(response, SC_INTERNAL_SERVER_ERROR);
+        }
+        return false;
+    }
+
+    private void setUpAndExecuteOperation(final String svcOperation, DeleteA1PolicyInputBuilder inputBuilder,
+        DeleteA1PolicyOutputBuilder responseBuilder) {
         log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
         // add input to parms
         Properties parms = new Properties();
@@ -206,7 +245,75 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         }
     }
 
-    private <T> void executeOperation(final String svcOperation, Properties parms, Builder<T> response) {
+    private void setUpAndExecuteOperation(final String svcOperation, GetA1PolicyInputBuilder inputBuilder,
+                                                 GetA1PolicyOutputBuilder responseBuilder) {
+        log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
+        // add input to parms
+        Properties parms = new Properties();
+        MdsalHelper.toProperties(parms, inputBuilder.build());
+        logSliParameters(parms);
+        // Call SLI sync method
+        if (hasGraph(svcOperation, responseBuilder)) {
+            log.info("A1AdapterClient has a Directed Graph for '{}'", svcOperation);
+            executeOperation(svcOperation, parms, responseBuilder);
+        } else {
+            log.error("No service logic active for A1Adapter: '{}'", svcOperation);
+            setHttpResponse(responseBuilder, Integer.valueOf(SC_SERVICE_UNAVAILABLE));
+        }
+    }
+
+    private void setUpAndExecuteOperation(final String svcOperation, GetA1PolicyStatusInputBuilder inputBuilder,
+                                          GetA1PolicyStatusOutputBuilder responseBuilder) {
+        log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
+        // add input to parms
+        Properties parms = new Properties();
+        MdsalHelper.toProperties(parms, inputBuilder.build());
+        logSliParameters(parms);
+        // Call SLI sync method
+        if (hasGraph(svcOperation, responseBuilder)) {
+            log.info("A1AdapterClient has a Directed Graph for '{}'", svcOperation);
+            executeOperation(svcOperation, parms, responseBuilder);
+        } else {
+            log.error("No service logic active for A1Adapter: '{}'", svcOperation);
+            setHttpResponse(responseBuilder, Integer.valueOf(SC_SERVICE_UNAVAILABLE));
+        }
+    }
+
+    private void setUpAndExecuteOperation(final String svcOperation, GetA1PolicyTypeInputBuilder inputBuilder,
+                                          GetA1PolicyTypeOutputBuilder responseBuilder) {
+        log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
+        // add input to parms
+        Properties parms = new Properties();
+        MdsalHelper.toProperties(parms, inputBuilder.build());
+        logSliParameters(parms);
+        // Call SLI sync method
+        if (hasGraph(svcOperation, responseBuilder)) {
+            log.info("A1AdapterClient has a Directed Graph for '{}'", svcOperation);
+            executeOperation(svcOperation, parms, responseBuilder);
+        } else {
+            log.error("No service logic active for A1Adapter: '{}'", svcOperation);
+            setHttpResponse(responseBuilder, Integer.valueOf(SC_SERVICE_UNAVAILABLE));
+        }
+    }
+
+    private void setUpAndExecuteOperation(final String svcOperation, PutA1PolicyInputBuilder inputBuilder,
+                                                 PutA1PolicyOutputBuilder responseBuilder) {
+        log.info("Adding INPUT data for {} input: {}", svcOperation, inputBuilder);
+        // add input to parms
+        Properties parms = new Properties();
+        MdsalHelper.toProperties(parms, inputBuilder.build());
+        logSliParameters(parms);
+        // Call SLI sync method
+        if (hasGraph(svcOperation, responseBuilder)) {
+            log.info("A1AdapterClient has a Directed Graph for '{}'", svcOperation);
+            executeOperation(svcOperation, parms, responseBuilder);
+        } else {
+            log.error("No service logic active for A1Adapter: '{}'", svcOperation);
+            setHttpResponse(responseBuilder, Integer.valueOf(SC_SERVICE_UNAVAILABLE));
+        }
+    }
+
+    private  void executeOperation(final String svcOperation, Properties parms, DeleteA1PolicyOutputBuilder response) {
         try {
             Properties responseParms =
                 a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
@@ -219,7 +326,59 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         }
     }
 
-    private <T> void setBody(Builder<T> responseBuilder, String body) {
+    private  void executeOperation(final String svcOperation, Properties parms, GetA1PolicyOutputBuilder response) {
+        try {
+            Properties responseParms =
+                    a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
+            logResponse(responseParms);
+            setBody(response, responseParms.getProperty(RESPONSE_BODY));
+            setHttpResponse(response, Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
+        } catch (Exception e) {
+            log.error("Caught exception executing service logic for {}, {}", svcOperation, e.getMessage());
+            setHttpResponse(response, Integer.valueOf(SC_INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    private  void executeOperation(final String svcOperation, Properties parms, GetA1PolicyStatusOutputBuilder response) {
+        try {
+            Properties responseParms =
+                    a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
+            logResponse(responseParms);
+            setBody(response, responseParms.getProperty(RESPONSE_BODY));
+            setHttpResponse(response, Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
+        } catch (Exception e) {
+            log.error("Caught exception executing service logic for {}, {}", svcOperation, e.getMessage());
+            setHttpResponse(response, Integer.valueOf(SC_INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    private  void executeOperation(final String svcOperation, Properties parms, GetA1PolicyTypeOutputBuilder response) {
+        try {
+            Properties responseParms =
+                    a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
+            logResponse(responseParms);
+            setBody(response, responseParms.getProperty(RESPONSE_BODY));
+            setHttpResponse(response, Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
+        } catch (Exception e) {
+            log.error("Caught exception executing service logic for {}, {}", svcOperation, e.getMessage());
+            setHttpResponse(response, Integer.valueOf(SC_INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    private  void executeOperation(final String svcOperation, Properties parms, PutA1PolicyOutputBuilder response) {
+        try {
+            Properties responseParms =
+                    a1AdapterClient.execute(A1_ADAPTER_API, svcOperation, null, SYNC, response, parms);
+            logResponse(responseParms);
+            setBody(response, responseParms.getProperty(RESPONSE_BODY));
+            setHttpResponse(response, Integer.valueOf(responseParms.getProperty(RESPONSE_CODE)));
+        } catch (Exception e) {
+            log.error("Caught exception executing service logic for {}, {}", svcOperation, e.getMessage());
+            setHttpResponse(response, Integer.valueOf(SC_INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    private void setBody(DeleteA1PolicyOutputBuilder responseBuilder, String body) {
         try {
             Method method = responseBuilder.getClass().getMethod("setBody", String.class);
             method.invoke(responseBuilder, body);
@@ -228,7 +387,79 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         }
     }
 
-    private <T> void setHttpResponse(Builder<T> responseBuilder, Integer response) {
+    private void setBody(GetA1PolicyOutputBuilder responseBuilder, String body) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            method.invoke(responseBuilder, body);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setBody(GetA1PolicyStatusOutputBuilder responseBuilder, String body) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            method.invoke(responseBuilder, body);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setBody(GetA1PolicyTypeOutputBuilder responseBuilder, String body) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            method.invoke(responseBuilder, body);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setBody(PutA1PolicyOutputBuilder responseBuilder, String body) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setBody", String.class);
+            method.invoke(responseBuilder, body);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setHttpResponse(DeleteA1PolicyOutputBuilder responseBuilder, Integer response) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            method.invoke(responseBuilder, response);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setHttpResponse(GetA1PolicyOutputBuilder responseBuilder, Integer response) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            method.invoke(responseBuilder, response);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setHttpResponse(GetA1PolicyStatusOutputBuilder responseBuilder, Integer response) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            method.invoke(responseBuilder, response);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setHttpResponse(GetA1PolicyTypeOutputBuilder responseBuilder, Integer response) {
+        try {
+            Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
+            method.invoke(responseBuilder, response);
+        } catch (Exception reflectionException) {
+            throw new MissingResponseMethodRuntimeException(reflectionException);
+        }
+    }
+
+    private void setHttpResponse(PutA1PolicyOutputBuilder responseBuilder, Integer response) {
         try {
             Method method = responseBuilder.getClass().getMethod("setHttpStatus", Integer.class);
             method.invoke(responseBuilder, response);
