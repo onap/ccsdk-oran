@@ -35,17 +35,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.opendaylight.mdsal.binding.api.NotificationPublishService;
 import org.opendaylight.mdsal.binding.api.RpcProviderService;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutput;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyInputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyOutput;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusInputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusOutput;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeInputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeOutput;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutput;
-import org.opendaylight.yangtools.concepts.Builder;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.*;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +72,7 @@ class A1AdapterProviderTest {
         DeleteA1PolicyInputBuilder inputBuilder = new DeleteA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(
-            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(Builder.class), any(Properties.class)))
+            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(DeleteA1PolicyOutputBuilder.class), any(Properties.class)))
                 .thenReturn(respProps);
         ListenableFuture<RpcResult<DeleteA1PolicyOutput>> result =
             a1AdapterProviderMock.deleteA1Policy(inputBuilder.build());
@@ -97,7 +87,7 @@ class A1AdapterProviderTest {
         GetA1PolicyInputBuilder inputBuilder = new GetA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(
-            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(Builder.class), any(Properties.class)))
+            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyOutputBuilder.class), any(Properties.class)))
                 .thenReturn(respProps);
         ListenableFuture<RpcResult<GetA1PolicyOutput>> result = a1AdapterProviderMock.getA1Policy(inputBuilder.build());
         assertEquals(OK_RESPONSE, String.valueOf(result.get().getResult().getHttpStatus()));
@@ -111,7 +101,7 @@ class A1AdapterProviderTest {
         GetA1PolicyTypeInputBuilder inputBuilder = new GetA1PolicyTypeInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(
-            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(Builder.class), any(Properties.class)))
+            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyTypeOutputBuilder.class), any(Properties.class)))
                 .thenReturn(respProps);
         ListenableFuture<RpcResult<GetA1PolicyTypeOutput>> result =
             a1AdapterProviderMock.getA1PolicyType(inputBuilder.build());
@@ -126,7 +116,7 @@ class A1AdapterProviderTest {
         GetA1PolicyStatusInputBuilder inputBuilder = new GetA1PolicyStatusInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(
-            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(Builder.class), any(Properties.class)))
+            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(GetA1PolicyStatusOutputBuilder.class), any(Properties.class)))
                 .thenReturn(respProps);
         ListenableFuture<RpcResult<GetA1PolicyStatusOutput>> result =
             a1AdapterProviderMock.getA1PolicyStatus(inputBuilder.build());
@@ -141,7 +131,7 @@ class A1AdapterProviderTest {
         PutA1PolicyInputBuilder inputBuilder = new PutA1PolicyInputBuilder();
         when(a1AdapterClient.hasGraph(module, rpc, null, mode)).thenReturn(true);
         when(
-            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(Builder.class), any(Properties.class)))
+            a1AdapterClient.execute(eq(module), eq(rpc), eq(null), eq(mode), any(PutA1PolicyOutputBuilder.class), any(Properties.class)))
                 .thenReturn(respProps);
         ListenableFuture<RpcResult<PutA1PolicyOutput>> result = a1AdapterProviderMock.putA1Policy(inputBuilder.build());
         assertEquals(OK_RESPONSE, String.valueOf(result.get().getResult().getHttpStatus()));
