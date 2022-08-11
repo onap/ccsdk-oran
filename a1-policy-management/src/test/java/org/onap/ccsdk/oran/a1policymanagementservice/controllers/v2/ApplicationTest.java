@@ -95,8 +95,8 @@ import reactor.util.annotation.Nullable;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-        "server.ssl.key-store=./src/test/resources/keystore.jks", //
-        "app.webclient.trust-store=./src/test/resources/truststore.jks", //
+        "server.ssl.key-store=./config/keystore.jks", //
+        "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //
         "app.vardata-directory=./target/testdata", //
         "app.filepath=" //
@@ -314,8 +314,10 @@ class ApplicationTest {
     @Test
     void testTrustValidation() {
         addRic("ric1");
+
         String rsp = restClient(true).get("/rics").block(); // restClient(true) enables trust validation
         assertThat(rsp).contains("ric1");
+
     }
 
     @Test
@@ -929,8 +931,8 @@ class ApplicationTest {
 
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
-            ConcurrencyTestRunnable test =
-                    new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
+            ConcurrencyTestRunnable test = new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics,
+                    policyTypes);
             Thread thread = new Thread(test, "TestThread_" + i);
             thread.start();
             threads.add(thread);
