@@ -1,0 +1,9 @@
+Code-Review+1: John  Keeney <john.keeney@est.tech>
+Code-Review+1: Bj�rn Magnusson <bjorn.magnusson@est.tech>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Tue, 16 Aug 2022 12:27:25 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/130255
+Project: ccsdk/oran
+Branch: refs/heads/master
