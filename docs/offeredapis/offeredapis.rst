@@ -20,6 +20,7 @@ Overall architecture for O-RAN A1 Policy functions
 
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
+Note that DMaaP is deprecated and will be removed in later releases. 
 
 .. image:: ../media/ONAP-A1ControllerArchitecture.png
    :width: 500pt
