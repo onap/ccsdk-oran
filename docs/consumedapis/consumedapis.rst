@@ -8,9 +8,9 @@ Consumed APIs
 Policy Management Service application is interacting with two ONAP APIs and the A1-P API.
 
 
-*********
-DMaaP API
-*********
+**********************
+DMaaP API (deprecated)
+**********************
 
 The A1 Policy Management Service API can also be accessed using *ONAP DMaaP*. To support this the `DMaaP Message Router API <https://docs.onap.org/projects/onap-dmaap-messagerouter-messageservice/en/latest/offeredapis/api.html>`_ is used.  
 
