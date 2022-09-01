@@ -32,15 +32,15 @@ chmod +x docker-compose
 ./docker-compose --env-file .env -f docker-compose.yml -f sdnc/docker-compose.yml up -d
 
 checkStatus(){
-    for i in {1..60}; do
-        res=$($1)
+    for ((i=0; i<$1; i++)); do
+        res=$($2)
         echo "$res"
-        expect=$2
+        expect=$3
         if [ "$res" == "$expect" ]; then
-            echo -e "$3 is alive!\n"
+            echo -e "$4 is alive!\n"
             break;
         else
-            sleep $i
+            sleep 1
         fi
     done
 }
@@ -48,23 +48,26 @@ checkStatus(){
 
 # check SIM1 status
 echo "check SIM1 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
+checkStatus 60 "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
 
 # check SIM2 status
 echo "check SIM2 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
+checkStatus 60 "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
 
 # check SIM3 status
 echo "check SIM3 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
+checkStatus 60 "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus "curl -skw %{http_code} http://localhost:8081/status" "hunky dory200" "PMS"
+checkStatus 60 "curl -skw %{http_code} http://localhost:8081/status" "hunky dory200" "PMS"
+
+curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'
+curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}'
 
 # check SDNC status
 echo "check SDNC status:"
-checkStatus "curl -s -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/" "200" "SDNC"
+checkStatus 300 "curl -s -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/" "200" "SDNC"
 
 cd ${SHELL_FOLDER}/../data
 ./preparePmsData.sh
