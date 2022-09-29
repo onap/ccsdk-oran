@@ -21,7 +21,6 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import java.util.Collection;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
@@ -41,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -181,6 +179,7 @@ public class RicSupervision {
                     return Mono.error(new SynchNeededException(ric));
                 }
             }
+
             return Mono.just(ric);
         }
     }
@@ -204,6 +203,7 @@ public class RicSupervision {
                 return Mono.error(new SynchNeededException(ric));
             }
         }
+
         return Mono.just(ric);
     }
 
