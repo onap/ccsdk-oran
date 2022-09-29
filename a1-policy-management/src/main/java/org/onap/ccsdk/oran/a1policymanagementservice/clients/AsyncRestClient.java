@@ -39,6 +39,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
@@ -138,7 +139,16 @@ public class AsyncRestClient {
             request.headers(h -> h.setBearerAuth(securityContext.getBearerAuthToken()));
         }
         return request.retrieve() //
-                .toEntity(String.class);
+                .toEntity(String.class) //
+                .doOnError(this::onError);
+
+    }
+
+    private void onError(Throwable t) {
+        if (t instanceof WebClientResponseException) {
+            WebClientResponseException e = (WebClientResponseException) t;
+            logger.debug("Response error: {}", e.getResponseBodyAsString());
+        }
     }
 
     private static Object createTraceTag() {

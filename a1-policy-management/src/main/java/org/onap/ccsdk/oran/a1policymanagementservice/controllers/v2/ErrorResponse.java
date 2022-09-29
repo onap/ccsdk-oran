@@ -26,7 +26,11 @@ import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.lang.invoke.MethodHandles;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +40,7 @@ import reactor.core.publisher.Mono;
 public class ErrorResponse {
     private static Gson gson = new GsonBuilder() //
             .create(); //
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     // Returned as body for all failed REST calls
     @Schema(name = "error_information", description = "Problem as defined in https://tools.ietf.org/html/rfc7807")
@@ -90,6 +95,7 @@ public class ErrorResponse {
     }
 
     static ResponseEntity<Object> create(String text, HttpStatus code) {
+        logger.debug("Error response: {}, {}", code, text);
         ErrorInfo p = new ErrorInfo(text, code.value());
         String json = gson.toJson(p);
         HttpHeaders headers = new HttpHeaders();
