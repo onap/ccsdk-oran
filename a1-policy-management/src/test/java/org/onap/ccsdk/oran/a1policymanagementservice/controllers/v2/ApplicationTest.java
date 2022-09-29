@@ -181,7 +181,7 @@ class ApplicationTest {
     @AfterEach
     void verifyNoRicLocks() {
         for (Ric ric : this.rics.getRics()) {
-            Lock.Grant grant = ric.getLock().lockBlocking(LockType.EXCLUSIVE, "");
+            Lock.Grant grant = ric.getLock().lockBlocking(LockType.EXCLUSIVE, "verifyNoRicLocks");
             grant.unlockBlocking();
             assertThat(ric.getLock().getLockCounter()).isZero();
             assertThat(ric.getState()).isEqualTo(Ric.RicState.AVAILABLE);
@@ -931,8 +931,8 @@ class ApplicationTest {
 
         for (int i = 0; i < 10; ++i) {
             AsyncRestClient restClient = restClient();
-            ConcurrencyTestRunnable test = new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics,
-                    policyTypes);
+            ConcurrencyTestRunnable test =
+                    new ConcurrencyTestRunnable(restClient, supervision, a1ClientFactory, rics, policyTypes);
             Thread thread = new Thread(test, "TestThread_" + i);
             thread.start();
             threads.add(thread);

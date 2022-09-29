@@ -95,14 +95,12 @@ public class DmaapMessageConsumer {
         }
 
         void onRequest(long no) {
-            logger.debug("InfiniteFlux.onRequest {}", no);
             for (long i = 0; i < no; ++i) {
                 sink.next(counter++);
             }
         }
 
         void next(FluxSink<Integer> sink) {
-            logger.debug("InfiniteFlux.next");
             this.sink = sink;
             sink.next(counter++);
         }
@@ -213,7 +211,6 @@ public class DmaapMessageConsumer {
 
     private Mono<String> fetchFromDmaap() {
         if (!this.isDmaapConfigured()) {
-            logger.debug("fetchFromDmaap, no action DMAAP not configured");
             return delay().flatMap(o -> Mono.empty());
         }
         logger.debug("fetchFromDmaap");
