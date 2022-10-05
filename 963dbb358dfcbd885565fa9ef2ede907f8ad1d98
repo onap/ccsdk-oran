@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e866b8ce_46e16e3a",
+        "filename": "a1-adapter/a1-adapter-api/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2022-10-05T20:24:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this line is for. \nIs it necessary to have a hard-coded version here? \nThis change was introduced in https://gerrit.onap.org/r/gitweb?p\u003dccsdk/oran.git;a\u003dcommit;h\u003d685520fc0bd6f302c3ee99ddccc71618807b70a3 \nMaybe Dan can comment?",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 61
+      },
+      "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
