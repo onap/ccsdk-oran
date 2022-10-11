@@ -22,6 +22,30 @@
       "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a7a94a0_b5787b83",
+        "filename": "a1-adapter/a1-adapter-api/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2022-10-11T12:21:53Z",
+      "side": 1,
+      "message": "Is this related to the error seen when merging https://gerrit.onap.org/r/c/ccsdk/oran/+/131328 ?\n\nErrors: \nhttps://jenkins.onap.org/job/ccsdk-oran-merge-verification-maven-master/109/\nhttps://jenkins.onap.org/job/ccsdk-oran-maven-merge-master/1004/",
+      "parentUuid": "e866b8ce_46e16e3a",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 61
+      },
+      "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
