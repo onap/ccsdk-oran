@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
@@ -87,6 +88,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
@@ -98,8 +100,9 @@ import reactor.util.annotation.Nullable;
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //
-        "app.vardata-directory=./target/testdata", //
-        "app.filepath=" //
+        "app.vardata-directory=/tmp/pmstest", //
+        "app.filepath=", //
+        "app.s3.bucket=" // If this is set, S3 will be used to store data.
 })
 class ApplicationTest {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
@@ -178,6 +181,15 @@ class ApplicationTest {
         this.securityContext.setAuthTokenFilePath(null);
     }
 
+    @AfterAll
+    static void clearTestDir() {
+        try {
+            FileSystemUtils.deleteRecursively(Path.of("/tmp/pmstest"));
+        } catch (Exception e) {
+            logger.warn("Could test directory : {}", e.getMessage());
+        }
+    }
+
     @AfterEach
     void verifyNoRicLocks() {
         for (Ric ric : this.rics.getRics()) {
@@ -205,7 +217,7 @@ class ApplicationTest {
     }
 
     @Test
-    void testPersistencyPolicies() throws ServiceException {
+    void testPersistencyPolicies() throws Exception {
         Ric ric = this.addRic("ric1");
         PolicyType type = this.addPolicyType("type1", ric.id());
 
@@ -213,37 +225,50 @@ class ApplicationTest {
         for (int i = 0; i < noOfPolicies; ++i) {
             addPolicy("id" + i, type.getId(), "service", ric.id());
         }
+        waitforS3();
 
         {
             Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes);
+            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
             assertThat(policies.size()).isEqualTo(noOfPolicies);
         }
 
         {
             restClient().delete("/policies/id2").block();
             Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes);
+            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
             assertThat(policies.size()).isEqualTo(noOfPolicies - 1);
         }
     }
 
     @Test
-    void testPersistencyPolicyTypes() throws ServiceException {
+    void testPersistencyPolicyTypes() throws Exception {
         Ric ric = this.addRic("ric1");
         this.addPolicyType("type1", ric.id());
+        waitforS3();
+
         PolicyTypes types = new PolicyTypes(this.applicationConfig);
+        types.restoreFromDatabase().blockLast();
         assertThat(types.size()).isEqualTo(1);
     }
 
+    @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
+    private void waitforS3() throws Exception {
+        if (applicationConfig.isS3Enabled()) {
+            Thread.sleep(1000);
+        }
+    }
+
     @Test
-    void testPersistencyService() throws ServiceException {
+    void testPersistencyService() throws Exception {
         final String SERVICE = "serviceName";
         putService(SERVICE, 1234, HttpStatus.CREATED);
         assertThat(this.services.size()).isEqualTo(1);
         Service service = this.services.getService(SERVICE);
+        waitforS3();
 
         Services servicesRestored = new Services(this.applicationConfig);
+        servicesRestored.restoreFromDatabase().blockLast();
         Service serviceRestored = servicesRestored.getService(SERVICE);
         assertThat(servicesRestored.size()).isEqualTo(1);
         assertThat(serviceRestored.getCallbackUrl()).isEqualTo(service.getCallbackUrl());

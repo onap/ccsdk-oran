@@ -20,11 +20,13 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.catalina.connector.Connector;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +54,27 @@ public class BeanFactory {
 
     @Bean
     public Services getServices(@Autowired ApplicationConfig applicationConfig) {
-        return new Services(applicationConfig);
+        Services services = new Services(applicationConfig);
+        services.restoreFromDatabase().subscribe();
+        return services;
+    }
+
+    @Bean
+    public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
+        PolicyTypes types = new PolicyTypes(applicationConfig);
+        types.restoreFromDatabase().blockLast();
+        return types;
+    }
+
+    @Bean
+    public Policies getPolicies(@Autowired ApplicationConfig applicationConfig) {
+        return new Policies(applicationConfig);
     }
 
     @Bean
     public A1ClientFactory getA1ClientFactory(@Autowired ApplicationConfig applicationConfig,
             @Autowired SecurityContext securityContext) {
         return new A1ClientFactory(applicationConfig, securityContext);
-    }
-
-    @Bean
-    public ObjectMapper mapper() {
-        return new ObjectMapper();
     }
 
     @Bean

@@ -18,55 +18,28 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
+package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import io.micrometer.core.instrument.MeterRegistry;
-
-import java.lang.invoke.MethodHandles;
-
-import lombok.AccessLevel;
-import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * The aim is to collect statistical values from the A1 Policy Management Service.
+ * The aim is to collect statistical values from the A1 Policy Management
+ * Service.
+ * The counters are being updated every minute.
  */
 @Component
-public class RefreshCounterTask {
-
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+public class Meters {
 
     @Autowired
-    private final Rics rics;
-
-    @Autowired
-    private final PolicyTypes policyTypes;
-
-    @Autowired
-    private final Policies policies;
-
-    @Autowired
-    @Getter(AccessLevel.PUBLIC)
-    private final MeterRegistry meterRegistry;
-
-    @Autowired
-    public RefreshCounterTask(Rics rics, PolicyTypes policyTypes, Policies policies, MeterRegistry meterRegistry) {
-        this.rics = rics;
-        this.policyTypes = policyTypes;
-        this.policies = policies;
-        this.meterRegistry = meterRegistry;
-
-        logger.trace("Counters have been initialized.");
+    public Meters(Rics rics, PolicyTypes policyTypes, Policies policies, MeterRegistry meterRegistry) {
         meterRegistry.gauge("total_ric_count", rics, Rics::size);
         meterRegistry.gauge("total_policy_type_count", policyTypes, PolicyTypes::size);
         meterRegistry.gauge("total_policy_count", policies, Policies::size);
     }
-
 }
