@@ -20,6 +20,8 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -81,6 +83,22 @@ public class ApplicationConfig {
 
     @Value("${app.webclient.http.proxy-type:HTTP}")
     private String httpProxyType = "HTTP";
+
+    @Getter
+    @Value("${app.s3.endpointOverride:}")
+    private String s3EndpointOverride;
+
+    @Getter
+    @Value("${app.s3.accessKeyId:}")
+    private String s3AccessKeyId;
+
+    @Getter
+    @Value("${app.s3.secretAccessKey:}")
+    private String s3SecretAccessKey;
+
+    @Getter
+    @Value("${app.s3.bucket:}")
+    private String s3Bucket;
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
@@ -182,4 +200,9 @@ public class ApplicationConfig {
 
         return Flux.fromIterable(modifications);
     }
+
+    public boolean isS3Enabled() {
+        return !(Strings.isNullOrEmpty(s3EndpointOverride) || Strings.isNullOrEmpty(s3Bucket));
+    }
+
 }

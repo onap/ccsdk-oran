@@ -43,12 +43,11 @@
         <guava.version>31.0.1-jre</guava.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
-        <snakeyaml.version>1.32</snakeyaml.version><!-- overrides version included via spring-boot-starter:jar:2.6.11 to address CVE-2022-38752. Remove later if possible -->
-        <!-- Version must be higher than version 2.19.1 that is defined in the parent pom for JUnit 5 tests to be run. Do not remove! -->
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
         <exec.skip>true</exec.skip>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
+        <software.amazon.awssdk.version>2.17.292</software.amazon.awssdk.version>
     </properties>
     <dependencies>
         <dependency>
@@ -147,6 +146,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${software.amazon.awssdk.version}</version>
         </dependency>
         <!--REQUIRED TO GENERATE DOCUMENTATION -->
         <dependency>

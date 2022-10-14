@@ -77,7 +77,7 @@ app:
     http.proxy-host:
     http.proxy-port: 0
     http.proxy-type: HTTP
-  # path where the service can store data
+  # path where the service can store data. This parameter is not relevant if S3 Object store is configured.
   vardata-directory: /var/policy-management-service
   # the config-file-schema-path referres to a location in the jar file. If this property is empty or missing,
   # no schema validation will be executed.
@@ -85,3 +85,9 @@ app:
   # A file containing an authorization token, which shall be inserted in each HTTP header (authorization).
   # If the file name is empty, no authorization token is sent.
   auth-token-file:
+  # S3 object store usage is enabled by defining the bucket to use. This will override the vardata-directory parameter.
+  s3:
+    endpointOverride: http://localhost:9000
+    accessKeyId: minio
+    secretAccessKey: miniostorage
+    bucket:

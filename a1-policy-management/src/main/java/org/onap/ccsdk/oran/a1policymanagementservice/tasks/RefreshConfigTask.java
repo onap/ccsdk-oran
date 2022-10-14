@@ -105,7 +105,7 @@ public class RefreshConfigTask {
         refreshTask = createRefreshTask() //
                 .subscribe(
                         notUsed -> logger.debug("Refreshed configuration data"), throwable -> logger
-                                .error("Configuration refresh terminated due to exception {}", throwable.toString()),
+                                .error("Configuration refresh terminated due to exception {}", throwable.getMessage()),
                         () -> logger.error("Configuration refresh terminated"));
     }
 
@@ -128,6 +128,7 @@ public class RefreshConfigTask {
                 .flatMap(this::parseConfiguration) //
                 .flatMap(this::updateConfig, CONCURRENCY) //
                 .flatMap(this::handleUpdatedRicConfig) //
+                .doOnError(t -> logger.error("Cannot update config {}", t.getMessage()))
                 .doFinally(signal -> logger.error("Configuration refresh task is terminated: {}", signal));
     }
 
@@ -200,7 +201,7 @@ public class RefreshConfigTask {
     void addRic(Ric ric) {
         this.rics.put(ric);
         if (this.appConfig.getVardataDirectory() != null) {
-            this.policies.restoreFromDatabase(ric, this.policyTypes);
+            this.policies.restoreFromDatabase(ric, this.policyTypes).subscribe();
         }
         logger.debug("Added RIC: {}", ric.id());
     }
