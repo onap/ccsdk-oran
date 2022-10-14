@@ -46,6 +46,30 @@
       "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1354d0c8_d202924f",
+        "filename": "a1-adapter/a1-adapter-api/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2022-10-14T19:53:55Z",
+      "side": 1,
+      "message": "You can get rid of that hard-coded line now - it was needed because of an oddity in how maven handles ranges ...\nThe parent pom defines ccsdk.sli.version using the range (1.4.99999, 1.5.99999-SNAPSHOT] - which should include 1.5.0-SNAPSHOT, but it does not. The range works as expected after the first release build in that range - so it will work now as expected if you remove that hard-coded value",
+      "parentUuid": "2a7a94a0_b5787b83",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 61
+      },
+      "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
