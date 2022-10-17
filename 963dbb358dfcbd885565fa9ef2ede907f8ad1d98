@@ -70,6 +70,30 @@
       "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a7e0d6_bba3c9c0",
+        "filename": "a1-adapter/a1-adapter-api/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2022-10-17T17:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1354d0c8_d202924f",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 61
+      },
+      "revId": "963dbb358dfcbd885565fa9ef2ede907f8ad1d98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
