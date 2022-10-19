@@ -21,7 +21,6 @@
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.catalina.connector.Connector;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
