@@ -58,10 +58,10 @@ Configuration
 -------------
 
 There are two configuration files for A1 Policy Management Service, *config/application_configuration.json* and *config/application.yaml*
-The first (*config/application_configuration.json*) contains configuration needed by the application, such as which near-RT-RICs, controller, or DMaaP topic to use (deprecated).
+The first (*config/application_configuration.json*) contains configuration needed by the application, such as which near-RT-RICs, or controller to use. DMaaP topic can also be configured, but is deprecated.
 The second (*config/application.yaml*) contains logging and security configurations.
 
-For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Jakarta>`_
+For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Kohn>`_
 
 Static configuration - Settings that cannot be changed at runtime (*application.yaml*)
 --------------------------------------------------------------------------------------
@@ -84,12 +84,14 @@ The file *./config/application.yaml* is read by the application at startup. It p
 For details about the parameters in this file, see documentation in the file.
 
 Dynamic configuration - Settings that can be changed at runtime (*application_configuration.json* or REST or ConfigMap)
--------------------------------------------------------------------------------------------------------------------------------
-The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container), or from a CBS/Consul database (Cloudify), or using the Configuration REST API. The configuration is re-read and refreshed at regular intervals.
+-----------------------------------------------------------------------------------------------------------------------
+The component has configuration that can be updated in runtime. This configuration can either be loaded from a file (accessible from the container), or using the Configuration REST API. The configuration is re-read and refreshed at regular intervals.
 
 The configuration includes:
 
   * Optional Controller configuration, e.g. an SDNC instance (with A1-Adapter)
+  
+    * (If no 'Contoller' is configured, the A1 Policy Management Service will connect direct to near-RT-RICs, bypassing the SDNC controller)
   * One entry for each near-RT-RIC, which includes:
   
     * The base URL of the near-RT-RIC
@@ -107,7 +109,7 @@ Configuring certificates
 The A1 Policy Management Service uses the default keystore and truststore that are built into the container. The paths and
 passwords for these stores are located in a yaml file, with an example is provided in the source code repository *a1-policy-management/config/application.yaml*
 
-There is also Policy Management Service's own cert in the default truststore for mocking purposes and unit-testing
+There is also the A1 Policy Management Service's own cert in the default truststore for mocking purposes and unit-testing
 (*ApplicationTest.java*).
 
 The default keystore, truststore, and application.yaml files can be overridden by mounting new files using the the docker "volumes"
@@ -123,7 +125,7 @@ The target paths in the container should not be modified.
 
 Example docker run command for mounting new files (assuming they are located in the current directory): ::
 
-   docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:1.4.0-SNAPSHOT
+   docker run -p 8081:8081 -p 8433:8433 --name=policy-agent-container --network=nonrtric-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:1.4.2-SNAPSHOT
 
 A1 Adapter (Internal)
 +++++++++++++++++++++
