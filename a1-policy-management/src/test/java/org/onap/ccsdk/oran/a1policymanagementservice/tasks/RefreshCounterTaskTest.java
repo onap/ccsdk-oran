@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import java.time.Instant;
@@ -42,7 +43,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 
 @ExtendWith(MockitoExtension.class)
-public class RefreshCounterTaskTest {
+class RefreshCounterTaskTest {
 
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = PolicyType.builder().id(POLICY_TYPE_1_NAME).schema("").build();
@@ -56,16 +57,16 @@ public class RefreshCounterTaskTest {
             .ric(RIC_1).type(POLICY_TYPE_1).lastModified(Instant.now()).isTransient(false)
             .statusNotificationUri("statusNotificationUri").build();
 
-    private PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    private final PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
     private final ApplicationConfig appConfig = new ApplicationConfig();
 
-    private PolicyTypes types;
+    private PolicyTypes policyTypes;
     private Policies policies;
     private Rics rics = new Rics();
 
     @BeforeEach
     void init() {
-        types = new PolicyTypes(appConfig);
+        policyTypes = new PolicyTypes(appConfig);
         policies = new Policies(appConfig);
 
         rics.clear();
@@ -79,16 +80,16 @@ public class RefreshCounterTaskTest {
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
         rics.put(RIC_1);
 
-        types.put(POLICY_TYPE_1);
+        policyTypes.put(POLICY_TYPE_1);
 
         policies.put(POLICY_1);
 
-        RefreshCounterTask refreshCounterTaskUnderTest = spy(createRefreshCounterTask());
-        refreshCounterTaskUnderTest.checkAllCounters();
+        RefreshCounterTask spy = spy(createRefreshCounterTask()); // instantiate RefreshCounterTask
+        MeterRegistry meterRegistry = spy.getMeterRegistry();
 
-        assertThat(prometheusMeterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
-        assertThat(prometheusMeterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(1);
-        assertThat(prometheusMeterRegistry.get("total_policy_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_policy_count").gauge().value()).isEqualTo(1);
     }
 
     @Test
@@ -97,30 +98,30 @@ public class RefreshCounterTaskTest {
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
         rics.put(RIC_1);
 
-        types.put(POLICY_TYPE_1);
+        policyTypes.put(POLICY_TYPE_1);
 
         policies.put(POLICY_1);
 
         String POLICY_2_ID = "policyId2";
-        Policy POLICY_2 = Policy.builder() //
-                .id(POLICY_2_ID) //
-                .json("") //
-                .ownerServiceId("service") //
-                .ric(RIC_1) //
-                .type(POLICY_TYPE_1) //
-                .lastModified(Instant.now()) //
+        Policy POLICY_2 = Policy.builder()
+                .id(POLICY_2_ID)
+                .json("")
+                .ownerServiceId("service")
+                .ric(RIC_1)
+                .type(POLICY_TYPE_1)
+                .lastModified(Instant.now())
                 .isTransient(false) //
-                .statusNotificationUri("statusNotificationUri") //
+                .statusNotificationUri("statusNotificationUri")
                 .build();
 
         policies.put(POLICY_2);
 
-        RefreshCounterTask refreshCounterTaskUnderTest = spy(createRefreshCounterTask());
-        refreshCounterTaskUnderTest.checkAllCounters();
+        RefreshCounterTask spy = spy(createRefreshCounterTask()); // instantiate RefreshCounterTask
+        MeterRegistry meterRegistry = spy.getMeterRegistry();
 
-        assertThat(prometheusMeterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
-        assertThat(prometheusMeterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(1);
-        assertThat(prometheusMeterRegistry.get("total_policy_count").gauge().value()).isEqualTo(2);
+        assertThat(meterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_policy_count").gauge().value()).isEqualTo(2);
     }
 
     @Test
@@ -128,29 +129,29 @@ public class RefreshCounterTaskTest {
         RIC_1.setState(Ric.RicState.AVAILABLE);
 
         String POLICY_TYPE_2_NAME = "type2";
-        PolicyType POLICY_TYPE_2 = PolicyType.builder() //
-                .id(POLICY_TYPE_2_NAME) //
-                .schema("") //
+        PolicyType POLICY_TYPE_2 = PolicyType.builder()
+                .id(POLICY_TYPE_2_NAME)
+                .schema("")
                 .build();
 
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
         RIC_1.addSupportedPolicyType(POLICY_TYPE_2);
         rics.put(RIC_1);
 
-        types.put(POLICY_TYPE_1);
-        types.put(POLICY_TYPE_2);
+        policyTypes.put(POLICY_TYPE_1);
+        policyTypes.put(POLICY_TYPE_2);
 
         policies.put(POLICY_1);
 
-        RefreshCounterTask refreshCounterTaskUnderTest = spy(createRefreshCounterTask());
-        refreshCounterTaskUnderTest.checkAllCounters();
+        RefreshCounterTask spy = spy(createRefreshCounterTask()); // instantiate RefreshCounterTask
+        MeterRegistry meterRegistry = spy.getMeterRegistry();
 
-        assertThat(prometheusMeterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
-        assertThat(prometheusMeterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(2);
-        assertThat(prometheusMeterRegistry.get("total_policy_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_ric_count").gauge().value()).isEqualTo(1);
+        assertThat(meterRegistry.get("total_policy_type_count").gauge().value()).isEqualTo(2);
+        assertThat(meterRegistry.get("total_policy_count").gauge().value()).isEqualTo(1);
     }
 
     private RefreshCounterTask createRefreshCounterTask() {
-        return new RefreshCounterTask(rics, types, policies, prometheusMeterRegistry);
+        return new RefreshCounterTask(rics, policyTypes, policies, prometheusMeterRegistry);
     }
 }

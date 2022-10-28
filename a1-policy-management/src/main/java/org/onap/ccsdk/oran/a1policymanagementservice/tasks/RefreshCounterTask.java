@@ -22,36 +22,36 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import java.lang.invoke.MethodHandles;
-import java.util.concurrent.atomic.AtomicLong;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
  * The aim is to collect statistical values from the A1 Policy Management Service.
- * The counters are being updated every minute.
  */
-@EnableScheduling
 @Component
 public class RefreshCounterTask {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @Autowired
     private final Rics rics;
+
+    @Autowired
     private final PolicyTypes policyTypes;
+
+    @Autowired
     private final Policies policies;
 
+    @Autowired
+    @Getter(AccessLevel.PUBLIC)
     private final MeterRegistry meterRegistry;
-
-    private final AtomicLong ricCount;
-    private final AtomicLong policyTypeCount;
-    private final AtomicLong policyCount;
 
     @Autowired
     public RefreshCounterTask(Rics rics, PolicyTypes policyTypes, Policies policies, MeterRegistry meterRegistry) {
@@ -60,19 +60,10 @@ public class RefreshCounterTask {
         this.policies = policies;
         this.meterRegistry = meterRegistry;
 
-        ricCount = meterRegistry.gauge("total_ric_count", new AtomicLong(0));
-        policyTypeCount = meterRegistry.gauge("total_policy_type_count", new AtomicLong(0));
-        policyCount = meterRegistry.gauge("total_policy_count", new AtomicLong(0));
+        logger.trace("Counters have been initialized.");
+        meterRegistry.gauge("total_ric_count", rics, Rics::size);
+        meterRegistry.gauge("total_policy_type_count", policyTypes, PolicyTypes::size);
+        meterRegistry.gauge("total_policy_count", policies, Policies::size);
     }
 
-    /**
-     * Every minute, updates counters for statistical purposes.
-     */
-    @Scheduled(fixedRate = 1000 * 60)
-    public void checkAllCounters() {
-        logger.trace("Checking counters starting...");
-        ricCount.set(rics.size());
-        policyCount.set(policies.size());
-        policyTypeCount.set(policyTypes.size());
-    }
 }
