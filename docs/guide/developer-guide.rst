@@ -46,9 +46,6 @@ dependency management tool (see *pom.xml* file at root level) :
 - Swagger annotations
 - `Spring Framework <https://github.com/spring-projects/spring-boot>`_
 - `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for APIs built with Spring
-- `Immutable <https://immutables.github.io/>`_ to generate simple, safe and consistent value objects
-- `JSON in Java <https://github.com/stleary/JSON-java>`_ to parse JSON documents into Java objects
-- `Apache Commons Net <https://github.com/apache/commons-net>`_ for network utilities and protocol implementations
 - `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
 
