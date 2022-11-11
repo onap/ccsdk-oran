@@ -23,13 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,25 +32,25 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.datastore.DataStore;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
-import org.springframework.util.FileSystemUtils;
 
-@Configuration
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public class PolicyTypes {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private Map<String, PolicyType> types = new HashMap<>();
-    private final ApplicationConfig appConfig;
     private static Gson gson = new GsonBuilder().create();
+    private final DataStore dataStore;
 
     public PolicyTypes(@Autowired ApplicationConfig appConfig) {
-        this.appConfig = appConfig;
-        restoreFromDatabase();
+        this.dataStore = DataStore.create(appConfig, "policytypes");
     }
 
     public synchronized PolicyType getType(String name) throws EntityNotFoundException {
@@ -113,55 +107,26 @@ public class PolicyTypes {
 
     public synchronized void clear() {
         this.types.clear();
-        try {
-            FileSystemUtils.deleteRecursively(getDatabasePath());
-        } catch (IOException | ServiceException e) {
-            logger.warn("Could not delete policy type database : {}", e.getMessage());
-        }
+        dataStore.deleteAllObjects().onErrorResume(t -> Mono.empty()).subscribe();
     }
 
     public void store(PolicyType type) {
-        try {
-            Files.createDirectories(getDatabasePath());
-            try (PrintStream out = new PrintStream(new FileOutputStream(getFile(type)))) {
-                out.print(gson.toJson(type));
-            }
-        } catch (ServiceException e) {
-            logger.debug("Could not store policy type: {} {}", type.getId(), e.getMessage());
-        } catch (IOException e) {
-            logger.warn("Could not store policy type: {} {}", type.getId(), e.getMessage());
-        }
+        byte[] bytes = gson.toJson(type).getBytes();
+        dataStore.writeObject(getPath(type), bytes) //
+                .doOnError(t -> logger.warn("Could not store policy type: {} {}", type.getId(), t.getMessage()))
+                .subscribe();
     }
 
-    private File getFile(PolicyType type) throws ServiceException {
-        return Path.of(getDatabaseDirectory(), type.getId() + ".json").toFile();
-    }
+    public Flux<PolicyType> restoreFromDatabase() {
 
-    void restoreFromDatabase() {
-        try {
-            Files.createDirectories(getDatabasePath());
-            for (File file : getDatabasePath().toFile().listFiles()) {
-                String json = Files.readString(file.toPath());
-                PolicyType type = gson.fromJson(json, PolicyType.class);
-                this.types.put(type.getId(), type);
-            }
-            logger.debug("Restored type database,no of types: {}", this.types.size());
-        } catch (ServiceException e) {
-            logger.debug("Could not restore policy type database : {}", e.getMessage());
-        } catch (Exception e) {
-            logger.warn("Could not restore policy type database : {}", e.getMessage());
-        }
-    }
+        return this.dataStore.createDataStore().flatMapMany(x -> dataStore.listObjects("")) //
+                .flatMap(dataStore::readObject) //
+                .map(String::new) //
+                .map(json -> gson.fromJson(json, PolicyType.class)).doOnNext(type -> this.types.put(type.getId(), type)) //
+                .doOnError(t -> logger.warn("Could not restore policy type database : {}", t.getMessage())) //
+                .doFinally(sig -> logger.debug("Restored type database,no of types: {}", this.types.size()))
+                .onErrorResume(t -> Flux.empty()); //
 
-    private String getDatabaseDirectory() throws ServiceException {
-        if (appConfig.getVardataDirectory() == null) {
-            throw new ServiceException("No policy type storage provided");
-        }
-        return appConfig.getVardataDirectory() + "/database/policyTypes";
-    }
-
-    private Path getDatabasePath() throws ServiceException {
-        return Path.of(getDatabaseDirectory());
     }
 
     private static Collection<PolicyType> filterTypeName(Collection<PolicyType> types, String typeName) {
@@ -186,6 +151,10 @@ public class PolicyTypes {
         }
         result.sort((left, right) -> left.getVersion().compareTo(right.getVersion()));
         return result;
+    }
+
+    private String getPath(PolicyType type) {
+        return type.getId() + ".json";
     }
 
 }
