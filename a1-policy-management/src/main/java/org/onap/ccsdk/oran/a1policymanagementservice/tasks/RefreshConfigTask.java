@@ -200,9 +200,7 @@ public class RefreshConfigTask {
 
     void addRic(Ric ric) {
         this.rics.put(ric);
-        if (this.appConfig.getVardataDirectory() != null) {
-            this.policies.restoreFromDatabase(ric, this.policyTypes).subscribe();
-        }
+        this.policies.restoreFromDatabase(ric, this.policyTypes).subscribe();
         logger.debug("Added RIC: {}", ric.id());
     }
 

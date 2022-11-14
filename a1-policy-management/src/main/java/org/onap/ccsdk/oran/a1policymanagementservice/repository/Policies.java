@@ -101,7 +101,7 @@ public class Policies {
         policiesRic.put(policy.getRic().id(), policy.getId(), policy);
         policiesService.put(policy.getOwnerServiceId(), policy.getId(), policy);
         policiesType.put(policy.getType().getId(), policy.getId(), policy);
-        if (this.appConfig.getVardataDirectory() != null && !policy.isTransient()) {
+        if (!policy.isTransient()) {
             store(policy);
         }
     }
