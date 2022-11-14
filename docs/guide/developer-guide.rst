@@ -48,6 +48,7 @@ dependency management tool (see *pom.xml* file at root level) :
 - `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for APIs built with Spring
 - `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
+- `S3 <https://mvnrepository.com/artifact/software.amazon.awssdk/s3>`_ Access of Amazon S3 - Cloud Object Storage
 
 To get a complete list of all dependencies, use command "mvn dependency:tree".
 
@@ -77,6 +78,7 @@ The file *./config/application.yaml* is read by the application at startup. It p
  * logging; setting for which information is logged.
  * auth-token; optional authorization token to use for REST call.
  * filepath; the local path to a file used for dynamic configuration (if used). See next chapter.
+ * persistent storage of runtime information. Configuration of A1 policyinstances is stored persistently. The media for this can be either filesystem (a persistent volume) or Amazon S3 - Cloud Object Storage.
 
 For details about the parameters in this file, see documentation in the file.
 
