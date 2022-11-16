@@ -22,7 +22,9 @@ extensions = [
     'sphinxcontrib.blockdiag',
     'sphinxcontrib.seqdiag',
     'sphinxcontrib.swaggerdoc',
-    'sphinxcontrib.plantuml'
+    'sphinxcontrib.plantuml',
+    'sphinxcontrib.redoc',
+    'sphinx_tabs.tabs'
 ]
 
 #
@@ -31,6 +33,23 @@ extensions = [
 #
 
 branch = 'latest'
+
+redoc = [
+            {
+                'name': 'PMS API',
+                'page': 'offeredapis/pms-api',
+                'spec': './offeredapis/swagger/pms-api.json',
+                'embed': True,
+            },
+            {
+                'name': 'A1 ADAPTER API',
+                'page': 'offeredapis/a1-adapter-api',
+                'spec': './offeredapis/swagger/a1-adapter-api.json',
+                'embed': True,
+            }
+        ]
+
+redoc_uri = 'https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js'
 
 intersphinx_mapping = {}
 doc_url = 'https://docs.onap.org/projects'
