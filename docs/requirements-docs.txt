@@ -5,3 +5,5 @@ sphinxcontrib-seqdiag # BSD
 sphinxcontrib-swaggerdoc
 sphinxcontrib-spelling
 sphinxcontrib-plantuml
+sphinxcontrib-redoc
+sphinx_tabs.tabs
