@@ -189,6 +189,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/shutdown:
+    post:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'shutdown'
+      operationId: shutdown
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/policy-types:
     get:
       tags:

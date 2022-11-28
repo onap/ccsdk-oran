@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
 import com.google.gson.Gson;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -37,7 +38,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class Services {
-    private static final Logger logger = LoggerFactory.getLogger(Services.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static Gson gson = Service.createGson();
     private final DataStore dataStore;
 

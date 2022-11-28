@@ -471,6 +471,21 @@
             ],
             "tags": ["NearRT-RIC Repository"]
         }},
+        "/actuator/shutdown": {"post": {
+            "summary": "Actuator web endpoint 'shutdown'",
+            "operationId": "shutdown",
+            "responses": {"200": {
+                "description": "OK",
+                "content": {"*/*": {
+                    "schema": {
+                        "type": "object",
+                        "example": null
+                    },
+                    "example": null
+                }}
+            }},
+            "tags": ["Actuator"]
+        }},
         "/a1-policy/v2/policy-types": {"get": {
             "summary": "Query policy type identities",
             "operationId": "getPolicyTypes",

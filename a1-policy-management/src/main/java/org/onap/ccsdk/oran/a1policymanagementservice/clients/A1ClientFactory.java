@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
@@ -38,7 +39,7 @@ import reactor.core.publisher.Mono;
  */
 public class A1ClientFactory {
 
-    private static final Logger logger = LoggerFactory.getLogger(A1ClientFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final ApplicationConfig appConfig;
 

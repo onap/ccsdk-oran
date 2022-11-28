@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import com.google.gson.JsonObject;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.Properties;
@@ -59,7 +60,7 @@ import reactor.util.annotation.Nullable;
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class RefreshConfigTask {
 
-    private static final Logger logger = LoggerFactory.getLogger(RefreshConfigTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Value("#{systemEnvironment}")
     public Properties systemEnvironment;
