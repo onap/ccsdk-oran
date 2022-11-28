@@ -128,10 +128,10 @@ public class ServiceController {
 
     private static final String REGISTER_SERVICE_DETAILS = "Registering a service is needed to:" //
             + "<ul>" //
-            + "<li>Get callbacks.</li>" //
-            + "<li>Activate supervision of the service. If a service is inactive, its policies will be deleted.</li>"//
+            + "<li>Get callbacks about available NearRT RICs.</li>" //
+            + "<li>Activate supervision of the service. If a service is inactive, its policies will automatically be deleted.</li>"//
             + "</ul>" //
-    ;
+            + "Policies can be created even if the service is not registerred. This is a feature which it is optional to use.";
 
     @PutMapping(Consts.V2_API_ROOT + "/services")
     @Operation(summary = "Register a service", description = REGISTER_SERVICE_DETAILS)

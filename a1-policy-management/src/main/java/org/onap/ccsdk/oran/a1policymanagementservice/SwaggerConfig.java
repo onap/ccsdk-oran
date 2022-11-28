@@ -83,7 +83,10 @@ public class SwaggerConfig {
             + H3 + StatusController.API_NAME + H3_END + //
             "<p>API used for supervision of the PMS component.</p>" + //
             H3 + ServiceController.API_NAME + H3_END + //
-            "<p>API used for registering services that uses PMS. Each A1 policy is owned by a service. PMS can supervise each registered service and will automatically remove policies for unavailable services.</p>";
+            "<p>" + "API used for registering services that uses PMS."
+            + " Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services."
+            + " Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use."
+            + "</p>";
 
     public static final String VERSION = "1.1.0";
 }

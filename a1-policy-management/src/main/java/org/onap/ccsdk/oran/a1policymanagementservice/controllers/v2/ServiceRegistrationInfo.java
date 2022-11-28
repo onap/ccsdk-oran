@@ -42,7 +42,7 @@ public class ServiceRegistrationInfo {
     @JsonProperty("keep_alive_interval_seconds")
     public long keepAliveIntervalSeconds = 0;
 
-    @Schema(description = "callback for notifying of Near-RT RIC state changes", required = false)
+    @Schema(description = "callback for notifying of Near-RT RIC state changes", required = false, defaultValue = "")
     @SerializedName("callback_url")
     @JsonProperty("callback_url")
     public String callbackUrl = "";

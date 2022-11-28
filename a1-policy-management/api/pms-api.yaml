@@ -18,8 +18,10 @@ info:
     provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one
     Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service
     Registry and Supervision</h3><p>API used for registering services that uses PMS.
-    Each A1 policy is owned by a service. PMS can supervise each registered service
-    and will automatically remove policies for unavailable services.</p>
+    Each A1 policy is optionally owned by a service. PMS can supervise each registered
+    service by a heart-beat supervision and will automatically remove policies for
+    unavailable services. Note that a service does not need to be registered in order
+    to create A1 Policies. This is a feature that is optional to use.</p>
   license:
     name: Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.
     url: http://www.apache.org/licenses/LICENSE-2.0
@@ -539,9 +541,11 @@ paths:
       tags:
       - Service Registry and Supervision
       summary: Register a service
-      description: Registering a service is needed to:<ul><li>Get callbacks.</li><li>Activate
-        supervision of the service. If a service is inactive, its policies will be
-        deleted.</li></ul>
+      description: Registering a service is needed to:<ul><li>Get callbacks about
+        available NearRT RICs.</li><li>Activate supervision of the service. If a service
+        is inactive, its policies will automatically be deleted.</li></ul>Policies
+        can be created even if the service is not registerred. This is a feature which
+        it is optional to use.
       operationId: putService
       requestBody:
         content:
@@ -977,7 +981,6 @@ components:
       - policy_id
       - policytype_id
       - ric_id
-      - service_id
       type: object
       properties:
         ric_id:
@@ -991,9 +994,13 @@ components:
           description: if true, the policy is deleted at RIC restart. If false, its
             value is maintained by this service until explicitly deleted. Default
             false.
+          example: false
+          default: false
         service_id:
           type: string
-          description: the identity of the service owning the policy
+          description: the identity of the service owning the policy. This can be
+            used to group the policies (it is possible to get all policies associated
+            to a service). Note that the service does not need to be registerred.
         policy_data:
           type: object
           description: the configuration of the policy

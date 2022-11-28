@@ -48,19 +48,24 @@ public class PolicyInfo {
     @SerializedName("policy_data")
     public Object policyData;
 
-    @Schema(name = "service_id", description = "the identity of the service owning the policy", required = true)
-    @JsonProperty(value = "service_id", required = true)
+    private static final String SERVICE_ID_DESCRIPTION = "the identity of the service owning the policy."
+            + " This can be used to group the policies (it is possible to get all policies associated to a service)."
+            + " Note that the service does not need to be registerred.";
+
+    @Schema(name = "service_id", description = SERVICE_ID_DESCRIPTION, required = false, defaultValue = "")
+    @JsonProperty(value = "service_id", required = false)
     @SerializedName("service_id")
-    public String serviceId;
+    public String serviceId = "";
 
     @Schema(name = "transient",
             description = "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
-            required = false)
+            required = false, defaultValue = "false", example = "false")
     @JsonProperty(value = "transient", required = false, defaultValue = "false")
     @SerializedName("transient")
     public boolean isTransient = false;
 
-    @Schema(name = "status_notification_uri", description = "Callback URI for policy status updates", required = false)
+    @Schema(name = "status_notification_uri", description = "Callback URI for policy status updates", required = false,
+            defaultValue = "")
     @JsonProperty(value = "status_notification_uri", required = false)
     @SerializedName("status_notification_uri")
     public String statusNotificationUri = "";

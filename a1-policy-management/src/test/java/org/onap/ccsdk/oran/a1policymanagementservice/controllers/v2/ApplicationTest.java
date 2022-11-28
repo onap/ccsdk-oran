@@ -434,7 +434,7 @@ class ApplicationTest {
     }
 
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
-            boolean isTransient) {
+            boolean isTransient, String statusNotificationUri) {
         PolicyInfo info = new PolicyInfo();
         info.policyId = policyInstanceId;
         info.policyTypeId = policyTypeName;
@@ -445,12 +445,12 @@ class ApplicationTest {
         if (isTransient) {
             info.isTransient = isTransient;
         }
-        info.statusNotificationUri = "statusNotificationUri";
+        info.statusNotificationUri = statusNotificationUri;
         return gson.toJson(info);
     }
 
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId) {
-        return putPolicyBody(serviceName, ricId, policyTypeName, policyInstanceId, false);
+        return putPolicyBody(serviceName, ricId, policyTypeName, policyInstanceId, false, "statusUri");
     }
 
     @Test
@@ -465,7 +465,7 @@ class ApplicationTest {
 
         // PUT a transient policy
         String url = "/policies";
-        String policyBody = putPolicyBody(serviceName, ricId, policyTypeName, policyInstanceId, true);
+        String policyBody = putPolicyBody(serviceName, ricId, policyTypeName, policyInstanceId, true, "statusNotif");
         this.rics.getRic(ricId).setState(Ric.RicState.AVAILABLE);
 
         restClient().put(url, policyBody).block();
@@ -504,6 +504,27 @@ class ApplicationTest {
         this.rics.getRic(ricId).setState(Ric.RicState.SYNCHRONIZING);
         testErrorCode(restClient().put(url, policyBody), HttpStatus.LOCKED);
         this.rics.getRic(ricId).setState(Ric.RicState.AVAILABLE);
+    }
+
+    @Test
+    void testPutPolicy_NoServiceNoStatusUri() throws Exception {
+        String ricId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String policyInstanceId = "instance_1.2.3";
+
+        addPolicyType(policyTypeName, ricId);
+
+        // PUT a transient policy
+        String url = "/policies";
+        String policyBody = putPolicyBody(null, ricId, policyTypeName, policyInstanceId, true, null);
+        this.rics.getRic(ricId).setState(Ric.RicState.AVAILABLE);
+
+        restClient().put(url, policyBody).block();
+
+        Policy policy = policies.getPolicy(policyInstanceId);
+        assertThat(policy).isNotNull();
+        assertThat(policy.getOwnerServiceId()).isBlank();
+        assertThat(policy.getStatusNotificationUri()).isBlank();
     }
 
     @Test
@@ -551,6 +572,25 @@ class ApplicationTest {
         PolicyInfo policyInfo = info.policies.iterator().next();
         assertThat(policyInfo.policyId).isEqualTo("id1");
         assertThat(policyInfo.policyTypeId).isEmpty();
+    }
+
+    @Test
+    void testUpdateService() throws Exception {
+        this.addRic("ric1");
+        this.addPolicy("p", "type1", "", "ric1");
+
+        String url = "/policies?service_id=";
+        String resp = restClient().get(url).block();
+        assertThat(resp).contains("[\"p\"]");
+
+        this.addPolicy("p", "type1", "service", "ric1");
+        url = "/policies?service_id=";
+        resp = restClient().get(url).block();
+        assertThat(resp).contains("[]");
+
+        url = "/policies?service_id=service";
+        resp = restClient().get(url).block();
+        assertThat(resp).contains("[\"p\"]");
     }
 
     @Test

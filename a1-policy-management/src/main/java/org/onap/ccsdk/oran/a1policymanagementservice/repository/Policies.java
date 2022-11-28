@@ -97,6 +97,11 @@ public class Policies {
     }
 
     public synchronized void put(Policy policy) {
+        Policy previousDef = this.get(policy.getId());
+        if (previousDef != null) {
+            removeFromMaps(previousDef);
+        }
+
         policiesId.put(policy.getId(), policy);
         policiesRic.put(policy.getRic().id(), policy.getId(), policy);
         policiesService.put(policy.getOwnerServiceId(), policy.getId(), policy);
@@ -150,10 +155,7 @@ public class Policies {
         if (!policy.isTransient()) {
             dataStore.deleteObject(getPath(policy)).subscribe();
         }
-        policiesId.remove(policy.getId());
-        policiesRic.remove(policy.getRic().id(), policy.getId());
-        policiesService.remove(policy.getOwnerServiceId(), policy.getId());
-        policiesType.remove(policy.getType().getId(), policy.getId());
+        removeFromMaps(policy);
     }
 
     public synchronized void removePoliciesForRic(String ricId) {
@@ -189,12 +191,19 @@ public class Policies {
         dataStore.deleteAllObjects().onErrorResume(t -> Mono.empty()).subscribe();
     }
 
-    public void store(Policy policy) {
+    private void store(Policy policy) {
 
         byte[] bytes = gson.toJson(toStorageObject(policy)).getBytes();
         this.dataStore.writeObject(this.getPath(policy), bytes) //
                 .doOnError(t -> logger.error("Could not store job in S3, reason: {}", t.getMessage())) //
                 .subscribe();
+    }
+
+    private void removeFromMaps(Policy policy) {
+        policiesId.remove(policy.getId());
+        policiesRic.remove(policy.getRic().id(), policy.getId());
+        policiesService.remove(policy.getOwnerServiceId(), policy.getId());
+        policiesType.remove(policy.getType().getId(), policy.getId());
     }
 
     private boolean isMatch(String filterValue, String actualValue) {
