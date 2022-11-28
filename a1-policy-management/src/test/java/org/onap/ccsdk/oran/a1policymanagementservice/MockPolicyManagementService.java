@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.nio.file.Files;
 import java.time.Instant;
@@ -61,7 +62,7 @@ import org.springframework.util.StringUtils;
                                 // but a mock
                                 // of the server.
 class MockPolicyManagementService {
-    private static final Logger logger = LoggerFactory.getLogger(MockPolicyManagementService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     Rics rics;

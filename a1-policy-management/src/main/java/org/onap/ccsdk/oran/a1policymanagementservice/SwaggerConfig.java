@@ -43,7 +43,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusContro
                 version = SwaggerConfig.VERSION, //
                 description = SwaggerConfig.DESCRIPTION, //
                 license = @License(
-                        name = "Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.", //
+                        name = "Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.", //
                         url = "http://www.apache.org/licenses/LICENSE-2.0")) //
 )
 public class SwaggerConfig {
@@ -83,10 +83,15 @@ public class SwaggerConfig {
             + H3 + StatusController.API_NAME + H3_END + //
             "<p>API used for supervision of the PMS component.</p>" + //
             H3 + ServiceController.API_NAME + H3_END + //
-            "<p>" + "API used for registering services that uses PMS."
+            "<p>" //
+            + "API used for registering services that uses PMS."
             + " Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services."
             + " Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use."
-            + "</p>";
+            + "</p>" + //
+            H3 + "Spring Boot Actuator" + H3_END + //
+            "<p>" //
+            + "Provides generic functions  used to monitor and manage the Spring web application." + //
+            "</p>";
 
     public static final String VERSION = "1.1.0";
 }

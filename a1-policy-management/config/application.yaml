@@ -31,7 +31,12 @@ management:
     web:
       exposure:
         # Enabling of springboot actuator features. See springboot documentation.
-        include: "loggers,logfile,health,info,metrics,threaddump,heapdump"
+        include: "loggers,logfile,health,info,metrics,threaddump,heapdump,shutdown"
+  endpoint:
+    shutdown:
+      enabled: true
+lifecycle:
+  timeout-per-shutdown-phase: "20s"
 springdoc:
   show-actuator: true
 logging:
@@ -53,6 +58,7 @@ server:
    # See springboot documentation.
    port : 8433
    http-port: 8081
+   shutdown: "graceful"
    ssl:
       key-store-type: JKS
       key-store-password: policy_agent

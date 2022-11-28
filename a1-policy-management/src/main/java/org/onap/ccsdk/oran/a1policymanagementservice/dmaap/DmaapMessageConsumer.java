@@ -26,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class DmaapMessageConsumer {
 
     protected static final Duration TIME_BETWEEN_DMAAP_RETRIES = Duration.ofSeconds(10);
 
-    private static final Logger logger = LoggerFactory.getLogger(DmaapMessageConsumer.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final ApplicationConfig applicationConfig;
 

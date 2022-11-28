@@ -30,6 +30,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
@@ -41,7 +42,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConfigurationFile {
-    private static final Logger logger = LoggerFactory.getLogger(ConfigurationFile.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     final ApplicationConfig appConfig;
     final Gson gson = new Gson();

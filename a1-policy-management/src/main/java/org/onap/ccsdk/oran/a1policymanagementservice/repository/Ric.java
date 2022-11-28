@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * Holds information about a Near-RT RIC.
  */
 public class Ric {
-    private static final Logger logger = LoggerFactory.getLogger(Ric.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Setter
     private RicConfig ricConfig;

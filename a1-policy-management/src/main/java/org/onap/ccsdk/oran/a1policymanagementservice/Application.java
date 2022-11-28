@@ -20,13 +20,18 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
+import java.lang.invoke.MethodHandles;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapMessageConsumer;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
@@ -38,8 +43,18 @@ public class Application {
     @Autowired
     private DmaapMessageConsumer dmaapMessageConsumer;
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class);
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class);
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                logger.warn("Shutting down, received signal SIGTERM");
+                SpringApplication.exit(context);
+            }
+        });
     }
 
     /**
