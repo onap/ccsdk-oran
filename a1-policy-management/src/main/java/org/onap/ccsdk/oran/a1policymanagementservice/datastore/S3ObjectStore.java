@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.datastore;
 
+import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 
@@ -53,7 +54,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 class S3ObjectStore implements DataStore {
-    private static final Logger logger = LoggerFactory.getLogger(S3ObjectStore.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final ApplicationConfig applicationConfig;
 
     private static S3AsyncClient s3AsynchClient;

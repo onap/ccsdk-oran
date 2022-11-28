@@ -20,6 +20,8 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
+import java.lang.invoke.MethodHandles;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @ExceptionHandler(ServiceException.class)
     public final ResponseEntity<Object> handleServiceException(ServiceException ex) {

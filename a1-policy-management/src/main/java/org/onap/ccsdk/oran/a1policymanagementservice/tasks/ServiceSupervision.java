@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Duration;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
@@ -49,7 +50,7 @@ import reactor.core.publisher.Mono;
 @EnableScheduling
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class ServiceSupervision {
-    private static final Logger logger = LoggerFactory.getLogger(ServiceSupervision.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     static final int CONCURRENCY_RIC = 1; // How may paralell requests that is sent
     private final Services services;
     private final Policies policies;

@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
@@ -53,7 +54,7 @@ import reactor.core.publisher.Mono;
 @EnableScheduling
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class RicSupervision {
-    private static final Logger logger = LoggerFactory.getLogger(RicSupervision.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final int CONCURRENCY = 50; // Number of RIC checked in paralell
     private final Rics rics;

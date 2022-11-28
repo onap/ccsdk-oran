@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import static org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Set;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
@@ -58,7 +59,7 @@ import reactor.core.publisher.SignalType;
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class RicSynchronizationTask {
 
-    private static final Logger logger = LoggerFactory.getLogger(RicSynchronizationTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
 
     private final A1ClientFactory a1ClientFactory;

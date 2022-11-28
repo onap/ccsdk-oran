@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,7 +45,7 @@ import org.springframework.http.ResponseEntity;
  * thread. For test of robustness using concurrent clients.
  */
 class ConcurrencyTestRunnable implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(ConcurrencyTestRunnable.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final AsyncRestClient webClient;
     static AtomicInteger nextCount = new AtomicInteger(0);
     private final int count;

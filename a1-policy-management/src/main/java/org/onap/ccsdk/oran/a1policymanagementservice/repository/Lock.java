@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +40,7 @@ import reactor.core.publisher.MonoSink;
  * resource (for shared usage).
  */
 public class Lock {
-    private static final Logger logger = LoggerFactory.getLogger(Lock.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     boolean isExclusive = false;
     private int lockCounter = 0;

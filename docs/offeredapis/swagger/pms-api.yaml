@@ -21,9 +21,11 @@ info:
     Each A1 policy is optionally owned by a service. PMS can supervise each registered
     service by a heart-beat supervision and will automatically remove policies for
     unavailable services. Note that a service does not need to be registered in order
-    to create A1 Policies. This is a feature that is optional to use.</p>
+    to create A1 Policies. This is a feature that is optional to use.</p><h3>Spring
+    Boot Actuator</h3><p>Provides generic functions  used to monitor and manage the
+    Spring web application.</p>
   license:
-    name: Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.
+    name: Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.
     url: http://www.apache.org/licenses/LICENSE-2.0
   version: 1.1.0
 servers:
@@ -189,6 +191,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_information'
+  /actuator/shutdown:
+    post:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'shutdown'
+      operationId: shutdown
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /a1-policy/v2/policy-types:
     get:
       tags:

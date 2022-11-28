@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import java.lang.invoke.MethodHandles;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapRequestMessage.Operation;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -42,7 +44,7 @@ import reactor.core.publisher.Mono;
  * response though DMAAP
  */
 public class DmaapMessageHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DmaapMessageHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static Gson gson = new GsonBuilder().create();
     private final AsyncRestClient dmaapClient;
     private final AsyncRestClient pmsClient;

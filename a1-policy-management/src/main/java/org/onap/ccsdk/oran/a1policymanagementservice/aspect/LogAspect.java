@@ -20,6 +20,8 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.aspect;
 
+import java.lang.invoke.MethodHandles;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -36,7 +38,7 @@ import org.springframework.util.StopWatch;
 @Component
 public class LogAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Around("execution(* org.onap.ccsdk.oran.a1policymanagementservice..*(..)))")
     public void executimeTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {

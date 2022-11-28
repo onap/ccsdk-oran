@@ -33,6 +33,7 @@ import com.google.gson.GsonBuilder;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,7 +47,9 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
@@ -89,12 +92,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.FileSystemUtils;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.util.annotation.Nullable;
 
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
@@ -105,7 +110,7 @@ import reactor.util.annotation.Nullable;
         "app.s3.bucket=" // If this is set, S3 will be used to store data.
 })
 class ApplicationTest {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     ApplicationContext context;
@@ -198,6 +203,33 @@ class ApplicationTest {
             assertThat(ric.getLock().getLockCounter()).isZero();
             assertThat(ric.getState()).isEqualTo(Ric.RicState.AVAILABLE);
         }
+    }
+
+    @Test
+    @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
+    void testZZActuator() throws Exception {
+        // The test must be run last, hence the "ZZ" in the name. All succeeding tests
+        // will fail.
+        AsyncRestClient client = restClient(baseUrl(), false);
+
+        client.post("/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice",
+                "{\"configuredLevel\":\"trace\"}").block();
+
+        String resp = client.get("/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice").block();
+        assertThat(resp).contains("TRACE");
+
+        client.post("/actuator/loggers/org.springframework.boot.actuate", "{\"configuredLevel\":\"trace\"}").block();
+
+        // This will stop the web server and all coming tests will fail.
+        client.post("/actuator/shutdown", "").block();
+
+        Thread.sleep(1000);
+
+        StepVerifier.create(restClient().get("/rics")) // Any call
+                .expectSubscription() //
+                .expectErrorMatches(t -> t instanceof WebClientRequestException) //
+                .verify();
+
     }
 
     @Test
