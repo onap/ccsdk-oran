@@ -15,6 +15,8 @@ html_logo = "_static/logo_onap_2017.png"
 html_favicon = "_static/favicon.ico"
 html_static_path = ["_static"]
 html_show_sphinx = False
+html_extra_path = ["offeredapis/experimental"]
+exclude_patterns = ["**/.**"]
 
 extensions = [
     'sphinx.ext.intersphinx',
