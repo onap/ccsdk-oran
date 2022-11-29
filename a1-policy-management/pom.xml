@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-26-starter-parent</artifactId>
-        <version>2.5.0-SNAPSHOT</version>
+        <version>2.5.0</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -434,6 +434,76 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+			    <groupId>org.openapitools</groupId>
+			    <artifactId>openapi-generator-maven-plugin</artifactId>
+			    <version>6.0.0</version>
+			    <executions>
+			        <execution>
+			        	<id>html</id>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			            <configuration>
+			                <inputSpec>${project.basedir}/api/pms-api.yaml</inputSpec>
+			                <generatorName>html</generatorName>
+							<verbose>false</verbose>
+                            <output>${project.basedir}/../docs/offeredapis/experimental/api-doc-gen/html</output>
+                            <skipOperationExample>false</skipOperationExample>
+                            <strictSpec>false</strictSpec>
+			                <configOptions>
+			                	<appDescription>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managing O-RAN A1 Policies.</appDescription>
+			                	<appName>ONAP CCSDK A1 Policy Management Service</appName>
+			                	<infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+			                	<licenseInfo>Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
+			                	<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+			                </configOptions>
+			            </configuration>
+			        </execution>
+			        <execution>
+			        	<id>html2</id>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			            <configuration>
+			                <inputSpec>${project.basedir}/api/pms-api.yaml</inputSpec>
+			                <generatorName>html2</generatorName>
+							<verbose>false</verbose>
+                            <output>${project.basedir}/../docs/offeredapis/experimental/api-doc-gen/apidocgen_html2</output>
+                            <skipOperationExample>false</skipOperationExample>
+                            <strictSpec>false</strictSpec>
+			                <configOptions>
+			                	<appDescription>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managing O-RAN A1 Policies.</appDescription>
+			                	<appName>ONAP CCSDK A1 Policy Management Service</appName>
+			                	<infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+			                	<licenseInfo>Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
+			                	<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+			                </configOptions>
+			            </configuration>
+			        </execution>
+			        <execution>
+			        	<id>dynamic_html</id>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			            <configuration>
+			                <inputSpec>${project.basedir}/api/pms-api.yaml</inputSpec>
+			                <generatorName>dynamic-html</generatorName>
+							<verbose>false</verbose>
+                            <output>${project.basedir}/../docs/offeredapis/experimental/api-doc-gen/dynamic-html</output>
+                            <skipOperationExample>false</skipOperationExample>
+                            <strictSpec>false</strictSpec>
+			                <configOptions>
+			                	<appDescription>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managing O-RAN A1 Policies.</appDescription>
+			                	<appName>ONAP CCSDK A1 Policy Management Service</appName>
+			                	<infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+			                	<licenseInfo>Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
+			                	<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+			                </configOptions>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
         </plugins>
     </build>
 </project>
