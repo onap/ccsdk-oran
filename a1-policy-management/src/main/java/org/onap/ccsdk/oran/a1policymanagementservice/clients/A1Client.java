@@ -20,7 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -61,7 +63,11 @@ public interface A1Client {
 
     public Mono<String> deletePolicy(Policy policy);
 
-    public Flux<String> deleteAllPolicies();
+    public Flux<String> deleteUnknownPolicies(Set<String> knownPolicyIds);
+
+    default Flux<String> deleteAllPolicies() {
+        return deleteUnknownPolicies(Collections.emptySet());
+    }
 
     public Mono<String> getPolicyStatus(Policy policy);
 

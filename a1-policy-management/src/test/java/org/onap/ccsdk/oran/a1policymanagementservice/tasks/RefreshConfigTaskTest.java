@@ -81,7 +81,7 @@ class RefreshConfigTaskTest {
             .build();
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
-        return createTestObject(configFileExists, new Rics(), new Policies(appConfig), true);
+        return createTestObject(configFileExists, spy(new Rics()), new Policies(appConfig), true);
     }
 
     private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
@@ -116,7 +116,7 @@ class RefreshConfigTaskTest {
         // Then
         verify(refreshTaskUnderTest, atLeastOnce()).loadConfigurationFromFile();
 
-        verify(refreshTaskUnderTest, times(2)).addRic(any(Ric.class));
+        verify(refreshTaskUnderTest.rics, times(2)).put(any(Ric.class));
 
         Iterable<RicConfig> ricConfigs = appConfig.getRicConfigs();
         RicConfig ricConfig = ricConfigs.iterator().next();

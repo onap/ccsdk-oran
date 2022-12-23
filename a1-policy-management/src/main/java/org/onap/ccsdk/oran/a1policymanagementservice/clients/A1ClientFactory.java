@@ -30,7 +30,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Mono;
 
 /**
@@ -45,7 +44,6 @@ public class A1ClientFactory {
 
     private final AsyncRestClientFactory restClientFactory;
 
-    @Autowired
     public A1ClientFactory(ApplicationConfig appConfig, SecurityContext securityContext) {
         this.appConfig = appConfig;
         this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);

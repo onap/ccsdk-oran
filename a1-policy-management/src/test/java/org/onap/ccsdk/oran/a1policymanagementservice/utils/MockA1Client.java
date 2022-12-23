@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import lombok.Setter;
@@ -112,7 +113,7 @@ public class MockA1Client implements A1Client {
     }
 
     @Override
-    public Flux<String> deleteAllPolicies() {
+    public Flux<String> deleteUnknownPolicies(Set<String> excludePolicyId) {
         this.policies.clear();
         return mono("OK") //
                 .flatMapMany(Flux::just);

@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import lombok.Getter;
 
@@ -190,15 +191,16 @@ public class CcsdkA1AdapterClient implements A1Client {
     }
 
     @Override
-    public Flux<String> deleteAllPolicies() {
+    public Flux<String> deleteUnknownPolicies(Set<String> knownPolicyIds) {
         if (this.protocolType == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) {
             return getPolicyIds() //
+                    .filter(policyId -> !knownPolicyIds.contains(policyId)) //
                     .flatMap(policyId -> deletePolicyById("", policyId), CONCURRENCY_RIC); //
         } else {
             A1UriBuilder uriBuilder = this.getUriBuilder();
             return getPolicyTypeIdentities() //
                     .flatMapMany(Flux::fromIterable) //
-                    .flatMap(type -> deleteAllInstancesForType(uriBuilder, type), CONCURRENCY_RIC);
+                    .flatMap(type -> deleteAllInstancesForType(uriBuilder, type, knownPolicyIds), CONCURRENCY_RIC);
         }
     }
 
@@ -207,9 +209,10 @@ public class CcsdkA1AdapterClient implements A1Client {
                 .flatMapMany(A1AdapterJsonHelper::parseJsonArrayOfString);
     }
 
-    private Flux<String> deleteAllInstancesForType(A1UriBuilder uriBuilder, String type) {
+    private Flux<String> deleteAllInstancesForType(A1UriBuilder uriBuilder, String type, Set<String> knownPolicyIds) {
         return getInstancesForType(uriBuilder, type) //
-                .flatMap(instance -> deletePolicyById(type, instance), CONCURRENCY_RIC);
+                .filter(policyId -> !knownPolicyIds.contains(policyId)) //
+                .flatMap(policyId -> deletePolicyById(type, policyId), CONCURRENCY_RIC);
     }
 
     @Override

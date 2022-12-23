@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
@@ -182,9 +183,9 @@ public class OscA1Client implements A1Client {
     }
 
     @Override
-    public Flux<String> deleteAllPolicies() {
+    public Flux<String> deleteUnknownPolicies(Set<String> knownPolicyIds) {
         return getPolicyTypeIds() //
-                .flatMap(this::deletePoliciesForType, CONCURRENCY_RIC);
+                .flatMap(typeId -> deletePoliciesForType(typeId, knownPolicyIds), CONCURRENCY_RIC);
     }
 
     @Override
@@ -209,8 +210,9 @@ public class OscA1Client implements A1Client {
         return restClient.delete(policyUri);
     }
 
-    private Flux<String> deletePoliciesForType(String typeId) {
+    private Flux<String> deletePoliciesForType(String typeId, Set<String> knownPolicyIds) {
         return getPolicyIdentitiesByType(typeId) //
+                .filter(policyId -> !knownPolicyIds.contains(policyId)) //
                 .flatMap(policyId -> deletePolicyById(typeId, policyId), CONCURRENCY_RIC);
     }
 }
