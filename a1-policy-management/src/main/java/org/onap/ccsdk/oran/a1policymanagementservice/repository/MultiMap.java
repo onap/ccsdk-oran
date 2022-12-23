@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -56,6 +57,14 @@ public class MultiMap<T> {
             return Collections.emptyList();
         }
         return new Vector<>(innerMap.values());
+    }
+
+    public Set<String> keySet(String key) {
+        Map<String, T> innerMap = this.map.get(key);
+        if (innerMap == null) {
+            return Collections.emptySet();
+        }
+        return innerMap.keySet();
     }
 
     public void clear() {

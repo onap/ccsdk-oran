@@ -36,6 +36,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
@@ -43,7 +44,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -76,7 +76,7 @@ public class RefreshConfigTask {
     @Getter(AccessLevel.PROTECTED)
     private Disposable refreshTask = null;
 
-    private final Rics rics;
+    final Rics rics;
     private final A1ClientFactory a1ClientFactory;
     private final Policies policies;
     private final Services services;
@@ -85,7 +85,6 @@ public class RefreshConfigTask {
 
     private long fileLastModified = 0;
 
-    @Autowired
     public RefreshConfigTask(ConfigurationFile configurationFile, ApplicationConfig appConfig, Rics rics,
             Policies policies, Services services, PolicyTypes policyTypes, A1ClientFactory a1ClientFactory,
             SecurityContext securityContext) {
@@ -161,7 +160,10 @@ public class RefreshConfigTask {
 
     private void removePoliciciesInRic(@Nullable Ric ric) {
         if (ric != null) {
-            synchronizationTask().run(ric);
+            ric.getLock().lock(LockType.EXCLUSIVE, "removedRic") //
+                    .flatMap(notUsed -> synchronizationTask().synchronizeRic(ric)) //
+                    .doFinally(sig -> ric.getLock().unlockBlocking()) //
+                    .subscribe();
         }
     }
 
@@ -176,9 +178,15 @@ public class RefreshConfigTask {
             if (event == RicConfigUpdate.Type.ADDED) {
                 logger.debug("RIC added {}", ricId);
                 Ric ric = new Ric(updatedInfo.getRicConfig());
-                this.addRic(ric);
-                return this.synchronizationTask().synchronizeRic(ric) //
-                        .map(notUsed -> event);
+
+                return ric.getLock().lock(LockType.EXCLUSIVE, "addedRic") //
+                        .doOnNext(grant -> this.rics.put(ric)) //
+                        .flatMapMany(grant -> this.policies.restoreFromDatabase(ric, this.policyTypes)) //
+                        .collectList() //
+                        .doOnNext(l -> logger.debug("Starting sycnhronization for new RIC: {}", ric.id())) //
+                        .flatMap(grant -> synchronizationTask().synchronizeRic(ric)) //
+                        .map(notUsed -> event) //
+                        .doFinally(sig -> ric.getLock().unlockBlocking());
             } else if (event == RicConfigUpdate.Type.REMOVED) {
                 logger.debug("RIC removed {}", ricId);
                 Ric ric = rics.remove(ricId);
@@ -189,19 +197,13 @@ public class RefreshConfigTask {
                 Ric ric = this.rics.get(ricId);
                 if (ric == null) {
                     logger.error("An non existing RIC config is changed, should not happen (just for robustness)");
-                    addRic(new Ric(updatedInfo.getRicConfig()));
+                    this.rics.put(new Ric(updatedInfo.getRicConfig()));
                 } else {
                     ric.setRicConfig(updatedInfo.getRicConfig());
                 }
             }
             return Mono.just(event);
         }
-    }
-
-    void addRic(Ric ric) {
-        this.rics.put(ric);
-        this.policies.restoreFromDatabase(ric, this.policyTypes).subscribe();
-        logger.debug("Added RIC: {}", ric.id());
     }
 
     /**

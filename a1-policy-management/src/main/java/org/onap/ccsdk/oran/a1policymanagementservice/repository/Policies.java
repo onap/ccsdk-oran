@@ -71,11 +71,9 @@ public class Policies {
     private MultiMap<Policy> policiesType = new MultiMap<>();
     private final DataStore dataStore;
 
-    private final ApplicationConfig appConfig;
     private static Gson gson = new GsonBuilder().create();
 
     public Policies(@Autowired ApplicationConfig appConfig) {
-        this.appConfig = appConfig;
         this.dataStore = DataStore.create(appConfig, "policies");
     }
 
@@ -137,6 +135,10 @@ public class Policies {
 
     public synchronized Collection<Policy> getForRic(String ric) {
         return policiesRic.get(ric);
+    }
+
+    public synchronized Set<String> getPolicyIdsForRic(String ricId) {
+        return policiesRic.keySet(ricId);
     }
 
     public synchronized Collection<Policy> getForType(String type) {

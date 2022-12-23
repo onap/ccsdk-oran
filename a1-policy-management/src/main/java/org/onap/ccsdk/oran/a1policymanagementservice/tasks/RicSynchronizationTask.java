@@ -22,11 +22,12 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
 import static org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric.RicState;
 
+import java.util.Set;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbacks;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -77,21 +78,11 @@ public class RicSynchronizationTask {
         this.rics = rics;
     }
 
-    public void run(Ric ric) {
-        logger.debug("Ric synchronization task created: {}", ric.getConfig().getRicId());
-
-        if (ric.getState() == RicState.SYNCHRONIZING) {
-            logger.debug("Ric: {} is already being synchronized", ric.getConfig().getRicId());
-            return;
-        }
-
-        ric.getLock().lock(LockType.EXCLUSIVE, "RicSynchronizationTask") //
-                .flatMap(notUsed -> synchronizeRic(ric)) //
-                .doFinally(sig -> ric.getLock().unlockBlocking()) //
-                .subscribe();
-    }
-
     public Mono<Ric> synchronizeRic(Ric ric) {
+        if (ric.getLock().getLockCounter() != 1) {
+            logger.error("Exclusive lock is required to run synchronization, ric: {}", ric.id());
+            return Mono.empty();
+        }
         return this.a1ClientFactory.createA1Client(ric) //
                 .doOnNext(client -> ric.setState(RicState.SYNCHRONIZING)) //
                 .flatMapMany(client -> runSynchronization(ric, client)) //
@@ -143,7 +134,8 @@ public class RicSynchronizationTask {
 
     private Flux<Object> runSynchronization(Ric ric, A1Client a1Client) {
         Flux<PolicyType> synchronizedTypes = synchronizePolicyTypes(ric, a1Client);
-        Flux<?> policiesDeletedInRic = a1Client.deleteAllPolicies();
+        Set<String> excludeFromDelete = this.policies.getPolicyIdsForRic(ric.id());
+        Flux<?> policiesDeletedInRic = a1Client.deleteAllPolicies(excludeFromDelete);
         Flux<Policy> policiesRecreatedInRic = recreateAllPoliciesInRic(ric, a1Client);
 
         return Flux.concat(synchronizedTypes, policiesDeletedInRic, policiesRecreatedInRic);

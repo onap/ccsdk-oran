@@ -23,11 +23,10 @@ package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
@@ -48,6 +47,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -131,35 +131,14 @@ class RicSynchronizationTaskTest {
     };
 
     @Test
-    void ricAlreadySynchronizing_thenNoSynchronization() {
-        ric1.setState(RicState.SYNCHRONIZING);
-        ric1.addSupportedPolicyType(POLICY_TYPE_1);
-
-        policyTypes.put(POLICY_TYPE_1);
-        policies.put(policy1);
-
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
-        synchronizerUnderTest.run(ric1);
-
-        verifyNoInteractions(a1ClientMock);
-
-        assertThat(policyTypes.size()).isEqualTo(1);
-        assertThat(policies.size()).isEqualTo(1);
-        assertThat(ric1.getState()).isEqualTo(RicState.SYNCHRONIZING);
-        assertThat(ric1.getSupportedPolicyTypeNames()).hasSize(1);
-    }
-
-    @Test
     void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
         policies.put(policy1);
         WebClientResponseException exception = new WebClientResponseException(404, "", null, null, null);
-        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(exception));
-        RicSynchronizationTask synchronizerUnderTest = createTask();
+        when(a1ClientMock.deleteAllPolicies(anySet())).thenReturn(Flux.error(exception));
         ric1.setState(RicState.AVAILABLE);
-        synchronizerUnderTest.run(ric1);
+        runSynch(ric1);
         await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
         assertThat(policies.size()).isZero();
         assertThat(ric1.getState()).isEqualTo(RicState.UNAVAILABLE);
@@ -172,10 +151,9 @@ class RicSynchronizationTaskTest {
         policies.put(policy1);
         WebClientRequestException exception =
                 new WebClientRequestException(new ServiceException("x"), null, null, null);
-        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.error(exception));
-        RicSynchronizationTask synchronizerUnderTest = createTask();
+        when(a1ClientMock.deleteAllPolicies(anySet())).thenReturn(Flux.error(exception));
         ric1.setState(RicState.AVAILABLE);
-        synchronizerUnderTest.run(ric1);
+        runSynch(ric1);
         await().untilAsserted(() -> RicState.UNAVAILABLE.equals(ric1.getState()));
     }
 
@@ -193,16 +171,12 @@ class RicSynchronizationTaskTest {
         setUpCreationOfA1Client();
         simulateRicWithOnePolicyType();
 
-        RicSynchronizationTask synchronizerUnderTest = spy(createTask());
-
         ric1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(ric1);
+        runSynch(ric1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock, times(1)).getPolicyTypeIdentities();
         verifyNoMoreInteractions(a1ClientMock);
-
-        verify(synchronizerUnderTest).run(ric1);
 
         assertThat(policyTypes.size()).isEqualTo(1);
         assertThat(policies.size()).isZero();
@@ -219,10 +193,8 @@ class RicSynchronizationTaskTest {
         String typeSchema = "schema";
         when(a1ClientMock.getPolicyTypeSchema(POLICY_TYPE_1_NAME)).thenReturn(Mono.just(typeSchema));
 
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
         ric1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(ric1);
+        runSynch(ric1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
         verify(a1ClientMock).getPolicyTypeIdentities();
@@ -247,16 +219,14 @@ class RicSynchronizationTaskTest {
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
 
-        when(a1ClientMock.deleteAllPolicies()).thenReturn(Flux.just("OK"));
+        when(a1ClientMock.deleteAllPolicies(anySet())).thenReturn(Flux.just("OK"));
         when(a1ClientMock.putPolicy(any(Policy.class))).thenReturn(Mono.just("OK"));
 
-        RicSynchronizationTask synchronizerUnderTest = createTask();
-
         ric1.setState(RicState.UNAVAILABLE);
-        synchronizerUnderTest.run(ric1);
+        runSynch(ric1);
         await().untilAsserted(() -> RicState.AVAILABLE.equals(ric1.getState()));
 
-        verify(a1ClientMock).deleteAllPolicies();
+        verify(a1ClientMock).deleteAllPolicies(anySet());
         verify(a1ClientMock).putPolicy(policy1);
         verifyNoMoreInteractions(a1ClientMock);
 
@@ -265,9 +235,17 @@ class RicSynchronizationTaskTest {
         assertThat(ric1.getState()).isEqualTo(RicState.AVAILABLE);
     }
 
+    private void runSynch(Ric ric) {
+        RicSynchronizationTask synchronizerUnderTest = createTask();
+        ric.getLock().lock(LockType.EXCLUSIVE, "RicSynchronizationTask") //
+                .flatMap(notUsed -> synchronizerUnderTest.synchronizeRic(ric)) //
+                .doFinally(sig -> ric.getLock().unlockBlocking()) //
+                .block();
+    }
+
     private void setUpCreationOfA1Client() {
         when(a1ClientFactoryMock.createA1Client(any(Ric.class))).thenReturn(Mono.just(a1ClientMock));
-        doReturn(Flux.empty()).when(a1ClientMock).deleteAllPolicies();
+        doReturn(Flux.empty()).when(a1ClientMock).deleteAllPolicies(anySet());
     }
 
     private void simulateRicWithOnePolicyType() {

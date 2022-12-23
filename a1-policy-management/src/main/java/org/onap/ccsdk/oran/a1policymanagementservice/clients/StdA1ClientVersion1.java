@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
@@ -134,8 +135,9 @@ public class StdA1ClientVersion1 implements A1Client {
     }
 
     @Override
-    public Flux<String> deleteAllPolicies() {
+    public Flux<String> deleteAllPolicies(Set<String> excludePolicyIds) {
         return getPolicyIds() //
+                .filter(policyId -> !excludePolicyIds.contains(policyId)) //
                 .flatMap(this::deletePolicyById); //
     }
 
