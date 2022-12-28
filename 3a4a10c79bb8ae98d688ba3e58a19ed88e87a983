@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aae27edf_4c2f8243",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2022-12-28T00:10:37Z",
+      "side": 1,
+      "message": "please commit the generated file as well.. \nor there is not change at all in the existing one when being generated using this new plugin ?",
+      "revId": "3a4a10c79bb8ae98d688ba3e58a19ed88e87a983",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
