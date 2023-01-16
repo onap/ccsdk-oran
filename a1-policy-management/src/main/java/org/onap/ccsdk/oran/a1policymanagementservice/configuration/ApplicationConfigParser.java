@@ -39,8 +39,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -249,7 +247,7 @@ public class ApplicationConfigParser {
         return getAsString(dmaapInfo, "topic_url");
     }
 
-    private static @NotNull String getAsString(JsonObject obj, String memberName) throws ServiceException {
+    private static String getAsString(JsonObject obj, String memberName) throws ServiceException {
         return get(obj, memberName).getAsString();
     }
 }
