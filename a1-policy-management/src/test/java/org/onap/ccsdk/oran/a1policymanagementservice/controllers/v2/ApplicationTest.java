@@ -31,7 +31,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
@@ -233,7 +232,7 @@ class ApplicationTest {
     }
 
     @Test
-    void generateApiDoc() throws IOException {
+    void generateApiDoc() throws Exception {
         String url = "https://localhost:" + this.port + "/v3/api-docs";
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);

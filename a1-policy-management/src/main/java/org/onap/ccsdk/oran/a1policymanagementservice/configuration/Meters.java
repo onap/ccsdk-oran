@@ -25,7 +25,6 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,7 +35,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Meters {
 
-    @Autowired
     public Meters(Rics rics, PolicyTypes policyTypes, Policies policies, MeterRegistry meterRegistry) {
         meterRegistry.gauge("total_ric_count", rics, Rics::size);
         meterRegistry.gauge("total_policy_type_count", policyTypes, PolicyTypes::size);
