@@ -27,8 +27,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.constraints.NotEmpty;
-
 import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
@@ -41,7 +39,7 @@ import reactor.netty.transport.ProxyProvider;
 
 @EnableConfigurationProperties
 public class ApplicationConfig {
-    @NotEmpty
+
     @Getter
     @Value("${app.filepath}")
     private String localConfigurationFilePath;

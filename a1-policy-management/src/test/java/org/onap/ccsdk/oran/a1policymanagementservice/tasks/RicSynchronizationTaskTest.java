@@ -149,8 +149,8 @@ class RicSynchronizationTaskTest {
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
         policies.put(policy1);
-        WebClientRequestException exception =
-                new WebClientRequestException(new ServiceException("x"), null, null, null);
+        WebClientRequestException exception = new WebClientRequestException(new ServiceException("x"), null, null,
+                new org.springframework.http.HttpHeaders());
         when(a1ClientMock.deleteAllPolicies(anySet())).thenReturn(Flux.error(exception));
         ric1.setState(RicState.AVAILABLE);
         runSynch(ric1);
