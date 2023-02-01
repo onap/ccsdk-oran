@@ -43,7 +43,7 @@
         <guava.version>31.0.1-jre</guava.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
         <exec.skip>true</exec.skip>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
