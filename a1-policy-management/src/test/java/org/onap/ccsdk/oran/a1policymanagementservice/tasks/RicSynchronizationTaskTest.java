@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -131,6 +132,7 @@ class RicSynchronizationTaskTest {
     };
 
     @Test
+    @DisplayName("test ric Idle And Error Deleting Policies then Synchronization With Failed Recovery")
     void ricIdleAndErrorDeletingPoliciesAllTheTime_thenSynchronizationWithFailedRecovery() {
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
@@ -145,6 +147,7 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    @DisplayName("test Connection Error")
     void testConnectionError() {
         setUpCreationOfA1Client();
         simulateRicWithNoPolicyTypes();
@@ -158,6 +161,7 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    @DisplayName("test ric Idle then Synchronization With Reuse Of Type From Repo And Correct Service Notified")
     void ricIdlePolicyTypeInRepo_thenSynchronizationWithReuseOfTypeFromRepoAndCorrectServiceNotified() {
         rics.put(ric1);
         ric1.setState(RicState.AVAILABLE);
@@ -184,6 +188,7 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    @DisplayName("test ric Idle then Synchronization With Type From Ric")
     void ricIdlePolicyTypeNotInRepo_thenSynchronizationWithTypeFromRic() throws Exception {
         ric1.setState(RicState.AVAILABLE);
         rics.put(ric1);
@@ -207,6 +212,7 @@ class RicSynchronizationTaskTest {
     }
 
     @Test
+    @DisplayName("test ric Idle then Synchronization With Recreation Of Policies")
     void ricIdleAndHavePolicies_thenSynchronizationWithRecreationOfPolicies() {
         ric1.setState(RicState.AVAILABLE);
         rics.put(ric1);

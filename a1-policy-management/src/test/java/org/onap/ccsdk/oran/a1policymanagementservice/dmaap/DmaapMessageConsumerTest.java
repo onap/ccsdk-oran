@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -84,6 +85,7 @@ class DmaapMessageConsumerTest {
     }
 
     @Test
+    @DisplayName("successful Case dmaap Not Configured then Sleep And Retry Until Config")
     void successfulCase_dmaapNotConfigured_thenSleepAndRetryUntilConfig() throws Exception {
         messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
 
@@ -104,6 +106,7 @@ class DmaapMessageConsumerTest {
     }
 
     @Test
+    @DisplayName("return Error From Dmapp then Sleep And Retry")
     void returnErrorFromDmapp_thenSleepAndRetry() throws Exception {
         messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
 
@@ -129,6 +132,7 @@ class DmaapMessageConsumerTest {
     }
 
     @Test
+    @DisplayName("unParsable Message then Send Response And Continue")
     void unParsableMessage_thenSendResponseAndContinue() throws Exception {
         messageConsumerUnderTest = spy(new DmaapMessageConsumer(applicationConfigMock, new SecurityContext("")));
         setTaskNumberOfLoops(2);
@@ -157,6 +161,7 @@ class DmaapMessageConsumerTest {
     }
 
     @Test
+    @DisplayName("test Message Parsing")
     void testMessageParsing() throws ServiceException {
         messageConsumerUnderTest = new DmaapMessageConsumer(applicationConfigMock, new SecurityContext(""));
         String json = gson.toJson(dmaapRequestMessage());

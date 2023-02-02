@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -80,6 +81,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test create Client With Wrong Protocol then Error Is Thrown")
     void createClientWithWrongProtocol_thenErrorIsThrown() {
         AsyncRestClient asyncRestClient = new AsyncRestClient("", null, null, new SecurityContext(""));
         assertThrows(IllegalArgumentException.class, () -> {
@@ -88,6 +90,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Policy Type Identities STD V1")
     void getPolicyTypeIdentities_STD_V1() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
                 A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
@@ -118,16 +121,19 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Policy Type Identities OSC")
     void getPolicyTypeIdentities_OSC() {
         testGetPolicyTypeIdentities(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, RIC_1_URL + "/a1-p/policytypes");
     }
 
     @Test
+    @DisplayName("test get Policy Type Identities STD V2")
     void getPolicyTypeIdentities_STD_V2() {
         testGetPolicyTypeIdentities(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, RIC_1_URL + "/A1-P/v2/policytypes");
     }
 
     @Test
+    @DisplayName("test get Type Schema STD V1")
     void getTypeSchema_STD_V1() {
 
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
@@ -165,6 +171,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Type Schema OSC")
     void getTypeSchema_OSC() throws IOException {
         String expUrl = RIC_1_URL + "/a1-p/policytypes/policyTypeId";
         testGetTypeSchema(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl, "policyTypeId",
@@ -172,6 +179,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Type Schema STD V2")
     void getTypeSchema_STD_V2() throws IOException {
         String expUrl = RIC_1_URL + "/A1-P/v2/policytypes/policyTypeId";
         testGetTypeSchema(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, expUrl, "policyTypeId",
@@ -179,6 +187,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test parse Json Array Of String")
     void parseJsonArrayOfString() {
         // One integer and one string
         String inputString = "[1, \"1\" ]";
@@ -209,12 +218,14 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Policy Identities STD V1")
     void getPolicyIdentities_STD_V1() {
         String expUrl = RIC_1_URL + "/A1-P/v1/policies";
         getPolicyIdentities(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, expUrl);
     }
 
     @Test
+    @DisplayName("test get Policy Identities STD V2")
     void getPolicyIdentities_STD_V2() {
         String expUrlPolicies = RIC_1_URL + "/A1-P/v2/policytypes";
         String expUrlInstances = RIC_1_URL + "/A1-P/v2/policytypes/xxx/policies";
@@ -222,6 +233,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test get Policy Identities OSC")
     void getPolicyIdentities_OSC() {
         String expUrlTypes = RIC_1_URL + "/a1-p/policytypes";
         String expUrlInstances = RIC_1_URL + "/a1-p/policytypes/xxx/policies";
@@ -248,18 +260,21 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test put Policy OSC")
     void putPolicy_OSC() {
         String expUrl = RIC_1_URL + "/a1-p/policytypes/type1/policies/policy1";
         putPolicy(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl);
     }
 
     @Test
+    @DisplayName("test put Policy STD V1")
     void putPolicy_STD_V1() {
         String expUrl = RIC_1_URL + "/A1-P/v1/policies/policy1";
         putPolicy(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, expUrl);
     }
 
     @Test
+    @DisplayName("test put Policy STD V2")
     void putPolicy_STD_V2() {
         String expUrl =
                 RIC_1_URL + "/A1-P/v2/policytypes/type1/policies/policy1?notificationDestination=https://test.com";
@@ -267,6 +282,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test post Rejected")
     void postRejected() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
                 A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
@@ -307,24 +323,28 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test delete All Policies STD V2")
     void deleteAllPolicies_STD_V2() {
         String expUrl1 = RIC_1_URL + "/A1-P/v2/policytypes/xxx/policies/xxx";
         deleteAllPolicies(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, expUrl1);
     }
 
     @Test
+    @DisplayName("test delete All Policies STD V1")
     void deleteAllPolicies_STD_V1() {
         String expUrl1 = RIC_1_URL + "/A1-P/v1/policies/xxx";
         deleteAllPolicies(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, expUrl1);
     }
 
     @Test
+    @DisplayName("test delete All Policies OSC")
     void deleteAllPolicies_OSC() {
         String expUrl1 = RIC_1_URL + "/a1-p/policytypes/xxx/policies/xxx";
         deleteAllPolicies(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl1);
     }
 
     @Test
+    @DisplayName("test get Version OSC")
     void getVersion_OSC() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, // Version irrelevant here
                 A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
@@ -338,6 +358,7 @@ class CcsdkA1AdapterClientTest {
     }
 
     @Test
+    @DisplayName("test Get Status")
     void testGetStatus() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, //
                 A1ClientHelper.createRic(RIC_1_URL).getConfig(), //

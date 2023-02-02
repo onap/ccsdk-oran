@@ -29,6 +29,7 @@ import java.time.Duration;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
@@ -111,6 +112,7 @@ class ConfigurationControllerTest {
     private int port;
 
     @Test
+    @DisplayName("put Valid Configuration With New Ric should Update Repository")
     void putValidConfigurationWithNewRic_shouldUpdateRepository() throws Exception {
         String url = "a1-policy/v2/configuration";
 
@@ -125,6 +127,7 @@ class ConfigurationControllerTest {
     }
 
     @Test
+    @DisplayName("get No File Exists")
     void getNoFileExists() {
         String url = "a1-policy/v2/configuration";
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND, "File does not exist");
@@ -137,6 +140,7 @@ class ConfigurationControllerTest {
     }
 
     @Test
+    @DisplayName("put Invalid Configuration should Return Error 400")
     void putInvalidConfiguration_shouldReturnError400() throws Exception {
         String url = "a1-policy/v2/configuration";
 

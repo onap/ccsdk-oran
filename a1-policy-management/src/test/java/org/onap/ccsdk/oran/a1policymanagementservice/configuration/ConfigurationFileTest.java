@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
@@ -53,6 +54,7 @@ class ConfigurationFileTest {
     public File temporaryFolder;
 
     @Test
+    @DisplayName("test write File With Error should Throw Exception")
     void writeFileWithError_shouldThrowException() throws Exception {
         File tempJsonFile = new File(temporaryFolder, "config.json");
         String filePath = tempJsonFile.getAbsolutePath();
@@ -70,6 +72,7 @@ class ConfigurationFileTest {
     }
 
     @Test
+    @DisplayName("test write And Read File should Be Ok")
     void writeAndReadFile_shouldBeOk() throws Exception {
         File tempJsonFile = new File(temporaryFolder, "config.json");
         String filePath = tempJsonFile.getAbsolutePath();
@@ -88,6 +91,7 @@ class ConfigurationFileTest {
     }
 
     @Test
+    @DisplayName("test read When File Missing should Return Empty")
     void readWhenFileMissing_shouldReturnEmpty() {
         ConfigurationFile configFileUnderTest = new ConfigurationFile(applicationConfigMock);
 
@@ -100,6 +104,7 @@ class ConfigurationFileTest {
     }
 
     @Test
+    @DisplayName("test read When File With Io Error should Return Empty And Log Error")
     void readWhenFileWithIoError_shouldReturnEmptyAndLogError() throws Exception {
         File tempJsonFile = new File(temporaryFolder, "config.json");
         String filePath = tempJsonFile.getAbsolutePath();

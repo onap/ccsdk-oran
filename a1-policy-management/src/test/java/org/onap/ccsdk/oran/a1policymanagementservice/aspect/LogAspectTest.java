@@ -32,6 +32,7 @@ import ch.qos.logback.core.read.ListAppender;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -51,6 +52,7 @@ class LogAspectTest {
     LoggingUtils utils;
 
     @Test
+    @DisplayName("test Executetime Time should Log Time")
     void testExecutetimeTime_shouldLogTime() throws Throwable {
         when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);
         when(methodSignature.getDeclaringType()).thenReturn(this.getClass());
@@ -67,6 +69,7 @@ class LogAspectTest {
     }
 
     @Test
+    @DisplayName("test Entry Log should Log Entry")
     void testEntryLog_shouldLogEntry() throws Throwable {
         when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);
         String signature = "signature";
@@ -80,6 +83,7 @@ class LogAspectTest {
     }
 
     @Test
+    @DisplayName("test Exit Log should Log Exit")
     void testExitLog_shouldLogExit() throws Throwable {
         when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);
         String signature = "signature";

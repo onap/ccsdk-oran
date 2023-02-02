@@ -36,6 +36,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.awaitility.Durations;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -89,6 +90,7 @@ class ServiceSupervisionTest {
             .build();
 
     @Test
+    @DisplayName("test service Expired policy And Service Are Deleted In Repo And Policy Is Deleted In Ric")
     void serviceExpired_policyAndServiceAreDeletedInRepoAndPolicyIsDeletedInRic() {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(2));
 
@@ -110,6 +112,7 @@ class ServiceSupervisionTest {
     }
 
     @Test
+    @DisplayName("test service Expired But Delete In Ric Fails policy And Service Are Deleted In Repo And Error Logged For Ric")
     void serviceExpiredButDeleteInRicFails_policyAndServiceAreDeletedInRepoAndErrorLoggedForRic() {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(2));
 
@@ -137,6 +140,7 @@ class ServiceSupervisionTest {
     }
 
     @Test
+    @DisplayName("test service Not Expired should Not Be Checked")
     void serviceNotExpired_shouldNotBeChecked() {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(2));
 
@@ -153,6 +157,7 @@ class ServiceSupervisionTest {
     }
 
     @Test
+    @DisplayName("test service Without Keep Alive Interval should Not Be Checked")
     void serviceWithoutKeepAliveInterval_shouldNotBeChecked() {
         setUpRepositoryWithKeepAliveInterval(Duration.ofSeconds(0));
 

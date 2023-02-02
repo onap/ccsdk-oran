@@ -30,6 +30,7 @@ import okhttp3.mockwebserver.MockWebServer;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -68,6 +69,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Get No Error")
     void testGetNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
@@ -78,6 +80,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Get Error")
     void testGetError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(ERROR_CODE));
 
@@ -87,6 +90,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Put No Error")
     void testPutNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
@@ -97,6 +101,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Put Error")
     void testPutError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(ERROR_CODE));
 
@@ -106,6 +111,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Delete No Error")
     void testDeleteNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE));
 
@@ -114,6 +120,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Delete Error")
     void testDeleteError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(ERROR_CODE));
 
@@ -123,6 +130,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Post No Error")
     void testPostNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
@@ -133,6 +141,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Post Error")
     void testPostError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(ERROR_CODE));
 
@@ -142,6 +151,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Post With Auth Header No Error")
     void testPostWithAuthHeaderNoError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(SUCCESS_CODE) //
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) //
@@ -152,6 +162,7 @@ class AsyncRestClientTest {
     }
 
     @Test
+    @DisplayName("test Post With Auth Header Error")
     void testPostWithAuthHeaderError() {
         mockWebServer.enqueue(new MockResponse().setResponseCode(ERROR_CODE));
 
