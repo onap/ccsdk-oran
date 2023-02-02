@@ -56,7 +56,7 @@ API Table
 A1 Policy Management Service API
 ................................
 
-The A1 Policy Management Service API is described in more detail in `A1 Policy Management Service API (html) <./index.html>`_
+The A1 Policy Management Service API is described in more detail in `A1 Policy Management Service API (html) <./pms-api.html>`_
 
 
 .. _a1_adapter_api:
