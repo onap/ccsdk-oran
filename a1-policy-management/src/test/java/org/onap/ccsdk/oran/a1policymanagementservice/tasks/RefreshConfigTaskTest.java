@@ -42,6 +42,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -99,6 +100,7 @@ class RefreshConfigTaskTest {
     }
 
     @Test
+    @DisplayName("test when The Configuration Fits then Configured Rics Are Put In Repository")
     void whenTheConfigurationFits_thenConfiguredRicsArePutInRepository() throws Exception {
         refreshTaskUnderTest = this.createTestObject(true);
         refreshTaskUnderTest.systemEnvironment = new Properties();
@@ -125,6 +127,7 @@ class RefreshConfigTaskTest {
     }
 
     @Test
+    @DisplayName("test when File Exists But Json Is Incorrect then No Rics Are Put In Repository")
     void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() throws Exception {
         refreshTaskUnderTest = this.createTestObject(true);
 

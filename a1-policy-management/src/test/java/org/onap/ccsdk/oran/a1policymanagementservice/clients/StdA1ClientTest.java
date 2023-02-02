@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -72,6 +73,7 @@ class StdA1ClientTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Type Identities")
     void testGetPolicyTypeIdentities() {
         List<String> policyTypeIds = clientUnderTest.getPolicyTypeIdentities().block();
         assertEquals(1, policyTypeIds.size(), "should hardcoded to one");
@@ -79,6 +81,7 @@ class StdA1ClientTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Identities")
     void testGetPolicyIdentities() {
         doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         Mono<String> policyIds = Mono.just(Arrays.asList(POLICY_1_ID, POLICY_2_ID).toString());
@@ -91,12 +94,14 @@ class StdA1ClientTest {
     }
 
     @Test
+    @DisplayName("test Get Valid Policy Type")
     void testGetValidPolicyType() {
         String policyType = clientUnderTest.getPolicyTypeSchema(POLICY_TYPE_1_NAME).block();
         assertEquals("{}", policyType, "");
     }
 
     @Test
+    @DisplayName("test Put Policy Valid Response")
     void testPutPolicyValidResponse() {
         doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         when(asyncRestClientMock.put(anyString(), anyString())).thenReturn(Mono.just(POLICY_JSON));
@@ -109,6 +114,7 @@ class StdA1ClientTest {
     }
 
     @Test
+    @DisplayName("test Delete Policy")
     void testDeletePolicy() {
         doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         final String url = policiesBaseUrl() + POLICY_1_ID;
@@ -121,6 +127,7 @@ class StdA1ClientTest {
     }
 
     @Test
+    @DisplayName("test Delete All Policies")
     void testDeleteAllPolicies() {
         doReturn(RIC_URL).when(ricConfigMock).getBaseUrl();
         Mono<String> policyIds = Mono.just(Arrays.asList(POLICY_1_ID, POLICY_2_ID).toString());

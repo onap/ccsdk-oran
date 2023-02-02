@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -87,6 +88,7 @@ class A1ClientFactoryTest {
     }
 
     @Test
+    @DisplayName("test get Protocol Version ok")
     void getProtocolVersion_ok() throws ServiceException {
         whenGetProtocolVersionThrowException(clientMock1);
         whenGetProtocolVersionReturn(clientMock2, A1ProtocolType.STD_V1_1);
@@ -99,6 +101,7 @@ class A1ClientFactoryTest {
     }
 
     @Test
+    @DisplayName("test get Protocol Version ok Last")
     void getProtocolVersion_ok_Last() throws ServiceException {
         whenGetProtocolVersionThrowException(clientMock1, clientMock2, clientMock3);
         whenGetProtocolVersionReturn(clientMock4, A1ProtocolType.STD_V1_1);
@@ -118,6 +121,7 @@ class A1ClientFactoryTest {
     }
 
     @Test
+    @DisplayName("test Custom Adapter Creation")
     void testCustomAdapterCreation() {
 
         Ric ric = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
@@ -143,6 +147,7 @@ class A1ClientFactoryTest {
     }
 
     @Test
+    @DisplayName("test get Protocol Version error")
     void getProtocolVersion_error() throws ServiceException {
         whenGetProtocolVersionThrowException(clientMock1, clientMock2, clientMock3, clientMock4);
         doReturn(clientMock1, clientMock2, clientMock3, clientMock4).when(factoryUnderTest).createClient(any(), any());
@@ -160,12 +165,14 @@ class A1ClientFactoryTest {
     }
 
     @Test
+    @DisplayName("tes create check types")
     void create_check_types() throws ServiceException {
         assertTrue(createClient(A1ProtocolType.STD_V1_1) instanceof StdA1ClientVersion1);
         assertTrue(createClient(A1ProtocolType.OSC_V1) instanceof OscA1Client);
     }
 
     @Test
+    @DisplayName("test create check types controllers")
     void create_check_types_controllers() throws ServiceException {
         this.ric = new Ric(ricConfig("anythingButEmpty"));
         whenGetGetControllerConfigReturn();

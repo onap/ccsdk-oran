@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
@@ -100,6 +101,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test successful Delete")
     void successfulDelete() throws IOException {
         doReturn(okResponse()).when(pmsClient).deleteForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
@@ -121,6 +123,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test successful Get")
     void successfulGet() throws IOException {
         doReturn(okResponse()).when(pmsClient).getForEntity(anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
@@ -140,6 +143,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test exception From Pms When Get then Post Error")
     void exceptionFromPmsWhenGet_thenPostError() throws IOException {
         String errorBody = "Unavailable";
         WebClientResponseException webClientResponseException = new WebClientResponseException(
@@ -161,6 +165,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test successful Put")
     void successfulPut() throws IOException {
         doReturn(okResponse()).when(pmsClient).putForEntity(anyString(), anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
@@ -180,6 +185,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test successful Post")
     void successfulPost() throws IOException {
         doReturn(okResponse()).when(pmsClient).postForEntity(anyString(), anyString());
         doReturn(Mono.just("OK")).when(dmaapClient).post(anyString(), anyString());
@@ -199,6 +205,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test exception When Calling Pms then Error Response")
     void exceptionWhenCallingPms_thenErrorResponse() throws IOException {
 
         doReturn(notOkResponse()).when(pmsClient).putForEntity(anyString(), anyString());
@@ -220,6 +227,7 @@ class DmaapMessageHandlerTest {
     }
 
     @Test
+    @DisplayName("test put Without Payload then Not Found Response With Warning")
     void putWithoutPayload_thenNotFoundResponseWithWarning() throws Exception {
         DmaapRequestMessage message = DmaapRequestMessage.builder() //
                 .apiVersion("apiVersion") //

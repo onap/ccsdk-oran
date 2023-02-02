@@ -42,6 +42,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 
@@ -51,6 +52,7 @@ class ApplicationConfigParserTest {
     ApplicationConfigParser parserUnderTest = new ApplicationConfigParser(applicationConfigMock);
 
     @Test
+    @DisplayName("test when Correct Config")
     void whenCorrectConfig() throws Exception {
         JsonObject jsonRootObject = getJsonRootObject();
 
@@ -95,6 +97,7 @@ class ApplicationConfigParserTest {
     }
 
     @Test
+    @DisplayName("test when Dmaap Config Has Several Streams Publishing")
     void whenDmaapConfigHasSeveralStreamsPublishing() throws Exception {
         JsonObject jsonRootObject = getJsonRootObject();
         JsonObject json = jsonRootObject.getAsJsonObject("config").getAsJsonObject("streams_publishes");
@@ -123,6 +126,7 @@ class ApplicationConfigParserTest {
     }
 
     @Test
+    @DisplayName("test when Dmaap Config Has Several Streams Subscribing")
     void whenDmaapConfigHasSeveralStreamsSubscribing() throws Exception {
         JsonObject jsonRootObject = getJsonRootObject();
         JsonObject json = jsonRootObject.getAsJsonObject("config").getAsJsonObject("streams_subscribes");
@@ -151,6 +155,7 @@ class ApplicationConfigParserTest {
     }
 
     @Test
+    @DisplayName("test when Wrong Member Name In Object")
     void whenWrongMemberNameInObject() throws Exception {
         JsonObject jsonRootObject = getJsonRootObject();
         JsonObject json = jsonRootObject.getAsJsonObject("config");
@@ -163,6 +168,7 @@ class ApplicationConfigParserTest {
     }
 
     @Test
+    @DisplayName("test schema Validation Error")
     void schemaValidationError() throws Exception {
         when(applicationConfigMock.getConfigurationFileSchemaPath())
                 .thenReturn("application_configuration_schema.json");

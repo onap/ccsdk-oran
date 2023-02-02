@@ -26,6 +26,7 @@ import static org.awaitility.Awaitility.await;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -64,6 +65,7 @@ class LockTest {
     }
 
     @Test
+    @DisplayName("test Lock")
     void testLock() throws IOException, ServiceException {
         Lock lock = new Lock("l1");
         Lock.Grant grant = lock.lockBlocking(LockType.SHARED, "test");
@@ -80,6 +82,7 @@ class LockTest {
     }
 
     @Test
+    @DisplayName("test Reactive Lock")
     void testReactiveLock() {
         Lock lock = new Lock("l1");
 

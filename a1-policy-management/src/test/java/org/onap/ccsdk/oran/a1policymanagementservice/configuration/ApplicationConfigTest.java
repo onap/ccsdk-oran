@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -61,6 +62,7 @@ class ApplicationConfigTest {
     }
 
     @Test
+    @DisplayName("test add Rics")
     void addRics() throws Exception {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
@@ -84,6 +86,7 @@ class ApplicationConfigTest {
     }
 
     @Test
+    @DisplayName("test changed Ric")
     void changedRic() throws Exception {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 
@@ -106,6 +109,7 @@ class ApplicationConfigTest {
     }
 
     @Test
+    @DisplayName("test removed Ric")
     void removedRic() {
         ApplicationConfig appConfigUnderTest = new ApplicationConfig();
 

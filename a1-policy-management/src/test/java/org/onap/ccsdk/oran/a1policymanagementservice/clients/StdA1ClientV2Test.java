@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -76,6 +77,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Get Policy Type Identities")
     void testGetPolicyTypeIdentities() {
         List<String> policyTypeIds = Arrays.asList(POLICY_TYPE_1_ID, POLICY_TYPE_2_ID);
         Mono<String> policyTypeIdsResp = Mono.just(policyTypeIds.toString());
@@ -87,6 +89,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Get Policy Identities")
     void testGetPolicyIdentities() {
         Mono<String> policyTypeIdsResp = Mono.just(Arrays.asList(POLICY_TYPE_1_ID, POLICY_TYPE_2_ID).toString());
         Mono<String> policyIdsType1Resp = Mono.just(Arrays.asList(POLICY_1_ID).toString());
@@ -103,6 +106,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Get Valid Policy Type")
     void testGetValidPolicyType() {
         String policyType = "{\"policySchema\": " + POLICY_TYPE_SCHEMA_VALID + "}";
         Mono<String> policyTypeResp = Mono.just(policyType);
@@ -115,6 +119,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Get In Valid PolicyType Json")
     void testGetInValidPolicyTypeJson() {
         String policyType = "{\"policySchema\": " + POLICY_TYPE_SCHEMA_INVALID + "}";
         Mono<String> policyTypeResp = Mono.just(policyType);
@@ -127,6 +132,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Get Policy Type Without Create Schema")
     void testGetPolicyTypeWithoutCreateSchema() {
         Mono<String> policyTypeResp = Mono.just(POLICY_TYPE_SCHEMA_VALID);
 
@@ -138,6 +144,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Put Policy")
     void testPutPolicy() {
         when(asyncRestClientMock.put(anyString(), anyString())).thenReturn(Mono.empty());
 
@@ -152,6 +159,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Delete Policy")
     void testDeletePolicy() {
         when(asyncRestClientMock.delete(anyString())).thenReturn(Mono.empty());
 
@@ -162,6 +170,7 @@ class StdA1ClientV2Test {
     }
 
     @Test
+    @DisplayName("test Delete All Policies")
     void testDeleteAllPolicies() {
         Mono<String> policyTypeIdsResp = Mono.just(Arrays.asList(POLICY_TYPE_1_ID, POLICY_TYPE_2_ID).toString());
         Mono<String> policyIdsType1Resp = Mono.just(Arrays.asList(POLICY_1_ID).toString());

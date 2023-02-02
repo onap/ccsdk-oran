@@ -46,6 +46,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -206,6 +207,7 @@ class ApplicationTest {
 
     @Test
     @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
+    @DisplayName("test ZZ Actuator")
     void testZZActuator() throws Exception {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
         // will fail.
@@ -232,6 +234,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test generate Api Doc")
     void generateApiDoc() throws Exception {
         String url = "https://localhost:" + this.port + "/v3/api-docs";
         ResponseEntity<String> resp = restClient("", false).getForEntity(url).block();
@@ -248,6 +251,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Persistency Policies")
     void testPersistencyPolicies() throws Exception {
         Ric ric = this.addRic("ric1");
         PolicyType type = this.addPolicyType("type1", ric.id());
@@ -273,6 +277,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Persistency Policy Types")
     void testPersistencyPolicyTypes() throws Exception {
         Ric ric = this.addRic("ric1");
         this.addPolicyType("type1", ric.id());
@@ -291,6 +296,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Persistency Service")
     void testPersistencyService() throws Exception {
         final String SERVICE = "serviceName";
         putService(SERVICE, 1234, HttpStatus.CREATED);
@@ -312,6 +318,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Adding Ric From Configuration")
     void testAddingRicFromConfiguration() throws Exception {
         // Test adding the RIC from configuration
 
@@ -342,6 +349,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Adding Ric From Configuration non Responding Ric")
     void testAddingRicFromConfiguration_nonRespondingRic() throws Exception {
         putService("service");
 
@@ -368,6 +376,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Trust Validation")
     void testTrustValidation() {
         addRic("ric1");
 
@@ -377,6 +386,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Rics")
     void testGetRics() throws Exception {
         addRic("ric1");
         this.addPolicyType("type1", "ric1");
@@ -404,6 +414,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Synchronization")
     void testSynchronization() throws Exception {
         // Two polictypes will be put in the NearRT RICs
         PolicyTypes nearRtRicPolicyTypes = new PolicyTypes(this.applicationConfig);
@@ -441,6 +452,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Ric")
     void testGetRic() throws Exception {
         String ricId = "ric1";
         String managedElementId = "kista_1";
@@ -485,6 +497,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Put Policy")
     void testPutPolicy() throws Exception {
         String serviceName = "service.1";
         String ricId = "ric.1";
@@ -538,6 +551,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Put Policy No Service No Status Uri")
     void testPutPolicy_NoServiceNoStatusUri() throws Exception {
         String ricId = "ric.1";
         String policyTypeName = "type1_1.2.3";
@@ -565,6 +579,7 @@ class ApplicationTest {
      *
      * @throws ServiceException
      */
+    @DisplayName("test Error From Ric")
     void testErrorFromRic() throws ServiceException {
         putService("service1");
         addPolicyType("type1", "ric1");
@@ -591,6 +606,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Put Typeless Policy")
     void testPutTypelessPolicy() throws Exception {
         putService("service1");
         addPolicyType("", "ric1");
@@ -606,6 +622,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Update Service")
     void testUpdateService() throws Exception {
         this.addRic("ric1");
         this.addPolicy("p", "type1", "", "ric1");
@@ -625,6 +642,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Refuse To Update Policy")
     void testRefuseToUpdatePolicy() throws Exception {
         // Test that only the json can be changed for a already created policy
         // In this case service is attempted to be changed
@@ -639,6 +657,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy")
     void testGetPolicy() throws Exception {
         String url = "/policies/id";
         Policy policy = addPolicy("id", "typeName", "service1", "ric1");
@@ -655,6 +674,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Delete Policy")
     void testDeletePolicy() throws Exception {
         String policyId = "id.1";
         addPolicy(policyId, "typeName", "service1", "ric1");
@@ -671,6 +691,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Type")
     void testGetPolicyType() throws Exception {
         String typeId = "AC.D";
         addPolicyType(typeId, "ric1");
@@ -697,6 +718,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Types")
     void testGetPolicyTypes() throws Exception {
         String TYPE_ID_1 = "A_type1_1.9.0";
         String TYPE_ID_2 = "A_type1_2.0.0";
@@ -745,6 +767,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Instances")
     void testGetPolicyInstances() throws Exception {
         addPolicy("id1", "type1", "service1");
 
@@ -761,6 +784,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Instances Filter")
     void testGetPolicyInstancesFilter() throws Exception {
         addPolicy("id1", "type1", "service1");
         addPolicy("id2", "type1", "service2");
@@ -798,6 +822,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Ids Filter")
     void testGetPolicyIdsFilter() throws Exception {
         addPolicy("id1", "type1", "service1", "ric1");
         addPolicy("id2", "type1", "service2", "ric1");
@@ -833,6 +858,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Put And Get Service")
     void testPutAndGetService() throws Exception {
         // PUT
         String serviceName = "ac.dc";
@@ -881,6 +907,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Service Supervision")
     void testServiceSupervision() throws Exception {
         putService("service1", 1, HttpStatus.CREATED);
         addPolicyType("type1", "ric1");
@@ -897,6 +924,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Policy Status")
     void testGetPolicyStatus() throws Exception {
         addPolicy("id", "typeName", "service1", "ric1");
         assertThat(policies.size()).isEqualTo(1);
@@ -921,6 +949,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Get Service Status")
     void testGetServiceStatus() throws Exception {
         String url = "/status";
         String rsp = restClient().get(url).block();
@@ -931,6 +960,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Service Notification")
     void testServiceNotification() throws Exception {
 
         final String AUTH_TOKEN = "testToken";
@@ -1010,6 +1040,7 @@ class ApplicationTest {
     }
 
     @Test
+    @DisplayName("test Concurrency")
     void testConcurrency() throws Exception {
         logger.info("Concurrency test starting");
         final Instant startTime = Instant.now();

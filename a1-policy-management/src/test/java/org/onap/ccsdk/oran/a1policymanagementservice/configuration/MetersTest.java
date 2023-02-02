@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -80,6 +81,7 @@ public class MetersTest {
     }
 
     @Test
+    @DisplayName("test Counters when Neither Changed Policies Nor Policy Types")
     void testCounters_whenNeitherChangedPoliciesNorPolicyTypes() {
         RIC_1.setState(Ric.RicState.AVAILABLE);
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
@@ -97,6 +99,7 @@ public class MetersTest {
     }
 
     @Test
+    @DisplayName("test Counters when Changed Policies And No Changed Policy Types")
     void testCounters_whenChangedPoliciesAndNoChangedPolicyTypes() {
         RIC_1.setState(Ric.RicState.AVAILABLE);
         RIC_1.addSupportedPolicyType(POLICY_TYPE_1);
@@ -126,6 +129,7 @@ public class MetersTest {
     }
 
     @Test
+    @DisplayName("test Counters when No Changed Policies And Changed Policy Types")
     void testCounters_whenNoChangedPoliciesAndChangedPolicyTypes() {
         RIC_1.setState(Ric.RicState.AVAILABLE);
 

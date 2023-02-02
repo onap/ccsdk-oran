@@ -37,6 +37,7 @@ import java.util.Vector;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -130,6 +131,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And No Changed Policies Or PolicyTypes then No Synchronization")
     void whenRicIdleAndNoChangedPoliciesOrPolicyTypes_thenNoSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -153,6 +155,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Undefined then Synchronization")
     void whenRicUndefined_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.UNAVAILABLE);
@@ -167,6 +170,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Synchronizing then No Synchronization")
     void whenRicSynchronizing_thenNoSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.SYNCHRONIZING);
@@ -182,6 +186,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Error Getting Policy Identities then No Synchronization")
     void whenRicIdleAndErrorGettingPolicyIdentities_thenNoSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -200,6 +205,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Not Same Amount Of Policies then Synchronization")
     void whenRicIdleAndNotSameAmountOfPolicies_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -223,6 +229,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Same Amount Of Policies But Not Same Policies then Synchronization")
     void whenRicIdleAndSameAmountOfPoliciesButNotSamePolicies_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -246,6 +253,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Error Getting Policy Types then No Synchronization")
     void whenRicIdleAndErrorGettingPolicyTypes_thenNoSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -265,6 +273,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Not Same Amount Of PolicyTypes then Synchronization")
     void whenRicIdleAndNotSameAmountOfPolicyTypes_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         RIC_1.setState(RicState.AVAILABLE);
@@ -289,6 +298,7 @@ class RicSupervisionTest {
     }
 
     @Test
+    @DisplayName("test when Ric Idle And Same Amount Of Policy Types But Not Same Types then Synchronization")
     void whenRicIdleAndSameAmountOfPolicyTypesButNotSameTypes_thenSynchronization() {
         doReturn(Mono.just(a1ClientMock)).when(a1ClientFactory).createA1Client(any(Ric.class));
         PolicyType policyType2 = PolicyType.builder() //
