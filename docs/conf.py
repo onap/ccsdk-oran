@@ -1,6 +1,10 @@
 project = "onap"
 release = "master"
 version = "master"
+# Map to 'latest' if this file is used in 'latest' (master) 'doc' branch.
+# Change to {releasename} after you have created the new 'doc' branch.
+branch = 'latest'
+
 
 author = "Open Network Automation Platform"
 # yamllint disable-line rule:line-length
@@ -15,6 +19,7 @@ html_logo = "_static/logo_onap_2017.png"
 html_favicon = "_static/favicon.ico"
 html_static_path = ["_static"]
 html_show_sphinx = False
+html_extra_path = ["offeredapis/openapitoolgen"]
 
 extensions = [
     'sphinx.ext.intersphinx',
@@ -26,13 +31,6 @@ extensions = [
     'sphinxcontrib.redoc',
     'sphinx_tabs.tabs'
 ]
-
-#
-# Map to 'latest' if this file is used in 'latest' (master) 'doc' branch.
-# Change to {releasename} after you have created the new 'doc' branch.
-#
-
-branch = 'latest'
 
 redoc = [
             {

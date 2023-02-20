@@ -41,14 +41,15 @@
         <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
+        <snakeyaml.version>1.32</snakeyaml.version><!-- overrides version included via spring-boot-starter to address CVE-2022-38750 CVE-2022-38752 CVE-2022-25857. Remove later if possible -->
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
-        <exec.skip>true</exec.skip>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <software.amazon.awssdk.version>2.19.17</software.amazon.awssdk.version>
+        <allowskiptests>false</allowskiptests>
     </properties>
     <dependencies>
         <dependency>
@@ -283,7 +284,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-maven-plugin.version}</version>
                 <configuration>
-                    <skipTests>false</skipTests>
+                    <skipTests>${allowskiptests}</skipTests>
                     <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <disable>false</disable>
                         <version>3.0</version>
@@ -352,24 +353,38 @@
                 <version>6.0.0</version>
                 <executions>
                     <execution>
-                        <id>html2</id>
-                        <phase>test</phase>
+                        <id>generate-openapi-html</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/api/pms-api.json</inputSpec>
                             <generatorName>html2</generatorName>
-                            <verbose>false</verbose>
-                            <output>${project.basedir}/api</output>
+                            <output>${project.basedir}/api/pms-api</output>
                             <skipOperationExample>false</skipOperationExample>
                             <strictSpec>false</strictSpec>
                             <configOptions>
                                 <appDescription>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
-                                <licenseInfo>Copyright (C) 2020-2022 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
+                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-openapi-yaml</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/pms-api.json</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <verbose>false</verbose>
+                            <output>${project.basedir}/api</output>
+                            <configOptions>
                                 <outputFile>pms-api.yaml</outputFile>
                             </configOptions>
                         </configuration>
@@ -380,18 +395,38 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-resource-one</id>
-                        <phase>install</phase>
+                        <id>copy-resource-openapi</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${project.basedir}/../docs/offeredapis/swagger</outputDirectory>
+                            <verbose>true</verbose>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/api</directory>
                                     <includes>
-                                        <include>pms-api.*</include>
+                                        <include>pms-api.json</include>
+                                        <include>pms-api.yaml</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resource-openapi-html</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <outputDirectory>${project.basedir}/../docs/offeredapis/openapitoolgen/offeredapis/pms-api</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/api/pms-api</directory>
+                                    <includes>
                                         <include>index.html</include>
                                     </includes>
                                 </resource>
