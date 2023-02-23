@@ -3,7 +3,7 @@
   ~ ============LICENSE_START=======================================================
   ~ ONAP : ccsdk oran
   ~ ================================================================================
-  ~ Copyright (C) 2020 Nordix Foundation. All rights reserved.
+  ~ Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
   ~ ================================================================================
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@
         <springfox.version>3.0.0</springfox.version>
         <gson.version>2.10.1</gson.version>
         <json.version>20220924</json.version>
-        <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>
-        <spotless-maven-plugin.version>2.5.0</spotless-maven-plugin.version>
+        <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>        
+        <spotless-maven-plugin.version>1.24.3</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
         <snakeyaml.version>1.32</snakeyaml.version><!-- overrides version included via spring-boot-starter to address CVE-2022-38750 CVE-2022-38752 CVE-2022-25857. Remove later if possible -->
