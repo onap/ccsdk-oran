@@ -36,7 +36,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import lombok.Builder;
@@ -70,20 +69,11 @@ public class ApplicationConfigParser {
         @Builder.Default
         private Map<String, ControllerConfig> controllerConfigs = new HashMap<>();
 
-        @Builder.Default
-        private String dmaapConsumerTopicUrl = "";
-
-        @Builder.Default
-        private String dmaapProducerTopicUrl = "";
-
     }
 
     public ConfigParserResult parse(JsonObject root) throws ServiceException {
 
         validateJsonObjectAgainstSchema(root);
-
-        String dmaapProducerTopicUrl = "";
-        String dmaapConsumerTopicUrl = "";
 
         JsonObject pmsConfigJson = root.getAsJsonObject(CONFIG);
 
@@ -91,23 +81,11 @@ public class ApplicationConfigParser {
             throw new ServiceException("Missing root configuration \"" + CONFIG + "\" in JSON: " + root);
         }
 
-        JsonObject json = pmsConfigJson.getAsJsonObject("streams_publishes");
-        if (json != null) {
-            dmaapProducerTopicUrl = parseDmaapConfig(json);
-        }
-
-        json = pmsConfigJson.getAsJsonObject("streams_subscribes");
-        if (json != null) {
-            dmaapConsumerTopicUrl = parseDmaapConfig(json);
-        }
-
         List<RicConfig> ricConfigs = parseRics(pmsConfigJson);
         Map<String, ControllerConfig> controllerConfigs = parseControllerConfigs(pmsConfigJson);
         checkConfigurationConsistency(ricConfigs, controllerConfigs);
 
         return ConfigParserResult.builder() //
-                .dmaapConsumerTopicUrl(dmaapConsumerTopicUrl) //
-                .dmaapProducerTopicUrl(dmaapProducerTopicUrl) //
                 .ricConfigs(ricConfigs) //
                 .controllerConfigs(controllerConfigs) //
                 .build();
@@ -234,17 +212,6 @@ public class ApplicationConfigParser {
 
     private JsonArray getAsJsonArray(JsonObject obj, String memberName) throws ServiceException {
         return get(obj, memberName).getAsJsonArray();
-    }
-
-    private String parseDmaapConfig(JsonObject streamCfg) throws ServiceException {
-        Set<Entry<String, JsonElement>> streamConfigEntries = streamCfg.entrySet();
-        if (streamConfigEntries.size() != 1) {
-            throw new ServiceException(
-                    "Invalid configuration. Number of streams must be one, config: " + streamConfigEntries);
-        }
-        JsonObject streamConfigEntry = streamConfigEntries.iterator().next().getValue().getAsJsonObject();
-        JsonObject dmaapInfo = get(streamConfigEntry, "dmaap_info").getAsJsonObject();
-        return getAsString(dmaapInfo, "topic_url");
     }
 
     private static String getAsString(JsonObject obj, String memberName) throws ServiceException {

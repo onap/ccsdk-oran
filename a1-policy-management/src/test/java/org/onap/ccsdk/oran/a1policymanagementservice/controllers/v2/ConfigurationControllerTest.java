@@ -1,6 +1,6 @@
 /*-
  * ========================LICENSE_START=================================
- * Copyright (C) 2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,8 +134,8 @@ class ConfigurationControllerTest {
     }
 
     private String configAsString() throws Exception {
-        File configFile = new File(getClass().getClassLoader()
-                .getResource("test_application_configuration_with_dmaap_config.json").getFile());
+        File configFile =
+                new File(getClass().getClassLoader().getResource("test_application_configuration.json").getFile());
         return FileUtils.readFileToString(configFile, "UTF-8");
     }
 

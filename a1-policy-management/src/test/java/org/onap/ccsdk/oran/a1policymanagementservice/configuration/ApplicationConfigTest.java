@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,8 +55,6 @@ class ApplicationConfigTest {
     ConfigParserResult configParserResult(RicConfig... rics) {
         return ConfigParserResult.builder() //
                 .ricConfigs(Arrays.asList(rics)) //
-                .dmaapConsumerTopicUrl("dmaapConsumerTopicUrl") //
-                .dmaapProducerTopicUrl("dmaapProducerTopicUrl") //
                 .controllerConfigs(new HashMap<>()) //
                 .build();
     }
