@@ -54,8 +54,8 @@
                 },
                 "controller": {
                   "type": "string"
-                }, 
-                "customAdapterClass" : {
+                },
+                "customAdapterClass": {
                   "type": "string"
                 },
                 "managedElementIds": {
@@ -78,74 +78,6 @@
               "additionalProperties": false
             }
           ]
-        },
-        "streams_publishes": {
-          "type": "object",
-          "properties": {
-            "dmaap_publisher": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                },
-                "dmaap_info": {
-                  "type": "object",
-                  "properties": {
-                    "topic_url": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "topic_url"
-                  ],
-                  "additionalProperties": false
-                }
-              },
-              "required": [
-                "type",
-                "dmaap_info"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "required": [
-            "dmaap_publisher"
-          ],
-           "additionalProperties": false
-        },
-        "streams_subscribes": {
-          "type": "object",
-          "properties": {
-            "dmaap_subscriber": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
-                },
-                "dmaap_info": {
-                  "type": "object",
-                  "properties": {
-                    "topic_url": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "topic_url"
-                  ],
-                  "additionalProperties": false
-                }
-              },
-              "required": [
-                "type",
-                "dmaap_info"
-              ],
-               "additionalProperties": false
-            }
-          },
-          "required": [
-            "dmaap_subscriber"
-          ],
-           "additionalProperties": false
         }
       },
       "required": [

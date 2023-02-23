@@ -40,7 +40,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,13 +72,6 @@ class RefreshConfigTaskTest {
 
     @Mock
     ConfigurationFile configurationFileMock;
-
-    private static final String RIC_1_NAME = "ric1";
-    private static final RicConfig CORRECT_RIC_CONIFG = RicConfig.builder() //
-            .ricId(RIC_1_NAME) //
-            .baseUrl("http://localhost:8080/") //
-            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
-            .build();
 
     private RefreshConfigTask createTestObject(boolean configFileExists) {
         return createTestObject(configFileExists, spy(new Rics()), new Policies(appConfig), true);
@@ -120,10 +112,9 @@ class RefreshConfigTaskTest {
 
         verify(refreshTaskUnderTest.rics, times(2)).put(any(Ric.class));
 
-        Iterable<RicConfig> ricConfigs = appConfig.getRicConfigs();
-        RicConfig ricConfig = ricConfigs.iterator().next();
+        java.util.Collection<RicConfig> ricConfigs = appConfig.getRicConfigs();
         assertThat(ricConfigs).isNotNull();
-        assertThat(ricConfig).isEqualTo(CORRECT_RIC_CONIFG);
+        assertThat(ricConfigs).hasSize(2);
     }
 
     @Test

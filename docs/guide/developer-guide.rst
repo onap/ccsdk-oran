@@ -32,10 +32,9 @@ A1 Policy Management Service provides a REST API for management of policies. It 
    * Query functions that can find all policies in a RIC, all policies owned by a service (R-APP), all policies of a type etc.
    * Maps O1 resources (ManagedElement) as defined in O1 to the controlling RIC.
 
-The Policy Management Service can be accessed over the REST API, and with an equivalent interface using DMaaP. See :ref:`pms_api` for more information about the API.
-Note that DMaaP is deprecated and the possibility to access this service using DMaaP is deprecated and will be removed. 
+The Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for more information about the API.
 
-The configured A1 policies are stored persistently to survive a service restart. 
+The configured A1 policies are stored persistently to survive a service restart.
 
 Dependencies
 ------------
@@ -56,7 +55,7 @@ Configuration
 -------------
 
 There are two configuration files for A1 Policy Management Service, *config/application_configuration.json* and *config/application.yaml*
-The first (*config/application_configuration.json*) contains configuration needed by the application, such as which near-RT-RICs, or controller to use. DMaaP topic can also be configured, but is deprecated.
+The first (*config/application_configuration.json*) contains configuration needed by the application, such as which near-RT-RICs, or controller to use.
 The second (*config/application.yaml*) contains logging and security configurations.
 
 For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+Kohn>`_
@@ -89,15 +88,13 @@ The component has configuration that can be updated in runtime. This configurati
 The configuration includes:
 
   * Optional Controller configuration, e.g. an SDNC instance (with A1-Adapter)
-  
+
     * (If no 'Contoller' is configured, the A1 Policy Management Service will connect direct to near-RT-RICs, bypassing the SDNC controller)
   * One entry for each near-RT-RIC, which includes:
-  
+
     * The base URL of the near-RT-RIC
     * A optional list of O1 identifiers that near-RT-RIC is controlling. An application can query this service which near-RT-RIC should be addressed for which component (e.g. cells, sectors, locations, etc.) .
     * An optional reference to the controller to use, or excluded if the near-RT-RIC should be accessed directly from the A1 Policy Management Service.
-   
- * Optional configuration for using of DMaaP (deprecated). There can be one stream for requests to the component and an other stream for responses.
 
 For details about the syntax of the file, there is an example in source code repository */config/application_configuration.json*. This file is also included in the docker container */opt/app/policy-agent/data/application_configuration.json_example*.
 
@@ -141,7 +138,7 @@ In order to configure a HTTP Proxy for southbound connections:
   * Modify file: *odlsli/src/main/properties/a1-adapter-api-dg.properties*. This file is found in CCSDK/distribution for SDNC.
   * In a running container this file is found at */opt/onap/ccsdk/data/properties/a1-adapter-api-dg.properties*
   * Variable a1Mediator.proxy.url must contain the full Proxy URL
-  
+
 After this configuration has been changed the A1 adapter needs to be either rebuilt, or restarted if the configuration is changed inside a container, or re-read by the container if externally accessible (e.g. K8s ConfigMap).
 
 

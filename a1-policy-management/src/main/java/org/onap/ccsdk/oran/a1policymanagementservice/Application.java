@@ -22,7 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice;
 
 import java.lang.invoke.MethodHandles;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.dmaap.DmaapMessageConsumer;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +38,6 @@ public class Application {
 
     @Autowired
     private RefreshConfigTask configRefresh;
-
-    @Autowired
-    private DmaapMessageConsumer dmaapMessageConsumer;
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -67,17 +63,5 @@ public class Application {
     @Bean
     public CommandLineRunner configRefreshRunner(ApplicationContext ctx) {
         return args -> configRefresh.start();
-    }
-
-    /**
-     * Starts the DMaaP message consumer service.
-     *
-     * @param ctx the application context.
-     *
-     * @return the command line runner for the DMaaP message consumer service.
-     */
-    @Bean
-    public CommandLineRunner dmaapMessageConsumerRunner(ApplicationContext ctx) {
-        return args -> dmaapMessageConsumer.start();
     }
 }
