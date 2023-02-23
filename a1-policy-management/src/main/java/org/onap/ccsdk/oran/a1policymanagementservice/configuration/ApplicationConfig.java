@@ -100,12 +100,6 @@ public class ApplicationConfig {
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
-    @Getter
-    private String dmaapConsumerTopicUrl;
-
-    @Getter
-    private String dmaapProducerTopicUrl;
-
     private Map<String, ControllerConfig> controllerConfigs = new HashMap<>();
 
     private WebClientConfig webClientConfig = null;
@@ -174,9 +168,6 @@ public class ApplicationConfig {
         Collection<RicConfigUpdate> modifications = new ArrayList<>();
         this.controllerConfigs = parserResult.getControllerConfigs();
 
-        this.dmaapConsumerTopicUrl = parserResult.getDmaapConsumerTopicUrl();
-        this.dmaapProducerTopicUrl = parserResult.getDmaapProducerTopicUrl();
-
         Map<String, RicConfig> newRicConfigs = new HashMap<>();
         for (RicConfig newConfig : parserResult.getRicConfigs()) {
             RicConfig oldConfig = this.ricConfigs.get(newConfig.getRicId());
@@ -202,5 +193,4 @@ public class ApplicationConfig {
     public boolean isS3Enabled() {
         return !(Strings.isNullOrEmpty(s3EndpointOverride) || Strings.isNullOrEmpty(s3Bucket));
     }
-
 }

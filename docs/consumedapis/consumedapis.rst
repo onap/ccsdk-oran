@@ -8,24 +8,16 @@ Consumed APIs
 The A1 Policy Management Service consumes two ONAP APIs and the A1-P API.
 
 
-**********************
-DMaaP API (deprecated)
-**********************
-
-The A1 Policy Management Service API can also be accessed using *ONAP DMaaP*. To support this the `DMaaP Message Router API <https://docs.onap.org/projects/onap-dmaap-messagerouter-messageservice/en/latest/offeredapis/api.html>`_ is used.  
-
-Note: this functionality is deprecated, and will be removed in future versions. 
-
 *****************************************
 O-RAN A1 Interface for A1 Policies (A1-P)
 *****************************************
 
-Southbound, the ONAP A1 Policy functions communicate with *near-RT-RIC* RAN functions using the **A1** interface, as defined by the `O-RAN Alliance <https://www.o-ran.org>`_   
-The *A1 Interface - Application Protocol Specification (A1-AP)* describes this interface. The specification can be viewed from the `O-RAN Alliance <https://www.o-ran.org>`_ website. 
+Southbound, the ONAP A1 Policy functions communicate with *near-RT-RIC* RAN functions using the **A1** interface, as defined by the `O-RAN Alliance <https://www.o-ran.org>`_
+The *A1 Interface - Application Protocol Specification (A1-AP)* describes this interface. The specification can be viewed from the `O-RAN Alliance <https://www.o-ran.org>`_ website.
 
 The **Kohn** ONAP A1 Policy functions implement the *A1 Policy* parts (*A1-P*) of A1-AP versions *v1.1*, *v2.0* and *v3.0*
 
-An opensource implementation of a `near-RT-RIC <https://wiki.o-ran-sc.org/pages/viewpage.action?pageId=1179659>`_ is available from the `O-RAN Software Community <https://o-ran-sc.org>`_. It supports a pre-spec version of the A1-AP. The ONAP A1 Policy functions described here also supports this A1 version (*A1-OSC*). 
+An opensource implementation of a `near-RT-RIC <https://wiki.o-ran-sc.org/pages/viewpage.action?pageId=1179659>`_ is available from the `O-RAN Software Community <https://o-ran-sc.org>`_. It supports a pre-spec version of the A1-AP. The ONAP A1 Policy functions described here also supports this A1 version (*A1-OSC*).
 
-An opensource implementation of an `A1 Simulator <https://wiki.o-ran-sc.org/pages/viewpage.action?pageId=3604819>`_ is also available from the `O-RAN Software Community <https://o-ran-sc.org>`_. It supports all versions of A1-AP. 
+An opensource implementation of an `A1 Simulator <https://wiki.o-ran-sc.org/pages/viewpage.action?pageId=3604819>`_ is also available from the `O-RAN Software Community <https://o-ran-sc.org>`_. It supports all versions of A1-AP.
 

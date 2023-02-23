@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -61,14 +60,6 @@ class ApplicationConfigParserTest {
 
         ApplicationConfigParser.ConfigParserResult result = parserUnderTest.parse(jsonRootObject);
 
-        String topicUrl = result.getDmaapProducerTopicUrl();
-        assertEquals("http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-WRITE", topicUrl, "controller contents");
-
-        topicUrl = result.getDmaapConsumerTopicUrl();
-        assertEquals(
-                "http://admin:admin@localhost:6845/events/A1-POLICY-AGENT-READ/users/policy-agent?timeout=15000&limit=100",
-                topicUrl, "controller contents");
-
         Map<String, ControllerConfig> controllers = result.getControllerConfigs();
         assertEquals(1, controllers.size(), "size");
         ControllerConfig expectedControllerConfig = ControllerConfig.builder() //
@@ -90,68 +81,9 @@ class ApplicationConfigParserTest {
     }
 
     private static InputStream getCorrectJson() throws IOException {
-        URL url = ApplicationConfigParser.class.getClassLoader()
-                .getResource("test_application_configuration_with_dmaap_config.json");
+        URL url = ApplicationConfigParser.class.getClassLoader().getResource("test_application_configuration.json");
         String string = Resources.toString(url, Charsets.UTF_8);
         return new ByteArrayInputStream((string.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    @Test
-    @DisplayName("test when Dmaap Config Has Several Streams Publishing")
-    void whenDmaapConfigHasSeveralStreamsPublishing() throws Exception {
-        JsonObject jsonRootObject = getJsonRootObject();
-        JsonObject json = jsonRootObject.getAsJsonObject("config").getAsJsonObject("streams_publishes");
-        JsonObject fake_info_object = new JsonObject();
-        fake_info_object.addProperty("fake_info", "fake");
-        json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
-        DataPublishing data = new Gson().fromJson(json.toString(), DataPublishing.class);
-        final String expectedMessage =
-                "Invalid configuration. Number of streams must be one, config: " + data.toString();
-
-        Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
-
-        assertEquals(expectedMessage, actualException.getMessage(),
-                "Wrong error message when the DMaaP config has several streams publishing");
-    }
-
-    class DataPublishing {
-        private JsonObject dmaap_publisher;
-        private JsonObject fake_info_object;
-
-        @Override
-        public String toString() {
-            return String.format("[dmaap_publisher=%s, fake_info_object=%s]", dmaap_publisher.toString(),
-                    fake_info_object.toString());
-        }
-    }
-
-    @Test
-    @DisplayName("test when Dmaap Config Has Several Streams Subscribing")
-    void whenDmaapConfigHasSeveralStreamsSubscribing() throws Exception {
-        JsonObject jsonRootObject = getJsonRootObject();
-        JsonObject json = jsonRootObject.getAsJsonObject("config").getAsJsonObject("streams_subscribes");
-        JsonObject fake_info_object = new JsonObject();
-        fake_info_object.addProperty("fake_info", "fake");
-        json.add("fake_info_object", new Gson().toJsonTree(fake_info_object));
-        DataSubscribing data = new Gson().fromJson(json.toString(), DataSubscribing.class);
-        final String expectedMessage =
-                "Invalid configuration. Number of streams must be one, config: " + data.toString();
-
-        Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
-
-        assertEquals(expectedMessage, actualException.getMessage(),
-                "Wrong error message when the DMaaP config has several streams subscribing");
-    }
-
-    private class DataSubscribing {
-        private JsonObject dmaap_subscriber;
-        private JsonObject fake_info_object;
-
-        @Override
-        public String toString() {
-            return String.format("[dmaap_subscriber=%s, fake_info_object=%s]", dmaap_subscriber.toString(),
-                    fake_info_object.toString());
-        }
     }
 
     @Test
@@ -179,11 +111,5 @@ class ApplicationConfigParserTest {
         Exception actualException = assertThrows(ServiceException.class, () -> parserUnderTest.parse(jsonRootObject));
 
         assertThat(actualException.getMessage()).contains("Json schema validation failure");
-    }
-
-    JsonObject getDmaapInfo(JsonObject jsonRootObject, String streamsPublishesOrSubscribes,
-            String dmaapPublisherOrSubscriber) throws Exception {
-        return jsonRootObject.getAsJsonObject("config").getAsJsonObject(streamsPublishesOrSubscribes)
-                .getAsJsonObject(dmaapPublisherOrSubscriber).getAsJsonObject("dmaap_info");
     }
 }
