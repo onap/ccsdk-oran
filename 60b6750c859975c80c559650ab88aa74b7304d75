@@ -22,6 +22,30 @@
       "revId": "60b6750c859975c80c559650ab88aa74b7304d75",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1183eb84_4607e207",
+        "filename": "a1-policy-management/src/main/resources/application_configuration_schema.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5072
+      },
+      "writtenOn": "2023-02-27T13:01:17Z",
+      "side": 1,
+      "message": "We check that the config matches the schema by using 3rd party sw. Either a config matches or not. \nThe option is to set additionalProperties to false (like it was), then there will be an error if the dmaap config is in there (and the config will not be accepted).",
+      "parentUuid": "47d11cc2_4faa04a5",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 34
+      },
+      "revId": "60b6750c859975c80c559650ab88aa74b7304d75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
