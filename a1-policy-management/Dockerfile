@@ -19,7 +19,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jdk-slim
 
 #install vim editor
 RUN apt-get update

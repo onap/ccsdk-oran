@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
@@ -86,15 +87,15 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    static Mono<ResponseEntity<Object>> createMono(String text, HttpStatus code) {
+    static Mono<ResponseEntity<Object>> createMono(String text, HttpStatusCode code) {
         return Mono.just(create(text, code));
     }
 
-    static Mono<ResponseEntity<Object>> createMono(Exception e, HttpStatus code) {
+    static Mono<ResponseEntity<Object>> createMono(Exception e, HttpStatusCode code) {
         return createMono(e.toString(), code);
     }
 
-    static ResponseEntity<Object> create(String text, HttpStatus code) {
+    static ResponseEntity<Object> create(String text, HttpStatusCode code) {
         logger.debug("Error response: {}, {}", code, text);
         ErrorInfo p = new ErrorInfo(text, code.value());
         String json = gson.toJson(p);
@@ -103,7 +104,7 @@ public class ErrorResponse {
         return new ResponseEntity<>(json, headers, code);
     }
 
-    public static ResponseEntity<Object> create(Throwable e, HttpStatus code) {
+    public static ResponseEntity<Object> create(Throwable e, HttpStatusCode code) {
         if (e instanceof RuntimeException) {
             code = HttpStatus.INTERNAL_SERVER_ERROR;
         } else if (e instanceof ServiceException) {

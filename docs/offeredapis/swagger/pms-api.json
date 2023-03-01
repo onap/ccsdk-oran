@@ -15,22 +15,18 @@
                     "type": "integer",
                     "example": 404
                 }
-            },
-            "example": null
+            }
         },
         "void": {
             "description": "Void/empty",
-            "type": "object",
-            "example": null
+            "type": "object"
         },
         "status_info_v2": {
             "type": "object",
             "properties": {"status": {
                 "description": "status text",
-                "type": "string",
-                "example": null
-            }},
-            "example": null
+                "type": "string"
+            }}
         },
         "ric_info_v2": {
             "description": "Information for a Near-RT RIC",
@@ -38,18 +34,15 @@
             "properties": {
                 "ric_id": {
                     "description": "identity of the Near-RT RIC",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "managed_element_ids": {
                     "description": "O1 identities for managed entities",
                     "type": "array",
                     "items": {
                         "description": "O1 identities for managed entities",
-                        "type": "string",
-                        "example": null
-                    },
-                    "example": null
+                        "type": "string"
+                    }
                 },
                 "state": {
                     "description": "Represents the states for a Near-RT RIC",
@@ -59,21 +52,17 @@
                         "AVAILABLE",
                         "SYNCHRONIZING",
                         "CONSISTENCY_CHECK"
-                    ],
-                    "example": null
+                    ]
                 },
                 "policytype_ids": {
                     "description": "supported policy types",
                     "type": "array",
                     "items": {
                         "description": "supported policy types",
-                        "type": "string",
-                        "example": null
-                    },
-                    "example": null
+                        "type": "string"
+                    }
                 }
-            },
-            "example": null
+            }
         },
         "service_registration_info_v2": {
             "description": "Information for one service",
@@ -82,22 +71,18 @@
             "properties": {
                 "callback_url": {
                     "description": "callback for notifying of Near-RT RIC state changes",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "service_id": {
                     "description": "identity of the service",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "keep_alive_interval_seconds": {
                     "format": "int64",
                     "description": "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.",
-                    "type": "integer",
-                    "example": null
+                    "type": "integer"
                 }
-            },
-            "example": null
+            }
         },
         "policy_info_list_v2": {
             "description": "List of policy information",
@@ -105,10 +90,8 @@
             "properties": {"policies": {
                 "description": "List of policy information",
                 "type": "array",
-                "items": {"$ref": "#/components/schemas/policy_info_v2"},
-                "example": null
-            }},
-            "example": null
+                "items": {"$ref": "#/components/schemas/policy_info_v2"}
+            }}
         },
         "policy_status_info_v2": {
             "description": "Status for one A1-P Policy",
@@ -116,16 +99,13 @@
             "properties": {
                 "last_modified": {
                     "description": "timestamp, last modification time",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "status": {
                     "description": "the Policy status",
-                    "type": "object",
-                    "example": null
+                    "type": "object"
                 }
-            },
-            "example": null
+            }
         },
         "service_status_v2": {
             "description": "List of service information",
@@ -133,28 +113,23 @@
             "properties": {
                 "callback_url": {
                     "description": "callback for notifying of RIC synchronization",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "service_id": {
                     "description": "identity of the service",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "keep_alive_interval_seconds": {
                     "format": "int64",
                     "description": "policy keep alive timeout",
-                    "type": "integer",
-                    "example": null
+                    "type": "integer"
                 },
                 "time_since_last_activity_seconds": {
                     "format": "int64",
                     "description": "time since last invocation by the service",
-                    "type": "integer",
-                    "example": null
+                    "type": "integer"
                 }
-            },
-            "example": null
+            }
         },
         "ric_info_list_v2": {
             "description": "List of Near-RT RIC information",
@@ -162,20 +137,16 @@
             "properties": {"rics": {
                 "description": "List of Near-RT RIC information",
                 "type": "array",
-                "items": {"$ref": "#/components/schemas/ric_info_v2"},
-                "example": null
-            }},
-            "example": null
+                "items": {"$ref": "#/components/schemas/ric_info_v2"}
+            }}
         },
         "policytype_v2": {
             "description": "Policy type",
             "type": "object",
             "properties": {"policy_schema": {
                 "description": "Policy type json schema. The schema is a json object following http://json-schema.org/draft-07/schema",
-                "type": "object",
-                "example": null
-            }},
-            "example": null
+                "type": "object"
+            }}
         },
         "policytype_id_list_v2": {
             "description": "Information about policy types",
@@ -185,12 +156,9 @@
                 "type": "array",
                 "items": {
                     "description": "Policy type identities",
-                    "type": "string",
-                    "example": null
-                },
-                "example": null
-            }},
-            "example": null
+                    "type": "string"
+                }
+            }}
         },
         "policy_info_v2": {
             "description": "Information for one A1-P Policy",
@@ -204,13 +172,11 @@
             "properties": {
                 "ric_id": {
                     "description": "identity of the target Near-RT RIC",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "policy_id": {
                     "description": "identity of the policy",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "transient": {
                     "default": false,
@@ -220,26 +186,21 @@
                 },
                 "service_id": {
                     "description": "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registerred.",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "policy_data": {
                     "description": "the configuration of the policy",
-                    "type": "object",
-                    "example": null
+                    "type": "object"
                 },
                 "status_notification_uri": {
                     "description": "Callback URI for policy status updates",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "policytype_id": {
                     "description": "identity of the policy type",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 }
-            },
-            "example": null
+            }
         },
         "policy_id_list_v2": {
             "description": "A list of policy identities",
@@ -249,12 +210,9 @@
                 "type": "array",
                 "items": {
                     "description": "Policy identities",
-                    "type": "string",
-                    "example": null
-                },
-                "example": null
-            }},
-            "example": null
+                    "type": "string"
+                }
+            }}
         },
         "service_list_v2": {
             "description": "List of service information",
@@ -262,10 +220,8 @@
             "properties": {"service_list": {
                 "description": "List of service information",
                 "type": "array",
-                "items": {"$ref": "#/components/schemas/service_status_v2"},
-                "example": null
-            }},
-            "example": null
+                "items": {"$ref": "#/components/schemas/service_status_v2"}
+            }}
         },
         "service_callback_info_v2": {
             "description": "Information transferred as in Service callbacks (callback_url)",
@@ -277,31 +233,21 @@
             "properties": {
                 "ric_id": {
                     "description": "identity of a Near-RT RIC",
-                    "type": "string",
-                    "example": null
+                    "type": "string"
                 },
                 "event_type": {
                     "description": "values:\nAVAILABLE: the  Near-RT RIC has become available for A1 Policy management",
                     "type": "string",
-                    "enum": ["AVAILABLE"],
-                    "example": null
+                    "enum": ["AVAILABLE"]
                 }
-            },
-            "example": null
+            }
         },
         "Link": {
             "type": "object",
             "properties": {
-                "templated": {
-                    "type": "boolean",
-                    "example": null
-                },
-                "href": {
-                    "type": "string",
-                    "example": null
-                }
-            },
-            "example": null
+                "templated": {"type": "boolean"},
+                "href": {"type": "string"}
+            }
         }
     }},
     "openapi": "3.0.1",
@@ -313,55 +259,37 @@
             "responses": {
                 "200": {
                     "description": "Policies",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/policy_info_list_v2"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_info_list_v2"}}}
                 },
                 "404": {
                     "description": "Near-RT RIC, policy type or service not found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "policytype_id",
                     "description": "Select policies with a given type identity.",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "ric_id",
                     "description": "Select policies for a given Near-RT RIC identity.",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "service_id",
                     "description": "Select policies owned by a given service.",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "type_name",
                     "description": "Select policies of a given type name (type identity has the format <typename_version>)",
@@ -372,16 +300,15 @@
         }},
         "/actuator/threaddump": {"get": {
             "summary": "Actuator web endpoint 'threaddump'",
-            "operationId": "threaddump_2",
+            "operationId": "threaddump",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "text/plain;charset=UTF-8": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -390,10 +317,7 @@
             "operationId": "getStatus",
             "responses": {"200": {
                 "description": "Service is living",
-                "content": {"application/json": {
-                    "schema": {"$ref": "#/components/schemas/status_info_v2"},
-                    "example": null
-                }}
+                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/status_info_v2"}}}
             }},
             "tags": ["Health Check"]
         }},
@@ -402,13 +326,11 @@
             "operationId": "loggers",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -417,13 +339,11 @@
             "operationId": "health-path",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -434,35 +354,23 @@
             "responses": {
                 "200": {
                     "description": "Near-RT RIC is found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/ric_info_v2"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ric_info_v2"}}}
                 },
                 "404": {
                     "description": "Near-RT RIC is not found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "managed_element_id",
                     "description": "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "ric_id",
                     "description": "The identity of a Near-RT RIC to get information for.",
@@ -476,13 +384,11 @@
             "operationId": "shutdown",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -492,45 +398,30 @@
             "responses": {
                 "200": {
                     "description": "Policy type IDs",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/policytype_id_list_v2"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policytype_id_list_v2"}}}
                 },
                 "404": {
                     "description": "Near-RT RIC is not found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "ric_id",
                     "description": "Select types for the given Near-RT RIC identity.",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "type_name",
                     "description": "Select types with the given type name (type identity has the format <typename_version>)",
                     "required": false
                 },
                 {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "compatible_with_version",
                     "description": "Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.",
@@ -546,24 +437,15 @@
                 "responses": {
                     "200": {
                         "description": "Policy found",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/policy_info_v2"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_info_v2"}}}
                     },
                     "404": {
                         "description": "Policy is not found",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "parameters": [{
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "path",
                     "name": "policy_id",
                     "required": true
@@ -576,38 +458,23 @@
                 "responses": {
                     "200": {
                         "description": "Not used",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/void"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "423": {
                         "description": "Near-RT RIC is not operational",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     },
                     "204": {
                         "description": "Policy deleted",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/void"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "404": {
                         "description": "Policy is not found",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "parameters": [{
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "path",
                     "name": "policy_id",
                     "required": true
@@ -620,19 +487,14 @@
             "operationId": "metrics-requiredMetricName",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "path",
                 "name": "requiredMetricName",
                 "required": true
@@ -646,20 +508,11 @@
                 "responses": {
                     "200": {
                         "description": "Configuration",
-                        "content": {"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": null
-                            },
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"type": "object"}}}
                     },
                     "404": {
                         "description": "File is not found or readable",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "tags": ["Management of configuration"]
@@ -667,37 +520,22 @@
             "put": {
                 "summary": "Replace the current configuration file with the given configuration",
                 "requestBody": {
-                    "content": {"application/json": {
-                        "schema": {
-                            "type": "object",
-                            "example": null
-                        },
-                        "example": null
-                    }},
+                    "content": {"application/json": {"schema": {"type": "object"}}},
                     "required": true
                 },
                 "operationId": "putConfiguration",
                 "responses": {
                     "200": {
                         "description": "Configuration updated",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/void"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "400": {
                         "description": "Invalid configuration provided",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     },
                     "500": {
                         "description": "Something went wrong when replacing the configuration. Try again.",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "tags": ["Management of configuration"]
@@ -708,40 +546,54 @@
             "operationId": "links",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {
                         "additionalProperties": {
                             "additionalProperties": {"$ref": "#/components/schemas/Link"},
-                            "type": "object",
-                            "example": null
+                            "type": "object"
                         },
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                        "type": "object"
+                    }},
+                    "application/json": {"schema": {
+                        "additionalProperties": {
+                            "additionalProperties": {"$ref": "#/components/schemas/Link"},
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {
+                        "additionalProperties": {
+                            "additionalProperties": {"$ref": "#/components/schemas/Link"},
+                            "type": "object"
+                        },
+                        "type": "object"
+                    }}
+                }
             }},
             "tags": ["Actuator"]
         }},
         "/actuator/loggers/{name}": {
             "post": {
                 "summary": "Actuator web endpoint 'loggers-name'",
-                "operationId": "loggers-name",
+                "requestBody": {"content": {"application/json": {"schema": {
+                    "type": "string",
+                    "enum": [
+                        "TRACE",
+                        "DEBUG",
+                        "INFO",
+                        "WARN",
+                        "ERROR",
+                        "FATAL",
+                        "OFF"
+                    ]
+                }}}},
+                "operationId": "loggers-name_2",
                 "responses": {"200": {
                     "description": "OK",
-                    "content": {"*/*": {
-                        "schema": {
-                            "type": "object",
-                            "example": null
-                        },
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"type": "object"}}}
                 }},
                 "parameters": [{
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "path",
                     "name": "name",
                     "required": true
@@ -750,22 +602,17 @@
             },
             "get": {
                 "summary": "Actuator web endpoint 'loggers-name'",
-                "operationId": "loggers-name_2",
+                "operationId": "loggers-name",
                 "responses": {"200": {
                     "description": "OK",
-                    "content": {"*/*": {
-                        "schema": {
-                            "type": "object",
-                            "example": null
-                        },
-                        "example": null
-                    }}
+                    "content": {
+                        "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                        "application/json": {"schema": {"type": "object"}},
+                        "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                    }
                 }},
                 "parameters": [{
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "path",
                     "name": "name",
                     "required": true
@@ -780,27 +627,15 @@
             "responses": {
                 "200": {
                     "description": "Service supervision timer refreshed, OK",
-                    "content": {"*/*": {
-                        "schema": {
-                            "type": "object",
-                            "example": null
-                        },
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"type": "object"}}}
                 },
                 "404": {
                     "description": "The service is not found, needs re-registration",
-                    "content": {"*/*": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "path",
                 "name": "service_id",
                 "required": true
@@ -812,13 +647,11 @@
             "operationId": "metrics",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -829,24 +662,15 @@
             "responses": {
                 "200": {
                     "description": "OK",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/ric_info_list_v2"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ric_info_list_v2"}}}
                 },
                 "404": {
                     "description": "Policy type is not found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "query",
                 "name": "policytype_id",
                 "description": "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned",
@@ -862,24 +686,15 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/service_list_v2"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/service_list_v2"}}}
                     },
                     "404": {
                         "description": "Service is not found",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "parameters": [{
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
+                    "schema": {"type": "string"},
                     "in": "query",
                     "name": "service_id",
                     "description": "The identity of the service",
@@ -890,10 +705,7 @@
             "put": {
                 "summary": "Register a service",
                 "requestBody": {
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/service_registration_info_v2"},
-                        "example": null
-                    }},
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/service_registration_info_v2"}}},
                     "required": true
                 },
                 "description": "Registering a service is needed to:<ul><li>Get callbacks about available NearRT RICs.<\/li><li>Activate supervision of the service. If a service is inactive, its policies will automatically be deleted.<\/li><\/ul>Policies can be created even if the service is not registerred. This is a feature which it is optional to use.",
@@ -901,30 +713,15 @@
                 "responses": {
                     "200": {
                         "description": "Service updated",
-                        "content": {"*/*": {
-                            "schema": {
-                                "type": "object",
-                                "example": null
-                            },
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"type": "object"}}}
                     },
                     "201": {
                         "description": "Service created",
-                        "content": {"*/*": {
-                            "schema": {
-                                "type": "object",
-                                "example": null
-                            },
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"type": "object"}}}
                     },
                     "400": {
                         "description": "The ServiceRegistrationInfo is not accepted",
-                        "content": {"*/*": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "tags": ["Service Registry and Supervision"]
@@ -935,13 +732,11 @@
             "operationId": "info",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -950,13 +745,7 @@
             "operationId": "getStatusV1",
             "responses": {"200": {
                 "description": "Service is living",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "string",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {"*/*": {"schema": {"type": "string"}}}
             }},
             "tags": ["Health Check"]
         }},
@@ -966,24 +755,15 @@
             "responses": {
                 "200": {
                     "description": "Policy type",
-                    "content": {"*/*": {
-                        "schema": {"$ref": "#/components/schemas/policytype_v2"},
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"$ref": "#/components/schemas/policytype_v2"}}}
                 },
                 "404": {
                     "description": "Policy type is not found",
-                    "content": {"*/*": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "path",
                 "name": "policytype_id",
                 "required": true
@@ -995,13 +775,7 @@
             "operationId": "logfile",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {"text/plain;charset=UTF-8": {"schema": {"type": "object"}}}
             }},
             "tags": ["Actuator"]
         }},
@@ -1010,13 +784,11 @@
             "operationId": "health",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {
+                    "application/vnd.spring-boot.actuator.v3+json": {"schema": {"type": "object"}},
+                    "application/json": {"schema": {"type": "object"}},
+                    "application/vnd.spring-boot.actuator.v2+json": {"schema": {"type": "object"}}
+                }
             }},
             "tags": ["Actuator"]
         }},
@@ -1028,55 +800,37 @@
                 "responses": {
                     "200": {
                         "description": "Policy identities",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/policy_id_list_v2"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_id_list_v2"}}}
                     },
                     "404": {
                         "description": "Near-RT RIC or type not found",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "parameters": [
                     {
-                        "schema": {
-                            "type": "string",
-                            "example": null
-                        },
+                        "schema": {"type": "string"},
                         "in": "query",
                         "name": "policytype_id",
                         "description": "Select policies of a given policy type identity.",
                         "required": false
                     },
                     {
-                        "schema": {
-                            "type": "string",
-                            "example": null
-                        },
+                        "schema": {"type": "string"},
                         "in": "query",
                         "name": "ric_id",
                         "description": "Select policies of a given Near-RT RIC identity.",
                         "required": false
                     },
                     {
-                        "schema": {
-                            "type": "string",
-                            "example": null
-                        },
+                        "schema": {"type": "string"},
                         "in": "query",
                         "name": "service_id",
                         "description": "Select policies owned by a given service.",
                         "required": false
                     },
                     {
-                        "schema": {
-                            "type": "string",
-                            "example": null
-                        },
+                        "schema": {"type": "string"},
                         "in": "query",
                         "name": "type_name",
                         "description": "Select policies of types with the given type name (type identity has the format <typename_version>)",
@@ -1088,41 +842,26 @@
             "put": {
                 "summary": "Create or update a policy",
                 "requestBody": {
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/policy_info_v2"},
-                        "example": null
-                    }},
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_info_v2"}}},
                     "required": true
                 },
                 "operationId": "putPolicy",
                 "responses": {
                     "200": {
                         "description": "Policy updated",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/void"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "201": {
                         "description": "Policy created",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/void"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/void"}}}
                     },
                     "423": {
                         "description": "Near-RT RIC is not operational",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     },
                     "404": {
                         "description": "Near-RT RIC or policy type is not found",
-                        "content": {"application/json": {
-                            "schema": {"$ref": "#/components/schemas/error_information"},
-                            "example": null
-                        }}
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                     }
                 },
                 "tags": ["A1 Policy Management"]
@@ -1131,20 +870,14 @@
         "/r-app/near-rt-ric-status": {"post": {
             "summary": "Callback for Near-RT RIC status",
             "requestBody": {
-                "content": {"application/json": {
-                    "schema": {"$ref": "#/components/schemas/service_callback_info_v2"},
-                    "example": null
-                }},
+                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/service_callback_info_v2"}}},
                 "required": true
             },
             "description": "The URL to this call is registered at Service registration.",
             "operationId": "serviceCallback",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"application/json": {
-                    "schema": {"$ref": "#/components/schemas/void"},
-                    "example": null
-                }}
+                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/void"}}}
             }},
             "tags": ["Callbacks"]
         }},
@@ -1154,34 +887,19 @@
             "responses": {
                 "200": {
                     "description": "Not used",
-                    "content": {"*/*": {
-                        "schema": {"$ref": "#/components/schemas/void"},
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"$ref": "#/components/schemas/void"}}}
                 },
                 "204": {
                     "description": "Service unregistered",
-                    "content": {"*/*": {
-                        "schema": {
-                            "type": "object",
-                            "example": null
-                        },
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"type": "object"}}}
                 },
                 "404": {
                     "description": "Service not found",
-                    "content": {"*/*": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"*/*": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "path",
                 "name": "service_id",
                 "required": true
@@ -1193,13 +911,7 @@
             "operationId": "heapdump",
             "responses": {"200": {
                 "description": "OK",
-                "content": {"*/*": {
-                    "schema": {
-                        "type": "object",
-                        "example": null
-                    },
-                    "example": null
-                }}
+                "content": {"application/octet-stream": {"schema": {"type": "object"}}}
             }},
             "tags": ["Actuator"]
         }},
@@ -1209,24 +921,15 @@
             "responses": {
                 "200": {
                     "description": "Policy status",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/policy_status_info_v2"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_status_info_v2"}}}
                 },
                 "404": {
                     "description": "Policy is not found",
-                    "content": {"application/json": {
-                        "schema": {"$ref": "#/components/schemas/error_information"},
-                        "example": null
-                    }}
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/error_information"}}}
                 }
             },
             "parameters": [{
-                "schema": {
-                    "type": "string",
-                    "example": null
-                },
+                "schema": {"type": "string"},
                 "in": "path",
                 "name": "policy_id",
                 "required": true
@@ -1243,20 +946,12 @@
         "title": "A1 Policy Management Service",
         "version": "1.1.0"
     },
-    "tags": [
-        {"name": "Service Registry and Supervision"},
-        {"name": "A1 Policy Management"},
-        {"name": "NearRT-RIC Repository"},
-        {"name": "Callbacks"},
-        {"name": "Health Check"},
-        {
-            "name": "Actuator",
-            "description": "Monitor and interact",
-            "externalDocs": {
-                "description": "Spring Boot Actuator Web API Documentation",
-                "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
-            }
-        },
-        {"name": "Management of configuration"}
-    ]
+    "tags": [{
+        "name": "Actuator",
+        "description": "Monitor and interact",
+        "externalDocs": {
+            "description": "Spring Boot Actuator Web API Documentation",
+            "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+        }
+    }]
 }

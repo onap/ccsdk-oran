@@ -43,8 +43,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -78,7 +78,7 @@ class ConfigurationControllerTest {
     private static File configFile;
 
     @BeforeAll
-    private static void setup() throws Exception {
+    static void setup() throws Exception {
         Field f1 = RefreshConfigTask.class.getDeclaredField("configRefreshInterval");
         f1.setAccessible(true);
         f1.set(null, Duration.ofSeconds(1));

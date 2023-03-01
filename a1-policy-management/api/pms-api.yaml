@@ -31,17 +31,11 @@ info:
 servers:
 - url: /
 tags:
-- name: Service Registry and Supervision
-- name: A1 Policy Management
-- name: NearRT-RIC Repository
-- name: Callbacks
-- name: Health Check
 - description: Monitor and interact
   externalDocs:
     description: Spring Boot Actuator Web API Documentation
     url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
   name: Actuator
-- name: Management of configuration
 paths:
   /a1-policy/v2/policy-instances:
     get:
@@ -101,11 +95,20 @@ paths:
       - A1 Policy Management
   /actuator/threaddump:
     get:
-      operationId: threaddump_2
+      operationId: threaddump
       responses:
         "200":
           content:
-            '*/*':
+            text/plain;charset=UTF-8:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -131,7 +134,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -144,7 +153,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -197,7 +212,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -331,7 +352,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -394,7 +421,21 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                additionalProperties:
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+                  type: object
+                type: object
+            application/json:
+              schema:
+                additionalProperties:
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+                  type: object
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 additionalProperties:
                   additionalProperties:
@@ -407,7 +448,7 @@ paths:
       - Actuator
   /actuator/loggers/{name}:
     get:
-      operationId: loggers-name_2
+      operationId: loggers-name
       parameters:
       - explode: false
         in: path
@@ -419,7 +460,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -427,7 +474,7 @@ paths:
       tags:
       - Actuator
     post:
-      operationId: loggers-name
+      operationId: loggers-name_2
       parameters:
       - explode: false
         in: path
@@ -436,6 +483,19 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              enum:
+              - TRACE
+              - DEBUG
+              - INFO
+              - WARN
+              - ERROR
+              - FATAL
+              - "OFF"
+              type: string
       responses:
         "200":
           content:
@@ -484,7 +544,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -593,7 +659,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -646,7 +718,7 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            text/plain;charset=UTF-8:
               schema:
                 type: object
           description: OK
@@ -659,7 +731,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
               schema:
                 type: object
           description: OK
@@ -817,7 +895,7 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/octet-stream:
               schema:
                 type: object
           description: OK

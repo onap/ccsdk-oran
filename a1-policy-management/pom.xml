@@ -23,8 +23,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-26-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <artifactId>spring-boot-30-starter-parent</artifactId>
+        <version>2.5.4-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -32,23 +32,21 @@
     <version>1.5.0-SNAPSHOT</version>
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
-        <java.version.source>11</java.version.source>
-        <java.version.target>11</java.version.target>
-        <springfox.version>3.0.0</springfox.version>
+        <java.version.source>17</java.version.source>
+        <java.version.target>17</java.version.target>
         <gson.version>2.10.1</gson.version>
         <json.version>20220924</json.version>
         <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>        
         <spotless-maven-plugin.version>1.24.3</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
-        <snakeyaml.version>1.32</snakeyaml.version><!-- overrides version included via spring-boot-starter to address CVE-2022-38750 CVE-2022-38752 CVE-2022-25857. Remove later if possible -->
+        <springdoc.version>2.0.2</springdoc.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-        <swagger-codegen-maven-plugin.version>3.0.11</swagger-codegen-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <software.amazon.awssdk.version>2.19.17</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.20.12</software.amazon.awssdk.version>
         <allowskiptests>false</allowskiptests>
     </properties>
     <dependencies>
@@ -84,20 +82,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-web</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spi</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-core</artifactId>
-            <version>${springfox.version}</version>
+        <dependency> 
+            <!-- May be possible to remove this later when ccsdk parent bom stabilizes -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -146,18 +135,6 @@
             <artifactId>s3</artifactId>
             <version>${software.amazon.awssdk.version}</version>
         </dependency>
-        <!--REQUIRED TO GENERATE DOCUMENTATION -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!-- For development help -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -174,9 +151,8 @@
         <!-- TEST -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.6</version>
-            <scope>test</scope>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
