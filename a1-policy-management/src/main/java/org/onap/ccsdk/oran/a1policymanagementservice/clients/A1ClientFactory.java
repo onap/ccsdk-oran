@@ -84,7 +84,7 @@ public class A1ClientFactory {
         } else if (version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1
                 || version == A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1
                 || version == A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0) {
-            return new CcsdkA1AdapterClient(version, ric.getConfig(), getControllerConfig(ric), this.restClientFactory);
+            return new CcsdkA1AdapterClient(version, ric.getConfig(), this.restClientFactory);
         } else if (version == A1ProtocolType.CUSTOM_PROTOCOL) {
             return createCustomAdapter(ric);
         } else {
@@ -94,17 +94,12 @@ public class A1ClientFactory {
     }
 
     private ControllerConfig getControllerConfig(Ric ric) throws ServiceException {
-        String controllerName = ric.getConfig().getControllerName();
-        if (controllerName.isEmpty()) {
+        ControllerConfig controllerConfig = ric.getConfig().getControllerConfig();
+        if (controllerConfig == null) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException("No controller configured for Near-RT RIC: " + ric.id());
         }
-        try {
-            return this.appConfig.getControllerConfig(controllerName);
-        } catch (ServiceException e) {
-            ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
-            throw e;
-        }
+        return controllerConfig;
     }
 
     private A1Client createCustomAdapter(Ric ric) throws ServiceException {
@@ -127,7 +122,7 @@ public class A1ClientFactory {
     }
 
     private void assertNoControllerConfig(Ric ric, A1ProtocolType version) throws ServiceException {
-        if (!ric.getConfig().getControllerName().isEmpty()) {
+        if (ric.getConfig().getControllerConfig() != null) {
             ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
             throw new ServiceException(
                     "Controller config should be empty, ric: " + ric.id() + " when using protocol version: " + version);

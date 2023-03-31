@@ -27,9 +27,10 @@ import lombok.ToString;
 
 @Builder
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class ControllerConfig {
+    @EqualsAndHashCode.Include
     private String name;
 
     private String baseUrl;

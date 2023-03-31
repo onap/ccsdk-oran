@@ -112,7 +112,6 @@ class RicSynchronizationTaskTest {
         ric1 = new Ric(RicConfig.builder() //
                 .ricId(RIC_1_NAME) //
                 .baseUrl("baseUrl1") //
-                .controllerName("controllerName") //
                 .build());
         policy1 = createPolicy("policyId1", false);
         policyTypes = new PolicyTypes(appConfig);

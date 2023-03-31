@@ -36,7 +36,7 @@ public class RicConfig {
     private String ricId;
 
     @Builder.Default
-    private String controllerName = "";
+    private ControllerConfig controllerConfig = null;
 
     private String baseUrl;
 

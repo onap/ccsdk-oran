@@ -24,26 +24,16 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Vector;
 
-import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
-import reactor.core.publisher.Mono;
 
 public class A1ClientHelper {
 
     private A1ClientHelper() {}
 
-    protected static Mono<String> createOutputJsonResponse(String key, String value) {
-        JSONObject paramsJson = new JSONObject();
-        paramsJson.put(key, value);
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("output", paramsJson);
-        return Mono.just(responseJson.toString());
-    }
-
-    protected static Ric createRic(String url) {
+    private static Ric createRic(String url) {
         RicConfig cfg = RicConfig.builder().ricId("ric") //
                 .baseUrl(url) //
                 .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
@@ -51,7 +41,7 @@ public class A1ClientHelper {
         return new Ric(cfg);
     }
 
-    protected static Policy createPolicy(String nearRtRicUrl, String policyId, String json, String type) {
+    public static Policy createPolicy(String nearRtRicUrl, String policyId, String json, String type) {
         String callbackUrl = "https://test.com";
         return Policy.builder() //
                 .id(policyId) //
@@ -65,14 +55,7 @@ public class A1ClientHelper {
                 .build();
     }
 
-    protected static PolicyType createPolicyType(String name) {
+    public static PolicyType createPolicyType(String name) {
         return PolicyType.builder().id(name).schema("schema").build();
-    }
-
-    protected static String getCreateSchema(String policyType, String policyTypeId) {
-        JSONObject obj = new JSONObject(policyType);
-        JSONObject schemaObj = obj.getJSONObject("create_schema");
-        schemaObj.put("title", policyTypeId);
-        return schemaObj.toString();
     }
 }

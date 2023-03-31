@@ -48,8 +48,7 @@ public class MetersTest {
     private static final PolicyType POLICY_TYPE_1 = PolicyType.builder().id(POLICY_TYPE_1_NAME).schema("").build();
 
     private static final Ric RIC_1 = new Ric(RicConfig.builder().ricId("ric_1").baseUrl("baseUrl1")
-            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))).controllerName("controllerName")
-            .build());
+            .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))).build());
 
     private static final String POLICY_1_ID = "policyId1";
     private static final Policy POLICY_1 = Policy.builder().id(POLICY_1_ID).json("").ownerServiceId("service")
