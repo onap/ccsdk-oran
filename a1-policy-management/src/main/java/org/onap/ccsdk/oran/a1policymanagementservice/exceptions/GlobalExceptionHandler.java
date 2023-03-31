@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger loggerx = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @ExceptionHandler(ServiceException.class)
     public final ResponseEntity<Object> handleServiceException(ServiceException ex) {
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
-        logger.error("Runtime exception {}", ex.getMessage());
+        loggerx.error("Runtime exception {}", ex.getMessage());
         return ErrorResponse.create(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

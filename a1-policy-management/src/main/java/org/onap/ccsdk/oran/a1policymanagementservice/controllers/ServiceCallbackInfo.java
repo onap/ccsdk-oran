@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 @Schema(name = "service_callback_info_v2",
         description = "Information transferred as in Service callbacks (callback_url)")
@@ -37,12 +38,12 @@ public class ServiceCallbackInfo {
         AVAILABLE
     }
 
-    @Schema(name = "ric_id", description = "identity of a Near-RT RIC", required = true)
+    @Schema(name = "ric_id", description = "identity of a Near-RT RIC", requiredMode = RequiredMode.REQUIRED)
     @SerializedName("ric_id")
     @JsonProperty(value = "ric_id", required = true)
     public String ricId;
 
-    @Schema(name = "event_type", description = EVENT_TYPE_DESCRIPTION, required = true)
+    @Schema(name = "event_type", description = EVENT_TYPE_DESCRIPTION, requiredMode = RequiredMode.REQUIRED)
     @SerializedName("event_type")
     @JsonProperty(value = "event_type", required = true)
     public EventType eventType;

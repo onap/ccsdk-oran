@@ -36,13 +36,13 @@
         <java.version.target>17</java.version.target>
         <gson.version>2.10.1</gson.version>
         <json.version>20220924</json.version>
-        <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version>        
+        <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version> 
         <spotless-maven-plugin.version>1.24.3</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
         <springdoc.version>2.0.2</springdoc.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
-        <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
+        <surefire-maven-plugin.version>3.0.0-M8</surefire-maven-plugin.version>
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
@@ -262,20 +262,15 @@
                 <configuration>
                     <skipTests>${allowskiptests}</skipTests>
                     <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
-                        <disable>false</disable>
-                        <version>3.0</version>
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
                         <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
                     <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
-                        <disable>false</disable>
-                        <encoding>UTF-8</encoding>
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
                     <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
-                        <disable>false</disable>
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
                         <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>

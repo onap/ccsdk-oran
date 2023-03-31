@@ -113,8 +113,9 @@ class RefreshConfigTaskTest {
         verify(refreshTaskUnderTest.rics, times(2)).put(any(Ric.class));
 
         java.util.Collection<RicConfig> ricConfigs = appConfig.getRicConfigs();
-        assertThat(ricConfigs).isNotNull();
-        assertThat(ricConfigs).hasSize(2);
+        assertThat(ricConfigs)
+                .isNotNull()
+                .hasSize(2);
     }
 
     @Test

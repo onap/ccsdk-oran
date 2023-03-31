@@ -24,11 +24,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+
 
 @Schema(name = "service_registration_info_v2", description = "Information for one service")
 public class ServiceRegistrationInfo {
 
-    @Schema(description = "identity of the service", required = true)
+    @Schema(description = "identity of the service", requiredMode = RequiredMode.REQUIRED)
     @SerializedName("service_id")
     @JsonProperty("service_id")
     public String serviceId = "";
@@ -42,7 +44,7 @@ public class ServiceRegistrationInfo {
     @JsonProperty("keep_alive_interval_seconds")
     public long keepAliveIntervalSeconds = 0;
 
-    @Schema(description = "callback for notifying of Near-RT RIC state changes", required = false, defaultValue = "")
+    @Schema(description = "callback for notifying of Near-RT RIC state changes", requiredMode = RequiredMode.NOT_REQUIRED, defaultValue = "")
     @SerializedName("callback_url")
     @JsonProperty("callback_url")
     public String callbackUrl = "";

@@ -42,7 +42,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 
 @ExtendWith(MockitoExtension.class)
-public class MetersTest {
+class MetersTest {
 
     private static final String POLICY_TYPE_1_NAME = "type1";
     private static final PolicyType POLICY_TYPE_1 = PolicyType.builder().id(POLICY_TYPE_1_NAME).schema("").build();
