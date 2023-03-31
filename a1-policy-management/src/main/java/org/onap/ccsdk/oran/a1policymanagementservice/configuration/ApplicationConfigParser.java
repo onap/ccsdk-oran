@@ -81,8 +81,9 @@ public class ApplicationConfigParser {
             throw new ServiceException("Missing root configuration \"" + CONFIG + "\" in JSON: " + root);
         }
 
-        List<RicConfig> ricConfigs = parseRics(pmsConfigJson);
         Map<String, ControllerConfig> controllerConfigs = parseControllerConfigs(pmsConfigJson);
+        List<RicConfig> ricConfigs = parseRics(pmsConfigJson, controllerConfigs);
+
         checkConfigurationConsistency(ricConfigs, controllerConfigs);
 
         return ConfigParserResult.builder() //
@@ -133,22 +134,26 @@ public class ApplicationConfigParser {
             if (!ricNames.add(ric.getRicId())) {
                 throw new ServiceException("Configuration error, more than one RIC with name: " + ric.getRicId());
             }
-            if (!ric.getControllerName().isEmpty() && controllerConfigs.get(ric.getControllerName()) == null) {
-                throw new ServiceException(
-                        "Configuration error, controller configuration not found: " + ric.getControllerName());
-            }
         }
     }
 
-    private List<RicConfig> parseRics(JsonObject config) throws ServiceException {
+    private List<RicConfig> parseRics(JsonObject config, Map<String, ControllerConfig> controllerConfigs)
+            throws ServiceException {
         List<RicConfig> result = new ArrayList<>();
         for (JsonElement ricElem : getAsJsonArray(config, "ric")) {
             JsonObject ricJsonObj = ricElem.getAsJsonObject();
+            String controllerName = getString(ricJsonObj, CONTROLLER, "");
+            ControllerConfig controllerConfig = controllerConfigs.get(controllerName);
+            if (!controllerName.isEmpty() && controllerConfig == null) {
+                throw new ServiceException(
+                        "Configuration error, controller configuration not found: " + controllerName);
+            }
+
             RicConfig ricConfig = RicConfig.builder() //
                     .ricId(get(ricJsonObj, "name", "id", "ricId").getAsString()) //
                     .baseUrl(get(ricJsonObj, "baseUrl").getAsString()) //
                     .managedElementIds(parseManagedElementIds(get(ricJsonObj, "managedElementIds").getAsJsonArray())) //
-                    .controllerName(getString(ricJsonObj, CONTROLLER, ""))
+                    .controllerConfig(controllerConfig)
                     .customAdapterClass(getString(ricJsonObj, "customAdapterClass", "")) //
                     .build();
             if (!ricConfig.getBaseUrl().isEmpty()) {

@@ -100,8 +100,6 @@ public class ApplicationConfig {
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
-    private Map<String, ControllerConfig> controllerConfigs = new HashMap<>();
-
     private WebClientConfig webClientConfig = null;
 
     public synchronized Collection<RicConfig> getRicConfigs() {
@@ -128,14 +126,6 @@ public class ApplicationConfig {
                     .build();
         }
         return this.webClientConfig;
-    }
-
-    public synchronized ControllerConfig getControllerConfig(String name) throws ServiceException {
-        ControllerConfig controllerConfig = this.controllerConfigs.get(name);
-        if (controllerConfig == null) {
-            throw new ServiceException("Could not find controller config: " + name);
-        }
-        return controllerConfig;
     }
 
     public synchronized RicConfig getRic(String ricId) throws ServiceException {
@@ -166,7 +156,6 @@ public class ApplicationConfig {
             ApplicationConfigParser.ConfigParserResult parserResult) {
 
         Collection<RicConfigUpdate> modifications = new ArrayList<>();
-        this.controllerConfigs = parserResult.getControllerConfigs();
 
         Map<String, RicConfig> newRicConfigs = new HashMap<>();
         for (RicConfig newConfig : parserResult.getRicConfigs()) {

@@ -85,7 +85,6 @@ public class CcsdkA1AdapterClient implements A1Client {
 
     private static final String GET_POLICY_RPC = "getA1Policy";
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private final ControllerConfig controllerConfig;
     private final AsyncRestClient restClient;
     private final RicConfig ricConfig;
     private final A1ProtocolType protocolType;
@@ -103,10 +102,10 @@ public class CcsdkA1AdapterClient implements A1Client {
      *
      * @throws IllegalArgumentException when the protocolType is wrong.
      */
-    public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
+    public CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig,
             AsyncRestClientFactory restClientFactory) {
-        this(protocolType, ricConfig, controllerConfig,
-                restClientFactory.createRestClientNoHttpProxy(controllerConfig.getBaseUrl() + "/rests/operations"));
+        this(protocolType, ricConfig, restClientFactory
+                .createRestClientNoHttpProxy(ricConfig.getControllerConfig().getBaseUrl() + "/rests/operations"));
     }
 
     /**
@@ -123,16 +122,15 @@ public class CcsdkA1AdapterClient implements A1Client {
      *
      * @throws IllegalArgumentException when the protocolType is illegal.
      */
-    CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, ControllerConfig controllerConfig,
-            AsyncRestClient restClient) {
+    CcsdkA1AdapterClient(A1ProtocolType protocolType, RicConfig ricConfig, AsyncRestClient restClient) {
         if (A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1.equals(protocolType) //
                 || A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1.equals(protocolType) //
                 || A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0.equals(protocolType)) {
             this.restClient = restClient;
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
-            this.controllerConfig = controllerConfig;
-            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(), controllerConfig);
+            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(),
+                    ricConfig.getControllerConfig());
         } else {
             logger.error("Not supported protocoltype: {}", protocolType);
             throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);
@@ -284,10 +282,10 @@ public class CcsdkA1AdapterClient implements A1Client {
 
         final String inputJsonString = A1AdapterJsonHelper.createInputJsonString(inputParams);
         logger.debug("POST inputJsonString = {}", inputJsonString);
-
+        ControllerConfig controllerConfig = this.ricConfig.getControllerConfig();
         return restClient
-                .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, this.controllerConfig.getUserName(),
-                        this.controllerConfig.getPassword()) //
+                .postWithAuthHeader(controllerUrl(rpcName), inputJsonString, controllerConfig.getUserName(),
+                        controllerConfig.getPassword()) //
                 .flatMap(resp -> extractResponseBody(resp, ricUrl));
     }
 

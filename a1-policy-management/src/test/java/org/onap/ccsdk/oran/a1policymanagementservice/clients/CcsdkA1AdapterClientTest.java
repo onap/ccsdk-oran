@@ -35,6 +35,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1Protocol
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterOutput;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.CcsdkA1AdapterClient.AdapterRequest;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -85,7 +88,7 @@ class CcsdkA1AdapterClientTest {
     void createClientWithWrongProtocol_thenErrorIsThrown() {
         AsyncRestClient asyncRestClient = new AsyncRestClient("", null, null, new SecurityContext(""));
         assertThrows(IllegalArgumentException.class, () -> {
-            new CcsdkA1AdapterClient(A1ProtocolType.STD_V1_1, null, null, asyncRestClient);
+            new CcsdkA1AdapterClient(A1ProtocolType.STD_V1_1, null, asyncRestClient);
         });
     }
 
@@ -93,17 +96,26 @@ class CcsdkA1AdapterClientTest {
     @DisplayName("test get Policy Type Identities STD V1")
     void getPolicyTypeIdentities_STD_V1() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
         List<String> policyTypeIds = clientUnderTest.getPolicyTypeIdentities().block();
         assertEquals(1, policyTypeIds.size(), "should hardcoded to one");
         assertEquals("", policyTypeIds.get(0), "should hardcoded to empty");
     }
 
+    private Ric createRic(String url) {
+        RicConfig cfg = RicConfig.builder().ricId("ric") //
+                .baseUrl(url) //
+                .managedElementIds(new Vector<String>(Arrays.asList("kista_1", "kista_2"))) //
+                .controllerConfig(controllerConfig()) //
+                .build();
+        return new Ric(cfg);
+    }
+
     private void testGetPolicyTypeIdentities(A1ProtocolType protocolType, String expUrl) {
         clientUnderTest = new CcsdkA1AdapterClient(protocolType, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         String response = createOkResponseWithBody(Arrays.asList(POLICY_TYPE_1_ID));
         whenAsyncPostThenReturn(Mono.just(response));
@@ -137,8 +149,8 @@ class CcsdkA1AdapterClientTest {
     void getTypeSchema_STD_V1() {
 
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         String policyType = clientUnderTest.getPolicyTypeSchema("").block();
 
@@ -148,8 +160,8 @@ class CcsdkA1AdapterClientTest {
     private void testGetTypeSchema(A1ProtocolType protocolType, String expUrl, String policyTypeId,
             String getSchemaResponseFile) throws IOException {
         clientUnderTest = new CcsdkA1AdapterClient(protocolType, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         String ricResponse = loadFile(getSchemaResponseFile);
         JsonElement elem = gson().fromJson(ricResponse, JsonElement.class);
@@ -200,8 +212,8 @@ class CcsdkA1AdapterClientTest {
 
     private void getPolicyIdentities(A1ProtocolType protocolType, String... expUrls) {
         clientUnderTest = new CcsdkA1AdapterClient(protocolType, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
         String resp = createOkResponseWithBody(Arrays.asList("xxx"));
         whenAsyncPostThenReturn(Mono.just(resp));
 
@@ -242,8 +254,8 @@ class CcsdkA1AdapterClientTest {
 
     private void putPolicy(A1ProtocolType protocolType, String expUrl) {
         clientUnderTest = new CcsdkA1AdapterClient(protocolType, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         whenPostReturnOkResponse();
 
@@ -285,8 +297,8 @@ class CcsdkA1AdapterClientTest {
     @DisplayName("test post Rejected")
     void postRejected() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         final String policyJson = "{}";
         AdapterOutput adapterOutput = new AdapterOutput(HttpStatus.BAD_REQUEST.value(), "NOK");
@@ -308,8 +320,8 @@ class CcsdkA1AdapterClientTest {
 
     private void deleteAllPolicies(A1ProtocolType protocolType, String expUrl) {
         clientUnderTest = new CcsdkA1AdapterClient(protocolType, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
         String resp = createOkResponseWithBody(Arrays.asList("xxx"));
         whenAsyncPostThenReturn(Mono.just(resp));
 
@@ -347,8 +359,8 @@ class CcsdkA1AdapterClientTest {
     @DisplayName("test get Version OSC")
     void getVersion_OSC() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, // Version irrelevant here
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
 
         whenAsyncPostThenReturn(Mono.error(new Exception("Error"))).thenReturn(Mono.just(createOkResponseString(true)));
 
@@ -361,8 +373,8 @@ class CcsdkA1AdapterClientTest {
     @DisplayName("test Get Status")
     void testGetStatus() {
         clientUnderTest = new CcsdkA1AdapterClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V2_0_0, //
-                A1ClientHelper.createRic(RIC_1_URL).getConfig(), //
-                controllerConfig(), asyncRestClientMock);
+                createRic(RIC_1_URL).getConfig(), //
+                asyncRestClientMock);
         whenPostReturnOkResponse();
 
         Policy policy = A1ClientHelper.createPolicy(RIC_1_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID);

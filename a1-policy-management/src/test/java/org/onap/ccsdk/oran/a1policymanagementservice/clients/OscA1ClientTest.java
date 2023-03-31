@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -112,8 +113,8 @@ class OscA1ClientTest {
 
         Mono<String> returnedMono = clientUnderTest.getPolicyTypeSchema(POLICY_TYPE_1_ID);
         verify(asyncRestClientMock).get(POLICYTYPES_URL + POLICY_TYPE_1_ID);
-        StepVerifier.create(returnedMono).expectNext(A1ClientHelper.getCreateSchema(policyType, POLICY_TYPE_1_ID))
-                .expectComplete().verify();
+        StepVerifier.create(returnedMono).expectNext(getCreateSchema(policyType, POLICY_TYPE_1_ID)).expectComplete()
+                .verify();
     }
 
     @Test
@@ -181,5 +182,12 @@ class OscA1ClientTest {
         verify(asyncRestClientMock).delete(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID);
         verify(asyncRestClientMock).get(POLICYTYPES_URL + POLICY_TYPE_2_ID + POLICIES);
         verify(asyncRestClientMock).delete(POLICYTYPES_URL + POLICY_TYPE_2_ID + POLICIES + "/" + POLICY_2_ID);
+    }
+
+    private String getCreateSchema(String policyType, String policyTypeId) {
+        JSONObject obj = new JSONObject(policyType);
+        JSONObject schemaObj = obj.getJSONObject("create_schema");
+        schemaObj.put("title", policyTypeId);
+        return schemaObj.toString();
     }
 }

@@ -68,10 +68,14 @@ class A1ClientFactoryTest {
     private A1ClientFactory factoryUnderTest;
 
     private static RicConfig ricConfig(String controllerName, String customAdapter) {
+        ControllerConfig controllerConfig = null;
+        if (!controllerName.isEmpty()) {
+            controllerConfig = ControllerConfig.builder().baseUrl("baseUrl").name(controllerName).build();
+        }
         return RicConfig.builder() //
                 .ricId(RIC_NAME) //
                 .baseUrl("baseUrl") //
-                .controllerName(controllerName) //
+                .controllerConfig(controllerConfig) //
                 .customAdapterClass(customAdapter) //
                 .build();
     }
@@ -175,12 +179,9 @@ class A1ClientFactoryTest {
     @DisplayName("test create check types controllers")
     void create_check_types_controllers() throws ServiceException {
         this.ric = new Ric(ricConfig("anythingButEmpty"));
-        whenGetGetControllerConfigReturn();
 
-        whenGetGetControllerConfigReturn();
         assertTrue(createClient(A1ProtocolType.CCSDK_A1_ADAPTER_STD_V1_1) instanceof CcsdkA1AdapterClient);
 
-        whenGetGetControllerConfigReturn();
         assertTrue(createClient(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1) instanceof CcsdkA1AdapterClient);
     }
 
@@ -192,16 +193,6 @@ class A1ClientFactoryTest {
 
     private void whenGetProtocolVersionReturn(A1Client clientMock, A1ProtocolType protocol) {
         when(clientMock.getProtocolVersion()).thenReturn(Mono.just(protocol));
-    }
-
-    private void whenGetGetControllerConfigReturn() throws ServiceException {
-        ControllerConfig controllerCfg = ControllerConfig.builder() //
-                .name("name") //
-                .baseUrl("baseUrl") //
-                .password("pass") //
-                .userName("user") //
-                .build();
-        when(applicationConfigMock.getControllerConfig(any())).thenReturn(controllerCfg);
     }
 
 }
