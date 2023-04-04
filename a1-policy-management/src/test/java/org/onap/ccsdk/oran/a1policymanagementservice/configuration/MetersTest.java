@@ -22,9 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
-
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Vector;
@@ -40,6 +37,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
+
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 @ExtendWith(MockitoExtension.class)
 class MetersTest {

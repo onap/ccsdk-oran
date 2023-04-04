@@ -26,13 +26,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Holds information about a Near-RT RIC.

@@ -25,10 +25,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -44,6 +40,10 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 
 @ExtendWith(MockitoExtension.class)
 class ConfigurationFileTest {

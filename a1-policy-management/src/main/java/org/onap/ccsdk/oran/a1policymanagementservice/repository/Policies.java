@@ -34,9 +34,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.Vector;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.datastore.DataStore;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
@@ -44,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.Builder;
+import lombok.Getter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.annotation.Nullable;

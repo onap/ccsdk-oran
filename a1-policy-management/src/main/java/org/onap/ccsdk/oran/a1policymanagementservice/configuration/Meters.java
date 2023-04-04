@@ -20,12 +20,12 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import io.micrometer.core.instrument.MeterRegistry;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.springframework.stereotype.Component;
+
+import io.micrometer.core.instrument.MeterRegistry;
 
 /**
  * The aim is to collect statistical values from the A1 Policy Management

@@ -29,9 +29,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
-
 import java.time.Duration;
 import java.time.Instant;
 
@@ -52,6 +49,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.LoggingUtils;
+
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)

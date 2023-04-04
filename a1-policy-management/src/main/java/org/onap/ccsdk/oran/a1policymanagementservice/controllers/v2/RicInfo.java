@@ -23,9 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.util.Collection;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "ric_info_v2", description = "Information for a Near-RT RIC")
 public class RicInfo {
@@ -35,12 +35,13 @@ public class RicInfo {
         UNAVAILABLE, AVAILABLE, SYNCHRONIZING, CONSISTENCY_CHECK
     }
 
-    private static final String STATE_DESCRIPTION = """
-            State for the Near-RT RIC, values:
-            UNAVAILABLE: The Near-RT RIC is not available, information may be inconsistent
-            AVAILABLE: The normal state. Policies can be configured.
-            SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured.
-            CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.""";
+    private static final String STATE_DESCRIPTION =
+            """
+                    State for the Near-RT RIC, values:
+                    UNAVAILABLE: The Near-RT RIC is not available, information may be inconsistent
+                    AVAILABLE: The normal state. Policies can be configured.
+                    SYNCHRONIZING: The Policy Management Service is synchronizing the view of the Near-RT RIC. Policies cannot be configured.
+                    CONSISTENCY_CHECK: A consistency check between the Policy Management Service and the Near-RT RIC. Policies cannot be configured.""";
 
     @Schema(description = "identity of the Near-RT RIC")
     @SerializedName("ric_id")

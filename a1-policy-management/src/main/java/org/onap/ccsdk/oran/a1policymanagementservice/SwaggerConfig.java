@@ -20,16 +20,16 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ConfigurationController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositoryController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ServiceController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusController;
+
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 
 /**
  * Swagger configuration class that uses swagger2 documentation type and scans

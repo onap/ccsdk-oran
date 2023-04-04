@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import lombok.Setter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -40,6 +38,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import lombok.Setter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoSink;

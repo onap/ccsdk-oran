@@ -23,9 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.time.Instant;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "policy_status_info_v2", description = "Status for one A1-P Policy")
 public class PolicyStatusInfo {

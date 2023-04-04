@@ -20,11 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
-import io.netty.channel.ChannelOption;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
-
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,6 +36,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import io.netty.channel.ChannelOption;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.ProxyProvider;

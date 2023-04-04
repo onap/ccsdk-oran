@@ -24,8 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.lang.invoke.MethodHandles;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -36,6 +34,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import reactor.core.publisher.Mono;
 
 public class ErrorResponse {

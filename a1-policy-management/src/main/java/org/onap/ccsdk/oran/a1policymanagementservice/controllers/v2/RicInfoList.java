@@ -23,9 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.util.Collection;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "ric_info_list_v2", description = "List of Near-RT RIC information")
 public class RicInfoList {

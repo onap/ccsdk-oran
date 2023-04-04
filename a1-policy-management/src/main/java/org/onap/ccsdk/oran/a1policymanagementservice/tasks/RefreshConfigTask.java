@@ -27,9 +27,6 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Properties;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
@@ -48,6 +45,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

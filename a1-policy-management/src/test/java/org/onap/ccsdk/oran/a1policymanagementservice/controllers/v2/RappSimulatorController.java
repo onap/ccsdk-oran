@@ -23,21 +23,12 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-
-import lombok.Getter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
@@ -50,6 +41,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 
 @RestController("RappCallbacksController")
 @Tag( //

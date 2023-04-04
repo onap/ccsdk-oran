@@ -20,9 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 
-import lombok.Getter;
-
 import org.springframework.http.HttpStatus;
+
+import lombok.Getter;
 
 public class ServiceException extends Exception {
 

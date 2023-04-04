@@ -20,10 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +42,10 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConf
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
+
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
 /**
  * Factory for a generic reactive REST client.

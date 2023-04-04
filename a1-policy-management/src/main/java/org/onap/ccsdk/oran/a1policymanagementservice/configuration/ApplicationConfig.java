@@ -27,13 +27,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Getter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import lombok.Getter;
 import reactor.core.publisher.Flux;
 import reactor.netty.transport.ProxyProvider;
 

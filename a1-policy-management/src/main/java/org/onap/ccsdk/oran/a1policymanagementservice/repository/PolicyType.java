@@ -22,13 +22,13 @@ package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
 import java.lang.invoke.MethodHandles;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 public class PolicyType {

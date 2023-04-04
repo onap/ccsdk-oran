@@ -38,14 +38,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+
+import lombok.Builder;
+import lombok.Getter;
 
 /**
  * Parser for the Json representing of the component configuration.

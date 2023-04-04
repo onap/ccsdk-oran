@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import lombok.Getter;
-
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
@@ -42,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import lombok.Getter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
