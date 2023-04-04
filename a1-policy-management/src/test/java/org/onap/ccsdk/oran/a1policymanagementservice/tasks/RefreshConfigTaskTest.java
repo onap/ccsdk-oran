@@ -60,6 +60,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
@@ -113,9 +114,7 @@ class RefreshConfigTaskTest {
         verify(refreshTaskUnderTest.rics, times(2)).put(any(Ric.class));
 
         java.util.Collection<RicConfig> ricConfigs = appConfig.getRicConfigs();
-        assertThat(ricConfigs)
-                .isNotNull()
-                .hasSize(2);
+        assertThat(ricConfigs).isNotNull().hasSize(2);
     }
 
     @Test

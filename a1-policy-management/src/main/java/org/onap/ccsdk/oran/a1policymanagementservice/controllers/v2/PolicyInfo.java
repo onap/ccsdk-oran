@@ -53,7 +53,8 @@ public class PolicyInfo {
             + " This can be used to group the policies (it is possible to get all policies associated to a service)."
             + " Note that the service does not need to be registered.";
 
-    @Schema(name = "service_id", description = SERVICE_ID_DESCRIPTION, requiredMode = RequiredMode.NOT_REQUIRED, defaultValue = "")
+    @Schema(name = "service_id", description = SERVICE_ID_DESCRIPTION, requiredMode = RequiredMode.NOT_REQUIRED,
+            defaultValue = "")
     @JsonProperty(value = "service_id", required = false)
     @SerializedName("service_id")
     public String serviceId = "";
@@ -65,8 +66,8 @@ public class PolicyInfo {
     @SerializedName("transient")
     public boolean isTransient = false;
 
-    @Schema(name = "status_notification_uri", description = "Callback URI for policy status updates", requiredMode = RequiredMode.NOT_REQUIRED,
-            defaultValue = "")
+    @Schema(name = "status_notification_uri", description = "Callback URI for policy status updates",
+            requiredMode = RequiredMode.NOT_REQUIRED, defaultValue = "")
     @JsonProperty(value = "status_notification_uri", required = false)
     @SerializedName("status_notification_uri")
     public String statusNotificationUri = "";

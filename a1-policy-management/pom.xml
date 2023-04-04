@@ -19,13 +19,15 @@
   ~ ============LICENSE_END=======================================================
   ~
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-30-starter-parent</artifactId>
         <version>2.5.4</version>
-        <relativePath/>
+        <relativePath />
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-policy-management-service</artifactId>
@@ -36,8 +38,8 @@
         <java.version.target>17</java.version.target>
         <gson.version>2.10.1</gson.version>
         <json.version>20220924</json.version>
-        <formatter-maven-plugin.version>2.13.0</formatter-maven-plugin.version> 
-        <spotless-maven-plugin.version>1.24.3</spotless-maven-plugin.version>
+        <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
+        <spotless-maven-plugin.version>2.35.0</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
         <springdoc.version>2.0.2</springdoc.version>
@@ -82,7 +84,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
         </dependency>
-        <dependency> 
+        <dependency>
             <!-- May be possible to remove this later when ccsdk parent bom stabilizes -->
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -245,9 +247,9 @@
                 <configuration>
                     <lineEndings>UNIX</lineEndings>
                     <java>
-                        <removeUnusedImports/>
+                        <removeUnusedImports />
                         <importOrder>
-                            <order>com,java,javax,org</order>
+                            <order>com,io,java,lombok,javax,org,reactor</order>
                         </importOrder>
                     </java>
                 </configuration>
@@ -261,16 +263,19 @@
                 <version>${surefire-maven-plugin.version}</version>
                 <configuration>
                     <skipTests>${allowskiptests}</skipTests>
-                    <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                    <statelessTestsetReporter
+                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
                         <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
-                    <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                    <consoleOutputReporter
+                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
-                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+                    <statelessTestsetInfoReporter
+                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
                         <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
@@ -336,10 +341,12 @@
                             <skipOperationExample>false</skipOperationExample>
                             <strictSpec>false</strictSpec>
                             <configOptions>
-                                <appDescription>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managing O-RAN A1 Policies.</appDescription>
+                                <appDescription>The O-RAN Non-RT RIC Policy Management Service
+                                    provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
-                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.</licenseInfo>
+                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed
+                                    under the Apache License.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
                         </configuration>
@@ -393,7 +400,8 @@
                         </goals>
                         <configuration>
                             <verbose>true</verbose>
-                            <outputDirectory>${project.basedir}/../docs/offeredapis/openapitoolgen/offeredapis/pms-api</outputDirectory>
+                            <outputDirectory>
+                                ${project.basedir}/../docs/offeredapis/openapitoolgen/offeredapis/pms-api</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/api/pms-api</directory>
@@ -421,7 +429,8 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
+                                    <name>
+                                        onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
                                     <build>
                                         <cleanup>try</cleanup>
                                         <contextDir>${basedir}</contextDir>
@@ -446,7 +455,8 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
+                                    <name>
+                                        onap/ccsdk-oran-a1policymanagementservice:${project.version}</name>
                                     <build>
                                         <contextDir>${basedir}</contextDir>
                                         <dockerFile>Dockerfile</dockerFile>

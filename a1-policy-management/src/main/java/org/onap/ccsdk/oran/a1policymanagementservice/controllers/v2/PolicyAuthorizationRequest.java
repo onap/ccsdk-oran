@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2022 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,44 +18,30 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
-import reactor.netty.transport.ProxyProvider;
 
+@Schema(name = "policy_authorization", description = "Authorization request for A1 policy requests")
 @Builder
-@Getter
-@ToString
-public class WebClientConfig {
-    private String keyStoreType;
+public class PolicyAuthorizationRequest {
 
-    private String keyStorePassword;
-
-    private String keyStore;
-
-    @ToString.Exclude
-    private String keyPassword;
-
-    private boolean isTrustStoreUsed;
-
-    private String trustStorePassword;
-
-    private String trustStore;
-
-    @Builder
-    @Getter
-    @ToString
-    public static class HttpProxyConfig {
-        private String httpProxyHost;
-
-        private int httpProxyPort;
-
-        private ProxyProvider.Proxy httpProxyType;
+    @Schema(name = "acces_type", description = "Access type")
+    public enum AccessType {
+        READ, WRITE, DELETE
     }
 
-    private HttpProxyConfig httpProxyConfig;
+    @Schema(name = "access_type", description = "Access type", required = true)
+    @JsonProperty(value = "access_type", required = true)
+    @SerializedName("access_type")
+    @Getter
+    private String accessType;
 
 }
