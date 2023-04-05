@@ -46,7 +46,7 @@ logging:
     org.springframework: ERROR
     org.springframework.data: ERROR
     org.springframework.web.reactive.function.client.ExchangeFunctions: ERROR
-    org.springframework.web.servlet.DispatcherServlet: INFO
+    org.springframework.web.servlet.DispatcherServlet: ERROR
     org.onap.ccsdk.oran.a1policymanagementservice: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread] %logger{20} - %msg%n"
@@ -91,6 +91,9 @@ app:
   # A file containing an authorization token, which shall be inserted in each HTTP header (authorization).
   # If the file name is empty, no authorization token is sent.
   auth-token-file:
+  # A URL to authorization provider such as OPA. Each time an A1 Policy is accessed, a call to this
+  # authorization provider is done for access control. If this is empty, no fine grained access control is done.
+  authorization-provider:
   # S3 object store usage is enabled by defining the bucket to use. This will override the vardata-directory parameter.
   s3:
     endpointOverride: http://localhost:9000

@@ -43,7 +43,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +70,6 @@ public class ServiceController {
 
     private static Gson gson = new GsonBuilder().create();
 
-    @Autowired
     ServiceController(Services services, Policies policies) {
         this.services = services;
         this.policies = policies;

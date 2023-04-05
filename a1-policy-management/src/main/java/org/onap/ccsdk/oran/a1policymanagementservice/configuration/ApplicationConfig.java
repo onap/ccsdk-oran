@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -97,6 +98,11 @@ public class ApplicationConfig {
     @Getter
     @Value("${app.s3.bucket:}")
     private String s3Bucket;
+
+    @Getter
+    @Setter
+    @Value("${app.authorization-provider:}")
+    private String authProviderUrl;
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 

@@ -46,6 +46,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,10 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.OpenPolicyAgentSimulatorController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.ServiceCallbackInfo;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
@@ -145,6 +149,9 @@ class ApplicationTest {
     @Autowired
     SecurityContext securityContext;
 
+    @Autowired
+    OpenPolicyAgentSimulatorController openPolicyAgentSimulatorController;
+
     private static Gson gson = new GsonBuilder().create();
 
     /**
@@ -174,6 +181,11 @@ class ApplicationTest {
     @LocalServerPort
     private int port;
 
+    @BeforeEach
+    void init() {
+        this.applicationConfig.setAuthProviderUrl(baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+    }
+
     @AfterEach
     void reset() {
         rics.clear();
@@ -184,6 +196,7 @@ class ApplicationTest {
         this.rAppSimulator.getTestResults().clear();
         this.a1ClientFactory.setPolicyTypes(policyTypes); // Default same types in RIC and in this app
         this.securityContext.setAuthTokenFilePath(null);
+        this.openPolicyAgentSimulatorController.getTestResults().reset();
     }
 
     @AfterAll
@@ -513,6 +526,15 @@ class ApplicationTest {
         this.rics.getRic(ricId).setState(Ric.RicState.AVAILABLE);
 
         restClient().put(url, policyBody).block();
+        {
+            // Check the authorization request
+            OpenPolicyAgentSimulatorController.TestResults res =
+                    this.openPolicyAgentSimulatorController.getTestResults();
+            assertThat(res.receivedRequests).hasSize(1);
+            PolicyAuthorizationRequest req = res.receivedRequests.get(0);
+            assertThat(req.getInput().getAccessType()).isEqualTo(AccessType.WRITE);
+            assertThat(req.getInput().getPolicyTypeId()).isEqualTo(policyTypeName);
+        }
 
         Policy policy = policies.getPolicy(policyInstanceId);
         assertThat(policy).isNotNull();
@@ -548,6 +570,57 @@ class ApplicationTest {
         this.rics.getRic(ricId).setState(Ric.RicState.SYNCHRONIZING);
         testErrorCode(restClient().put(url, policyBody), HttpStatus.LOCKED);
         this.rics.getRic(ricId).setState(Ric.RicState.AVAILABLE);
+    }
+
+    @Test
+    void testFineGrainedAuth() throws Exception {
+        final String POLICY_ID = "policyId";
+        final String RIC_ID = "ric1";
+        final String TYPE_ID = "typeName";
+        addPolicy(POLICY_ID, TYPE_ID, null, RIC_ID);
+        assertThat(policies.size()).isEqualTo(1);
+
+        this.applicationConfig
+                .setAuthProviderUrl(baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL_REJECT);
+
+        String url = "/policy-instances";
+        String rsp = restClient().get(url).block();
+        assertThat(rsp).as("Response contains no policy instance ID.").contains("[]");
+
+        url = "/policies/" + POLICY_ID;
+        testErrorCode(restClient().delete(url), HttpStatus.UNAUTHORIZED, "Not authorized");
+
+        url = "/policies";
+        String policyBody = putPolicyBody(null, RIC_ID, TYPE_ID, POLICY_ID, false, null);
+        testErrorCode(restClient().put(url, policyBody), HttpStatus.UNAUTHORIZED, "Not authorized");
+
+        rsp = restClient().get(url).block();
+        assertThat(rsp).as("Response contains no policy instance ID.").contains("[]");
+    }
+
+    @Test
+    void testFineGrainedAuth_OPA_UNAVALIABLE() throws Exception {
+        final String POLICY_ID = "policyId";
+        final String RIC_ID = "ric1";
+        final String TYPE_ID = "typeName";
+        addPolicy(POLICY_ID, TYPE_ID, null, RIC_ID);
+        assertThat(policies.size()).isEqualTo(1);
+
+        this.applicationConfig.setAuthProviderUrl("junk");
+
+        String url = "/policy-instances";
+        String rsp = restClient().get(url).block();
+        assertThat(rsp).as("Response contains no policy instance ID.").contains("[]");
+
+        url = "/policies/" + POLICY_ID;
+        testErrorCode(restClient().delete(url), HttpStatus.UNAUTHORIZED, "Not authorized");
+
+        url = "/policies";
+        String policyBody = putPolicyBody(null, RIC_ID, TYPE_ID, POLICY_ID, false, null);
+        testErrorCode(restClient().put(url, policyBody), HttpStatus.UNAUTHORIZED, "Not authorized");
+
+        rsp = restClient().get(url).block();
+        assertThat(rsp).as("Response contains no policy instance ID.").contains("[]");
     }
 
     @Test
@@ -1042,6 +1115,7 @@ class ApplicationTest {
     @Test
     @DisplayName("test Concurrency")
     void testConcurrency() throws Exception {
+        this.applicationConfig.setAuthProviderUrl("");
         logger.info("Concurrency test starting");
         final Instant startTime = Instant.now();
         List<Thread> threads = new ArrayList<>();
@@ -1138,8 +1212,10 @@ class ApplicationTest {
             boolean expectApplicationProblemJsonMediaType) {
         assertTrue(throwable instanceof WebClientResponseException);
         WebClientResponseException responseException = (WebClientResponseException) throwable;
+        String body = responseException.getResponseBodyAsString();
+        assertThat(body).contains(responseContains);
         assertThat(responseException.getStatusCode()).isEqualTo(expStatus);
-        assertThat(responseException.getResponseBodyAsString()).contains(responseContains);
+
         if (expectApplicationProblemJsonMediaType) {
             assertThat(responseException.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_PROBLEM_JSON);
         }

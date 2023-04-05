@@ -197,7 +197,7 @@ public class Policies {
 
         byte[] bytes = gson.toJson(toStorageObject(policy)).getBytes();
         this.dataStore.writeObject(this.getPath(policy), bytes) //
-                .doOnError(t -> logger.error("Could not store job in S3, reason: {}", t.getMessage())) //
+                .doOnError(t -> logger.error("Could not store policy in S3, reason: {}", t.getMessage())) //
                 .subscribe();
     }
 

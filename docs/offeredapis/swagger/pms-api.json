@@ -28,6 +28,15 @@
                 "type": "string"
             }}
         },
+        "authorization_result": {
+            "description": "Result of authorization",
+            "type": "object",
+            "required": ["result"],
+            "properties": {"result": {
+                "description": "If true, the access is granted",
+                "type": "boolean"
+            }}
+        },
         "ric_info_v2": {
             "description": "Information for a Near-RT RIC",
             "type": "object",
@@ -147,6 +156,40 @@
                 "description": "Policy type json schema. The schema is a json object following http://json-schema.org/draft-07/schema",
                 "type": "object"
             }}
+        },
+        "input": {
+            "description": "input",
+            "type": "object",
+            "required": [
+                "access_type",
+                "auth_token",
+                "policy_type_id"
+            ],
+            "properties": {
+                "access_type": {
+                    "description": "Access type",
+                    "type": "string",
+                    "enum": [
+                        "READ",
+                        "WRITE",
+                        "DELETE"
+                    ]
+                },
+                "auth_token": {
+                    "description": "Authorization token",
+                    "type": "string"
+                },
+                "policy_type_id": {
+                    "description": "Policy type identifier",
+                    "type": "string"
+                }
+            }
+        },
+        "policy_authorization": {
+            "description": "Authorization request for A1 policy requests",
+            "type": "object",
+            "required": ["input"],
+            "properties": {"input": {"$ref": "#/components/schemas/input"}}
         },
         "policytype_id_list_v2": {
             "description": "Information about policy types",
@@ -297,6 +340,20 @@
                 }
             ],
             "tags": ["A1 Policy Management"]
+        }},
+        "/example-authz-check": {"post": {
+            "summary": "Request for access authorization.",
+            "requestBody": {
+                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/policy_authorization"}}},
+                "required": true
+            },
+            "description": "The authorization function decides if access is granted.",
+            "operationId": "performAccessControl",
+            "responses": {"200": {
+                "description": "OK",
+                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/authorization_result"}}}
+            }},
+            "tags": ["Authorization API"]
         }},
         "/actuator/threaddump": {"get": {
             "summary": "Actuator web endpoint 'threaddump'",
@@ -946,12 +1003,18 @@
         "title": "A1 Policy Management Service",
         "version": "1.1.0"
     },
-    "tags": [{
-        "name": "Actuator",
-        "description": "Monitor and interact",
-        "externalDocs": {
-            "description": "Spring Boot Actuator Web API Documentation",
-            "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+    "tags": [
+        {
+            "name": "Authorization API",
+            "description": "API used for authorization of information A1 policy access (this is provided by an authorization producer such as OPA).\nNote that this API is called by PMS, it is not provided.\n"
+        },
+        {
+            "name": "Actuator",
+            "description": "Monitor and interact",
+            "externalDocs": {
+                "description": "Spring Boot Actuator Web API Documentation",
+                "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+            }
         }
-    }]
+    ]
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2022 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
+package org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
@@ -28,20 +28,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-
-@Schema(name = "policy_authorization", description = "Authorization request for A1 policy requests")
+@Schema(name = "authorization_result", description = "Result of authorization")
 @Builder
-public class PolicyAuthorizationRequest {
+public class AuthorizationResult {
 
-    @Schema(name = "acces_type", description = "Access type")
-    public enum AccessType {
-        READ, WRITE, DELETE
-    }
-
-    @Schema(name = "access_type", description = "Access type", required = true)
-    @JsonProperty(value = "access_type", required = true)
-    @SerializedName("access_type")
+    @Schema(name = "result", description = "If true, the access is granted", required = true)
+    @JsonProperty(value = "result", required = true)
+    @SerializedName("result")
     @Getter
-    private String accessType;
+    private boolean result;
 
 }
