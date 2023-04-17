@@ -32,7 +32,7 @@ public class Consts {
 
     public static final String V2_API_ROOT = "/a1-policy/v2";
 
-    public static final String V2_API_SERVICE_CALLBACKS_NAME = "Callbacks";
+    public static final String V2_API_SERVICE_CALLBACKS_NAME = "Service callbacks";
     public static final String V2_API_SERVICE_CALLBACKS_DESCRIPTION = "";
 
     private Consts() {}

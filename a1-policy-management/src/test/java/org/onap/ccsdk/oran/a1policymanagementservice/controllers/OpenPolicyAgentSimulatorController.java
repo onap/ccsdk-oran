@@ -52,7 +52,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("OpenPolicyAgentSimulatorController")
-@Tag(name = AuthorizationConsts.AUTH_API_NAME, description = AuthorizationConsts.AUTH_API_DESCRIPTION)
+@Tag(name = AuthorizationConsts.API_NAME, description = AuthorizationConsts.API_DESCRIPTION)
 public class OpenPolicyAgentSimulatorController {
     private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
