@@ -34,7 +34,7 @@ A1 Policy Management Service provides a REST API for management of policies. It 
 
 The Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for more information about the API.
 
-The configured A1 policies are stored persistently to survive a service restart.
+The configured A1 policies are stored persistently to survive a service restart. This information can be stored in a persistent volume or in an S3 Object Store bucket. 
 
 Dependencies
 ------------
@@ -47,7 +47,7 @@ dependency management tool (see *pom.xml* file at root level) :
 - `Springfox <https://github.com/springfox/springfox>`_ Automated JSON API documentation for APIs built with Spring
 - `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
-- `S3 <https://mvnrepository.com/artifact/software.amazon.awssdk/s3>`_ Access of Amazon S3 - Cloud Object Storage
+
 
 To get a complete list of all dependencies, use command "mvn dependency:tree".
 

@@ -1,9 +1,12 @@
-sphinx>=4.2.0  # BSD
-sphinx-rtd-theme>=1.0.0  # MIT
-sphinxcontrib-blockdiag  # BSD
-sphinxcontrib-seqdiag # BSD
+tox
+Sphinx
+doc8
+docutils
+setuptools
+six
+sphinx_rtd_theme
+sphinxcontrib-needs
 sphinxcontrib-swaggerdoc
-sphinxcontrib-spelling
-sphinxcontrib-plantuml
+sphinx_bootstrap_theme
 sphinxcontrib-redoc
-sphinx-tabs
+lfdocs-conf
