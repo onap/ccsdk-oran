@@ -69,5 +69,7 @@ def setup(app):
     app.add_css_file("css/ribbon.css")
 
 linkcheck_ignore = [
-  r'http://localhost:\d+/'
+  r'http://localhost:\d+/',
+  './a1-adapter-api.html', #Generated file that doesn't exist at link check.
+  './pms-api.html'  #Generated file that doesn't exist at link check.
 ]
