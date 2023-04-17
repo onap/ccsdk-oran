@@ -846,6 +846,17 @@ ul.nav-tabs {
   <script>
     // Script section to load models into a JS Var
     var defs = {}
+    defs["authorization_result"] = {
+  "required" : [ "result" ],
+  "type" : "object",
+  "properties" : {
+    "result" : {
+      "type" : "boolean",
+      "description" : "If true, the access is granted"
+    }
+  },
+  "description" : "Result of authorization"
+};
     defs["error_information"] = {
   "type" : "object",
   "properties" : {
@@ -863,6 +874,26 @@ ul.nav-tabs {
   },
   "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807"
 };
+    defs["input"] = {
+  "required" : [ "access_type", "auth_token", "policy_type_id" ],
+  "type" : "object",
+  "properties" : {
+    "access_type" : {
+      "type" : "string",
+      "description" : "Access type",
+      "enum" : [ "READ", "WRITE", "DELETE" ]
+    },
+    "auth_token" : {
+      "type" : "string",
+      "description" : "Authorization token"
+    },
+    "policy_type_id" : {
+      "type" : "string",
+      "description" : "Policy type identifier"
+    }
+  },
+  "description" : "input"
+};
     defs["Link"] = {
   "type" : "object",
   "properties" : {
@@ -873,6 +904,16 @@ ul.nav-tabs {
       "type" : "string"
     }
   }
+};
+    defs["policy_authorization"] = {
+  "required" : [ "input" ],
+  "type" : "object",
+  "properties" : {
+    "input" : {
+      "$ref" : "#/components/schemas/input"
+    }
+  },
+  "description" : "Authorization request for A1 policy requests"
 };
     defs["policy_id_list_v2"] = {
   "type" : "object",
@@ -1184,6 +1225,10 @@ ul.nav-tabs {
                     </li>
                     <li data-group="Actuator" data-name="threaddump" class="">
                       <a href="#api-Actuator-threaddump">threaddump</a>
+                    </li>
+                  <li class="nav-header" data-group="AuthorizationAPI"><a href="#api-AuthorizationAPI">API Methods - AuthorizationAPI</a></li>
+                    <li data-group="AuthorizationAPI" data-name="performAccessControl" class="">
+                      <a href="#api-AuthorizationAPI-performAccessControl">performAccessControl</a>
                     </li>
                   <li class="nav-header" data-group="Callbacks"><a href="#api-Callbacks">API Methods - Callbacks</a></li>
                     <li data-group="Callbacks" data-name="serviceCallback" class="">
@@ -9215,6 +9260,368 @@ pub fn main() {
                                     </script>
                                   </div>
                                   <input id='responses-Actuator-threaddump-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
+                <section id="api-AuthorizationAPI">
+                  <h1>AuthorizationAPI</h1>
+                    <div id="api-AuthorizationAPI-performAccessControl">
+                      <article id="api-AuthorizationAPI-performAccessControl-0" data-group="User" data-name="performAccessControl" data-version="0">
+                        <div class="pull-left">
+                          <h1>performAccessControl</h1>
+                          <p>Request for access authorization.</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">The authorization function decides if access is granted.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/example-authz-check</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-AuthorizationAPI-performAccessControl-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-java">Java</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-python">Python</a></li>
+                          <li class=""><a href="#examples-AuthorizationAPI-performAccessControl-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-AuthorizationAPI-performAccessControl-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: application/json" \
+ -H "Content-Type: application/json" \
+ "http://localhost/example-authz-check" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.AuthorizationAPIApi;
+
+import java.io.File;
+import java.util.*;
+
+public class AuthorizationAPIApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        AuthorizationAPIApi apiInstance = new AuthorizationAPIApi();
+        PolicyAuthorization policyAuthorization = ; // PolicyAuthorization | 
+
+        try {
+            authorization_result result = apiInstance.performAccessControl(policyAuthorization);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling AuthorizationAPIApi#performAccessControl");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.AuthorizationAPIApi;
+
+public class AuthorizationAPIApiExample {
+    public static void main(String[] args) {
+        AuthorizationAPIApi apiInstance = new AuthorizationAPIApi();
+        PolicyAuthorization policyAuthorization = ; // PolicyAuthorization | 
+
+        try {
+            authorization_result result = apiInstance.performAccessControl(policyAuthorization);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling AuthorizationAPIApi#performAccessControl");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+AuthorizationAPIApi *apiInstance = [[AuthorizationAPIApi alloc] init];
+PolicyAuthorization *policyAuthorization = ; // 
+
+// Request for access authorization.
+[apiInstance performAccessControlWith:policyAuthorization
+              completionHandler: ^(authorization_result output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var A1PolicyManagementService = require('a1_policy_management_service');
+
+// Create an instance of the API class
+var api = new A1PolicyManagementService.AuthorizationAPIApi()
+var policyAuthorization = ; // {PolicyAuthorization} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.performAccessControl(policyAuthorization, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class performAccessControlExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new AuthorizationAPIApi();
+            var policyAuthorization = new PolicyAuthorization(); // PolicyAuthorization | 
+
+            try {
+                // Request for access authorization.
+                authorization_result result = apiInstance.performAccessControl(policyAuthorization);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling AuthorizationAPIApi.performAccessControl: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\AuthorizationAPIApi();
+$policyAuthorization = ; // PolicyAuthorization | 
+
+try {
+    $result = $api_instance->performAccessControl($policyAuthorization);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling AuthorizationAPIApi->performAccessControl: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::AuthorizationAPIApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::AuthorizationAPIApi->new();
+my $policyAuthorization = WWW::OPenAPIClient::Object::PolicyAuthorization->new(); # PolicyAuthorization | 
+
+eval {
+    my $result = $api_instance->performAccessControl(policyAuthorization => $policyAuthorization);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling AuthorizationAPIApi->performAccessControl: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.AuthorizationAPIApi()
+policyAuthorization =  # PolicyAuthorization | 
+
+try:
+    # Request for access authorization.
+    api_response = api_instance.perform_access_control(policyAuthorization)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling AuthorizationAPIApi->performAccessControl: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate AuthorizationAPIApi;
+
+pub fn main() {
+    let policyAuthorization = ; // PolicyAuthorization
+
+    let mut context = AuthorizationAPIApi::Context::default();
+    let result = client.performAccessControl(policyAuthorization, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">policyAuthorization <span style="color:red;">*</span></td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/policy_authorization"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_performAccessControl_policyAuthorization');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_performAccessControl_policyAuthorization"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-AuthorizationAPI-performAccessControl-title-200"></h3>
+                            <p id="examples-AuthorizationAPI-performAccessControl-description-200" class="marked"></p>
+                            <script>
+                              var responseAuthorizationAPI200_description = `OK`;
+                              var responseAuthorizationAPI200_description_break = responseAuthorizationAPI200_description.indexOf('\n');
+                              if (responseAuthorizationAPI200_description_break == -1) {
+                                $("#examples-AuthorizationAPI-performAccessControl-title-200").text("Status: 200 - " + responseAuthorizationAPI200_description);
+                              } else {
+                                $("#examples-AuthorizationAPI-performAccessControl-title-200").text("Status: 200 - " + responseAuthorizationAPI200_description.substring(0, responseAuthorizationAPI200_description_break));
+                                $("#examples-AuthorizationAPI-performAccessControl-description-200").html(responseAuthorizationAPI200_description.substring(responseAuthorizationAPI200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-AuthorizationAPI-performAccessControl-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-AuthorizationAPI-performAccessControl-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-AuthorizationAPI-performAccessControl-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-AuthorizationAPI-performAccessControl-200-schema">
+                                  <div id="responses-AuthorizationAPI-performAccessControl-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/authorization_result"
+      }
+    }
+  }
+};
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-AuthorizationAPI-performAccessControl-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-AuthorizationAPI-performAccessControl-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-AuthorizationAPI-performAccessControl-200-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
                         </article>

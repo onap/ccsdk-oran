@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.AuthorizationConsts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ConfigurationController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
@@ -63,7 +64,7 @@ public class SwaggerConfig {
             "<li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li>"
             + //
             "</ul>" + //
-            "<h2>APIs provided by the service</h2>" + //
+            "<h2>APIs provided or defined by the service</h2>" + //
             H3 + PolicyController.API_NAME + H3_END + //
             "<p>This is an API for management of A1 Policies.</p>" + //
             "<ul>" + //
@@ -75,23 +76,36 @@ public class SwaggerConfig {
             H3 + ConfigurationController.API_NAME + H3_END + //
             "<p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p>"
             + //
+
             H3 + Consts.V2_API_SERVICE_CALLBACKS_NAME + H3_END + //
             "<p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p>"
             + //
+
             H3 + RicRepositoryController.API_NAME + H3_END + //
             "<p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p>"
-            + H3 + StatusController.API_NAME + H3_END + //
-            "<p>API used for supervision of the PMS component.</p>" + //
+            + //
+
+            H3 + StatusController.API_NAME + H3_END + //
+            "<p>API used for supervision of the PMS component.</p>" //
+            + //
+
             H3 + ServiceController.API_NAME + H3_END + //
             "<p>" //
             + "API used for registering services that uses PMS."
             + " Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services."
             + " Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use."
             + "</p>" + //
+
+            H3 + AuthorizationConsts.API_NAME + H3_END + //
+            "<p>" //
+            + "API used for access control of A1 Policy access."
+            + " If configured, an external authorization provider is requested to grant access to the A1 Policy type."
+            + "</p>" + //
+
             H3 + "Spring Boot Actuator" + H3_END + //
             "<p>" //
             + "Provides generic functions  used to monitor and manage the Spring web application." + //
             "</p>";
 
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.2.0";
 }
