@@ -34,7 +34,7 @@ A1 Policy Management Service provides a REST API for management of policies. It 
 
 The Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for more information about the API.
 
-The configured A1 policies are stored persistently to survive a service restart.
+The configured A1 policies are stored persistently to survive a service restart. This information can be stored in a persistent volume or in an S3 Object Store bucket. 
 
 Dependencies
 ------------

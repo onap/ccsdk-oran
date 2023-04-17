@@ -22,8 +22,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization;
 
 public class AuthorizationConsts {
 
-    public static final String AUTH_API_NAME = "Authorization API";
-    public static final String AUTH_API_DESCRIPTION =
+    public static final String API_NAME = "Authorization API";
+    public static final String API_DESCRIPTION =
             """
                     API used for authorization of information A1 policy access (this is provided by an authorization producer such as OPA).
                     Note that this API is called by PMS, it is not provided.
