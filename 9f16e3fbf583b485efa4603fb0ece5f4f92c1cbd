@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51785c9e_7fa6ae36",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-04-17T11:26:28Z",
+      "side": 1,
+      "message": "check would be better",
+      "range": {
+        "startLine": 31,
+        "startChar": 26,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "9f16e3fbf583b485efa4603fb0ece5f4f92c1cbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
