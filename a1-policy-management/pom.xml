@@ -53,6 +53,12 @@
     </properties>
     <dependencies>
         <dependency>
+            <!-- Temporary until version 2 is included by the parent spring-boot-starter-parent  -->
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
         </dependency>
