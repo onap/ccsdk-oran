@@ -264,18 +264,18 @@ class CcsdkA1AdapterClientTest {
                 .block();
 
         assertEquals("OK", returned);
-        AdapterRequest expectedInputParams = new AdapterRequest(expUrl, POLICY_JSON_VALID);
+        AdapterRequest expectedInputParams = new AdapterRequest(expUrl , POLICY_JSON_VALID);
         String expInput = A1AdapterJsonHelper.createInputJsonString(expectedInputParams);
 
-        verify(asyncRestClientMock).postWithAuthHeader(PUT_A1_URL, expInput, CONTROLLER_USERNAME, CONTROLLER_PASSWORD);
+        verify(asyncRestClientMock).postWithAuthHeader(PUT_A1_URL , expInput, CONTROLLER_USERNAME, CONTROLLER_PASSWORD);
 
     }
 
     @Test
     @DisplayName("test put Policy OSC")
     void putPolicy_OSC() {
-        String expUrl = RIC_1_URL + "/a1-p/policytypes/type1/policies/policy1";
-        putPolicy(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl);
+        String expUrl = RIC_1_URL + "/a1-p/policytypes/type1/policies/policy1?notificationDestination\u003dhttps%3A%2F%2Ftest.com";
+	putPolicy(A1ProtocolType.CCSDK_A1_ADAPTER_OSC_V1, expUrl);
     }
 
     @Test
@@ -307,7 +307,7 @@ class CcsdkA1AdapterClientTest {
         whenAsyncPostThenReturn(Mono.just(resp));
 
         Mono<String> returnedMono = clientUnderTest
-                .putPolicy(A1ClientHelper.createPolicy(RIC_1_URL, POLICY_1_ID, policyJson, POLICY_TYPE_1_ID));
+                .putPolicy(A1ClientHelper.createPolicy(RIC_1_URL +  "?notificationDestination=https%3A%2F%2Ftest.com", POLICY_1_ID, policyJson, POLICY_TYPE_1_ID));
         StepVerifier.create(returnedMono) //
                 .expectSubscription() //
                 .expectErrorMatches(t -> t instanceof WebClientResponseException) //
@@ -377,7 +377,7 @@ class CcsdkA1AdapterClientTest {
                 asyncRestClientMock);
         whenPostReturnOkResponse();
 
-        Policy policy = A1ClientHelper.createPolicy(RIC_1_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID);
+        Policy policy = A1ClientHelper.createPolicy(RIC_1_URL + "?notificationDestination=https%3A%2F%2Ftest.com", POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID);
 
         String response = clientUnderTest.getPolicyStatus(policy).block();
         assertEquals("OK", response);
