@@ -10,9 +10,10 @@ formats:
 
 build:
   image: latest
+  os: ubuntu-20.04
 
 python:
-  version: 3.7
+  version: 3.8
   install:
     - requirements: docs/requirements-docs.txt
 
