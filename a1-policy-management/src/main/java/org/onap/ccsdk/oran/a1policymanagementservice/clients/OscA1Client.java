@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+import org.apache.http.client.utils.URIBuilder;
 /**
  * Client for accessing OSC A1 REST API
  */
@@ -49,7 +49,7 @@ public class OscA1Client implements A1Client {
 
         @Override
         public String createPutPolicyUri(String type, String policyId, String notificationDestinationUri) {
-            return createPolicyUri(type, policyId);
+	    return createPolicyUri(type, policyId, notificationDestinationUri);
         }
 
         /**
@@ -62,7 +62,7 @@ public class OscA1Client implements A1Client {
 
         @Override
         public String createDeleteUri(String type, String policyId) {
-            return createPolicyUri(type, policyId);
+	    return createPolicyUri(type, policyId, null);
         }
 
         /**
@@ -70,7 +70,7 @@ public class OscA1Client implements A1Client {
          */
         @Override
         public String createGetPolicyStatusUri(String type, String policyId) {
-            return createPolicyUri(type, policyId) + "/status";
+	    return createPolicyUri(type, policyId, null) + "/status";
         }
 
         /**
@@ -99,9 +99,22 @@ public class OscA1Client implements A1Client {
         /**
          * ​/a1-p​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}
          */
-        private String createPolicyUri(String type, String id) {
-            return createPolicyTypeUri(type) + "/policies/" + id;
-        }
+	private String createPolicyUri(String type, String id, String notificationDestination) {
+               String url = "";
+               URIBuilder ub = null;
+               try {
+                    ub = new URIBuilder(createPolicyTypeUri(type) + "/policies/" + id);
+                    if(notificationDestination != null) {
+                       ub.addParameter("notificationDestination", notificationDestination);
+                    }
+                    url = ub.toString();
+               }
+               catch(Exception e) {
+                    String exceptionString = e.toString();
+                    logger.error("Unexpected error in policy URI creation for policy type: {}, exception: {}", type, exceptionString);
+               }
+               return url;
+         }
 
         /**
          * /a1-p/policytypes/{policy_type_id}
