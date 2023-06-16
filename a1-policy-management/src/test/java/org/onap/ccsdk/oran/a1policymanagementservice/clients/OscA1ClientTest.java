@@ -150,7 +150,7 @@ class OscA1ClientTest {
         clientUnderTest
                 .putPolicy(A1ClientHelper.createPolicy(RIC_URL, POLICY_1_ID, POLICY_JSON_VALID, POLICY_TYPE_1_ID))
                 .block();
-        verify(asyncRestClientMock).put(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID,
+        verify(asyncRestClientMock).put(POLICYTYPES_URL + POLICY_TYPE_1_ID + POLICIES + "/" + POLICY_1_ID + "?notificationDestination=https%3A%2F%2Ftest.com",
                 POLICY_JSON_VALID);
     }
 
