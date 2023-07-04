@@ -21,6 +21,9 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
 import java.lang.invoke.MethodHandles;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import org.apache.http.client.utils.URIBuilder;
 /**
  * Client for accessing OSC A1 REST API
  */
@@ -99,22 +101,22 @@ public class OscA1Client implements A1Client {
         /**
          * ​/a1-p​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}
          */
-	private String createPolicyUri(String type, String id, String notificationDestination) {
-               String url = "";
-               URIBuilder ub = null;
-               try {
-                    ub = new URIBuilder(createPolicyTypeUri(type) + "/policies/" + id);
-                    if(notificationDestination != null) {
-                       ub.addParameter("notificationDestination", notificationDestination);
-                    }
-                    url = ub.toString();
-               }
-               catch(Exception e) {
-                    String exceptionString = e.toString();
-                    logger.error("Unexpected error in policy URI creation for policy type: {}, exception: {}", type, exceptionString);
-               }
-               return url;
-         }
+        private String createPolicyUri(String type, String id, String notificationDestination) {
+            try {
+                String baseUrl = createPolicyTypeUri(type);
+                String url = baseUrl + "/policies/" + id;
+                if (notificationDestination != null) {
+                    url += "?notificationDestination=" +
+                        URLEncoder.encode(notificationDestination, StandardCharsets.UTF_8.toString());
+                }
+                return new URI(url).toString();
+            } catch (Exception e) {
+                String exceptionString = e.getMessage();
+                logger.error("Unexpected error in policy URI creation for policy type: {}, exception: {}", type,
+                    exceptionString);
+                return "";
+            }
+        }
 
         /**
          * /a1-p/policytypes/{policy_type_id}
