@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: John  Keeney <john.keeney@est.tech>
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Submitted-by: Thomas Kulik <thomas.kulik@telekom.de>
+Submitted-at: Thu, 06 Jul 2023 14:43:05 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/135215
+Project: ccsdk/oran
+Branch: refs/heads/london
