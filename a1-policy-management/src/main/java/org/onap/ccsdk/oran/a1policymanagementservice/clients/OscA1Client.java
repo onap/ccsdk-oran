@@ -99,7 +99,7 @@ public class OscA1Client implements A1Client {
         /**
          * ​/a1-p​/policytypes​/{policy_type_id}​/policies​/{policy_instance_id}
          */
-	private String createPolicyUri(String type, String id, String notificationDestination) {
+	    private String createPolicyUri(String type, String id, String notificationDestination) {
                String url = "";
                URIBuilder ub = null;
                try {
@@ -139,9 +139,8 @@ public class OscA1Client implements A1Client {
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
-
         uri = new UriBuilder(ricConfig);
+        logger.debug("A1Client ("+getClass().getTypeName()+") created for ric: {}", ricConfig.getRicId());
     }
 
     public static Mono<String> extractCreateSchema(String policyTypeResponse, String policyTypeId) {

@@ -129,8 +129,9 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.restClient = restClient;
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
-            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(),
-                    ricConfig.getControllerConfig());
+            logger.debug("A1Client ("+getClass().getTypeName()+") created for ric: {}, a1Controller: {}", 
+                    ricConfig.getRicId(), ricConfig.getControllerConfig());
+
         } else {
             logger.error("Not supported protocoltype: {}", protocolType);
             throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);

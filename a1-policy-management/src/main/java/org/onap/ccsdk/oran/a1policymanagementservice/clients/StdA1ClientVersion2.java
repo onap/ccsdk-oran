@@ -36,11 +36,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Client for accessing ORAN A1-P Vesion 2.0 REST API
+ * Client for accessing ORAN A1-P Version 2.0 REST API
  */
 @SuppressWarnings("squid:S2629") // Invoke method(s) only conditionally
 public class StdA1ClientVersion2 implements A1Client {
-    static final int CONCURRENCY_RIC = 1; // How many paralell requests that is sent to one NearRT RIC
+    static final int CONCURRENCY_RIC = 1; // How many parallel requests that is sent to one NearRT RIC
 
     public static class Factory implements A1Client.Factory {
         @Override
@@ -137,9 +137,8 @@ public class StdA1ClientVersion2 implements A1Client {
 
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
-
         uriBuiler = new OranV2UriBuilder(ricConfig);
+        logger.debug("A1Client ("+getClass().getTypeName()+") created for ric: {}", ricConfig.getRicId());
     }
 
     public static Mono<String> extractPolicySchema(String policyTypeResponse, String policyTypeId) {
