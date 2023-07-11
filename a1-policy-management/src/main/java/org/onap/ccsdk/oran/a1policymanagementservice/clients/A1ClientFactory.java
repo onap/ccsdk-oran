@@ -108,9 +108,13 @@ public class A1ClientFactory {
             Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
             if (A1Client.class.isAssignableFrom(clazz)) {
                 Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
+                logger.debug("A1Client (" + clazz.getTypeName() + ") being created for ric: {}",
+                        ric.getConfig().getRicId());
                 return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
             } else if (A1Client.Factory.class.isAssignableFrom(clazz)) {
                 A1Client.Factory factory = (A1Client.Factory) clazz.getDeclaredConstructor().newInstance();
+                logger.debug("A1Client (" + clazz.getTypeName() + ") factory creating client for ric: {}",
+                        ric.getConfig().getRicId());
                 return factory.create(ric.getConfig(), this.restClientFactory);
             } else {
                 throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");

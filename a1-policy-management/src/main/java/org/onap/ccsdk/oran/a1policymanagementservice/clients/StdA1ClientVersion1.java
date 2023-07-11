@@ -20,12 +20,16 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -96,6 +100,7 @@ public class StdA1ClientVersion1 implements A1Client {
 
     private final AsyncRestClient restClient;
     private final UriBuilder uri;
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public StdA1ClientVersion1(RicConfig ricConfig, AsyncRestClientFactory restClientFactory) {
         this(restClientFactory.createRestClientUseHttpProxy(""), ricConfig);
@@ -104,6 +109,7 @@ public class StdA1ClientVersion1 implements A1Client {
     public StdA1ClientVersion1(AsyncRestClient restClient, RicConfig ricConfig) {
         this.restClient = restClient;
         this.uri = new UriBuilder(ricConfig);
+        logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}", ricConfig.getRicId());
     }
 
     @Override

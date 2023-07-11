@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 /**
  * Client for accessing OSC A1 REST API
  */
@@ -51,7 +52,7 @@ public class OscA1Client implements A1Client {
 
         @Override
         public String createPutPolicyUri(String type, String policyId, String notificationDestinationUri) {
-	    return createPolicyUri(type, policyId, notificationDestinationUri);
+            return createPolicyUri(type, policyId, notificationDestinationUri);
         }
 
         /**
@@ -64,7 +65,7 @@ public class OscA1Client implements A1Client {
 
         @Override
         public String createDeleteUri(String type, String policyId) {
-	    return createPolicyUri(type, policyId, null);
+            return createPolicyUri(type, policyId, null);
         }
 
         /**
@@ -72,7 +73,7 @@ public class OscA1Client implements A1Client {
          */
         @Override
         public String createGetPolicyStatusUri(String type, String policyId) {
-	    return createPolicyUri(type, policyId, null) + "/status";
+            return createPolicyUri(type, policyId, null) + "/status";
         }
 
         /**
@@ -107,13 +108,13 @@ public class OscA1Client implements A1Client {
                 String url = baseUrl + "/policies/" + id;
                 if (notificationDestination != null) {
                     url += "?notificationDestination=" +
-                        URLEncoder.encode(notificationDestination, StandardCharsets.UTF_8.toString());
+                            URLEncoder.encode(notificationDestination, StandardCharsets.UTF_8.toString());
                 }
                 return new URI(url).toString();
             } catch (Exception e) {
                 String exceptionString = e.getMessage();
                 logger.error("Unexpected error in policy URI creation for policy type: {}, exception: {}", type,
-                    exceptionString);
+                        exceptionString);
                 return "";
             }
         }
@@ -141,9 +142,8 @@ public class OscA1Client implements A1Client {
 
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
-        logger.debug("OscA1Client for ric: {}", ricConfig.getRicId());
-
         uri = new UriBuilder(ricConfig);
+        logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}", ricConfig.getRicId());
     }
 
     public static Mono<String> extractCreateSchema(String policyTypeResponse, String policyTypeId) {

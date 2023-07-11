@@ -63,7 +63,8 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.body = body;
         }
 
-        public AdapterRequest() {}
+        public AdapterRequest() {
+        }
     }
 
     @Getter
@@ -76,7 +77,8 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.body = body;
         }
 
-        public AdapterOutput() {}
+        public AdapterOutput() {
+        }
     }
 
     static com.google.gson.Gson gson = new GsonBuilder() //
@@ -92,12 +94,12 @@ public class CcsdkA1AdapterClient implements A1Client {
     /**
      * Constructor that creates the REST client to use.
      *
-     * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1,
-     *        CCSDK_A1_ADAPTER_OSC_V1 and
-     *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
-     * @param ricConfig the configuration of the Near-RT RIC to communicate
-     *        with
+     * @param protocolType     the southbound protocol of the controller. Supported
+     *                         protocols are CCSDK_A1_ADAPTER_STD_V1_1,
+     *                         CCSDK_A1_ADAPTER_OSC_V1 and
+     *                         CCSDK_A1_ADAPTER_STD_V2_0_0 with
+     * @param ricConfig        the configuration of the Near-RT RIC to communicate
+     *                         with
      * @param controllerConfig the configuration of the CCSDK A1 Adapter to use
      *
      * @throws IllegalArgumentException when the protocolType is wrong.
@@ -111,14 +113,14 @@ public class CcsdkA1AdapterClient implements A1Client {
     /**
      * Constructor where the REST client to use is provided.
      *
-     * @param protocolType the southbound protocol of the controller. Supported
-     *        protocols are CCSDK_A1_ADAPTER_STD_V1_1,
-     *        CCSDK_A1_ADAPTER_OSC_V1 and
-     *        CCSDK_A1_ADAPTER_STD_V2_0_0 with
-     * @param ricConfig the configuration of the Near-RT RIC to communicate
-     *        with
+     * @param protocolType     the southbound protocol of the controller. Supported
+     *                         protocols are CCSDK_A1_ADAPTER_STD_V1_1,
+     *                         CCSDK_A1_ADAPTER_OSC_V1 and
+     *                         CCSDK_A1_ADAPTER_STD_V2_0_0 with
+     * @param ricConfig        the configuration of the Near-RT RIC to communicate
+     *                         with
      * @param controllerConfig the configuration of the CCSDK A1 Adapter to use
-     * @param restClient the REST client to use
+     * @param restClient       the REST client to use
      *
      * @throws IllegalArgumentException when the protocolType is illegal.
      */
@@ -129,8 +131,9 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.restClient = restClient;
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
-            logger.debug("CcsdkA1AdapterClient for ric: {}, a1Controller: {}", ricConfig.getRicId(),
-                    ricConfig.getControllerConfig());
+            logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}, a1Controller: {}",
+                    ricConfig.getRicId(), ricConfig.getControllerConfig());
+
         } else {
             logger.error("Not supported protocoltype: {}", protocolType);
             throw new IllegalArgumentException("Not handeled protocolversion: " + protocolType);
