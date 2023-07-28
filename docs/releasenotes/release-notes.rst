@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution
 .. 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright (C) 2022 Nordix Foundation.
+.. Copyright (C) 2023 Nordix Foundation.
 .. _release_notes:
 
 =============
@@ -590,8 +590,8 @@ Kohn, Release 1.4.2
 |                             |                                                     |
 +-----------------------------+-----------------------------------------------------+
 
-London, RC
-----------
+London, Release 1.5.0
+---------------------
 +-----------------------------+-----------------------------------------------------+
 | **Project**                 | CCSDK ORAN                                          |
 |                             |                                                     |
@@ -605,6 +605,6 @@ London, RC
 | **Release date**            | 2023-04-26                                          |
 |                             |                                                     |
 +-----------------------------+-----------------------------------------------------+
-| **Purpose of the delivery** | Improvements, London RC  1.5.0 version              |
+| **Purpose of the delivery** | Improvements, London Release, 1.5.0 version         |
 |                             |                                                     |
 +-----------------------------+-----------------------------------------------------+
