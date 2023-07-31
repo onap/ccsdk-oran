@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0adee55_446ce99a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "Hi John, I found a couple of typos.",
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c5550ee_be0519ed",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "Suggest to change to \"now also\" or just drop \"now\".",
+      "range": {
+        "startLine": 34,
+        "startChar": 11,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "441fb20c_f4e52574",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "duplicated words",
+      "range": {
+        "startLine": 34,
+        "startChar": 89,
+        "endLine": 34,
+        "endChar": 102
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d1349a_0dabb0a4",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "Should this be \"A1 Policy Instances\" instead of \"A1 Polices\"? Then, the references to queries are consistent with the reference to create/modify/delete.",
+      "range": {
+        "startLine": 36,
+        "startChar": 36,
+        "endLine": 36,
+        "endChar": 45
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c34df0b_3c08e350",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "their",
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e505e951_4076c10b",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "Does port number need to be singular, as we are talking about one used port?",
+      "range": {
+        "startLine": 75,
+        "startChar": 60,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61322e06_8a164834",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "Extra space.",
+      "range": {
+        "startLine": 101,
+        "startChar": 207,
+        "endLine": 101,
+        "endChar": 208
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3272e3_4ae16463",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2023-07-31T10:31:04Z",
+      "side": 1,
+      "message": "included in",
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
