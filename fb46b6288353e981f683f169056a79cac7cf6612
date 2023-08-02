@@ -64,6 +64,54 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c49f1166_e43f5fc4",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5550ee_be0519ed",
+      "range": {
+        "startLine": 34,
+        "startChar": 11,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d1c28f5_274a4c3c",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "441fb20c_f4e52574",
+      "range": {
+        "startLine": 34,
+        "startChar": 89,
+        "endLine": 34,
+        "endChar": 102
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0d1349a_0dabb0a4",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-07-31T10:31:04Z",
       "side": 1,
       "message": "Should this be \"A1 Policy Instances\" instead of \"A1 Polices\"? Then, the references to queries are consistent with the reference to create/modify/delete.",
+      "range": {
+        "startLine": 36,
+        "startChar": 36,
+        "endLine": 36,
+        "endChar": 45
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6038a543_a3bac359",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d1349a_0dabb0a4",
       "range": {
         "startLine": 36,
         "startChar": 36,
@@ -104,6 +176,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48912bc_faca31a1",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c34df0b_3c08e350",
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e505e951_4076c10b",
@@ -117,6 +207,30 @@
       "writtenOn": "2023-07-31T10:31:04Z",
       "side": 1,
       "message": "Does port number need to be singular, as we are talking about one used port?",
+      "range": {
+        "startLine": 75,
+        "startChar": 60,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e1a33a8_f0e58f57",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e505e951_4076c10b",
       "range": {
         "startLine": 75,
         "startChar": 60,
@@ -150,6 +264,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f97324c6_65a5ae1e",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61322e06_8a164834",
+      "range": {
+        "startLine": 101,
+        "startChar": 207,
+        "endLine": 101,
+        "endChar": 208
+      },
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b3272e3_4ae16463",
@@ -163,6 +301,24 @@
       "writtenOn": "2023-07-31T10:31:04Z",
       "side": 1,
       "message": "included in",
+      "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a0ff5a3_5b04dade",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-02T18:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b3272e3_4ae16463",
       "revId": "fb46b6288353e981f683f169056a79cac7cf6612",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
