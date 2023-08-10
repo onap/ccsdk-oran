@@ -19,15 +19,13 @@
   ~ ============LICENSE_END=======================================================
   ~
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-30-starter-parent</artifactId>
-        <version>2.5.5</version>
-        <relativePath />
+        <version>2.6.0</version>
+        <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-policy-management-service</artifactId>
@@ -253,7 +251,7 @@
                 <configuration>
                     <lineEndings>UNIX</lineEndings>
                     <java>
-                        <removeUnusedImports />
+                        <removeUnusedImports/>
                         <importOrder>
                             <order>com,io,java,lombok,javax,org,reactor</order>
                         </importOrder>
@@ -269,19 +267,16 @@
                 <version>${surefire-maven-plugin.version}</version>
                 <configuration>
                     <skipTests>${allowskiptests}</skipTests>
-                    <statelessTestsetReporter
-                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                    <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
                         <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
-                    <consoleOutputReporter
-                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                    <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
-                    <statelessTestsetInfoReporter
-                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
                         <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
