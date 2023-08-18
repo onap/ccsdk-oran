@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2022 Nordix Foundation
+.. Copyright 2023 Nordix Foundation
 
 .. _offered_apis:
 
@@ -12,18 +12,20 @@ Offered APIs
 Introduction
 ------------
 
-The north-bound REST API of the A1 Policy Management Service provides convenient methods to handle A1 policies.
+The north-bound REST API of the A1 Policy Management Service provides convenient methods to handle A1 Policies.
 
 
 Overall architecture for O-RAN A1 Policy functions
 --------------------------------------------------
 
-This picture provides a overview of ONAP's A1 Controller architecture,
+This pictures provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
 
 .. image:: ../media/ONAP-A1ControllerArchitecture.png
    :width: 500pt
 
+.. image:: ../media/ONAP-A1ControllerArchitecture-London.png
+   :width: 500pt
 
 API Version
 -----------
