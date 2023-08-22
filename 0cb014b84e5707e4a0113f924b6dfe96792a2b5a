@@ -18,6 +18,23 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7077cf62_4598834e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T11:46:25Z",
+      "side": 1,
+      "message": "Left a clarification on a earlier comment",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93b87f26_9272a45e",
@@ -54,6 +71,29 @@
       "writtenOn": "2023-08-22T10:29:00Z",
       "side": 1,
       "message": "remove",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba54fc56_251f430d",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T11:46:25Z",
+      "side": 1,
+      "message": "comment above should be \ncan be can be duplicate, remove one",
+      "range": {
+        "startLine": 34,
+        "startChar": 89,
+        "endLine": 34,
+        "endChar": 93
+      },
       "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
