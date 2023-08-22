@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f38d15b_9d204b17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T10:29:00Z",
+      "side": 1,
+      "message": "Left some comments",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b87f26_9272a45e",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T10:29:00Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 28,
+        "startChar": 63,
+        "endLine": 28,
+        "endChar": 66
+      },
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05c1f58_2da48643",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T10:29:00Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2892c2_1c8ed094",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 7668
+      },
+      "writtenOn": "2023-08-22T10:29:00Z",
+      "side": 1,
+      "message": "included in",
+      "range": {
+        "startLine": 110,
+        "startChar": 92,
+        "endLine": 110,
+        "endChar": 101
+      },
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
