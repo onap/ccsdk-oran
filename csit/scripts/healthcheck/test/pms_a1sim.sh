@@ -58,7 +58,7 @@ checkStatus "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus "curl -skw %{http_code} http://localhost:8081/status" "hunky dory200" "PMS"
+checkStatus "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
 
 cd ${SHELL_FOLDER}/../data
 ./preparePmsData.sh

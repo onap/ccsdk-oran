@@ -69,7 +69,7 @@ echo "A1 policy management service status:"
 curlString="curl -skw %{http_code} $httpx://localhost:$policy_agent_port/status"
 res=$($curlString)
 echo "$res"
-expect="hunky dory200"
+expect="success200"
 checkRes
 echo -e "\n"
 
