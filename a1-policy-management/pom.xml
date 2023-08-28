@@ -23,8 +23,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-30-starter-parent</artifactId>
-        <version>2.6.0</version>
+        <artifactId>spring-boot-31-starter-parent</artifactId>
+        <version>2.6.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -39,7 +39,7 @@
         <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.35.0</spotless-maven-plugin.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <guava.version>32.0.1-jre</guava.version>
         <springdoc.version>2.0.2</springdoc.version>
         <docker-maven-plugin>0.30.0</docker-maven-plugin>
         <surefire-maven-plugin.version>3.0.0-M8</surefire-maven-plugin.version>
