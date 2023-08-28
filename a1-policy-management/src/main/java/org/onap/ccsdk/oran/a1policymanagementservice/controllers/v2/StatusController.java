@@ -64,7 +64,7 @@ public class StatusController {
     })
 
     public Mono<ResponseEntity<Object>> getStatus() {
-        StatusInfo info = new StatusInfo("hunky dory");
+        StatusInfo info = new StatusInfo("success");
         return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
     }
 
@@ -76,7 +76,7 @@ public class StatusController {
     })
 
     public Mono<ResponseEntity<String>> getStatusV1() {
-        return Mono.just(new ResponseEntity<>("hunky dory", HttpStatus.OK));
+        return Mono.just(new ResponseEntity<>("success", HttpStatus.OK));
     }
 
 }
