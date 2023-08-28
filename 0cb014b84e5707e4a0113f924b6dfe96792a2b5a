@@ -52,6 +52,23 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21e5c00_9b9c03b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-28T10:00:18Z",
+      "side": 1,
+      "message": "Comments addressed. Thanks Kevin.",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93b87f26_9272a45e",
@@ -65,6 +82,30 @@
       "writtenOn": "2023-08-22T10:29:00Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 28,
+        "startChar": 63,
+        "endLine": 28,
+        "endChar": 66
+      },
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f7da46_f5f515cf",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-28T10:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93b87f26_9272a45e",
       "range": {
         "startLine": 28,
         "startChar": 63,
@@ -115,6 +156,48 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3beb4e5_432eed94",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-28T10:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05c1f58_2da48643",
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10a52825_830a9d32",
+        "filename": "docs/architecture/architecture.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-28T10:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba54fc56_251f430d",
+      "range": {
+        "startLine": 34,
+        "startChar": 89,
+        "endLine": 34,
+        "endChar": 93
+      },
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea2892c2_1c8ed094",
@@ -128,6 +211,30 @@
       "writtenOn": "2023-08-22T10:29:00Z",
       "side": 1,
       "message": "included in",
+      "range": {
+        "startLine": 110,
+        "startChar": 92,
+        "endLine": 110,
+        "endChar": 101
+      },
+      "revId": "0cb014b84e5707e4a0113f924b6dfe96792a2b5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8f7ebe_eac48aa7",
+        "filename": "docs/guide/developer-guide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-28T10:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2892c2_1c8ed094",
       "range": {
         "startLine": 110,
         "startChar": 92,
