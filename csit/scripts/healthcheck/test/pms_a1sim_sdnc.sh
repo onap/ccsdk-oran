@@ -60,7 +60,7 @@ checkStatus 60 "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:8081/status" "hunky dory200" "PMS"
+checkStatus 60 "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
 
 curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'
 curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}'
