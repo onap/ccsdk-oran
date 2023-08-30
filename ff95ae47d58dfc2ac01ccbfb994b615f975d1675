@@ -16,6 +16,23 @@
       "message": "Please merge when ready.",
       "revId": "ff95ae47d58dfc2ac01ccbfb994b615f975d1675",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f75e05_8073ae3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-08-30T17:47:00Z",
+      "side": 1,
+      "message": "stage-release",
+      "revId": "ff95ae47d58dfc2ac01ccbfb994b615f975d1675",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
