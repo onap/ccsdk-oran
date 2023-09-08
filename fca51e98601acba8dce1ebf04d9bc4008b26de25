@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed3cddf_584d5b80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "A couple of things to check ...",
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c595c966_2e07214f",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "ref #schemas/policy_info_list ?",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 28
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80093878_fd5531c9",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "ref #schemas/status_info ?",
+      "range": {
+        "startLine": 176,
+        "startChar": 16,
+        "endLine": 176,
+        "endChar": 28
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b8b6413_89485d19",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "can remove?",
+      "range": {
+        "startLine": 164,
+        "startChar": 103,
+        "endLine": 164,
+        "endChar": 117
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "231e305f_67dd3d5f",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "can remove?",
+      "range": {
+        "startLine": 166,
+        "startChar": 91,
+        "endLine": 166,
+        "endChar": 105
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34d76b8_c2beeafa",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "should the onErrorResume statement be here too so the entire call can continue if just part fails?",
+      "range": {
+        "startLine": 185,
+        "startChar": 75,
+        "endLine": 185,
+        "endChar": 76
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81d1ec77_3290038c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 1,
+      "message": "Will this exception be caught correctly?",
+      "range": {
+        "startLine": 304,
+        "startChar": 34,
+        "endLine": 304,
+        "endChar": 50
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

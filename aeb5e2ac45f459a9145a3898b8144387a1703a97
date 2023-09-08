@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eebfcad7_04543e7c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ConfigurationController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 0,
+      "message": "Please put this back in.",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 68
+      },
+      "revId": "aeb5e2ac45f459a9145a3898b8144387a1703a97",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5ba2a4_414b894b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 0,
+      "message": "Should we keep a validation check?\n\nI note you have a switchIfEmpty check for RicId  \u0026 PolicyTypeId, but should the other fields be checked too?",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 9
+      },
+      "revId": "aeb5e2ac45f459a9145a3898b8144387a1703a97",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f19f72_db2de03e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 0,
+      "message": "This checks if the passed value is empty Or Null. \nDon\u0027t want policyInfo.statusNotificationUri to be non-null \u0026 empty (e.g. \"\")\nIs this covered?",
+      "range": {
+        "startLine": 480,
+        "startChar": 1,
+        "endLine": 482,
+        "endChar": 9
+      },
+      "revId": "aeb5e2ac45f459a9145a3898b8144387a1703a97",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "632ca186_2eceb780",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T14:08:31Z",
+      "side": 0,
+      "message": "Maybe need this validate too?",
+      "range": {
+        "startLine": 483,
+        "startChar": 24,
+        "endLine": 483,
+        "endChar": 32
+      },
+      "revId": "aeb5e2ac45f459a9145a3898b8144387a1703a97",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
