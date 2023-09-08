@@ -37,33 +37,36 @@ checkStatus(){
         echo "$res"
         expect=$3
         if [ "$res" == "$expect" ]; then
-            echo -e "$4 is alive!\n"
+            echo -e "$i sec: $4 is alive!\n"
+            return 0
             break;
         else
             sleep 1
         fi
     done
+    echo -e "si sec: $4 is NOT alive!\n"
+    return -1
 }
 # Healthcheck docker containers
 
 # check SIM1 status
 echo "check SIM1 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
+checkStatus 120 "curl -Skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
 
 # check SIM2 status
 echo "check SIM2 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
+checkStatus 120 "curl -Skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
 
 # check SIM3 status
 echo "check SIM3 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
+checkStatus 120 "curl -Skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
+checkStatus 120 "curl -Skw %{http_code} http://localhost:8081/status" "success200" "PMS"
 
-curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'
-curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}'
+curl -Skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'
+curl -Skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}'
 
 # check SDNC status
 echo "check SDNC status:"
