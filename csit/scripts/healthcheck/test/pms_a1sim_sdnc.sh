@@ -37,37 +37,40 @@ checkStatus(){
         echo "$res"
         expect=$3
         if [ "$res" == "$expect" ]; then
-            echo -e "$4 is alive!\n"
+            echo -e "$i sec: $4 is alive!\n"
+            return 0
             break;
         else
             sleep 1
         fi
     done
+    echo -e "$i sec: $4 is NOT alive!\n"
+    exit -1
 }
 # Healthcheck docker containers
 
 # check SIM1 status
 echo "check SIM1 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30001/ 2>&1" "OK200" "SIM1"
 
 # check SIM2 status
 echo "check SIM2 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30003/ 2>&1" "OK200" "SIM2"
 
 # check SIM3 status
 echo "check SIM3 status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30005/ 2>&1" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus 60 "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:8081/status 2>&1" "success200" "PMS"
 
-curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'
-curl -skw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}'
+curl -sSkw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice -X POST  -H Content-Type:application/json -d '{"configuredLevel":"debug"}'  2>&1
+curl -sSkw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.oran.a1policymanagementservice.tasks -X POST  -H Content-Type:application/json -d '{"configuredLevel":"trace"}' 2>&1
 
 # check SDNC status
 echo "check SDNC status:"
-checkStatus 300 "curl -s -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/" "200" "SDNC"
+checkStatus 300 "curl -sS -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/ 2>&1" "200" "SDNC"
 
 cd ${SHELL_FOLDER}/../data
 ./preparePmsData.sh
