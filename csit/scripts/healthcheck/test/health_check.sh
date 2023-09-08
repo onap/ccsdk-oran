@@ -35,34 +35,37 @@ chmod +x docker-compose
 
 
 checkStatus(){
-    for i in {1..60}; do
-        res=$($1)
+    for ((i=0; i<$1; i++)); do
+        res=$($2)
         echo "$res"
-        expect=$2
+        expect=$3
         if [ "$res" == "$expect" ]; then
-            echo -e "$3 is alive!\n"
+            echo -e "$i sec: $4 is alive!\n"
+            return 0
             break;
         else
-            sleep $i
+            sleep 1
         fi
     done
+    echo -e "$i sec: $4 is NOT alive!\n"
+    exit -1
 }
 # Healthcheck docker containers
 
 # check SIM1 status
 echo "check SIM1 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
+checkStatus 120 "curl -Skw %{http_code} http://localhost:30001/ 2>&1" "OK200" "SIM1"
 
 # check SIM2 status
 echo "check SIM2 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30003/ 2>&1" "OK200" "SIM2"
 
 # check SIM3 status
 echo "check SIM3 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30005/ 2>&1" "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:8081/status 2>&1" "success200" "PMS"
 
 echo "NONRTRIC health check passed."
