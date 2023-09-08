@@ -46,19 +46,19 @@ checkStatus(){
 
 # check SIM1 status
 echo "check SIM1 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30001/" "OK200" "SIM1"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30001/ " "OK200" "SIM1"
 
 # check SIM2 status
 echo "check SIM2 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30003/" "OK200" "SIM2"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30003/ " "OK200" "SIM2"
 
 # check SIM3 status
 echo "check SIM3 status:"
-checkStatus "curl -skw %{http_code} http://localhost:30005/" "OK200" "SIM3"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:30005/ " "OK200" "SIM3"
 
 # check PMS status
 echo "check PMS status:"
-checkStatus "curl -skw %{http_code} http://localhost:8081/status" "success200" "PMS"
+checkStatus 120 "curl -sSkw %{http_code} http://localhost:8081/status " "success200" "PMS"
 
 cd ${SHELL_FOLDER}/../data
 ./preparePmsData.sh
