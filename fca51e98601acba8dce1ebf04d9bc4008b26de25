@@ -35,6 +35,23 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "342ca04f_8a31330e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-08T15:22:27Z",
+      "side": 1,
+      "message": "verify fails \u0027cos CSIT test error: \nPulling a1-sim-OSC (nexus3.o-ran-sc.org:10002/o-ran-sc/a1-simulator:2.1.0)...\nreceived unexpected HTTP status: 500 Server Error\n\nSeems to be an issue with OSC / nexus. \nTry again later",
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c595c966_2e07214f",
