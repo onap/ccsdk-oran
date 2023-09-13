@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "256f7ded_6a477dd8",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-13T18:44:02Z",
+      "side": 1,
+      "message": "Did you mean to change this? \nWhy?",
+      "range": {
+        "startLine": 77,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "c07be57aa4a0ef69d983fa0efec7103e4b90d670",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e716ae5_5470e155",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-13T18:44:02Z",
+      "side": 1,
+      "message": "This test checks the v1 status (i.e. withjust the baseURL, not the default v2 baseURL (http://..../v2/)), with no security. \n\ni.e. http://localhost:\u003c@LocalServerPort\u003e/status\nAnd this succeeds.",
+      "range": {
+        "startLine": 1035,
+        "startChar": 0,
+        "endLine": 1036,
+        "endChar": 45
+      },
+      "revId": "b596e640b74f8af0b255a6286f47b95b85028540",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
