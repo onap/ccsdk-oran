@@ -111,6 +111,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65c95a29_aa724f59",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-13T18:49:51Z",
+      "side": 1,
+      "message": "If we refer that schema here the Interface created from this put return type as that object but in the controller we are returning ResponseEntity Object which contains the \u0027policyInfoList\u0027. So, we are keeping that as object it means can return the REsponseEntity",
+      "parentUuid": "c595c966_2e07214f",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 28
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80093878_fd5531c9",
         "filename": "a1-policy-management/api/pms-api.yaml",
         "patchSetId": 1
