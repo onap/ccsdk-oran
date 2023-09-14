@@ -20,14 +20,19 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
@@ -38,6 +43,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -54,6 +60,8 @@ class ConcurrencyTestRunnable implements Runnable {
     private final Rics rics;
     private final PolicyTypes types;
     private boolean failed = false;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     private static Gson gson = new GsonBuilder().create();
 
@@ -140,25 +148,30 @@ class ConcurrencyTestRunnable implements Runnable {
         webClient.getForEntity(uri).block();
     }
 
-    private void putPolicy(String name) {
+    private void putPolicy(String name) throws JsonProcessingException {
         String putUrl = "/policies";
         String body = putPolicyBody("service1", "ric", "type1", name, false);
         webClient.putForEntity(putUrl, body).block();
     }
 
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
-            boolean isTransient) {
-        PolicyInfo info = new PolicyInfo();
-        info.policyId = policyInstanceId;
-        info.policyTypeId = policyTypeName;
-        info.ricId = ricId;
-        info.serviceId = serviceName;
-        info.policyData = gson.fromJson("{}", Object.class);
+            boolean isTransient) throws JsonProcessingException {
 
-        if (isTransient) {
-            info.isTransient = isTransient;
-        }
-        return gson.toJson(info);
+        PolicyInfo policyInfo = new PolicyInfo();
+        policyInfo.setPolicyId(policyInstanceId);
+        policyInfo.setPolicytypeId(policyTypeName);
+        policyInfo.setRicId(ricId);
+        policyInfo.setServiceId(serviceName);
+        policyInfo.setPolicyData(policyData());
+        policyInfo.setStatusNotificationUri("/status");
+        policyInfo.setIsTransient(isTransient);
+        return objectMapper.writeValueAsString(policyInfo);
+    }
+
+    private Map<String,String> policyData() {
+        Map<String,String> policyDataInMap = new HashMap<>();
+        policyDataInMap.put("servingCellNrcgi","1");
+        return policyDataInMap;
     }
 
     private void deletePolicy(String name) {
