@@ -20,39 +20,34 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.NearRtRicRepositoryApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.RicInfo;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.RicInfoList;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController("RicRepositoryControllerV2")
 @Tag( //
         name = RicRepositoryController.API_NAME, //
         description = RicRepositoryController.API_DESCRIPTION //
 )
-public class RicRepositoryController {
+public class RicRepositoryController implements NearRtRicRepositoryApi {
 
     public static final String API_NAME = "NearRT-RIC Repository";
     public static final String API_DESCRIPTION = "";
@@ -63,6 +58,9 @@ public class RicRepositoryController {
     @Autowired
     PolicyTypes types;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     private static Gson gson = new GsonBuilder() //
             .create(); //
 
@@ -70,38 +68,18 @@ public class RicRepositoryController {
     private static final String GET_RIC_DETAILS =
             "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>" //
                     + "The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).";
-
-    /**
-     * Example: http://localhost:8081/v2/rics/ric?managed_element_id=kista_1
-     *
-     * @throws EntityNotFoundException
-     */
-    @GetMapping(path = Consts.V2_API_ROOT + "/rics/ric", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = GET_RIC_BRIEF, description = GET_RIC_DETAILS)
-    @ApiResponses(value = { //
-            @ApiResponse(responseCode = "200", //
-                    description = "Near-RT RIC is found", //
-                    content = @Content(schema = @Schema(implementation = RicInfo.class))), //
-            @ApiResponse(responseCode = "404", //
-                    description = "Near-RT RIC is not found", //
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
-    })
-    public ResponseEntity<Object> getRic( //
-            @Parameter(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false,
-                    description = "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.") //
-            @RequestParam(name = Consts.MANAGED_ELEMENT_ID_PARAM, required = false) String managedElementId,
-            @Parameter(name = Consts.RIC_ID_PARAM, required = false,
-                    description = "The identity of a Near-RT RIC to get information for.") //
-            @RequestParam(name = Consts.RIC_ID_PARAM, required = false) String ricId)
-            throws EntityNotFoundException, InvalidRequestException {
+    @Override
+    public Mono<ResponseEntity<Object>> getRic(
+            final String managedElementId, final String ricId, final ServerWebExchange exchange)
+            throws Exception {
         if (managedElementId != null && ricId != null) {
             throw new InvalidRequestException("Give one query parameter");
         } else if (managedElementId != null) {
             Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
-            return new ResponseEntity<>(gson.toJson(toRicInfo(ric)), HttpStatus.OK);
+            return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(toRicInfo(ric)), HttpStatus.OK));
         } else if (ricId != null) {
             RicInfo info = toRicInfo(this.rics.getRic(ricId));
-            return new ResponseEntity<>(gson.toJson(info), HttpStatus.OK);
+            return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(info), HttpStatus.OK));
         } else {
             throw new InvalidRequestException("Give one query parameter");
         }
@@ -110,25 +88,9 @@ public class RicRepositoryController {
     static final String QUERY_RIC_INFO_DETAILS =
             "The call returns all Near-RT RICs that supports a given policy type identity";
 
-    /**
-     * @return a Json array of all RIC data Example: http://localhost:8081/v2/ric
-     * @throws EntityNotFoundException
-     */
-    @GetMapping(path = Consts.V2_API_ROOT + "/rics", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Query Near-RT RIC information", description = QUERY_RIC_INFO_DETAILS)
-    @ApiResponses(value = { //
-            @ApiResponse(responseCode = "200", //
-                    description = "OK", //
-                    content = @Content(schema = @Schema(implementation = RicInfoList.class))), //
-            @ApiResponse(responseCode = "404", //
-                    description = "Policy type is not found", //
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.ErrorInfo.class))) //
-    })
-    public ResponseEntity<Object> getRics( //
-            @Parameter(name = Consts.POLICY_TYPE_ID_PARAM, required = false,
-                    description = "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned") //
-            @RequestParam(name = Consts.POLICY_TYPE_ID_PARAM, required = false) String supportingPolicyType)
-            throws EntityNotFoundException {
+    @Override
+    public Mono<ResponseEntity<Object>> getRics(final String supportingPolicyType, final ServerWebExchange exchange)
+            throws Exception {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
             throw new EntityNotFoundException("Policy type not found");
         }
@@ -140,26 +102,28 @@ public class RicRepositoryController {
             }
         }
 
-        return new ResponseEntity<>(gson.toJson(new RicInfoList(result)), HttpStatus.OK);
+        return Mono.just(new ResponseEntity<>(gson.toJson(new RicInfoList().rics(result)), HttpStatus.OK));
     }
 
-    private RicInfo.RicState toRicState(Ric.RicState state) {
+    private RicInfo.StateEnum toRicState(Ric.RicState state) {
         switch (state) {
             case AVAILABLE:
-                return RicInfo.RicState.AVAILABLE;
+                return RicInfo.StateEnum.AVAILABLE;
             case CONSISTENCY_CHECK:
-                return RicInfo.RicState.CONSISTENCY_CHECK;
+                return RicInfo.StateEnum.CONSISTENCY_CHECK;
             case SYNCHRONIZING:
-                return RicInfo.RicState.SYNCHRONIZING;
+                return RicInfo.StateEnum.SYNCHRONIZING;
             case UNAVAILABLE:
-                return RicInfo.RicState.UNAVAILABLE;
+                return RicInfo.StateEnum.UNAVAILABLE;
             default:
-                return RicInfo.RicState.UNAVAILABLE;
+                return RicInfo.StateEnum.UNAVAILABLE;
         }
     }
 
     private RicInfo toRicInfo(Ric ric) {
-        return new RicInfo(ric.id(), ric.getManagedElementIds(), ric.getSupportedPolicyTypeNames(),
-                toRicState(ric.getState()));
+        return new RicInfo().ricId(ric.id())
+                .managedElementIds((List<String>) ric.getManagedElementIds())
+                .policytypeIds((List<String>) ric.getSupportedPolicyTypeNames())
+                .state(toRicState(ric.getState()));
     }
 }
