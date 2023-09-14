@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.exceptions;
 import java.lang.invoke.MethodHandles;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ErrorResponse;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
         loggerx.error("Runtime exception {}", ex.getMessage());
         return ErrorResponse.create(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PolicyController.RejectionException.class)
+    public final ResponseEntity<Object> handleRejectionException(PolicyController.RejectionException ex) {
+        loggerx.error("Rejection exception {}", ex.getMessage());
+        return ErrorResponse.create(ex, ex.getStatus());
     }
 }

@@ -96,7 +96,7 @@ public class ErrorResponse {
         return createMono(e.toString(), code);
     }
 
-    static ResponseEntity<Object> create(String text, HttpStatusCode code) {
+    public static ResponseEntity<Object> create(String text, HttpStatusCode code) {
         logger.debug("Error response: {}, {}", code, text);
         ErrorInfo p = new ErrorInfo(text, code.value());
         String json = gson.toJson(p);

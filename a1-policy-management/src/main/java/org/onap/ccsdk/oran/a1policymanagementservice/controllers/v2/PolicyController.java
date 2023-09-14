@@ -33,7 +33,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import lombok.Getter;
 
@@ -105,7 +104,7 @@ public class PolicyController implements A1PolicyManagementApi {
             .create(); //
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyTypeDefinition(String policyTypeId, ServerWebExchange exchange)
+    public Mono<ResponseEntity<PolicyTypeDefinition>> getPolicyTypeDefinition(String policyTypeId, ServerWebExchange exchange)
             throws EntityNotFoundException, JsonProcessingException {
         PolicyType type = policyTypes.getType(policyTypeId);
         JsonNode node = objectMapper.readTree(type.getSchema());
@@ -114,7 +113,7 @@ public class PolicyController implements A1PolicyManagementApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyTypes(String ricId, String typeName, String compatibleWithVersion, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<PolicyTypeIdList>> getPolicyTypes(String ricId, String typeName, String compatibleWithVersion, ServerWebExchange exchange) throws Exception {
         if (compatibleWithVersion != null && typeName == null) {
             throw new ServiceException("Parameter " + Consts.COMPATIBLE_WITH_VERSION_PARAM + " can only be used when "
                     + Consts.TYPE_NAME_PARAM + " is given", HttpStatus.BAD_REQUEST);
@@ -129,12 +128,12 @@ public class PolicyController implements A1PolicyManagementApi {
 
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicy(String policyId, final ServerWebExchange exchange)
+    public Mono<ResponseEntity<PolicyInfo>> getPolicy(String policyId, final ServerWebExchange exchange)
             throws EntityNotFoundException {
         Policy policy = policies.getPolicy(policyId);
         return authorization.doAccessControl(exchange.getRequest().getHeaders().toSingleValueMap(), policy, AccessType.READ) //
-                .map(x -> new ResponseEntity<>((Object) toPolicyInfo(policy), HttpStatus.OK)) //
-                .onErrorResume(this::handleException);
+                .map(x -> new ResponseEntity<>(toPolicyInfo(policy), HttpStatus.OK)) //
+                .doOnError(error -> logger.error(error.getMessage()));
     }
 
     @Override
@@ -173,7 +172,7 @@ public class PolicyController implements A1PolicyManagementApi {
                     .flatMap(tuple -> {
                         Ric ric = tuple.getT1();
                         PolicyType type = tuple.getT2();
-
+                        keepServiceAlive(policyInfoValue.getServiceId());
                         Policy policy = Policy.builder()
                                 .id(policyInfoValue.getPolicyId())
                                 .json(jsonString)
@@ -265,7 +264,7 @@ public class PolicyController implements A1PolicyManagementApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyInstances(String policyTypeId, String ricId, String serviceId, String typeName, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<PolicyInfoList>> getPolicyInstances(String policyTypeId, String ricId, String serviceId, String typeName, ServerWebExchange exchange) throws Exception {
         if ((policyTypeId != null && this.policyTypes.get(policyTypeId) == null)) {
             throw new EntityNotFoundException("Policy type identity not found");
         }
@@ -279,12 +278,12 @@ public class PolicyController implements A1PolicyManagementApi {
                 .doOnError(e -> logger.debug("Unauthorized to read policy: {}", e.getMessage()))
                 .onErrorResume(e -> Mono.empty())
                 .collectList()
-                .map(authPolicies -> new ResponseEntity<>((Object) policiesToJson(authPolicies), HttpStatus.OK))
-                .onErrorResume(this::handleException);
+                .map(authPolicies -> new ResponseEntity<>(policiesToJson(authPolicies), HttpStatus.OK))
+                .doOnError(error -> logger.error(error.getMessage()));
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyIds(String policyTypeId, String ricId, String serviceId, String typeName, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<PolicyIdList>> getPolicyIds(String policyTypeId, String ricId, String serviceId, String typeName, ServerWebExchange exchange) throws Exception {
         if ((policyTypeId != null && this.policyTypes.get(policyTypeId) == null)) {
             throw new EntityNotFoundException("Policy type not found");
         }
@@ -298,32 +297,27 @@ public class PolicyController implements A1PolicyManagementApi {
                 .doOnError(e -> logger.debug("Unauthorized to read policy: {}", e.getMessage()))
                 .onErrorResume(e -> Mono.empty())
                 .collectList()
-                .map(authPolicies -> new ResponseEntity<>((Object)toPolicyIdsJson(authPolicies), HttpStatus.OK))
-                .onErrorResume(this::handleException);
+                .map(authPolicies -> new ResponseEntity<>(toPolicyIdsJson(authPolicies), HttpStatus.OK))
+                .doOnError(error -> logger.error(error.getMessage()));
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyStatus(String policyId, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<PolicyStatusInfo>> getPolicyStatus(String policyId, ServerWebExchange exchange) throws Exception {
         Policy policy = policies.getPolicy(policyId);
 
         return authorization.doAccessControl(exchange.getRequest().getHeaders().toSingleValueMap(), policy, AccessType.READ) //
                 .flatMap(notUsed -> a1ClientFactory.createA1Client(policy.getRic())) //
                 .flatMap(client -> client.getPolicyStatus(policy).onErrorResume(e -> Mono.just("{}"))) //
                 .flatMap(status -> createPolicyStatus(policy, status))
-                .onErrorResume(this::handleException);
+                .doOnError(error -> logger.error(error.getMessage()));
     }
 
-    private Mono<ResponseEntity<Object>> createPolicyStatus(Policy policy, String statusFromNearRic) {
+    private Mono<ResponseEntity<PolicyStatusInfo>> createPolicyStatus(Policy policy, String statusFromNearRic) {
 
-    try {
         PolicyStatusInfo policyStatusInfo = new PolicyStatusInfo();
         policyStatusInfo.setLastModified(policy.getLastModified().toString());
         policyStatusInfo.setStatus(fromJson(statusFromNearRic));
-        String policyStatusInfoAsString = objectMapper.writeValueAsString(policyStatusInfo);
-        return Mono.just(new ResponseEntity<>(policyStatusInfoAsString, HttpStatus.OK));
-    } catch (JsonProcessingException ex) {
-        throw new RuntimeException(ex);
-    }
+        return Mono.just(new ResponseEntity<>(policyStatusInfo, HttpStatus.OK));
     }
 
     private void keepServiceAlive(String name) {
@@ -334,69 +328,57 @@ public class PolicyController implements A1PolicyManagementApi {
     }
 
     private PolicyInfo toPolicyInfo(Policy policy) {
-        PolicyInfo policyInfo = new PolicyInfo()
-                .policyId(policy.getId())
-                .policyData(gson.fromJson(policy.getJson(), Map.class))
-                .ricId(policy.getRic().id())
-                .policytypeId(policy.getType().getId())
-                .serviceId(policy.getOwnerServiceId())
-                ._transient(policy.isTransient());
-        if (!policy.getStatusNotificationUri().isEmpty()) {
-            policyInfo.setStatusNotificationUri(policy.getStatusNotificationUri());
-        }
-        return policyInfo;
+       try {
+           PolicyInfo policyInfo = new PolicyInfo()
+                   .policyId(policy.getId())
+                   .policyData(objectMapper.readTree(policy.getJson()))
+                   .ricId(policy.getRic().id())
+                   .policytypeId(policy.getType().getId())
+                   .serviceId(policy.getOwnerServiceId())
+                   ._transient(policy.isTransient());
+           if (!policy.getStatusNotificationUri().isEmpty()) {
+               policyInfo.setStatusNotificationUri(policy.getStatusNotificationUri());
+           }
+           return policyInfo;
+       } catch (JsonProcessingException ex) {
+           throw new RuntimeException(ex);
+       }
     }
 
-    private String toPolicyInfoString(Policy policy) {
+    private PolicyInfoList policiesToJson(Collection<Policy> policies) {
 
-        try {
-            return objectMapper.writeValueAsString(toPolicyInfo(policy));
-        } catch (JsonProcessingException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    private String policiesToJson(Collection<Policy> policies) {
-
-            try {
                 List<PolicyInfo> policiesList = new ArrayList<>(policies.size());
                 PolicyInfoList policyInfoList = new PolicyInfoList();
                 for (Policy policy : policies) {
                     policiesList.add(toPolicyInfo(policy));
                 }
                 policyInfoList.setPolicies(policiesList);
-                return objectMapper.writeValueAsString(policyInfoList);
-            } catch(JsonProcessingException ex) {
-           throw new RuntimeException(ex);
-       }
+                return policyInfoList;
     }
 
     private Object fromJson(String jsonStr) {
         return gson.fromJson(jsonStr, Object.class);
     }
 
-    private String toPolicyTypeIdsJson(Collection<PolicyType> policyTypes) throws JsonProcessingException {
+    private PolicyTypeIdList toPolicyTypeIdsJson(Collection<PolicyType> policyTypes) {
 
+        List<String> policyTypeList = new ArrayList<>(policyTypes.size());
         PolicyTypeIdList idList = new PolicyTypeIdList();
         for (PolicyType policyType : policyTypes) {
-            idList.addPolicytypeIdsItem(policyType.getId());
+            policyTypeList.add(policyType.getId());
         }
-
-        return objectMapper.writeValueAsString(idList);
+        idList.setPolicytypeIds(policyTypeList);
+        return idList;
     }
 
-    private String toPolicyIdsJson(Collection<Policy> policies) {
+    private PolicyIdList toPolicyIdsJson(Collection<Policy> policies) {
 
-        try {
             List<String> policyIds = new ArrayList<>(policies.size());
             PolicyIdList idList = new PolicyIdList();
             for (Policy policy : policies) {
                 policyIds.add(policy.getId());
             }
             idList.setPolicyIds(policyIds);
-            return objectMapper.writeValueAsString(idList);
-        } catch (JsonProcessingException ex) {
-            throw new RuntimeException(ex);
-        }
+            return idList;
     }
 }
