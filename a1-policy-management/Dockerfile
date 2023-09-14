@@ -39,6 +39,7 @@ RUN mkdir -p /var/policy-management-service
 RUN chmod -R 777 /var/policy-management-service
 
 
+
 RUN groupadd -r onap && useradd -ms /bin/bash a1pms -g onap
 RUN chown -R a1pms:onap /var/log/policy-agent
 

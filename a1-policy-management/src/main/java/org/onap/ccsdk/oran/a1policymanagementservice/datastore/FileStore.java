@@ -83,7 +83,7 @@ class FileStore implements DataStore {
     private String externalName(Path path) {
         String fullName = path.toString();
         String externalName = fullName.substring(path().toString().length());
-        if (externalName.startsWith("/")) {
+        if (externalName.startsWith(File.separator)) {
             externalName = externalName.substring(1);
         }
         return externalName;
@@ -127,7 +127,7 @@ class FileStore implements DataStore {
     }
 
     private Path path() {
-        return Path.of(applicationConfig.getVardataDirectory(), "database", this.location);
+        return Path.of(applicationConfig.getVardataDirectory(), "database", this.location, File.separator);
     }
 
     @Override
