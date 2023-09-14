@@ -197,7 +197,7 @@ public class Policies {
 
         byte[] bytes = gson.toJson(toStorageObject(policy)).getBytes();
         this.dataStore.writeObject(this.getPath(policy), bytes) //
-                .doOnError(t -> logger.error("Could not store policy in S3, reason: {}", t.getMessage())) //
+                .doOnError(t -> logger.error("Could not store policy in S3, reason: {}", t.getMessage()))
                 .subscribe();
     }
 
@@ -232,29 +232,29 @@ public class Policies {
     }
 
     private PersistentPolicyInfo toStorageObject(Policy p) {
-        return PersistentPolicyInfo.builder() //
-                .id(p.getId()) //
-                .json(p.getJson()) //
-                .ownerServiceId(p.getOwnerServiceId()) //
-                .ricId(p.getRic().id()) //
-                .statusNotificationUri(p.getStatusNotificationUri()) //
-                .typeId(p.getType().getId()) //
-                .isTransient(p.isTransient()) //
-                .lastModified(p.getLastModified().toString()) //
+        return PersistentPolicyInfo.builder()
+                .id(p.getId())
+                .json(p.getJson())
+                .ownerServiceId(p.getOwnerServiceId())
+                .ricId(p.getRic().id())
+                .statusNotificationUri(p.getStatusNotificationUri())
+                .typeId(p.getType().getId())
+                .isTransient(p.isTransient())
+                .lastModified(p.getLastModified().toString())
                 .build();
     }
 
     private Policy toPolicy(PersistentPolicyInfo p, Ric ric, PolicyTypes types) {
         try {
-            return Policy.builder() //
-                    .id(p.getId()) //
-                    .isTransient(p.isTransient()) //
-                    .json(p.getJson()) //
-                    .lastModified(Instant.parse(p.lastModified)) //
-                    .ownerServiceId(p.getOwnerServiceId()) //
-                    .ric(ric) //
-                    .statusNotificationUri(p.getStatusNotificationUri()) //
-                    .type(types.getType(p.getTypeId())) //
+            return Policy.builder()
+                    .id(p.getId())
+                    .isTransient(p.isTransient())
+                    .json(p.getJson())
+                    .lastModified(Instant.parse(p.lastModified))
+                    .ownerServiceId(p.getOwnerServiceId())
+                    .ric(ric)
+                    .statusNotificationUri(p.getStatusNotificationUri())
+                    .type(types.getType(p.getTypeId()))
                     .build();
         } catch (EntityNotFoundException e) {
             logger.warn("Not found: {}", e.getMessage());
