@@ -31,8 +31,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatReactiveWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -78,8 +79,8 @@ public class BeanFactory {
     }
 
     @Bean
-    public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+    public ReactiveWebServerFactory servletContainer() {
+        TomcatReactiveWebServerFactory tomcat = new TomcatReactiveWebServerFactory();
         if (httpPort > 0) {
             tomcat.addAdditionalTomcatConnectors(getHttpConnector(httpPort));
         }
