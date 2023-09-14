@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,20 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.HealthCheckApi;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @RestController("StatusControllerV2")
-@Tag( //
-        name = StatusController.API_NAME, //
-        description = StatusController.API_DESCRIPTION //
+@Tag(   name = StatusController.API_NAME,
+        description = StatusController.API_DESCRIPTION
 )
-public class StatusController {
+public class StatusController implements HealthCheckApi{
 
     public static final String API_NAME = "Health Check";
     public static final String API_DESCRIPTION = "";
@@ -55,27 +48,14 @@ public class StatusController {
         }
     }
 
-    @GetMapping(path = Consts.V2_API_ROOT + "/status", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Returns status and statistics of this service")
-    @ApiResponses(value = { //
-            @ApiResponse(responseCode = "200", //
-                    description = "Service is living", //
-                    content = @Content(schema = @Schema(implementation = StatusInfo.class))), //
-    })
-
-    public Mono<ResponseEntity<Object>> getStatus() {
+    @Override
+    public Mono<ResponseEntity<Object>> getStatus(final ServerWebExchange exchange) {
         StatusInfo info = new StatusInfo("success");
         return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
     }
 
-    @GetMapping("/status")
-    @Operation(summary = "Returns status and statistics of this service")
-    @ApiResponses(value = { //
-            @ApiResponse(responseCode = "200", description = "Service is living",
-                    content = @Content(schema = @Schema(implementation = String.class))) //
-    })
-
-    public Mono<ResponseEntity<String>> getStatusV1() {
+    @Override
+    public Mono<ResponseEntity<String>> getStatusV1(final ServerWebExchange exchange) {
         return Mono.just(new ResponseEntity<>("success", HttpStatus.OK));
     }
 
