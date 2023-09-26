@@ -16,6 +16,29 @@
       "message": "Looking good at this stage. \nService is now tested to be functionally equivalent to master version.\nStill need to enforce schema usage (not example usage) in openapi for each operation - but can do this in another review if you wish.",
       "revId": "7a3f4ef5f7d3bab6f85ccd9f66425ea09b6ee5a1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24d0aa40_7dcd84b6",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 15
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-09-26T13:55:36Z",
+      "side": 1,
+      "message": "did you not need to add \u0027x-field-extra-annotation: \u0027@JsonProperty(\"transient\")\u0027  here?",
+      "range": {
+        "startLine": 1297,
+        "startChar": 8,
+        "endLine": 1297,
+        "endChar": 18
+      },
+      "revId": "7a3f4ef5f7d3bab6f85ccd9f66425ea09b6ee5a1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
