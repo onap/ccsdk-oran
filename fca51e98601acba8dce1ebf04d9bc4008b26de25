@@ -133,6 +133,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65791422_2f3dd145",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Will look on the alternative approaches and it is suitable will update this in next change",
+      "parentUuid": "65c95a29_aa724f59",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 28
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80093878_fd5531c9",
@@ -146,6 +170,30 @@
       "writtenOn": "2023-09-08T14:08:31Z",
       "side": 1,
       "message": "ref #schemas/status_info ?",
+      "range": {
+        "startLine": 176,
+        "startChar": 16,
+        "endLine": 176,
+        "endChar": 28
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4c6487_5f2ba90e",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "same as above similar comment",
+      "parentUuid": "80093878_fd5531c9",
       "range": {
         "startLine": 176,
         "startChar": 16,
@@ -179,6 +227,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88e932b4_008d02d8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b8b6413_89485d19",
+      "range": {
+        "startLine": 164,
+        "startChar": 103,
+        "endLine": 164,
+        "endChar": 117
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "231e305f_67dd3d5f",
@@ -192,6 +264,30 @@
       "writtenOn": "2023-09-08T14:08:31Z",
       "side": 1,
       "message": "can remove?",
+      "range": {
+        "startLine": 166,
+        "startChar": 91,
+        "endLine": 166,
+        "endChar": 105
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "358384f2_b03e47e4",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231e305f_67dd3d5f",
       "range": {
         "startLine": 166,
         "startChar": 91,
@@ -225,6 +321,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d7d8f2_28635af3",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e34d76b8_c2beeafa",
+      "range": {
+        "startLine": 185,
+        "startChar": 75,
+        "endLine": 185,
+        "endChar": 76
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81d1ec77_3290038c",
@@ -238,6 +358,54 @@
       "writtenOn": "2023-09-08T14:08:31Z",
       "side": 1,
       "message": "Will this exception be caught correctly?",
+      "range": {
+        "startLine": 304,
+        "startChar": 34,
+        "endLine": 304,
+        "endChar": 50
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab5ed74_9e55386b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81d1ec77_3290038c",
+      "range": {
+        "startLine": 304,
+        "startChar": 34,
+        "endLine": 304,
+        "endChar": 50
+      },
+      "revId": "fca51e98601acba8dce1ebf04d9bc4008b26de25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adad0f38_e3dc8b5c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81d1ec77_3290038c",
       "range": {
         "startLine": 304,
         "startChar": 34,

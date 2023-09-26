@@ -22,6 +22,30 @@
       },
       "revId": "17233f53143e3b77213be2c14659b3d3f51fc2ea",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a5c10b_81df930c",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/BeanFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-26T11:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d29b23e_9df353ce",
+      "range": {
+        "startLine": 91,
+        "startChar": 44,
+        "endLine": 91,
+        "endChar": 73
+      },
+      "revId": "17233f53143e3b77213be2c14659b3d3f51fc2ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
