@@ -39,6 +39,30 @@
       },
       "revId": "7a3f4ef5f7d3bab6f85ccd9f66425ea09b6ee5a1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d6e840_a5177961",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 15
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2023-09-27T11:11:04Z",
+      "side": 1,
+      "message": "It not needed, @JsonProperty(\"transient\") is added by the generator. and the java variable is coming as \u0027_transient\u0027 and when serializing it come as \u0027transient\u0027 without underscore",
+      "parentUuid": "24d0aa40_7dcd84b6",
+      "range": {
+        "startLine": 1297,
+        "startChar": 8,
+        "endLine": 1297,
+        "endChar": 18
+      },
+      "revId": "7a3f4ef5f7d3bab6f85ccd9f66425ea09b6ee5a1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
