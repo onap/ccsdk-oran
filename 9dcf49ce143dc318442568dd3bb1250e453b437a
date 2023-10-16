@@ -46,6 +46,30 @@
       },
       "revId": "9dcf49ce143dc318442568dd3bb1250e453b437a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "980c6406_ed289745",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ApplicationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2023-10-16T14:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c477ccb7_5ac10c92",
+      "range": {
+        "startLine": 746,
+        "startChar": 3,
+        "endLine": 748,
+        "endChar": 9
+      },
+      "revId": "9dcf49ce143dc318442568dd3bb1250e453b437a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
