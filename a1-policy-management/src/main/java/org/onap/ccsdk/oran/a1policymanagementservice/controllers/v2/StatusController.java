@@ -20,9 +20,9 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.HealthCheckApi;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.StatusInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,19 +38,9 @@ public class StatusController implements HealthCheckApi{
     public static final String API_NAME = "Health Check";
     public static final String API_DESCRIPTION = "";
 
-    @Schema(name = "status_info_v2")
-    class StatusInfo {
-        @Schema(description = "status text")
-        public final String status;
-
-        StatusInfo(String status) {
-            this.status = status;
-        }
-    }
-
     @Override
-    public Mono<ResponseEntity<Object>> getStatus(final ServerWebExchange exchange) {
-        StatusInfo info = new StatusInfo("success");
+    public Mono<ResponseEntity<StatusInfo>> getStatus(final ServerWebExchange exchange) {
+        StatusInfo info = new StatusInfo().status("success");
         return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
     }
 

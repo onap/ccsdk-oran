@@ -76,9 +76,9 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
             "Either information about a registered service with given identity or all registered services are returned.";
 
     @Override
-    public Mono<ResponseEntity<Object>> getServices(final String name, final ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<ServiceStatusList>> getServices(final String name, final ServerWebExchange exchange) throws Exception {
         if (name != null && this.services.get(name) == null) {
-            return ErrorResponse.createMono("Service not found", HttpStatus.NOT_FOUND);
+            throw new ServiceException("Service not found", HttpStatus.NOT_FOUND);
         }
 
         List<ServiceStatus> servicesStatus = new ArrayList<>();
@@ -87,8 +87,7 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
                 servicesStatus.add(toServiceStatus(s));
             }
         }
-        String res = objectMapper.writeValueAsString(new ServiceStatusList().serviceList(servicesStatus));
-        return Mono.just(new ResponseEntity<>(res, HttpStatus.OK));
+        return Mono.just(new ResponseEntity<>(new ServiceStatusList().serviceList(servicesStatus), HttpStatus.OK));
     }
 
     private ServiceStatus toServiceStatus(Service s) {
@@ -148,14 +147,10 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
     }
 
     @Override
-    @PutMapping(Consts.V2_API_ROOT + "/services/{service_id}/keepalive")
-    public Mono<ResponseEntity<Object>> keepAliveService(final String serviceId, final ServerWebExchange exchange) {
-        try {
+    public Mono<ResponseEntity<Object>> keepAliveService(final String serviceId, final ServerWebExchange exchange) throws ServiceException {
+
             services.getService(serviceId).keepAlive();
             return Mono.just(new ResponseEntity<>(HttpStatus.OK));
-        } catch (ServiceException e) {
-            return ErrorResponse.createMono(e, HttpStatus.NOT_FOUND);
-        }
     }
 
     private Service removeService(String name) throws ServiceException {

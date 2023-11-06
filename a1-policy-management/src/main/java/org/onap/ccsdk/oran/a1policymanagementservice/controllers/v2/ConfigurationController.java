@@ -27,6 +27,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.ConfigurationApi;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,27 +79,20 @@ public class ConfigurationController implements ConfigurationApi {
                         logger.warn("Configuration file not written, {}.", ioe.getMessage());
                         return ErrorResponse.createMono("Internal error when writing the configuration.",
                                 HttpStatus.INTERNAL_SERVER_ERROR);
-                    } catch (Exception e) {
+                    } catch (ServiceException e) {
                         return ErrorResponse.createMono(e, HttpStatus.BAD_REQUEST);
                     }
                 })
-                .onErrorResume(error -> {
-                    return ErrorResponse.createMono(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-                });
+                .doOnError(error -> logger.error(error.getMessage()));
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getConfiguration(final ServerWebExchange exchange) {
-        try {
+    public Mono<ResponseEntity<String>> getConfiguration(final ServerWebExchange exchange) throws ServiceException {
             Optional<JsonObject> rootObject = configurationFile.readFile();
             if (rootObject.isPresent()) {
                 return Mono.just(new ResponseEntity<>(rootObject.get().toString(), HttpStatus.OK));
             } else {
-                return ErrorResponse.createMono("File does not exist", HttpStatus.NOT_FOUND);
+                throw new ServiceException("File does not exist", HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
-            return ErrorResponse.createMono(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
-
 }

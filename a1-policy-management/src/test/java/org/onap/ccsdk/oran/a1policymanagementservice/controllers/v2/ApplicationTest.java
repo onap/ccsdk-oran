@@ -22,8 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -65,7 +64,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.P
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.RicInfo;
-import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyTypeDefinition;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyTypeIdList;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyInfoList;
@@ -745,8 +743,8 @@ class ApplicationTest {
         {
             String response = restClient().get(url).block();
             PolicyInfo policyInfo = objectMapper.readValue(response, PolicyInfo.class);
-            String policyData = gson.toJson(policyInfo.getPolicyData());
-            assertThat(policyData).isEqualTo(policy.getJson());
+            String expectedResponse = "{\"ric_id\":\"ric1\",\"service_id\":\"service1\",\"policy_id\":\"id\",\"policy_data\":{\"servingCellNrcgi\":\"1\"},\"status_notification_uri\":\"/policy-status?id=XXX\",\"policytype_id\":\"typeName\",\"transient\":false}";
+            assertEquals(objectMapper.readTree(expectedResponse), objectMapper.readTree(response));
         }
         {
             policies.remove(policy);
@@ -1030,7 +1028,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Service Status")
-    void testGetServiceStatus() throws Exception {
+    void testGetServiceStatus() {
         String url = "/status";
         String rsp = restClient().get(url).block();
         assertThat(rsp).contains("success");
@@ -1071,19 +1069,23 @@ class ApplicationTest {
     }
 
     private Policy addPolicy(String id, String typeName, String service, String ric) throws ServiceException {
-        addRic(ric);
-        Policy policy = Policy.builder()
-                .id(id)
-                .json(gson.toJson(jsonString()))
-                .ownerServiceId(service)
-                .ric(rics.getRic(ric))
-                .type(addPolicyType(typeName, ric))
-                .lastModified(Instant.now())
-                .isTransient(false)
-                .statusNotificationUri("/policy-status?id=XXX")
-                .build();
-        policies.put(policy);
-        return policy;
+       try {
+           addRic(ric);
+           Policy policy = Policy.builder()
+                   .id(id)
+                   .json(objectMapper.writeValueAsString(jsonString()))
+                   .ownerServiceId(service)
+                   .ric(rics.getRic(ric))
+                   .type(addPolicyType(typeName, ric))
+                   .lastModified(Instant.now())
+                   .isTransient(false)
+                   .statusNotificationUri("/policy-status?id=XXX")
+                   .build();
+           policies.put(policy);
+           return policy;
+       } catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex);
+       }
     }
 
     private Policy addPolicy(String id, String typeName, String service) throws ServiceException {
@@ -1112,6 +1114,7 @@ class ApplicationTest {
         String body = createServiceJson(name, keepAliveIntervalSeconds);
         ResponseEntity<String> resp = restClient().putForEntity(url, body).block();
         if (expectedStatus != null) {
+            assertNotNull(resp);
             assertEquals(expectedStatus, resp.getStatusCode(), "");
         }
     }
@@ -1232,7 +1235,7 @@ class ApplicationTest {
         return true;
     }
 
-    private MockA1Client getA1Client(String ricId) throws ServiceException {
+    private MockA1Client getA1Client(String ricId) {
         return a1ClientFactory.getOrCreateA1Client(ricId);
     }
 

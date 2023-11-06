@@ -112,7 +112,7 @@ paths:
                 policy_info_list:
                   $ref: '#/components/examples/policy_info_list'
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_info_list'
           description: Policies
         "404":
           content:
@@ -173,7 +173,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/status_info'
               examples:
                 status_info:
                   $ref: '#/components/examples/status_info'
@@ -248,7 +248,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/ric_info'
               examples:
                 ric_info:
                   $ref: '#/components/examples/ric_info'
@@ -321,7 +321,7 @@ paths:
                 policy_type_id_list:
                   $ref: '#/components/examples/policy_type_id_list'
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_type_id_list'
           description: Policy type IDs
         "404":
           content:
@@ -386,7 +386,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_info'
               examples:
                 policy_info:
                   $ref: '#/components/examples/policy_info'
@@ -435,7 +435,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: string
           description: Configuration
         "404":
           content:
@@ -639,7 +639,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/ric_info_list'
               examples:
                 ric_info_list:
                   $ref: '#/components/examples/ric_info_list'
@@ -672,7 +672,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/service_status_list'
               examples:
                 service_status_list:
                   $ref: '#/components/examples/service_status_list'
@@ -769,7 +769,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_type_definition'
               examples:
                 policy_type_definition:
                   $ref: '#/components/examples/policy_type_definition'
@@ -863,7 +863,7 @@ paths:
                 policy_id_list:
                   $ref: '#/components/examples/policy_id_list'
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_id_list'
           description: Policy identities
         "404":
           content:
@@ -995,7 +995,7 @@ paths:
                 policy_status_info:
                   $ref: '#/components/examples/policy_status_info'
               schema:
-                type: object
+                $ref: '#/components/schemas/policy_status_info'
           description: Policy status
         "404":
           content:

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,17 +69,17 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
             "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>" //
                     + "The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).";
     @Override
-    public Mono<ResponseEntity<Object>> getRic(
+    public Mono<ResponseEntity<RicInfo>> getRic(
             final String managedElementId, final String ricId, final ServerWebExchange exchange)
             throws Exception {
         if (managedElementId != null && ricId != null) {
             throw new InvalidRequestException("Give one query parameter");
         } else if (managedElementId != null) {
             Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
-            return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(toRicInfo(ric)), HttpStatus.OK));
+            return Mono.just(new ResponseEntity<>(toRicInfo(ric), HttpStatus.OK));
         } else if (ricId != null) {
             RicInfo info = toRicInfo(this.rics.getRic(ricId));
-            return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(info), HttpStatus.OK));
+            return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
         } else {
             throw new InvalidRequestException("Give one query parameter");
         }
@@ -89,7 +89,7 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
             "The call returns all Near-RT RICs that supports a given policy type identity";
 
     @Override
-    public Mono<ResponseEntity<Object>> getRics(final String supportingPolicyType, final ServerWebExchange exchange)
+    public Mono<ResponseEntity<RicInfoList>> getRics(final String supportingPolicyType, final ServerWebExchange exchange)
             throws Exception {
         if ((supportingPolicyType != null) && (this.types.get(supportingPolicyType) == null)) {
             throw new EntityNotFoundException("Policy type not found");
@@ -102,7 +102,7 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
             }
         }
 
-        return Mono.just(new ResponseEntity<>(objectMapper.writeValueAsString(new RicInfoList().rics(result)), HttpStatus.OK));
+        return Mono.just(new ResponseEntity<>(new RicInfoList().rics(result), HttpStatus.OK));
     }
 
     private RicInfo.StateEnum toRicState(Ric.RicState state) {
