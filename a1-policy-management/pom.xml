@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-31-starter-parent</artifactId>
-        <version>2.6.1-SNAPSHOT</version>
+        <version>2.6.1</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
