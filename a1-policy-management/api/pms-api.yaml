@@ -1,5 +1,6 @@
 #  ============LICENSE_START=======================================================
 #  Copyright (C) 2020-2023 Nordix Foundation
+#  Copyright (C) 2023 OpenInfra Foundation Europe. All rights reserved.
 #  Modifications Copyright (C) 2021 Pantheon.tech
 #  Modifications Copyright (C) 2021 Bell Canada
 #  ================================================================================
@@ -721,6 +722,28 @@ paths:
       summary: Register a service
       tags:
         - Service Registry and Supervision
+      callbacks:
+        RICStatus:
+          "{$request.body#/callback_url}":
+           post:
+            description: The URL to this call is registered at Service registration.
+            operationId: serviceCallback
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/service_callback_info_v2'
+              required: true
+            responses:
+              "200":
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/void'
+                description: OK
+            summary: Callback for Near-RT RIC status
+            tags:
+              - Service callbacks
   /actuator/info:
     get:
       operationId: info
@@ -910,26 +933,6 @@ paths:
       summary: Create or update a policy
       tags:
         - A1 Policy Management
-  /r-app/near-rt-ric-status:
-    post:
-      description: The URL to this call is registered at Service registration.
-      operationId: serviceCallback
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/service_callback_info_v2'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/void'
-          description: OK
-      summary: Callback for Near-RT RIC status
-      tags:
-        - Service callbacks
   /a1-policy/v2/services/{service_id}:
     delete:
       operationId: deleteService
