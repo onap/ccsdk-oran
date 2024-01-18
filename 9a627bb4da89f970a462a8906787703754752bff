@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d5c373_84a2bfd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-01-18T10:34:32Z",
+      "side": 1,
+      "message": "No, I am saying about both yaml and json files",
+      "parentUuid": "2567dd8e_8df8fee2",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bf72a325_a243ce07",
