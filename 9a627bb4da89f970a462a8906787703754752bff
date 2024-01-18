@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2567dd8e_8df8fee2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-01-18T09:46:39Z",
+      "side": 1,
+      "message": "Should this be pms-api.yaml, that is with a dot?",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bf72a325_a243ce07",
@@ -14,6 +37,63 @@
       "writtenOn": "2024-01-18T09:38:05Z",
       "side": 1,
       "message": "recheck",
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5c67ee4_b0f41078",
+        "filename": "docs/offeredapis/openapitoolgen/offeredapis/pms-api/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 13381,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-01-18T09:46:39Z",
+      "side": 1,
+      "message": "I would replace \", and\" with just a full stop.",
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c822f3d3_bbcf5c1b",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-01-18T09:46:39Z",
+      "side": 1,
+      "message": "I would replace \", and\" with full stop.",
+      "range": {
+        "startLine": 7,
+        "startChar": 92,
+        "endLine": 7,
+        "endChar": 97
+      },
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde0be26_83d47923",
+        "filename": "docs/offeredapis/swagger/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-01-18T09:46:39Z",
+      "side": 1,
+      "message": "I would leave out the trailing \", and\"",
       "revId": "9a627bb4da89f970a462a8906787703754752bff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
