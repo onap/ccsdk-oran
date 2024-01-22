@@ -140,6 +140,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c86f80_0f51d858",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-01-22T14:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07145063_a1c5de17",
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5c67ee4_b0f41078",
@@ -153,6 +171,24 @@
       "writtenOn": "2024-01-18T09:46:39Z",
       "side": 1,
       "message": "I would replace \", and\" with just a full stop.",
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc7dae2_844eb9e1",
+        "filename": "docs/offeredapis/openapitoolgen/offeredapis/pms-api/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 13381,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-01-22T14:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5c67ee4_b0f41078",
       "revId": "9a627bb4da89f970a462a8906787703754752bff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
@@ -180,6 +216,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c88fb5_03e56a97",
+        "filename": "docs/offeredapis/swagger/pms-api.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-01-22T14:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c822f3d3_bbcf5c1b",
+      "range": {
+        "startLine": 7,
+        "startChar": 92,
+        "endLine": 7,
+        "endChar": 97
+      },
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cde0be26_83d47923",
@@ -193,6 +253,24 @@
       "writtenOn": "2024-01-18T09:46:39Z",
       "side": 1,
       "message": "I would leave out the trailing \", and\"",
+      "revId": "9a627bb4da89f970a462a8906787703754752bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d0f726_c357d69a",
+        "filename": "docs/offeredapis/swagger/pms-api.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-01-22T14:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde0be26_83d47923",
       "revId": "9a627bb4da89f970a462a8906787703754752bff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
