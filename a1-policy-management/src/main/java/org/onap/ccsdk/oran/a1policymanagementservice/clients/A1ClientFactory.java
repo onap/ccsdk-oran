@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,22 +106,31 @@ public class A1ClientFactory {
 
     private A1Client createCustomAdapter(Ric ric) throws ServiceException {
         try {
-            Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
-            if (A1Client.class.isAssignableFrom(clazz)) {
-                Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
-                logger.debug("A1Client (" + clazz.getTypeName() + ") being created for ric: {}",
-                        ric.getConfig().getRicId());
-                return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
-            } else if (A1Client.Factory.class.isAssignableFrom(clazz)) {
-                A1Client.Factory factory = (A1Client.Factory) clazz.getDeclaredConstructor().newInstance();
-                logger.debug("A1Client (" + clazz.getTypeName() + ") factory creating client for ric: {}",
-                        ric.getConfig().getRicId());
-                return factory.create(ric.getConfig(), this.restClientFactory);
+            if (ric.getConfig().getCustomAdapterClass() != null && !ric.getConfig().getCustomAdapterClass().isEmpty()) {
+                Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
+                if (A1Client.class.isAssignableFrom(clazz)) {
+                    Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
+                    logger.debug("A1Client (" + clazz.getTypeName() + ") being created for ric: {}",
+                            ric.getConfig().getRicId());
+                    return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
+                } else if (A1Client.Factory.class.isAssignableFrom(clazz)) {
+                    A1Client.Factory factory = (A1Client.Factory) clazz.getDeclaredConstructor().newInstance();
+                    logger.debug("A1Client (" + clazz.getTypeName() + ") factory creating client for ric: {}",
+                            ric.getConfig().getRicId());
+                    return factory.create(ric.getConfig(), this.restClientFactory);
+                } else {
+                    throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");
+                }
             } else {
-                throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");
+                throw new ServiceException("Custom adapter class is required to use A1ProtocolType.CUSTOM_PROTOCOL");
             }
         } catch (ClassNotFoundException e) {
             throw new ServiceException("Could not find class: " + ric.getConfig().getCustomAdapterClass(), e);
+        } catch (NoSuchMethodException e) {
+            throw new ServiceException("Could not find the required constructor in class "
+                                               + ric.getConfig().getCustomAdapterClass(), e);
+        } catch (ServiceException e) {
+            throw e;
         } catch (Exception e) {
             throw new ServiceException("Cannot create custom adapter: " + ric.getConfig().getCustomAdapterClass(), e);
         }

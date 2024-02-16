@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +42,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -148,6 +150,18 @@ class A1ClientFactoryTest {
             factoryUnderTest.createClient(new Ric(ricConfig("", "junk")), A1ProtocolType.CUSTOM_PROTOCOL);
         });
         assertEquals("Could not find class: junk", e.getMessage());
+
+        Exception exceptionNoSuchMethod = Assertions.assertThrows(Exception.class, () -> {
+            factoryUnderTest.createClient(new Ric(ricConfig("", MockA1Client.class.getName())),
+                    A1ProtocolType.CUSTOM_PROTOCOL);
+        });
+        assertEquals("Could not find the required constructor in class " + MockA1Client.class.getName(),
+                exceptionNoSuchMethod.getMessage());
+
+        Exception exceptionNullCustomAdaptor = Assertions.assertThrows(Exception.class, () -> {
+            factoryUnderTest.createClient(new Ric(ricConfig("", null)), A1ProtocolType.CUSTOM_PROTOCOL);
+        });
+        assertEquals("Custom adapter class is required to use A1ProtocolType.CUSTOM_PROTOCOL", exceptionNullCustomAdaptor.getMessage());
     }
 
     @Test
