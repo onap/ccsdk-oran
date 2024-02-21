@@ -1,6 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright (C) 2023 Nordix Foundation.
+.. Copyright 2023 Nordix Foundation. All rights reserved.
+.. Copyright 2024 OpenInfra Foundation Europe. All rights reserved.
 
 .. _developer_guide:
 
@@ -9,7 +10,7 @@ Developer Guide
 
 This document provides a quickstart for developers of the CCSDK functions for O-RAN A1 Policies.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-London.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Montreal.png
    :width: 500pt
 
 Source tree
