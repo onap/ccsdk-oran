@@ -1,5 +1,6 @@
 .. SPDX-License-Identifier: CC-BY-4.0
-.. Copyright 2023 Nordix Foundation
+.. Copyright 2023 Nordix Foundation. All rights reserved.
+.. Copyright 2024 OpenInfra Foundation Europe. All rights reserved.
 .. _architecture:
 
 
