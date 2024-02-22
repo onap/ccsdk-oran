@@ -16,6 +16,24 @@
       "message": "Not sure why an RTD job wasn\u0027t triggered?",
       "revId": "60f10651e91a33e2980d190160e6371cb3ba3515",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "011dcecc_45e3ce26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-22T15:22:06Z",
+      "side": 1,
+      "message": "Ah. Triggered by Github actions now: https://github.com/onap/.github/actions/workflows/gerrit-required-merge.yaml",
+      "parentUuid": "064884af_99842fc0",
+      "revId": "60f10651e91a33e2980d190160e6371cb3ba3515",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
