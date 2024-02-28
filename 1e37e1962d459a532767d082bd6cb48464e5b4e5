@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8fd214a_eb58eeb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T12:48:35Z",
+      "side": 1,
+      "message": "... but would it be better to maintain this file with plugins and versions locally in ONAP?",
+      "revId": "1e37e1962d459a532767d082bd6cb48464e5b4e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
