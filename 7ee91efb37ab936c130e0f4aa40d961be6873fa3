@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b4d5eeb_1449120e",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 0,
+      "message": "Clearly this was wrong ...",
+      "range": {
+        "startLine": 332,
+        "startChar": 23,
+        "endLine": 332,
+        "endChar": 47
+      },
+      "revId": "7ee91efb37ab936c130e0f4aa40d961be6873fa3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73b8c7f_e5b1f9ce",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 0,
+      "message": "Obviously wrong, again",
+      "range": {
+        "startLine": 653,
+        "startChar": 23,
+        "endLine": 653,
+        "endChar": 40
+      },
+      "revId": "7ee91efb37ab936c130e0f4aa40d961be6873fa3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

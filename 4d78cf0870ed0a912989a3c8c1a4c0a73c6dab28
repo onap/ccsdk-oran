@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39224840_8c02f809",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Few suggestions",
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be149ef5_ca46e903",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Could add a specific error that the requested near-rt-ric is not found, rather than a generic \u0027resource\u0027 not found error ?",
+      "range": {
+        "startLine": 277,
+        "startChar": 40,
+        "endLine": 277,
+        "endChar": 48
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95341d75_4e102f7e",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Policy Type IDs found \n(To be consistent with other GETs)",
+      "range": {
+        "startLine": 341,
+        "startChar": 40,
+        "endLine": 341,
+        "endChar": 44
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6678f218_d20acc62",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Similar to above ... more specific error description might be useful? \n(And the same throughout the document?)",
+      "range": {
+        "startLine": 343,
+        "startChar": 39,
+        "endLine": 343,
+        "endChar": 48
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7917a582_916c2cf9",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "policy_id (same as the parameter name), or rephrase to \"using the Policy\u0027s Policy ID\" ?",
+      "range": {
+        "startLine": 349,
+        "startChar": 45,
+        "endLine": 349,
+        "endChar": 53
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6f2f983_f3e1c5e7",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Ok - Policy deleted?",
+      "range": {
+        "startLine": 365,
+        "startChar": 23,
+        "endLine": 365,
+        "endChar": 25
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bc4811d_326840cc",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Perhaps tag all actuatorv(and configuration) resources with x-internal ?",
+      "range": {
+        "startLine": 396,
+        "startChar": 3,
+        "endLine": 396,
+        "endChar": 11
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f808b936_5d04a404",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Configuration",
+      "range": {
+        "startLine": 435,
+        "startChar": 35,
+        "endLine": 435,
+        "endChar": 40
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a010ac92_e1623e66",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "remove file",
+      "range": {
+        "startLine": 456,
+        "startChar": 53,
+        "endLine": 456,
+        "endChar": 58
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a44a0f_1bb0c630",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Requested resource is in a locked state.\nExtra whitespace",
+      "range": {
+        "startLine": 955,
+        "startChar": 41,
+        "endLine": 955,
+        "endChar": 46
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c6b5a6_2dfa52cd",
+        "filename": "a1-policy-management/api/pms-api.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-02-28T13:23:18Z",
+      "side": 1,
+      "message": "Is this correct format?",
+      "range": {
+        "startLine": 1045,
+        "startChar": 7,
+        "endLine": 1047,
+        "endChar": 22
+      },
+      "revId": "4d78cf0870ed0a912989a3c8c1a4c0a73c6dab28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
