@@ -4,6 +4,7 @@
   ~ ONAP : ccsdk oran
   ~ ================================================================================
   ~ Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+  ~ Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
   ~ ================================================================================
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -360,7 +361,7 @@
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
                                 <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed
-                                    under the Apache License.</licenseInfo>
+                                    under the Apache License, and Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
                         </configuration>
@@ -408,7 +409,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.basedir}/../docs/offeredapis/swagger</outputDirectory>
-                            <verbose>true</verbose>
+                            <overwrite>true</overwrite>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/api</directory>
