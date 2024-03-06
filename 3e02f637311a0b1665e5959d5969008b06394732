@@ -135,6 +135,23 @@
       "message": "Ready for merge?",
       "revId": "3e02f637311a0b1665e5959d5969008b06394732",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b52066_d9003280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-03-06T14:34:43Z",
+      "side": 1,
+      "message": "Ready for review / merge?",
+      "revId": "3e02f637311a0b1665e5959d5969008b06394732",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
