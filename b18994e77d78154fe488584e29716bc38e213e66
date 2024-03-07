@@ -50,6 +50,23 @@
       "message": "recheck",
       "revId": "b18994e77d78154fe488584e29716bc38e213e66",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e65263_bea03aa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-03-07T17:41:24Z",
+      "side": 1,
+      "message": "Internal error in RTD verify .. New .. \nMaybe related to https://gerrit.onap.org/r/c/ccsdk/oran/+/137416 \nTry cherrypick/include that change here too?",
+      "revId": "b18994e77d78154fe488584e29716bc38e213e66",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
