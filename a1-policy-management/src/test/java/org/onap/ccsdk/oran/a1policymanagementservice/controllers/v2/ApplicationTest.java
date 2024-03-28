@@ -497,19 +497,6 @@ class ApplicationTest {
         return objectMapper.writeValueAsString(policyInfo);
     }
 
-    private String putPolicyBod(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
-                                       boolean isTransient, String statusNotificationUri) throws JsonProcessingException {
-        PolicyInfo policyInfo = new PolicyInfo();
-        policyInfo.setPolicyId(policyInstanceId);
-        policyInfo.setPolicytypeId(policyTypeName);
-        policyInfo.setRicId(ricId);
-        policyInfo.setServiceId(serviceName);
-        policyInfo.setPolicyData(jsonString());
-        policyInfo.setTransient(isTransient);
-        policyInfo.setStatusNotificationUri(statusNotificationUri);
-        return objectMapper.writeValueAsString(policyInfo);
-    }
-
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId) throws JsonProcessingException {
         return putPolicyBody(serviceName, ricId, policyTypeName, policyInstanceId, false, "statusUri");
     }
