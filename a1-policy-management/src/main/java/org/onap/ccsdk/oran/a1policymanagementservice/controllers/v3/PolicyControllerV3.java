@@ -65,31 +65,31 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
 
     @Override
     public Mono<ResponseEntity<Void>> deletePolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
-        return null;
+        return policyService.deletePolicyService(policyId, exchange);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
-        return null;
+        return policyService.getPolicyService(policyId, exchange);
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyInformation>>> getPolicyIds(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
-        return null;
+        return policyService.getPolicyIdsService(policyTypeId, nearRtRicId, serviceId, typeName, exchange);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicyTypeDefinition(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
-        return null;
+        return policyService.getPolicyTypeDefinitionService(policyTypeId);
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypes(String nearRtRicId, String typeName, String compatibleWithVersion, String accept, ServerWebExchange exchange) throws Exception {
-        return null;
+        return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion, exchange);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> putPolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
-        return null;
+        return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange));
     }
 }
