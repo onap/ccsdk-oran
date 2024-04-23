@@ -23,7 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.util.v3;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +33,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class Helper {
@@ -115,5 +120,17 @@ public class Helper {
                     ("Policy already created with ID: " + policy.getId(), HttpStatus.CONFLICT));
         }
             return Mono.just(policy);
+    }
+
+    public Flux<PolicyInformation> toFluxPolicyInformation(Collection<Policy> policyCollection) {
+        return Flux.fromIterable(policyCollection.stream()
+                .map(singlePolicy -> new PolicyInformation(singlePolicy.getId(), singlePolicy.getRic().getConfig().getRicId()))
+                .collect(Collectors.toList()));
+    }
+
+    public Collection<PolicyTypeInformation> toPolicyTypeInfoCollection(Collection<PolicyType> policyTypeCollection, Ric ric) {
+        return policyTypeCollection.stream()
+                .map(type -> new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()))
+                .collect(Collectors.toList());
     }
 }
