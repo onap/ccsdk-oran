@@ -20,24 +20,35 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 
+import com.google.gson.Gson;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 @Service
 public class PolicyService {
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     @Autowired
     private Helper helper;
 
@@ -59,10 +70,13 @@ public class PolicyService {
     @Autowired
     private ErrorHandlingService errorHandlingService;
 
+    @Autowired
+    private Gson gson;
+
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicyService
             (PolicyObjectInformation policyObjectInfo, ServerWebExchange serverWebExchange) {
         try {
-            if (!helper.jsonSchemaValidation(policyObjectInfo.getPolicyObject()))
+            if (!helper.jsonSchemaValidation(gson.toJson(policyObjectInfo.getPolicyObject(), Map.class)))
                 return Mono.error(new ServiceException("Schema validation failed", HttpStatus.BAD_REQUEST));
             Ric ric = rics.getRic(policyObjectInfo.getNearRtRicId());
             PolicyType policyType = policyTypes.getType(policyObjectInfo.getPolicyTypeId());
@@ -80,10 +94,10 @@ public class PolicyService {
         } catch (Exception ex) {
             return Mono.error(ex);
         }
-
     }
 
     private Mono<String> postPolicy(Policy policy, Lock.Grant grant) {
+        System.out.println();
         return  helper.checkRicStateIdle(policy.getRic())
                 .doOnError(error -> errorHandlingService.handleError(error))
                 .flatMap(ric -> helper.checkSupportedType(ric, policy.getType()))
@@ -94,6 +108,113 @@ public class PolicyService {
                 .doOnNext(policyString -> policies.put(policy))
                 .doFinally(releaseLock -> grant.unlockBlocking())
                 .map(locationHeader -> "https://{apiRoot}/a1policymanagement/v3/policies/"+policy.getId())
+                .doOnError(error -> errorHandlingService.handleError(error));
+    }
+
+    public Mono<ResponseEntity<Object>> putPolicyService(String policyId, Object body, ServerWebExchange exchange) {
+
+        try {
+            Policy existingPolicy = policies.getPolicy(policyId);
+            PolicyObjectInformation pos =
+                    new PolicyObjectInformation(existingPolicy.getRic().getConfig().getRicId(), body, existingPolicy.getType().getId());
+            Policy updatedPolicy = helper.buildPolicy(pos, existingPolicy.getType(), existingPolicy.getRic(), policyId);
+            Ric ric = existingPolicy.getRic();
+             ric.getLock().lock(Lock.LockType.SHARED, "updatePolicy")
+                    .flatMap(grant -> postPolicy(updatedPolicy, grant))
+                    .doOnError(error -> errorHandlingService.handleError(error));
+             return Mono.just(new ResponseEntity<>(policies.getPolicy(policyId), HttpStatus.OK));
+        } catch(Exception ex) {
+            return Mono.error(ex);
+        }
+    }
+
+    public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypesService(String nearRtRicId, String typeName,
+                                                                                   String compatibleWithVersion,
+                                                                                   ServerWebExchange webExchange) throws Exception {
+        Collection<PolicyTypeInformation> listOfPolicyTypes = new ArrayList<>();
+        if (nearRtRicId.isEmpty() || nearRtRicId.isBlank()) {
+            for(Ric ric : rics.getRics()) {
+                for (PolicyType type : ric.getSupportedPolicyTypes()) {
+                    if (typeName.isEmpty() || typeName.isBlank())
+                        listOfPolicyTypes.add(new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()));
+                    else {
+                        if (type.getTypeId().getName().equals(typeName))
+                            listOfPolicyTypes.add(new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()));
+                    }
+                }
+            }
+        } else {
+            Ric ric = rics.get(nearRtRicId);
+            if (ric ==null)
+                throw new EntityNotFoundException("Near-RT RIC not Found using ID: " +nearRtRicId);
+            for (PolicyType type : ric.getSupportedPolicyTypes()) {
+                if (typeName.isEmpty() || typeName.isBlank())
+                    listOfPolicyTypes.add(new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()));
+                else {
+                    if (type.getTypeId().getName().equals(typeName))
+                        listOfPolicyTypes.add(new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()));
+                }
+            }
+        }
+        return Mono.just(new ResponseEntity<>(Flux.fromIterable(listOfPolicyTypes), HttpStatus.OK));
+    }
+
+    public Mono<ResponseEntity<Flux<PolicyInformation>>> getPolicyIdsService(String policyTypeId, String nearRtRicId,
+                                                                             String serviceId, String typeName,
+                                                                             ServerWebExchange exchange) throws EntityNotFoundException {
+        if ((policyTypeId != null && this.policyTypes.get(policyTypeId) == null))
+            throw new EntityNotFoundException("Policy type not found using ID: " +policyTypeId);
+        if ((nearRtRicId != null && this.rics.get(nearRtRicId) == null))
+            throw new EntityNotFoundException("Near-RT RIC not found using ID: " +nearRtRicId);
+
+        Collection<Policy> filtered = policies.filterPolicies(policyTypeId, nearRtRicId, serviceId, typeName);
+        return Flux.fromIterable(filtered)
+                .flatMap(policy -> authorizationService.authCheck(exchange, policy, AccessType.READ))
+                .onErrorContinue((error,item) -> logger.warn("Error occurred during authorization check for " +
+                        "policy {}: {}", item, error.getMessage()))
+                .collectList()
+                .map(authPolicies -> new ResponseEntity<>(helper.toFluxPolicyInformation(authPolicies), HttpStatus.OK))
+                .doOnError(error -> logger.error(error.getMessage()));
+    }
+
+    public Mono<ResponseEntity<Object>> getPolicyService(String policyId, ServerWebExchange serverWebExchange)
+            throws EntityNotFoundException{
+            Policy policy = policies.getPolicy(policyId);
+        return authorizationService.authCheck(serverWebExchange, policy, AccessType.READ)
+                .map(x -> new ResponseEntity<Object>(gson.toJsonTree(policy.getJson()), HttpStatus.OK))
+                .doOnError(error -> errorHandlingService.handleError(error));
+    }
+
+    public Mono<ResponseEntity<Object>> getPolicyTypeDefinitionService(String policyTypeId)
+            throws EntityNotFoundException{
+        PolicyType singlePolicyType = policyTypes.get(policyTypeId);
+        if (singlePolicyType == null)
+            throw new EntityNotFoundException("PolicyType not found with ID: " + policyTypeId);
+        return Mono.just(new ResponseEntity<Object>(gson.toJsonTree(singlePolicyType.getSchema()), HttpStatus.OK));
+    }
+
+    public Mono<ResponseEntity<Void>> deletePolicyService(String policyId, ServerWebExchange serverWebExchange)
+            throws EntityNotFoundException {
+        Policy singlePolicy = policies.getPolicy(policyId);
+        return authorizationService.authCheck(serverWebExchange, singlePolicy, AccessType.WRITE)
+                .doOnError(error -> errorHandlingService.handleError(error))
+                .flatMap(policy -> policy.getRic().getLock().lock(Lock.LockType.SHARED, "deletePolicy"))
+                .flatMap(grant -> deletePolicy(singlePolicy, grant))
+                .doOnError(error -> errorHandlingService.handleError(error));
+    }
+
+    private Mono<ResponseEntity<Void>> deletePolicy(Policy policy, Lock.Grant grant) {
+        System.out.println();
+        return  helper.checkRicStateIdle(policy.getRic())
+                .doOnError(error -> errorHandlingService.handleError(error))
+                .flatMap(ric -> helper.checkSupportedType(ric, policy.getType()))
+                .doOnError(error -> errorHandlingService.handleError(error))
+                .flatMap(ric -> a1ClientFactory.createA1Client(ric))
+                .flatMap(a1Client -> a1Client.deletePolicy(policy))
+                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnNext(policyString -> policies.remove(policy))
+                .doFinally(releaseLock -> grant.unlockBlocking())
+                .map(successResponse -> new ResponseEntity<Void>(HttpStatus.NO_CONTENT))
                 .doOnError(error -> errorHandlingService.handleError(error));
     }
 }

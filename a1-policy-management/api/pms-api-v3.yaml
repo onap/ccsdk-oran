@@ -869,6 +869,7 @@ components:
       required:
         - nearRtRicId
         - policyObject
+        - policyTypeId
     ErrorInformation:
       description: Problem as defined in https://tools.ietf.org/html/rfc7807
       properties:

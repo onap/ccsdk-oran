@@ -21,7 +21,6 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
@@ -33,8 +32,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.ServiceSupervision;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +54,7 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.time.Duration;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -72,8 +72,6 @@ public class PolicyControllerTest {
 
     @Autowired
     private ApplicationConfig applicationConfig;
-    @Autowired
-    private TestHelper testHelper;
 
     @Autowired
     private Rics rics;
@@ -104,6 +102,9 @@ public class PolicyControllerTest {
 
     @SpyBean
     private Helper helper;
+
+    @SpyBean
+    private TestHelper testHelper;
 
 
     @TestConfiguration
@@ -164,7 +165,7 @@ public class PolicyControllerTest {
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
         String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName);
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testSuccessResponse(responseMono, HttpStatus.CREATED, "{\"servingCellNrcgi\":\"1\"}");
+        testHelper.testSuccessResponse(responseMono, HttpStatus.CREATED, "{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}");
     }
 
     @Test
@@ -174,8 +175,7 @@ public class PolicyControllerTest {
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
-
-        when(helper.jsonSchemaValidation(Mockito.any())).thenReturn(Boolean.FALSE);
+        when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.FALSE);
         String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName);
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
         testHelper.testErrorCode(responseMono, HttpStatus.BAD_REQUEST, " Schema validation failed");
@@ -187,6 +187,7 @@ public class PolicyControllerTest {
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
         testHelper.addPolicyType(policyTypeName, " ");
+        when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
         String policyBody = testHelper.postPolicyBody("noRic", policyTypeName);
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
         testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, " Could not find ric: noRic");
@@ -199,6 +200,7 @@ public class PolicyControllerTest {
         String nonRtRicId = "ricOne";
         String url = "/policies";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
         String policyBody = testHelper.postPolicyBody(nonRtRicId, "noPolicyType");
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
         testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Could not find type: noPolicyType");
