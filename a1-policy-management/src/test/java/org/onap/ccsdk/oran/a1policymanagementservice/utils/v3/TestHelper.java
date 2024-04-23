@@ -22,6 +22,10 @@ package org.onap.ccsdk.oran.a1policymanagementservice.utils.v3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
@@ -44,10 +48,13 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.util.annotation.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,6 +79,9 @@ public class TestHelper {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private Gson gson;
 
     public int port;
 
@@ -127,10 +137,13 @@ public class TestHelper {
         }
     }
 
-    public PolicyType createPolicyType(String policyTypeName) {
+    public PolicyType createPolicyType(String policyTypeName, String filePath) throws IOException {
+        InputStream in = getClass().getResourceAsStream(filePath);
+        assert in != null;
+        String schema = CharStreams.toString(new InputStreamReader(in, StandardCharsets.UTF_8));
         return PolicyType.builder()
                 .id(policyTypeName)
-                .schema("{\"title\":\"" + policyTypeName + "\"}")
+                .schema(schema)
                 .build();
     }
 
@@ -160,37 +173,40 @@ public class TestHelper {
         this.rics.put(ric);
         return ric;
     }
-    public PolicyType addPolicyType(String policyTypeName, String ricId) {
-        PolicyType type = createPolicyType(policyTypeName);
+    public PolicyType addPolicyType(String policyTypeName, String ricId) throws IOException {
+        PolicyType type = createPolicyType(policyTypeName, "/policy_types/demo-policy-schema-3.json");
         policyTypes.put(type);
         addRic(ricId).addSupportedPolicyType(type);
         return type;
     }
 
-    public Map<String,String> jsonString() {
-        Map<String,String> policyDataInMap = new HashMap<>();
-        policyDataInMap.put("servingCellNrcgi","1");
-        return policyDataInMap;
-    }
-
-    public String postPolicyBody(String nearRtRicId, String policyTypeName) throws JsonProcessingException {
-        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, jsonString());
-        policyObjectInfo.setPolicyTypeId(policyTypeName);
-        policyObjectInfo.setPolicyObject(dummyPolicyObject());
-        return objectMapper.writeValueAsString(policyObjectInfo);
+    public String postPolicyBody(String nearRtRicId, String policyTypeName) {
+        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObject(), policyTypeName);
+        return gson.toJson(policyObjectInfo);
     }
 
     public PolicyObjectInformation policyObjectInfo(String nearRtRicId, String policyTypeName) {
-        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, jsonString());
-        policyObjectInfo.setPolicyTypeId(policyTypeName);
-        policyObjectInfo.setPolicyObject(dummyPolicyObject());
-        return policyObjectInfo;
+        return gson.fromJson(postPolicyBody(nearRtRicId, policyTypeName), PolicyObjectInformation.class);
     }
 
-    private Map<String,String> dummyPolicyObject() {
-        Map<String,String> policyDataInMap = new HashMap<>();
-        policyDataInMap.put("servingCellNrcgi","1");
-        return policyDataInMap;
+    public JsonObject dummyPolicyObject() {
+        return JsonParser.parseString("{\n" +
+                "        \"scope\": {\n" +
+                "            \"ueId\": \"ue5100\",\n" +
+                "            \"qosId\": \"qos5100\"\n" +
+                "        },\n" +
+                "        \"qosObjectives\": {\n" +
+                "            \"priorityLevel\": 5100.0\n" +
+                "        }\n" +
+                "    }").getAsJsonObject();
+    }
+
+    public Policy buidTestPolicy(PolicyObjectInformation policyInfo, String id) throws Exception{
+        return Policy.builder().ric(rics.getRic(policyInfo.getNearRtRicId()))
+                .type(policyTypes.getType(policyInfo.getPolicyTypeId()))
+                .json(objectMapper.writeValueAsString(policyInfo.getPolicyObject()))
+                .lastModified(Instant.now())
+                .id(id).build();
     }
 
     public String createServiceJson(String name, long keepAliveIntervalSeconds) throws JsonProcessingException {
