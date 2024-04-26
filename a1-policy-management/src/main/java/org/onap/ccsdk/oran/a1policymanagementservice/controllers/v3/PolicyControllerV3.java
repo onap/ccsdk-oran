@@ -28,6 +28,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInfor
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
+import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.PolicyService;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,9 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
     @Autowired
     private Helper helper;
 
-    private PolicyType policyType;
+    @Autowired
+    private ErrorHandlingService errorHandlingService;
 
-    private Ric ric;
     @Override
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicy(Mono<PolicyObjectInformation> policyObjectInformation, ServerWebExchange exchange) {
         return policyObjectInformation.flatMap(policyObjectInfo -> {
@@ -89,6 +90,7 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
 
     @Override
     public Mono<ResponseEntity<Object>> putPolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
-        return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange));
+        return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange))
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 }
