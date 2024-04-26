@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.utils.v3;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
@@ -33,7 +32,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RappSimulatorController;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import reactor.util.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,9 +52,10 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Component
 public class TestHelper {
@@ -89,10 +87,6 @@ public class TestHelper {
         return restClientV3(false);
     }
 
-    public AsyncRestClient restClient() {
-        return restClient(false);
-    }
-
     public AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
         config = WebClientConfig.builder()
@@ -121,20 +115,6 @@ public class TestHelper {
 
     public AsyncRestClient restClient(boolean useTrustValidation) {
         return restClient(baseUrl() + Consts.V2_API_ROOT, useTrustValidation);
-    }
-
-    public void putService(String name) throws JsonProcessingException {
-        putService(name, 0, null);
-    }
-
-    public void putService(String name, long keepAliveIntervalSeconds, @Nullable HttpStatus expectedStatus) throws JsonProcessingException {
-        String url = "/services";
-        String body = createServiceJson(name, keepAliveIntervalSeconds);
-        ResponseEntity<String> resp = restClient().putForEntity(url, body).block();
-        if (expectedStatus != null) {
-            assertNotNull(resp);
-            assertEquals(expectedStatus, resp.getStatusCode(), "");
-        }
     }
 
     public PolicyType createPolicyType(String policyTypeName, String filePath) throws IOException {
@@ -209,39 +189,18 @@ public class TestHelper {
                 .id(id).build();
     }
 
-    public String createServiceJson(String name, long keepAliveIntervalSeconds) throws JsonProcessingException {
-        String callbackUrl = baseUrl() + RappSimulatorController.SERVICE_CALLBACK_URL;
-        return createServiceJson(name, keepAliveIntervalSeconds, callbackUrl);
-    }
-
-    public String createServiceJson(String name, long keepAliveIntervalSeconds, String url) throws JsonProcessingException {
-        org.onap.ccsdk.oran.a1policymanagementservice.models.v2.ServiceRegistrationInfo service = new org.onap.ccsdk.oran.a1policymanagementservice.models.v2.ServiceRegistrationInfo(name)
-                .keepAliveIntervalSeconds(keepAliveIntervalSeconds)
-                .callbackUrl(url);
-
-        return objectMapper.writeValueAsString(service);
-    }
-
-    public void testSuccessResponse(Mono<ResponseEntity<String>> responseEntityMono, HttpStatus httpStatusCode,
-                                    String responseContains) {
+    public <T> void testSuccessResponse(Mono<ResponseEntity<T>> responseEntityMono, HttpStatus httpStatusCode,
+                                               Predicate<T> responsePredicate) {
         StepVerifier.create(responseEntityMono)
                 .expectNextMatches(responseEntity -> {
                     // Assert status code
                     HttpStatusCode status = responseEntity.getStatusCode();
-                    String res = responseEntity.getBody();
-                    assertThat(res).contains(responseContains);
+                    T responseBody = responseEntity.getBody();
+                    assert responsePredicate.test(responseBody);
                     return status.value() == httpStatusCode.value();
                 })
                 .expectComplete()
                 .verify();
-    }
-
-    public void testErrorCode(Mono<?> request, HttpStatus expStatus) {
-        testErrorCode(request, expStatus, "", true);
-    }
-
-    public void testErrorCode(Mono<?> request, HttpStatus expStatus, boolean expectApplicationProblemJsonMediaType) {
-        testErrorCode(request, expStatus, "", expectApplicationProblemJsonMediaType);
     }
 
     public void testErrorCode(Mono<?> request, HttpStatus expStatus, String responseContains) {
