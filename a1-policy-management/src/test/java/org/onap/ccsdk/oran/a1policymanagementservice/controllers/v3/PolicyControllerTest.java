@@ -20,12 +20,14 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.config.TestConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.OpenPolicyAgentSimulatorController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RappSimulatorController;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
@@ -96,6 +98,9 @@ public class PolicyControllerTest {
     @Autowired
     private OpenPolicyAgentSimulatorController openPolicyAgentSimulatorController;
 
+    @Autowired
+    private Gson gson;
+
     @LocalServerPort
     private int port;
 
@@ -139,7 +144,22 @@ public class PolicyControllerTest {
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
         String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName);
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testSuccessResponse(responseMono, HttpStatus.CREATED, "{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}");
+        testHelper.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
+    }
+
+    @Test
+    @DisplayName("test delete Policy")
+    void testDeletePolicy() throws Exception {
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName);
+        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
+        PolicyObjectInformation policyObjectInformation = gson.fromJson(responseMono.block().getBody(), PolicyObjectInformation.class);
+        Mono<ResponseEntity<String>> responseMonoDelete = testHelper.restClientV3().deleteForEntity(url+"/"+policyObjectInformation.getPolicyId());
+        testHelper.testSuccessResponse(responseMonoDelete, HttpStatus.NO_CONTENT, responseBody -> true);
     }
 
     @Test
@@ -178,5 +198,14 @@ public class PolicyControllerTest {
         String policyBody = testHelper.postPolicyBody(nonRtRicId, "noPolicyType");
         Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
         testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Could not find type: noPolicyType");
+    }
+
+    @Test
+    public void testGetPolicyTypesNoRicFound() throws Exception{
+        String policyTypeName = "type1_1.2.3";
+        String nonRtRicId = "ricOne";
+        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().getForEntity("/policyTypes" + "?nearRtRicId=\"noRic\"");
+        testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Near-RT RIC not Found using ID:");
     }
 }
