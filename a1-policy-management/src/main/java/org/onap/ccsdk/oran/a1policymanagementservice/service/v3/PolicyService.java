@@ -112,17 +112,19 @@ public class PolicyService {
     }
 
     public Mono<ResponseEntity<Object>> putPolicyService(String policyId, Object body, ServerWebExchange exchange) {
-
         try {
             Policy existingPolicy = policies.getPolicy(policyId);
             PolicyObjectInformation pos =
                     new PolicyObjectInformation(existingPolicy.getRic().getConfig().getRicId(), body, existingPolicy.getType().getId());
             Policy updatedPolicy = helper.buildPolicy(pos, existingPolicy.getType(), existingPolicy.getRic(), policyId);
             Ric ric = existingPolicy.getRic();
-             ric.getLock().lock(Lock.LockType.SHARED, "updatePolicy")
+            return authorizationService.authCheck(exchange, updatedPolicy, AccessType.WRITE)
+                    .doOnError(error -> errorHandlingService.handleError(error))
+                    .flatMap(policy -> ric.getLock().lock(Lock.LockType.SHARED, "updatePolicy"))
+                    .doOnError(error -> errorHandlingService.handleError(error))
                     .flatMap(grant -> postPolicy(updatedPolicy, grant))
+                    .map(header -> new ResponseEntity<Object>(policies.get(updatedPolicy.getId()).getJson(), HttpStatus.OK))
                     .doOnError(error -> errorHandlingService.handleError(error));
-             return Mono.just(new ResponseEntity<>(policies.getPolicy(policyId), HttpStatus.OK));
         } catch(Exception ex) {
             return Mono.error(ex);
         }
@@ -198,12 +200,12 @@ public class PolicyService {
     }
 
     private Mono<ResponseEntity<Void>> deletePolicy(Policy policy, Lock.Grant grant) {
-        System.out.println();
         return  helper.checkRicStateIdle(policy.getRic())
                 .doOnError(error -> errorHandlingService.handleError(error))
                 .flatMap(ric -> helper.checkSupportedType(ric, policy.getType()))
                 .doOnError(error -> errorHandlingService.handleError(error))
                 .flatMap(ric -> a1ClientFactory.createA1Client(ric))
+                .doOnError(error -> errorHandlingService.handleError(error))
                 .flatMap(a1Client -> a1Client.deletePolicy(policy))
                 .doOnError(error -> errorHandlingService.handleError(error))
                 .doOnNext(policyString -> policies.remove(policy))
