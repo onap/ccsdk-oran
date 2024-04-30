@@ -209,7 +209,7 @@ public class PolicyControllerTest {
         String policyTypeName = "type1_1.2.3";
         String nonRtRicId = "ricOne";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().getForEntity("/policyTypes" + "?nearRtRicId=\"noRic\"");
+        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().getForEntity("/policytypes" + "?nearRtRicId=\"noRic\"");
         testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Near-RT RIC not Found using ID:");
     }
 

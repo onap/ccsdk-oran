@@ -168,7 +168,7 @@ paths:
       summary: Query Near-RT RIC information
       tags:
         - NearRT-RIC Repository
-  /policyTypes:
+  /policytypes:
     get:
       operationId: getPolicyTypes
       parameters:
@@ -238,7 +238,7 @@ paths:
       description: Query policy type identities
       tags:
         - A1 Policy Management
-  /policyTypes/{policyTypeId}:
+  /policytypes/{policyTypeId}:
     get:
       operationId: getPolicyTypeDefinition
       parameters:
@@ -301,7 +301,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/PolicyObject'
             examples:
               policyObject:
                 $ref: '#/components/examples/PolicyObject'
