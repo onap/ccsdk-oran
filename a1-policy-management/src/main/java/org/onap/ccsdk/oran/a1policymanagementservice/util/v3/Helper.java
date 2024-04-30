@@ -50,6 +50,9 @@ public class Helper {
     @Autowired
     private Services services;
 
+    @Autowired
+    private Policies policies;
+
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static Gson gson = new GsonBuilder().create();
@@ -102,8 +105,12 @@ public class Helper {
         return true;
     }
 
-    public String policyIdGeneration() {
-        return UUID.randomUUID().toString();
+    public String policyIdGeneration(PolicyObjectInformation policyObjectInfo) {
+        if (policyObjectInfo.getPolicyId() == null || policyObjectInfo.getPolicyId().isEmpty() ||
+                policyObjectInfo.getPolicyId().isBlank())
+            return UUID.randomUUID().toString();
+        else
+            return policyObjectInfo.getPolicyId().trim();
     }
 
     public String toJson(Object jsonObject) {

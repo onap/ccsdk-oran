@@ -25,6 +25,7 @@ import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.FileUtils;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
@@ -45,6 +46,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -161,13 +163,15 @@ public class TestHelper {
         return type;
     }
 
-    public String postPolicyBody(String nearRtRicId, String policyTypeName) {
+    public String postPolicyBody(String nearRtRicId, String policyTypeName, String policyId) {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObject(), policyTypeName);
+        if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
+            policyObjectInfo.setPolicyId(policyId);
         return gson.toJson(policyObjectInfo);
     }
 
     public PolicyObjectInformation policyObjectInfo(String nearRtRicId, String policyTypeName) {
-        return gson.fromJson(postPolicyBody(nearRtRicId, policyTypeName), PolicyObjectInformation.class);
+        return gson.fromJson(postPolicyBody(nearRtRicId, policyTypeName, ""), PolicyObjectInformation.class);
     }
 
     public JsonObject dummyPolicyObject() {
@@ -250,5 +254,11 @@ public class TestHelper {
                     return status.contains(responseCheck);
                 })
                 .verify();
+    }
+
+    public String configAsString() throws Exception {
+        File configFile =
+                new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_application_configuration.json")).getFile());
+        return FileUtils.readFileToString(configFile, "UTF-8");
     }
 }
