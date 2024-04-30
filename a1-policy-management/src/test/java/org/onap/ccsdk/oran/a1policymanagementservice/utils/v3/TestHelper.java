@@ -25,6 +25,7 @@ import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.FileUtils;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
@@ -45,6 +46,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,6 +54,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -238,5 +241,11 @@ public class TestHelper {
                     return status.contains(responseCheck);
                 })
                 .verify();
+    }
+
+    public String configAsString() throws Exception {
+        File configFile =
+                new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_application_configuration.json")).getFile());
+        return FileUtils.readFileToString(configFile, "UTF-8");
     }
 }
