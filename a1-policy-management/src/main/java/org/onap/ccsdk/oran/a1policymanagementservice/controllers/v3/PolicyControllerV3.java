@@ -57,34 +57,38 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
 
     @Override
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicy(Mono<PolicyObjectInformation> policyObjectInformation, ServerWebExchange exchange) {
-        return policyObjectInformation.flatMap(policyObjectInfo -> {
-            return policyService.createPolicyService(policyObjectInfo, exchange);
-        });
+        return policyObjectInformation.flatMap(policyObjectInfo -> policyService.createPolicyService(policyObjectInfo, exchange)
+                        .doOnError(error -> errorHandlingService.handleError(error)));
     }
 
     @Override
     public Mono<ResponseEntity<Void>> deletePolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.deletePolicyService(policyId, exchange);
+        return policyService.deletePolicyService(policyId, exchange)
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.getPolicyService(policyId, exchange);
+        return policyService.getPolicyService(policyId, exchange)
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyInformation>>> getPolicyIds(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.getPolicyIdsService(policyTypeId, nearRtRicId, serviceId, typeName, exchange);
+        return policyService.getPolicyIdsService(policyTypeId, nearRtRicId, serviceId, typeName, exchange)
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicyTypeDefinition(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.getPolicyTypeDefinitionService(policyTypeId);
+        return policyService.getPolicyTypeDefinitionService(policyTypeId)
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypes(String nearRtRicId, String typeName, String compatibleWithVersion, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion, exchange);
+        return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion, exchange)
+                .doOnError(error -> errorHandlingService.handleError(error));
     }
 
     @Override

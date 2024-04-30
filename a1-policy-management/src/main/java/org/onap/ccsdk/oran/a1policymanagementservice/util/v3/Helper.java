@@ -102,8 +102,12 @@ public class Helper {
         return true;
     }
 
-    public String policyIdGeneration() {
-        return UUID.randomUUID().toString();
+    public String policyIdGeneration(PolicyObjectInformation policyObjectInfo) {
+        if (policyObjectInfo.getPolicyId() == null || policyObjectInfo.getPolicyId().isEmpty() ||
+                policyObjectInfo.getPolicyId().isBlank())
+            return UUID.randomUUID().toString();
+        else
+            return policyObjectInfo.getPolicyId().trim();
     }
 
     public String toJson(Object jsonObject) {

@@ -19,7 +19,7 @@
 openapi: 3.0.3
 info:
   title: 'A1 policy management API'
-  version: 3.0.0
+  version: 1.0.0
   x-api-id: a31c510b-20e6-4a08-af16-368c44d7fba8
   x-audience: external-public
   description: "<h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service\
@@ -168,7 +168,7 @@ paths:
       summary: Query Near-RT RIC information
       tags:
         - NearRT-RIC Repository
-  /policyTypes:
+  /policytypes:
     get:
       operationId: getPolicyTypes
       parameters:
@@ -238,7 +238,7 @@ paths:
       description: Query policy type identities
       tags:
         - A1 Policy Management
-  /policyTypes/{policyTypeId}:
+  /policytypes/{policyTypeId}:
     get:
       operationId: getPolicyTypeDefinition
       parameters:
@@ -301,7 +301,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/PolicyObject'
             examples:
               policyObject:
                 $ref: '#/components/examples/PolicyObject'
@@ -863,6 +863,11 @@ components:
                 \ false."
           nullable: false
           type: boolean
+        policyId:
+          description: identity of the Policy
+          type: string
+          example:
+            'POLICY-ID'
         serviceId:
           description: the identity of the service owning the policy. This can be
             used to group the policies (it is possible to get all policies associated

@@ -81,7 +81,7 @@ public class PolicyService {
                 return Mono.error(new ServiceException("Schema validation failed", HttpStatus.BAD_REQUEST));
             Ric ric = rics.getRic(policyObjectInfo.getNearRtRicId());
             PolicyType policyType = policyTypes.getType(policyObjectInfo.getPolicyTypeId());
-            Policy policy = helper.buildPolicy(policyObjectInfo, policyType, ric, helper.policyIdGeneration());
+            Policy policy = helper.buildPolicy(policyObjectInfo, policyType, ric, helper.policyIdGeneration(policyObjectInfo));
             return helper.isPolicyAlreadyCreated(policy,policies)
                     .doOnError(error -> errorHandlingService.handleError(error))
                     .flatMap(policyBuilt -> authorizationService.authCheck(serverWebExchange, policy, AccessType.WRITE)
