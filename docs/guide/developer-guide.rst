@@ -51,7 +51,7 @@ dependency management tool (see *pom.xml* file at root level) :
 - Swagger annotations
 - `Spring Framework <https://github.com/spring-projects/spring-boot>`_
 - `SpringDoc and OpenAPI <https://springdoc.org/>`_ Automated JSON API documentation for APIs built with Spring
-- `Lombok <https://github.com/rzwitserloot/lombok>`_ to generate code, such as getters and setters
+- `Lombok <https://github.com/projectlombok/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
 
 
