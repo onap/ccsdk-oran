@@ -435,7 +435,7 @@
                                 <resource>
                                     <directory>${project.basedir}/api/pms-api</directory>
                                     <includes>
-                                        <include>index.html</include>
+                                        <include>a1pms-openapi.html</include>
                                     </includes>
                                 </resource>
                             </resources>
