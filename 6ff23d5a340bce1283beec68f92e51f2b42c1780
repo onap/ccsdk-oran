@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13df11b9_74877346",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-13T13:35:46Z",
+      "side": 1,
+      "message": "Can you check if adding a config param for \"artifactId\" will change the filename from index.html to something else? \nRef https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/html2.md",
+      "range": {
+        "startLine": 358,
+        "startChar": 29,
+        "endLine": 358,
+        "endChar": 42
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f494ce85_1fc6549c",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-13T13:35:46Z",
+      "side": 1,
+      "message": "Does this file exist? \nIt is generated as index.html, and may need to renamed before it can be found to copy it here.\n\nSince renaming is a bit tricky, perhaps copy to a subdirectory - then can keep it called index?",
+      "range": {
+        "startLine": 438,
+        "startChar": 49,
+        "endLine": 438,
+        "endChar": 67
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "829644d9_a07a27a0",
         "filename": "docs/tox.ini",
         "patchSetId": 7
