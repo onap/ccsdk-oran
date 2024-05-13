@@ -48,6 +48,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d96a77fe_96e92cee",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-05-13T15:45:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7443336d_8b0b04f8",
+      "range": {
+        "startLine": 358,
+        "startChar": 29,
+        "endLine": 358,
+        "endChar": 42
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f494ce85_1fc6549c",
@@ -71,6 +95,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5553836a_0fccf363",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-05-13T15:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f494ce85_1fc6549c",
+      "range": {
+        "startLine": 438,
+        "startChar": 49,
+        "endLine": 438,
+        "endChar": 67
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "829644d9_a07a27a0",
@@ -84,6 +132,30 @@
       "writtenOn": "2024-05-13T12:30:29Z",
       "side": 1,
       "message": "suggest to leave it the same as it was before (3.8) if possible.",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc3a68e5_433099a0",
+        "filename": "docs/tox.ini",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 8355
+      },
+      "writtenOn": "2024-05-13T15:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "829644d9_a07a27a0",
       "range": {
         "startLine": 23,
         "startChar": 11,
