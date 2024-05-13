@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7443336d_8b0b04f8",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-13T14:20:53Z",
+      "side": 1,
+      "message": "Won\u0027t help I think. \nIt looks like the filenamne \"index.html\" for the generated file is hardcoed in: \nhttps://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/StaticHtml2Generator.java#L105",
+      "parentUuid": "13df11b9_74877346",
+      "range": {
+        "startLine": 358,
+        "startChar": 29,
+        "endLine": 358,
+        "endChar": 42
+      },
+      "revId": "6ff23d5a340bce1283beec68f92e51f2b42c1780",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f494ce85_1fc6549c",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 7
