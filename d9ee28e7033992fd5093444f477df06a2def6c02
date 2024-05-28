@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0189e497_6ac27b29",
+        "filename": "a1-policy-management/api/pms-api-v3.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-05-28T15:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42429afc_bf88b367",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "d9ee28e7033992fd5093444f477df06a2def6c02",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "559d78cd_a7145885",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-28T15:44:22Z",
       "side": 1,
       "message": "Can this be removed as it is not used anywhere?",
+      "range": {
+        "startLine": 1190,
+        "startChar": 0,
+        "endLine": 1215,
+        "endChar": 15
+      },
+      "revId": "d9ee28e7033992fd5093444f477df06a2def6c02",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a5139db_9cb468f7",
+        "filename": "a1-policy-management/api/pms-api-v3.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-05-28T15:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559d78cd_a7145885",
       "range": {
         "startLine": 1190,
         "startChar": 0,
