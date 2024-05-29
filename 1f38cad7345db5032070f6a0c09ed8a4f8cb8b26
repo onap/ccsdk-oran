@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2abc7401_0b0454c5",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v3/PolicyControllerV3.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-05-29T09:31:34Z",
+      "side": 1,
+      "message": "Consts.V3_API_ROOT",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "1f38cad7345db5032070f6a0c09ed8a4f8cb8b26",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c82b848_d80dc0c3",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/config/TestConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-05-29T09:31:34Z",
+      "side": 1,
+      "message": "NB: TomcatReactiveWebServerFactory can be used here as we are testing the reactive web application?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "1f38cad7345db5032070f6a0c09ed8a4f8cb8b26",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

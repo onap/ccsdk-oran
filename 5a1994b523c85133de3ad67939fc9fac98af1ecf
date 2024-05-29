@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d03079f5_741059c1",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/ErrorHandlingService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-05-29T09:31:34Z",
+      "side": 1,
+      "message": "Do we need to handle v2 controller exception here as well?",
+      "range": {
+        "startLine": 48,
+        "startChar": 40,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ebaf36_a66d4731",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-05-29T09:31:34Z",
+      "side": 1,
+      "message": "Consts.V3_API_ROOT can be used.\n\nNB: ServletUriComponentsBuilder can be used to generate this. This allows us to deal only with the additional path rather than the host and API_ROOT\n\nNB: Please ensure the header is getting added only on success case. (Maybe a additional validation in UT)",
+      "range": {
+        "startLine": 94,
+        "startChar": 40,
+        "endLine": 94,
+        "endChar": 89
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13fa444b_89dc7307",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v3/PolicyControllerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-05-29T09:31:34Z",
+      "side": 1,
+      "message": "Location header validation can be added",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 27
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
