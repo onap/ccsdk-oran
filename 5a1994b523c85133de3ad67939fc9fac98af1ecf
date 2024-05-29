@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6ce7cf_9aaea746",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/ErrorHandlingService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-05-29T17:06:23Z",
+      "side": 1,
+      "message": "removed here",
+      "parentUuid": "d03079f5_741059c1",
+      "range": {
+        "startLine": 48,
+        "startChar": 40,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39ebaf36_a66d4731",
@@ -47,6 +71,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b3170d_79914b45",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-05-29T17:06:23Z",
+      "side": 1,
+      "message": "About to handle this at the end, But after that it moved to low priority and jumped to other task, But handled now.",
+      "parentUuid": "39ebaf36_a66d4731",
+      "range": {
+        "startLine": 94,
+        "startChar": 40,
+        "endLine": 94,
+        "endChar": 89
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13fa444b_89dc7307",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-05-29T09:31:34Z",
       "side": 1,
       "message": "Location header validation can be added",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 27
+      },
+      "revId": "5a1994b523c85133de3ad67939fc9fac98af1ecf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d35519_db8b5ce3",
+        "filename": "a1-policy-management/src/test/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v3/PolicyControllerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-05-29T17:06:23Z",
+      "side": 1,
+      "message": "Handled this at \"https://gerrit.onap.org/r/c/ccsdk/oran/+/137810/7\"",
+      "parentUuid": "13fa444b_89dc7307",
       "range": {
         "startLine": 141,
         "startChar": 8,
