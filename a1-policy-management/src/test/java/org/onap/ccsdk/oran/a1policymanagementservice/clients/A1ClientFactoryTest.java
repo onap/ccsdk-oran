@@ -43,9 +43,14 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+@SpringBootTest
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class A1ClientFactoryTest {
     private static final String RIC_NAME = "Name";

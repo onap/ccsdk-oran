@@ -1,0 +1,17 @@
+server:
+  ssl:
+    key-store: ./config/keystore.jks
+app:
+  webclient:
+    trust-store: ./config/truststore.jks
+    trust-store-used: true
+  vardata-directory: /tmp/pmstest
+  config-file-schema-path: /application_configuration_schema.json
+  filepath: ""
+  s3:
+    bucket: ""
+spring:
+  application:
+    name: a1-pms
+tracing:
+  enabled: false
