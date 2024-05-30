@@ -102,6 +102,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
@@ -114,12 +115,13 @@ import reactor.util.annotation.Nullable;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-        "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks", //
-        "app.webclient.trust-store-used=true", //
-        "app.vardata-directory=/tmp/pmstest", //
-        "app.filepath=", //
-        "app.s3.bucket=" // If this is set, S3 will be used to store data.
+    "server.ssl.key-store=./config/keystore.jks", //
+    "app.webclient.trust-store=./config/truststore.jks", //
+    "app.webclient.trust-store-used=true", //
+    "app.vardata-directory=/tmp/pmstest", //
+    "app.filepath=", //
+    "app.s3.bucket=", // If this is set, S3 will be used to store data.
+    "tracing.enabled=false"
 })
 class ApplicationTest {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
