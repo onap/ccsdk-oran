@@ -61,7 +61,8 @@ import reactor.test.StepVerifier;
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
         "app.vardata-directory=./target", //
-        "app.config-file-schema-path=/application_configuration_schema.json" //
+        "app.config-file-schema-path=/application_configuration_schema.json", //
+        "tracing.enabled=false"
 })
 class ConfigurationControllerTest {
     @Autowired

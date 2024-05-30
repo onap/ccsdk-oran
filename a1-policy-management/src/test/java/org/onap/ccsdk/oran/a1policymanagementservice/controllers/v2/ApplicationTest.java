@@ -119,7 +119,8 @@ import reactor.util.annotation.Nullable;
         "app.webclient.trust-store-used=true", //
         "app.vardata-directory=/tmp/pmstest", //
         "app.filepath=", //
-        "app.s3.bucket=" // If this is set, S3 will be used to store data.
+        "app.s3.bucket=", // If this is set, S3 will be used to store data.
+        "tracing.enabled=false"
 })
 class ApplicationTest {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
