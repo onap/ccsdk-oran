@@ -48,6 +48,7 @@ checkStatus(){
         fi
     done
     echo -e "$i sec: $4 is NOT alive!\n"
+	echo "Capturing docker logs..."    docker-compose logs
     exit -1
 }
 
