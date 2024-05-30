@@ -58,10 +58,11 @@ import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-        "server.ssl.key-store=./config/keystore.jks", //
-        "app.webclient.trust-store=./config/truststore.jks", //
-        "app.vardata-directory=./target", //
-        "app.config-file-schema-path=/application_configuration_schema.json" //
+    "management.tracing.enabled=false", //
+    "server.ssl.key-store=./config/keystore.jks", //
+    "app.webclient.trust-store=./config/truststore.jks", //
+    "app.vardata-directory=./target", //
+    "app.config-file-schema-path=/application_configuration_schema.json" //
 })
 class ConfigurationControllerTest {
     @Autowired
