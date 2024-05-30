@@ -20,6 +20,8 @@
 # ============LICENSE_END=========================================================
 #
 spring:
+  application:
+    name: a1-pms
   profiles:
     active: prod
   main:
@@ -27,6 +29,11 @@ spring:
   aop:
     auto: false
 management:
+  tracing:
+    propagation:
+      produce: ${ONAP_PROPAGATOR_PRODUCE:[W3C]}
+    sampling:
+      probability: 1.0
   endpoints:
     web:
       exposure:
@@ -100,3 +107,16 @@ app:
     accessKeyId: minio
     secretAccessKey: miniostorage
     bucket:
+tracing:
+  sampler:
+    jaeger_remote:
+      endpoint: ${ONAP_OTEL_SAMPLER_JAEGER_REMOTE_ENDPOINT:http://jaeger:14250}
+  exporter:
+    endpoint: ${ONAP_OTEL_EXPORTER_ENDPOINT:http://jaeger:4317}
+    protocol: ${ONAP_OTEL_EXPORTER_PROTOCOL:grpc}
+  enabled: ${ONAP_TRACING_ENABLED:false}
+otel:
+  exporter:
+    otlp:
+      traces:
+        protocol: ${ONAP_OTEL_EXPORTER_OTLP_TRACES_PROTOCOL:grpc}
