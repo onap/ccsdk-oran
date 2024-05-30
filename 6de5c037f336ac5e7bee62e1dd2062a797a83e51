@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3251eefb_8c8768c4",
+        "filename": "a1-policy-management/api/pms-api-v3.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-30T14:03:21Z",
+      "side": 1,
+      "message": "We need something here to define that PolicyTypeID is required for this particular call. \nIts marked as optional in the PolicyObjectInformation schema defn below.",
+      "range": {
+        "startLine": 517,
+        "startChar": 12,
+        "endLine": 518,
+        "endChar": 66
+      },
+      "revId": "6de5c037f336ac5e7bee62e1dd2062a797a83e51",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
