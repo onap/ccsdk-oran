@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e3bc09_beee6670",
+        "filename": "a1-policy-management/src/main/resources/application.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-30T16:48:59Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this file? \nWe copy the file /a1-policy-management/config/application.yaml into the docker image - see the dockerfile.",
+      "range": {
+        "startLine": 2,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 19
+      },
+      "revId": "3625280f5e44e078ae83c8fd6314175c2a0e9108",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
