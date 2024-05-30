@@ -41,11 +41,25 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerCon
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = { //
+    "management.tracing.enabled=false",
+    "server.ssl.key-store=./config/keystore.jks", //
+    "app.webclient.trust-store=./config/truststore.jks", //
+    "app.webclient.trust-store-used=true", //
+    "app.vardata-directory=/tmp/pmstest", //
+    "app.filepath=", //
+    "app.s3.bucket=" // If this is set, S3 will be used to store data.
+})
 @ExtendWith(MockitoExtension.class)
 class A1ClientFactoryTest {
     private static final String RIC_NAME = "Name";

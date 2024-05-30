@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2022 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +25,13 @@ import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemetry;
 
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationContextProvider;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.OtelConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +61,7 @@ public class AsyncRestClient {
     private final SslContext sslContext;
     private final HttpProxyConfig httpProxyConfig;
     private final SecurityContext securityContext;
+    private OtelConfig otelConfig = ApplicationContextProvider.getApplicationContext().getBean(OtelConfig.class);
 
     public AsyncRestClient(String baseUrl, @Nullable SslContext sslContext, @Nullable HttpProxyConfig httpProxyConfig,
             SecurityContext securityContext) {
@@ -205,13 +210,19 @@ public class AsyncRestClient {
             return Mono.just(resp);
         });
 
-        return WebClient.builder() //
-                .clientConnector(new ReactorClientHttpConnector(httpClient)) //
-                .baseUrl(baseUrl) //
-                .exchangeStrategies(exchangeStrategies) //
-                .filter(reqLogger) //
-                .filter(respLogger) //
-                .build();
+        WebClient.Builder webClientBuilder = WebClient.builder()
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                .baseUrl(baseUrl)
+                .exchangeStrategies(exchangeStrategies)
+                .filter(reqLogger)
+                .filter(respLogger);
+
+        if (otelConfig.isTracingEnabled()) {
+            SpringWebfluxTelemetry webfluxTelemetry = ApplicationContextProvider.getApplicationContext().getBean(SpringWebfluxTelemetry.class);
+            webClientBuilder.filters(webfluxTelemetry::addClientTracingFilter);
+        }
+
+        return webClientBuilder.build();
     }
 
     private WebClient getWebClient() {
