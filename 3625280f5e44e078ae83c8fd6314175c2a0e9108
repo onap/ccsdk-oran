@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ba32f65_95164b06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-30T16:53:30Z",
+      "side": 1,
+      "message": "Can use https://jira.onap.org/browse/CCSDK-4010 since we\u0027re in ONAP :-)",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "3625280f5e44e078ae83c8fd6314175c2a0e9108",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58e3bc09_beee6670",
         "filename": "a1-policy-management/src/main/resources/application.yaml",
         "patchSetId": 1
