@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f52aa8f_65b0b10d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-05-31T15:30:36Z",
+      "side": 1,
+      "message": "No quite ready yet. \nNeed to confirm this works for southbound A1 connections too.",
+      "revId": "bd3515989c1900cdb6679fe61df396ad3277125d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
