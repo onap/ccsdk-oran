@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "843c6dec_6ddcac5e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v3/PolicyControllerV3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-06-05T09:59:32Z",
+      "side": 1,
+      "message": "Can this be simplified. Return type of something like this, Flux\u003cResponseEntity\u003cPolicyTypeInformation\u003e\u003e.\n\nAs it is generated, try use the latest openapi-generator version, just to see whether that changes the signature. Looks like there were some discussion related to this, Not sure the required fix is released.\n\nThis applied to all the return types which combines Mono with Flux.",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "babc48f1866a7ceb176d301556df76d18e1f5157",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}

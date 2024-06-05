@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8145351f_3bbf66e1",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-06-05T09:59:32Z",
+      "side": 1,
+      "message": "Do we need to continue when authorization check fails ?",
+      "range": {
+        "startLine": 167,
+        "startChar": 17,
+        "endLine": 167,
+        "endChar": 32
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cecebd4_56997bab",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-06-05T09:59:32Z",
+      "side": 1,
+      "message": "Can be removed",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 29
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
