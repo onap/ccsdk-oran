@@ -22,6 +22,30 @@
       },
       "revId": "babc48f1866a7ceb176d301556df76d18e1f5157",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30dd2fa9_a0059cd0",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v3/PolicyControllerV3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-07T10:36:33Z",
+      "side": 1,
+      "message": "Seems the fix is not came yet, I tried with the latest open API generator in my local. No changes on these return types.",
+      "parentUuid": "843c6dec_6ddcac5e",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "babc48f1866a7ceb176d301556df76d18e1f5157",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }

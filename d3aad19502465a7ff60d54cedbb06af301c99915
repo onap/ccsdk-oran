@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24653a9e_d723245b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-07T10:36:33Z",
+      "side": 1,
+      "message": "Yes, Here Auth checking is happening on each entry of policy in the flux of policies, If the auth check fails on 1 policy then it logs the error message and continue on the next entries.",
+      "parentUuid": "8145351f_3bbf66e1",
+      "range": {
+        "startLine": 167,
+        "startChar": 17,
+        "endLine": 167,
+        "endChar": 32
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cecebd4_56997bab",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-05T09:59:32Z",
       "side": 1,
       "message": "Can be removed",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 29
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "369b470c_9eb2d1d0",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-07T10:36:33Z",
+      "side": 1,
+      "message": "Thanks, I noticed this when writing unit test cases which is a next commit and fixed this in commit \u0027https://gerrit.onap.org/r/c/ccsdk/oran/+/137810/7\u0027",
+      "parentUuid": "3cecebd4_56997bab",
       "range": {
         "startLine": 201,
         "startChar": 8,
