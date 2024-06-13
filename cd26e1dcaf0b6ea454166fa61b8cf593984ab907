@@ -33,6 +33,29 @@
       "message": "recheck",
       "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c46fc46_e702fece",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-13T09:59:53Z",
+      "side": 1,
+      "message": "NB: JA small suggestion we can move this method to a spring bean to use other spring beans easily (otelConfig,SpringWebfluxTelemetry  etc..). Then we can get the buildwebclient bean here using AppcontextProvider/declare static method. I hope this can avoid the usuage of AppcontextProvider several times.",
+      "range": {
+        "startLine": 229,
+        "startChar": 29,
+        "endLine": 229,
+        "endChar": 52
+      },
+      "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
