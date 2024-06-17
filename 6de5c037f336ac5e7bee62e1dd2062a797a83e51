@@ -22,6 +22,30 @@
       },
       "revId": "6de5c037f336ac5e7bee62e1dd2062a797a83e51",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c52f91_d532352d",
+        "filename": "a1-policy-management/api/pms-api-v3.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-17T10:23:25Z",
+      "side": 1,
+      "message": "Thanks for the comment, It is already handled in \u0027https://gerrit.onap.org/r/c/ccsdk/oran/+/137809/7/a1-policy-management/api/pms-api-v3.yaml\u0027\n\nAdded policyTypeId as required property",
+      "parentUuid": "3251eefb_8c8768c4",
+      "range": {
+        "startLine": 517,
+        "startChar": 12,
+        "endLine": 518,
+        "endChar": 66
+      },
+      "revId": "6de5c037f336ac5e7bee62e1dd2062a797a83e51",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
