@@ -56,6 +56,30 @@
       },
       "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5689da8_2acd3dfb",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:35:56Z",
+      "side": 1,
+      "message": "Tried, but didn\u0027t help.",
+      "parentUuid": "7c46fc46_e702fece",
+      "range": {
+        "startLine": 229,
+        "startChar": 29,
+        "endLine": 229,
+        "endChar": 52
+      },
+      "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }

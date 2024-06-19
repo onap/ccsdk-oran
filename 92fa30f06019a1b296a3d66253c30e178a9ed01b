@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "955e7970_07fd2c1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:35:56Z",
+      "side": 1,
+      "message": "Ready for merge. \nTesting \u0026 working as expected.",
+      "revId": "92fa30f06019a1b296a3d66253c30e178a9ed01b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
