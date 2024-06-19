@@ -65,6 +65,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b77fa870_145540a3",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24653a9e_d723245b",
+      "range": {
+        "startLine": 167,
+        "startChar": 17,
+        "endLine": 167,
+        "endChar": 32
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cecebd4_56997bab",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Thanks, I noticed this when writing unit test cases which is a next commit and fixed this in commit \u0027https://gerrit.onap.org/r/c/ccsdk/oran/+/137810/7\u0027",
       "parentUuid": "3cecebd4_56997bab",
+      "range": {
+        "startLine": 201,
+        "startChar": 8,
+        "endLine": 201,
+        "endChar": 29
+      },
+      "revId": "d3aad19502465a7ff60d54cedbb06af301c99915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e241ee_58c05c2e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/service/v3/PolicyService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:44:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "369b470c_9eb2d1d0",
       "range": {
         "startLine": 201,
         "startChar": 8,
