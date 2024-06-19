@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19aa6fa4_4d79afde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:41:51Z",
+      "side": 1,
+      "message": "tested \u0026 working fine. \nAPI is now aligned with March 2024 version of O-RAN R1-AP spec for A1-Policy management. Except for: \n* Additional optional parameters added to several calls, and severaladditional operations not in the spec. \n* Bug in getpolicyTypes \u0026 getPolicies operations, where an array is required instead of single object. (To be fixed in July spec version) \n* Policy Type added to createPolicy operation (bug is spec) (to be fixed in July spec version) \n* Status notifications callbacks cannot be registered correctly. (Updates coming in July spec version)",
+      "revId": "6de5c037f336ac5e7bee62e1dd2062a797a83e51",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3251eefb_8c8768c4",
