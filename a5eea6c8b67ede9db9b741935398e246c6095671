@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd3d7ab_3e0fda8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-19T10:44:58Z",
+      "side": 1,
+      "message": "Ready for merge (Aligning with March2024 R1 Spec)",
+      "revId": "a5eea6c8b67ede9db9b741935398e246c6095671",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
