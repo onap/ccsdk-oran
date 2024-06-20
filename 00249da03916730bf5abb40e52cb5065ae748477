@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e768530c_b7587f8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-20T18:14:17Z",
+      "side": 1,
+      "message": "Need to rebase to tip of master after release jobs are complete, and after newdelhi branch is created.",
+      "revId": "00249da03916730bf5abb40e52cb5065ae748477",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
