@@ -80,6 +80,30 @@
       },
       "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8435088d_ccb15708",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/AsyncRestClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-20T09:52:02Z",
+      "side": 1,
+      "message": "NB: The way I shared offline can work, But it is non blocking comment",
+      "parentUuid": "d5689da8_2acd3dfb",
+      "range": {
+        "startLine": 229,
+        "startChar": 29,
+        "endLine": 229,
+        "endChar": 52
+      },
+      "revId": "cd26e1dcaf0b6ea454166fa61b8cf593984ab907",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
