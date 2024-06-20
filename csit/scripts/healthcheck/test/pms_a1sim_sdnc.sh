@@ -45,6 +45,8 @@ checkStatus(){
         fi
     done
     echo -e "$i sec: $4 is NOT alive!\n"
+    echo "Capturing docker logs (before exiting) ..."
+    docker-compose --env-file .env -f docker-compose.yml -f sdnc/docker-compose.yml logs a1controller db policy-agent a1-sim-OSC a1-sim-STD a1-sim-STD-v2
     exit -1
 }
 
@@ -71,7 +73,7 @@ curl -sSkw %{http_code}   http://localhost:8081/actuator/loggers/org.onap.ccsdk.
 
 # check SDNC status
 echo "check SDNC status:"
-checkStatus 300 "curl -sS -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/ " "200" "SDNC"
+checkStatus 300 "curl -sS -o /dev/null -I -w %{http_code} http://localhost:8282/apidoc/explorer/index.html " "200" "SDNC"
 
 cd ${SHELL_FOLDER}/../data
 ./preparePmsData.sh
