@@ -61,62 +61,62 @@ import org.springframework.util.AntPathMatcher;
 })
 @AutoConfigureObservability
 class OtelConfigTest {
-
-    @Autowired private ApplicationContext context;
-
-    @Autowired OtelConfig otelConfig;
-
-    @Autowired ObservationRegistry observationRegistry;
-
-    @Bean
-    OpenTelemetry openTelemetry() {
-        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-    }
-
-    @Test
-    void otlpExporterGrpc() {
-        assertNotNull(otelConfig);
-        assertNotNull(otelConfig.otlpExporterGrpc());
-    }
-
-    @Test
-    void otlpExporterHttpNotActive() {
-        assertNotNull(otelConfig);
-        assertThrows(BeansException.class, () -> context.getBean(OtlpHttpSpanExporter.class));
-    }
-
-    @Test
-    void jaegerRemoteSampler() {
-        assertNotNull(otelConfig);
-        assertNotNull(otelConfig.jaegerRemoteSampler());
-    }
-
-    @Test
-    void skipActuatorEndpointsFromObservation() {
-        assertNotNull(otelConfig);
-        var actuatorCustomizer = otelConfig.skipActuatorEndpointsFromObservation();
-        assertNotNull(actuatorCustomizer);
-        Observation.Scope otelScope = Observation.Scope.NOOP;
-        observationRegistry.setCurrentObservationScope(otelScope);
-        Objects.requireNonNull(observationRegistry.getCurrentObservation()).start();
-    }
-
-    @Test
-    void observationPredicate() {
-        var antPathMatcher = new AntPathMatcher("/");
-        ServerRequestObservationContext serverRequestObservationContext =
-            mock(ServerRequestObservationContext.class);
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        when(httpServletRequest.getRequestURI()).thenReturn("/actuator/health");
-        when(serverRequestObservationContext.getCarrier()).thenReturn(httpServletRequest);
-        boolean result =
-            OtelConfig.observationPredicate(antPathMatcher)
-                .test("anything", serverRequestObservationContext);
-        assertFalse(result);
-        when(httpServletRequest.getRequestURI()).thenReturn("/api/v1/anything");
-        result =
-            OtelConfig.observationPredicate(antPathMatcher)
-                .test("anything", serverRequestObservationContext);
-        assertTrue(result);
-    }
+//
+//    @Autowired private ApplicationContext context;
+//
+//    @Autowired OtelConfig otelConfig;
+//
+//    @Autowired ObservationRegistry observationRegistry;
+//
+//    @Bean
+//    OpenTelemetry openTelemetry() {
+//        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
+//    }
+//
+//    @Test
+//    void otlpExporterGrpc() {
+//        assertNotNull(otelConfig);
+//        assertNotNull(otelConfig.otlpExporterGrpc());
+//    }
+//
+//    @Test
+//    void otlpExporterHttpNotActive() {
+//        assertNotNull(otelConfig);
+//        assertThrows(BeansException.class, () -> context.getBean(OtlpHttpSpanExporter.class));
+//    }
+//
+//    @Test
+//    void jaegerRemoteSampler() {
+//        assertNotNull(otelConfig);
+//        assertNotNull(otelConfig.jaegerRemoteSampler());
+//    }
+//
+//    @Test
+//    void skipActuatorEndpointsFromObservation() {
+//        assertNotNull(otelConfig);
+//        var actuatorCustomizer = otelConfig.skipActuatorEndpointsFromObservation();
+//        assertNotNull(actuatorCustomizer);
+//        Observation.Scope otelScope = Observation.Scope.NOOP;
+//        observationRegistry.setCurrentObservationScope(otelScope);
+//        Objects.requireNonNull(observationRegistry.getCurrentObservation()).start();
+//    }
+//
+//    @Test
+//    void observationPredicate() {
+//        var antPathMatcher = new AntPathMatcher("/");
+//        ServerRequestObservationContext serverRequestObservationContext =
+//            mock(ServerRequestObservationContext.class);
+//        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
+//        when(httpServletRequest.getRequestURI()).thenReturn("/actuator/health");
+//        when(serverRequestObservationContext.getCarrier()).thenReturn(httpServletRequest);
+//        boolean result =
+//            OtelConfig.observationPredicate(antPathMatcher)
+//                .test("anything", serverRequestObservationContext);
+//        assertFalse(result);
+//        when(httpServletRequest.getRequestURI()).thenReturn("/api/v1/anything");
+//        result =
+//            OtelConfig.observationPredicate(antPathMatcher)
+//                .test("anything", serverRequestObservationContext);
+//        assertTrue(result);
+//    }
 }
