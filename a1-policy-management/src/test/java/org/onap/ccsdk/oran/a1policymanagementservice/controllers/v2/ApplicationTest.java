@@ -195,6 +195,11 @@ class ApplicationTest {
     @BeforeEach
     void init() {
         this.applicationConfig.setAuthProviderUrl(baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+        rics.clear();
+        policies.clear();
+        policyTypes.clear();
+        services.clear();
+        a1ClientFactory.reset();
     }
 
     @AfterEach
