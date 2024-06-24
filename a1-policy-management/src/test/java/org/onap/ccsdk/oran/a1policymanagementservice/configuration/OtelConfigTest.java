@@ -68,10 +68,7 @@ class OtelConfigTest {
 
     @Autowired ObservationRegistry observationRegistry;
 
-    @Bean
-    OpenTelemetry openTelemetry() {
-        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-    }
+    @Autowired OpenTelemetry openTelemetry;
 
     @Test
     void otlpExporterGrpc() {
