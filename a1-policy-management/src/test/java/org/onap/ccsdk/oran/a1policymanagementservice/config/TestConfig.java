@@ -20,6 +20,8 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.config;
 
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -53,5 +55,10 @@ public class TestConfig {
     @Bean
     public ServletWebServerFactory servletContainer() {
         return new TomcatServletWebServerFactory();
+    }
+
+    @Bean
+    public OpenTelemetry openTelemetry() {
+        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
     }
 }

@@ -25,29 +25,22 @@ import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
-import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemetry;
-
-import java.lang.invoke.MethodHandles;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationContextProvider;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.OtelConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.lang.Nullable;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.ProxyProvider;
+
+import java.lang.invoke.MethodHandles;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Generic reactive REST client.
@@ -61,7 +54,6 @@ public class AsyncRestClient {
     private final SslContext sslContext;
     private final HttpProxyConfig httpProxyConfig;
     private final SecurityContext securityContext;
-    private OtelConfig otelConfig = ApplicationContextProvider.getApplicationContext().getBean(OtelConfig.class);
 
     public AsyncRestClient(String baseUrl, @Nullable SslContext sslContext, @Nullable HttpProxyConfig httpProxyConfig,
             SecurityContext securityContext) {
@@ -192,42 +184,9 @@ public class AsyncRestClient {
         return httpClient;
     }
 
-    public WebClient buildWebClient(String baseUrl) {
-        Object traceTag = createTraceTag();
-
-        final HttpClient httpClient = buildHttpClient();
-        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder() //
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) //
-                .build();
-
-        ExchangeFilterFunction reqLogger = ExchangeFilterFunction.ofRequestProcessor(req -> {
-            logger.debug("{} {} uri = '{}''", traceTag, req.method(), req.url());
-            return Mono.just(req);
-        });
-
-        ExchangeFilterFunction respLogger = ExchangeFilterFunction.ofResponseProcessor(resp -> {
-            logger.debug("{} resp: {}", traceTag, resp.statusCode());
-            return Mono.just(resp);
-        });
-
-        WebClient.Builder webClientBuilder = WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .baseUrl(baseUrl)
-                .exchangeStrategies(exchangeStrategies)
-                .filter(reqLogger)
-                .filter(respLogger);
-
-        if (otelConfig.isTracingEnabled()) {
-            SpringWebfluxTelemetry webfluxTelemetry = ApplicationContextProvider.getApplicationContext().getBean(SpringWebfluxTelemetry.class);
-            webClientBuilder.filters(webfluxTelemetry::addClientTracingFilter);
-        }
-
-        return webClientBuilder.build();
-    }
-
     private WebClient getWebClient() {
         if (this.webClient == null) {
-            this.webClient = buildWebClient(baseUrl);
+            this.webClient = WebClientUtil.buildWebClient(baseUrl, buildHttpClient());
         }
         return this.webClient;
     }
