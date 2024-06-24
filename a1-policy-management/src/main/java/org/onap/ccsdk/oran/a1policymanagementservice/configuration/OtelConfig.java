@@ -27,11 +27,8 @@ import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemetry;
 import io.opentelemetry.sdk.extension.trace.jaeger.sampler.JaegerRemoteSampler;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
-import lombok.Getter;
-import reactor.core.publisher.Hooks;
 
 import java.time.Duration;
-
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -57,40 +54,50 @@ public class OtelConfig {
     @Value("${spring.application.name}")
     private String serviceId;
 
-    @Value("${management.tracing.exporter.endpoint}")
+    @Value("${otel.exporter.otlp.traces.endpoint}")
     private String tracingExporterEndpointUrl;
 
-    @Value("${management.tracing.sampler.jaeger-remote.endpoint}")
+    @Value("${otel.tracing.sampler.jaeger-remote.endpoint}")
     private String jaegerRemoteSamplerUrl;
 
-    @Value("${management.tracing.exporter.protocol}")
+    @Value("${otel.exporter.otlp.traces.protocol}")
     private String tracingProtocol;
 
-    @Getter
-    @Value("${management.tracing.enabled}")
-    private boolean tracingEnabled;
+    @Value("${otel.sdk.disabled}")
+    private boolean tracingDisabled;
+
+    @Value("${otel.sdk.south}")
+    private boolean southTracingEnabled;
 
     @PostConstruct
     public void checkTracingConfig() {
-        logger.info("Application Yaml Tracing Enabled: " + tracingEnabled);
+        logger.info("Application Yaml Tracing Enabled: " + !tracingDisabled);
+    }
+
+    public boolean isTracingEnabled() {
+        return !tracingDisabled;
+    }
+
+    public boolean isSouthTracingEnabled() {
+        return isTracingEnabled() && southTracingEnabled;
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
-    @ConditionalOnExpression("'grpc'.equals('${management.tracing.exporter.protocol}')")
+    @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
+    @ConditionalOnExpression("'grpc'.equals('${otel.exporter.otlp.traces.protocol}')")
     public OtlpGrpcSpanExporter otlpExporterGrpc() {
         return OtlpGrpcSpanExporter.builder().setEndpoint(tracingExporterEndpointUrl).build();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
-    @ConditionalOnExpression("'http'.equals('${management.tracing.exporter.protocol}')")
+    @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
+    @ConditionalOnExpression("'http'.equals('${otel.exporter.otlp.traces.protocol}')")
     public OtlpHttpSpanExporter otlpExporterHttp() {
         return OtlpHttpSpanExporter.builder().setEndpoint(tracingExporterEndpointUrl).build();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
     public JaegerRemoteSampler jaegerRemoteSampler() {
         return JaegerRemoteSampler.builder().setEndpoint(jaegerRemoteSamplerUrl)
                 .setPollingInterval(Duration.ofSeconds(JAEGER_REMOTE_SAMPLER_POLLING_INTERVAL_IN_SECOND))
@@ -98,15 +105,13 @@ public class OtelConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnExpression("!${otel.sdk.disabled:true} and ${otel.sdk.south:true}")
     public SpringWebfluxTelemetry webfluxTelemetry (OpenTelemetry openTelemetry) {
-        //enables automatic context propagation to ThreadLocals used by FLUX and MONO operators
-        Hooks.enableAutomaticContextPropagation();
         return SpringWebfluxTelemetry.builder(openTelemetry).build();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
         return registry ->
