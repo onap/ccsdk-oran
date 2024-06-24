@@ -28,9 +28,7 @@ import static org.mockito.Mockito.when;
 
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
-import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
-import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
@@ -40,8 +38,8 @@ import org.springframework.boot.test.autoconfigure.actuate.observability.AutoCon
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.AntPathMatcher;
 
@@ -54,12 +52,14 @@ import org.springframework.util.AntPathMatcher;
     "app.filepath=",
     "app.s3.bucket=",
     "spring.application.name=a1-pms",
-    "management.tracing.enabled=true",
-    "management.tracing.exporter.protocol=grpc",
-    "management.tracing.sampler.jaeger_remote.endpoint=http://127.0.0.1:14250",
+    "otel.sdk.disabled=false",
+    "otel.sdk.south=true",
+    "otel.exporter.otlp.traces.protocol=grpc",
+    "otel.tracing.sampler.jaeger-remote.endpoint=http://127.0.0.1:14250",
     "management.tracing.propagator.type=W3C"
 })
 @AutoConfigureObservability
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class OtelConfigTest {
 
     @Autowired private ApplicationContext context;
@@ -67,11 +67,6 @@ class OtelConfigTest {
     @Autowired OtelConfig otelConfig;
 
     @Autowired ObservationRegistry observationRegistry;
-
-    @Bean
-    OpenTelemetry openTelemetry() {
-        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-    }
 
     @Test
     void otlpExporterGrpc() {
