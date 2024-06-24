@@ -41,6 +41,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.AntPathMatcher;
@@ -68,9 +69,12 @@ class OtelConfigTest {
 
     @Autowired ObservationRegistry observationRegistry;
 
-    @Bean
-    OpenTelemetry openTelemetry() {
-        return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
+    @Configuration
+    static class TestConfig {
+        @Bean
+        public OpenTelemetry openTelemetry() {
+            return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
+        }
     }
 
     @Test
