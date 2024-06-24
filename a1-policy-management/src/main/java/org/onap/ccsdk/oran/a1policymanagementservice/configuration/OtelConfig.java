@@ -28,7 +28,6 @@ import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemet
 import io.opentelemetry.sdk.extension.trace.jaeger.sampler.JaegerRemoteSampler;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
 import lombok.Getter;
-import reactor.core.publisher.Hooks;
 
 import java.time.Duration;
 
@@ -100,8 +99,6 @@ public class OtelConfig {
     @Bean
     @ConditionalOnProperty(prefix = "management.tracing", name = "enabled", havingValue = "true", matchIfMissing = false)
     public SpringWebfluxTelemetry webfluxTelemetry (OpenTelemetry openTelemetry) {
-        //enables automatic context propagation to ThreadLocals used by FLUX and MONO operators
-        Hooks.enableAutomaticContextPropagation();
         return SpringWebfluxTelemetry.builder(openTelemetry).build();
     }
 
