@@ -43,7 +43,6 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
-@DependsOn("applicationContextProvider")
 public class AuthorizationCheck {
 
     private final ApplicationConfig applicationConfig;
