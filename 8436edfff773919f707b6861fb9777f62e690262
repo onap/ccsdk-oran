@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "665ccaa7_de158ff4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-25T20:10:43Z",
+      "side": 1,
+      "message": "Can be abandoned\nIncluded in https://gerrit.onap.org/r/c/ccsdk/oran/+/138302",
+      "revId": "8436edfff773919f707b6861fb9777f62e690262",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
