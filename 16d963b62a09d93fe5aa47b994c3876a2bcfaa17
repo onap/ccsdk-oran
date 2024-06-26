@@ -93,6 +93,30 @@
       },
       "revId": "16d963b62a09d93fe5aa47b994c3876a2bcfaa17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5c8e8d_1e2ba057",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/OtelConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-06-26T13:00:33Z",
+      "side": 1,
+      "message": "Done in new patchset",
+      "parentUuid": "bc38b56a_3c199158",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "16d963b62a09d93fe5aa47b994c3876a2bcfaa17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
