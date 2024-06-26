@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9801daff_fb936afd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-06-26T19:24:23Z",
+      "side": 1,
+      "message": "Not ready. Needs to be redone AFTER https://gerrit.onap.org/r/c/ccsdk/oran/+/138308 is MERGED, and re-staged.",
+      "revId": "0ef1231e582fbedb7b5b0a4c9dc9805985ec5024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
