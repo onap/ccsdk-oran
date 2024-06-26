@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d3290d_6bbf6788",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-26T12:42:53Z",
+      "side": 1,
+      "message": "NB: tracingDisabled",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 12
+      },
+      "revId": "16d963b62a09d93fe5aa47b994c3876a2bcfaa17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de06b032_977051c3",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/OtelConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-06-26T12:42:53Z",
+      "side": 1,
+      "message": "tracingDisabled",
+      "range": {
+        "startLine": 67,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "16d963b62a09d93fe5aa47b994c3876a2bcfaa17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
