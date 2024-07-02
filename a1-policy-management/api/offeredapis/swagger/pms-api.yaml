@@ -431,7 +431,6 @@ paths:
         - Actuator
   /a1-policy/v2/configuration:
     get:
-      x-internal: true
       operationId: getConfiguration
       responses:
         "200":
@@ -447,7 +446,6 @@ paths:
       tags:
         - Configuration
     put:
-      x-internal: true
       operationId: putConfiguration
       requestBody:
         content:
