@@ -387,6 +387,21 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-openapi-json-v3</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/pms-api-v3.yaml</inputSpec>
+                            <language>openapi</language>
+                            <output>${project.basedir}/api</output>
+                            <configOptions>
+                                <outputFile>pms-api-v3.json</outputFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -413,6 +428,28 @@
                                 <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
                                 <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed
                                     under the Apache License, and Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
+                                <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-openapi-html-v3</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/pms-api-v3.json</inputSpec>
+                            <generatorName>html2</generatorName>
+                            <output>${project.basedir}/api/pms-api/v3</output>
+                            <skipOperationExample>false</skipOperationExample>
+                            <strictSpec>false</strictSpec>
+                            <configOptions>
+                                <appDescription>The O-RAN Non-RT RIC Policy Management Service
+                                    provides a REST API for managing O-RAN A1 Policies.</appDescription>
+                                <appName>ONAP CCSDK A1 Policy Management Service</appName>
+                                <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+                                <licenseInfo>Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
                         </configuration>
@@ -497,13 +534,15 @@
                                     <includes>
                                         <include>pms-api.json</include>
                                         <include>pms-api.yaml</include>
+                                        <include>pms-api-v3.json</include>
+                                        <include>pms-api-v3.yaml</include>
                                     </includes>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resource-openapi-html</id>
+                        <id>copy-resource-openapi-html-v2</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -517,6 +556,7 @@
                                     <directory>${project.basedir}/api/pms-api</directory>
                                     <includes>
                                         <include>index.html</include>
+                                        <include>v3/index.html</include>
                                     </includes>
                                 </resource>
                             </resources>
