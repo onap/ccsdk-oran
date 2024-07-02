@@ -53,8 +53,14 @@ extensions = [
 redoc = [
             {
                 'name': 'PMS API',
-                'page': 'offeredapis/pms-api',
+                'page': 'offeredapis/pms-api/v2',
                 'spec': './offeredapis/swagger/pms-api.json',
+                'embed': True,
+            },
+            {
+                'name': 'PMS API V3',
+                'page': 'offeredapis/pms-api/v3',
+                'spec': './offeredapis/swagger/pms-api-v3.json',
                 'embed': True,
             },
             {
@@ -77,7 +83,8 @@ spelling_word_list_filename='spelling_wordlist.txt'
 spelling_lang = "en_GB"
 
 html_extra_path = [
-    'offeredapis/openapitoolgen/offeredapis/pms-api'
+    'offeredapis/openapitoolgen/offeredapis/pms-api/v2',
+    'offeredapis/openapitoolgen/offeredapis/pms-api/v3'
 ]
 
 #
