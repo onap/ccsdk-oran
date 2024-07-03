@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e572b7e8_4b19c1d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-03T18:38:03Z",
+      "side": 1,
+      "message": "Im still not sure the statically generated v1/index.html and v2/index.html will actually copy up to the readthedoc.org site during merge. Probably (?) need add steps like at https://gerrit.o-ran-sc.org/r/c/nonrtric/plt/a1policymanagementservice/+/12894/1/.readthedocs.yaml#31",
+      "revId": "e55717d044d83f690eabdff4b8ed27f7fe64b2a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd8e6e1_90962db4",
+        "filename": "docs/conf.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-03T18:38:03Z",
+      "side": 1,
+      "message": "This change seems to be cuaeing a file \"_build\\html\\offeredapis\\pms-api\\v2.html\" to be generated instead of the old \"_build\\html\\offeredapis\\pms-api.html\"\nWeird. \nBut we need to keep the old page/path - since it is widely linked to.\nMaybe try remove \u0027/v2\u0027 here. \nAnd below, replace \u0027/v3\u0027 with \u0027-v3\u0027",
+      "range": {
+        "startLine": 56,
+        "startChar": 39,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "e55717d044d83f690eabdff4b8ed27f7fe64b2a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5530fde_5da490b0",
+        "filename": "docs/conf.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-03T18:38:03Z",
+      "side": 1,
+      "message": "Change to \n  html_extra_path \u003d [\n      \u0027offeredapis/openapitoolgen\u0027\n  ]\n  \nSo that the contents of \"docs\\offeredapis\\openapitoolgen\\offeredapis\\pms-api\\v2\" is copied to \"_build\\html\\offeredapis\\pms-api\\v2\" \nand \"docs\\offeredapis\\openapitoolgen\\offeredapis\\pms-api\\v3\" is copied to \"_build\\html\\offeredapis\\pms-api\\v3\" \n(ie. v2\\index.html and v3\\index.html)",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 1
+      },
+      "revId": "e55717d044d83f690eabdff4b8ed27f7fe64b2a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a50050_edc905ff",
+        "filename": "docs/conf.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-03T18:38:03Z",
+      "side": 1,
+      "message": "need to add all of the others here too",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "e55717d044d83f690eabdff4b8ed27f7fe64b2a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
