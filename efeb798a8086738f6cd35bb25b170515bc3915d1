@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "475bcc41_439db8db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-04T09:27:52Z",
+      "side": 1,
+      "message": "Ready now. \nOptional: perhaps perform a trivial rebase before merging (to avoid a complex merge chain)",
+      "revId": "efeb798a8086738f6cd35bb25b170515bc3915d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
