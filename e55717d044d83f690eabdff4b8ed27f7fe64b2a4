@@ -18,6 +18,23 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db009af2_13090ddc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-07-04T08:24:50Z",
+      "side": 1,
+      "message": "Maybe we can already add links to v3 in \nLine 52 docs/offeredapis/offeredapis.rst\nAnd check line 58\nhttps://gerrit.onap.org/r/gitweb?p\u003dccsdk/oran.git;a\u003dblob;f\u003ddocs/offeredapis/offeredapis.rst;h\u003d28f0083539ebf2abd0c9235d943600f040049fee;hb\u003dHEAD#l52",
+      "revId": "e55717d044d83f690eabdff4b8ed27f7fe64b2a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdd8e6e1_90962db4",
