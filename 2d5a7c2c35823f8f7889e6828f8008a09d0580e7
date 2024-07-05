@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "136cc81d_ae6ff3e8",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-05T16:55:31Z",
+      "side": 1,
+      "message": "For some reason the generated html has no entries for the examples/schemas for return values. i think this was working previously. I think we need to debug why thats not working. \nNeed to test with different versions, or try with \u0027openapi-generator-cli\u0027 utility locally to check what\u0027s wrong.",
+      "range": {
+        "startLine": 420,
+        "startChar": 43,
+        "endLine": 420,
+        "endChar": 48
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46078bdd_56e0b227",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-05T16:55:31Z",
+      "side": 1,
+      "message": "add \u0027/v2\u0027 here",
+      "range": {
+        "startLine": 421,
+        "startChar": 64,
+        "endLine": 421,
+        "endChar": 68
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f66d7e_9effa612",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-05T16:55:31Z",
+      "side": 1,
+      "message": "Perhaps remove \"-v2\" because this execution also copies the \"-v3\" version too.",
+      "range": {
+        "startLine": 545,
+        "startChar": 53,
+        "endLine": 545,
+        "endChar": 58
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e2fd52_abacd355",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-05T16:55:31Z",
+      "side": 1,
+      "message": "See comment below first ...  \nWill it work if change this to \u0027${project.basedir}/api/\u0027 and add \u0027pms-api/\u0027 to paths \u0027\u003cinclude\u003e\u0027 entries below? \nIf so, we can consolidate the executions \"\u003cid\u003ecopy-resource-openapi\u003c/id\u003e\" and \"\u003cid\u003ecopy-resource-openapi-html-v2\u003c/id\u003e\" into a single execution, and tidy up the pom file a bit.",
+      "range": {
+        "startLine": 556,
+        "startChar": 47,
+        "endLine": 556,
+        "endChar": 69
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99ff1526_a99b610c",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-05T16:55:31Z",
+      "side": 1,
+      "message": "Didn\u0027t know could have directories here ... Maybe we can consolidate some of our copy-resources exectutions \u0026 add more complex paths in extra \u0027include\u0027 entries?",
+      "range": {
+        "startLine": 559,
+        "startChar": 48,
+        "endLine": 559,
+        "endChar": 63
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
