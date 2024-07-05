@@ -47,6 +47,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d04d1b8c_a7e1d5cc",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-05T18:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46078bdd_56e0b227",
+      "range": {
+        "startLine": 421,
+        "startChar": 64,
+        "endLine": 421,
+        "endChar": 68
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9f66d7e_9effa612",
@@ -70,6 +94,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f9aedf_9142c3e1",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-05T18:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f66d7e_9effa612",
+      "range": {
+        "startLine": 545,
+        "startChar": 53,
+        "endLine": 545,
+        "endChar": 58
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53e2fd52_abacd355",
@@ -83,6 +131,30 @@
       "writtenOn": "2024-07-05T16:55:31Z",
       "side": 1,
       "message": "See comment below first ...  \nWill it work if change this to \u0027${project.basedir}/api/\u0027 and add \u0027pms-api/\u0027 to paths \u0027\u003cinclude\u003e\u0027 entries below? \nIf so, we can consolidate the executions \"\u003cid\u003ecopy-resource-openapi\u003c/id\u003e\" and \"\u003cid\u003ecopy-resource-openapi-html-v2\u003c/id\u003e\" into a single execution, and tidy up the pom file a bit.",
+      "range": {
+        "startLine": 556,
+        "startChar": 47,
+        "endLine": 556,
+        "endChar": 69
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16361777_6405b245",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-05T18:08:29Z",
+      "side": 1,
+      "message": "Those 2 copy resources have different output directories. So, we need to separate it.",
+      "parentUuid": "53e2fd52_abacd355",
       "range": {
         "startLine": 556,
         "startChar": 47,
