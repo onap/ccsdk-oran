@@ -16,6 +16,23 @@
       "message": "Ready now",
       "revId": "2f55e5d63de95ac0bd527900519bac609f015079",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37a88fa1_425251df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-09T09:24:44Z",
+      "side": 1,
+      "message": "Please merge whenever you are ready.",
+      "revId": "2f55e5d63de95ac0bd527900519bac609f015079",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
