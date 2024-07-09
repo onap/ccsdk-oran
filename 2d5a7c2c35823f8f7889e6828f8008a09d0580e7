@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8230146d_96eec3e4",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-09T16:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "136cc81d_ae6ff3e8",
+      "range": {
+        "startLine": 420,
+        "startChar": 43,
+        "endLine": 420,
+        "endChar": 48
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46078bdd_56e0b227",
@@ -178,6 +202,30 @@
       "writtenOn": "2024-07-05T16:55:31Z",
       "side": 1,
       "message": "Didn\u0027t know could have directories here ... Maybe we can consolidate some of our copy-resources exectutions \u0026 add more complex paths in extra \u0027include\u0027 entries?",
+      "range": {
+        "startLine": 559,
+        "startChar": 48,
+        "endLine": 559,
+        "endChar": 63
+      },
+      "revId": "2d5a7c2c35823f8f7889e6828f8008a09d0580e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6df815_4c2ea004",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-09T16:02:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "99ff1526_a99b610c",
       "range": {
         "startLine": 559,
         "startChar": 48,
