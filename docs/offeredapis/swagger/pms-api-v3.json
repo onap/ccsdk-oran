@@ -1,16 +1,16 @@
 {
   "openapi" : "3.0.3",
   "info" : {
-    "title" : "A1 policy management API",
-    "description" : "<h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p>",
     "contact" : {
-      "url" : "https://www.onap.org/",
-      "email" : "discuss-list@onap.com"
+      "email" : "discuss-list@onap.com",
+      "url" : "https://www.onap.org/"
     },
+    "description" : "<h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p>",
     "license" : {
       "name" : "Copyright (C) 2024 OpenInfra Foundation Europe. Licensed under the Apache License.",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0"
     },
+    "title" : "A1 policy management API",
     "version" : "1.0.0",
     "x-api-id" : "a31c510b-20e6-4a08-af16-368c44d7fba8",
     "x-audience" : "external-public"
@@ -19,625 +19,754 @@
     "url" : "{apiRoot}/a1policymanagement/v1",
     "variables" : {
       "apiRoot" : {
-        "description" : "This is the Host:Port or Address where the A1-Policy Management Service can be accessed",
-        "default" : "https://example.com"
+        "default" : "https://example.com",
+        "description" : "This is the Host:Port or Address where the A1-Policy Management Service can be accessed"
       }
     }
   } ],
   "tags" : [ {
-    "name" : "A1 Policy Management",
-    "description" : "API used to create polices, Policy Instances and get  them as individual using an ID or get all policies/Instances."
+    "description" : "API used to create polices, Policy Instances and get  them as individual using an ID or get all policies/Instances.",
+    "name" : "A1 Policy Management"
   }, {
-    "name" : "NearRT-RIC Repository",
-    "description" : "API used to get the NearRT-RIC for the managed element."
+    "description" : "API used to get the NearRT-RIC for the managed element.",
+    "name" : "NearRT-RIC Repository"
   }, {
-    "name" : "Service Registry and Supervision",
-    "description" : "API used to keep the service Alive with in the timeout period"
+    "description" : "API used to keep the service Alive with in the timeout period",
+    "name" : "Service Registry and Supervision"
   }, {
-    "name" : "Health Check",
-    "description" : "API used to get the health status and statistics of this service"
+    "description" : "API used to get the health status and statistics of this service",
+    "name" : "Health Check"
   }, {
     "name" : "Service callbacks"
   }, {
-    "name" : "Configuration",
-    "description" : "API used to create or fetch the application configuration."
+    "description" : "API used to create or fetch the application configuration.",
+    "name" : "Configuration"
+  }, {
+    "description" : "API used to gather information about the application, such as health, metrics, environment properties, and more.",
+    "name" : "Actuator"
   } ],
   "paths" : {
     "/status" : {
       "get" : {
-        "tags" : [ "Health Check" ],
         "description" : "Returns status and statistics of this service",
         "operationId" : "getStatus",
         "responses" : {
           "200" : {
-            "description" : "OK- Service is living Ok",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/StatusInfo"
-                },
                 "examples" : {
                   "status_info" : {
                     "$ref" : "#/components/examples/StatusInfo"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/StatusInfo"
                 }
               }
-            }
+            },
+            "description" : "OK- Service is living Ok"
           }
-        }
+        },
+        "tags" : [ "Health Check" ]
       }
     },
     "/rics/ric" : {
       "get" : {
-        "tags" : [ "NearRT-RIC Repository" ],
-        "summary" : "Returns info for one Near-RT RIC",
         "description" : "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
         "operationId" : "getRic",
         "parameters" : [ {
-          "name" : "managedElementId",
-          "in" : "query",
           "description" : "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "ricId",
           "in" : "query",
-          "description" : "The identity of a Near-RT RIC to get information for.",
+          "name" : "managedElementId",
           "required" : false,
-          "style" : "form",
-          "explode" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "Accept",
-          "in" : "header",
-          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "description" : "The identity of a Near-RT RIC to get information for.",
+          "explode" : true,
+          "in" : "query",
+          "name" : "ricId",
           "required" : false,
-          "style" : "simple",
-          "explode" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK - Near-RT RIC is found OK",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RicInfo"
-                },
                 "examples" : {
                   "ric_info" : {
                     "$ref" : "#/components/examples/RicInfo"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/RicInfo"
                 }
               }
-            }
+            },
+            "description" : "OK - Near-RT RIC is found OK"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           }
-        }
+        },
+        "summary" : "Returns info for one Near-RT RIC",
+        "tags" : [ "NearRT-RIC Repository" ]
       }
     },
     "/rics" : {
       "get" : {
-        "tags" : [ "NearRT-RIC Repository" ],
-        "summary" : "Query Near-RT RIC information",
         "description" : "The call returns all Near-RT RICs that supports a given policy type identity",
         "operationId" : "getRics",
         "parameters" : [ {
-          "name" : "policyTypeId",
-          "in" : "query",
           "description" : "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
+          "in" : "query",
+          "name" : "policyTypeId",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "Accept",
-          "in" : "header",
           "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
           "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RicInfoList"
-                },
                 "examples" : {
                   "ric_info_list" : {
                     "$ref" : "#/components/examples/RicInfoList"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/RicInfoList"
                 }
               }
-            }
+            },
+            "description" : "OK"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           }
-        }
+        },
+        "summary" : "Query Near-RT RIC information",
+        "tags" : [ "NearRT-RIC Repository" ]
       }
     },
     "/policytypes" : {
       "get" : {
-        "tags" : [ "A1 Policy Management" ],
         "description" : "Query policy type identities",
         "operationId" : "getPolicyTypes",
         "parameters" : [ {
-          "name" : "nearRtRicId",
-          "in" : "query",
           "description" : "Select types for the given Near-RT RIC identity.",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
+          "in" : "query",
+          "name" : "nearRtRicId",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "typeName",
-          "in" : "query",
           "description" : "Select types with the given type name (type identity has the format <typename_version>)",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "compatibleWithVersion",
           "in" : "query",
-          "description" : "Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.",
+          "name" : "typeName",
           "required" : false,
-          "style" : "form",
-          "explode" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "Accept",
-          "in" : "header",
-          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "description" : "Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.",
+          "explode" : true,
+          "in" : "query",
+          "name" : "compatibleWithVersion",
           "required" : false,
-          "style" : "simple",
-          "explode" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK - Policy Type IDs found Ok",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
                   "items" : {
                     "$ref" : "#/components/schemas/PolicyTypeInformation"
-                  }
+                  },
+                  "type" : "array"
                 }
               }
-            }
+            },
+            "description" : "OK - Policy Type IDs found Ok"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "tags" : [ "A1 Policy Management" ]
       }
     },
     "/policytypes/{policyTypeId}" : {
       "get" : {
-        "tags" : [ "A1 Policy Management" ],
         "description" : "Returns a policy type definition",
         "operationId" : "getPolicyTypeDefinition",
         "parameters" : [ {
-          "name" : "policyTypeId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
           "explode" : false,
+          "in" : "path",
+          "name" : "policyTypeId",
+          "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         }, {
-          "name" : "Accept",
-          "in" : "header",
           "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
           "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK - schema of the given policy type",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PolicyObject"
-                },
                 "examples" : {
                   "policyObject" : {
                     "$ref" : "#/components/examples/PolicyObject"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolicyObject"
                 }
               }
-            }
+            },
+            "description" : "OK - schema of the given policy type"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "tags" : [ "A1 Policy Management" ]
       }
     },
     "/policies/{policyId}" : {
+      "delete" : {
+        "description" : "Deleting the policy using policyId.",
+        "operationId" : "deletePolicy",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "policyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "The created A1 policy was deleted"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "423" : {
+            "content" : {
+              "application/problem+json" : {
+                "example" : {
+                  "status" : 423,
+                  "title" : "Locked",
+                  "detail" : "State is Locked in the  provided request."
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorInformation"
+                }
+              }
+            },
+            "description" : "Locked - HTTP Status code which can be used when the state is Locked"
+          },
+          "429" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Too Many Request"
+          },
+          "500" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "502" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Bad Gateway"
+          },
+          "503" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Delete a policy",
+        "tags" : [ "A1 Policy Management" ]
+      },
       "get" : {
-        "tags" : [ "A1 Policy Management" ],
         "description" : "Returns a policy",
         "operationId" : "getPolicy",
         "parameters" : [ {
-          "name" : "policyId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
           "explode" : false,
+          "in" : "path",
+          "name" : "policyId",
+          "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         }, {
-          "name" : "Accept",
-          "in" : "header",
           "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
           "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK - Policy found",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PolicyObject"
-                },
                 "examples" : {
                   "policyObject" : {
                     "$ref" : "#/components/examples/PolicyObject"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolicyObject"
                 }
               }
-            }
+            },
+            "description" : "OK - Policy found"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "tags" : [ "A1 Policy Management" ]
       },
       "put" : {
-        "tags" : [ "A1 Policy Management" ],
         "description" : "update a policy",
         "operationId" : "putPolicy",
         "parameters" : [ {
-          "name" : "policyId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
           "explode" : false,
+          "in" : "path",
+          "name" : "policyId",
+          "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/PolicyObject"
-              },
               "examples" : {
                 "policyObject" : {
                   "$ref" : "#/components/examples/PolicyObject"
                 }
+              },
+              "schema" : {
+                "$ref" : "#/components/schemas/PolicyObject"
               }
             }
           },
@@ -645,446 +774,319 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK - Policy updated",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PolicyObject"
                 }
               }
-            }
+            },
+            "description" : "OK - Policy updated"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "411" : {
-            "description" : "Length Required",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Length Required"
           },
           "413" : {
-            "description" : "Payload Too Large",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Payload Too Large"
           },
           "415" : {
-            "description" : "Unsupported Media Type",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unsupported Media Type"
           },
           "423" : {
-            "description" : "Locked - HTTP Status code which can be used when the state is Locked",
             "content" : {
               "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorInformation"
-                },
                 "example" : {
                   "status" : 423,
                   "title" : "Locked",
                   "detail" : "State is Locked in the  provided request."
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too Many Request",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "502" : {
-            "description" : "Bad Gateway",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "503" : {
-            "description" : "Service Unavailable",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "A1 Policy Management" ],
-        "summary" : "Delete a policy",
-        "description" : "Deleting the policy using policyId.",
-        "operationId" : "deletePolicy",
-        "parameters" : [ {
-          "name" : "policyId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "Accept",
-          "in" : "header",
-          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "The created A1 policy was deleted"
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Not Found",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "423" : {
-            "description" : "Locked - HTTP Status code which can be used when the state is Locked",
-            "content" : {
-              "application/problem+json" : {
+                },
                 "schema" : {
                   "$ref" : "#/components/schemas/ErrorInformation"
-                },
-                "example" : {
-                  "status" : 423,
-                  "title" : "Locked",
-                  "detail" : "State is Locked in the  provided request."
                 }
               }
-            }
+            },
+            "description" : "Locked - HTTP Status code which can be used when the state is Locked"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "tags" : [ "A1 Policy Management" ]
       }
     },
     "/policies" : {
       "get" : {
-        "tags" : [ "A1 Policy Management" ],
-        "summary" : "Query policy identities",
         "description" : "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
         "operationId" : "getPolicyIds",
         "parameters" : [ {
-          "name" : "policyTypeId",
-          "in" : "query",
           "description" : "Select policies of a given policy type identity.",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
+          "in" : "query",
+          "name" : "policyTypeId",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "nearRtRicId",
-          "in" : "query",
           "description" : "Select policies of a given Near-RT RIC identity.",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
+          "in" : "query",
+          "name" : "nearRtRicId",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "serviceId",
-          "in" : "query",
           "description" : "Select policies owned by a given service.",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "typeName",
           "in" : "query",
-          "description" : "Select policies of types with the given type name (type identity has the format <typename_version>)",
+          "name" : "serviceId",
           "required" : false,
-          "style" : "form",
-          "explode" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "Accept",
-          "in" : "header",
-          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "description" : "Select policies of types with the given type name (type identity has the format <typename_version>)",
+          "explode" : true,
+          "in" : "query",
+          "name" : "typeName",
           "required" : false,
-          "style" : "simple",
-          "explode" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK - Policy identities",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
                   "items" : {
                     "$ref" : "#/components/schemas/PolicyInformation"
-                  }
+                  },
+                  "type" : "array"
                 }
               }
-            }
+            },
+            "description" : "OK - Policy identities"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "summary" : "Query policy identities",
+        "tags" : [ "A1 Policy Management" ]
       },
       "post" : {
-        "tags" : [ "A1 Policy Management" ],
         "description" : "To create A1 policies",
         "operationId" : "createPolicy",
         "requestBody" : {
@@ -1099,164 +1101,164 @@
         },
         "responses" : {
           "201" : {
-            "description" : "Success case 201 created",
-            "headers" : {
-              "Location" : {
-                "description" : "Contains the URI of the newly created resource",
-                "required" : true,
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            },
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PolicyObjectInformation"
                 }
               }
+            },
+            "description" : "Success case 201 created",
+            "headers" : {
+              "Location" : {
+                "description" : "Contains the URI of the newly created resource",
+                "explode" : false,
+                "required" : true,
+                "schema" : {
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
             }
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "401" : {
-            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Unauthorized"
           },
           "403" : {
-            "description" : "Forbidden",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Forbidden"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "406" : {
-            "description" : "Not Acceptable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Acceptable"
           },
           "423" : {
-            "description" : "Locked - HTTP Status code which can be used when the state is Locked",
             "content" : {
               "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorInformation"
-                },
                 "example" : {
                   "status" : 423,
                   "title" : "Locked",
                   "detail" : "State is Locked in the  provided request."
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorInformation"
                 }
               }
-            }
+            },
+            "description" : "Locked - HTTP Status code which can be used when the state is Locked"
           },
           "429" : {
-            "description" : "Too Many Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Too Many Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           },
           "502" : {
-            "description" : "Bad Gateway",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Gateway"
           },
           "503" : {
-            "description" : "Service Unavailable",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Service Unavailable"
           }
-        }
+        },
+        "tags" : [ "A1 Policy Management" ]
       }
     },
     "/configuration" : {
       "get" : {
-        "tags" : [ "Configuration" ],
         "description" : "Returns the contents of the application configuration",
         "operationId" : "getConfiguration",
         "responses" : {
           "200" : {
-            "description" : "OK - Application configuration received",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "type" : "string"
                 }
               }
-            }
+            },
+            "description" : "OK - Application configuration received"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           }
-        }
+        },
+        "tags" : [ "Configuration" ]
       },
       "put" : {
-        "tags" : [ "Configuration" ],
         "description" : "Replace the current configuration file with the given configuration",
         "operationId" : "putConfiguration",
         "requestBody" : {
@@ -1271,54 +1273,53 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK - Configuration updated",
             "content" : {
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/void"
                 }
               }
-            }
+            },
+            "description" : "OK - Configuration updated"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           }
-        }
+        },
+        "tags" : [ "Configuration" ]
       }
     },
     "/services/{serviceId}/keepalive" : {
       "put" : {
-        "tags" : [ "Service Registry and Supervision" ],
-        "summary" : "Heartbeat indicates that the service is running",
         "description" : "A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke this operation before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. (This timeout can be set or disabled when each service is initially registered)",
         "operationId" : "keepAliveService",
         "parameters" : [ {
-          "name" : "serviceId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
           "explode" : false,
+          "in" : "path",
+          "name" : "serviceId",
+          "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         }, {
-          "name" : "Accept",
-          "in" : "header",
           "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
           "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "requestBody" : {
           "content" : {
@@ -1332,137 +1333,91 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK - Service supervision timer refreshed, OK",
             "content" : {
               "*/*" : {
                 "schema" : {
                   "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK - Service supervision timer refreshed, OK"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           }
-        }
+        },
+        "summary" : "Heartbeat indicates that the service is running",
+        "tags" : [ "Service Registry and Supervision" ]
       }
     },
     "/services" : {
       "get" : {
-        "tags" : [ "Service Registry and Supervision" ],
-        "summary" : "Returns service information",
         "description" : "Either information about a registered service with given identity or all registered services are returned.",
         "operationId" : "getServices",
         "parameters" : [ {
-          "name" : "serviceId",
-          "in" : "query",
           "description" : "The identity of the service",
-          "required" : false,
-          "style" : "form",
           "explode" : true,
+          "in" : "query",
+          "name" : "serviceId",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
-          "name" : "Accept",
-          "in" : "header",
           "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
           "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
           "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ServiceStatusList"
-                },
                 "examples" : {
                   "service_status_list" : {
                     "$ref" : "#/components/examples/ServiceStatusList"
                   }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceStatusList"
                 }
               }
-            }
+            },
+            "description" : "OK"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           }
-        }
+        },
+        "summary" : "Returns service information",
+        "tags" : [ "Service Registry and Supervision" ]
       },
       "put" : {
-        "tags" : [ "Service Registry and Supervision" ],
-        "summary" : "Register a service",
-        "description" : "Registering a service is needed to:<ul><li>Get callbacks about available NearRT RICs.</li><li>Activate supervision of the service. If a service is inactive, its policies will automatically be deleted.</li></ul>Policies can be created even if the service is not registerred. This is a feature which it is optional to use.",
-        "operationId" : "putService",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ServiceRegistrationInfo"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK - Service updated",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "201" : {
-            "description" : "Created - Service created",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
         "callbacks" : {
           "RICStatus" : {
             "{$request.body#/callback_url}" : {
               "post" : {
-                "tags" : [ "Service callbacks" ],
-                "summary" : "Callback for Near-RT RIC status",
                 "description" : "The URL to this call is registered at Service registration.",
                 "operationId" : "serviceCallback",
                 "requestBody" : {
@@ -1477,564 +1432,540 @@
                 },
                 "responses" : {
                   "200" : {
-                    "description" : "OK",
                     "content" : {
                       "application/json" : {
                         "schema" : {
                           "$ref" : "#/components/schemas/void"
                         }
                       }
-                    }
+                    },
+                    "description" : "OK"
                   },
                   "404" : {
-                    "description" : "Not Found",
                     "content" : {
                       "application/problem+json" : {
                         "schema" : {
                           "$ref" : "#/components/schemas/ProblemDetails"
                         }
                       }
-                    }
+                    },
+                    "description" : "Not Found"
                   }
-                }
+                },
+                "summary" : "Callback for Near-RT RIC status",
+                "tags" : [ "Service callbacks" ]
               }
             }
           }
-        }
-      }
-    },
-    "/services/{serviceId}" : {
-      "delete" : {
-        "tags" : [ "Service Registry and Supervision" ],
-        "description" : "Unregister a service",
-        "operationId" : "deleteService",
-        "parameters" : [ {
-          "name" : "serviceId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "Accept",
-          "in" : "header",
-          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
-          "required" : false,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "example" : "application/json"
-          }
-        } ],
+        },
+        "description" : "Registering a service is needed to:<ul><li>Get callbacks about available NearRT RICs.</li><li>Activate supervision of the service. If a service is inactive, its policies will automatically be deleted.</li></ul>Policies can be created even if the service is not registerred. This is a feature which it is optional to use.",
+        "operationId" : "putService",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ServiceRegistrationInfo"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
-          "204" : {
-            "description" : "No Content - Service unregistered",
+          "200" : {
             "content" : {
               "*/*" : {
                 "schema" : {
                   "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK - Service updated"
           },
-          "404" : {
-            "description" : "Not Found",
+          "201" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "Created - Service created"
+          },
+          "400" : {
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
+            },
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Register a service",
+        "tags" : [ "Service Registry and Supervision" ]
+      }
+    },
+    "/services/{serviceId}" : {
+      "delete" : {
+        "description" : "Unregister a service",
+        "operationId" : "deleteService",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "serviceId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "No Content - Service unregistered"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          }
+        },
+        "tags" : [ "Service Registry and Supervision" ]
+      }
+    },
+    "/actuator/threaddump" : {
+      "get" : {
+        "operationId" : "threaddump",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'threaddump'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/loggers" : {
+      "get" : {
+        "operationId" : "loggers",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/health/**" : {
+      "get" : {
+        "operationId" : "health-path",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health-path'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/shutdown" : {
+      "post" : {
+        "operationId" : "shutdown",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'shutdown'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/metrics/{requiredMetricName}" : {
+      "get" : {
+        "operationId" : "metrics-requiredMetricName",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "requiredMetricName",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator" : {
+      "get" : {
+        "operationId" : "links",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator root web endpoint",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/loggers/{name}" : {
+      "get" : {
+        "operationId" : "loggers-name",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "name",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers-name'",
+        "tags" : [ "Actuator" ]
+      },
+      "post" : {
+        "operationId" : "loggers-name_2",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "name",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "enum" : [ "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF" ],
+                "type" : "string"
+              }
             }
           }
-        }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers-name'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/metrics" : {
+      "get" : {
+        "operationId" : "metrics",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'metrics'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/info" : {
+      "get" : {
+        "operationId" : "info",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'info'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/logfile" : {
+      "get" : {
+        "operationId" : "logfile",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'logfile'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/health" : {
+      "get" : {
+        "operationId" : "health",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/heapdump" : {
+      "get" : {
+        "operationId" : "heapdump",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'heapdump'",
+        "tags" : [ "Actuator" ]
       }
     }
   },
   "components" : {
-    "schemas" : {
-      "PolicyTypeInformation" : {
-        "required" : [ "nearRtRicId", "policyTypeId" ],
-        "type" : "object",
-        "properties" : {
-          "policyTypeId" : {
-            "type" : "string",
-            "description" : "Identity of the policy type"
-          },
-          "nearRtRicId" : {
-            "$ref" : "#/components/schemas/NearRtRicId"
-          }
-        },
-        "description" : "Available policy types and for each policy type identifier the Near-RT RIC identifiers of those Near-RT RICs that support the related A1 policy type"
-      },
-      "PolicyObjectInformation" : {
-        "required" : [ "nearRtRicId", "policyObject", "policyTypeId" ],
-        "type" : "object",
-        "properties" : {
-          "nearRtRicId" : {
-            "type" : "string",
-            "description" : "identity of the target Near-RT RIC",
-            "example" : "Near-RT-Ric-ID"
-          },
-          "transient" : {
-            "type" : "boolean",
-            "description" : "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
-            "nullable" : false,
-            "default" : false
-          },
-          "policyId" : {
-            "type" : "string",
-            "description" : "identity of the Policy",
-            "example" : "POLICY-ID"
-          },
-          "serviceId" : {
-            "type" : "string",
-            "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
-            "example" : "rApp ID"
-          },
-          "policyObject" : {
-            "$ref" : "#/components/schemas/PolicyObject"
-          },
-          "statusNotificationUri" : {
-            "type" : "string",
-            "description" : "Callback URI for policy status updates"
-          },
-          "policyTypeId" : {
-            "type" : "string",
-            "description" : "identity of the policy type",
-            "example" : "ORAN_QOS_1.0.0(typeName_SemVersion)"
-          }
-        },
-        "description" : "Information related to the creation of the policy"
-      },
-      "ErrorInformation" : {
-        "type" : "object",
-        "properties" : {
-          "detail" : {
-            "type" : "string",
-            "description" : " A human-readable explanation specific to this occurrence of the problem.",
-            "example" : "Policy type not found"
-          },
-          "title" : {
-            "type" : "string",
-            "description" : "A specific error name",
-            "example" : "Not Found"
-          },
-          "status" : {
-            "type" : "integer",
-            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem. ",
-            "format" : "int32",
-            "example" : 404
-          }
-        },
-        "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807"
-      },
-      "PolicyObject" : {
-        "type" : "object",
-        "description" : "Policy Object is a JSON representation of an A1 policy"
-      },
-      "void" : {
-        "type" : "object",
-        "description" : "Void/empty"
-      },
-      "StatusInfo" : {
-        "type" : "object",
-        "properties" : {
-          "status" : {
-            "type" : "string",
-            "description" : "status text"
-          }
-        }
-      },
-      "AuthorizationResult" : {
-        "required" : [ "result" ],
-        "type" : "object",
-        "properties" : {
-          "result" : {
-            "type" : "boolean",
-            "description" : "If true, the access is granted"
-          }
-        },
-        "description" : "Result of authorization",
-        "example" : {
-          "result" : true
-        }
-      },
-      "RicInfo" : {
-        "type" : "object",
-        "properties" : {
-          "ricId" : {
-            "type" : "string",
-            "description" : "identity of the Near-RT RIC"
-          },
-          "managedElementIds" : {
-            "type" : "array",
-            "description" : "O1 identities for managed entities",
-            "items" : {
-              "type" : "string",
-              "description" : "O1 identities for managed entities"
-            }
-          },
-          "state" : {
-            "type" : "string",
-            "description" : "Represents the states for a Near-RT RIC",
-            "enum" : [ "UNAVAILABLE", "AVAILABLE", "SYNCHRONIZING", "CONSISTENCY_CHECK" ]
-          },
-          "policyTypeIds" : {
-            "type" : "array",
-            "description" : "supported policy types",
-            "items" : {
-              "type" : "string",
-              "description" : "supported policy types"
-            }
-          }
-        },
-        "description" : "Information for a Near-RT RIC"
-      },
-      "ServiceRegistrationInfo" : {
-        "required" : [ "serviceId" ],
-        "type" : "object",
-        "properties" : {
-          "callbackUrl" : {
-            "type" : "string",
-            "description" : "callback for notifying of Near-RT RIC state changes"
-          },
-          "serviceId" : {
-            "type" : "string",
-            "description" : "identity of the service"
-          },
-          "keepAliveIntervalSeconds" : {
-            "type" : "integer",
-            "description" : "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.",
-            "format" : "int64"
-          }
-        },
-        "description" : "Information for one service"
-      },
-      "PolicyStatusInfo" : {
-        "type" : "object",
-        "properties" : {
-          "lastModified" : {
-            "type" : "string",
-            "description" : "timestamp, last modification time"
-          },
-          "status" : {
-            "type" : "object",
-            "description" : "the Policy status"
-          }
-        },
-        "description" : "Status for one A1-P Policy"
-      },
-      "ServiceStatus" : {
-        "type" : "object",
-        "properties" : {
-          "callbackUrl" : {
-            "type" : "string",
-            "description" : "callback for notifying of RIC synchronization"
-          },
-          "serviceId" : {
-            "type" : "string",
-            "description" : "identity of the service"
-          },
-          "keepAliveIntervalSeconds" : {
-            "type" : "integer",
-            "description" : "policy keep alive timeout",
-            "format" : "int64"
-          },
-          "timeSinceLastActivitySeconds" : {
-            "type" : "integer",
-            "description" : "time since last invocation by the service",
-            "format" : "int64"
-          }
-        }
-      },
-      "RicInfoList" : {
-        "type" : "object",
-        "properties" : {
-          "rics" : {
-            "type" : "array",
-            "description" : "List of Near-RT RIC information",
-            "items" : {
-              "$ref" : "#/components/schemas/RicInfo"
-            }
-          }
-        },
-        "description" : "List of Near-RT RIC information"
-      },
-      "input" : {
-        "required" : [ "accessType", "authToken", "policyTypeId" ],
-        "type" : "object",
-        "properties" : {
-          "accessType" : {
-            "type" : "string",
-            "description" : "Access type",
-            "enum" : [ "READ", "WRITE", "DELETE" ]
-          },
-          "authToken" : {
-            "type" : "string",
-            "description" : "Authorization token"
-          },
-          "policyTypeId" : {
-            "type" : "string",
-            "description" : "Policy type identifier"
-          }
-        },
-        "description" : "input"
-      },
-      "PolicyAuthorization" : {
-        "required" : [ "input" ],
-        "type" : "object",
-        "properties" : {
-          "input" : {
-            "$ref" : "#/components/schemas/input"
-          }
-        },
-        "description" : "Authorization request for A1 policy requests"
-      },
-      "NearRtRicId" : {
-        "type" : "string",
-        "description" : "Identity of the policy"
-      },
-      "PolicyInformation" : {
-        "required" : [ "nearRtRicId", "policyId" ],
-        "type" : "object",
-        "properties" : {
-          "policyId" : {
-            "type" : "string",
-            "description" : "Identity of the policy"
-          },
-          "nearRtRicId" : {
-            "$ref" : "#/components/schemas/NearRtRicId"
-          }
-        },
-        "description" : "Near-RT RIC identifiers where A1 policies exist and for each Near-RT RIC identifier the policy identifiers of those policies that exist in that Near-RT RIC"
-      },
-      "ServiceStatusList" : {
-        "type" : "object",
-        "properties" : {
-          "serviceList" : {
-            "type" : "array",
-            "description" : "List of service information",
-            "items" : {
-              "$ref" : "#/components/schemas/ServiceStatus"
-            }
-          }
-        }
-      },
-      "ServiceCallbackInfo" : {
-        "required" : [ "eventType", "ricId" ],
-        "type" : "object",
-        "properties" : {
-          "ricId" : {
-            "type" : "string",
-            "description" : "identity of a Near-RT RIC"
-          },
-          "eventType" : {
-            "type" : "string",
-            "description" : "values:\nAVAILABLE: the  Near-RT RIC has become available for A1 Policy management",
-            "enum" : [ "AVAILABLE" ]
-          }
-        },
-        "description" : "Information transferred as in Service callbacks (callback_url)"
-      },
-      "Link" : {
-        "type" : "object",
-        "properties" : {
-          "templated" : {
-            "type" : "boolean"
-          },
-          "href" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ProblemDetails" : {
-        "type" : "object",
-        "properties" : {
-          "type" : {
-            "type" : "string",
-            "description" : "a URI reference according to IETF RFC 3986 that identifies the problem type"
-          },
-          "title" : {
-            "type" : "string",
-            "description" : "human-readable summary of the problem type"
-          },
-          "status" : {
-            "type" : "number",
-            "description" : "the HTTP status code"
-          },
-          "detail" : {
-            "type" : "string",
-            "description" : "human-readable explanation "
-          },
-          "instance" : {
-            "type" : "string",
-            "description" : "URI reference that identifies the specific occurrence of the problem"
-          }
-        },
-        "description" : "A problem detail to carry details in an HTTP response according to RFC 7807"
-      }
-    },
-    "responses" : {
-      "400" : {
-        "description" : "Bad Request",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "401" : {
-        "description" : "Unauthorized",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "403" : {
-        "description" : "Forbidden",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "404" : {
-        "description" : "Not Found",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "405" : {
-        "description" : "Method Not Allowed",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "406" : {
-        "description" : "Not Acceptable",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "409" : {
-        "description" : "Conflict",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "411" : {
-        "description" : "Length Required",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "413" : {
-        "description" : "Payload Too Large",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "415" : {
-        "description" : "Unsupported Media Type",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "429" : {
-        "description" : "Too Many Request",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "500" : {
-        "description" : "Internal Server Error",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "502" : {
-        "description" : "Bad Gateway",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "503" : {
-        "description" : "Service Unavailable",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
-            }
-          }
-        }
-      },
-      "Locked" : {
-        "description" : "Locked - HTTP Status code which can be used when the state is Locked",
-        "content" : {
-          "application/problem+json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ErrorInformation"
-            },
-            "example" : {
-              "status" : 423,
-              "title" : "Locked",
-              "detail" : "State is Locked in the  provided request."
-            }
-          }
-        }
-      }
-    },
     "examples" : {
       "ServiceStatusList" : {
         "description" : "List of service information",
@@ -2132,6 +2063,486 @@
             "pdb" : 50
           }
         }
+      }
+    },
+    "responses" : {
+      "400" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Bad Request"
+      },
+      "401" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Unauthorized"
+      },
+      "403" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Forbidden"
+      },
+      "404" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Not Found"
+      },
+      "405" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Method Not Allowed"
+      },
+      "406" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Not Acceptable"
+      },
+      "409" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Conflict"
+      },
+      "411" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Length Required"
+      },
+      "413" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Payload Too Large"
+      },
+      "415" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Unsupported Media Type"
+      },
+      "429" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Too Many Request"
+      },
+      "500" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Internal Server Error"
+      },
+      "502" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Bad Gateway"
+      },
+      "503" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "description" : "Service Unavailable"
+      },
+      "Locked" : {
+        "content" : {
+          "application/problem+json" : {
+            "example" : {
+              "status" : 423,
+              "title" : "Locked",
+              "detail" : "State is Locked in the  provided request."
+            },
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorInformation"
+            }
+          }
+        },
+        "description" : "Locked - HTTP Status code which can be used when the state is Locked"
+      }
+    },
+    "schemas" : {
+      "PolicyTypeInformation" : {
+        "description" : "Available policy types and for each policy type identifier the Near-RT RIC identifiers of those Near-RT RICs that support the related A1 policy type",
+        "properties" : {
+          "policyTypeId" : {
+            "description" : "Identity of the policy type",
+            "type" : "string"
+          },
+          "nearRtRicId" : {
+            "$ref" : "#/components/schemas/NearRtRicId"
+          }
+        },
+        "required" : [ "nearRtRicId", "policyTypeId" ],
+        "type" : "object"
+      },
+      "PolicyObjectInformation" : {
+        "description" : "Information related to the creation of the policy",
+        "properties" : {
+          "nearRtRicId" : {
+            "description" : "identity of the target Near-RT RIC",
+            "example" : "Near-RT-Ric-ID",
+            "type" : "string"
+          },
+          "transient" : {
+            "default" : false,
+            "description" : "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
+            "nullable" : false,
+            "type" : "boolean"
+          },
+          "policyId" : {
+            "description" : "identity of the Policy",
+            "example" : "POLICY-ID",
+            "type" : "string"
+          },
+          "serviceId" : {
+            "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
+            "example" : "rApp ID",
+            "type" : "string"
+          },
+          "policyObject" : {
+            "$ref" : "#/components/schemas/PolicyObject"
+          },
+          "statusNotificationUri" : {
+            "description" : "Callback URI for policy status updates",
+            "type" : "string"
+          },
+          "policyTypeId" : {
+            "description" : "identity of the policy type",
+            "example" : "ORAN_QOS_1.0.0(typeName_SemVersion)",
+            "type" : "string"
+          }
+        },
+        "required" : [ "nearRtRicId", "policyObject", "policyTypeId" ],
+        "type" : "object"
+      },
+      "ErrorInformation" : {
+        "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807",
+        "properties" : {
+          "detail" : {
+            "description" : " A human-readable explanation specific to this occurrence of the problem.",
+            "example" : "Policy type not found",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A specific error name",
+            "example" : "Not Found",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem. ",
+            "example" : 404,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PolicyObject" : {
+        "description" : "Policy Object is a JSON representation of an A1 policy",
+        "type" : "object"
+      },
+      "void" : {
+        "description" : "Void/empty",
+        "type" : "object"
+      },
+      "StatusInfo" : {
+        "properties" : {
+          "status" : {
+            "description" : "status text",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "AuthorizationResult" : {
+        "description" : "Result of authorization",
+        "example" : {
+          "result" : true
+        },
+        "properties" : {
+          "result" : {
+            "description" : "If true, the access is granted",
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "result" ],
+        "type" : "object"
+      },
+      "RicInfo" : {
+        "description" : "Information for a Near-RT RIC",
+        "properties" : {
+          "ricId" : {
+            "description" : "identity of the Near-RT RIC",
+            "type" : "string"
+          },
+          "managedElementIds" : {
+            "description" : "O1 identities for managed entities",
+            "items" : {
+              "description" : "O1 identities for managed entities",
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "state" : {
+            "description" : "Represents the states for a Near-RT RIC",
+            "enum" : [ "UNAVAILABLE", "AVAILABLE", "SYNCHRONIZING", "CONSISTENCY_CHECK" ],
+            "type" : "string"
+          },
+          "policyTypeIds" : {
+            "description" : "supported policy types",
+            "items" : {
+              "description" : "supported policy types",
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "ServiceRegistrationInfo" : {
+        "description" : "Information for one service",
+        "properties" : {
+          "callbackUrl" : {
+            "description" : "callback for notifying of Near-RT RIC state changes",
+            "type" : "string"
+          },
+          "serviceId" : {
+            "description" : "identity of the service",
+            "type" : "string"
+          },
+          "keepAliveIntervalSeconds" : {
+            "description" : "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.",
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "serviceId" ],
+        "type" : "object"
+      },
+      "PolicyStatusInfo" : {
+        "description" : "Status for one A1-P Policy",
+        "properties" : {
+          "lastModified" : {
+            "description" : "timestamp, last modification time",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "the Policy status",
+            "type" : "object"
+          }
+        },
+        "type" : "object"
+      },
+      "ServiceStatus" : {
+        "properties" : {
+          "callbackUrl" : {
+            "description" : "callback for notifying of RIC synchronization",
+            "type" : "string"
+          },
+          "serviceId" : {
+            "description" : "identity of the service",
+            "type" : "string"
+          },
+          "keepAliveIntervalSeconds" : {
+            "description" : "policy keep alive timeout",
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "timeSinceLastActivitySeconds" : {
+            "description" : "time since last invocation by the service",
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "RicInfoList" : {
+        "description" : "List of Near-RT RIC information",
+        "properties" : {
+          "rics" : {
+            "description" : "List of Near-RT RIC information",
+            "items" : {
+              "$ref" : "#/components/schemas/RicInfo"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "input" : {
+        "description" : "input",
+        "properties" : {
+          "accessType" : {
+            "description" : "Access type",
+            "enum" : [ "READ", "WRITE", "DELETE" ],
+            "type" : "string"
+          },
+          "authToken" : {
+            "description" : "Authorization token",
+            "type" : "string"
+          },
+          "policyTypeId" : {
+            "description" : "Policy type identifier",
+            "type" : "string"
+          }
+        },
+        "required" : [ "accessType", "authToken", "policyTypeId" ],
+        "type" : "object"
+      },
+      "PolicyAuthorization" : {
+        "description" : "Authorization request for A1 policy requests",
+        "properties" : {
+          "input" : {
+            "$ref" : "#/components/schemas/input"
+          }
+        },
+        "required" : [ "input" ],
+        "type" : "object"
+      },
+      "NearRtRicId" : {
+        "description" : "Identity of the policy",
+        "type" : "string"
+      },
+      "PolicyInformation" : {
+        "description" : "Near-RT RIC identifiers where A1 policies exist and for each Near-RT RIC identifier the policy identifiers of those policies that exist in that Near-RT RIC",
+        "properties" : {
+          "policyId" : {
+            "description" : "Identity of the policy",
+            "type" : "string"
+          },
+          "nearRtRicId" : {
+            "$ref" : "#/components/schemas/NearRtRicId"
+          }
+        },
+        "required" : [ "nearRtRicId", "policyId" ],
+        "type" : "object"
+      },
+      "ServiceStatusList" : {
+        "properties" : {
+          "serviceList" : {
+            "description" : "List of service information",
+            "items" : {
+              "$ref" : "#/components/schemas/ServiceStatus"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "ServiceCallbackInfo" : {
+        "description" : "Information transferred as in Service callbacks (callback_url)",
+        "properties" : {
+          "ricId" : {
+            "description" : "identity of a Near-RT RIC",
+            "type" : "string"
+          },
+          "eventType" : {
+            "description" : "values:\nAVAILABLE: the  Near-RT RIC has become available for A1 Policy management",
+            "enum" : [ "AVAILABLE" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "eventType", "ricId" ],
+        "type" : "object"
+      },
+      "Link" : {
+        "properties" : {
+          "templated" : {
+            "type" : "boolean"
+          },
+          "href" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ProblemDetails" : {
+        "description" : "A problem detail to carry details in an HTTP response according to RFC 7807",
+        "properties" : {
+          "type" : {
+            "description" : "a URI reference according to IETF RFC 3986 that identifies the problem type",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "human-readable summary of the problem type",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "the HTTP status code",
+            "type" : "number"
+          },
+          "detail" : {
+            "description" : "human-readable explanation ",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "URI reference that identifies the specific occurrence of the problem",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
       }
     }
   }

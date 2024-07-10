@@ -58,6 +58,7 @@ A1 Policy Management Service API
 
 The A1 Policy Management Service API is described in more detail in `A1 Policy Management Service API (html) <./pms-api.html>`_
 A1 Policy Management Service API version 3 is described in more detail at `A1 Policy Management Service API V3 (html) <./pms-api-v3.html>`_
+A1 Policy Management Service API version 3 Config & Actuator is described in more detail at `A1 Policy Management Service API V3 Config & Actuator(html) <./v3/config/index.html>`_
 
 
 .. _a1_adapter_api:

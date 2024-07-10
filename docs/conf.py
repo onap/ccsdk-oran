@@ -100,5 +100,6 @@ linkcheck_ignore = [
   r'http://localhost:\d+/',
   './a1-adapter-api.html', #Generated file that doesn't exist at link check.
   './pms-api.html',  #Generated file that doesn't exist at link check.
-  './pms-api-v3.html'  #Generated file that doesn't exist at link check.
+  './pms-api-v3.html',  #Generated file that doesn't exist at link check.
+  './v3/config/index.html' #Generated file that doesn't exist at link check.
 ]

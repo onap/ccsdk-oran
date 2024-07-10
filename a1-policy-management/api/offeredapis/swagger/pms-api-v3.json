@@ -41,6 +41,9 @@
   }, {
     "description" : "API used to create or fetch the application configuration.",
     "name" : "Configuration"
+  }, {
+    "description" : "API used to gather information about the application, such as health, metrics, environment properties, and more.",
+    "name" : "Actuator"
   } ],
   "paths" : {
     "/status" : {
@@ -1551,6 +1554,414 @@
           }
         },
         "tags" : [ "Service Registry and Supervision" ]
+      }
+    },
+    "/actuator/threaddump" : {
+      "get" : {
+        "operationId" : "threaddump",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'threaddump'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/loggers" : {
+      "get" : {
+        "operationId" : "loggers",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/health/**" : {
+      "get" : {
+        "operationId" : "health-path",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health-path'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/shutdown" : {
+      "post" : {
+        "operationId" : "shutdown",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'shutdown'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/metrics/{requiredMetricName}" : {
+      "get" : {
+        "operationId" : "metrics-requiredMetricName",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "requiredMetricName",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator" : {
+      "get" : {
+        "operationId" : "links",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "additionalProperties" : {
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    },
+                    "type" : "object"
+                  },
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator root web endpoint",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/loggers/{name}" : {
+      "get" : {
+        "operationId" : "loggers-name",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "name",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers-name'",
+        "tags" : [ "Actuator" ]
+      },
+      "post" : {
+        "operationId" : "loggers-name_2",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "name",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "enum" : [ "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF" ],
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'loggers-name'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/metrics" : {
+      "get" : {
+        "operationId" : "metrics",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'metrics'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/info" : {
+      "get" : {
+        "operationId" : "info",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'info'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/logfile" : {
+      "get" : {
+        "operationId" : "logfile",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain;charset=UTF-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'logfile'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/health" : {
+      "get" : {
+        "operationId" : "health",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/actuator/heapdump" : {
+      "get" : {
+        "operationId" : "heapdump",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'heapdump'",
+        "tags" : [ "Actuator" ]
       }
     }
   },

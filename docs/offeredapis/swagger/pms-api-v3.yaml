@@ -53,11 +53,11 @@ info:
     url: https://www.onap.org/
     email: discuss-list@onap.com
 servers:
-- url: '{apiRoot}/a1policymanagement/v1'
-  variables:
-    apiRoot:
-      description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed'
-      default: 'https://example.com'
+  - url: '{apiRoot}/a1policymanagement/v1'
+    variables:
+      apiRoot:
+        description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed'
+        default: 'https://example.com'
 tags:
   - name: A1 Policy Management
     description: "API used to create polices, Policy Instances and get \ them as individual using an ID or get all policies/Instances."
@@ -70,6 +70,8 @@ tags:
   - name: Service callbacks
   - name: Configuration
     description: "API used to create or fetch the application configuration."
+  - name: Actuator
+    description: "API used to gather information about the application, such as health, metrics, environment properties, and more."
 paths:
   /status:
     get:
@@ -750,6 +752,286 @@ paths:
       description: Unregister a service
       tags:
         - Service Registry and Supervision
+  /actuator/threaddump:
+    get:
+      operationId: threaddump
+      responses:
+        "200":
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'threaddump'
+      tags:
+        - Actuator
+  /actuator/loggers:
+    get:
+      operationId: loggers
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'loggers'
+      tags:
+        - Actuator
+  /actuator/health/**:
+    get:
+      operationId: health-path
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'health-path'
+      tags:
+        - Actuator
+  /actuator/shutdown:
+    post:
+      operationId: shutdown
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'shutdown'
+      tags:
+        - Actuator
+  /actuator/metrics/{requiredMetricName}:
+    get:
+      operationId: metrics-requiredMetricName
+      parameters:
+        - explode: false
+          in: path
+          name: requiredMetricName
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'metrics-requiredMetricName'
+      tags:
+        - Actuator
+  /actuator:
+    get:
+      operationId: links
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                additionalProperties:
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+                  type: object
+                type: object
+            application/json:
+              schema:
+                additionalProperties:
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+                  type: object
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                additionalProperties:
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+                  type: object
+                type: object
+          description: OK
+      summary: Actuator root web endpoint
+      tags:
+        - Actuator
+  /actuator/loggers/{name}:
+    get:
+      operationId: loggers-name
+      parameters:
+        - explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'loggers-name'
+      tags:
+        - Actuator
+    post:
+      operationId: loggers-name_2
+      parameters:
+        - explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              enum:
+                - TRACE
+                - DEBUG
+                - INFO
+                - WARN
+                - ERROR
+                - FATAL
+                - "OFF"
+              type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'loggers-name'
+      tags:
+        - Actuator
+  /actuator/metrics:
+    get:
+      operationId: metrics
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'metrics'
+      tags:
+        - Actuator
+  /actuator/info:
+    get:
+      operationId: info
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'info'
+      tags:
+        - Actuator
+  /actuator/logfile:
+    get:
+      operationId: logfile
+      responses:
+        "200":
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'logfile'
+      tags:
+        - Actuator
+  /actuator/health:
+    get:
+      operationId: health
+      responses:
+        "200":
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'health'
+      tags:
+        - Actuator
+  /actuator/heapdump:
+    get:
+      operationId: heapdump
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+          description: OK
+      summary: Actuator web endpoint 'heapdump'
+      tags:
+        - Actuator
 components:
   examples:
     ServiceStatusList:
