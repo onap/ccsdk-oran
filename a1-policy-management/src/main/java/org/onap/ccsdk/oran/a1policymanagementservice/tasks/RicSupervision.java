@@ -166,6 +166,7 @@ public class RicSupervision {
     }
 
     private Mono<RicData> validateInstances(Collection<String> ricPolicies, RicData ric) {
+        logger.trace("Policies to be validated: {} , against: {} , in ric: {}", ricPolicies, ric.ric.getManagedElementIds(), ric.ric.id());
         synchronized (this.policies) {
             if (ricPolicies.size() != policies.getForRic(ric.ric.id()).size()) {
                 logger.debug("RicSupervision, starting ric: {} synchronization (noOfPolicices == {}, expected == {})",

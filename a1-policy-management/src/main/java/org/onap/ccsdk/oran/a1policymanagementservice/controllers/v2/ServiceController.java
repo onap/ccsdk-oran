@@ -20,9 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.ServiceRegistryAndSupervisionApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -33,13 +30,17 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
+
 import reactor.core.publisher.Mono;
 
+import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -61,10 +62,10 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
     private final Services services;
     private final Policies policies;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static Gson gson = new GsonBuilder().create();
+    @Autowired
+    private PolicyController policyController;
 
     ServiceController(Services services, Policies policies) {
         this.services = services;
@@ -118,38 +119,37 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
             + "Policies can be created even if the service is not registerred. This is a feature which it is optional to use.";
 
     @Override
-    public Mono<ResponseEntity<Object>> putService(
-            final Mono<ServiceRegistrationInfo> registrationInfo, final ServerWebExchange exchange) {
-            return registrationInfo.flatMap(info -> {
-                try {
-                    validateRegistrationInfo(info);
-                } catch(Exception e) {
-                    return ErrorResponse.createMono(e, HttpStatus.BAD_REQUEST);
-                }
-                final boolean isCreate = this.services.get(info.getServiceId()) == null;
-                this.services.put(toService(info));
-                return Mono.just(new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK));
-            }).onErrorResume(Exception.class, e -> ErrorResponse.createMono(e, HttpStatus.BAD_REQUEST));
+    public Mono<ResponseEntity<Object>> putService(final Mono<ServiceRegistrationInfo> registrationInfo, final ServerWebExchange exchange) {
+        return registrationInfo.flatMap(info -> {
+            try {
+                validateRegistrationInfo(info);
+            } catch (Exception e) {
+                return ErrorResponse.createMono(e, HttpStatus.BAD_REQUEST);
+            }
+            final boolean isCreate = this.services.get(info.getServiceId()) == null;
+            this.services.put(toService(info));
+            return Mono.just(new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK));
+        }).onErrorResume(Exception.class, e -> ErrorResponse.createMono(e, HttpStatus.BAD_REQUEST));
     }
 
     @Override
     public Mono<ResponseEntity<Object>> deleteService(final String serviceId, final ServerWebExchange exchange) {
         try {
             Service service = removeService(serviceId);
-            // Remove the policies from the repo and let the consistency monitoring
-            // do the rest.
-            removePolicies(service);
+            logger.trace("Service name to be deleted: {}", service.getName());
+            removePolicies(service, exchange);
             return Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT));
-        } catch (ServiceException e) {
+        } catch (ServiceException | NullPointerException e) {
+            logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId,
+                    e.getMessage());
             return ErrorResponse.createMono(e, HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public Mono<ResponseEntity<Object>> keepAliveService(final String serviceId, final ServerWebExchange exchange) throws ServiceException {
-
-            services.getService(serviceId).keepAlive();
-            return Mono.just(new ResponseEntity<>(HttpStatus.OK));
+        services.getService(serviceId).keepAlive();
+        return Mono.just(new ResponseEntity<>(HttpStatus.OK));
     }
 
     private Service removeService(String name) throws ServiceException {
@@ -158,10 +158,27 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
         return service;
     }
 
-    private void removePolicies(Service service) {
+    private void removePolicies(Service service, ServerWebExchange exchange) {
         Collection<Policy> policyList = this.policies.getForService(service.getName());
+        logger.trace("Policies to be deleted: {}", policyList);
         for (Policy policy : policyList) {
-            this.policies.remove(policy);
+            try {
+                policyController.deletePolicy(policy.getId(), exchange).doOnNext(resp -> {
+                    if (resp.getStatusCode().is2xxSuccessful()) {
+                        logger.trace("Deleting Policy '{}' when deleting Service '{}'", policy.getId(),
+                                service.getName());
+                    } else {
+                        logger.warn("Possible problem deleting Policy '{}' when deleting Service '{}'. Continuing, "
+                                + "but might trigger a re-sync with affected ric '{}'. Repsonse: \"{}\"",
+                                policy.getId(), service.getName(), policy.getRic().getConfig().getRicId(),
+                                resp.toString());
+                    }
+                }).subscribe();
+            } catch (Exception e) {
+                logger.warn("Problem deleting Policy '{}' when deleting Service '{}'."
+                        + " Continuing, but might trigger a re-sync with affected ric '{}'. Problem: \"{}\"",
+                        policy.getId(), service.getName(), policy.getRic().getConfig().getRicId(), e.getMessage());
+            }
         }
     }
 
