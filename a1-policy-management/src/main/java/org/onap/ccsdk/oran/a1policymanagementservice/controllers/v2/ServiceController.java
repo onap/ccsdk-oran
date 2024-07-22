@@ -31,11 +31,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
@@ -43,6 +45,9 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +56,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,6 +75,11 @@ public class ServiceController {
     private final Policies policies;
 
     private static Gson gson = new GsonBuilder().create();
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @Autowired
+    private PolicyController policyController;
 
     ServiceController(Services services, Policies policies) {
         this.services = services;
@@ -163,14 +174,20 @@ public class ServiceController {
 
     })
     public ResponseEntity<Object> deleteService(//
-            @PathVariable("service_id") String serviceId) {
+            @PathVariable("service_id") String serviceId, @RequestHeader Map<String, String> headers) {
         try {
-            Service service = removeService(serviceId);
-            // Remove the policies from the repo and let the consistency monitoring
-            // do the rest.
-            removePolicies(service);
+            Service service = this.services.getService(serviceId);
+            logger.trace("Service name to be delete: " + service.getName());
+
+            Collection<Policy> policyList = this.policies.getForService(service.getName());
+            logger.trace("Policies to delted: " + policyList);
+
+            removePolicies(service, headers);
+            removeService(serviceId);
+
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (ServiceException e) {
+        } catch (ServiceException | NullPointerException e) {
+            logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId, e.getMessage());
             return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
         }
     }
@@ -201,10 +218,26 @@ public class ServiceController {
         return service;
     }
 
-    private void removePolicies(Service service) {
+    private void removePolicies(Service service, Map<String, String> headers) {
         Collection<Policy> policyList = this.policies.getForService(service.getName());
         for (Policy policy : policyList) {
-            this.policies.remove(policy);
+            try {
+                policyController.deletePolicy(policy.getId(), headers).doOnNext(resp -> {
+                    if (resp.getStatusCode().is2xxSuccessful()) {
+                        logger.trace("Deleting Policy '{}' when deleting Service '{}'", policy.getId(),
+                                service.getName());
+                    } else {
+                        logger.warn("Possible problem deleting Policy '{}' when deleting Service '{}'. Continuing, "
+                                + "but might trigger a re-sync with affected ric '{}'. Repsonse: \"{}\"",
+                                policy.getId(), service.getName(), policy.getRic().getConfig().getRicId(),
+                                resp.toString());
+                    }
+                }).subscribe();
+            } catch (Exception e) {
+                logger.warn("Problem deleting Policy '{}' when deleting Service '{}'."
+                        + " Continuing, but might trigger a re-sync with affected ric '{}'. Problem: \"{}\"",
+                        policy.getId(), service.getName(), policy.getRic().getConfig().getRicId(), e.getMessage());
+            }
         }
     }
 
