@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb351aa_0a8614dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-07-22T11:23:41Z",
+      "side": 1,
+      "message": "github action failed in bulding docs with tox, I will check",
+      "revId": "9db7a03a1d3ac77b34fb09c875a5d7f2bcc7cbe1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
