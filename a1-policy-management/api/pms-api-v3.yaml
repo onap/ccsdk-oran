@@ -53,7 +53,7 @@ info:
     url: https://www.onap.org/
     email: discuss-list@onap.com
 servers:
-  - url: '{apiRoot}/a1policymanagement/v1'
+  - url: '{apiRoot}/a1-policy-management/v1'
     variables:
       apiRoot:
         description: 'apiRoot is the Host:port/Domain name of the service  where the A1Pms running'
@@ -168,7 +168,7 @@ paths:
       summary: Query Near-RT RIC information
       tags:
         - NearRT-RIC Repository
-  /policytypes:
+  /policy-types:
     get:
       operationId: getPolicyTypes
       parameters:
@@ -238,7 +238,7 @@ paths:
       description: Query policy type identities
       tags:
         - A1 Policy Management
-  /policytypes/{policyTypeId}:
+  /policy-types/{policyTypeId}:
     get:
       operationId: getPolicyTypeDefinition
       parameters:
