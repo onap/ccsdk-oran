@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e009cbdf_4db2a4fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-07-23T11:34:37Z",
+      "side": 1,
+      "message": "Moved the trace logs into the specific deletion methods",
+      "revId": "767c2c7fdd620175959f27f91ea7e698dbd027a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
