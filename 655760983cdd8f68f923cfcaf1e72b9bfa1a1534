@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c659dd17_4d20f835",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-07-23T08:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afd4d970_0a7b9790",
+      "range": {
+        "startLine": 144,
+        "startChar": 35,
+        "endLine": 144,
+        "endChar": 41
+      },
+      "revId": "655760983cdd8f68f923cfcaf1e72b9bfa1a1534",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94de841e_29aa0590",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-22T17:20:32Z",
       "side": 1,
       "message": "Was thinking more about this ... Maybe the remove service should be first, so if an error happens before removing the service then the service cannot be removed.",
+      "range": {
+        "startLine": 145,
+        "startChar": 11,
+        "endLine": 145,
+        "endChar": 37
+      },
+      "revId": "655760983cdd8f68f923cfcaf1e72b9bfa1a1534",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e3753ba_c1ab2c36",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-07-23T08:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94de841e_29aa0590",
       "range": {
         "startLine": 145,
         "startChar": 11,
