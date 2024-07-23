@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.NearRtRicRepositoryApi;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.mappers.v3.RicRepositoryMapper;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositoryController;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.RicInfo;
@@ -39,7 +40,7 @@ import reactor.core.publisher.Mono;
         name = RicRepositoryControllerV3.API_NAME,
         description = RicRepositoryControllerV3.API_DESCRIPTION
 )
-@RequestMapping("/a1policymanagement/v1")
+@RequestMapping(Consts.V3_API_ROOT)
 public class RicRepositoryControllerV3 implements NearRtRicRepositoryApi {
 
     public static final String API_NAME = "NearRT-RIC Repository V3";

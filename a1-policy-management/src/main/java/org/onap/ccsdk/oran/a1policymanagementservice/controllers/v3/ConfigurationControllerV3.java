@@ -21,6 +21,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.ConfigurationApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ConfigurationController;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ import reactor.core.publisher.Mono;
         name = ConfigurationControllerV3.API_NAME, //
         description = ConfigurationControllerV3.API_DESCRIPTION //
 )
-@RequestMapping("/a1policymanagement/v1")
+@RequestMapping(Consts.V3_API_ROOT)
 public class ConfigurationControllerV3 implements ConfigurationApi {
 
     public static final String API_NAME = "Management of configuration";

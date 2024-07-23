@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.HealthCheckApi;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositoryController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusController;
 import org.onap.ccsdk.oran.a1policymanagementservice.mappers.v3.StatusControllerMapper;
@@ -39,7 +40,7 @@ import reactor.core.publisher.Mono;
         name = StatusControllerV3.API_NAME, //
         description = StatusControllerV3.API_DESCRIPTION //
 )
-@RequestMapping("/a1policymanagement/v1")
+@RequestMapping(Consts.V3_API_ROOT)
 public class StatusControllerV3 implements HealthCheckApi {
 
     public static final String API_NAME = "Health Check";

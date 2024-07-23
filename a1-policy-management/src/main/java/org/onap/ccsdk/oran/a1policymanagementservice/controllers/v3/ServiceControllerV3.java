@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.ServiceRegistryAndSupervisionApi;
+import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.ServiceController;
 import org.onap.ccsdk.oran.a1policymanagementservice.mappers.v3.ServiceControllerMapper;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.ServiceRegistrationInfo;
@@ -39,7 +40,7 @@ import reactor.core.publisher.Mono;
         name = ServiceControllerV3.API_NAME, //
         description = ServiceControllerV3.API_DESCRIPTION //
 )
-@RequestMapping("/a1policymanagement/v1")
+@RequestMapping(Consts.V3_API_ROOT)
 public class ServiceControllerV3 implements ServiceRegistryAndSupervisionApi {
 
     public static final String API_NAME = "Service Registry and Supervision";
