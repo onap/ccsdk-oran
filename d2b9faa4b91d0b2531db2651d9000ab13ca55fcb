@@ -16,6 +16,29 @@
       "message": "Looks good. \nPlease cherry pick the patcset updates to the other reviews too if you haven\u0027t already. \nThanks.",
       "revId": "d2b9faa4b91d0b2531db2651d9000ab13ca55fcb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "692b3003_6b057aff",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-23T11:25:58Z",
+      "side": 1,
+      "message": "NB: If we move this to \u0027removePolicies\u0027 method, we don\u0027t need Line 141 again",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 142,
+        "endChar": 66
+      },
+      "revId": "d2b9faa4b91d0b2531db2651d9000ab13ca55fcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
