@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1e84b82_a90832b3",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/ServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-07-24T15:15:20Z",
+      "side": 1,
+      "message": "I think if we are expecting this exception, then we need to handle nulls properly in the calling code. I feel handling null is good instead of catching here.",
+      "range": {
+        "startLine": 141,
+        "startChar": 36,
+        "endLine": 141,
+        "endChar": 57
+      },
+      "revId": "9a5c3b17b1424ac8e22d6b496aa57761767d6c19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
