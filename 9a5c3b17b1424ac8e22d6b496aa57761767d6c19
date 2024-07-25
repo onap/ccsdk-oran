@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c90eada6_45630bc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-25T11:19:46Z",
+      "side": 1,
+      "message": "stage-release",
+      "revId": "9a5c3b17b1424ac8e22d6b496aa57761767d6c19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1e84b82_a90832b3",
