@@ -1,0 +1,9 @@
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+1: Aravindhan Ayyanathan <aravindhan.a@est.tech>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Mon, 29 Jul 2024 14:04:03 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/138570
+Project: ccsdk/oran
+Branch: refs/heads/london
