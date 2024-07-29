@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcc184e2_3c5f6c53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-07-29T09:37:37Z",
+      "side": 1,
+      "message": "Will also cherry pick back to new-delhi when a branch is created.",
+      "revId": "56eef33f4a69febe5fcae15310895df3ab9ddf6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
