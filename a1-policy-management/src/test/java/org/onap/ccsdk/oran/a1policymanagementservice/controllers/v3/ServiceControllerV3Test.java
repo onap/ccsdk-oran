@@ -58,7 +58,7 @@ import java.time.Duration;
         "app.filepath=", //
         "app.s3.bucket=" // If this is set, S3 will be used to store data.
 })
-public class ServiceControllerTestV3 {
+class ServiceControllerV3Test {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

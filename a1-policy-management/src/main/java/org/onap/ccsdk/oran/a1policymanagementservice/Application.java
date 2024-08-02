@@ -36,8 +36,10 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class Application {
 
-    @Autowired
-    private RefreshConfigTask configRefresh;
+    private final RefreshConfigTask configRefresh;
+    Application(RefreshConfigTask configRefresh) {
+        this.configRefresh = configRefresh;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

@@ -52,10 +52,9 @@ import java.lang.invoke.MethodHandles;
         "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //
         "app.vardata-directory=/tmp/pmstestv3", //a
-        "app.filepath=", //
         "app.s3.bucket=" // If this is set, S3 will be used to store data.
 })
-public class RicRepositoryControllerTestV3 {
+class RicRepositoryControllerV3Test {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -89,6 +88,7 @@ public class RicRepositoryControllerTestV3 {
     @BeforeEach
     void init() {
         testHelper.port = port;
+        rics.clear();
         this.applicationConfig.setAuthProviderUrl(testHelper.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
     }
 
@@ -116,8 +116,9 @@ public class RicRepositoryControllerTestV3 {
         testHelper.addPolicyType("2", "ricAddedTwo");
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/rics");
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
-                .contains("{\"rics\":[{\"ricId\":\"ricAddedTwo\",\"managedElementIds\":[],\"state\":\"AVAILABLE\"," +
+                .contains("{\"ricId\":\"ricAddedTwo\",\"managedElementIds\":[],\"state\":\"AVAILABLE\"," +
                         "\"policyTypeIds\":[\"2\"]},{\"ricId\":\"ricAddedOne\",\"managedElementIds\":[]," +
-                        "\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]}]}"));
+                        "\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]"));
     }
 }
+

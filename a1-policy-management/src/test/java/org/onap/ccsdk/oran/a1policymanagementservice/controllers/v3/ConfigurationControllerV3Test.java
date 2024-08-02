@@ -45,7 +45,6 @@ import java.util.Objects;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
         "server.ssl.key-store=./config/keystore.jks", //
@@ -53,7 +52,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
         "app.vardata-directory=./target", //
         "app.config-file-schema-path=/application_configuration_schema.json" //
 })
-class ConfigurationControllerTestV3 {
+class ConfigurationControllerV3Test {
     @Autowired
     ApplicationContext context;
 
