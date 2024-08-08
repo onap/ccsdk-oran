@@ -936,7 +936,7 @@ ul.nav-tabs {
   }
 };
     defs["policy_info"] = {
-  "required" : [ "policy_data", "policy_id", "policytype_id", "ric_id", "service_id" ],
+  "required" : [ "policy_data", "policy_id", "policytype_id", "ric_id" ],
   "type" : "object",
   "properties" : {
     "ric_id" : {
@@ -956,7 +956,8 @@ ul.nav-tabs {
     },
     "service_id" : {
       "type" : "string",
-      "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered."
+      "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
+      "default" : ""
     },
     "policy_data" : {
       "type" : "object",
@@ -1255,6 +1256,10 @@ ul.nav-tabs {
                     </li>
                     <li data-group="NearRTRICRepository" data-name="getRics" class="">
                       <a href="#api-NearRTRICRepository-getRics">getRics</a>
+                    </li>
+                  <li class="nav-header" data-group="ServiceCallbacks"><a href="#api-ServiceCallbacks">API Methods - ServiceCallbacks</a></li>
+                    <li data-group="ServiceCallbacks" data-name="serviceCallback" class="">
+                      <a href="#api-ServiceCallbacks-serviceCallback">serviceCallback</a>
                     </li>
                   <li class="nav-header" data-group="ServiceRegistryAndSupervision"><a href="#api-ServiceRegistryAndSupervision">API Methods - ServiceRegistryAndSupervision</a></li>
                     <li data-group="ServiceRegistryAndSupervision" data-name="deleteService" class="">
@@ -11637,6 +11642,364 @@ The identity of a policy type. If given, all Near-RT RICs supporting the policy 
                       </div>
                       <hr>
                   </section>
+                <section id="api-ServiceCallbacks">
+                  <h1>ServiceCallbacks</h1>
+                    <div id="api-ServiceCallbacks-serviceCallback">
+                      <article id="api-ServiceCallbacks-serviceCallback-0" data-group="User" data-name="serviceCallback" data-version="0">
+                        <div class="pull-left">
+                          <h1>serviceCallback</h1>
+                          <p>Callback for Near-RT RIC status</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">The URL to this call is registered at Service registration.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/r-app/near-rt-ric-status</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-ServiceCallbacks-serviceCallback-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-java">Java</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-python">Python</a></li>
+                          <li class=""><a href="#examples-ServiceCallbacks-serviceCallback-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-ServiceCallbacks-serviceCallback-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: application/json" \
+ -H "Content-Type: application/json" \
+ "http://localhost/r-app/near-rt-ric-status" \
+ -d ''
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.ServiceCallbacksApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ServiceCallbacksApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        ServiceCallbacksApi apiInstance = new ServiceCallbacksApi();
+        ServiceCallbackInfoV2 serviceCallbackInfoV2 = ; // ServiceCallbackInfoV2 | 
+
+        try {
+            Object result = apiInstance.serviceCallback(serviceCallbackInfoV2);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ServiceCallbacksApi#serviceCallback");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.ServiceCallbacksApi;
+
+public class ServiceCallbacksApiExample {
+    public static void main(String[] args) {
+        ServiceCallbacksApi apiInstance = new ServiceCallbacksApi();
+        ServiceCallbackInfoV2 serviceCallbackInfoV2 = ; // ServiceCallbackInfoV2 | 
+
+        try {
+            Object result = apiInstance.serviceCallback(serviceCallbackInfoV2);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ServiceCallbacksApi#serviceCallback");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+ServiceCallbacksApi *apiInstance = [[ServiceCallbacksApi alloc] init];
+ServiceCallbackInfoV2 *serviceCallbackInfoV2 = ; // 
+
+// Callback for Near-RT RIC status
+[apiInstance serviceCallbackWith:serviceCallbackInfoV2
+              completionHandler: ^(Object output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var A1PolicyManagementService = require('a1_policy_management_service');
+
+// Create an instance of the API class
+var api = new A1PolicyManagementService.ServiceCallbacksApi()
+var serviceCallbackInfoV2 = ; // {ServiceCallbackInfoV2} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.serviceCallback(serviceCallbackInfoV2, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class serviceCallbackExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new ServiceCallbacksApi();
+            var serviceCallbackInfoV2 = new ServiceCallbackInfoV2(); // ServiceCallbackInfoV2 | 
+
+            try {
+                // Callback for Near-RT RIC status
+                Object result = apiInstance.serviceCallback(serviceCallbackInfoV2);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling ServiceCallbacksApi.serviceCallback: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\ServiceCallbacksApi();
+$serviceCallbackInfoV2 = ; // ServiceCallbackInfoV2 | 
+
+try {
+    $result = $api_instance->serviceCallback($serviceCallbackInfoV2);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ServiceCallbacksApi->serviceCallback: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::ServiceCallbacksApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::ServiceCallbacksApi->new();
+my $serviceCallbackInfoV2 = WWW::OPenAPIClient::Object::ServiceCallbackInfoV2->new(); # ServiceCallbackInfoV2 | 
+
+eval {
+    my $result = $api_instance->serviceCallback(serviceCallbackInfoV2 => $serviceCallbackInfoV2);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ServiceCallbacksApi->serviceCallback: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.ServiceCallbacksApi()
+serviceCallbackInfoV2 =  # ServiceCallbackInfoV2 | 
+
+try:
+    # Callback for Near-RT RIC status
+    api_response = api_instance.service_callback(serviceCallbackInfoV2)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ServiceCallbacksApi->serviceCallback: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-ServiceCallbacks-serviceCallback-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate ServiceCallbacksApi;
+
+pub fn main() {
+    let serviceCallbackInfoV2 = ; // ServiceCallbackInfoV2
+
+    let mut context = ServiceCallbacksApi::Context::default();
+    let result = client.serviceCallback(serviceCallbackInfoV2, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">serviceCallbackInfoV2 <span style="color:red;">*</span></td>
+<td>
+<p class="marked"></p>
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/service_callback_info_v2"
+      }
+    }
+  },
+  "required" : true
+};
+
+  var schema = findNode('schema',schemaWrapper).schema;
+  if (!schema) {
+    schema = schemaWrapper.schema;
+  }
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_serviceCallback_serviceCallbackInfoV2');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_serviceCallback_serviceCallbackInfoV2"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-ServiceCallbacks-serviceCallback-title-200"></h3>
+                            <p id="examples-ServiceCallbacks-serviceCallback-description-200" class="marked"></p>
+                            <script>
+                              var responseServiceCallbacks200_description = `OK`;
+                              var responseServiceCallbacks200_description_break = responseServiceCallbacks200_description.indexOf('\n');
+                              if (responseServiceCallbacks200_description_break == -1) {
+                                $("#examples-ServiceCallbacks-serviceCallback-title-200").text("Status: 200 - " + responseServiceCallbacks200_description);
+                              } else {
+                                $("#examples-ServiceCallbacks-serviceCallback-title-200").text("Status: 200 - " + responseServiceCallbacks200_description.substring(0, responseServiceCallbacks200_description_break));
+                                $("#examples-ServiceCallbacks-serviceCallback-description-200").html(responseServiceCallbacks200_description.substring(responseServiceCallbacks200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-ServiceCallbacks-serviceCallback-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ServiceCallbacks-serviceCallback-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-ServiceCallbacks-serviceCallback-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ServiceCallbacks-serviceCallback-200-schema">
+                                  <div id="responses-ServiceCallbacks-serviceCallback-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = ;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ServiceCallbacks-serviceCallback-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-ServiceCallbacks-serviceCallback-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ServiceCallbacks-serviceCallback-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
                 <section id="api-ServiceRegistryAndSupervision">
                   <h1>ServiceRegistryAndSupervision</h1>
                     <div id="api-ServiceRegistryAndSupervision-deleteService">
@@ -13378,7 +13741,7 @@ $(document).ready(function() {
                   <div class="app-desc">Information URL: <a href="https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP">https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</a></div>
                   <div class="app-desc">Contact Info: <a href="team@openapitools.org">team@openapitools.org</a></div>
               </p>
-                <div class="license-info">Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License, and Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</div>
+                <div class="license-info">Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.</div>
                 <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0</div>
             </div>
           </div>

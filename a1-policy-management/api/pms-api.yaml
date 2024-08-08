@@ -54,7 +54,7 @@ info:
 servers:
   - url: /
 tags:
-  - description: "API used for authorization of information A1 policy access (this is 
+  - description: "API used for authorization of information A1 policy access (this is
      provided by an authorization producer such as OPA). <br> Note that this API is called
      by PMS, it is not provided."
     name: Authorization API
@@ -1307,6 +1307,7 @@ components:
             used to group the policies (it is possible to get all policies associated
             to a service). Note that the service does not need to be registered.
           type: string
+          default: ""
         policy_data:
           description: the configuration of the policy
           type: object
@@ -1319,7 +1320,6 @@ components:
       required:
         - ric_id
         - policy_id
-        - service_id
         - policy_data
         - policytype_id
       type: object

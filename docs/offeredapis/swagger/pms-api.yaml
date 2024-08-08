@@ -1,6 +1,5 @@
 #  ============LICENSE_START=======================================================
 #  Copyright (C) 2020-2023 Nordix Foundation
-#  Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
 #  Modifications Copyright (C) 2021 Pantheon.tech
 #  Modifications Copyright (C) 2021 Bell Canada
 #  ================================================================================
@@ -48,15 +47,14 @@ info:
     \ Actuator</h3><p>Provides generic functions  used to monitor and manage the Spring\
     \ web application.</p>"
   license:
-    name: Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License, and
-          Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+    name: Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.
     url: http://www.apache.org/licenses/LICENSE-2.0
   title: A1 Policy Management Service
   version: 1.2.0
 servers:
   - url: /
 tags:
-  - description: "API used for authorization of information A1 policy access (this is 
+  - description: "API used for authorization of information A1 policy access (this is
      provided by an authorization producer such as OPA). <br> Note that this API is called
      by PMS, it is not provided."
     name: Authorization API
@@ -723,28 +721,6 @@ paths:
       summary: Register a service
       tags:
         - Service Registry and Supervision
-      callbacks:
-        RICStatus:
-          "{$request.body#/callback_url}":
-           post:
-            description: The URL to this call is registered at Service registration.
-            operationId: serviceCallback
-            requestBody:
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/service_callback_info_v2'
-              required: true
-            responses:
-              "200":
-                content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/void'
-                description: OK
-            summary: Callback for Near-RT RIC status
-            tags:
-              - Service callbacks
   /actuator/info:
     get:
       operationId: info
@@ -934,6 +910,26 @@ paths:
       summary: Create or update a policy
       tags:
         - A1 Policy Management
+  /r-app/near-rt-ric-status:
+    post:
+      description: The URL to this call is registered at Service registration.
+      operationId: serviceCallback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/service_callback_info_v2'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/void'
+          description: OK
+      summary: Callback for Near-RT RIC status
+      tags:
+        - Service callbacks
   /a1-policy/v2/services/{service_id}:
     delete:
       operationId: deleteService
@@ -1311,6 +1307,7 @@ components:
             used to group the policies (it is possible to get all policies associated
             to a service). Note that the service does not need to be registered.
           type: string
+          default: ""
         policy_data:
           description: the configuration of the policy
           type: object
@@ -1323,7 +1320,6 @@ components:
       required:
         - ric_id
         - policy_id
-        - service_id
         - policy_data
         - policytype_id
       type: object

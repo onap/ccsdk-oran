@@ -4,7 +4,7 @@
     "title" : "A1 Policy Management Service",
     "description" : "<h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for management of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p><h3>Spring Boot Actuator</h3><p>Provides generic functions  used to monitor and manage the Spring web application.</p>",
     "license" : {
-      "name" : "Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License, and Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.",
+      "name" : "Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0"
     },
     "version" : "1.2.0"
@@ -941,40 +941,6 @@
               }
             }
           }
-        },
-        "callbacks" : {
-          "RICStatus" : {
-            "{$request.body#/callback_url}" : {
-              "post" : {
-                "tags" : [ "Service callbacks" ],
-                "summary" : "Callback for Near-RT RIC status",
-                "description" : "The URL to this call is registered at Service registration.",
-                "operationId" : "serviceCallback",
-                "requestBody" : {
-                  "content" : {
-                    "application/json" : {
-                      "schema" : {
-                        "$ref" : "#/components/schemas/service_callback_info_v2"
-                      }
-                    }
-                  },
-                  "required" : true
-                },
-                "responses" : {
-                  "200" : {
-                    "description" : "OK",
-                    "content" : {
-                      "application/json" : {
-                        "schema" : {
-                          "$ref" : "#/components/schemas/void"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         }
       }
     },
@@ -1244,6 +1210,36 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/error_information"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/r-app/near-rt-ric-status" : {
+      "post" : {
+        "tags" : [ "Service callbacks" ],
+        "summary" : "Callback for Near-RT RIC status",
+        "description" : "The URL to this call is registered at Service registration.",
+        "operationId" : "serviceCallback",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/service_callback_info_v2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/void"
                 }
               }
             }
@@ -1579,7 +1575,7 @@
         "description" : "Information about policy types"
       },
       "policy_info" : {
-        "required" : [ "policy_data", "policy_id", "policytype_id", "ric_id", "service_id" ],
+        "required" : [ "policy_data", "policy_id", "policytype_id", "ric_id" ],
         "type" : "object",
         "properties" : {
           "ric_id" : {
@@ -1599,7 +1595,8 @@
           },
           "service_id" : {
             "type" : "string",
-            "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered."
+            "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
+            "default" : ""
           },
           "policy_data" : {
             "type" : "object",
