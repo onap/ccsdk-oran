@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #  ============LICENSE_START===============================================
-#  Copyright (C) 2021 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2021-2023 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
 #  ========================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -46,7 +47,7 @@ checkStatus(){
     done
     echo -e "$i sec: $4 is NOT alive!\n"
     echo "Capturing docker logs (before exiting) ..."
-    docker-compose --env-file .env -f docker-compose.yml -f sdnc/docker-compose.yml logs 
+    docker-compose --env-file .env -f docker-compose.yml -f sdnc/docker-compose.yml logs
     exit -1
 }
 
