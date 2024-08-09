@@ -10,7 +10,7 @@ Developer Guide
 
 This document provides a quickstart for developers of the CCSDK functions for O-RAN A1 Policies.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-Montreal.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-NewDelhi.png
    :width: 500pt
 
 Source tree
