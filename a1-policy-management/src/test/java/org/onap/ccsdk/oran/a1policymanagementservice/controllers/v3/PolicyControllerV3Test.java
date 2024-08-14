@@ -254,4 +254,63 @@ class PolicyControllerV3Test {
         testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
     }
+
+    @Test
+    @DisplayName("test get all Policies")
+    void testGetAllPolicies() throws Exception {
+        String nonRtRicIdOne = "ric.11";
+        String nonRtRicIdTwo = "ric.22";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelper.addPolicyType(policyTypeName, nonRtRicIdOne);
+        String policyBodyOne = testHelper.postPolicyBody(nonRtRicIdOne, policyTypeName, "policyOne");
+        testHelper.addPolicyType(policyTypeName, nonRtRicIdTwo);
+        String policyBodyTwo = testHelper.postPolicyBody(nonRtRicIdTwo, policyTypeName, "policyTwo");
+        testHelper.restClientV3().postForEntity(url, policyBodyOne).block();
+        testHelper.restClientV3().postForEntity(url, policyBodyTwo).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url);
+        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("[{\"policyId\":\"policyTwo\",\"nearRtRicId\":\"ric.22\"},{\"policyId\":\"policyOne\",\"nearRtRicId\":\"ric.11\"}]"));
+}
+
+    @Test
+    @DisplayName("test get PolicyType")
+    void testGetPolicyType() throws Exception {
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policy-types";
+        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url+"/" +policyTypeName);
+        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> !(responseBody.isEmpty()));
+    }
+
+    @Test
+    @DisplayName("test get All PolicyTypes")
+    void testGetAllPolicyTypes() throws Exception {
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policy-types";
+        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url);
+        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> responseBody.contains(
+                "{\"policyTypeId\":\"type1_1.2.3\",\"nearRtRicId\":\"ric.1\"}]"
+        ));
+    }
+
+    @Test
+    @DisplayName("test update Policy")
+    void testUpdatePolicy() throws Exception {
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelper.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelper.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0");
+        testHelper.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url+"/policyOne");
+        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
 }

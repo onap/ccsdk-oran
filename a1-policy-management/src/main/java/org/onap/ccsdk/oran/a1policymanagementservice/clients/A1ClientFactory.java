@@ -43,12 +43,9 @@ public class A1ClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final ApplicationConfig appConfig;
-
     private final AsyncRestClientFactory restClientFactory;
 
     public A1ClientFactory(ApplicationConfig appConfig, SecurityContext securityContext) {
-        this.appConfig = appConfig;
         this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);
     }
 

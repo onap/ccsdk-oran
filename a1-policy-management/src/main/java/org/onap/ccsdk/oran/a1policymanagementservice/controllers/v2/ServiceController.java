@@ -32,7 +32,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,12 +63,12 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Autowired
-    private PolicyController policyController;
+    private final PolicyController policyController;
 
-    ServiceController(Services services, Policies policies) {
+    ServiceController(Services services, Policies policies, PolicyController policyController) {
         this.services = services;
         this.policies = policies;
+        this.policyController = policyController;
     }
 
     private static final String GET_SERVICE_DETAILS =

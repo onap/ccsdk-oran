@@ -24,7 +24,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.AuthorizationCheck;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -32,8 +31,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class AuthorizationService {
 
-    @Autowired
-    private AuthorizationCheck authorization;
+    private final AuthorizationCheck authorization;
+
+    public AuthorizationService(AuthorizationCheck authorization) {
+        this.authorization = authorization;
+    }
 
     public Mono<Policy> authCheck (ServerWebExchange serverWebExchange, Policy policy, AccessType accessType){
         return authorization.doAccessControl(serverWebExchange.getRequest().getHeaders().toSingleValueMap(),

@@ -28,7 +28,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositor
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.RicInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.RicInfoList;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,26 +44,30 @@ public class RicRepositoryControllerV3 implements NearRtRicRepositoryApi {
 
     public static final String API_NAME = "NearRT-RIC Repository V3";
     public static final String API_DESCRIPTION = "API used to get the NearRT-RIC for the managed element";
-    @Autowired
-    private RicRepositoryController ricRepositoryController;
 
-    @Autowired
-    private RicRepositoryMapper ricRepositoryMapper;
+    private final RicRepositoryController ricRepositoryController;
 
-    @Autowired
-    ErrorHandlingService errorHandlingService;
+    private final RicRepositoryMapper ricRepositoryMapper;
+
+    private final ErrorHandlingService errorHandlingService;
+
+    public RicRepositoryControllerV3(RicRepositoryController ricRepositoryController, RicRepositoryMapper ricRepositoryMapper, ErrorHandlingService errorHandlingService) {
+        this.ricRepositoryController = ricRepositoryController;
+        this.ricRepositoryMapper = ricRepositoryMapper;
+        this.errorHandlingService = errorHandlingService;
+    }
 
     @Override
     public Mono<ResponseEntity<RicInfo>> getRic(String managedElementId, String ricId, String accept, ServerWebExchange exchange) throws Exception {
         return ricRepositoryController.getRic(managedElementId, ricId, exchange)
                 .map(responseEntity -> new ResponseEntity<>(ricRepositoryMapper.toRicInfoV3(responseEntity.getBody()), responseEntity.getStatusCode()))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
     public Mono<ResponseEntity<RicInfoList>> getRics(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
         return ricRepositoryController.getRics(policyTypeId, exchange)
                 .map(responseEntity -> new ResponseEntity<>(ricRepositoryMapper.toRicInfoListV3(responseEntity.getBody()), responseEntity.getStatusCode()))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 }

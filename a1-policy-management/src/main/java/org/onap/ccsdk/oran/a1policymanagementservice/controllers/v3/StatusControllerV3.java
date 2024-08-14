@@ -23,12 +23,10 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.HealthCheckApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RicRepositoryController;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.StatusController;
 import org.onap.ccsdk.oran.a1policymanagementservice.mappers.v3.StatusControllerMapper;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.StatusInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,20 +44,25 @@ public class StatusControllerV3 implements HealthCheckApi {
     public static final String API_NAME = "Health Check";
     public static final String API_DESCRIPTION = "API used to get the health status and statistics of this service";
 
-    @Autowired
-    private StatusController statusController;
 
-    @Autowired
-    private StatusControllerMapper statusControllerMapper;
+    private final StatusController statusController;
 
-    @Autowired
-    ErrorHandlingService errorHandlingService;
+    private final StatusControllerMapper statusControllerMapper;
+
+    private final ErrorHandlingService errorHandlingService;
+
+    public StatusControllerV3(StatusController statusController, StatusControllerMapper statusControllerMapper,
+                              ErrorHandlingService errorHandlingService) {
+        this.statusController = statusController;
+        this.statusControllerMapper = statusControllerMapper;
+        this.errorHandlingService = errorHandlingService;
+    }
 
     @Override
     public Mono<ResponseEntity<StatusInfo>> getStatus(ServerWebExchange exchange) throws Exception {
         return statusController.getStatus(exchange)
                 .map(statusInfoResponseEntity -> new ResponseEntity<>(statusControllerMapper.toStatusInfoV3
                         (statusInfoResponseEntity.getBody()), statusInfoResponseEntity.getStatusCode()))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 }

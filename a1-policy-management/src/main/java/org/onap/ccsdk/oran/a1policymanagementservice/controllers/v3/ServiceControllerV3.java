@@ -28,7 +28,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.mappers.v3.ServiceControlle
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.ServiceRegistrationInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.ServiceStatusList;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,14 +45,18 @@ public class ServiceControllerV3 implements ServiceRegistryAndSupervisionApi {
     public static final String API_NAME = "Service Registry and Supervision";
     public static final String API_DESCRIPTION = "API used to keep the service Alive with in the timeout period";
 
-    @Autowired
-    private ServiceController serviceController;
+    private final ServiceController serviceController;
 
-    @Autowired
-    private ServiceControllerMapper serviceControllerMapper;
+    private final ServiceControllerMapper serviceControllerMapper;
 
-    @Autowired
-    ErrorHandlingService errorHandlingService;
+    private final ErrorHandlingService errorHandlingService;
+
+    public ServiceControllerV3(ServiceController serviceController, ServiceControllerMapper serviceControllerMapper,
+                               ErrorHandlingService errorHandlingService) {
+        this.serviceController = serviceController;
+        this.serviceControllerMapper = serviceControllerMapper;
+        this.errorHandlingService = errorHandlingService;
+    }
 
     @Override
     public Mono<ResponseEntity<Object>> deleteService(String serviceId, String accept, ServerWebExchange exchange) throws Exception {
@@ -65,7 +68,7 @@ public class ServiceControllerV3 implements ServiceRegistryAndSupervisionApi {
         return serviceController.getServices(serviceId, exchange)
                 .map(responseEntity -> new ResponseEntity<>(serviceControllerMapper.toServiceStatusListV3(
                         responseEntity.getBody()), responseEntity.getStatusCode()))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
@@ -75,8 +78,7 @@ public class ServiceControllerV3 implements ServiceRegistryAndSupervisionApi {
 
     @Override
     public Mono<ResponseEntity<Object>> putService(Mono<ServiceRegistrationInfo> serviceRegistrationInfo, ServerWebExchange exchange) throws Exception {
-        return serviceController.putService(serviceRegistrationInfo.map(serviceRegistrationInfoV2 ->
-                        serviceControllerMapper.toServiceRegistrationInfoV2(serviceRegistrationInfoV2)), exchange)
-                .doOnError(error -> errorHandlingService.handleError(error));
+        return serviceController.putService(serviceRegistrationInfo.map(serviceControllerMapper::toServiceRegistrationInfoV2), exchange)
+                .doOnError(errorHandlingService::handleError);
     }
 }
