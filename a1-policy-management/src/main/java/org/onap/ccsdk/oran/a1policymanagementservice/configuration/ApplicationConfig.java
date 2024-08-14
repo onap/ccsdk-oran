@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +105,11 @@ public class ApplicationConfig {
     @Value("${app.authorization-provider:}")
     private String authProviderUrl;
 
+    @Getter
+    @Setter
+    @Value("${app.database-enabled:}")
+    private boolean databaseEnabled;
+
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 
     private WebClientConfig webClientConfig = null;
@@ -187,5 +193,9 @@ public class ApplicationConfig {
 
     public boolean isS3Enabled() {
         return !(Strings.isNullOrEmpty(s3EndpointOverride) || Strings.isNullOrEmpty(s3Bucket));
+    }
+
+    public boolean isDatabaseEnabled() {
+        return databaseEnabled;
     }
 }
