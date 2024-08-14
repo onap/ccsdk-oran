@@ -2,7 +2,8 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,12 +35,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +49,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("RicRepositoryControllerV2")
+
+@RestController("ricRepositoryControllerV2")
+@RequiredArgsConstructor
 @Tag( //
         name = RicRepositoryController.API_NAME, //
         description = RicRepositoryController.API_DESCRIPTION //
@@ -57,14 +61,10 @@ public class RicRepositoryController {
     public static final String API_NAME = "NearRT-RIC Repository";
     public static final String API_DESCRIPTION = "";
 
-    @Autowired
-    private Rics rics;
+    private final Rics rics;
+    private final PolicyTypes types;
 
-    @Autowired
-    PolicyTypes types;
-
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static final Gson gson = new GsonBuilder().create();
 
     private static final String GET_RIC_BRIEF = "Returns info for one Near-RT RIC";
     private static final String GET_RIC_DETAILS =

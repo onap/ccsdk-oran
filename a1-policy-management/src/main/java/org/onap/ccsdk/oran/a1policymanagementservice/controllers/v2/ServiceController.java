@@ -2,7 +2,8 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
+
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
@@ -47,7 +50,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +62,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("ServiceControllerV2")
+@RestController("serviceControllerV2")
+@RequiredArgsConstructor
 @Tag( //
         name = ServiceController.API_NAME, //
         description = ServiceController.API_DESCRIPTION //
@@ -68,23 +71,16 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class ServiceController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     public static final String API_NAME = "Service Registry and Supervision";
     public static final String API_DESCRIPTION = "";
 
     private final Services services;
     private final Policies policies;
+    private final PolicyController policyController;
 
-    private static Gson gson = new GsonBuilder().create();
-
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    @Autowired
-    private PolicyController policyController;
-
-    ServiceController(Services services, Policies policies) {
-        this.services = services;
-        this.policies = policies;
-    }
+    private static final Gson gson = new GsonBuilder().create();
 
     private static final String GET_SERVICE_DETAILS =
             "Either information about a registered service with given identity or all registered services are returned.";
@@ -153,14 +149,14 @@ public class ServiceController {
 
     public ResponseEntity<Object> putService(//
             @RequestBody ServiceRegistrationInfo registrationInfo) {
-        try {
+            try {
             validateRegistrationInfo(registrationInfo);
             final boolean isCreate = this.services.get(registrationInfo.serviceId) == null;
             this.services.put(toService(registrationInfo));
             return new ResponseEntity<>(isCreate ? HttpStatus.CREATED : HttpStatus.OK);
-        } catch (Exception e) {
+            } catch (Exception e) {
             return ErrorResponse.create(e, HttpStatus.BAD_REQUEST);
-        }
+            }
     }
 
     @DeleteMapping(Consts.V2_API_ROOT + "/services/{service_id:.+}")
@@ -180,7 +176,8 @@ public class ServiceController {
             removePolicies(service, headers);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (ServiceException e) {
-            logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId, e.getMessage());
+            logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId,
+                    e.getMessage());
             return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
         }
     }
@@ -198,7 +195,7 @@ public class ServiceController {
     public ResponseEntity<Object> keepAliveService(//
             @PathVariable(Consts.SERVICE_ID_PARAM) String serviceId) {
         try {
-            services.getService(serviceId).keepAlive();
+        services.getService(serviceId).keepAlive();
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (ServiceException e) {
             return ErrorResponse.create(e, HttpStatus.NOT_FOUND);

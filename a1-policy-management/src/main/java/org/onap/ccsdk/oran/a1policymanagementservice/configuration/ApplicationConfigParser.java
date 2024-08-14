@@ -2,7 +2,8 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +85,7 @@ public class ApplicationConfigParser {
         Map<String, ControllerConfig> controllerConfigs = parseControllerConfigs(pmsConfigJson);
         List<RicConfig> ricConfigs = parseRics(pmsConfigJson, controllerConfigs);
 
-        checkConfigurationConsistency(ricConfigs, controllerConfigs);
+        checkConfigurationConsistency(ricConfigs);
 
         return ConfigParserResult.builder() //
                 .ricConfigs(ricConfigs) //
@@ -123,8 +124,7 @@ public class ApplicationConfigParser {
         return CharStreams.toString(new InputStreamReader(in, StandardCharsets.UTF_8));
     }
 
-    private void checkConfigurationConsistency(List<RicConfig> ricConfigs,
-            Map<String, ControllerConfig> controllerConfigs) throws ServiceException {
+    private void checkConfigurationConsistency(List<RicConfig> ricConfigs) throws ServiceException {
         Set<String> ricUrls = new HashSet<>();
         Set<String> ricNames = new HashSet<>();
         for (RicConfig ric : ricConfigs) {
@@ -217,9 +217,5 @@ public class ApplicationConfigParser {
 
     private JsonArray getAsJsonArray(JsonObject obj, String memberName) throws ServiceException {
         return get(obj, memberName).getAsJsonArray();
-    }
-
-    private static String getAsString(JsonObject obj, String memberName) throws ServiceException {
-        return get(obj, memberName).getAsString();
     }
 }

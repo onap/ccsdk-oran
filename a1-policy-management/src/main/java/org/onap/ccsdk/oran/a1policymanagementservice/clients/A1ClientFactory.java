@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +32,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import reactor.core.publisher.Mono;
+
 
 /**
  * Factory for A1 clients that supports four different protocol versions of the
@@ -42,12 +43,9 @@ public class A1ClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final ApplicationConfig appConfig;
-
     private final AsyncRestClientFactory restClientFactory;
 
     public A1ClientFactory(ApplicationConfig appConfig, SecurityContext securityContext) {
-        this.appConfig = appConfig;
         this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);
     }
 

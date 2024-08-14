@@ -2,7 +2,8 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +41,7 @@ import java.util.Map;
 
 import lombok.Getter;
 
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.AuthorizationCheck;
@@ -58,7 +60,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +77,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController("PolicyControllerV2")
+@RestController("policyControllerV2")
+@RequiredArgsConstructor
 @Tag(//
         name = PolicyController.API_NAME, //
         description = PolicyController.API_DESCRIPTION //
@@ -98,23 +100,15 @@ public class PolicyController {
         }
     }
 
-    @Autowired
-    private Rics rics;
-    @Autowired
-    private PolicyTypes policyTypes;
-    @Autowired
-    private Policies policies;
-    @Autowired
-    private A1ClientFactory a1ClientFactory;
-    @Autowired
-    private Services services;
-
-    @Autowired
-    private AuthorizationCheck authorization;
+    private final Rics rics;
+    private final PolicyTypes policyTypes;
+    private final Policies policies;
+    private final A1ClientFactory a1ClientFactory;
+    private final Services services;
+    private final AuthorizationCheck authorization;
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static final Gson gson = new GsonBuilder().create();
 
     @GetMapping(path = Consts.V2_API_ROOT + "/policy-types/{policytype_id:.+}") //
     @Operation(summary = "Returns a policy type definition") //
@@ -268,7 +262,7 @@ public class PolicyController {
                 .lastModified(Instant.now()) //
                 .isTransient(policyInfo.isTransient) //
                 .statusNotificationUri(policyInfo.statusNotificationUri == null ? "" : policyInfo.statusNotificationUri) //
-                .build();
+                                .build();
 
         return authorization.doAccessControl(headers, policy, AccessType.WRITE) //
                 .flatMap(x -> ric.getLock().lock(LockType.SHARED, "putPolicy")) //
@@ -293,17 +287,13 @@ public class PolicyController {
     }
 
     private Mono<ResponseEntity<Object>> handleException(Throwable throwable) {
-        if (throwable instanceof WebClientResponseException) {
-            WebClientResponseException e = (WebClientResponseException) throwable;
+        if (throwable instanceof WebClientResponseException e) {
             return ErrorResponse.createMono(e.getResponseBodyAsString(), e.getStatusCode());
-        } else if (throwable instanceof WebClientException) {
-            WebClientException e = (WebClientException) throwable;
+        } else if (throwable instanceof WebClientException e) {
             return ErrorResponse.createMono(e.getMessage(), HttpStatus.BAD_GATEWAY);
-        } else if (throwable instanceof RejectionException) {
-            RejectionException e = (RejectionException) throwable;
+        } else if (throwable instanceof RejectionException e) {
             return ErrorResponse.createMono(e.getMessage(), e.getStatus());
-        } else if (throwable instanceof ServiceException) {
-            ServiceException e = (ServiceException) throwable;
+        } else if (throwable instanceof ServiceException e) {
             return ErrorResponse.createMono(e.getMessage(), e.getHttpStatus());
         } else {
             return ErrorResponse.createMono(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -479,12 +469,12 @@ public class PolicyController {
         policyInfo.isTransient = p.isTransient();
         if (!p.getStatusNotificationUri().isEmpty()) {
             policyInfo.statusNotificationUri = p.getStatusNotificationUri();
-        }
+            }
         if (!policyInfo.validate()) {
             logger.error("BUG, all mandatory fields must be set");
         }
 
-        return policyInfo;
+            return policyInfo;
     }
 
     private String policiesToJson(Collection<Policy> policies) {
@@ -516,5 +506,4 @@ public class PolicyController {
         }
         return gson.toJson(new PolicyIdList(v));
     }
-
 }
