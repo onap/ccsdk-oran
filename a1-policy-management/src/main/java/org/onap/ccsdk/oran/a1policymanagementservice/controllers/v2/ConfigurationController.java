@@ -1,6 +1,7 @@
 /*-
  * ========================LICENSE_START=================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,13 +34,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.VoidResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("ConfigurationControllerV2")
+@RestController("configurationControllerV2")
+@RequiredArgsConstructor
 @Tag( //
         name = ConfigurationController.API_NAME, //
         description = ConfigurationController.API_DESCRIPTION //
@@ -61,12 +63,6 @@ public class ConfigurationController {
 
     private final ConfigurationFile configurationFile;
     private final ApplicationConfig applicationConfig;
-
-    ConfigurationController(@Autowired ConfigurationFile configurationFile,
-            @Autowired ApplicationConfig applicationConfig) {
-        this.configurationFile = configurationFile;
-        this.applicationConfig = applicationConfig;
-    }
 
     private static Gson gson = new GsonBuilder() //
             .create(); //
