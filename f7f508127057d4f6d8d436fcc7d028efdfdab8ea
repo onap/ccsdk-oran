@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b66556d_b4bc333a",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-08-15T16:05:03Z",
+      "side": 1,
+      "message": "This is required.",
+      "parentUuid": "32b3c339_837ce80d",
+      "range": {
+        "startLine": 48,
+        "startChar": 27,
+        "endLine": 48,
+        "endChar": 54
+      },
+      "revId": "f7f508127057d4f6d8d436fcc7d028efdfdab8ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "517fbffc_ac6250a0",
