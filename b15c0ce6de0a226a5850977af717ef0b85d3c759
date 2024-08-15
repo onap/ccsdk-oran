@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8213ee83_5dc74d8e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/SpringContextProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-08-15T13:05:52Z",
+      "side": 1,
+      "message": "Not really a comment, just a NOTE: We had a interesting problem with this approach on the Jenkins environment where tests would not run, because this get would return NULL. (Locally, in WSL an some VMs it would work just fine)\nEven after adding the @DependsOn which should load those beans before, and avoid the null. \nBut in the telemetry case, the class dependencies were multiple and somehow unexpected. I suspected it was a concurrency/timing problem on a different cpu architecture?",
+      "revId": "b15c0ce6de0a226a5850977af717ef0b85d3c759",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
