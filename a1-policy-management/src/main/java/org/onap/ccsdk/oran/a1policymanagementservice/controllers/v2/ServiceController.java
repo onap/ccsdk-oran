@@ -179,7 +179,7 @@ public class ServiceController {
             Service service = removeService(serviceId);
             removePolicies(service, headers);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (ServiceException | NullPointerException e) {
+        } catch (ServiceException e) {
             logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId, e.getMessage());
             return ErrorResponse.create(e, HttpStatus.NOT_FOUND);
         }
