@@ -138,7 +138,7 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
             Service service = removeService(serviceId);
             removePolicies(service, exchange);
             return Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT));
-        } catch (ServiceException | NullPointerException e) {
+        } catch (ServiceException e) {
             logger.warn("Exception caught during service deletion while deleting service {}: {}", serviceId, e.getMessage());
             return ErrorResponse.createMono(e, HttpStatus.NOT_FOUND);
         }
