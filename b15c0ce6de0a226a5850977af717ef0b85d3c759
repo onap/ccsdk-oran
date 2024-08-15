@@ -16,6 +16,24 @@
       "message": "Not really a comment, just a NOTE: We had a interesting problem with this approach on the Jenkins environment where tests would not run, because this get would return NULL. (Locally, in WSL an some VMs it would work just fine)\nEven after adding the @DependsOn which should load those beans before, and avoid the null. \nBut in the telemetry case, the class dependencies were multiple and somehow unexpected. I suspected it was a concurrency/timing problem on a different cpu architecture?",
       "revId": "b15c0ce6de0a226a5850977af717ef0b85d3c759",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f7099d_ab63c451",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/SpringContextProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-08-15T14:25:36Z",
+      "side": 1,
+      "message": "In this case the applicationcontext is used only by the non-spring managed objects to create a bean. So there no possibility of circular/dependent bean referencing.\n\nIf the application context is passed to some other bean to which we don\u0027t have much control, the same issue could still happen.",
+      "parentUuid": "8213ee83_5dc74d8e",
+      "revId": "b15c0ce6de0a226a5850977af717ef0b85d3c759",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
