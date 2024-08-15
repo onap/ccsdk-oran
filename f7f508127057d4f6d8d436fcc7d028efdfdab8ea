@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32b3c339_837ce80d",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/clients/A1ClientFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-08-15T15:52:23Z",
+      "side": 1,
+      "message": "This can be removed ?",
+      "range": {
+        "startLine": 48,
+        "startChar": 27,
+        "endLine": 48,
+        "endChar": 54
+      },
+      "revId": "f7f508127057d4f6d8d436fcc7d028efdfdab8ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "517fbffc_ac6250a0",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/PolicyController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-08-15T15:52:23Z",
+      "side": 1,
+      "message": "Lombok @RequiredArgsConstructor can be used. This is applicable to all beans which does constructor dependency injection.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "f7f508127057d4f6d8d436fcc7d028efdfdab8ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b451635_c7e0b575",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/controllers/v2/RicRepositoryController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8109
+      },
+      "writtenOn": "2024-08-15T15:52:23Z",
+      "side": 1,
+      "message": "Lombok @RequiredArgsConstructor can be used",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "f7f508127057d4f6d8d436fcc7d028efdfdab8ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
