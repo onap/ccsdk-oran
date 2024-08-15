@@ -959,6 +959,7 @@ class ApplicationTest {
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // DELETE service
+        addPolicy("id1", "type1", serviceName);
         assertThat(services.size()).isEqualTo(1);
         url = "/services/" + serviceName;
         restClient().delete(url).block();
@@ -977,6 +978,32 @@ class ApplicationTest {
 
         // GET non existing service
         testErrorCode(restClient().get("/services?service_id=XXX"), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("test delete Service with no authorization")
+    void testDeleteServiceWithNoAuth() throws Exception {
+        // PUT service
+        String serviceName = "ac.dc";
+        putService(serviceName, 0, HttpStatus.CREATED);
+
+        // No Authorization to Delete
+        this.applicationConfig
+                .setAuthProviderUrl(baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL_REJECT);
+        addPolicy("id1", "type1", serviceName);
+        assertThat(services.size()).isEqualTo(1);
+        String url = "/services/" + serviceName;
+        restClient().delete(url).block();
+        assertThat(services.size()).isZero();
+        assertThat(policies.size()).isEqualTo(1);
+        testErrorCode(restClient().get("/policies/id1"), HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    @DisplayName("test delete Service with no service")
+    void testDeleteServiceWithNoService() {
+        String url = "/services/" + "NoService";
+        testErrorCode(restClient().delete(url), HttpStatus.NOT_FOUND);
     }
 
     @Test
