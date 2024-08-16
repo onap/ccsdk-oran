@@ -21,15 +21,11 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
-
 import org.apache.catalina.connector.Connector;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatReactiveWebServerFactory;
@@ -37,7 +33,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 @Configuration
 public class BeanFactory {
@@ -53,28 +48,6 @@ public class BeanFactory {
     @Bean
     public Rics getRics() {
         return new Rics();
-    }
-
-    @Bean
-    @DependsOn("springContextProvider")
-    public Services getServices(@Autowired ApplicationConfig applicationConfig) {
-        Services services = new Services(applicationConfig);
-        services.restoreFromDatabase().subscribe();
-        return services;
-    }
-
-    @Bean
-    @DependsOn("springContextProvider")
-    public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
-        PolicyTypes types = new PolicyTypes(applicationConfig);
-        types.restoreFromDatabase().blockLast();
-        return types;
-    }
-
-    @Bean
-    @DependsOn("springContextProvider")
-    public Policies getPolicies(@Autowired ApplicationConfig applicationConfig) {
-        return new Policies(applicationConfig);
     }
 
     @Bean
