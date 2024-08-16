@@ -3,6 +3,7 @@
 # ONAP : ccsdk oran
 # ================================================================================
 # Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+# Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,9 +30,21 @@ spring:
   aop:
     auto: false
   r2dbc:
+    # Configuration of the postgres database to be used by the application.
+    # These values can be passed via configmap/secret/env variable based on the installation.
     url: "r2dbc:postgresql://127.0.0.1:5432/a1pms"
     username: a1pms
     password: mypwd
+  flyway:
+    # Configuration of the postgres database to be used for database migration.
+    # This is where the flyway maintains the information about the sql files loaded.
+    # These values can be passed via configmap/secret/env variable based on the installation.
+    # By default, Flyway uses location classpath:db/migration to load the sql files.
+    # This can be overridden using "flyway.locations" to have a different location.
+    url: "jdbc:postgresql://127.0.0.1:5432/a1pms"
+    user: a1pms
+    password: mypwd
+    baseline-on-migrate: true
 management:
   tracing:
     propagation:
@@ -111,6 +124,9 @@ app:
     accessKeyId: minio
     secretAccessKey: miniostorage
     bucket:
+  # Postgres database usage is enabled using the below parameter.
+  # If this is enabled, the application will use postgres database for storage.
+  # This overrides the s3(s3.bucket) or file store(vardata-directory) configuration if enabled.
   database-enabled: false
 otel:
   sdk:

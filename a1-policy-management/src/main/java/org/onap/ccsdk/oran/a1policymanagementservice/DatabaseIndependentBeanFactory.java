@@ -18,15 +18,40 @@
  * ========================LICENSE_END===================================
  */
 
-package org.onap.ccsdk.oran.a1policymanagementservice.database;
+package org.onap.ccsdk.oran.a1policymanagementservice;
 
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "database-enabled", havingValue = "false")
-@EnableAutoConfiguration(exclude = R2dbcAutoConfiguration.class)
-public class ExcludeDatabaseAutoConfiguration {
+@EnableAutoConfiguration(exclude = { R2dbcAutoConfiguration.class, FlywayAutoConfiguration.class })
+public class DatabaseIndependentBeanFactory {
+    @Bean
+    public Services getServices(@Autowired ApplicationConfig applicationConfig) {
+        Services services = new Services(applicationConfig);
+        services.restoreFromDatabase().subscribe();
+        return services;
+    }
+
+    @Bean
+    public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
+        PolicyTypes types = new PolicyTypes(applicationConfig);
+        types.restoreFromDatabase().blockLast();
+        return types;
+    }
+
+    @Bean
+    public Policies getPolicies(@Autowired ApplicationConfig applicationConfig) {
+        return new Policies(applicationConfig);
+    }
 }
