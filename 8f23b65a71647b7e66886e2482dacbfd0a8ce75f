@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac623bc8_840ee521",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2024-08-19T18:13:32Z",
+      "side": 1,
+      "message": "Unable to merge this because of the rtd-validation failure.  I see that\u0027s fixed in a separate review dependent on this one, but that one cannot be merged until this one is.  So please include the doc fixes in this review so I can merge this one, and then the next.",
+      "revId": "8f23b65a71647b7e66886e2482dacbfd0a8ce75f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
