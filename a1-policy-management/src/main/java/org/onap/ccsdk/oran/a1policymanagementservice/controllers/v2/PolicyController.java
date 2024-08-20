@@ -36,6 +36,7 @@ import java.util.List;
 
 import lombok.Getter;
 
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.A1PolicyManagementApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.AuthorizationCheck;
@@ -51,7 +52,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.PolicyStatusInfo;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,7 +62,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController("PolicyControllerV2")
+@RestController("policyControllerV2")
+@RequiredArgsConstructor
 @Tag(//
         name = PolicyController.API_NAME, //
         description = PolicyController.API_DESCRIPTION //
@@ -71,7 +72,6 @@ public class PolicyController implements A1PolicyManagementApi {
 
     public static final String API_NAME = "A1 Policy Management";
     public static final String API_DESCRIPTION = "";
-
     public static class RejectionException extends Exception {
         private static final long serialVersionUID = 1L;
 
@@ -84,24 +84,16 @@ public class PolicyController implements A1PolicyManagementApi {
         }
     }
 
-    @Autowired
-    private Rics rics;
-    @Autowired
-    private PolicyTypes policyTypes;
-    @Autowired
-    private Policies policies;
-    @Autowired
-    private A1ClientFactory a1ClientFactory;
-    @Autowired
-    private Services services;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private AuthorizationCheck authorization;
+    private final Rics rics;
+    private final PolicyTypes policyTypes;
+    private final Policies policies;
+    private final A1ClientFactory a1ClientFactory;
+    private final Services services;
+    private final ObjectMapper objectMapper;
+    private final AuthorizationCheck authorization;
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static final Gson gson = new GsonBuilder().create();
 
     @Override
     public Mono<ResponseEntity<PolicyTypeDefinition>> getPolicyTypeDefinition(String policyTypeId, ServerWebExchange exchange)

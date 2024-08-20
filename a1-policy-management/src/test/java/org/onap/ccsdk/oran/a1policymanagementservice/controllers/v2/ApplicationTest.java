@@ -230,7 +230,6 @@ class ApplicationTest {
     }
 
     @Test
-    @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
     @DisplayName("test ZZ Actuator")
     void testZZActuator() throws Exception {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
@@ -246,14 +245,9 @@ class ApplicationTest {
         client.post("/actuator/loggers/org.springframework.boot.actuate", "{\"configuredLevel\":\"trace\"}").block();
 
         // This will stop the web server and all coming tests will fail.
-        client.post("/actuator/shutdown", "").block();
-
-        Thread.sleep(1000);
-
-        StepVerifier.create(restClient().get("/rics")) // Any call
-                .expectSubscription() //
-                .expectErrorMatches(t -> t instanceof WebClientRequestException) //
-                .verify();
+        ResponseEntity<String> entity = client.postForEntity("/actuator/shutdown", "").block();
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(((String) entity.getBody())).contains("Shutting down");;
 
     }
 
@@ -270,16 +264,16 @@ class ApplicationTest {
         waitforS3();
 
         {
-            Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
-            assertThat(policies.size()).isEqualTo(noOfPolicies);
+            Policies policiesLocal = new Policies(this.applicationConfig);
+            policiesLocal.restoreFromDatabase(ric, this.policyTypes).blockLast();
+            assertThat(policiesLocal.size()).isEqualTo(noOfPolicies);
         }
 
         {
             restClient().delete("/policies/id2").block();
-            Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
-            assertThat(policies.size()).isEqualTo(noOfPolicies - 1);
+            Policies policiesAfterDelete = new Policies(this.applicationConfig);
+            policiesAfterDelete.restoreFromDatabase(ric, this.policyTypes).blockLast();
+            assertThat(policiesAfterDelete.size()).isEqualTo(noOfPolicies - 1);
         }
     }
 
@@ -394,7 +388,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Rics")
-    void testGetRics() throws Exception {
+    void testGetRics() throws JsonProcessingException {
         addRic("ric1");
         this.addPolicyType("type1", "ric1");
         String url = "/rics?policytype_id=type1";
@@ -799,7 +793,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Policy Types")
-    void testGetPolicyTypes() throws Exception {
+    void testGetPolicyTypes() throws JsonProcessingException {
         String TYPE_ID_1 = "A_type1_1.9.0";
         String TYPE_ID_2 = "A_type1_2.0.0";
         String TYPE_ID_3 = "A_type1_1.5.0";
@@ -1013,7 +1007,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Service Supervision")
-    void testServiceSupervision() throws Exception {
+    void testServiceSupervision() throws JsonProcessingException {
         putService("service1", 2, HttpStatus.CREATED);
         addPolicyType("type1", "ric1");
 
@@ -1186,7 +1180,7 @@ class ApplicationTest {
             assertThat(test.isFailed()).isFalse();
         }
         assertThat(policies.size()).isZero();
-        logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
+        logger.info("Concurrency test took: {}", Duration.between(startTime, Instant.now()));
 
         assertThat(nonRespondingRic.getState()).isEqualTo(RicState.UNAVAILABLE);
         nonRespondingRic.setState(RicState.AVAILABLE);
