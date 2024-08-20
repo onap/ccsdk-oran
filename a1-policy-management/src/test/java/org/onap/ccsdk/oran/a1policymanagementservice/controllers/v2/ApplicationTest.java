@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -251,15 +252,16 @@ class ApplicationTest {
         client.post("/actuator/loggers/org.springframework.boot.actuate", "{\"configuredLevel\":\"trace\"}").block();
 
         // This will stop the web server and all coming tests will fail.
-        client.post("/actuator/shutdown", "").block();
+        ResponseEntity<String> entity = client.postForEntity("/actuator/shutdown", "").block();
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(((String) entity.getBody())).contains("Shutting down");
 
-        Thread.sleep(1000);
-
-        StepVerifier.create(restClient().get("/rics")) // Any call
-                .expectSubscription() //
-                .expectErrorMatches(t -> t instanceof WebClientRequestException) //
-                .verify();
-
+        await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            StepVerifier.create(restClient().get("/rics"))
+                    .expectSubscription()
+                    .expectErrorMatches(t -> t instanceof WebClientRequestException)
+                    .verify();
+        });
     }
 
     @Test
