@@ -502,6 +502,7 @@ class ApplicationTest {
             info.isTransient = isTransient;
         }
         info.statusNotificationUri = statusNotificationUri;
+        info.validate();
         return gson.toJson(info);
     }
 
