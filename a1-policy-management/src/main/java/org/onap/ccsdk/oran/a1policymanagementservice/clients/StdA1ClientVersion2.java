@@ -138,7 +138,7 @@ public class StdA1ClientVersion2 implements A1Client {
     public StdA1ClientVersion2(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
         uriBuiler = new OranV2UriBuilder(ricConfig);
-        logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}", ricConfig.getRicId());
+        logger.debug("A1Client \"{}\"  created for ric: {}", getClass().getTypeName(), ricConfig.getRicId());
     }
 
     public static Mono<String> extractPolicySchema(String policyTypeResponse, String policyTypeId) {

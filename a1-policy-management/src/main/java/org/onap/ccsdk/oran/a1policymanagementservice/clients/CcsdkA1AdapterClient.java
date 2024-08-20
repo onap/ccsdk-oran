@@ -100,7 +100,6 @@ public class CcsdkA1AdapterClient implements A1Client {
      *                         CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig        the configuration of the Near-RT RIC to communicate
      *                         with
-     * @param controllerConfig the configuration of the CCSDK A1 Adapter to use
      *
      * @throws IllegalArgumentException when the protocolType is wrong.
      */
@@ -119,7 +118,6 @@ public class CcsdkA1AdapterClient implements A1Client {
      *                         CCSDK_A1_ADAPTER_STD_V2_0_0 with
      * @param ricConfig        the configuration of the Near-RT RIC to communicate
      *                         with
-     * @param controllerConfig the configuration of the CCSDK A1 Adapter to use
      * @param restClient       the REST client to use
      *
      * @throws IllegalArgumentException when the protocolType is illegal.
@@ -131,8 +129,8 @@ public class CcsdkA1AdapterClient implements A1Client {
             this.restClient = restClient;
             this.ricConfig = ricConfig;
             this.protocolType = protocolType;
-            logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}, a1Controller: {}",
-                    ricConfig.getRicId(), ricConfig.getControllerConfig());
+            logger.debug("A1Client \"{}\" created for ric: {}, a1Controller: {}",
+                    getClass().getTypeName(), ricConfig.getRicId(), ricConfig.getControllerConfig());
 
         } else {
             logger.error("Not supported protocoltype: {}", protocolType);

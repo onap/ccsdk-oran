@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.NearRtRicRepositoryApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
@@ -32,7 +33,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.RicInfoList;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +42,8 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController("RicRepositoryControllerV2")
+@RestController("ricRepositoryControllerV2")
+@RequiredArgsConstructor
 @Tag( //
         name = RicRepositoryController.API_NAME, //
         description = RicRepositoryController.API_DESCRIPTION //
@@ -52,17 +53,11 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
     public static final String API_NAME = "NearRT-RIC Repository";
     public static final String API_DESCRIPTION = "";
 
-    @Autowired
-    private Rics rics;
+    private final Rics rics;
+    final PolicyTypes types;
+    final ObjectMapper objectMapper;
 
-    @Autowired
-    PolicyTypes types;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
-    private static Gson gson = new GsonBuilder() //
-            .create(); //
+    private static final Gson gson = new GsonBuilder().create();
 
     private static final String GET_RIC_BRIEF = "Returns info for one Near-RT RIC";
     private static final String GET_RIC_DETAILS =
