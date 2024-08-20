@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@RestController("StatusControllerV2")
+@RestController("statusControllerV2")
 @Tag(   name = StatusController.API_NAME,
         description = StatusController.API_DESCRIPTION
 )

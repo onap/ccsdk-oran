@@ -134,14 +134,14 @@ class ConfigurationControllerTest {
     }
 
     private String configAsString() throws Exception {
-        File configFile =
+        File configFileLocal =
                 new File(getClass().getClassLoader().getResource("test_application_configuration.json").getFile());
-        return FileUtils.readFileToString(configFile, "UTF-8");
+        return FileUtils.readFileToString(configFileLocal, "UTF-8");
     }
 
     @Test
     @DisplayName("put Invalid Configuration should Return Error 400")
-    void putInvalidConfiguration_shouldReturnError400() throws Exception {
+    void putInvalidConfiguration_shouldReturnError400() {
         String url = "a1-policy/v2/configuration";
 
         // Valid JSON but invalid configuration.

@@ -20,24 +20,21 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.lang.invoke.MethodHandles;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 @ExtendWith(MockitoExtension.class)
 class LockTest {
@@ -66,7 +63,7 @@ class LockTest {
 
     @Test
     @DisplayName("test Lock")
-    void testLock() throws IOException, ServiceException {
+    void testLock() {
         Lock lock = new Lock("l1");
         Lock.Grant grant = lock.lockBlocking(LockType.SHARED, "test");
         grant.unlockBlocking();

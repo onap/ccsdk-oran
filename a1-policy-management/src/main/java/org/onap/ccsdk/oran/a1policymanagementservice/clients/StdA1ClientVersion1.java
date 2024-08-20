@@ -109,7 +109,7 @@ public class StdA1ClientVersion1 implements A1Client {
     public StdA1ClientVersion1(AsyncRestClient restClient, RicConfig ricConfig) {
         this.restClient = restClient;
         this.uri = new UriBuilder(ricConfig);
-        logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}", ricConfig.getRicId());
+        logger.debug("A1Client \"{}\" created for ric: {}", getClass().getTypeName(), ricConfig.getRicId());
     }
 
     @Override
