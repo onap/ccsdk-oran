@@ -269,16 +269,16 @@ class ApplicationTest {
         waitforS3();
 
         {
-            Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
-            assertThat(policies.size()).isEqualTo(noOfPolicies);
+            Policies policiesLocal = new Policies(this.applicationConfig);
+            policiesLocal.restoreFromDatabase(ric, this.policyTypes).blockLast();
+            assertThat(policiesLocal.size()).isEqualTo(noOfPolicies);
         }
 
         {
             restClient().delete("/policies/id2").block();
-            Policies policies = new Policies(this.applicationConfig);
-            policies.restoreFromDatabase(ric, this.policyTypes).blockLast();
-            assertThat(policies.size()).isEqualTo(noOfPolicies - 1);
+            Policies policiesAfterDelete = new Policies(this.applicationConfig);
+            policiesAfterDelete.restoreFromDatabase(ric, this.policyTypes).blockLast();
+            assertThat(policiesAfterDelete.size()).isEqualTo(noOfPolicies - 1);
         }
     }
 
@@ -393,7 +393,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Rics")
-    void testGetRics() throws Exception {
+    void testGetRics() {
         addRic("ric1");
         this.addPolicyType("type1", "ric1");
         String url = "/rics?policytype_id=type1";
@@ -786,7 +786,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Policy Types")
-    void testGetPolicyTypes() throws Exception {
+    void testGetPolicyTypes() {
         String TYPE_ID_1 = "A_type1_1.9.0";
         String TYPE_ID_2 = "A_type1_2.0.0";
         String TYPE_ID_3 = "A_type1_1.5.0";
@@ -1002,7 +1002,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Service Supervision")
-    void testServiceSupervision() throws Exception {
+    void testServiceSupervision() {
         putService("service1", 1, HttpStatus.CREATED);
         addPolicyType("type1", "ric1");
 
@@ -1044,7 +1044,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test Get Service Status")
-    void testGetServiceStatus() throws Exception {
+    void testGetServiceStatus() {
         String url = "/status";
         String rsp = restClient().get(url).block();
         assertThat(rsp).contains("success");
@@ -1167,7 +1167,7 @@ class ApplicationTest {
             assertThat(test.isFailed()).isFalse();
         }
         assertThat(policies.size()).isZero();
-        logger.info("Concurrency test took " + Duration.between(startTime, Instant.now()));
+        logger.info("Concurrency test took: {}", Duration.between(startTime, Instant.now()));
 
         assertThat(nonRespondingRic.getState()).isEqualTo(RicState.UNAVAILABLE);
         nonRespondingRic.setState(RicState.AVAILABLE);
@@ -1243,7 +1243,7 @@ class ApplicationTest {
         return true;
     }
 
-    private MockA1Client getA1Client(String ricId) throws ServiceException {
+    private MockA1Client getA1Client(String ricId) {
         return a1ClientFactory.getOrCreateA1Client(ricId);
     }
 

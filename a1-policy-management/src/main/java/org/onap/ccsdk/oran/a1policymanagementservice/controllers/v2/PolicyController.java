@@ -377,7 +377,7 @@ public class PolicyController {
                 .doOnError(e -> logger.debug("Unauthorized to read policy: {}", e.getMessage())) //
                 .onErrorResume(e -> Mono.empty()) //
                 .collectList() //
-                .map(authPolicies -> policiesToJson(authPolicies)) //
+                .map(this::policiesToJson) //
                 .map(str -> new ResponseEntity<>(str, HttpStatus.OK));
     }
 
@@ -419,7 +419,7 @@ public class PolicyController {
                 .doOnError(e -> logger.debug("Unauthorized to read policy: {}", e.getMessage())) //
                 .onErrorResume(e -> Mono.empty()) //
                 .collectList() //
-                .map(authPolicies -> toPolicyIdsJson(authPolicies)) //
+                .map(this::toPolicyIdsJson) //
                 .map(policyIdsJson -> new ResponseEntity<>(policyIdsJson, HttpStatus.OK));
     }
 

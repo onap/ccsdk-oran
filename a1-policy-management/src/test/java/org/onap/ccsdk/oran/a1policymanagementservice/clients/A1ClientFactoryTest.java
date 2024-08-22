@@ -128,20 +128,23 @@ class A1ClientFactoryTest {
     @DisplayName("test Custom Adapter Creation")
     void testCustomAdapterCreation() {
 
-        Ric ric = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
-        A1Client client = factoryUnderTest.createA1Client(ric).block();
+        Ric ricLocal = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
+        A1Client client = factoryUnderTest.createA1Client(ricLocal).block();
 
+        assert client != null;
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
-        ric = new Ric(ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2"));
-        client = factoryUnderTest.createA1Client(ric).block();
+        ricLocal = new Ric(ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2"));
+        client = factoryUnderTest.createA1Client(ricLocal).block();
 
+        assert client != null;
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
-        ric = new Ric(
+        ricLocal = new Ric(
                 ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory"));
-        client = factoryUnderTest.createA1Client(ric).block();
+        client = factoryUnderTest.createA1Client(ricLocal).block();
 
+        assert client != null;
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
         Exception e = Assertions.assertThrows(Exception.class, () -> {

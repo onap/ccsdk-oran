@@ -32,7 +32,7 @@ import lombok.Getter;
 @Builder
 public class AuthorizationResult {
 
-    @Schema(name = "result", description = "If true, the access is granted", required = true)
+    @Schema(name = "result", description = "If true, the access is granted", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(value = "result", required = true)
     @SerializedName("result")
     @Getter
