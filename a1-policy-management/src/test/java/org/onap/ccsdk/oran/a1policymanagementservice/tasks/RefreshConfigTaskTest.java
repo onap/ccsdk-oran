@@ -74,11 +74,11 @@ class RefreshConfigTaskTest {
     @Mock
     ConfigurationFile configurationFileMock;
 
-    private RefreshConfigTask createTestObject(boolean configFileExists) {
-        return createTestObject(configFileExists, spy(new Rics()), new Policies(appConfig), true);
+    private RefreshConfigTask createTestObject() {
+        return createTestObject(spy(new Rics()), new Policies(appConfig), true);
     }
 
-    private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
+    private RefreshConfigTask createTestObject(Rics rics, Policies policies,
             boolean stubConfigFileExists) {
         SecurityContext secContext = new SecurityContext("");
 
@@ -95,7 +95,7 @@ class RefreshConfigTaskTest {
     @Test
     @DisplayName("test when The Configuration Fits then Configured Rics Are Put In Repository")
     void whenTheConfigurationFits_thenConfiguredRicsArePutInRepository() throws Exception {
-        refreshTaskUnderTest = this.createTestObject(true);
+        refreshTaskUnderTest = this.createTestObject();
         refreshTaskUnderTest.systemEnvironment = new Properties();
         // When
         when(configurationFileMock.readFile()).thenReturn(getCorrectJson());
@@ -119,8 +119,8 @@ class RefreshConfigTaskTest {
 
     @Test
     @DisplayName("test when File Exists But Json Is Incorrect then No Rics Are Put In Repository")
-    void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() throws Exception {
-        refreshTaskUnderTest = this.createTestObject(true);
+    void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() {
+        refreshTaskUnderTest = this.createTestObject();
 
         // When
         when(configurationFileMock.readFile()).thenReturn(Optional.empty());
