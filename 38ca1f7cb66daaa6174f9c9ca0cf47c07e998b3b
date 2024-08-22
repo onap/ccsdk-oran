@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7b05f8_0e735a02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-08-22T10:42:49Z",
+      "side": 1,
+      "message": "Dependant on \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138824\nand\nhttps://gerrit.onap.org/r/c/ccsdk/parent/+/138826",
+      "revId": "38ca1f7cb66daaa6174f9c9ca0cf47c07e998b3b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
