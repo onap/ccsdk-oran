@@ -51,25 +51,25 @@ public class PolicyAuthorizationRequest {
             READ, WRITE, DELETE
         }
 
-        @Schema(name = "access_type", description = "Access type", required = true)
+        @Schema(name = "access_type", description = "Access type", requiredMode = Schema.RequiredMode.REQUIRED)
         @JsonProperty(value = "access_type", required = true)
         @SerializedName("access_type")
         @Getter
         private AccessType accessType;
 
-        @Schema(name = "policy_type_id", description = "Policy type identifier", required = true)
+        @Schema(name = "policy_type_id", description = "Policy type identifier", requiredMode = Schema.RequiredMode.REQUIRED)
         @SerializedName("policy_type_id")
         @JsonProperty(value = "policy_type_id", required = true)
         private String policyTypeId;
 
-        @Schema(name = "auth_token", description = "Authorization token", required = true)
+        @Schema(name = "auth_token", description = "Authorization token", requiredMode = Schema.RequiredMode.REQUIRED)
         @SerializedName("auth_token")
         @JsonProperty(value = "auth_token", required = true)
         private String authToken;
 
     }
 
-    @Schema(name = "input", description = "Input", required = true)
+    @Schema(name = "input", description = "Input", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(value = "input", required = true)
     @SerializedName("input")
     private Input input;
