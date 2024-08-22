@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.ServiceRegistryAndSupervisionApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.ServiceRegistrationInfo;
@@ -32,7 +33,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,7 +48,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@RestController("ServiceControllerV2")
+@RestController("serviceControllerV2")
+@RequiredArgsConstructor
 @Tag( //
         name = ServiceController.API_NAME, //
         description = ServiceController.API_DESCRIPTION //
@@ -64,13 +65,7 @@ public class ServiceController implements ServiceRegistryAndSupervisionApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Autowired
-    private PolicyController policyController;
-
-    ServiceController(Services services, Policies policies) {
-        this.services = services;
-        this.policies = policies;
-    }
+    private final PolicyController policyController;
 
     private static final String GET_SERVICE_DETAILS =
             "Either information about a registered service with given identity or all registered services are returned.";
