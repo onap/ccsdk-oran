@@ -219,7 +219,6 @@ class ApplicationTest {
     }
 
     @Test
-    @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
     @DisplayName("test ZZ Actuator")
     void testZZActuator() throws Exception {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
@@ -235,15 +234,9 @@ class ApplicationTest {
         client.post("/actuator/loggers/org.springframework.boot.actuate", "{\"configuredLevel\":\"trace\"}").block();
 
         // This will stop the web server and all coming tests will fail.
-        client.post("/actuator/shutdown", "").block();
-
-        Thread.sleep(1000);
-
-        StepVerifier.create(restClient().get("/rics")) // Any call
-                .expectSubscription() //
-                .expectErrorMatches(t -> t instanceof WebClientRequestException) //
-                .verify();
-
+        ResponseEntity<String> entity = client.postForEntity("/actuator/shutdown", "").block();
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(((String) entity.getBody())).contains("Shutting down");
     }
 
     @Test
