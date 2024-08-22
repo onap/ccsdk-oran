@@ -28,6 +28,10 @@ spring:
     allow-bean-definition-overriding: true
   aop:
     auto: false
+  r2dbc:
+    url: "r2dbc:postgresql://127.0.0.1:5432/a1pms"
+    username: a1pms
+    password: mypwd
 management:
   tracing:
     propagation:
@@ -107,6 +111,7 @@ app:
     accessKeyId: minio
     secretAccessKey: miniostorage
     bucket:
+  database-enabled: false
 otel:
   sdk:
     disabled: ${ONAP_SDK_DISABLED:true}

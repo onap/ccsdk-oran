@@ -21,9 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.datastore;
 
 import com.google.common.base.Strings;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -42,7 +40,9 @@ public interface DataStore {
     public Mono<String> deleteAllObjects();
 
     public static DataStore create(ApplicationConfig appConfig, String location) {
-        if (appConfig.isS3Enabled()) {
+        if (appConfig.isDatabaseEnabled()) {
+            return new DatabaseStore(location);
+        } else if (appConfig.isS3Enabled()) {
             return new S3ObjectStore(appConfig, location);
         } else if (!Strings.isNullOrEmpty(appConfig.getVardataDirectory())) {
             return new FileStore(appConfig, location);

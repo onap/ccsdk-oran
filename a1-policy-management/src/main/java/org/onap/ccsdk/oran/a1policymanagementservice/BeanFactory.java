@@ -3,6 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +37,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 @Configuration
 public class BeanFactory {
@@ -54,6 +56,7 @@ public class BeanFactory {
     }
 
     @Bean
+    @DependsOn("springContextProvider")
     public Services getServices(@Autowired ApplicationConfig applicationConfig) {
         Services services = new Services(applicationConfig);
         services.restoreFromDatabase().subscribe();
@@ -61,6 +64,7 @@ public class BeanFactory {
     }
 
     @Bean
+    @DependsOn("springContextProvider")
     public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
         PolicyTypes types = new PolicyTypes(applicationConfig);
         types.restoreFromDatabase().blockLast();
@@ -68,6 +72,7 @@ public class BeanFactory {
     }
 
     @Bean
+    @DependsOn("springContextProvider")
     public Policies getPolicies(@Autowired ApplicationConfig applicationConfig) {
         return new Policies(applicationConfig);
     }
