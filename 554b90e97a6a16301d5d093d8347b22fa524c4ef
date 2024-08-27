@@ -33,6 +33,24 @@
       "message": "We already did a version update after new-delhi release. \nSorry if that was premature \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138302\n\nBut I guess we need to update the parent POMs though",
       "revId": "554b90e97a6a16301d5d093d8347b22fa524c4ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e95ec79_237e8cec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-27T10:06:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4b158bf_3068ef06",
+      "revId": "554b90e97a6a16301d5d093d8347b22fa524c4ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
