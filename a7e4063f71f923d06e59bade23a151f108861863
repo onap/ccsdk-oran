@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5078ee09_0505ba5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-28T14:00:59Z",
+      "side": 1,
+      "message": "Should have sorted the merge conflict. (Removed a1-pms pom file) \nMight need to be rebased, but otherwise good I think",
+      "revId": "a7e4063f71f923d06e59bade23a151f108861863",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
