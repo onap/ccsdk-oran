@@ -22,8 +22,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.micrometer.prometheusmetrics.PrometheusConfig;
-import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 import java.time.Instant;
 import java.util.Arrays;

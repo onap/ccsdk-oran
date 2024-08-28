@@ -104,7 +104,8 @@
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -152,7 +153,13 @@
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <!-- micrometer-registry-prometheus of spring boot 3.3 is the version with the support to prometheus client 1.x -->
+            <!-- This causes an issue when loading PrometheusExemplarsAutoConfiguration class with database support -->
+            <!-- PrometheusExemplarsAutoConfiguration blocks a thread(Could be a deadlock) which prevents the application from starting -->
+            <!-- As the support to prometheus client 1.x is introduced as part of SB release 3.3, it may get fixed later. -->
+            <!-- micrometer-registry-prometheus-simpleclient supports only older prometheus client -->
+            <!-- micrometer-registry-prometheus-simpleclient support will be removed from SB release 3.5.0 -->
+            <artifactId>micrometer-registry-prometheus-simpleclient</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
