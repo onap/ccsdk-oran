@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a812f0fd_5e6617f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-28T09:39:05Z",
+      "side": 1,
+      "message": "Actually, This is still needed. \n\nThe only change needed is to remove the A1-PolicyManagement pom update. That one is done. Others still have the old new-delhi parents.",
+      "revId": "67f21ad7d803dcd7b9d721a72291dcc89fb6b883",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dba2156a_152b1637",
