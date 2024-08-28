@@ -46,7 +46,7 @@ public class DatabaseIndependentBeanFactory {
     @Bean
     public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
         PolicyTypes types = new PolicyTypes(applicationConfig);
-        types.restoreFromDatabase().blockLast();
+        types.restoreFromDatabase().subscribe();
         return types;
     }
 

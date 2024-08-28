@@ -45,7 +45,7 @@ public class DatabaseDependentBeanFactory {
     @DependsOn({ "springContextProvider", "flywayInitializer" })
     public PolicyTypes getPolicyTypes(@Autowired ApplicationConfig applicationConfig) {
         PolicyTypes types = new PolicyTypes(applicationConfig);
-        types.restoreFromDatabase().blockLast();
+        types.restoreFromDatabase().subscribe();
         return types;
     }
 
