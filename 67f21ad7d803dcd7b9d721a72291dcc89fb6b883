@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "700227fa_3314867a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-28T09:54:10Z",
+      "side": 1,
+      "message": "Please un-abandon.\nSee https://gerrit.onap.org/r/c/ccsdk/oran/+/138827 for the change for A1-PMS pom. All other changes in this review are still needed.",
+      "revId": "67f21ad7d803dcd7b9d721a72291dcc89fb6b883",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dba2156a_152b1637",
         "filename": "a1-policy-management/pom.xml",
         "patchSetId": 4
