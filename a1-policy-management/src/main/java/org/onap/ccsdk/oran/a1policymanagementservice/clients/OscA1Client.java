@@ -143,7 +143,7 @@ public class OscA1Client implements A1Client {
     public OscA1Client(RicConfig ricConfig, AsyncRestClient restClient) {
         this.restClient = restClient;
         uri = new UriBuilder(ricConfig);
-        logger.debug("A1Client (" + getClass().getTypeName() + ") created for ric: {}", ricConfig.getRicId());
+        logger.debug("A1Client \"{}\" created for ric: {}", getClass().getTypeName(), ricConfig.getRicId());
     }
 
     public static Mono<String> extractCreateSchema(String policyTypeResponse, String policyTypeId) {

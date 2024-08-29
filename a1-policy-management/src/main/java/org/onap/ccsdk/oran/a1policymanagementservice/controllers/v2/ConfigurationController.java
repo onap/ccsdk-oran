@@ -39,7 +39,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.util.Optional;
 
-@RestController("ConfigurationControllerV2")
+@RestController("configurationControllerV2")
 @Tag( //
         name = ConfigurationController.API_NAME, //
         description = ConfigurationController.API_DESCRIPTION //

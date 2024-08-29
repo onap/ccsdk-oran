@@ -92,26 +92,4 @@ class A1AdapterJsonHelper {
             return Mono.error(ex);
         }
     }
-
-    public static Mono<String> getValueFromResponse(String response, String key) {
-        return getOutput(response) //
-                .map(responseParams -> {
-                    if (!responseParams.has(key)) {
-                        return "";
-                    }
-                    return responseParams.get(key).toString();
-                });
-    }
-
-    public static Mono<String> extractPolicySchema(String inputString) {
-        try {
-            JSONObject jsonObject = new JSONObject(inputString);
-            JSONObject schemaObject = jsonObject.getJSONObject("policySchema");
-            String schemaString = schemaObject.toString();
-            return Mono.just(schemaString);
-        } catch (Exception ex) { // invalid json
-            logger.debug("Invalid json {}", ex.getMessage());
-            return Mono.error(ex);
-        }
-    }
 }

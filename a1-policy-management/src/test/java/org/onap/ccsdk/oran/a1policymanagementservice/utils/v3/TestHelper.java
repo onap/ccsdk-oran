@@ -170,8 +170,29 @@ public class TestHelper {
         return gson.toJson(policyObjectInfo);
     }
 
+    public String putPolicyBody(String nearRtRicId, String policyTypeName, String policyId, String ueId, String qosId,
+                                String priorityLevel) {
+        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObjectForPut(
+                ueId, qosId, priorityLevel), policyTypeName);
+        if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
+            policyObjectInfo.setPolicyId(policyId);
+        return gson.toJson(policyObjectInfo);
+    }
+
     public PolicyObjectInformation policyObjectInfo(String nearRtRicId, String policyTypeName) {
         return gson.fromJson(postPolicyBody(nearRtRicId, policyTypeName, ""), PolicyObjectInformation.class);
+    }
+
+    public JsonObject dummyPolicyObjectForPut(String... values) {
+        return JsonParser.parseString("{\n" +
+                "        \"scope\": {\n" +
+                "            \"ueId\": \"" + values[0] + "\",\n" +
+                "            \"qosId\": \"" + values[1] + "\"\n" +
+                "        },\n" +
+                "        \"qosObjectives\": {\n" +
+                "            \"priorityLevel\": " + values[2] + "\n" +
+                "        }\n" +
+                "    }").getAsJsonObject();
     }
 
     public JsonObject dummyPolicyObject() {
