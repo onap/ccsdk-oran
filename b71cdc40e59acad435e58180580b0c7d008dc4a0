@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dca2b61c_e6215b88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-29T14:16:26Z",
+      "side": 1,
+      "message": "Please add a more sensible commit message. \n\ne.g. \nSelect\u0026squash recent updates \u0026 fixes from master branch, adapted for new-delhi branch. Including:\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138693\nSet serviceId in v2 policy_info to optional and blank by default - master\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138734\nnew onap logo\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138762\nImproving code-coverage for the Handle non transient policy deletion bug fix - master\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138788\nEnable springboot test for AsyncRestClientTest\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138787\nRe-arrange application properties\n*PARTIAL\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138772\nImprove tests/issues found in Sonar report - A1 Oslo-Part2\n \nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138827\nDependecy update in a1pms using spring parent 3.3.2\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138862\nImprove tests/issues found in Sonar report - A1 Oslo/NewDelhi/Montreal/London-Part3-master",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "b71cdc40e59acad435e58180580b0c7d008dc4a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
