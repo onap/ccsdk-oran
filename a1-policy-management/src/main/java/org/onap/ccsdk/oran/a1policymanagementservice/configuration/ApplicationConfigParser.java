@@ -84,7 +84,7 @@ public class ApplicationConfigParser {
         Map<String, ControllerConfig> controllerConfigs = parseControllerConfigs(pmsConfigJson);
         List<RicConfig> ricConfigs = parseRics(pmsConfigJson, controllerConfigs);
 
-        checkConfigurationConsistency(ricConfigs, controllerConfigs);
+        checkConfigurationConsistency(ricConfigs);
 
         return ConfigParserResult.builder() //
                 .ricConfigs(ricConfigs) //
@@ -123,8 +123,7 @@ public class ApplicationConfigParser {
         return CharStreams.toString(new InputStreamReader(in, StandardCharsets.UTF_8));
     }
 
-    private void checkConfigurationConsistency(List<RicConfig> ricConfigs,
-            Map<String, ControllerConfig> controllerConfigs) throws ServiceException {
+    private void checkConfigurationConsistency(List<RicConfig> ricConfigs) throws ServiceException {
         Set<String> ricUrls = new HashSet<>();
         Set<String> ricNames = new HashSet<>();
         for (RicConfig ric : ricConfigs) {
@@ -217,9 +216,5 @@ public class ApplicationConfigParser {
 
     private JsonArray getAsJsonArray(JsonObject obj, String memberName) throws ServiceException {
         return get(obj, memberName).getAsJsonArray();
-    }
-
-    private static String getAsString(JsonObject obj, String memberName) throws ServiceException {
-        return get(obj, memberName).getAsString();
     }
 }

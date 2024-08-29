@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
@@ -33,7 +34,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -47,32 +47,18 @@ import java.util.Collection;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class PolicyService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    @Autowired
-    private Helper helper;
-
-    @Autowired
-    private Rics rics;
-
-    @Autowired
-    private PolicyTypes policyTypes;
-
-    @Autowired
-    private Policies policies;
-
-    @Autowired
-    private AuthorizationService authorizationService;
-
-    @Autowired
-    private A1ClientFactory a1ClientFactory;
-
-    @Autowired
-    private ErrorHandlingService errorHandlingService;
-
-    @Autowired
-    private Gson gson;
+    private final Helper helper;
+    private final Rics rics;
+    private final PolicyTypes policyTypes;
+    private final Policies policies;
+    private final AuthorizationService authorizationService;
+    private final A1ClientFactory a1ClientFactory;
+    private final ErrorHandlingService errorHandlingService;
+    private final Gson gson;
 
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicyService
             (PolicyObjectInformation policyObjectInfo, ServerWebExchange serverWebExchange) {
@@ -83,15 +69,15 @@ public class PolicyService {
             PolicyType policyType = policyTypes.getType(policyObjectInfo.getPolicyTypeId());
             Policy policy = helper.buildPolicy(policyObjectInfo, policyType, ric, helper.policyIdGeneration(policyObjectInfo));
             return helper.isPolicyAlreadyCreated(policy,policies)
-                    .doOnError(error -> errorHandlingService.handleError(error))
+                    .doOnError(errorHandlingService::handleError)
                     .flatMap(policyBuilt -> authorizationService.authCheck(serverWebExchange, policy, AccessType.WRITE)
-                    .doOnError(error -> errorHandlingService.handleError(error))
+                    .doOnError(errorHandlingService::handleError)
                     .flatMap(policyNotUsed -> ric.getLock().lock(Lock.LockType.SHARED, "createPolicy"))
                     .flatMap(grant -> postPolicy(policy, grant))
                     .map(locationHeaderValue ->
                             new ResponseEntity<PolicyObjectInformation>(policyObjectInfo,helper.createHttpHeaders(
                                     "location",helper.buildURI(policy.getId(), serverWebExchange)), HttpStatus.CREATED))
-                    .doOnError(error -> errorHandlingService.handleError(error)));
+                    .doOnError(errorHandlingService::handleError));
         } catch (Exception ex) {
             return Mono.error(ex);
         }
@@ -100,15 +86,15 @@ public class PolicyService {
 
     private Mono<String> postPolicy(Policy policy, Lock.Grant grant) {
         return  helper.checkRicStateIdle(policy.getRic())
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
                 .flatMap(ric -> helper.checkSupportedType(ric, policy.getType()))
-                .doOnError(error -> errorHandlingService.handleError(error))
-                .flatMap(ric -> a1ClientFactory.createA1Client(ric))
+                .doOnError(errorHandlingService::handleError)
+                .flatMap(a1ClientFactory::createA1Client)
                 .flatMap(a1Client -> a1Client.putPolicy(policy))
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
                 .doOnNext(policyString -> policies.put(policy))
                 .doFinally(releaseLock -> grant.unlockBlocking())
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     public Mono<ResponseEntity<Object>> putPolicyService(String policyId, Object body, ServerWebExchange exchange) {
@@ -119,12 +105,12 @@ public class PolicyService {
             Policy updatedPolicy = helper.buildPolicy(pos, existingPolicy.getType(), existingPolicy.getRic(), policyId);
             Ric ric = existingPolicy.getRic();
             return authorizationService.authCheck(exchange, updatedPolicy, AccessType.WRITE)
-                    .doOnError(error -> errorHandlingService.handleError(error))
+                    .doOnError(errorHandlingService::handleError)
                     .flatMap(policy -> ric.getLock().lock(Lock.LockType.SHARED, "updatePolicy"))
-                    .doOnError(error -> errorHandlingService.handleError(error))
+                    .doOnError(errorHandlingService::handleError)
                     .flatMap(grant -> postPolicy(updatedPolicy, grant))
                     .map(header -> new ResponseEntity<Object>(policies.get(updatedPolicy.getId()).getJson(), HttpStatus.OK))
-                    .doOnError(error -> errorHandlingService.handleError(error));
+                    .doOnError(errorHandlingService::handleError);
         } catch(Exception ex) {
             return Mono.error(ex);
         }
@@ -178,7 +164,7 @@ public class PolicyService {
             Policy policy = policies.getPolicy(policyId);
         return authorizationService.authCheck(serverWebExchange, policy, AccessType.READ)
                 .map(x -> new ResponseEntity<Object>(policy.getJson(), HttpStatus.OK))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     public Mono<ResponseEntity<Object>> getPolicyTypeDefinitionService(String policyTypeId)
@@ -193,24 +179,24 @@ public class PolicyService {
             throws EntityNotFoundException {
         Policy singlePolicy = policies.getPolicy(policyId);
         return authorizationService.authCheck(serverWebExchange, singlePolicy, AccessType.WRITE)
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
                 .flatMap(policy -> policy.getRic().getLock().lock(Lock.LockType.SHARED, "deletePolicy"))
                 .flatMap(grant -> deletePolicy(singlePolicy, grant))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     private Mono<ResponseEntity<Void>> deletePolicy(Policy policy, Lock.Grant grant) {
         return  helper.checkRicStateIdle(policy.getRic())
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
                 .flatMap(ric -> helper.checkSupportedType(ric, policy.getType()))
-                .doOnError(error -> errorHandlingService.handleError(error))
-                .flatMap(ric -> a1ClientFactory.createA1Client(ric))
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
+                .flatMap(a1ClientFactory::createA1Client)
+                .doOnError(errorHandlingService::handleError)
                 .flatMap(a1Client -> a1Client.deletePolicy(policy))
-                .doOnError(error -> errorHandlingService.handleError(error))
+                .doOnError(errorHandlingService::handleError)
                 .doOnNext(policyString -> policies.remove(policy))
                 .doFinally(releaseLock -> grant.unlockBlocking())
                 .map(successResponse -> new ResponseEntity<Void>(HttpStatus.NO_CONTENT))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 }

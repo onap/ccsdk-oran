@@ -28,8 +28,6 @@ import static org.mockito.Mockito.doReturn;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
@@ -104,7 +102,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
@@ -162,8 +159,6 @@ class ApplicationTest {
 
     @Autowired
     OpenPolicyAgentSimulatorController openPolicyAgentSimulatorController;
-
-    private static Gson gson = new GsonBuilder().create();
 
     /**
      * Overrides the BeanFactory.
@@ -235,7 +230,6 @@ class ApplicationTest {
     }
 
     @Test
-    @SuppressWarnings("squid:S2925") // "Thread.sleep" should not be used in tests.
     @DisplayName("test ZZ Actuator")
     void testZZActuator() throws Exception {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
@@ -251,15 +245,9 @@ class ApplicationTest {
         client.post("/actuator/loggers/org.springframework.boot.actuate", "{\"configuredLevel\":\"trace\"}").block();
 
         // This will stop the web server and all coming tests will fail.
-        client.post("/actuator/shutdown", "").block();
-
-        Thread.sleep(1000);
-
-        StepVerifier.create(restClient().get("/rics")) // Any call
-                .expectSubscription() //
-                .expectErrorMatches(t -> t instanceof WebClientRequestException) //
-                .verify();
-
+        ResponseEntity<String> entity = client.postForEntity("/actuator/shutdown", "").block();
+        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(((String) entity.getBody())).contains("Shutting down");
     }
 
     @Test
@@ -956,6 +944,7 @@ class ApplicationTest {
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // DELETE service
+        addPolicy("id1", "type1", serviceName);
         assertThat(services.size()).isEqualTo(1);
         url = "/services/" + serviceName;
         restClient().delete(url).block();
@@ -974,6 +963,32 @@ class ApplicationTest {
 
         // GET non existing service
         testErrorCode(restClient().get("/services?service_id=XXX"), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("test delete Service with no authorization")
+    void testDeleteServiceWithNoAuth() throws Exception {
+        // PUT service
+        String serviceName = "ac.dc";
+        putService(serviceName, 0, HttpStatus.CREATED);
+
+        // No Authorization to Delete
+        this.applicationConfig
+                .setAuthProviderUrl(baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL_REJECT);
+        addPolicy("id1", "type1", serviceName);
+        assertThat(services.size()).isEqualTo(1);
+        String url = "/services/" + serviceName;
+        restClient().delete(url).block();
+        assertThat(services.size()).isZero();
+        assertThat(policies.size()).isEqualTo(1);
+        testErrorCode(restClient().get("/policies/id1"), HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    @DisplayName("test delete Service with no service")
+    void testDeleteServiceWithNoService() {
+        String url = "/services/" + "NoService";
+        testErrorCode(restClient().delete(url), HttpStatus.NOT_FOUND);
     }
 
     @Test

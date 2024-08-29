@@ -436,7 +436,7 @@ paths:
       description: "Returns a list of A1 policies matching given search criteria.\
             \ <br>If several query parameters are defined, the policies matching all conditions\
             \ are returned."
-      operationId: getPolicyIds
+      operationId: getAllPolicies
       parameters:
         - description: Select policies of a given policy type identity.
           explode: true
