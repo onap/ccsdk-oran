@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "151a0f682982470b4de366ad5723af062bda83a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d717af8_aa5db553",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-29T10:04:41Z",
+      "side": 1,
+      "message": "Ready to merge. Full maven verification completed.",
+      "revId": "151a0f682982470b4de366ad5723af062bda83a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
