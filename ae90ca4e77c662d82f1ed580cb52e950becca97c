@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66806c76_8e818140",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-08-29T12:18:11Z",
+      "side": 1,
+      "message": "https://gerrit.onap.org/r/c/ccsdk/oran/+/138693\nSet serviceId in v2 policy_info to optional and blank by default - master\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138734\nnew onap logo\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138762\nImproving code-coverage for the Handle non transient policy deletion bug fix - master\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138789\nUpdate docs links to O-RAN-SC wiki after atlassian migration\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138788\nEnable springboot test for AsyncRestClientTest\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138787\nRe-arrange application properties\n*PARTIAL\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138772\nImprove tests/issues found in Sonar report - A1 Oslo-Part2\n\n\nhttps://gerrit.onap.org/r/c/ccsdk/oran/+/138827\nDependecy update in a1pms using spring parent 3.3.2\n\n\nbased on this filter:\nhttps://gerrit.onap.org/r/q/project:ccsdk/oran+status:merged+branch:master\n\nMissing\n138862: Improve tests/issues found in Sonar report - A1 Oslo/NewDelhi/Montreal/London-Part3-master | https://gerrit.onap.org/r/c/ccsdk/oran/+/138862",
+      "revId": "ae90ca4e77c662d82f1ed580cb52e950becca97c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
