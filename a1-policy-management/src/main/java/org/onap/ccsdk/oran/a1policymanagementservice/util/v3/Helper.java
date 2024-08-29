@@ -22,6 +22,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.util.v3;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
@@ -29,7 +30,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInforma
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -45,14 +45,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class Helper {
 
-    @Autowired
-    private Services services;
+    private final Services services;
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().create();
+
     public void keepServiceAlive(String name) {
         Service s = this.services.get(name);
         if (s != null) {

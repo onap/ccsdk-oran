@@ -59,7 +59,7 @@ public class MockA1ClientFactory extends A1ClientFactory {
     public MockA1Client getOrCreateA1Client(String ricId) {
         if (!clients.containsKey(ricId)) {
             logger.debug("Creating client for RIC: {}", ricId);
-            MockA1Client client = spy(new MockA1Client(ricId, appConfig, policyTypes, asynchDelay));
+            MockA1Client client = spy(new MockA1Client(appConfig, policyTypes, asynchDelay));
             clients.put(ricId, client);
         }
         return clients.get(ricId);

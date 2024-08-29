@@ -21,19 +21,17 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Constructor;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1Client.A1ProtocolType;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ControllerConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import reactor.core.publisher.Mono;
+
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Constructor;
 
 /**
  * Factory for A1 clients that supports four different protocol versions of the
@@ -43,12 +41,9 @@ public class A1ClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final ApplicationConfig appConfig;
-
     private final AsyncRestClientFactory restClientFactory;
 
     public A1ClientFactory(ApplicationConfig appConfig, SecurityContext securityContext) {
-        this.appConfig = appConfig;
         this.restClientFactory = new AsyncRestClientFactory(appConfig.getWebClientConfig(), securityContext);
     }
 
@@ -95,28 +90,19 @@ public class A1ClientFactory {
         }
     }
 
-    private ControllerConfig getControllerConfig(Ric ric) throws ServiceException {
-        ControllerConfig controllerConfig = ric.getConfig().getControllerConfig();
-        if (controllerConfig == null) {
-            ric.setProtocolVersion(A1ProtocolType.UNKNOWN);
-            throw new ServiceException("No controller configured for Near-RT RIC: " + ric.id());
-        }
-        return controllerConfig;
-    }
-
     private A1Client createCustomAdapter(Ric ric) throws ServiceException {
         try {
             if (ric.getConfig().getCustomAdapterClass() != null && !ric.getConfig().getCustomAdapterClass().isEmpty()) {
                 Class<?> clazz = Class.forName(ric.getConfig().getCustomAdapterClass());
                 if (A1Client.class.isAssignableFrom(clazz)) {
                     Constructor<?> constructor = clazz.getConstructor(RicConfig.class, AsyncRestClientFactory.class);
-                    logger.debug("A1Client (" + clazz.getTypeName() + ") being created for ric: {}",
-                            ric.getConfig().getRicId());
+                    logger.debug("A1Client \"{}\" being created for ric: {}",
+                            clazz.getTypeName(), ric.getConfig().getRicId());
                     return (A1Client) constructor.newInstance(ric.getConfig(), this.restClientFactory);
                 } else if (A1Client.Factory.class.isAssignableFrom(clazz)) {
                     A1Client.Factory factory = (A1Client.Factory) clazz.getDeclaredConstructor().newInstance();
-                    logger.debug("A1Client (" + clazz.getTypeName() + ") factory creating client for ric: {}",
-                            ric.getConfig().getRicId());
+                    logger.debug("A1Client \"{}\" factory creating client for ric: {}",
+                            clazz.getTypeName(), ric.getConfig().getRicId());
                     return factory.create(ric.getConfig(), this.restClientFactory);
                 } else {
                     throw new ServiceException("The custom class must either implement A1Client.Factory or A1Client");
