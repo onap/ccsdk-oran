@@ -16,6 +16,24 @@
       "message": "duplicate of line 39",
       "revId": "8c381a35e0bd718e1024430530b0f8c33defc383",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3c2001_102fccda",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-08-29T14:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d06cf0c6_9396ad7c",
+      "revId": "8c381a35e0bd718e1024430530b0f8c33defc383",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
