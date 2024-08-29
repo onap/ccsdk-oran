@@ -35,6 +35,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b47bdb78_e7ee3d42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-29T09:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "700227fa_3314867a",
+      "revId": "67f21ad7d803dcd7b9d721a72291dcc89fb6b883",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dba2156a_152b1637",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-08-27T10:06:08Z",
       "side": 1,
       "message": "See Review https://gerrit.onap.org/r/c/ccsdk/oran/+/138827 \nWhere Parent is upgraded to \nspring-boot-33-starter-parent : 2.8.0-SNAPSHOT",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "67f21ad7d803dcd7b9d721a72291dcc89fb6b883",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6458ec96_f37eb456",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-08-29T09:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dba2156a_152b1637",
       "range": {
         "startLine": 26,
         "startChar": 0,
