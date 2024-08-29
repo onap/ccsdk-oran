@@ -141,7 +141,7 @@ class S3ObjectStore implements DataStore {
         return Mono.fromFuture(future) //
                 .map(f -> s3Bucket) //
                 .doOnError(t -> logger.debug("Could not create S3 bucket: {}", t.getMessage()))
-                .onErrorResume(t -> Mono.just(s3Bucket));
+                .onErrorResume(t -> Mono.just("Not Created"));
     }
 
     @Override

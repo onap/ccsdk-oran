@@ -20,27 +20,10 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.tasks;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Properties;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,13 +38,19 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser.ConfigParserResult;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.RicConfig;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
-import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
-
+import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import reactor.test.StepVerifier;
+
+import java.io.IOException;
+import java.net.URL;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Properties;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RefreshConfigTaskTest {
@@ -74,11 +63,11 @@ class RefreshConfigTaskTest {
     @Mock
     ConfigurationFile configurationFileMock;
 
-    private RefreshConfigTask createTestObject(boolean configFileExists) {
-        return createTestObject(configFileExists, spy(new Rics()), new Policies(appConfig), true);
+    private RefreshConfigTask createTestObject(boolean stubConfigFileExists) {
+        return createTestObject(spy(new Rics()), new Policies(appConfig), stubConfigFileExists);
     }
 
-    private RefreshConfigTask createTestObject(boolean configFileExists, Rics rics, Policies policies,
+    private RefreshConfigTask createTestObject(Rics rics, Policies policies,
             boolean stubConfigFileExists) {
         SecurityContext secContext = new SecurityContext("");
 
@@ -118,8 +107,30 @@ class RefreshConfigTaskTest {
     }
 
     @Test
+    @DisplayName("test handle updated ric config method with type removed")
+    void testHandleUpdatedRicConfigRemoved() {
+
+        String ricId = "ric1";
+        refreshTaskUnderTest = this.createTestObject(false);
+        refreshTaskUnderTest.handleUpdatedRicConfig(buildRicConfigUpdate(ricId, "ric_baseurl_removed",
+                Type.REMOVED));
+        verify(refreshTaskUnderTest.rics, times(1)).remove(anyString());
+    }
+
+    @Test
+    @DisplayName("test handle updated ric config method with type changed and no ric available before")
+    void testHandleUpdatedRicConfigNullRicChanged() {
+
+        String ricId = "ric1";
+        refreshTaskUnderTest = this.createTestObject(false);
+        refreshTaskUnderTest.handleUpdatedRicConfig(buildRicConfigUpdate(ricId, "ric_baseurl_changed",
+                Type.CHANGED));
+        verify(refreshTaskUnderTest.rics, times(1)).put(any(Ric.class));
+    }
+
+    @Test
     @DisplayName("test when File Exists But Json Is Incorrect then No Rics Are Put In Repository")
-    void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() throws Exception {
+    void whenFileExistsButJsonIsIncorrect_thenNoRicsArePutInRepository() {
         refreshTaskUnderTest = this.createTestObject(true);
 
         // When
@@ -147,5 +158,17 @@ class RefreshConfigTaskTest {
         URL url = ApplicationConfigParser.class.getClassLoader().getResource("test_application_configuration.json");
         String string = Resources.toString(url, Charsets.UTF_8);
         return Optional.of(JsonParser.parseString(string).getAsJsonObject());
+    }
+
+    private ApplicationConfig.RicConfigUpdate buildRicConfigUpdate(String ricID, String baseUrl,
+                                                                   Type event) {
+        return new ApplicationConfig.RicConfigUpdate(buildRicConfig(ricID, baseUrl), event);
+    }
+
+    private RicConfig buildRicConfig(String ricID, String baseUrl) {
+        return RicConfig.builder()
+                .ricId(ricID)
+                .baseUrl(baseUrl)
+                .build();
     }
 }

@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v3.A1PolicyManagementApi;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.Consts;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
@@ -29,15 +30,14 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInfor
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.PolicyService;
-import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-@RestController("PolicyControllerV3")
+@RestController("policyControllerV3")
+@RequiredArgsConstructor
 @Tag(//
         name = PolicyController.API_NAME, //
         description = PolicyController.API_DESCRIPTION //
@@ -46,54 +46,49 @@ import reactor.core.publisher.Mono;
 public class PolicyControllerV3 implements A1PolicyManagementApi {
     public static final String API_NAME = "A1 Policy Management";
     public static final String API_DESCRIPTION = "API to create,update and get policies or policy definitions";
-    @Autowired
-    private PolicyService policyService;
 
-    @Autowired
-    private Helper helper;
-
-    @Autowired
-    private ErrorHandlingService errorHandlingService;
+    private final PolicyService policyService;
+    private final ErrorHandlingService errorHandlingService;
 
     @Override
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicy(Mono<PolicyObjectInformation> policyObjectInformation, ServerWebExchange exchange) {
         return policyObjectInformation.flatMap(policyObjectInfo -> policyService.createPolicyService(policyObjectInfo, exchange)
-                        .doOnError(error -> errorHandlingService.handleError(error)));
+                        .doOnError(errorHandlingService::handleError));
     }
 
     @Override
     public Mono<ResponseEntity<Void>> deletePolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.deletePolicyService(policyId, exchange)
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicy(String policyId, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyService(policyId, exchange)
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
-    public Mono<ResponseEntity<Flux<PolicyInformation>>> getPolicyIds(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<Flux<PolicyInformation>>> getAllPolicies(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyIdsService(policyTypeId, nearRtRicId, serviceId, typeName, exchange)
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> getPolicyTypeDefinition(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyTypeDefinitionService(policyTypeId)
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypes(String nearRtRicId, String typeName, String compatibleWithVersion, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion, exchange)
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 
     @Override
     public Mono<ResponseEntity<Object>> putPolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
         return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange))
-                .doOnError(error -> errorHandlingService.handleError(error));
+                .doOnError(errorHandlingService::handleError);
     }
 }
