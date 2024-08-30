@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffafe160_c504382c",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-08-30T08:58:12Z",
+      "side": 1,
+      "message": "Why not keeping the default 3.3.2?",
+      "range": {
+        "startLine": 47,
+        "startChar": 52,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "96184b7f2f4e1fe8a6e71e5c1d367bc2ab654462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
