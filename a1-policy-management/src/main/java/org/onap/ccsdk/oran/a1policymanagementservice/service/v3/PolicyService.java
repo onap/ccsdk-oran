@@ -63,7 +63,7 @@ public class PolicyService {
     public Mono<ResponseEntity<PolicyObjectInformation>> createPolicyService
             (PolicyObjectInformation policyObjectInfo, ServerWebExchange serverWebExchange) {
         try {
-            if (!helper.jsonSchemaValidation(gson.toJson(policyObjectInfo.getPolicyObject(), Map.class)))
+            if (Boolean.FALSE.equals(helper.jsonSchemaValidation(gson.toJson(policyObjectInfo.getPolicyObject(), Map.class))))
                 return Mono.error(new ServiceException("Schema validation failed", HttpStatus.BAD_REQUEST));
             Ric ric = rics.getRic(policyObjectInfo.getNearRtRicId());
             PolicyType policyType = policyTypes.getType(policyObjectInfo.getPolicyTypeId());
@@ -117,8 +117,7 @@ public class PolicyService {
     }
 
     public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypesService(String nearRtRicId, String typeName,
-                                                                                   String compatibleWithVersion,
-                                                                                   ServerWebExchange webExchange) throws Exception {
+                                                                                   String compatibleWithVersion) throws ServiceException {
         if (compatibleWithVersion != null && typeName == null) {
             throw new ServiceException("Parameter " + Consts.COMPATIBLE_WITH_VERSION_PARAM + " can only be used when "
                     + Consts.TYPE_NAME_PARAM + " is given", HttpStatus.BAD_REQUEST);
@@ -126,17 +125,17 @@ public class PolicyService {
         Collection<PolicyTypeInformation> listOfPolicyTypes = new ArrayList<>();
         if (nearRtRicId == null || nearRtRicId.isEmpty() || nearRtRicId.isBlank()) {
             for(Ric ric : rics.getRics()) {
-                Collection<PolicyType> policyTypes = PolicyTypes.filterTypes(ric.getSupportedPolicyTypes(), typeName,
+                Collection<PolicyType> filteredPolicyTypes = PolicyTypes.filterTypes(ric.getSupportedPolicyTypes(), typeName,
                         compatibleWithVersion);
-                listOfPolicyTypes.addAll(helper.toPolicyTypeInfoCollection(policyTypes, ric));
+                listOfPolicyTypes.addAll(helper.toPolicyTypeInfoCollection(filteredPolicyTypes, ric));
             }
         } else {
             Ric ric = rics.get(nearRtRicId);
             if (ric == null)
                 throw new EntityNotFoundException("Near-RT RIC not Found using ID: " +nearRtRicId);
-            Collection<PolicyType> policyTypes = PolicyTypes.filterTypes(ric.getSupportedPolicyTypes(), typeName,
+            Collection<PolicyType> filteredPolicyTypes = PolicyTypes.filterTypes(ric.getSupportedPolicyTypes(), typeName,
                     compatibleWithVersion);
-            listOfPolicyTypes.addAll(helper.toPolicyTypeInfoCollection(policyTypes, ric));
+            listOfPolicyTypes.addAll(helper.toPolicyTypeInfoCollection(filteredPolicyTypes, ric));
         }
         return Mono.just(new ResponseEntity<>(Flux.fromIterable(listOfPolicyTypes), HttpStatus.OK));
     }

@@ -231,7 +231,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test ZZ Actuator")
-    void testZZActuator() throws Exception {
+    void testZZActuator() {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
         // will fail.
         AsyncRestClient client = restClient(baseUrl(), false);
@@ -479,12 +479,8 @@ class ApplicationTest {
 
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
             boolean isTransient, String statusNotificationUri) throws JsonProcessingException {
-        PolicyInfo policyInfo = new PolicyInfo();
-        policyInfo.setPolicyId(policyInstanceId);
-        policyInfo.setPolicytypeId(policyTypeName);
-        policyInfo.setRicId(ricId);
+        PolicyInfo policyInfo = new PolicyInfo(ricId, policyInstanceId, jsonString(), policyTypeName);
         policyInfo.setServiceId(serviceName);
-        policyInfo.setPolicyData(jsonString());
         policyInfo.setTransient(isTransient);
         policyInfo.setStatusNotificationUri(statusNotificationUri);
         return objectMapper.writeValueAsString(policyInfo);
@@ -722,7 +718,6 @@ class ApplicationTest {
         Policy policy = addPolicy("id", "typeName", "service1", "ric1");
         {
             String response = restClient().get(url).block();
-            PolicyInfo policyInfo = objectMapper.readValue(response, PolicyInfo.class);
             String expectedResponse = "{\"ric_id\":\"ric1\",\"service_id\":\"service1\",\"policy_id\":\"id\",\"policy_data\":{\"servingCellNrcgi\":\"1\"},\"status_notification_uri\":\"/policy-status?id=XXX\",\"policytype_id\":\"typeName\",\"transient\":false}";
             assertEquals(objectMapper.readTree(expectedResponse), objectMapper.readTree(response));
         }

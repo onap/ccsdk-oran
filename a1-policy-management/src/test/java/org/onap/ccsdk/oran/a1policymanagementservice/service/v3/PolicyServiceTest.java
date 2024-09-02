@@ -23,6 +23,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.onap.ccsdk.oran.a1policymanagementservice.config.TestConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.EntityNotFoundException;
@@ -70,7 +72,7 @@ import static org.mockito.Mockito.when;
 @TestPropertySource(properties = { //
         "app.vardata-directory=/tmp/pmstestv3", //
 })
-public class PolicyServiceTest {
+class PolicyServiceTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -114,7 +116,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testPolicyAlreadyCreatedTrue() throws Exception{
+    void testPolicyAlreadyCreatedTrue() throws Exception{
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
@@ -130,7 +132,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testPolicyNotAuthorizedFail() throws IOException {
+    void testPolicyNotAuthorizedFail() throws IOException {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
@@ -144,7 +146,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testDeletePolicySuccess() throws Exception {
+    void testDeletePolicySuccess() throws Exception {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
@@ -161,14 +163,14 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testDeletePolicyThrowsException() throws Exception {
+    void testDeletePolicyThrowsException() {
 
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         assertThrows(EntityNotFoundException.class, () -> policyService.deletePolicyService("dummyPolicyID", serverWebExchange));
     }
 
     @Test
-    public void testPutPolicy() throws Exception {
+    void testPutPolicy() throws Exception {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
@@ -199,79 +201,58 @@ public class PolicyServiceTest {
         });
     }
 
-    @Test
-    public void testGetPolicyTypes() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+            ", , ",
+            ", uri_type, ",
+            "Ric_347, uri_type,"
+    })
+    @DisplayName("testGetPolicyTypes & testGetPolicyTypesMatchedTypeName & testGetPolicyTypesMatchedTypeNameWithRic")
+    void testGetPolicyTypes(String nearRtRicID, String typeName, String compatibleWithVersion) throws Exception {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService(null, null,null, serverWebExchange);
+        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono =
+                policyService.getPolicyTypesService(nearRtRicID, typeName, compatibleWithVersion);
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
     }
 
     @Test
-    public void testGetPolicyTypesEmpty() throws Exception {
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
+    void testGetPolicyTypesEmpty() throws Exception {
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService(null, null, null, serverWebExchange);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 0);
-    }
-
-    @Test
-    public void testGetPolicyTypesNoRic() {
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        assertThrows(EntityNotFoundException.class, () -> policyService.getPolicyTypesService("NoRic", "","", serverWebExchange));
-    }
-
-    @Test
-    public void testGetPolicyTypesNoMatchedTypeName() throws Exception {
-        String policyTypeName = "uri_type_123";
-        String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("", "noTypeName", null, serverWebExchange);
+        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService(null, null, null);
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
-    public void testGetPolicyTypesNoMatchedTypeNameWithRic() throws Exception {
+    void testGetPolicyTypesNoRic() {
+        assertThrows(EntityNotFoundException.class, () -> policyService.getPolicyTypesService("NoRic", "",""));
+    }
+
+    @Test
+    void testGetPolicyTypesNoMatchedTypeName() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("Ric_347", "noTypeName", null, serverWebExchange);
+        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("", "noTypeName", null);
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
-    public void testGetPolicyTypesMatchedTypeName() throws Exception {
+    void testGetPolicyTypesNoMatchedTypeNameWithRic() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService(null, "uri_type", null, serverWebExchange);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
+        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("Ric_347", "noTypeName", null);
+        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
-    public void testGetPolicyTypesMatchedTypeNameWithRic() throws Exception {
-        String policyTypeName = "uri_type_123";
-        String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
-        Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService
-                .getPolicyTypesService("Ric_347", "uri_type", null, serverWebExchange);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
-    }
-
-    @Test
-    public void testGetPolicyIds() throws Exception {
+    void testGetPolicyIds() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
@@ -289,7 +270,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyIdsNoRic() throws Exception {
+    void testGetPolicyIdsNoRic() throws Exception {
         testHelper.addPolicyType("uri_type_123", "Ric_347");
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> policyService
@@ -298,7 +279,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyIdsNoPolicyType() {
+    void testGetPolicyIdsNoPolicyType() {
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> policyService
                 .getPolicyIdsService("noPolicyType", "noRic", "", "", serverWebExchange));
@@ -306,7 +287,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyService() throws Exception {
+    void testGetPolicyService() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);
@@ -323,7 +304,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyServiceNoPolicy() throws Exception {
+    void testGetPolicyServiceNoPolicy() {
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> policyService
                 .getPolicyService("NoPolicy", serverWebExchange));
@@ -331,7 +312,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyTypeService() throws Exception {
+    void testGetPolicyTypeService() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         PolicyType addedPolicyType = testHelper.addPolicyType(policyTypeName, nonRtRicId);
@@ -344,7 +325,7 @@ public class PolicyServiceTest {
     }
 
     @Test
-    public void testGetPolicyTypeServiceNoPolicyType() {
+    void testGetPolicyTypeServiceNoPolicyType() {
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> policyService
                 .getPolicyTypeDefinitionService("NoPolicyType"));
         assertEquals("PolicyType not found with ID: NoPolicyType", exception.getMessage());

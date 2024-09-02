@@ -82,7 +82,7 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
 
     @Override
     public Mono<ResponseEntity<Flux<PolicyTypeInformation>>> getPolicyTypes(String nearRtRicId, String typeName, String compatibleWithVersion, String accept, ServerWebExchange exchange) throws Exception {
-        return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion, exchange)
+        return policyService.getPolicyTypesService(nearRtRicId, typeName, compatibleWithVersion)
                 .doOnError(errorHandlingService::handleError);
     }
 

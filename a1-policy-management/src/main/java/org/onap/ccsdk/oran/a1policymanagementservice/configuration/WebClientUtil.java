@@ -46,7 +46,7 @@ public class WebClientUtil {
 
     private static SpringWebfluxTelemetry springWebfluxTelemetry;
 
-    public WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) SpringWebfluxTelemetry springWebfluxTelemetry) {
+    WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) SpringWebfluxTelemetry springWebfluxTelemetry) {
         WebClientUtil.otelConfig = otelConfig;
         if (otelConfig.isTracingEnabled()) {
             WebClientUtil.springWebfluxTelemetry = springWebfluxTelemetry;

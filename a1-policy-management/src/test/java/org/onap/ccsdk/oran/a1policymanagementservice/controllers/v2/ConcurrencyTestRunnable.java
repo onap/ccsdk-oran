@@ -43,7 +43,6 @@ import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1Client;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -157,12 +156,8 @@ class ConcurrencyTestRunnable implements Runnable {
     private String putPolicyBody(String serviceName, String ricId, String policyTypeName, String policyInstanceId,
             boolean isTransient) throws JsonProcessingException {
 
-        PolicyInfo policyInfo = new PolicyInfo();
-        policyInfo.setPolicyId(policyInstanceId);
-        policyInfo.setPolicytypeId(policyTypeName);
-        policyInfo.setRicId(ricId);
+        PolicyInfo policyInfo = new PolicyInfo(ricId, policyInstanceId, policyData(), policyTypeName);
         policyInfo.setServiceId(serviceName);
-        policyInfo.setPolicyData(policyData());
         policyInfo.setStatusNotificationUri("/status");
         policyInfo.setTransient(isTransient);
         return objectMapper.writeValueAsString(policyInfo);

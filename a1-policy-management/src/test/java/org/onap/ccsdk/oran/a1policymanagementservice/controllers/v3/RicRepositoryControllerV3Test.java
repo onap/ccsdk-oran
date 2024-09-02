@@ -103,7 +103,7 @@ class RicRepositoryControllerV3Test {
     }
 
     @Test
-    public void testGetRic() throws IOException {
+    void testGetRic() throws IOException {
         testHelper.addPolicyType("1", "ricAdded");
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/rics/ric?ricId=ricAdded");
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
@@ -111,7 +111,7 @@ class RicRepositoryControllerV3Test {
     }
 
     @Test
-    public  void testGetRics() throws IOException {
+    void testGetRics() throws IOException {
         testHelper.addPolicyType("1", "ricAddedOne");
         testHelper.addPolicyType("2", "ricAddedTwo");
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/rics");

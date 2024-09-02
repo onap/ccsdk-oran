@@ -230,7 +230,7 @@ class PolicyControllerV3Test {
     }
 
     @Test
-    public void testGetPolicyTypesNoRicFound() throws Exception{
+    void testGetPolicyTypesNoRicFound() throws Exception{
         String policyTypeName = "type1_1.2.3";
         String nonRtRicId = "ricOne";
         testHelper.addPolicyType(policyTypeName, nonRtRicId);

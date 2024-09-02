@@ -71,7 +71,7 @@ public class OtelConfig {
 
     @PostConstruct
     public void checkTracingConfig() {
-        logger.info("Application Yaml Tracing Enabled: " + !tracingDisabled);
+        logger.info("Application Yaml Tracing Enabled: {}", !tracingDisabled);
     }
 
     public boolean isTracingEnabled() {

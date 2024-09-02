@@ -109,7 +109,7 @@ class ServiceControllerV3Test {
     }
 
     @Test
-    public void testPutService() {
+    void testPutService() {
         ServiceRegistrationInfo serviceRegistrationInfo = new ServiceRegistrationInfo("serviceId");
         serviceRegistrationInfo.callbackUrl("http://callback.com/").keepAliveIntervalSeconds(10L);
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3()
@@ -118,7 +118,7 @@ class ServiceControllerV3Test {
     }
 
     @Test
-    public void testGetService() {
+    void testGetService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/services");
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBoy -> responseBoy
@@ -126,14 +126,14 @@ class ServiceControllerV3Test {
     }
 
     @Test
-    public void testDeleteService() {
+    void testDeleteService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().deleteForEntity("/services/newServiceId");
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.NO_CONTENT, responseBody -> services.size() == 0);
     }
 
     @Test
-    public void testKeepAliveService() {
+    void testKeepAliveService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().putForEntity("/services/newServiceId/keepalive", "");
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> services.size() == 1);
