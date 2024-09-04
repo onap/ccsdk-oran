@@ -877,9 +877,6 @@ components:
             'rApp ID'
         policyObject:
           $ref: '#/components/schemas/PolicyObject'
-        statusNotificationUri:
-          description: Callback URI for policy status updates
-          type: string
         policyTypeId:
           description: identity of the policy type
           type: string
