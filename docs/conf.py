@@ -58,6 +58,12 @@ redoc = [
                 'embed': True,
             },
             {
+                'name': 'PMS API V3',
+                'page': 'offeredapis/pms-api-v3',
+                'spec': './offeredapis/swagger/pms-api-v3.json',
+                'embed': True,
+            },
+            {
                 'name': 'A1 ADAPTER API',
                 'page': 'offeredapis/a1-adapter-api',
                 'spec': './offeredapis/swagger/a1-adapter-api.json',
@@ -77,7 +83,7 @@ spelling_word_list_filename='spelling_wordlist.txt'
 spelling_lang = "en_GB"
 
 html_extra_path = [
-    'offeredapis/openapitoolgen/offeredapis/pms-api'
+    'offeredapis/openapitoolgen'
 ]
 
 #
@@ -91,7 +97,8 @@ def setup(app):
     app.add_css_file("css/ribbon.css")
 
 linkcheck_ignore = [
-  r'http://localhost:\d+/',
-  './a1-adapter-api.html', #Generated file that doesn't exist at link check.
-  './pms-api.html'  #Generated file that doesn't exist at link check.
+    r'http://localhost:\d+/',
+    './a1-adapter-api.html', #Generated file that doesn't exist at link check.
+    './pms-api.html',  #Generated file that doesn't exist at link check.
+    './pms-api-v3.html'  #Generated file that doesn't exist at link check.
 ]
