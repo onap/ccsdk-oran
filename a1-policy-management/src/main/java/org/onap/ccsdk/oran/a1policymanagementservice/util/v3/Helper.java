@@ -93,8 +93,6 @@ public class Helper {
                         : policyObjectInformation.getServiceId())
                 .lastModified(Instant.now())
                 .isTransient(policyObjectInformation.getTransient())
-                .statusNotificationUri(policyObjectInformation.getStatusNotificationUri() == null ? ""
-                        : policyObjectInformation.getStatusNotificationUri())
                 .build();
     }
 
