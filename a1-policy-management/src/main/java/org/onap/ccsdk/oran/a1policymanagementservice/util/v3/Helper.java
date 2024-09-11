@@ -97,7 +97,7 @@ public class Helper {
     }
 
     public Boolean jsonSchemaValidation(Object jsonObject) {
-        String jsonString = toJson(jsonObject);
+        toJson(jsonObject);
         return true;
     }
 
@@ -120,7 +120,7 @@ public class Helper {
     }
 
     public String buildURI(String policyId, ServerWebExchange serverWebExchange) {
-        return UriComponentsBuilder.fromHttpRequest(serverWebExchange.getRequest())
+        return UriComponentsBuilder.fromUri(serverWebExchange.getRequest().getURI())
                 .path("/{id}")
                 .buildAndExpand(policyId)
                 .toString();

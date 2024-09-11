@@ -37,6 +37,6 @@ public class AuthorizationService {
 
     public Mono<Policy> authCheck (ServerWebExchange serverWebExchange, Policy policy, AccessType accessType){
         return authorization.doAccessControl(serverWebExchange.getRequest().getHeaders().toSingleValueMap(),
-                policy, AccessType.WRITE);
+                policy, accessType);
     }
 }

@@ -72,6 +72,7 @@ public class PolicyController implements A1PolicyManagementApi {
 
     public static final String API_NAME = "A1 Policy Management";
     public static final String API_DESCRIPTION = "";
+    public static final String RIC_NOT_FOUND_MSG = "Near-RT RIC not found";
     public static class RejectionException extends Exception {
         private static final long serialVersionUID = 1L;
 
@@ -156,7 +157,7 @@ public class PolicyController implements A1PolicyManagementApi {
         return policyInfo.flatMap(policyInfoValue -> {
             String jsonString = gson.toJson(policyInfoValue.getPolicyData());
             return Mono.zip(Mono.justOrEmpty(rics.get(policyInfoValue.getRicId()))
-                                    .switchIfEmpty(Mono.error(new EntityNotFoundException("Near-RT RIC not found"))),
+                                    .switchIfEmpty(Mono.error(new EntityNotFoundException(RIC_NOT_FOUND_MSG))),
                             Mono.justOrEmpty(policyTypes.get(policyInfoValue.getPolicytypeId()))
                                     .switchIfEmpty(Mono.error(new EntityNotFoundException("policy type not found"))))
                     .flatMap(tuple -> {
@@ -256,7 +257,7 @@ public class PolicyController implements A1PolicyManagementApi {
             throw new EntityNotFoundException("Policy type identity not found");
         }
         if ((ricId != null && this.rics.get(ricId) == null)) {
-            throw new EntityNotFoundException("Near-RT RIC not found");
+            throw new EntityNotFoundException(RIC_NOT_FOUND_MSG);
         }
 
         Collection<Policy> filtered = policies.filterPolicies(policyTypeId, ricId, serviceId, typeName);
@@ -275,7 +276,7 @@ public class PolicyController implements A1PolicyManagementApi {
             throw new EntityNotFoundException("Policy type not found");
         }
         if ((ricId != null && this.rics.get(ricId) == null)) {
-            throw new EntityNotFoundException("Near-RT RIC not found");
+            throw new EntityNotFoundException(RIC_NOT_FOUND_MSG);
         }
 
         Collection<Policy> filtered = policies.filterPolicies(policyTypeId, ricId, serviceId, typeName);
@@ -316,11 +317,8 @@ public class PolicyController implements A1PolicyManagementApi {
 
     private PolicyInfo toPolicyInfo(Policy policy) {
         try {
-            PolicyInfo policyInfo = new PolicyInfo()
-                    .policyId(policy.getId())
-                    .policyData(objectMapper.readTree(policy.getJson()))
-                    .ricId(policy.getRic().id())
-                    .policytypeId(policy.getType().getId())
+            PolicyInfo policyInfo = new PolicyInfo(policy.getRic().id(), policy.getId(),
+                    objectMapper.readTree(policy.getJson()), policy.getType().getId())
                     .serviceId(policy.getOwnerServiceId())
                     ._transient(policy.isTransient());
             if (!policy.getStatusNotificationUri().isEmpty()) {

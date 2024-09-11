@@ -120,7 +120,7 @@ class ConfigurationControllerV3Test {
     }
 
     @Test
-    public void testHealthCheck() {
+    void testHealthCheck() {
         Mono<ResponseEntity<String>> responseHealthCheckMono = testHelper.restClientV3().getForEntity("/status");
         testHelper.testSuccessResponse(responseHealthCheckMono, HttpStatus.OK, responseBody -> responseBody.contains("status"));
     }
