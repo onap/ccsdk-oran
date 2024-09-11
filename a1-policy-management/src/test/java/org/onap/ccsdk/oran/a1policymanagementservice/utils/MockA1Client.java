@@ -54,7 +54,7 @@ public class MockA1Client implements A1Client {
     @Setter
     private String errorInject;
 
-    public MockA1Client(String ricId, ApplicationConfig appConfig, PolicyTypes policyTypes, Duration asynchDelay) {
+    public MockA1Client(ApplicationConfig appConfig, PolicyTypes policyTypes, Duration asynchDelay) {
         this.policyTypes = policyTypes;
         this.asynchDelay = asynchDelay;
         ApplicationConfig cfg = spy(appConfig);

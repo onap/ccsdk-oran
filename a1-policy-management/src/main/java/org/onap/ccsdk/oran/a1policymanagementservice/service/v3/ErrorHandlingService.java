@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 
-import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyController;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.ProblemDetails;
 import org.slf4j.Logger;

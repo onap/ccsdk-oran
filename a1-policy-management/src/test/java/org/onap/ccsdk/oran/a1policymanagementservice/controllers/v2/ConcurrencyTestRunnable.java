@@ -86,7 +86,7 @@ class ConcurrencyTestRunnable implements Runnable {
             System.out.println(Thread.currentThread() + result.getBody());
 
         } catch (Exception e) {
-            logger.error(Thread.currentThread() + "Concurrency test printStatusInfo exception " + e.toString());
+            logger.error("{} Concurrency test printStatusInfo exception {}", Thread.currentThread(), e.toString());
         }
     }
 
@@ -107,7 +107,7 @@ class ConcurrencyTestRunnable implements Runnable {
                 deletePolicy(name + "-");
             }
         } catch (Exception e) {
-            logger.error("Concurrency test exception " + e.toString());
+            logger.error("Concurrency test exception {}", e.toString());
             printStatusInfo();
             failed = true;
         }

@@ -21,8 +21,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
@@ -144,20 +143,20 @@ class A1ClientFactoryTest {
     @DisplayName("test Custom Adapter Creation")
     void testCustomAdapterCreation() {
 
-        Ric ric = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
-        A1Client client = factoryUnderTest.createA1Client(ric).block();
-
+        Ric ricLocal = new Ric(ricConfig("", CustomA1AdapterFactory.class.getName()));
+        A1Client client = factoryUnderTest.createA1Client(ricLocal).block();
+        assertNotNull(client);
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
-        ric = new Ric(ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2"));
-        client = factoryUnderTest.createA1Client(ric).block();
-
+        ricLocal = new Ric(ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2"));
+        client = factoryUnderTest.createA1Client(ricLocal).block();
+        assertNotNull(client);
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
-        ric = new Ric(
+        ricLocal = new Ric(
                 ricConfig("", "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory"));
-        client = factoryUnderTest.createA1Client(ric).block();
-
+        client = factoryUnderTest.createA1Client(ricLocal).block();
+        assertNotNull(client);
         assertEquals(client.getClass(), StdA1ClientVersion2.class);
 
         Exception e = Assertions.assertThrows(Exception.class, () -> {
