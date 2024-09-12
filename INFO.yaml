@@ -54,6 +54,11 @@ committers:
       company: 'Bell Canada'
       id: 'jozsef'
       timezone: 'Canada/Montreal'
+    - name: 'John Keeney'
+      email: 'john.keeney@est.tech'
+      company: 'Ericcson Software Technology'
+      id: 'JohnKeeney'
+      timezone: 'Europe/Dublin'
 repositories:
     - ccsdk/oran
 tsc:
@@ -74,3 +79,6 @@ tsc:
         - type: 'Addition'
           name: 'Jozsef Csongvai'
           link: 'https://lists.onap.org/g/onap-tsc/message/8490'
+        - type: 'Addition'
+          name: 'John Keeney'
+          link: 'https://wiki.onap.org/display/Meetings/TSC+2024-09-12'
