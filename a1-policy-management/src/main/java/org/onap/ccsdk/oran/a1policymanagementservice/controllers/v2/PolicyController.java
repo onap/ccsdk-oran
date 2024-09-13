@@ -182,7 +182,7 @@ public class PolicyController {
             @RequestHeader Map<String, String> headers) throws EntityNotFoundException {
         Policy policy = policies.getPolicy(id);
         return authorization.doAccessControl(headers, policy, AccessType.READ) //
-                .map(x -> new ResponseEntity<>((Object) gson.toJson(toPolicyInfo(policy)), HttpStatus.OK)) //
+                .map(x -> new ResponseEntity<Object>(gson.toJson(toPolicyInfo(policy)), HttpStatus.OK)) //
                 .onErrorResume(this::handleException);
     }
 

@@ -96,7 +96,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Mono;
@@ -220,7 +219,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("test ZZ Actuator")
-    void testZZActuator() throws Exception {
+    void testZZActuator() {
         // The test must be run last, hence the "ZZ" in the name. All succeeding tests
         // will fail.
         AsyncRestClient client = restClient(baseUrl(), false);
