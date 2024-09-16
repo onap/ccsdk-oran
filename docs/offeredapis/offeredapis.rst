@@ -48,6 +48,7 @@ API Table
    :widths: 10,5, 5
 
    "A1 Policy Management Service API (NBI)", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "A1 Policy Management Service API V3 (NBI)", ":download:`link <./swagger/pms-api-v3.json>`", ":download:`link <./swagger/pms-api-v3.yaml>`"
    "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
 
 .. _pms_api:
@@ -56,6 +57,7 @@ A1 Policy Management Service API
 ................................
 
 The A1 Policy Management Service API is described in more detail in `A1 Policy Management Service API (html) <./pms-api.html>`_
+A1 Policy Management Service API version 3 is described in more detail at `A1 Policy Management Service API V3 (html) <./pms-api-v3.html>`_
 
 
 .. _a1_adapter_api:

@@ -56,8 +56,8 @@ servers:
   - url: '{apiRoot}/a1-policy-management/v1'
     variables:
       apiRoot:
-        description: 'apiRoot is the Host:port/Domain name of the service  where the A1Pms running'
-        default: 'https://a1-pms.com'
+        default: 'https://example.com'
+        description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed'
 tags:
   - name: A1 Policy Management
     description: "API used to create polices, Policy Instances and get \ them as individual using an ID or get all policies/Instances."
