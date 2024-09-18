@@ -30,7 +30,7 @@ build:
   jobs:
     post_build:
       - mkdir -p ${READTHEDOCS_OUTPUT}html/openapi
-      - cp -v docs/offeredapis/openapitoolgen/offeredapis/pms-api/* ${READTHEDOCS_OUTPUT}html/openapi
+      - cp -v -r docs/offeredapis/openapitoolgen/offeredapis/pms-api/* ${READTHEDOCS_OUTPUT}html/openapi
 
 python:
   install:
