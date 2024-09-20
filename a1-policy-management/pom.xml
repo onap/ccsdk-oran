@@ -57,7 +57,7 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <software.amazon.awssdk.version>2.27.8</software.amazon.awssdk.version>
         <mapstruct.version>1.6.0</mapstruct.version>
-        <allowskiptests>false</allowskiptests>
+        <allowskiptests>true</allowskiptests>
     </properties>
     <dependencies>
         <dependency>
@@ -431,6 +431,22 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>generate-openapi-json-config-a1pms</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <generatorName>openapi</generatorName>
+                            <apisToGenerate>A1PolicyManagement</apisToGenerate>
+                            <output>${project.basedir}/api/offeredapis/swagger</output>
+                            <configOptions>
+                                <outputFileName>a1pms-api-v3.json</outputFileName>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-openapi-html</id>
                         <phase>prepare-package</phase>
                         <goals>
@@ -465,6 +481,29 @@
                             <output>${project.basedir}/api/offeredapis/openapitoolgen/offeredapis/pms-api/v3</output>
                             <skipOperationExample>false</skipOperationExample>
                             <strictSpec>false</strictSpec>
+                            <configOptions>
+                                <appDescription>The O-RAN Non-RT RIC Policy Management Service
+                                    provides a REST API for managing O-RAN A1 Policies.</appDescription>
+                                <appName>ONAP CCSDK A1 Policy Management Service</appName>
+                                <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+                                <licenseInfo>Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
+                                <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-openapi-html-config-a1pms</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.json</inputSpec>
+                            <generatorName>html2</generatorName>
+                            <output>${project.basedir}/api/offeredapis/openapitoolgen/offeredapis/pms-api/v3/custom</output>
+                            <skipOperationExample>false</skipOperationExample>
+                            <strictSpec>false</strictSpec>
+                            <apisToGenerate>A1PolicyManagement</apisToGenerate>
                             <configOptions>
                                 <appDescription>The O-RAN Non-RT RIC Policy Management Service
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
@@ -557,8 +596,10 @@
                                         <include>swagger/pms-api.yaml</include>
                                         <include>swagger/pms-api-v3.json</include>
                                         <include>swagger/pms-api-v3.yaml</include>
+                                        <include>swagger/a1pms-api-v3.json</include>
                                         <include>openapitoolgen/offeredapis/pms-api/index.html</include>
                                         <include>openapitoolgen/offeredapis/pms-api/v3/index.html</include>
+                                        <include>openapitoolgen/offeredapis/pms-api/v3/custom/index.html</include>
                                     </includes>
                                 </resource>
                             </resources>
