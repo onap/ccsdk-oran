@@ -1,5 +1,52 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed00d497_47ef88bd",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-09-30T11:00:29Z",
+      "side": 1,
+      "message": "... ignored if database is configured ...",
+      "range": {
+        "startLine": 40,
+        "startChar": 45,
+        "endLine": 40,
+        "endChar": 97
+      },
+      "revId": "df24421dba4760b32cac99d556f19ed87953ccf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04ae009_0c624bc0",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-09-30T11:00:29Z",
+      "side": 1,
+      "message": "... or if database is used ...",
+      "range": {
+        "startLine": 59,
+        "startChar": 71,
+        "endLine": 59,
+        "endChar": 102
+      },
+      "revId": "df24421dba4760b32cac99d556f19ed87953ccf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
