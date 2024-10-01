@@ -16,6 +16,29 @@
       "message": "need to add .openapi-generator* to gitignore \nand swagger/README.md",
       "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65484235_628fbc05",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-01T17:41:52Z",
+      "side": 1,
+      "message": "Note sure we want to update this version number to a new major version ... need to think about that.\nPossibly, but lets discuss.",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
