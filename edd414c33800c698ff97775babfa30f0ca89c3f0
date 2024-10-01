@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff1a4ca_da3bcda4",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-01T14:18:55Z",
+      "side": 1,
+      "message": "Can delete this line",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 139
+      },
+      "revId": "edd414c33800c698ff97775babfa30f0ca89c3f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
