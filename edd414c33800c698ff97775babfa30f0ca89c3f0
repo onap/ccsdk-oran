@@ -22,6 +22,30 @@
       },
       "revId": "edd414c33800c698ff97775babfa30f0ca89c3f0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e1a07b5_f6413165",
+        "filename": "docs/offeredapis/offeredapis.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-10-01T14:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ff1a4ca_da3bcda4",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 139
+      },
+      "revId": "edd414c33800c698ff97775babfa30f0ca89c3f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
