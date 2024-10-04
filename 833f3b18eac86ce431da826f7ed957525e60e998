@@ -52,6 +52,23 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3011aba3_b7134ad4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2024-10-04T20:18:14Z",
+      "side": 1,
+      "message": "Marked this as Work In Progress for now until we\u0027re ready to bump major version for oran",
+      "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65484235_628fbc05",
