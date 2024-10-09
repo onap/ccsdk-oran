@@ -60,6 +60,32 @@
         <mapstruct.version>1.6.0</mapstruct.version>
         <allowskiptests>false</allowskiptests>
     </properties>
+    <repositories>
+        <repository>
+            <id>onap-public</id>
+            <url>https://nexus.onap.org/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>onap-staging</id>
+            <url>https://nexus.onap.org/content/groups/staging</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
