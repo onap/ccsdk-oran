@@ -44,7 +44,23 @@
     <properties>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <onap.nexus.public-url>https://nexus.onap.org/content/groups/public</onap.nexus.public-url>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>onap-public</id>
+            <url>https://nexus.onap.org/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
