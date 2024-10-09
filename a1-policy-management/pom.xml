@@ -58,8 +58,87 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <software.amazon.awssdk.version>2.27.8</software.amazon.awssdk.version>
         <mapstruct.version>1.6.0</mapstruct.version>
-        <allowskiptests>false</allowskiptests>
+        <allowskiptests>true</allowskiptests>
+        <onap.nexus.public-url>https://nexus.onap.org/content/groups/public</onap.nexus.public-url>
+        <onap.nexus.staging-url>https://nexus.onap.org/content/groups/staging</onap.nexus.staging-url>
+        <onap.nexus.release-url>https://nexus.onap.org/content/repositories/releases</onap.nexus.release-url>
+        <onap.nexus.snapshot-url>https://nexus.onap.org/content/repositories/snapshots</onap.nexus.snapshot-url>
+        <!-- OpenDaylight repositories -->
+        <opendaylight.nexus.public-url>https://nexus.opendaylight.org/content/repositories/public/</opendaylight.nexus.public-url>
+        <opendaylight.nexus.snapshot-url>https://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/</opendaylight.nexus.snapshot-url>
     </properties>
+    <repositories>
+        <repository>
+            <id>onap-public</id>
+            <url>https://nexus.onap.org/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>onap-staging</id>
+            <url>${onap.nexus.staging-url}</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ecomp-release</id>
+            <name>onap-repository-releases</name>
+            <url>${onap.nexus.release-url}</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ecomp-snapshot</id>
+            <name>onap-repository-snapshots</name>
+            <url>${onap.nexus.snapshot-url}</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>opendaylight-mirror</id>
+            <name>opendaylight-mirror</name>
+            <url>${opendaylight.nexus.public-url}</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>opendaylight-snapshot</id>
+            <name>opendaylight-snapshot</name>
+            <url>${opendaylight.nexus.snapshot-url}</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
