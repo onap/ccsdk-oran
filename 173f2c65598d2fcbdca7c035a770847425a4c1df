@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f8fcf5_8ba02607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-10-11T15:16:10Z",
+      "side": 1,
+      "message": "First we need to merge a change there in oran-sc",
+      "revId": "173f2c65598d2fcbdca7c035a770847425a4c1df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
