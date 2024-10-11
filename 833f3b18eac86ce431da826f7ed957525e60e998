@@ -69,6 +69,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30d54156_6149a095",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-11T15:29:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca629b58_e2016369",
+      "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65484235_628fbc05",
@@ -116,6 +134,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02d8924_d031f803",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-11T15:29:21Z",
+      "side": 1,
+      "message": "Will change. Want v2.0.0 for OSLO",
+      "parentUuid": "cf8251a9_41c425f4",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6153ded_9b8a2ca9",
@@ -129,6 +171,30 @@
       "writtenOn": "2024-10-03T10:18:19Z",
       "side": 1,
       "message": "See other comment. Please leave this as it is for now. Thanks.",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "833f3b18eac86ce431da826f7ed957525e60e998",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da72af97_21831d6a",
+        "filename": "csit/scripts/healthcheck/.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-11T15:29:21Z",
+      "side": 1,
+      "message": "Will change. Want v2.0.0 for OSLO",
+      "parentUuid": "b6153ded_9b8a2ca9",
       "range": {
         "startLine": 21,
         "startChar": 14,
