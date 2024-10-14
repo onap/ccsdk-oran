@@ -16,6 +16,23 @@
       "message": "not sure what this version is ... but if it works ????",
       "revId": "c277141c4301ec652c9179ec8e6ae1099f6884bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8412f1_8921b22a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-10-14T15:47:07Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "c277141c4301ec652c9179ec8e6ae1099f6884bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
