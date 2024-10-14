@@ -47,9 +47,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify job start
+        # yamllint disable-line rule:line-length
+        uses: lfit/gerrit-review-action@7c30179c3c9389545fccb0d458df59879372ae6a  # v0.6
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          comment-only: true
+      - name: Allow replication
+        run: sleep 10s
   ftc-run:
-    runs-on: ubuntu-22.04
-
+    needs: notify
+    runs-on: ubuntu-latest
     steps:
       # Step 1: Checkout the repository to build
       - name: Checkout ccsdk-oran Maven Project Repository
@@ -59,20 +75,17 @@ jobs:
           gerrit-url: ${{ inputs.GERRIT_CHANGE_URL }}
           gerrit-project: ${{ inputs.GERRIT_PROJECT }}
           ref: ${{ inputs.GERRIT_BRANCH }}
-
       # Step 2: Set up JDK for Maven
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'  # Or 'zulu' or 'adopt'
-
       # Step 3: Run Maven build
       - name: Build a1-policy-management image with Maven
         run: |
           cd a1-policy-management
           mvn clean install -DskipTests=true
-
       # Step 4: Run FTC on new a1-policy review
       - name: Run FTC tests with the local a1-policy image
         run: |
@@ -80,3 +93,22 @@ jobs:
           cd nonrtric/test/auto-test
           chmod +x ./onap-verify-jobs.sh
           sudo bash ./onap-verify-jobs.sh
+  report-status:
+    if: ${{ always() }}
+    needs: [ notify, ftc-run ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get workflow conclusion
+        uses: technote-space/workflow-conclusion-action@v3
+      - name: Report workflow conclusion
+        # yamllint disable-line rule:line-length
+        uses: lfit/gerrit-review-action@7c30179c3c9389545fccb0d458df59879372ae6a  # v0.6
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: ${{ env.WORKFLOW_CONCLUSION }}
+          comment-only: true
