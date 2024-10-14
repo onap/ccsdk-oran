@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e9493b_827a0738",
+        "filename": ".github/workflows/gerrit-oran-functional-test-case-verify.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-14T15:34:20Z",
+      "side": 1,
+      "message": "not sure what this version is ... but if it works ????",
+      "revId": "c277141c4301ec652c9179ec8e6ae1099f6884bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
