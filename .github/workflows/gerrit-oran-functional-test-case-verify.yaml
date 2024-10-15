@@ -52,7 +52,7 @@ jobs:
     steps:
       - name: Notify job start
         # yamllint disable-line rule:line-length
-        uses: lfit/gerrit-review-action@7c30179c3c9389545fccb0d458df59879372ae6a  # v0.6
+        uses: lfit/gerrit-review-action@v0.8
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
@@ -69,7 +69,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository to build
       - name: Checkout ccsdk-oran Maven Project Repository
-        uses: lfit/checkout-gerrit-change-action@v0.5
+        uses: lfit/checkout-gerrit-change-action@v0.9
         with:
           gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
           gerrit-url: ${{ inputs.GERRIT_CHANGE_URL }}
@@ -85,7 +85,7 @@ jobs:
       - name: Build a1-policy-management image with Maven
         run: |
           cd a1-policy-management
-          mvn clean install -DskipTests=true
+          mvn clean install -Dmaven.test.skip=true -Ddocker.skip.push=true
       # Step 4: Run FTC on new a1-policy review
       - name: Run FTC tests with the local a1-policy image
         run: |
@@ -93,6 +93,13 @@ jobs:
           cd nonrtric/test/auto-test
           chmod +x ./onap-verify-jobs.sh
           sudo bash ./onap-verify-jobs.sh
+      # Step 5: uploading the logs
+      - name: uploading the logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: FTC-Logs
+          retention-days: 3
+          path: nonrtric/test/auto-test/logs
   report-status:
     if: ${{ always() }}
     needs: [ notify, ftc-run ]
@@ -102,7 +109,7 @@ jobs:
         uses: technote-space/workflow-conclusion-action@v3
       - name: Report workflow conclusion
         # yamllint disable-line rule:line-length
-        uses: lfit/gerrit-review-action@7c30179c3c9389545fccb0d458df59879372ae6a  # v0.6
+        uses: lfit/gerrit-review-action@v0.8
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
