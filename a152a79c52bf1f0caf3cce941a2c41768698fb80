@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7941aed_af793b1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-10-15T17:45:32Z",
+      "side": 1,
+      "message": "Dan, Kapil: Please +2 if you are happy. Thanks.",
+      "revId": "a152a79c52bf1f0caf3cce941a2c41768698fb80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
