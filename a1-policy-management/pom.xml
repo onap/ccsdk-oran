@@ -30,7 +30,7 @@
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-policy-management-service</artifactId>
-    <version>1.6.3-SNAPSHOT</version>
+    <version>1.6.4-SNAPSHOT</version>
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
         <java.version.source>17</java.version.source>
