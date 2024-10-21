@@ -59,7 +59,7 @@ public class StdA1ClientVersion2 implements A1Client {
         @Override
         public String createPutPolicyUri(String type, String policyId, String statusNotificationUri) {
             String policyUri = createPolicyUri(type, policyId);
-            if (statusNotificationUri.isEmpty()) {
+            if (statusNotificationUri == null || statusNotificationUri.isEmpty()) {
                 return policyUri;
             }
             UriBuilderFactory builderFactory = new DefaultUriBuilderFactory(policyUri);
