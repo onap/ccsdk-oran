@@ -40,24 +40,25 @@ public class LogAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Around("execution(* org.onap.ccsdk.oran.a1policymanagementservice..*(..)))")
-    public void executimeTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Around("execution(* org.onap.ccsdk.oran.a1policymanagementservice.controllers..*(..))")
+    public Object executimeTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        proceedingJoinPoint.proceed();
+        Object result = proceedingJoinPoint.proceed();
         stopWatch.stop();
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         String className = methodSignature.getDeclaringType().getSimpleName();
         String methodName = methodSignature.getName();
         logger.trace("Execution time of {}.{}: {} ms", className, methodName, stopWatch.getTotalTimeMillis());
+        return result;
     }
 
-    @Before("execution(* org.onap.ccsdk.oran.a1policymanagementservice..*(..)))")
+    @Before("execution(* org.onap.ccsdk.oran.a1policymanagementservice.controllers..*(..))")
     public void entryLog(final JoinPoint joinPoint) {
         logger.trace("Entering method: {}", joinPoint.getSignature().getName());
     }
 
-    @After("execution(* org.onap.ccsdk.oran.a1policymanagementservice..*(..)))")
+    @After("execution(* org.onap.ccsdk.oran.a1policymanagementservice.controllers..*(..))")
     public void exitLog(final JoinPoint joinPoint) {
         logger.trace("Exiting method: {}", joinPoint.getSignature().getName());
     }

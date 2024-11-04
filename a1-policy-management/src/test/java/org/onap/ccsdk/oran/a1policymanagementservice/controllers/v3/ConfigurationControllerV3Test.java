@@ -1,6 +1,7 @@
 /*-
  * ========================LICENSE_START=================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +28,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -44,6 +46,7 @@ import java.util.Objects;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
@@ -56,7 +59,7 @@ class ConfigurationControllerV3Test {
     @Autowired
     ApplicationContext context;
 
-    @Autowired
+    @SpyBean
     ApplicationConfig applicationConfig;
 
     @Autowired
@@ -81,14 +84,7 @@ class ConfigurationControllerV3Test {
         Field f1 = RefreshConfigTask.class.getDeclaredField("configRefreshInterval");
         f1.setAccessible(true);
         f1.set(null, Duration.ofSeconds(1));
-    }
-
-    public static class MockApplicationConfig extends ApplicationConfig {
-        @Override
-        public String getLocalConfigurationFilePath() {
-            configFile = new File(temporaryFolder, "config.json");
-            return configFile.getAbsolutePath();
-        }
+        configFile = new File(temporaryFolder, "config.json");
     }
 
     /**
@@ -97,11 +93,6 @@ class ConfigurationControllerV3Test {
     @TestConfiguration
     static class TestBeanFactory {
         @Bean
-        public ApplicationConfig getApplicationConfig() {
-            return new MockApplicationConfig();
-        }
-
-        @Bean
         public ServletWebServerFactory servletContainer() {
             return new TomcatServletWebServerFactory();
         }
@@ -109,6 +100,7 @@ class ConfigurationControllerV3Test {
 
     @Test
     void testPutConfiguration() throws Exception {
+        when(applicationConfig.getLocalConfigurationFilePath()).thenReturn(configFile.getAbsolutePath());
         Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().putForEntity("/configuration",
                 testHelper.configAsString());
         testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, Objects::isNull);

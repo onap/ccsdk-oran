@@ -1,6 +1,7 @@
 /*-
  * ========================LICENSE_START=================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -43,6 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -52,7 +55,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -67,7 +69,7 @@ class ConfigurationControllerTest {
     @Autowired
     ApplicationContext context;
 
-    @Autowired
+    @SpyBean
     ApplicationConfig applicationConfig;
 
     @Autowired
@@ -82,14 +84,7 @@ class ConfigurationControllerTest {
         Field f1 = RefreshConfigTask.class.getDeclaredField("configRefreshInterval");
         f1.setAccessible(true);
         f1.set(null, Duration.ofSeconds(1));
-    }
-
-    public static class MockApplicationConfig extends ApplicationConfig {
-        @Override
-        public String getLocalConfigurationFilePath() {
-            configFile = new File(temporaryFolder, "config.json");
-            return configFile.getAbsolutePath();
-        }
+        configFile = new File(temporaryFolder, "config.json");
     }
 
     /**
@@ -97,11 +92,6 @@ class ConfigurationControllerTest {
      */
     @TestConfiguration
     static class TestBeanFactory {
-        @Bean
-        public ApplicationConfig getApplicationConfig() {
-            return new MockApplicationConfig();
-        }
-
         @Bean
         public ServletWebServerFactory servletContainer() {
             return new TomcatServletWebServerFactory();
@@ -116,10 +106,15 @@ class ConfigurationControllerTest {
     void putValidConfigurationWithNewRic_shouldUpdateRepository() throws Exception {
         String url = "a1-policy/v2/configuration";
 
+        when(applicationConfig.getLocalConfigurationFilePath()).thenReturn(configFile.getAbsolutePath());
+
         String resp = restClient().put(url, configAsString()).block();
 
         assertThat(resp).isEmpty();
-        await().until(rics::size, equalTo(2));
+        await()
+                .atMost(Duration.ofMinutes(1)) // Set a maximum wait time (5 minutes in this example)
+                .pollInterval(Duration.ofSeconds(1))
+                .until(rics::size, equalTo(2));
 
         // GET config
         resp = restClient().get(url).block();
@@ -130,6 +125,7 @@ class ConfigurationControllerTest {
     @DisplayName("get No File Exists")
     void getNoFileExists() {
         String url = "a1-policy/v2/configuration";
+        when(applicationConfig.getLocalConfigurationFilePath()).thenReturn("");
         testErrorCode(restClient().get(url), HttpStatus.NOT_FOUND, "File does not exist");
     }
 

@@ -121,7 +121,7 @@ server:
     # trust-store:
 spring:
   aop:
-    auto: false
+    auto: true
   application:
     name: a1-pms
   flyway:
