@@ -61,6 +61,8 @@ app:
 lifecycle:
   timeout-per-shutdown-phase: "20s"
 logging:
+  # Reactive logging filter
+  reactive-entry-exit-filter-enabled: true
   # Configuration of logging
   file:
     name: /var/log/policy-agent/application.log
