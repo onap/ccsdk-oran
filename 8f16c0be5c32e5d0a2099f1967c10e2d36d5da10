@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed1e1e4_5ab0a164",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-11-14T10:19:11Z",
+      "side": 1,
+      "message": "All reviews now fail if there is an error in documentation. :-( \n\nCan you please add to this review any updates needed in docs/rst to change references to wiki.onap.org and wiki.o-ran-sc.org \nThanks.",
+      "revId": "8f16c0be5c32e5d0a2099f1967c10e2d36d5da10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
