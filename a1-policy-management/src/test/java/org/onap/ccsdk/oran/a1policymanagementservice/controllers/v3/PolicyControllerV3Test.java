@@ -33,7 +33,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +72,7 @@ class PolicyControllerV3Test {
     private ApplicationConfig applicationConfig;
 
     @Autowired
-    private TestHelper testHelper;
+    private TestHelperTest testHelperTest;
 
     @Autowired
     private Rics rics;
@@ -109,8 +109,8 @@ class PolicyControllerV3Test {
 
     @BeforeEach
     void init() {
-        testHelper.port = port;
-        this.applicationConfig.setAuthProviderUrl(testHelper.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+        testHelperTest.port = port;
+        this.applicationConfig.setAuthProviderUrl(testHelperTest.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
     }
 
     @AfterEach
@@ -141,12 +141,12 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
-        testHelper.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/"));
     }
 
     @Test
@@ -155,10 +155,10 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "1");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/1"));
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "1");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/1"));
     }
 
     @Test
@@ -168,11 +168,11 @@ class PolicyControllerV3Test {
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
         String policyId = "policy_5g";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, policyId);
-        testHelper.restClientV3().postForEntity(url, policyBody).block();
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testErrorCode(responseMono, HttpStatus.CONFLICT, "Policy already created with ID: " +policyId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, policyId);
+        testHelperTest.restClientV3().postForEntity(url, policyBody).block();
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.CONFLICT, "Policy already created with ID: " +policyId);
     }
 
     @Test
@@ -181,14 +181,14 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
         String []locationHeader = Objects.requireNonNull(Objects.requireNonNull(responseMono.block()).getHeaders()
                 .get("location")).get(0).split("/");
         String policyID = locationHeader[(locationHeader.length) - 1];
-        Mono<ResponseEntity<String>> responseMonoDelete = testHelper.restClientV3().deleteForEntity(url+"/" +policyID);
-        testHelper.testSuccessResponse(responseMonoDelete, HttpStatus.NO_CONTENT, responseBody -> true);
+        Mono<ResponseEntity<String>> responseMonoDelete = testHelperTest.restClientV3().deleteForEntity(url+"/" +policyID);
+        testHelperTest.testSuccessResponse(responseMonoDelete, HttpStatus.NO_CONTENT, responseBody -> true);
     }
 
     @Test
@@ -197,11 +197,11 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.FALSE);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testErrorCode(responseMono, HttpStatus.BAD_REQUEST, " Schema validation failed");
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.BAD_REQUEST, " Schema validation failed");
     }
 
     @Test
@@ -209,11 +209,11 @@ class PolicyControllerV3Test {
     void testCreatePolicyNoRic() throws Exception {
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, " ");
+        testHelperTest.addPolicyType(policyTypeName, " ");
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
-        String policyBody = testHelper.postPolicyBody("noRic", policyTypeName, "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, " Could not find ric: noRic");
+        String policyBody = testHelperTest.postPolicyBody("noRic", policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.NOT_FOUND, " Could not find ric: noRic");
     }
 
     @Test
@@ -222,20 +222,20 @@ class PolicyControllerV3Test {
         String policyTypeName = "type1_1.2.3";
         String nonRtRicId = "ricOne";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, "noPolicyType", "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
-        testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Could not find type: noPolicyType");
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, "noPolicyType", "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Could not find type: noPolicyType");
     }
 
     @Test
     void testGetPolicyTypesNoRicFound() throws Exception{
         String policyTypeName = "type1_1.2.3";
         String nonRtRicId = "ricOne";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().getForEntity("/policy-types" + "?nearRtRicId=\"noRic\"");
-        testHelper.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Near-RT RIC not Found using ID:");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().getForEntity("/policy-types" + "?nearRtRicId=\"noRic\"");
+        testHelperTest.testErrorCode(responseMono, HttpStatus.NOT_FOUND, "Near-RT RIC not Found using ID:");
     }
 
     @Test
@@ -244,14 +244,14 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBody = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "");
-        Mono<ResponseEntity<String>> responseMono = testHelper.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
         String []locationHeader = Objects.requireNonNull(Objects.requireNonNull(responseMono.block()).getHeaders()
                 .get("location")).get(0).split("/");
         String policyID = locationHeader[(locationHeader.length) - 1];
-        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url+"/" +policyID);
-        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/" +policyID);
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
     }
 
@@ -262,14 +262,14 @@ class PolicyControllerV3Test {
         String nonRtRicIdTwo = "ric.22";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicIdOne);
-        String policyBodyOne = testHelper.postPolicyBody(nonRtRicIdOne, policyTypeName, "policyOne");
-        testHelper.addPolicyType(policyTypeName, nonRtRicIdTwo);
-        String policyBodyTwo = testHelper.postPolicyBody(nonRtRicIdTwo, policyTypeName, "policyTwo");
-        testHelper.restClientV3().postForEntity(url, policyBodyOne).block();
-        testHelper.restClientV3().postForEntity(url, policyBodyTwo).block();
-        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url);
-        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicIdOne);
+        String policyBodyOne = testHelperTest.postPolicyBody(nonRtRicIdOne, policyTypeName, "policyOne");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicIdTwo);
+        String policyBodyTwo = testHelperTest.postPolicyBody(nonRtRicIdTwo, policyTypeName, "policyTwo");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyOne).block();
+        testHelperTest.restClientV3().postForEntity(url, policyBodyTwo).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url);
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("[{\"policyId\":\"policyTwo\",\"nearRtRicId\":\"ric.22\"},{\"policyId\":\"policyOne\",\"nearRtRicId\":\"ric.11\"}]"));
 }
 
@@ -279,9 +279,9 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policy-types";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url+"/" +policyTypeName);
-        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> !(responseBody.isEmpty()));
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/" +policyTypeName);
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> !(responseBody.isEmpty()));
     }
 
     @Test
@@ -290,9 +290,9 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policy-types";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url);
-        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> responseBody.contains(
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url);
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody -> responseBody.contains(
                 "{\"policyTypeId\":\"type1_1.2.3\",\"nearRtRicId\":\"ric.1\"}]"
         ));
     }
@@ -303,14 +303,14 @@ class PolicyControllerV3Test {
         String nonRtRicId = "ric.1";
         String policyTypeName = "type1_1.2.3";
         String url = "/policies";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        String policyBodyForPost = testHelper.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
-        testHelper.restClientV3().postForEntity(url, policyBodyForPost).block();
-        String policyBodyForPut = testHelper.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
                 "qos5200", "5200.0");
-        testHelper.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
-        Mono<ResponseEntity<String>> responseMonoGet = testHelper.restClientV3().getForEntity(url+"/policyOne");
-        testHelper.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+        testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
     }
 }

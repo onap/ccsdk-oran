@@ -38,7 +38,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +86,7 @@ class PolicyServiceTest {
     private PolicyService policyService;
 
     @Autowired
-    private TestHelper testHelper;
+    private TestHelperTest testHelperTest;
 
     @MockBean
     private Helper helper;
@@ -120,15 +120,15 @@ class PolicyServiceTest {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        Policy policy = testHelper.buidTestPolicy(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
+        Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
         when(helper.buildPolicy(any(),any(), any(), any())).thenReturn(policy);
         when(helper.isPolicyAlreadyCreated(any(), any())).thenReturn(Mono.error(new ServiceException
                 ("Same policy content already created with policy ID: 122344-5674", HttpStatus.BAD_REQUEST)));
-        Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
-        testHelper.verifyMockError(responseMono, "Same policy content already created with policy ID: 122344-5674");
+        Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
+        testHelperTest.verifyMockError(responseMono, "Same policy content already created with policy ID: 122344-5674");
     }
 
     @Test
@@ -136,13 +136,13 @@ class PolicyServiceTest {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
         when(helper.isPolicyAlreadyCreated(any(), any())).thenReturn(Mono.just(Policy.builder().build()));
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.error(new ServiceException("Not authorized", HttpStatus.UNAUTHORIZED)));
-        Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
-        testHelper.verifyMockError(responseMono, "Not authorized");
+        Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
+        testHelperTest.verifyMockError(responseMono, "Not authorized");
     }
 
     @Test
@@ -150,8 +150,8 @@ class PolicyServiceTest {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Policy policy = testHelper.buidTestPolicy(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         policies.put(policy);
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         when(helper.checkRicStateIdle(any())).thenReturn(Mono.just(policy.getRic()));
@@ -159,7 +159,7 @@ class PolicyServiceTest {
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(policy));
         Mono<ResponseEntity<Void>> responseMonoDelete = policyService.deletePolicyService(policy.getId(), serverWebExchange);
         assert(policies.size() == 1);
-        testHelper.testSuccessResponse(responseMonoDelete, HttpStatus.NO_CONTENT, responseBody -> policies.size() == 0);
+        testHelperTest.testSuccessResponse(responseMonoDelete, HttpStatus.NO_CONTENT, responseBody -> policies.size() == 0);
     }
 
     @Test
@@ -174,11 +174,11 @@ class PolicyServiceTest {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Policy policy = testHelper.buidTestPolicy(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         policies.put(policy);
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
-        PolicyObjectInformation updatedPolicyObjectInfo = testHelper.policyObjectInfo(nonRtRicId, policyTypeName);
+        PolicyObjectInformation updatedPolicyObjectInfo = testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName);
         updatedPolicyObjectInfo.setPolicyObject(gson.fromJson(JsonParser.parseString("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"ue6100\",\n" +
@@ -188,13 +188,13 @@ class PolicyServiceTest {
                 "            \"priorityLevel\": 6100.0\n" +
                 "        }\n" +
                 "    }").getAsJsonObject().toString(), Map.class));
-        Policy updatedPolicy = testHelper.buidTestPolicy(updatedPolicyObjectInfo, "122344-5674");
+        Policy updatedPolicy = testHelperTest.buidTestPolicy(updatedPolicyObjectInfo, "122344-5674");
         when(helper.buildPolicy(any(),any(), any(), any())).thenReturn(updatedPolicy);
         when(helper.checkRicStateIdle(any())).thenReturn(Mono.just(updatedPolicy.getRic()));
         when(helper.checkSupportedType(any(), any())).thenReturn(Mono.just(updatedPolicy.getRic()));
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(updatedPolicy));
         Mono<ResponseEntity<Object>> responseMono = policyService.putPolicyService(policy.getId(), updatedPolicyObjectInfo.getPolicyObject(), serverWebExchange);
-        testHelper.testSuccessResponse(responseMono, HttpStatus.OK, responseBody -> {
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody -> {
             if (responseBody instanceof String returnPolicy)
                 return returnPolicy.contains(updatedPolicy.getJson());
             return false;
@@ -212,18 +212,18 @@ class PolicyServiceTest {
 
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
         Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono =
                 policyService.getPolicyTypesService(nearRtRicID, typeName, compatibleWithVersion);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
     }
 
     @Test
     void testGetPolicyTypesEmpty() throws Exception {
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
         Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService(null, null, null);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
@@ -235,28 +235,28 @@ class PolicyServiceTest {
     void testGetPolicyTypesNoMatchedTypeName() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
         Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("", "noTypeName", null);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
     void testGetPolicyTypesNoMatchedTypeNameWithRic() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         when(helper.toPolicyTypeInfoCollection(any(), any())).thenCallRealMethod();
         Mono<ResponseEntity<Flux<PolicyTypeInformation>>> responseEntityMono = policyService.getPolicyTypesService("Ric_347", "noTypeName", null);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().findAny().isEmpty());
     }
 
     @Test
     void testGetPolicyIds() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Policy policy = testHelper.buidTestPolicy(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         policies.put(policy);
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(policy));
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
@@ -266,12 +266,12 @@ class PolicyServiceTest {
         when(helper.toFluxPolicyInformation(any())).thenReturn(Flux.fromIterable(mockPolicyInfoCollection));
         Mono<ResponseEntity<Flux<PolicyInformation>>> responseEntityMono = policyService
                 .getPolicyIdsService(null, null, null, null, serverWebExchange);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody.toStream().count() == 1);
     }
 
     @Test
     void testGetPolicyIdsNoRic() throws Exception {
-        testHelper.addPolicyType("uri_type_123", "Ric_347");
+        testHelperTest.addPolicyType("uri_type_123", "Ric_347");
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> policyService
                 .getPolicyIdsService("uri_type_123", "noRic", "", "", serverWebExchange));
@@ -290,13 +290,13 @@ class PolicyServiceTest {
     void testGetPolicyService() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        testHelper.addPolicyType(policyTypeName, nonRtRicId);
-        Policy policy = testHelper.buidTestPolicy(testHelper.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         policies.put(policy);
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(policy));
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         Mono<ResponseEntity<Object>> responseEntityMono = policyService.getPolicyService(policy.getId(), serverWebExchange);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
             if (responseBody instanceof String returnPolicy)
                 return returnPolicy.contains(policy.getJson());
             return false;
@@ -315,9 +315,9 @@ class PolicyServiceTest {
     void testGetPolicyTypeService() throws Exception {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
-        PolicyType addedPolicyType = testHelper.addPolicyType(policyTypeName, nonRtRicId);
+        PolicyType addedPolicyType = testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         Mono<ResponseEntity<Object>> responseEntityMono = policyService.getPolicyTypeDefinitionService(policyTypeName);
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
             if (responseBody instanceof String returnPolicyType)
                 return returnPolicyType.contains(addedPolicyType.getSchema());
             return false;

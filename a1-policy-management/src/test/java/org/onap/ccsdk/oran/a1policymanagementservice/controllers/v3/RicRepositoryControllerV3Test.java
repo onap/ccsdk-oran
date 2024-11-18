@@ -29,7 +29,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.RappSimulato
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +59,7 @@ class RicRepositoryControllerV3Test {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
-    private TestHelper testHelper;
+    private TestHelperTest testHelperTest;
 
     @Autowired
     private ApplicationConfig applicationConfig;
@@ -87,9 +87,9 @@ class RicRepositoryControllerV3Test {
 
     @BeforeEach
     void init() {
-        testHelper.port = port;
+        testHelperTest.port = port;
         rics.clear();
-        this.applicationConfig.setAuthProviderUrl(testHelper.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+        this.applicationConfig.setAuthProviderUrl(testHelperTest.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
     }
 
     @AfterEach
@@ -104,18 +104,18 @@ class RicRepositoryControllerV3Test {
 
     @Test
     void testGetRic() throws IOException {
-        testHelper.addPolicyType("1", "ricAdded");
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/rics/ric?ricId=ricAdded");
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
+        testHelperTest.addPolicyType("1", "ricAdded");
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics/ric?ricId=ricAdded");
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
                 .contains("{\"ricId\":\"ricAdded\",\"managedElementIds\":[],\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]}"));
     }
 
     @Test
     void testGetRics() throws IOException {
-        testHelper.addPolicyType("1", "ricAddedOne");
-        testHelper.addPolicyType("2", "ricAddedTwo");
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/rics");
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
+        testHelperTest.addPolicyType("1", "ricAddedOne");
+        testHelperTest.addPolicyType("2", "ricAddedTwo");
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics");
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
                 .contains("{\"ricId\":\"ricAddedTwo\",\"managedElementIds\":[],\"state\":\"AVAILABLE\"," +
                         "\"policyTypeIds\":[\"2\"]},{\"ricId\":\"ricAddedOne\",\"managedElementIds\":[]," +
                         "\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]"));

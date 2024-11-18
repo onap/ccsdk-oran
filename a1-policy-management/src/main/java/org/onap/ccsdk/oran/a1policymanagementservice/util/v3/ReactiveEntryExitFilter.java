@@ -28,7 +28,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -50,43 +49,36 @@ public class ReactiveEntryExitFilter implements WebFilter {
         ServerHttpRequest httpRequest = exchange.getRequest();
         ServerHttpResponse httpResponse = exchange.getResponse();
         MultiValueMap<String, String> queryParams = httpRequest.getQueryParams();
-        logger.info("Request received with path: {} and the Request Id: {}", httpRequest.getPath(), exchange.getRequest().getId());
+        logger.info("Request received with path: {}, and the Request Id: {}, with HTTP Method: {}", httpRequest.getPath(),
+                exchange.getRequest().getId(), exchange.getRequest().getMethod());
         if (!queryParams.isEmpty())
             logger.trace("For the request Id: {}, the Query parameters are: {}", exchange.getRequest().getId(), queryParams);
 
         ServerHttpRequestDecorator loggingServerHttpRequestDecorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
-            String requestBody = "";
+            String requestBody;
             @Override
             public Flux<DataBuffer> getBody() {
                 return super.getBody().doOnNext(dataBuffer -> {
-                    try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.asByteBuffer().asReadOnlyBuffer());
-                        requestBody = byteArrayOutputStream.toString(StandardCharsets.UTF_8);
-                        if (requestBody != null)
-                            logger.trace("For the request ID: {} the received request body: {}", exchange.getRequest().getId(), requestBody);
-                    } catch (IOException e) {
-                        logger.info("For the request ID: {} we got the error during processing: {}", exchange.getRequest().getId(), e.getMessage());
+                    requestBody = dataBuffer.toString(StandardCharsets.UTF_8); // Read the bytes from the DataBuffer
+                    if (!(requestBody.isEmpty() && requestBody.isBlank()))
                         logger.trace("For the request ID: {} the received request body: {}", exchange.getRequest().getId(), requestBody);
-                    }
                 });
             }
         };
-
         ServerHttpResponseDecorator loggingServerHttpResponseDecorator = new ServerHttpResponseDecorator(exchange.getResponse()) {
-            String responseBody = "";
+            String responseBody;
             @Override
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                 Flux<DataBuffer> buffer = Flux.from(body);
                 return super.writeWith(buffer.doOnNext(dataBuffer -> {
-                    try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.toByteBuffer().asReadOnlyBuffer());
-                        responseBody = byteArrayOutputStream.toString(StandardCharsets.UTF_8);
+//                    try {
+                        dataBuffer.toString(StandardCharsets.UTF_8);
                         logger.info("For the request ID: {} the Status code of the response: {}", exchange.getRequest().getId(), httpResponse.getStatusCode());
                         logger.trace("For the request ID: {} the response is: {} ", exchange.getRequest().getId(), responseBody);
-                    } catch (Exception e) {
-                        logger.info("For the request ID: {} we got an Error during processing: {}", exchange.getRequest().getId(), e.getMessage());
-                        logger.trace("For the request ID: {} the response body :: {}", exchange.getRequest().getId(), responseBody);
-                    }
+//                    } catch (Exception e) {
+//                        logger.info("For the request ID: {} we got an Error during processing: {}", exchange.getRequest().getId(), e.getMessage());
+//                        logger.trace("For the request ID: {} the response body :: {}", exchange.getRequest().getId(), responseBody);
+//                    }
                 }));
             }
         };
