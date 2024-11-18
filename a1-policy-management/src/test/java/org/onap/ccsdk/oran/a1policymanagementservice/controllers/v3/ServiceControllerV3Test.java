@@ -32,7 +32,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Service;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,7 @@ class ServiceControllerV3Test {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
-    private TestHelper testHelper;
+    private TestHelperTest testHelperTest;
 
     @Autowired
     private ApplicationConfig applicationConfig;
@@ -94,8 +94,8 @@ class ServiceControllerV3Test {
 
     @BeforeEach
     void init() {
-        testHelper.port = port;
-        this.applicationConfig.setAuthProviderUrl(testHelper.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+        testHelperTest.port = port;
+        this.applicationConfig.setAuthProviderUrl(testHelperTest.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
     }
 
     @AfterEach
@@ -112,30 +112,30 @@ class ServiceControllerV3Test {
     void testPutService() {
         ServiceRegistrationInfo serviceRegistrationInfo = new ServiceRegistrationInfo("serviceId");
         serviceRegistrationInfo.callbackUrl("http://callback.com/").keepAliveIntervalSeconds(10L);
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3()
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3()
                 .putForEntity("/services", gson.toJson(serviceRegistrationInfo));
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.CREATED, responseBody -> services.size() == 1);
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.CREATED, responseBody -> services.size() == 1);
     }
 
     @Test
     void testGetService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().getForEntity("/services");
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBoy -> responseBoy
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/services");
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBoy -> responseBoy
                 .contains("http://callback.com/"));
     }
 
     @Test
     void testDeleteService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().deleteForEntity("/services/newServiceId");
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.NO_CONTENT, responseBody -> services.size() == 0);
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().deleteForEntity("/services/newServiceId");
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.NO_CONTENT, responseBody -> services.size() == 0);
     }
 
     @Test
     void testKeepAliveService() {
         services.put(new Service("newServiceId", Duration.ofSeconds(10L),  "http://callback.com/"));
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().putForEntity("/services/newServiceId/keepalive", "");
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> services.size() == 1);
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().putForEntity("/services/newServiceId/keepalive", "");
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> services.size() == 1);
     }
 }

@@ -50,7 +50,7 @@ public class ReactiveEntryExitFilter implements WebFilter {
         ServerHttpRequest httpRequest = exchange.getRequest();
         ServerHttpResponse httpResponse = exchange.getResponse();
         MultiValueMap<String, String> queryParams = httpRequest.getQueryParams();
-        logger.info("Request received with path: {} and the Request Id: {}", httpRequest.getPath(), exchange.getRequest().getId());
+        logger.info("Request received with path: {}, and the Request Id: {}", httpRequest.getPath(), exchange.getRequest().getId());
         if (!queryParams.isEmpty())
             logger.trace("For the request Id: {}, the Query parameters are: {}", exchange.getRequest().getId(), queryParams);
 

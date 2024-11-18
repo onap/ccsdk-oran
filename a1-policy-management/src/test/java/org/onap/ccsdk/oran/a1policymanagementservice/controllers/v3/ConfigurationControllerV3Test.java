@@ -23,7 +23,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelper;
+import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -63,7 +63,7 @@ class ConfigurationControllerV3Test {
     private Rics rics;
 
     @Autowired
-    private TestHelper testHelper;
+    private TestHelperTest testHelperTest;
 
     @TempDir
     public static File temporaryFolder;
@@ -74,7 +74,7 @@ class ConfigurationControllerV3Test {
 
     @BeforeEach
     void init() {
-        testHelper.port = port;
+        testHelperTest.port = port;
     }
     @BeforeAll
     static void setup() throws Exception {
@@ -109,19 +109,19 @@ class ConfigurationControllerV3Test {
 
     @Test
     void testPutConfiguration() throws Exception {
-        Mono<ResponseEntity<String>> responseEntityMono = testHelper.restClientV3().putForEntity("/configuration",
-                testHelper.configAsString());
-        testHelper.testSuccessResponse(responseEntityMono, HttpStatus.OK, Objects::isNull);
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().putForEntity("/configuration",
+                testHelperTest.configAsString());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, Objects::isNull);
         //put Valid Configuration With New Ric should Update Repository. So, will wait until the ric size is 2
         await().until(rics::size, equalTo(2));
         //test Get Configuration
-        Mono<ResponseEntity<String>> responseGetConfigMono = testHelper.restClientV3().getForEntity("/configuration");
-        testHelper.testSuccessResponse(responseGetConfigMono, HttpStatus.OK, responseBody -> responseBody.contains("config"));
+        Mono<ResponseEntity<String>> responseGetConfigMono = testHelperTest.restClientV3().getForEntity("/configuration");
+        testHelperTest.testSuccessResponse(responseGetConfigMono, HttpStatus.OK, responseBody -> responseBody.contains("config"));
     }
 
     @Test
     void testHealthCheck() {
-        Mono<ResponseEntity<String>> responseHealthCheckMono = testHelper.restClientV3().getForEntity("/status");
-        testHelper.testSuccessResponse(responseHealthCheckMono, HttpStatus.OK, responseBody -> responseBody.contains("status"));
+        Mono<ResponseEntity<String>> responseHealthCheckMono = testHelperTest.restClientV3().getForEntity("/status");
+        testHelperTest.testSuccessResponse(responseHealthCheckMono, HttpStatus.OK, responseBody -> responseBody.contains("status"));
     }
 }
