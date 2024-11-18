@@ -28,7 +28,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -50,7 +49,8 @@ public class ReactiveEntryExitFilter implements WebFilter {
         ServerHttpRequest httpRequest = exchange.getRequest();
         ServerHttpResponse httpResponse = exchange.getResponse();
         MultiValueMap<String, String> queryParams = httpRequest.getQueryParams();
-        logger.info("Request received with path: {} and the Request Id: {}", httpRequest.getPath(), exchange.getRequest().getId());
+        logger.info("Request received with path: {}, and the Request Id: {}, with HTTP Method: {}", httpRequest.getPath(),
+                exchange.getRequest().getId(), exchange.getRequest().getMethod());
         if (!queryParams.isEmpty())
             logger.trace("For the request Id: {}, the Query parameters are: {}", exchange.getRequest().getId(), queryParams);
 
@@ -60,7 +60,7 @@ public class ReactiveEntryExitFilter implements WebFilter {
             public Flux<DataBuffer> getBody() {
                 return super.getBody().doOnNext(dataBuffer -> {
                     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.asByteBuffer().asReadOnlyBuffer());
+                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.readableByteBuffers().next());
                         requestBody = byteArrayOutputStream.toString(StandardCharsets.UTF_8);
                         if (requestBody != null)
                             logger.trace("For the request ID: {} the received request body: {}", exchange.getRequest().getId(), requestBody);
@@ -79,7 +79,7 @@ public class ReactiveEntryExitFilter implements WebFilter {
                 Flux<DataBuffer> buffer = Flux.from(body);
                 return super.writeWith(buffer.doOnNext(dataBuffer -> {
                     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.toByteBuffer().asReadOnlyBuffer());
+                        Channels.newChannel(byteArrayOutputStream).write(dataBuffer.readableByteBuffers().next());
                         responseBody = byteArrayOutputStream.toString(StandardCharsets.UTF_8);
                         logger.info("For the request ID: {} the Status code of the response: {}", exchange.getRequest().getId(), httpResponse.getStatusCode());
                         logger.trace("For the request ID: {} the response is: {} ", exchange.getRequest().getId(), responseBody);

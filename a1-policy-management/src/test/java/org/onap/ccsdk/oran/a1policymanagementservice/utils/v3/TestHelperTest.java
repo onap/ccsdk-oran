@@ -61,7 +61,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Component
-public class TestHelper {
+public class TestHelperTest {
 
     @Autowired
     ApplicationConfig applicationConfig;
