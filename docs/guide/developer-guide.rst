@@ -64,7 +64,7 @@ There are two configuration files for A1 Policy Management Service, *config/appl
 The first (*config/application_configuration.json*) contains application-specific configuration needed by the application, such as which near-RT RICs, or controller to use.
 The second (*config/application.yaml*) contains logging and security configurations.
 
-For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP+London>`_
+For more information about these configuration files can be found as comments in the sample files provided with the source code, or on the `ONAP wiki <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16544264/O-RAN+A1+Policies+in+ONAP+New+Delhi>`_
 
 Static configuration - Settings that cannot be changed at runtime (*application.yaml*)
 --------------------------------------------------------------------------------------
