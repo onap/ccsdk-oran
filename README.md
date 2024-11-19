@@ -7,7 +7,7 @@ More information on the CCSDK A1 Policy Management Service can be found in the '
 More information on the CCSDK A1-Adapter controller extension can be found in the 'a1-adapter' subdirectory.
 
 See also additional information at:  
-  - https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP
+  - https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP
   - https://docs.onap.org/projects/onap-ccsdk-oran/en/latest/index.html
 
 ## Prerequisits

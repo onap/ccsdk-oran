@@ -21,8 +21,8 @@ mailing_list:
 realtime_discussion: ''
 meetings:
     - type: 'zoom'
-      agenda: 'https://wiki.onap.org/display/DW/Common+Controller+SDK+Project'
-      url: 'https://wiki.onap.org/display/DW/Common+Controller+SDK+Project'
+      agenda: 'https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16230653/Common+Controller+SDK+Project'
+      url: 'https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16230653/Common+Controller+SDK+Project'
       server: 'n/a'
       channel: 'n/a'
       repeats: 'weekly'

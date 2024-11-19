@@ -50,7 +50,7 @@ The backend server publishes live API documentation at the
 URL `http://your-host-name-here:8081/swagger-ui.html`
 
 More information about the ONAP CCSDK A1 Policy Management Service can be found at: 
-  - https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP
+  - https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP
   - https://docs.onap.org/projects/onap-ccsdk-oran/en/latest/index.html
 
 
