@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5a0b83_5c6c97bf",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-11-20T16:50:22Z",
+      "side": 1,
+      "message": "Actually, Im not sure this is agood idea. There might(?) be multiple iterables here. So could use a mapper to flatten them. \n\nBut, I think the best option would something like toByteBuffer(0, ByteBuffer.allocate(512), 0, Math.max(512, readableByteCount()))  \nThis will also limit the log output, in case there is a big request or response payload",
+      "range": {
+        "startLine": 63,
+        "startChar": 73,
+        "endLine": 63,
+        "endChar": 110
+      },
+      "revId": "b55924ba60ab54b1614140231e9ab5d4f54d3594",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
