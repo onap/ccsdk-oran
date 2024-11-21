@@ -488,7 +488,7 @@
                                 <appDescription>The O-RAN Non-RT RIC Policy Management Service
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
-                                <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+                                <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
                                 <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation. Licensed
                                     under the Apache License, and Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -511,7 +511,7 @@
                                 <appDescription>The O-RAN Non-RT RIC Policy Management Service
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
-                                <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+                                <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
                                 <licenseInfo>Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
@@ -534,7 +534,7 @@
                                 <appDescription>The O-RAN Non-RT RIC Policy Management Service
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
-                                <infoUrl>https://wiki.onap.org/display/DW/O-RAN+A1+Policies+in+ONAP</infoUrl>
+                                <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
                                 <licenseInfo>Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
