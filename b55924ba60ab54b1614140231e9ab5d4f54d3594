@@ -22,6 +22,30 @@
       },
       "revId": "b55924ba60ab54b1614140231e9ab5d4f54d3594",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82feda84_bd7b3356",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 7735
+      },
+      "writtenOn": "2024-11-22T18:22:37Z",
+      "side": 1,
+      "message": "solved with different approach",
+      "parentUuid": "7b5a0b83_5c6c97bf",
+      "range": {
+        "startLine": 63,
+        "startChar": 73,
+        "endLine": 63,
+        "endChar": 110
+      },
+      "revId": "b55924ba60ab54b1614140231e9ab5d4f54d3594",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
