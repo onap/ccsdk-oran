@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac9bd8c_0381f856",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2024-12-04T14:26:27Z",
+      "side": 1,
+      "message": "I think it\u0027s better to move the configuration right before the executions, so it works for all",
+      "range": {
+        "startLine": 408,
+        "startChar": 16,
+        "endLine": 408,
+        "endChar": 28
+      },
+      "revId": "007698a006906b17a2bbcf4d4e1bb96228a1ba61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
