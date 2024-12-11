@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9550e593_eebeed06",
+        "filename": "a1-adapter/a1-adapter-api/feature/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a10e74_d6cfba33",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70a8f6ed_9b464abf",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-12-06T13:01:58Z",
       "side": 1,
       "message": "Remove :-)",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1b6304_acc4e0e2",
+        "filename": "a1-adapter/a1-adapter-api/installer/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70a8f6ed_9b464abf",
       "range": {
         "startLine": 36,
         "startChar": 27,
@@ -87,6 +135,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff06dd9_dc00a301",
+        "filename": "a1-adapter/a1-adapter-api/model/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf07ae00_65f232f3",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "109e4e7f_6ac477a8",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-12-06T13:01:58Z",
       "side": 1,
       "message": "Remove :-)",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d3fbe43_880d0f6a",
+        "filename": "a1-adapter/a1-adapter-api/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "109e4e7f_6ac477a8",
       "range": {
         "startLine": 35,
         "startChar": 27,
@@ -133,6 +229,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c82d4f6_75a30455",
+        "filename": "a1-adapter/a1-adapter-api/provider/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e368a9b_d0f0fbb7",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d195f111_487c700b",
@@ -146,6 +266,30 @@
       "writtenOn": "2024-12-06T13:01:58Z",
       "side": 1,
       "message": "Remove :-)",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e673b549_bdae0859",
+        "filename": "a1-adapter/features/a1-adapter-northbound/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d195f111_487c700b",
       "range": {
         "startLine": 35,
         "startChar": 27,
@@ -179,6 +323,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "576542f6_cf9e8e9e",
+        "filename": "a1-adapter/features/installer/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55871879_645d8784",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42355dbd_3ace3aa8",
@@ -192,6 +360,30 @@
       "writtenOn": "2024-12-06T13:01:58Z",
       "side": 1,
       "message": "Remove :-)",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 31
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d51a96fe_910d4e14",
+        "filename": "a1-adapter/features/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42355dbd_3ace3aa8",
       "range": {
         "startLine": 36,
         "startChar": 27,
@@ -225,6 +417,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90af7109_64e2c1ab",
+        "filename": "a1-adapter/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a883b80c_4bff4f15",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d7dfc19_766ce3d2",
@@ -248,6 +464,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "002288c2_305105da",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d7dfc19_766ce3d2",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a59b4282_914cb54b",
@@ -261,6 +501,30 @@
       "writtenOn": "2024-12-06T13:01:58Z",
       "side": 1,
       "message": "Remove :-)",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "4d191cbf67f92de33f3ecb871436d38f5bac59f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3a5781_207a0e55",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2024-12-11T12:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a59b4282_914cb54b",
       "range": {
         "startLine": 36,
         "startChar": 27,
