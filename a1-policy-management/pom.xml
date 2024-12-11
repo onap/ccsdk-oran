@@ -25,8 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-33-starter-parent</artifactId>
-        <version>3.0.1</version>
+        <artifactId>spring-boot-34-starter-parent</artifactId>
+        <version>3.0.2</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -36,8 +36,10 @@
     <properties>
         <java.version.source>17</java.version.source>
         <java.version.target>17</java.version.target>
-        <gson.version>2.10.1</gson.version>
+        <gson.version>2.11.0</gson.version>
         <json.version>20240303</json.version>
+        <squareup.okhttp.version>5.0.0-alpha.14</squareup.okhttp.version>
+        <kotlin.version>1.8.22</kotlin.version>
         <localstack.version>1.20.1</localstack.version>
         <junit.jupiter.version>1.20.1</junit.jupiter.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
@@ -45,7 +47,7 @@
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <swagger-annotations.version>2.2.15</swagger-annotations.version>
-        <spring-boot-actuator-autoconfigure.version>3.3.2</spring-boot-actuator-autoconfigure.version>
+        <spring-boot-actuator-autoconfigure.version>3.4.0</spring-boot-actuator-autoconfigure.version>
         <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.35.0</spotless-maven-plugin.version>
         <commons-io.version>2.16.1</commons-io.version>
@@ -56,7 +58,7 @@
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <software.amazon.awssdk.version>2.27.8</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.27.24</software.amazon.awssdk.version>
         <mapstruct.version>1.6.0</mapstruct.version>
         <allowskiptests>false</allowskiptests>
     </properties>
@@ -257,6 +259,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
+            <version>${squareup.okhttp.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -342,8 +345,7 @@
                     <lineEnding>LF</lineEnding>
                     <configFile>${project.basedir}/eclipse-formatter.xml</configFile>
                 </configuration>
-                <!-- https://code.revelc.net/formatter-maven-plugin/ use mvn formatter:format
-					spotless:apply process-sources -->
+                <!-- Formatter: Use 'mvn formatter:format' & 'mvn spotless:apply process-sources' -->
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
@@ -358,9 +360,7 @@
                         </importOrder>
                     </java>
                 </configuration>
-                <!-- https://github.com/diffplug/spotless/tree/master/plugin-maven use
-					mvn spotless:apply to rewrite source files use mvn spotless:check to validate
-					source files -->
+                <!-- Spotless: Use 'mvn spotless:apply' to rewrite source files. Use 'mvn spotless:check' to validate. -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
