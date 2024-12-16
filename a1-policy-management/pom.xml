@@ -458,7 +458,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-openapi-json-config-a1pms</id>
+                        <id>generate-openapi-json-custom-a1pms</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
@@ -519,13 +519,13 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-openapi-html-config-a1pms</id>
+                        <id>generate-openapi-html-custom-a1pms</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.json</inputSpec>
+                            <inputSpec>${project.basedir}/api/offeredapis/swagger/a1pms-api-v3.json</inputSpec>
                             <generatorName>html2</generatorName>
                             <output>${project.basedir}/api/offeredapis/openapitoolgen/offeredapis/pms-api/v3/custom</output>
                             <skipOperationExample>false</skipOperationExample>
