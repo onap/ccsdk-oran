@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4377ce9a_cbb009e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2025-01-15T14:19:38Z",
+      "side": 1,
+      "message": "I noticed this job failed\nhttps://github.com/onap/ccsdk-oran/actions/runs/12787981610/job/35648346605#step:4:28\n\nBecause 3.1.0 is not available here, only 3.0.2 was released\nhttps://nexus.onap.org/content/groups/public/org/onap/ccsdk/parent/spring-boot-34-starter-parent/",
+      "revId": "40c15f0e4115cfb0b58ddc63794f1ba1eb5a5a95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
