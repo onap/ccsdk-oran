@@ -45,7 +45,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -102,6 +104,14 @@ class PolicyControllerV3Test {
 
     @MockitoSpyBean
     private Helper helper;
+
+    private final String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+    + "eyJpc3MiOiJleGFtcGxlX2lzc3VlciIsInN1YiI6IjEyMzQ1Njc4OTAiLCJhdWQiOiJteWNsaWVudCIs"
+    + "ImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
+    + "O5QN_SWN4J1mWKyXk_-PCvOA6GF3ypv1rSdg2uTb_Ls";
+
+    private final String emptyBearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IiJ9."
+    + "eyJpYXQiOjE1MTYyMzkwMjJ9.uE72OfhNzhIFuyHhZyI0eYVPG6QJ7s7A-SVeKsLubCQ";
 
     @BeforeEach
     void init() {
@@ -308,6 +318,57 @@ class PolicyControllerV3Test {
         Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
         testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
+
+    private void postPolicyWithTokenAndVerify(String clientId, String serviceId, String result) throws IOException {
+        testHelperTest.addPolicyType("type1_1.2.3", "ric.1");
+        String policyBody = testHelperTest.postPolicyBody("ric.1", "type1_1.2.3", "1");
+
+        if (serviceId != null) {
+            policyBody = policyBody.replace("\"serviceId\":\"\"", "\"serviceId\":\"" + serviceId + "\"");
+        }
+
+        StepVerifier.create(testHelperTest.restClientV3().postWithToken("/policies", policyBody, clientId)
+                    .then(testHelperTest.restClientV3().getForEntity("/policies" + ((serviceId != null || clientId != null) ? "?serviceId=" + result : ""))))
+                    .expectNextMatches(response -> response.getBody().contains("\"policyId\":\"1\""))
+                    .expectComplete()
+                    .verify();
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id")
+    void testPostPolicyWithToken() throws IOException {
+        postPolicyWithTokenAndVerify(bearerToken, null, "myclient");
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id VALID = service_id")
+    void testPostPolicyWithTokenAndServiceID() throws IOException {
+        postPolicyWithTokenAndVerify(bearerToken, "notmyclient", "notmyclient");
+    }
+
+    @Test
+    @DisplayName("client_id NULL + service_id EMPTY = empty")
+    void testClientIdNullServiceIdEmpty() throws Exception {
+        postPolicyWithTokenAndVerify(null, null, "");
+    }
+
+    @Test
+    @DisplayName("client_id NULL + service_id VALID = service_id")
+    void testClientIdNullServiceIdValid() throws Exception {
+        postPolicyWithTokenAndVerify(null, "validServiceId", "validServiceId");
+    }
+
+    @Test
+    @DisplayName("client_id EMPTY + service_id NULL/EMPTY = empty")
+    void testClientIdEmptyServiceIdEmpty() throws Exception {
+        postPolicyWithTokenAndVerify(emptyBearerToken, null, "");
+    }
+
+    @Test
+    @DisplayName("client_id EMPTY + service_id VALID = service_id")
+    void testEmptyClientIdServiceIdValid() throws Exception {
+        postPolicyWithTokenAndVerify(emptyBearerToken, "validServiceId", "validServiceId");
     }
 
     @Test
