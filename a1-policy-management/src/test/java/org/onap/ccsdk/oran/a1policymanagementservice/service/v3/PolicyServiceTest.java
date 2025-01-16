@@ -121,7 +121,7 @@ class PolicyServiceTest {
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
-        when(helper.buildPolicy(any(),any(), any(), any())).thenReturn(policy);
+        when(helper.buildPolicy(any(),any(), any(), any(), any())).thenReturn(policy);
         when(helper.isPolicyAlreadyCreated(any(), any())).thenReturn(Mono.error(new ServiceException
                 ("Same policy content already created with policy ID: 122344-5674", HttpStatus.BAD_REQUEST)));
         Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
@@ -186,7 +186,7 @@ class PolicyServiceTest {
                 "        }\n" +
                 "    }").getAsJsonObject().toString(), Map.class));
         Policy updatedPolicy = testHelperTest.buidTestPolicy(updatedPolicyObjectInfo, "122344-5674");
-        when(helper.buildPolicy(any(),any(), any(), any())).thenReturn(updatedPolicy);
+        when(helper.buildPolicy(any(),any(), any(), any(), any())).thenReturn(updatedPolicy);
         when(helper.checkRicStateIdle(any())).thenReturn(Mono.just(updatedPolicy.getRic()));
         when(helper.checkSupportedType(any(), any())).thenReturn(Mono.just(updatedPolicy.getRic()));
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(updatedPolicy));

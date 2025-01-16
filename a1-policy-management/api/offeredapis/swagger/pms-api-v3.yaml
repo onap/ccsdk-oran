@@ -976,6 +976,7 @@ components:
           type: string
           example:
             'rApp ID'
+          default: ""
         policyObject:
           $ref: '#/components/schemas/PolicyObject'
         policyTypeId:
