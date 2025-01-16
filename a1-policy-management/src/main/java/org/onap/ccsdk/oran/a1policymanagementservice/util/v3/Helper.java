@@ -28,8 +28,10 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
+import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,9 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class Helper {
+
+    @Autowired
+    private TokenService tokenService;
 
     private final Services services;
 
@@ -83,14 +88,13 @@ public class Helper {
         return Mono.just(ric);
     }
 
-    public Policy buildPolicy(PolicyObjectInformation policyObjectInformation, PolicyType policyType, Ric ric, String policyId) {
+    public Policy buildPolicy(PolicyObjectInformation policyObjectInformation, PolicyType policyType, Ric ric, String policyId, ServerWebExchange exchange) {
         return Policy.builder()
                 .id(policyId)
                 .json(toJson(policyObjectInformation.getPolicyObject()))
                 .type(policyType)
                 .ric(ric)
-                .ownerServiceId(policyObjectInformation.getServiceId() == null ? ""
-                        : policyObjectInformation.getServiceId())
+                .ownerServiceId(tokenService.getServiceId(policyObjectInformation, exchange))
                 .lastModified(Instant.now())
                 .isTransient(policyObjectInformation.getTransient())
                 .build();

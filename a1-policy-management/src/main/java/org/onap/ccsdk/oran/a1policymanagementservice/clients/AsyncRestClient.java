@@ -3,7 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2022 Nordix Foundation. All rights reserved.
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,6 +88,16 @@ public class AsyncRestClient {
                 .bodyValue(body);
         return retrieve(request) //
                 .map(this::toBody);
+    }
+
+    public Mono<ResponseEntity<String>> postWithToken(String uri, String body, String token) {
+        RequestHeadersSpec<?> request = getWebClient() //
+                .post() //
+                .uri(uri) //
+                .headers(headers -> headers.setBearerAuth(token)) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .bodyValue(body);
+        return retrieve(request);
     }
 
     public Mono<ResponseEntity<String>> putForEntity(String uri, String body) {
