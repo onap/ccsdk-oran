@@ -58,7 +58,7 @@
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <software.amazon.awssdk.version>2.27.24</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.30.10</software.amazon.awssdk.version>
         <mapstruct.version>1.6.0</mapstruct.version>
         <allowskiptests>false</allowskiptests>
     </properties>
