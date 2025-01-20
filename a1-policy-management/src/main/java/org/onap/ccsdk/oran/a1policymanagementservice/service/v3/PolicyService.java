@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.service.v3;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.A1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.authorization.PolicyAuthorizationRequest.Input.AccessType;
@@ -30,6 +31,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.*;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.slf4j.Logger;
@@ -166,12 +168,20 @@ public class PolicyService {
                 .doOnError(errorHandlingService::handleError);
     }
 
-    public Mono<ResponseEntity<Object>> getPolicyTypeDefinitionService(String policyTypeId)
+    public Mono<ResponseEntity<PolicyTypeObject>> getPolicyTypeDefinitionService(String policyTypeId)
             throws EntityNotFoundException{
         PolicyType singlePolicyType = policyTypes.get(policyTypeId);
         if (singlePolicyType == null)
             throw new EntityNotFoundException("PolicyType not found with ID: " + policyTypeId);
-        return Mono.just(new ResponseEntity<Object>(singlePolicyType.getSchema(), HttpStatus.OK));
+
+        PolicyTypeObject policyTypeObject = new PolicyTypeObject();
+        try {
+            policyTypeObject.setPolicySchema(gson.fromJson(singlePolicyType.getSchema(), Object.class));
+        } catch (JsonSyntaxException e) {
+            throw new RuntimeException("Failed to deserialize policy schema", e);
+        }
+
+        return Mono.just(new ResponseEntity<PolicyTypeObject>(policyTypeObject, HttpStatus.OK));
     }
 
     public Mono<ResponseEntity<Void>> deletePolicyService(String policyId, ServerWebExchange serverWebExchange)
@@ -196,6 +206,29 @@ public class PolicyService {
                 .doOnNext(policyString -> policies.remove(policy))
                 .doFinally(releaseLock -> grant.unlockBlocking())
                 .map(successResponse -> new ResponseEntity<Void>(HttpStatus.NO_CONTENT))
+                .doOnError(errorHandlingService::handleError);
+    }
+
+    private Mono<String> getStatus(Policy policy, Lock.Grant grant) {
+        return  helper.checkRicStateIdle(policy.getRic())
+                .doOnError(errorHandlingService::handleError)
+                .flatMap(a1ClientFactory::createA1Client)
+                .flatMap(a1Client -> a1Client.getPolicyStatus(policy))
+                .doOnError(errorHandlingService::handleError)
+                .doFinally(releaseLock -> grant.unlockBlocking())
+                .doOnError(errorHandlingService::handleError);
+    }
+
+    public Mono<ResponseEntity<Object>> getPolicyStatus(String policyId, ServerWebExchange exchange) throws Exception {
+        Policy policy = policies.getPolicy(policyId);
+
+        return authorizationService.authCheck(exchange, policy, AccessType.READ)
+                .doOnError(errorHandlingService::handleError)
+                .flatMap(policyLock -> policy.getRic().getLock().lock(Lock.LockType.SHARED, "getStatus"))
+                .doOnError(errorHandlingService::handleError)
+                .flatMap(grant -> getStatus(policy, grant))
+                .doOnError(errorHandlingService::handleError)
+                .map(successResponse -> new ResponseEntity<Object>(successResponse, HttpStatus.OK))
                 .doOnError(errorHandlingService::handleError);
     }
 }

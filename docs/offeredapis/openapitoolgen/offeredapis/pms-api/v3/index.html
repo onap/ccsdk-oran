@@ -997,7 +997,73 @@ ul.nav-tabs {
       "$ref" : "#/components/schemas/NearRtRicId"
     }
   },
-  "description" : "Available policy types and for each policy type identifier the Near-RT RIC identifiers of those Near-RT RICs that support the related A1 policy type"
+  "description" : "Available policy types and for each policy type identifier the Near-RT RIC identifiers of those Near-RT RICs that support the related A1 policy type",
+  "example" : {
+    "policyTypeId" : "STD_QOS2_0.1.0",
+    "nearRtRicId" : "ricsim_g3_2"
+  }
+};
+    defs["PolicyTypeObject"] = {
+  "required" : [ "policySchema" ],
+  "type" : "object",
+  "properties" : {
+    "policySchema" : {
+      "$ref" : "#/components/schemas/PolicySchema"
+    },
+    "statusSchema" : {
+      "$ref" : "#/components/schemas/StatusSchema"
+    }
+  },
+  "description" : "policy type object as defined in A1TD",
+  "example" : {
+    "policySchema" : {
+      "$schema" : "http://json-schema.org/draft-07/schema#",
+      "title" : "STD_QOS_0_2_0",
+      "description" : "STD QOS policy type",
+      "type" : "object",
+      "properties" : {
+        "scope" : {
+          "type" : "object",
+          "properties" : {
+            "ueId" : {
+              "type" : "string"
+            },
+            "qosId" : {
+              "type" : "string"
+            }
+          },
+          "additionalProperties" : false,
+          "required" : [ "ueId", "qosId" ]
+        },
+        "qosObjectives" : {
+          "type" : "object",
+          "properties" : {
+            "priorityLevel" : {
+              "type" : "number"
+            }
+          },
+          "additionalProperties" : false,
+          "required" : [ "priorityLevel" ]
+        }
+      }
+    },
+    "statusSchema" : {
+      "$schema" : "http://json-schema.org/draft-07/schema#",
+      "title" : "STD_QOS_0.2.0",
+      "description" : "STD QOS policy type status",
+      "type" : "object",
+      "properties" : {
+        "enforceStatus" : {
+          "type" : "string"
+        },
+        "enforceReason" : {
+          "type" : "string"
+        },
+        "additionalProperties" : false,
+        "required" : [ "enforceStatus" ]
+      }
+    }
+  }
 };
     defs["ProblemDetails"] = {
   "type" : "object",
@@ -1184,6 +1250,9 @@ ul.nav-tabs {
                     </li>
                     <li data-group="A1PolicyManagement" data-name="getPolicy" class="">
                       <a href="#api-A1PolicyManagement-getPolicy">getPolicy</a>
+                    </li>
+                    <li data-group="A1PolicyManagement" data-name="getPolicyStatus" class="">
+                      <a href="#api-A1PolicyManagement-getPolicyStatus">getPolicyStatus</a>
                     </li>
                     <li data-group="A1PolicyManagement" data-name="getPolicyTypeDefinition" class="">
                       <a href="#api-A1PolicyManagement-getPolicyTypeDefinition">getPolicyTypeDefinition</a>
@@ -1973,6 +2042,82 @@ $(document).ready(function() {
                                 <input id='responses-A1PolicyManagement-createPolicy-404-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
+                            <h3 id="examples-A1PolicyManagement-createPolicy-title-405"></h3>
+                            <p id="examples-A1PolicyManagement-createPolicy-description-405" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement405_description = `Method Not Allowed`;
+                              var responseA1PolicyManagement405_description_break = responseA1PolicyManagement405_description.indexOf('\n');
+                              if (responseA1PolicyManagement405_description_break == -1) {
+                                $("#examples-A1PolicyManagement-createPolicy-title-405").text("Status: 405 - " + responseA1PolicyManagement405_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-createPolicy-title-405").text("Status: 405 - " + responseA1PolicyManagement405_description.substring(0, responseA1PolicyManagement405_description_break));
+                                $("#examples-A1PolicyManagement-createPolicy-description-405").html(responseA1PolicyManagement405_description.substring(responseA1PolicyManagement405_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-createPolicy-405" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-createPolicy-405-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-createPolicy-405-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-createPolicy-405-schema">
+                                <div id="responses-A1PolicyManagement-createPolicy-schema-405" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Method Not Allowed",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-createPolicy-405-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-createPolicy-schema-405');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-createPolicy-405-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
                             <h3 id="examples-A1PolicyManagement-createPolicy-title-406"></h3>
                             <p id="examples-A1PolicyManagement-createPolicy-description-406" class="marked"></p>
                             <script>
@@ -2047,6 +2192,234 @@ $(document).ready(function() {
                                   </script>
                                 </div>
                                 <input id='responses-A1PolicyManagement-createPolicy-406-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-createPolicy-title-409"></h3>
+                            <p id="examples-A1PolicyManagement-createPolicy-description-409" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement409_description = `Conflict`;
+                              var responseA1PolicyManagement409_description_break = responseA1PolicyManagement409_description.indexOf('\n');
+                              if (responseA1PolicyManagement409_description_break == -1) {
+                                $("#examples-A1PolicyManagement-createPolicy-title-409").text("Status: 409 - " + responseA1PolicyManagement409_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-createPolicy-title-409").text("Status: 409 - " + responseA1PolicyManagement409_description.substring(0, responseA1PolicyManagement409_description_break));
+                                $("#examples-A1PolicyManagement-createPolicy-description-409").html(responseA1PolicyManagement409_description.substring(responseA1PolicyManagement409_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-createPolicy-409" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-createPolicy-409-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-createPolicy-409-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-createPolicy-409-schema">
+                                <div id="responses-A1PolicyManagement-createPolicy-schema-409" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Conflict",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-createPolicy-409-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-createPolicy-schema-409');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-createPolicy-409-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-createPolicy-title-413"></h3>
+                            <p id="examples-A1PolicyManagement-createPolicy-description-413" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement413_description = `Payload Too Large`;
+                              var responseA1PolicyManagement413_description_break = responseA1PolicyManagement413_description.indexOf('\n');
+                              if (responseA1PolicyManagement413_description_break == -1) {
+                                $("#examples-A1PolicyManagement-createPolicy-title-413").text("Status: 413 - " + responseA1PolicyManagement413_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-createPolicy-title-413").text("Status: 413 - " + responseA1PolicyManagement413_description.substring(0, responseA1PolicyManagement413_description_break));
+                                $("#examples-A1PolicyManagement-createPolicy-description-413").html(responseA1PolicyManagement413_description.substring(responseA1PolicyManagement413_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-createPolicy-413" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-createPolicy-413-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-createPolicy-413-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-createPolicy-413-schema">
+                                <div id="responses-A1PolicyManagement-createPolicy-schema-413" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Payload Too Large",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-createPolicy-413-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-createPolicy-schema-413');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-createPolicy-413-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-createPolicy-title-415"></h3>
+                            <p id="examples-A1PolicyManagement-createPolicy-description-415" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement415_description = `Unsupported Media Type`;
+                              var responseA1PolicyManagement415_description_break = responseA1PolicyManagement415_description.indexOf('\n');
+                              if (responseA1PolicyManagement415_description_break == -1) {
+                                $("#examples-A1PolicyManagement-createPolicy-title-415").text("Status: 415 - " + responseA1PolicyManagement415_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-createPolicy-title-415").text("Status: 415 - " + responseA1PolicyManagement415_description.substring(0, responseA1PolicyManagement415_description_break));
+                                $("#examples-A1PolicyManagement-createPolicy-description-415").html(responseA1PolicyManagement415_description.substring(responseA1PolicyManagement415_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-createPolicy-415" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-createPolicy-415-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-createPolicy-415-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-createPolicy-415-schema">
+                                <div id="responses-A1PolicyManagement-createPolicy-schema-415" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Unsupported Media Type",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-createPolicy-415-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-createPolicy-schema-415');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-createPolicy-415-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-createPolicy-title-423"></h3>
@@ -2758,7 +3131,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-deletePolicy-title-204"></h3>
                             <p id="examples-A1PolicyManagement-deletePolicy-description-204" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement204_description = `The created A1 policy was deleted`;
+                              var responseA1PolicyManagement204_description = `The A1 policy was deleted`;
                               var responseA1PolicyManagement204_description_break = responseA1PolicyManagement204_description.indexOf('\n');
                               if (responseA1PolicyManagement204_description_break == -1) {
                                 $("#examples-A1PolicyManagement-deletePolicy-title-204").text("Status: 204 - " + responseA1PolicyManagement204_description);
@@ -2781,7 +3154,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "The created A1 policy was deleted"
+  "description" : "The A1 policy was deleted"
 };
                                       var schema = findNode('schema',schemaWrapper).schema;
                                       if (!schema) {
@@ -3121,6 +3494,158 @@ Specifies the content type that the client expects to receive in response to the
                                   </script>
                                 </div>
                                 <input id='responses-A1PolicyManagement-deletePolicy-404-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-deletePolicy-title-405"></h3>
+                            <p id="examples-A1PolicyManagement-deletePolicy-description-405" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement405_description = `Method Not Allowed`;
+                              var responseA1PolicyManagement405_description_break = responseA1PolicyManagement405_description.indexOf('\n');
+                              if (responseA1PolicyManagement405_description_break == -1) {
+                                $("#examples-A1PolicyManagement-deletePolicy-title-405").text("Status: 405 - " + responseA1PolicyManagement405_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-deletePolicy-title-405").text("Status: 405 - " + responseA1PolicyManagement405_description.substring(0, responseA1PolicyManagement405_description_break));
+                                $("#examples-A1PolicyManagement-deletePolicy-description-405").html(responseA1PolicyManagement405_description.substring(responseA1PolicyManagement405_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-deletePolicy-405" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-deletePolicy-405-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-deletePolicy-405-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-deletePolicy-405-schema">
+                                <div id="responses-A1PolicyManagement-deletePolicy-schema-405" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Method Not Allowed",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-deletePolicy-405-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-deletePolicy-schema-405');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-deletePolicy-405-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-deletePolicy-title-406"></h3>
+                            <p id="examples-A1PolicyManagement-deletePolicy-description-406" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement406_description = `Not Acceptable`;
+                              var responseA1PolicyManagement406_description_break = responseA1PolicyManagement406_description.indexOf('\n');
+                              if (responseA1PolicyManagement406_description_break == -1) {
+                                $("#examples-A1PolicyManagement-deletePolicy-title-406").text("Status: 406 - " + responseA1PolicyManagement406_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-deletePolicy-title-406").text("Status: 406 - " + responseA1PolicyManagement406_description.substring(0, responseA1PolicyManagement406_description_break));
+                                $("#examples-A1PolicyManagement-deletePolicy-description-406").html(responseA1PolicyManagement406_description.substring(responseA1PolicyManagement406_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-deletePolicy-406" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-deletePolicy-406-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-deletePolicy-406-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-deletePolicy-406-schema">
+                                <div id="responses-A1PolicyManagement-deletePolicy-schema-406" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Not Acceptable",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-deletePolicy-406-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-deletePolicy-schema-406');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-deletePolicy-406-schema-data' type='hidden' value=''></input>
                               </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-deletePolicy-title-423"></h3>
@@ -5789,6 +6314,1093 @@ Specifies the content type that the client expects to receive in response to the
                         </article>
                       </div>
                       <hr>
+                    <div id="api-A1PolicyManagement-getPolicyStatus">
+                      <article id="api-A1PolicyManagement-getPolicyStatus-0" data-group="User" data-name="getPolicyStatus" data-version="0">
+                        <div class="pull-left">
+                          <h1>getPolicyStatus</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Query a policy status</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/policies/{policyId}/status</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-A1PolicyManagement-getPolicyStatus-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-java">Java</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-python">Python</a></li>
+                          <li class=""><a href="#examples-A1PolicyManagement-getPolicyStatus-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-A1PolicyManagement-getPolicyStatus-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET \
+ -H "Accept: application/json,application/problem+json" \
+ "https://example.com/a1-policy-management/v1/policies/{policyId}/status"
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.A1PolicyManagementApi;
+
+import java.io.File;
+import java.util.*;
+
+public class A1PolicyManagementApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
+        String policyId = policyId_example; // String | 
+        String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+
+        try {
+            Object result = apiInstance.getPolicyStatus(policyId, accept);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling A1PolicyManagementApi#getPolicyStatus");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final String policyId = new String(); // String | 
+final String accept = new String(); // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+
+try {
+    final result = await api_instance.getPolicyStatus(policyId, accept);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->getPolicyStatus: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.A1PolicyManagementApi;
+
+public class A1PolicyManagementApiExample {
+    public static void main(String[] args) {
+        A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
+        String policyId = policyId_example; // String | 
+        String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+
+        try {
+            Object result = apiInstance.getPolicyStatus(policyId, accept);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling A1PolicyManagementApi#getPolicyStatus");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
+String *policyId = policyId_example; //  (default to null)
+String *accept = application/json; // Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
+
+[apiInstance getPolicyStatusWith:policyId
+    accept:accept
+              completionHandler: ^(Object output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var A1PolicyManagementApi = require('a1_policy_management_api');
+
+// Create an instance of the API class
+var api = new A1PolicyManagementApi.A1PolicyManagementApi()
+var policyId = policyId_example; // {String} 
+var opts = {
+  'accept': application/json // {String} Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getPolicyStatus(policyId, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class getPolicyStatusExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new A1PolicyManagementApi();
+            var policyId = policyId_example;  // String |  (default to null)
+            var accept = application/json;  // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional)  (default to null)
+
+            try {
+                Object result = apiInstance.getPolicyStatus(policyId, accept);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling A1PolicyManagementApi.getPolicyStatus: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\A1PolicyManagementApi();
+$policyId = policyId_example; // String | 
+$accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+
+try {
+    $result = $api_instance->getPolicyStatus($policyId, $accept);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling A1PolicyManagementApi->getPolicyStatus: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::A1PolicyManagementApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::A1PolicyManagementApi->new();
+my $policyId = policyId_example; # String | 
+my $accept = application/json; # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+
+eval {
+    my $result = $api_instance->getPolicyStatus(policyId => $policyId, accept => $accept);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling A1PolicyManagementApi->getPolicyStatus: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.A1PolicyManagementApi()
+policyId = policyId_example # String |  (default to null)
+accept = application/json # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
+
+try:
+    api_response = api_instance.get_policy_status(policyId, accept=accept)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling A1PolicyManagementApi->getPolicyStatus: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate A1PolicyManagementApi;
+
+pub fn main() {
+    let policyId = policyId_example; // String
+    let accept = application/json; // String
+
+    let mut context = A1PolicyManagementApi::Context::default();
+    let result = client.getPolicyStatus(policyId, accept, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">policyId*</td>
+<td>
+
+
+    <div id="d2e199_getPolicyStatus_policyId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                            <div class="methodsubtabletitle">Header parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">Accept</td>
+<td>
+
+
+    <div id="d2e199_getPolicyStatus_accept">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description marked">
+Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-200"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-200" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement200_description = `OK`;
+                              var responseA1PolicyManagement200_description_break = responseA1PolicyManagement200_description.indexOf('\n');
+                              if (responseA1PolicyManagement200_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-200").text("Status: 200 - " + responseA1PolicyManagement200_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-200").text("Status: 200 - " + responseA1PolicyManagement200_description.substring(0, responseA1PolicyManagement200_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-200").html(responseA1PolicyManagement200_description.substring(responseA1PolicyManagement200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-200-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/PolicyStatusObject"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-400"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-400" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement400_description = `Bad Request`;
+                              var responseA1PolicyManagement400_description_break = responseA1PolicyManagement400_description.indexOf('\n');
+                              if (responseA1PolicyManagement400_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-400").text("Status: 400 - " + responseA1PolicyManagement400_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-400").text("Status: 400 - " + responseA1PolicyManagement400_description.substring(0, responseA1PolicyManagement400_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-400").html(responseA1PolicyManagement400_description.substring(responseA1PolicyManagement400_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-400" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-400-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-400-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Bad Request",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-400-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-401"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-401" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement401_description = `Unauthorized`;
+                              var responseA1PolicyManagement401_description_break = responseA1PolicyManagement401_description.indexOf('\n');
+                              if (responseA1PolicyManagement401_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-401").text("Status: 401 - " + responseA1PolicyManagement401_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-401").text("Status: 401 - " + responseA1PolicyManagement401_description.substring(0, responseA1PolicyManagement401_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-401").html(responseA1PolicyManagement401_description.substring(responseA1PolicyManagement401_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-401" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-401-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-401-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-401-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-401" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Unauthorized",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-401-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-401');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-401-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-403"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-403" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement403_description = `Forbidden`;
+                              var responseA1PolicyManagement403_description_break = responseA1PolicyManagement403_description.indexOf('\n');
+                              if (responseA1PolicyManagement403_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-403").text("Status: 403 - " + responseA1PolicyManagement403_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-403").text("Status: 403 - " + responseA1PolicyManagement403_description.substring(0, responseA1PolicyManagement403_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-403").html(responseA1PolicyManagement403_description.substring(responseA1PolicyManagement403_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-403" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-403-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-403-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-403-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-403" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Forbidden",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-403-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-403');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-403-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-404"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-404" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement404_description = `Not Found`;
+                              var responseA1PolicyManagement404_description_break = responseA1PolicyManagement404_description.indexOf('\n');
+                              if (responseA1PolicyManagement404_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-404").text("Status: 404 - " + responseA1PolicyManagement404_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-404").text("Status: 404 - " + responseA1PolicyManagement404_description.substring(0, responseA1PolicyManagement404_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-404").html(responseA1PolicyManagement404_description.substring(responseA1PolicyManagement404_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-404" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-404-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-404-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Not Found",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-404-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-406"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-406" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement406_description = `Not Acceptable`;
+                              var responseA1PolicyManagement406_description_break = responseA1PolicyManagement406_description.indexOf('\n');
+                              if (responseA1PolicyManagement406_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-406").text("Status: 406 - " + responseA1PolicyManagement406_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-406").text("Status: 406 - " + responseA1PolicyManagement406_description.substring(0, responseA1PolicyManagement406_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-406").html(responseA1PolicyManagement406_description.substring(responseA1PolicyManagement406_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-406" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-406-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-406-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-406-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-406" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Not Acceptable",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-406-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-406');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-406-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-429"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-429" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
+                              if (responseA1PolicyManagement429_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description.substring(0, responseA1PolicyManagement429_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-429").html(responseA1PolicyManagement429_description.substring(responseA1PolicyManagement429_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-429" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-429-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-429-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-429-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-429" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Too Many Request",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-429-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-429');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-429-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-500"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-500" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement500_description = `Internal Server Error`;
+                              var responseA1PolicyManagement500_description_break = responseA1PolicyManagement500_description.indexOf('\n');
+                              if (responseA1PolicyManagement500_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-500").text("Status: 500 - " + responseA1PolicyManagement500_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-500").text("Status: 500 - " + responseA1PolicyManagement500_description.substring(0, responseA1PolicyManagement500_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-500").html(responseA1PolicyManagement500_description.substring(responseA1PolicyManagement500_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-500" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-500-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-500-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-500-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-500" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Internal Server Error",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-500-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-500');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-500-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-502"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-502" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement502_description = `Bad Gateway`;
+                              var responseA1PolicyManagement502_description_break = responseA1PolicyManagement502_description.indexOf('\n');
+                              if (responseA1PolicyManagement502_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-502").text("Status: 502 - " + responseA1PolicyManagement502_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-502").text("Status: 502 - " + responseA1PolicyManagement502_description.substring(0, responseA1PolicyManagement502_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-502").html(responseA1PolicyManagement502_description.substring(responseA1PolicyManagement502_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-502" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-502-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-502-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-502-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-502" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Bad Gateway",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-502-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-502');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-502-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                            <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-503"></h3>
+                            <p id="examples-A1PolicyManagement-getPolicyStatus-description-503" class="marked"></p>
+                            <script>
+                              var responseA1PolicyManagement503_description = `Service Unavailable`;
+                              var responseA1PolicyManagement503_description_break = responseA1PolicyManagement503_description.indexOf('\n');
+                              if (responseA1PolicyManagement503_description_break == -1) {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-503").text("Status: 503 - " + responseA1PolicyManagement503_description);
+                              } else {
+                                $("#examples-A1PolicyManagement-getPolicyStatus-title-503").text("Status: 503 - " + responseA1PolicyManagement503_description.substring(0, responseA1PolicyManagement503_description_break));
+                                $("#examples-A1PolicyManagement-getPolicyStatus-description-503").html(responseA1PolicyManagement503_description.substring(responseA1PolicyManagement503_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-A1PolicyManagement-getPolicyStatus-503" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-A1PolicyManagement-getPolicyStatus-503-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-A1PolicyManagement-getPolicyStatus-503-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-A1PolicyManagement-getPolicyStatus-503-schema">
+                                <div id="responses-A1PolicyManagement-getPolicyStatus-schema-503" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Service Unavailable",
+  "content" : {
+    "application/problem+json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-A1PolicyManagement-getPolicyStatus-503-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-A1PolicyManagement-getPolicyStatus-schema-503');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-A1PolicyManagement-getPolicyStatus-503-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-A1PolicyManagement-getPolicyTypeDefinition">
                       <article id="api-A1PolicyManagement-getPolicyTypeDefinition-0" data-group="User" data-name="getPolicyTypeDefinition" data-version="0">
                         <div class="pull-left">
@@ -5846,7 +7458,7 @@ public class A1PolicyManagementApiExample {
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
         try {
-            Object result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
+            PolicyTypeObject result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling A1PolicyManagementApi#getPolicyTypeDefinition");
@@ -5885,7 +7497,7 @@ public class A1PolicyManagementApiExample {
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
         try {
-            Object result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
+            PolicyTypeObject result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling A1PolicyManagementApi#getPolicyTypeDefinition");
@@ -5908,7 +7520,7 @@ String *accept = application/json; // Specifies the content type that the client
 
 [apiInstance getPolicyTypeDefinitionWith:policyTypeId
     accept:accept
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(PolicyTypeObject output, NSError* error) {
     if (output) {
         NSLog(@"%@", output);
     }
@@ -5963,7 +7575,7 @@ namespace Example
             var accept = application/json;  // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional)  (default to null)
 
             try {
-                Object result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
+                PolicyTypeObject result = apiInstance.getPolicyTypeDefinition(policyTypeId, accept);
                 Debug.WriteLine(result);
             } catch (Exception e) {
                 Debug.Print("Exception when calling A1PolicyManagementApi.getPolicyTypeDefinition: " + e.Message );
@@ -6148,11 +7760,11 @@ Specifies the content type that the client expects to receive in response to the
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/PolicyObject"
+        "$ref" : "#/components/schemas/PolicyTypeObject"
       },
       "examples" : {
-        "policyObject" : {
-          "$ref" : "#/components/examples/PolicyObject"
+        "PolicyTypeObject" : {
+          "$ref" : "#/components/examples/PolicyTypeObject"
         }
       }
     }
@@ -7305,6 +8917,11 @@ Select types that are compatible with the given version. This parameter is only 
         "type" : "array",
         "items" : {
           "$ref" : "#/components/schemas/PolicyTypeInformation"
+        }
+      },
+      "examples" : {
+        "PolicyTypeInformation" : {
+          "$ref" : "#/components/examples/PolicyTypeInformation"
         }
       }
     }
