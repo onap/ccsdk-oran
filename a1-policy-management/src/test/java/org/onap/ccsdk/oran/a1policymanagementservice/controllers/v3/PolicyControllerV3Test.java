@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v3;
 
-import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.SecurityContext;
 import org.onap.ccsdk.oran.a1policymanagementservice.config.TestConfig;
@@ -38,12 +37,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Mono;
 
@@ -98,13 +97,10 @@ class PolicyControllerV3Test {
     @Autowired
     private OpenPolicyAgentSimulatorController openPolicyAgentSimulatorController;
 
-    @Autowired
-    private Gson gson;
-
     @LocalServerPort
     private int port;
 
-    @SpyBean
+    @MockitoSpyBean
     private Helper helper;
 
     @BeforeEach
@@ -312,5 +308,20 @@ class PolicyControllerV3Test {
         Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
         testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
+
+    @Test
+    @DisplayName("test get Policy Status")
+    void testGetPolicyStatus() throws Exception {
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        String policyId = "policyOne";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, policyId);
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/"+ policyId +"/status");
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("OK"));
     }
 }

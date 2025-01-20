@@ -32,6 +32,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
@@ -316,11 +317,9 @@ class PolicyServiceTest {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         PolicyType addedPolicyType = testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<Object>> responseEntityMono = policyService.getPolicyTypeDefinitionService(policyTypeName);
+        Mono<ResponseEntity<PolicyTypeObject>> responseEntityMono = policyService.getPolicyTypeDefinitionService(policyTypeName);
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
-            if (responseBody instanceof String returnPolicyType)
-                return returnPolicyType.contains(addedPolicyType.getSchema());
-            return false;
+            return responseBody.getPolicySchema().toString().contains(addedPolicyType.getSchema());
         });
     }
 

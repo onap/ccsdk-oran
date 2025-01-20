@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2.PolicyContro
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.ErrorHandlingService;
 import org.onap.ccsdk.oran.a1policymanagementservice.service.v3.PolicyService;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +76,7 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> getPolicyTypeDefinition(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<PolicyTypeObject>> getPolicyTypeDefinition(String policyTypeId, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyTypeDefinitionService(policyTypeId)
                 .doOnError(errorHandlingService::handleError);
     }
@@ -89,6 +90,12 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
     @Override
     public Mono<ResponseEntity<Object>> putPolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
         return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange))
+                .doOnError(errorHandlingService::handleError);
+    }
+
+    @Override
+    public Mono<ResponseEntity<Object>> getPolicyStatus(String policyId, String accept, ServerWebExchange exchange) throws Exception {
+        return policyService.getPolicyStatus(policyId, exchange)
                 .doOnError(errorHandlingService::handleError);
     }
 }
