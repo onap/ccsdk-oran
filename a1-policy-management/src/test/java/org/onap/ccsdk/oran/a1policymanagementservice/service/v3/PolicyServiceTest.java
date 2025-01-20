@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,22 +32,22 @@ import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeInformation;
+import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyTypeObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policy;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
-import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.v3.TestHelperTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.adapter.DefaultServerWebExchange;
@@ -88,14 +88,11 @@ class PolicyServiceTest {
     @Autowired
     private TestHelperTest testHelperTest;
 
-    @MockBean
+    @MockitoBean
     private Helper helper;
 
-    @MockBean
+    @MockitoBean
     private AuthorizationService authorizationService;
-
-    @Autowired
-    private MockA1ClientFactory a1ClientFactory;
 
     @Autowired
     private Gson gson;
@@ -316,11 +313,14 @@ class PolicyServiceTest {
         String policyTypeName = "uri_type_123";
         String nonRtRicId = "Ric_347";
         PolicyType addedPolicyType = testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
-        Mono<ResponseEntity<Object>> responseEntityMono = policyService.getPolicyTypeDefinitionService(policyTypeName);
+        Mono<ResponseEntity<PolicyTypeObject>> responseEntityMono = policyService.getPolicyTypeDefinitionService(policyTypeName);
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> {
-            if (responseBody instanceof String returnPolicyType)
-                return returnPolicyType.contains(addedPolicyType.getSchema());
-            return false;
+            try {
+                Object expectedSchema = gson.fromJson(addedPolicyType.getSchema(), Object.class);
+                return responseBody.getPolicySchema().equals(expectedSchema);
+            } catch (Exception e) {
+                return false;
+            }
         });
     }
 
