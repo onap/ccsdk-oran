@@ -81,19 +81,22 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'  # Or 'zulu' or 'adopt'
-      # Step 3: Run Maven build
+      # Step 3: Download custom settings.xml
+      - name: Download settings.xml
+        run: wget -O $HOME/.m2/settings.xml https://raw.githubusercontent.com/onap/oparent/refs/heads/master/settings.xml
+      # Step 4: Run Maven build
       - name: Build a1-policy-management image with Maven
         run: |
           cd a1-policy-management
-          mvn clean install -Dmaven.test.skip=true
-      # Step 4: Run FTC on new a1-policy review
+          mvn clean install --settings $HOME/.m2/settings.xml -Dmaven.test.skip=true
+      # Step 5: Run FTC on new a1-policy review
       - name: Run FTC tests with the local a1-policy image
         run: |
           git clone https://gerrit.o-ran-sc.org/r/nonrtric
           cd nonrtric/test/auto-test
           chmod +x ./onap-verify-jobs.sh
           sudo bash ./onap-verify-jobs.sh
-      # Step 5: uploading the logs
+      # Step 6: uploading the logs
       - name: uploading the logs
         uses: actions/upload-artifact@v4
         with:
