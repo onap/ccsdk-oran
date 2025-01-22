@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,9 @@ package org.onap.ccsdk.oran.a1policymanagementservice.util.v3;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
+import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
@@ -49,6 +52,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class Helper {
+
+    private final ApplicationConfig applicationConfig;
 
     @Autowired
     private TokenService tokenService;
@@ -103,6 +108,53 @@ public class Helper {
     public Boolean jsonSchemaValidation(Object jsonObject) {
         toJson(jsonObject);
         return true;
+    }
+
+    private boolean policyTypeSchemaValidation(Policy policy, PolicyType policyType) {
+        try {
+            JSONObject schemaJson = new JSONObject(policyType.getSchema());
+            var schema = SchemaLoader.load(schemaJson);
+            JSONObject policyJson = new JSONObject(policy.getJson());
+
+            // PUT request body is not automatically deserialized - so we manually extract the desired policy object
+            if (policyJson.has("policyObject")) {
+                policyJson = policyJson.getJSONObject("policyObject");
+            }
+
+            schema.validate(policyJson);
+            logger.info("Policy type schema validation successful");
+            return true; // Validation passed
+        } catch (Exception e) {
+            logger.error("Policy type schema validation failed", e);
+            return false; // Validation failed
+        }
+    }
+
+    public Boolean performPolicySchemaValidation(Policy policy, PolicyType policyType) {
+
+        switch (applicationConfig.getValidateSchema()) {
+            case INFO:
+                if (policyTypeSchemaValidation(policy, policyType)) {
+                    return true;
+                }
+                logger.info("Policy Schema validation failed but not enforced.");
+                return true;
+            case WARN:
+                if (policyTypeSchemaValidation(policy, policyType)) {
+                    return true;
+                }
+                logger.warn("Policy Schema validation failed but not enforced.");
+                return true;
+            case FAIL:
+                if (policyTypeSchemaValidation(policy, policyType)) {
+                    return true;
+                }
+                logger.error("Policy Schema validation failed.");
+                return false;
+            default:
+                logger.info("Policy schema validation disabled.");
+                return true;
+        }
     }
 
     public String policyIdGeneration(PolicyObjectInformation policyObjectInfo) {

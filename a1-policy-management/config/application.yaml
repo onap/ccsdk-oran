@@ -3,7 +3,7 @@
 # ONAP : ccsdk oran
 # ================================================================================
 # Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
-# Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
+# Modifications Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -58,6 +58,8 @@ app:
     trust-store: /opt/app/policy-agent/etc/cert/truststore.jks
   # path where the service can store data. This parameter is not relevant if S3 Object store is configured.
   vardata-directory: /var/policy-management-service
+  # Options for schema validation of the policy and policy status. Options: NONE, INFO, WARN, FAIL
+  validate-schema: NONE
 lifecycle:
   timeout-per-shutdown-phase: "20s"
 logging:

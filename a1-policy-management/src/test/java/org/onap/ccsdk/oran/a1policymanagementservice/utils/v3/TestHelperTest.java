@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,10 +170,26 @@ public class TestHelperTest {
         return gson.toJson(policyObjectInfo);
     }
 
+    public String postBadPolicyBody(String nearRtRicId, String policyTypeName, String policyId) {
+        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyBadPolicyObject(), policyTypeName);
+        if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
+            policyObjectInfo.setPolicyId(policyId);
+        return gson.toJson(policyObjectInfo);
+    }
+
     public String putPolicyBody(String nearRtRicId, String policyTypeName, String policyId, String ueId, String qosId,
                                 String priorityLevel) {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObjectForPut(
                 ueId, qosId, priorityLevel), policyTypeName);
+        if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
+            policyObjectInfo.setPolicyId(policyId);
+        return gson.toJson(policyObjectInfo);
+    }
+
+    public String putBadPolicyBody(String nearRtRicId, String policyTypeName, String policyId, String ueId, String qosId,
+                                String priorityLevel, String foo) {
+        PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyBadPolicyObjectForPut(
+                ueId, qosId, priorityLevel, foo), policyTypeName);
         if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
             policyObjectInfo.setPolicyId(policyId);
         return gson.toJson(policyObjectInfo);
@@ -195,11 +211,37 @@ public class TestHelperTest {
                 "    }").getAsJsonObject();
     }
 
+    public JsonObject dummyBadPolicyObjectForPut(String... values) {
+        return JsonParser.parseString("{\n" +
+                "        \"scope\": {\n" +
+                "            \"ueId\": \"" + values[0] + "\",\n" +
+                "            \"qosId\": \"" + values[1] + "\",\n" +
+                "            \"foo\": \"" + values[3] + "\"\n" +
+                "        },\n" +
+                "        \"qosObjectives\": {\n" +
+                "            \"priorityLevel\": " + values[2] + "\n" +
+                "        }\n" +
+                "    }").getAsJsonObject();
+    }
+
     public JsonObject dummyPolicyObject() {
         return JsonParser.parseString("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"ue5100\",\n" +
                 "            \"qosId\": \"qos5100\"\n" +
+                "        },\n" +
+                "        \"qosObjectives\": {\n" +
+                "            \"priorityLevel\": 5100.0\n" +
+                "        }\n" +
+                "    }").getAsJsonObject();
+    }
+
+    public JsonObject dummyBadPolicyObject() {
+        return JsonParser.parseString("{\n" +
+                "        \"scope\": {\n" +
+                "            \"ueId\": \"ue5100\",\n" +
+                "            \"qosId\": \"qos5100\",\n" +
+                "            \"foo\": \"bar\"\n" +
                 "        },\n" +
                 "        \"qosObjectives\": {\n" +
                 "            \"priorityLevel\": 5100.0\n" +
