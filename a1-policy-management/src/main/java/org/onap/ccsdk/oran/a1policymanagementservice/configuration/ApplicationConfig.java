@@ -3,7 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
- * Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +22,16 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import lombok.Getter;
 import lombok.Setter;
-
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.WebClientConfig.HttpProxyConfig;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-
 import reactor.core.publisher.Flux;
 import reactor.netty.transport.ProxyProvider;
 
@@ -109,6 +105,18 @@ public class ApplicationConfig {
     @Setter
     @Value("${app.database-enabled:}")
     private boolean databaseEnabled;
+
+    public enum ValidateSchema {
+        NONE,
+        INFO,
+        WARN,
+        FAIL
+    }
+
+    @Getter
+    @Setter
+    @Value("${app.validate-policy-instance-schema:NONE}")
+    private ValidateSchema validatePolicyInstanceSchema;
 
     private Map<String, RicConfig> ricConfigs = new HashMap<>();
 

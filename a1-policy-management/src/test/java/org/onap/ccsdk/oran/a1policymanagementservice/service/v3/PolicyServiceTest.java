@@ -122,6 +122,7 @@ class PolicyServiceTest {
         Policy policy = testHelperTest.buidTestPolicy(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), "122344-5674");
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
         when(helper.buildPolicy(any(),any(), any(), any(), any())).thenReturn(policy);
+        when(helper.performPolicySchemaValidation(any(), any())).thenReturn(Boolean.TRUE);
         when(helper.isPolicyAlreadyCreated(any(), any())).thenReturn(Mono.error(new ServiceException
                 ("Same policy content already created with policy ID: 122344-5674", HttpStatus.BAD_REQUEST)));
         Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
@@ -136,6 +137,7 @@ class PolicyServiceTest {
         testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         ServerWebExchange serverWebExchange = Mockito.mock(DefaultServerWebExchange.class);
         when(helper.jsonSchemaValidation(any())).thenReturn(Boolean.TRUE);
+        when(helper.performPolicySchemaValidation(any(), any())).thenReturn(Boolean.TRUE);
         when(helper.isPolicyAlreadyCreated(any(), any())).thenReturn(Mono.just(Policy.builder().build()));
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.error(new ServiceException("Not authorized", HttpStatus.UNAUTHORIZED)));
         Mono<ResponseEntity<PolicyObjectInformation>> responseMono = policyService.createPolicyService(testHelperTest.policyObjectInfo(nonRtRicId, policyTypeName), serverWebExchange);
@@ -189,6 +191,7 @@ class PolicyServiceTest {
         when(helper.buildPolicy(any(),any(), any(), any(), any())).thenReturn(updatedPolicy);
         when(helper.checkRicStateIdle(any())).thenReturn(Mono.just(updatedPolicy.getRic()));
         when(helper.checkSupportedType(any(), any())).thenReturn(Mono.just(updatedPolicy.getRic()));
+        when(helper.performPolicySchemaValidation(any(), any())).thenReturn(Boolean.TRUE);
         when(authorizationService.authCheck(any(), any(), any())).thenReturn(Mono.just(updatedPolicy));
         Mono<ResponseEntity<Object>> responseMono = policyService.putPolicyService(policy.getId(), updatedPolicyObjectInfo.getPolicyObject(), serverWebExchange);
         testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody -> {
