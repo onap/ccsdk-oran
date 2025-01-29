@@ -241,6 +241,11 @@
           "200" : {
             "content" : {
               "application/json" : {
+                "examples" : {
+                  "PolicyTypeInformation" : {
+                    "$ref" : "#/components/examples/PolicyTypeInformation"
+                  }
+                },
                 "schema" : {
                   "items" : {
                     "$ref" : "#/components/schemas/PolicyTypeInformation"
@@ -375,12 +380,12 @@
             "content" : {
               "application/json" : {
                 "examples" : {
-                  "policyObject" : {
-                    "$ref" : "#/components/examples/PolicyObject"
+                  "PolicyTypeObject" : {
+                    "$ref" : "#/components/examples/PolicyTypeObject"
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/PolicyObject"
+                  "$ref" : "#/components/schemas/PolicyTypeObject"
                 }
               }
             },
@@ -507,7 +512,7 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "The created A1 policy was deleted"
+            "description" : "The A1 policy was deleted"
           },
           "400" : {
             "content" : {
@@ -548,6 +553,26 @@
               }
             },
             "description" : "Not Found"
+          },
+          "405" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Method Not Allowed"
+          },
+          "406" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Acceptable"
           },
           "423" : {
             "content" : {
@@ -919,6 +944,136 @@
         "tags" : [ "A1 Policy Management" ]
       }
     },
+    "/policies/{policyId}/status" : {
+      "get" : {
+        "description" : "Query a policy status",
+        "operationId" : "getPolicyStatus",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "policyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.",
+          "explode" : false,
+          "in" : "header",
+          "name" : "Accept",
+          "required" : false,
+          "schema" : {
+            "example" : "application/json",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolicyStatusObject"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "406" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Acceptable"
+          },
+          "429" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Too Many Request"
+          },
+          "500" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "502" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Bad Gateway"
+          },
+          "503" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "tags" : [ "A1 Policy Management" ]
+      }
+    },
     "/policies" : {
       "get" : {
         "description" : "Returns a list of A1 policies matching given search criteria. <br>If several query parameters are defined, the policies matching all conditions are returned.",
@@ -1158,6 +1313,16 @@
             },
             "description" : "Not Found"
           },
+          "405" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Method Not Allowed"
+          },
           "406" : {
             "content" : {
               "application/problem+json" : {
@@ -1167,6 +1332,36 @@
               }
             },
             "description" : "Not Acceptable"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Conflict"
+          },
+          "413" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Payload Too Large"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unsupported Media Type"
           },
           "423" : {
             "content" : {
@@ -1652,6 +1847,56 @@
             "pdb" : 50
           }
         }
+      },
+      "PolicyTypeInformation" : {
+        "value" : [ {
+          "policyTypeId" : "STD_QOS2_0.1.0",
+          "nearRtRicId" : "ricsim_g3_2"
+        }, {
+          "policyTypeId" : "STD_QOS_0_2_0",
+          "nearRtRicId" : "ricsim_g3_2"
+        }, {
+          "policyTypeId" : "STD_QOS2_0.1.0",
+          "nearRtRicId" : "ricsim_g3_1"
+        }, {
+          "policyTypeId" : "STD_QOS_0_2_0",
+          "nearRtRicId" : "ricsim_g3_1"
+        } ]
+      },
+      "PolicyTypeObject" : {
+        "value" : {
+          "policySchema" : {
+            "$schema" : "http://json-schema.org/draft-07/schema#",
+            "title" : "STD_QOS_0_2_0",
+            "description" : "STD QOS2 policy type",
+            "type" : "object",
+            "properties" : {
+              "scope" : {
+                "type" : "object",
+                "properties" : {
+                  "ueId" : {
+                    "type" : "string"
+                  },
+                  "qosId" : {
+                    "type" : "string"
+                  }
+                },
+                "additionalProperties" : false,
+                "required" : [ "ueId", "qosId" ]
+              },
+              "qosObjectives" : {
+                "type" : "object",
+                "properties" : {
+                  "priorityLevel" : {
+                    "type" : "number"
+                  }
+                },
+                "additionalProperties" : false,
+                "required" : [ "priorityLevel" ]
+              }
+            }
+          }
+        }
       }
     },
     "responses" : {
@@ -1814,6 +2059,10 @@
     "schemas" : {
       "PolicyTypeInformation" : {
         "description" : "Available policy types and for each policy type identifier the Near-RT RIC identifiers of those Near-RT RICs that support the related A1 policy type",
+        "example" : {
+          "policyTypeId" : "STD_QOS2_0.1.0",
+          "nearRtRicId" : "ricsim_g3_2"
+        },
         "properties" : {
           "policyTypeId" : {
             "description" : "Identity of the policy type",
@@ -1886,6 +2135,80 @@
       },
       "PolicyObject" : {
         "description" : "Policy Object is a JSON representation of an A1 policy",
+        "type" : "object"
+      },
+      "PolicyTypeObject" : {
+        "description" : "policy type object as defined in A1TD",
+        "example" : {
+          "policySchema" : {
+            "$schema" : "http://json-schema.org/draft-07/schema#",
+            "title" : "STD_QOS_0_2_0",
+            "description" : "STD QOS policy type",
+            "type" : "object",
+            "properties" : {
+              "scope" : {
+                "type" : "object",
+                "properties" : {
+                  "ueId" : {
+                    "type" : "string"
+                  },
+                  "qosId" : {
+                    "type" : "string"
+                  }
+                },
+                "additionalProperties" : false,
+                "required" : [ "ueId", "qosId" ]
+              },
+              "qosObjectives" : {
+                "type" : "object",
+                "properties" : {
+                  "priorityLevel" : {
+                    "type" : "number"
+                  }
+                },
+                "additionalProperties" : false,
+                "required" : [ "priorityLevel" ]
+              }
+            }
+          },
+          "statusSchema" : {
+            "$schema" : "http://json-schema.org/draft-07/schema#",
+            "title" : "STD_QOS_0.2.0",
+            "description" : "STD QOS policy type status",
+            "type" : "object",
+            "properties" : {
+              "enforceStatus" : {
+                "type" : "string"
+              },
+              "enforceReason" : {
+                "type" : "string"
+              },
+              "additionalProperties" : false,
+              "required" : [ "enforceStatus" ]
+            }
+          }
+        },
+        "properties" : {
+          "policySchema" : {
+            "$ref" : "#/components/schemas/PolicySchema"
+          },
+          "statusSchema" : {
+            "$ref" : "#/components/schemas/StatusSchema"
+          }
+        },
+        "required" : [ "policySchema" ],
+        "type" : "object"
+      },
+      "PolicySchema" : {
+        "description" : "The schemas are policy type specific",
+        "type" : "object"
+      },
+      "StatusSchema" : {
+        "description" : "The optional schema for policy status",
+        "type" : "object"
+      },
+      "PolicyStatusObject" : {
+        "description" : "A generic policy status object that can be used to transport any policy status. Additionally, a policy status shall be valid according to the schema of its specific policy type.",
         "type" : "object"
       },
       "void" : {

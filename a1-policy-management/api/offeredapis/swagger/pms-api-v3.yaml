@@ -215,7 +215,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/PolicyTypeInformation'
                 type: array
-
+              examples:
+                PolicyTypeInformation:
+                  $ref: '#/components/examples/PolicyTypeInformation'
           description: OK - Policy Type IDs found Ok
         '400':
           $ref: '#/components/responses/400'
@@ -261,10 +263,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PolicyObject'
+                $ref: '#/components/schemas/PolicyTypeObject'
               examples:
-                policyObject:
-                  $ref: '#/components/examples/PolicyObject'
+                PolicyTypeObject:
+                  $ref: '#/components/examples/PolicyTypeObject'
           description: OK - schema of the given policy type
         '400':
           $ref: '#/components/responses/400'
@@ -361,7 +363,7 @@ paths:
             example: application/json
       responses:
         '204':
-          description: 'The created A1 policy was deleted'
+          description: 'The A1 policy was deleted'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -370,6 +372,10 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
         '423':
           $ref: '#/components/responses/Locked'
         '429':
@@ -431,6 +437,53 @@ paths:
       description: Returns a policy
       tags:
         - A1 Policy Management
+  /policies/{policyId}/status:
+    get:
+      operationId: getPolicyStatus
+      parameters:
+        - explode: false
+          in: path
+          name: policyId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Specifies the content type that the client expects to receive in response to the request.
+            Only application/json is allowed.
+          in: header
+          name: Accept
+          schema:
+            type: string
+            example: application/json
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyStatusObject'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+        '502':
+          $ref: '#/components/responses/502'
+        '503':
+          $ref: '#/components/responses/503'
+      description: 'Query a policy status'
+      tags:
+        - A1 Policy Management
+
   /policies:
     get:
       description: "Returns a list of A1 policies matching given search criteria.\
@@ -537,8 +590,16 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
         '406':
           $ref: '#/components/responses/406'
+        '409':
+          $ref: '#/components/responses/409'
+        '413':
+          $ref: '#/components/responses/413'
+        '415':
+          $ref: '#/components/responses/415'
         '423':
           $ref: '#/components/responses/Locked'
         '429':
@@ -831,6 +892,43 @@ components:
           mfbr: 200
           priorityLevel: 3
           pdb: 50
+    PolicyTypeInformation:
+      value:
+      - policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ricsim_g3_2
+      - policyTypeId: STD_QOS_0_2_0
+        nearRtRicId: ricsim_g3_2
+      - policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ricsim_g3_1
+      - policyTypeId: STD_QOS_0_2_0
+        nearRtRicId: ricsim_g3_1
+    PolicyTypeObject:
+      value:
+        policySchema:
+          "$schema": http://json-schema.org/draft-07/schema#
+          title: STD_QOS_0_2_0
+          description: STD QOS2 policy type
+          type: object
+          properties:
+            scope:
+              type: object
+              properties:
+                ueId:
+                  type: string
+                qosId:
+                  type: string
+              additionalProperties: false
+              required:
+                - ueId
+                - qosId
+            qosObjectives:
+              type: object
+              properties:
+                priorityLevel:
+                  type: number
+              additionalProperties: false
+              required:
+                - priorityLevel
   schemas:
     PolicyTypeInformation:
       description: >-
@@ -847,6 +945,9 @@ components:
       required:
         - policyTypeId
         - nearRtRicId
+      example:
+        policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ricsim_g3_2
     PolicyObjectInformation:
       description: Information related to the creation of the policy
       type: object
@@ -906,6 +1007,64 @@ components:
       type: object
     PolicyObject:
       description: 'Policy Object is a JSON representation of an A1 policy'
+      type: object
+    PolicyTypeObject:
+         description: 'policy type object as defined in A1TD'
+         type: object
+         properties:
+           policySchema:
+             $ref: '#/components/schemas/PolicySchema'
+           statusSchema:
+             $ref: '#/components/schemas/StatusSchema'
+         required:
+           - "policySchema"
+         example:
+           policySchema:
+             "$schema": http://json-schema.org/draft-07/schema#
+             title: STD_QOS_0_2_0
+             description: STD QOS policy type
+             type: object
+             properties:
+               scope:
+                 type: object
+                 properties:
+                   ueId:
+                     type: string
+                   qosId:
+                     type: string
+                 additionalProperties: false
+                 required:
+                   - ueId
+                   - qosId
+               qosObjectives:
+                 type: object
+                 properties:
+                   priorityLevel:
+                     type: number
+                 additionalProperties: false
+                 required:
+                   - priorityLevel
+           statusSchema:
+             "$schema": http://json-schema.org/draft-07/schema#
+             title: STD_QOS_0.2.0
+             description: STD QOS policy type status
+             type: object
+             properties:
+               enforceStatus:
+                 type: string
+               enforceReason:
+                 type: string
+               additionalProperties: false
+               required:
+                 - enforceStatus
+    PolicySchema:
+      description: 'The schemas are policy type specific'
+      type: object
+    StatusSchema:
+      description: 'The optional schema for policy status'
+      type: object
+    PolicyStatusObject:
+      description: 'A generic policy status object that can be used to transport any policy status. Additionally, a policy status shall be valid according to the schema of its specific policy type.'
       type: object
     void:
       description: Void/empty
