@@ -941,18 +941,18 @@ ul.nav-tabs {
   "properties" : {
     "nearRtRicId" : {
       "type" : "string",
-      "description" : "identity of the target Near-RT RIC",
+      "description" : "Identity of the target Near-RT RIC",
       "example" : "Near-RT-Ric-ID"
     },
     "transient" : {
       "type" : "boolean",
-      "description" : "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
+      "description" : "If true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
       "nullable" : false,
       "default" : false
     },
     "policyId" : {
       "type" : "string",
-      "description" : "identity of the Policy",
+      "description" : "The identity of the Policy. If this value is present, it must be unique; otherwise, a random UUID is generated.",
       "example" : "POLICY-ID"
     },
     "serviceId" : {
@@ -965,7 +965,7 @@ ul.nav-tabs {
     },
     "policyTypeId" : {
       "type" : "string",
-      "description" : "identity of the policy type",
+      "description" : "Identity of the policy type",
       "example" : "ORAN_QOS_1.0.0(typeName_SemVersion)"
     }
   },
@@ -1096,7 +1096,7 @@ ul.nav-tabs {
   "properties" : {
     "ricId" : {
       "type" : "string",
-      "description" : "identity of the Near-RT RIC"
+      "description" : "Identity of the Near-RT RIC"
     },
     "managedElementIds" : {
       "type" : "array",
@@ -1141,7 +1141,7 @@ ul.nav-tabs {
   "properties" : {
     "ricId" : {
       "type" : "string",
-      "description" : "identity of a Near-RT RIC"
+      "description" : "Identity of a Near-RT RIC"
     },
     "eventType" : {
       "type" : "string",
@@ -1161,7 +1161,7 @@ ul.nav-tabs {
     },
     "serviceId" : {
       "type" : "string",
-      "description" : "identity of the service"
+      "description" : "Identity of the service"
     },
     "keepAliveIntervalSeconds" : {
       "type" : "integer",
@@ -1180,7 +1180,7 @@ ul.nav-tabs {
     },
     "serviceId" : {
       "type" : "string",
-      "description" : "identity of the service"
+      "description" : "Identity of the service"
     },
     "keepAliveIntervalSeconds" : {
       "type" : "integer",
@@ -1279,7 +1279,7 @@ ul.nav-tabs {
               <div class="app-desc">Version: 1.0.0</div>
             <hr>
             <div id="app-description" class="app-desc">
-                <h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p>
+                <h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p>
 
             </div>
           </div>
@@ -11049,7 +11049,7 @@ $(document).ready(function() {
                   <div class="app-desc">Information URL: <a href="https://www.onap.org/">https://www.onap.org/</a></div>
                   <div class="app-desc">Contact Info: <a href="discuss-list@onap.com">discuss-list@onap.com</a></div>
               </p>
-                <div class="license-info">Copyright (C) 2024 OpenInfra Foundation Europe. Licensed under the Apache License.</div>
+                <div class="license-info">Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.</div>
                 <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0</div>
             </div>
           </div>
