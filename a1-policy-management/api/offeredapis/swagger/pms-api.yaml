@@ -1,6 +1,4 @@
-#  ============LICENSE_START=======================================================
-#  Copyright (C) 2020-2023 Nordix Foundation
-#  Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
+#  Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
 #  Modifications Copyright (C) 2021 Pantheon.tech
 #  Modifications Copyright (C) 2021 Bell Canada
 #  ================================================================================
@@ -23,7 +21,7 @@ openapi: 3.0.3
 info:
   x-api-id: a31c510b-20e6-4a08-af16-368c44d7fba8
   x-audience: external-public
-  description: "<h2>General</h2><p>The O-RAN Non-RT RIC Policy Management Service\
+  description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service\
     \ provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the\
     \ service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
     \ and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining\
@@ -50,9 +48,10 @@ info:
     \ Actuator</h3><p>Provides generic functions  used to monitor and manage the Spring\
     \ web application.</p>"
   license:
-    name: Copyright (C) 2020-2023 Nordix Foundation. Licensed under the Apache License.
+    name: Copyright (C) 2020-2023 Nordix Foundation, and Copyright (C) 2024-2025 OpenInfra Foundation Europe. 
+      All rights reserved. Licensed under the Apache 2 License.
     url: http://www.apache.org/licenses/LICENSE-2.0
-  title: A1 Policy Management Service
+  title: ONAP CCSDK A1 Policy Management Service
   version: 1.3.0
   contact:
     url: https://www.onap.org/
@@ -60,9 +59,9 @@ info:
 servers:
   - url: /
 tags:
-  - name: A1 Policy Management
-    description: "API used to create polices, Policy Instances and get them as individual
-    using an ID or get all policies/Instances."
+  - name: A1 Policy Management (Older version)
+    description: "Older API used to create polices, Policy Instances and get them as individual
+     using an ID or get all policies/Instances."
   - name: NearRT-RIC Repository
     description: "API used to get the NearRT-RIC for the managed element."
   - name: Service Registry and Supervision
@@ -70,10 +69,12 @@ tags:
   - name: Health Check
     description: "API used to get the health status and statistics of this service"
   - name: Service callbacks
+    description: "Callouts to indicate status schanges relevant for Services.
+     <br> Note that these calls are called by A1-PMS, not provided."
   - name: Authorization API
     description: "API used for authorization of information A1 policy access (this is
      provided by an authorization producer such as OPA). <br> Note that this API is called
-     by PMS, it is not provided."
+     by A1-PMS, it is not provided."
   - name: Configuration
     description: "API used to create or fetch the application configuration."
   - name: Actuator
