@@ -47,9 +47,8 @@ API Table
    :header: "API name", "|swagger-icon|", "|yaml-icon|"
    :widths: 10,5, 5
 
-   "A1 Policy Management Service API (NBI)", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
-   "A1 PolicyManagementService, ServiceRegistry, Configuration, and NearRT-RIC Repository API V3 (NBI)", ":download:`link <./swagger/pms-api-v3.json>`", ":download:`link <./swagger/pms-api-v3.yaml>`"
-   "A1 Policy Management Service API V3 (NBI)", ":download:`link <./swagger/a1pms-api-v3.json>`"
+   "Older A1PolicyManagementService, ServiceRegistry, Configuration, NearRT-RIC Repository, Health Check APIs, and Admin/Actuator APIs (NBI)", ":download:`link <./swagger/pms-api.json>`", ":download:`link <./swagger/pms-api.yaml>`"
+   "New 'V3' A1PolicyManagementService, ServiceRegistry, Configuration, NearRT-RIC Repository, and Health Check APIs (NBI)", ":download:`link <./swagger/pms-api-v3.json>`", ":download:`link <./swagger/pms-api-v3.yaml>`"
    "A1 ADAPTER API (Internal)", ":download:`link <./swagger/a1-adapter-api.json>`", ":download:`link <./swagger/a1-adapter-api.yaml>`"
 
 .. _pms_api:
@@ -57,8 +56,9 @@ API Table
 A1 Policy Management Service API
 ................................
 
-The A1 Policy Management Service API is described in more detail in `A1 Policy Management Service API (html) <./pms-api.html>`_
-A1 PolicyManagementService, ServiceRegistry, Configuration, and NearRT-RIC Repository API version 3 is described in more detail at `A1 Policy Management Service API V3 (html) <./pms-api-v3.html>`_
+The new "V3" A1 PolicyManagementService, ServiceRegistry, Configuration, NearRT-RIC Repository, and Health Check APIs (NBI) are described in more detail in `A1 Policy Management Service API (html) <./pms-api.html>`_
+
+The older A1PolicyManagementService, ServiceRegistry, Configuration, NearRT-RIC Repository, Health Check APIs, and Admin/Actuator APIs are described in more detail at `A1 Policy Management Service API "V3" (html) <./pms-api-v3.html>`_
 
 .. _a1_adapter_api:
 
