@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "df066b9e26419593ba40e1916d64e74ce60d8d08",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5edc903_492255c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7629
+      },
+      "writtenOn": "2025-02-04T16:10:34Z",
+      "side": 1,
+      "message": "Build fails for \nNo versions available for org.onap.ccsdk.sli.core:sli-common:jar:[2.1.0-SNAPSHOT,2.1.99999-SNAPSHOT]\n\nNot related to the review",
+      "revId": "df066b9e26419593ba40e1916d64e74ce60d8d08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
