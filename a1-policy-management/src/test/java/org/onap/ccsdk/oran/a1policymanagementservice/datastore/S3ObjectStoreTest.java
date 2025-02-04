@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,10 +49,12 @@ class S3ObjectStoreTest {
     static ApplicationConfig appConfig;
     private static S3ObjectStore s3ObjectStore;
     private static final String bucketName = "s3bucket";
+    private static final String localstackVersion = "4.1.0";
 
+    @SuppressWarnings("resource") // @Testcontainers will manage the lifecycle of the container.
     @Container
     private static final LocalStackContainer localstack =
-            new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.3"))
+            new LocalStackContainer(DockerImageName.parse("localstack/localstack:" + localstackVersion))
                     .withServices(LocalStackContainer.Service.S3);
 
     @BeforeAll
