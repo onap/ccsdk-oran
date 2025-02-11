@@ -39,6 +39,30 @@
       },
       "revId": "6efcbdc18310ba973dd7cca68730691339cdbf76",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13699c83_19fb53b9",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-02-11T15:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efcf89ee_54db25e5",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "6efcbdc18310ba973dd7cca68730691339cdbf76",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
