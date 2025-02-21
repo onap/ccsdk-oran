@@ -110,6 +110,16 @@ class PolicyControllerV3Test {
     + "ImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
     + "O5QN_SWN4J1mWKyXk_-PCvOA6GF3ypv1rSdg2uTb_Ls";
 
+    private final String bearerTokenUpn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+            + "eyJpc3MiOiJleGFtcGxlX2lzc3VlciIsInVwbiI6IjEyMzQ1Njc4OTAiLCJhdWQiOiJteWNsaWVu"
+            + "dCIsImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
+            + "z3OqH4_a2jzt4XOJlUB5r9seP2ppkdYVdK1LYZXkSh4";
+
+    private final String bearerTokenPrefUser = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+            + "eyJpc3MiOiJleGFtcGxlX2lzc3VlciIsInByZWZlcnJlZF91c2VybmFtZSI6IjEyMzQ1Njc4OTAiLCJh"
+            + "dWQiOiJteWNsaWVudCIsImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
+            + "vt5K1E68zHUBkvK8lTXSLHXH6gvHdZ1RwyrhPx9qQ-Q";
+
     private final String emptyBearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IiJ9."
     + "eyJpYXQiOjE1MTYyMzkwMjJ9.uE72OfhNzhIFuyHhZyI0eYVPG6QJ7s7A-SVeKsLubCQ";
 
@@ -534,6 +544,18 @@ class PolicyControllerV3Test {
     @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id")
     void testPostPolicyWithToken() throws IOException {
         postPolicyWithTokenAndVerify(bearerToken, null, "myclient");
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id with subject as upn")
+    void testPostPolicyWithTokenUpn() throws IOException {
+        postPolicyWithTokenAndVerify(bearerTokenUpn, null, "myclient");
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id with subject as preferred_username")
+    void testPostPolicyWithTokenPrefUser() throws IOException {
+        postPolicyWithTokenAndVerify(bearerTokenPrefUser, null, "myclient");
     }
 
     @Test

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,18 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.util.v3;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
@@ -34,20 +39,26 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.nio.channels.Channels;
-import java.nio.charset.StandardCharsets;
+import reactor.util.context.Context;
+import reactor.util.context.ContextView;
 
 public class ReactiveEntryExitFilter implements WebFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final String FACILITY_KEY = "facility";
+    private static final String SUBJECT_KEY = "subject";
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+
+        // sets FACILITY_KEY and SUBJECT_KEY in MDC
+        auditLog(exchange.getRequest());
+
+        String subject = MDC.get(SUBJECT_KEY);
+        String facility = MDC.get(FACILITY_KEY);
+
         ServerHttpRequest httpRequest = exchange.getRequest();
-        ServerHttpResponse httpResponse = exchange.getResponse();
         MultiValueMap<String, String> queryParams = httpRequest.getQueryParams();
         logger.info("Request received with path: {}, and the Request Id: {}, with HTTP Method: {}", httpRequest.getPath(),
                 exchange.getRequest().getId(), exchange.getRequest().getMethod());
@@ -56,34 +67,91 @@ public class ReactiveEntryExitFilter implements WebFilter {
 
         ServerHttpRequestDecorator loggingServerHttpRequestDecorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
             String requestBody;
+
             @Override
             public Flux<DataBuffer> getBody() {
-                return super.getBody().doOnNext(dataBuffer -> {
-                    requestBody = dataBuffer.toString(StandardCharsets.UTF_8); // Read the bytes from the DataBuffer
-                    if (!(requestBody.isEmpty() && requestBody.isBlank()))
+                return Flux.deferContextual(contextView ->
+                    // Now, return the original body flux with a doFinally to clear MDC after processing
+                    super.getBody().doOnNext(dataBuffer -> {
+                        requestBody = dataBuffer.toString(StandardCharsets.UTF_8); // Read the bytes from the DataBuffer
                         logger.trace("For the request ID: {} the received request body: {}", exchange.getRequest().getId(), requestBody);
-                });
+                    }).doOnEach(signal -> MDC.clear())
+                            .doFinally(signal -> MDC.clear())); // Clear MDC after the request body is processed
             }
         };
         ServerHttpResponseDecorator loggingServerHttpResponseDecorator = new ServerHttpResponseDecorator(exchange.getResponse()) {
-            String responseBody;
             @Override
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-                Flux<DataBuffer> buffer = Flux.from(body);
-                return super.writeWith(buffer.doOnNext(dataBuffer -> {
-//                    try {
-                        dataBuffer.toString(StandardCharsets.UTF_8);
-                        logger.info("For the request ID: {} the Status code of the response: {}", exchange.getRequest().getId(), httpResponse.getStatusCode());
-                        logger.trace("For the request ID: {} the response is: {} ", exchange.getRequest().getId(), responseBody);
-//                    } catch (Exception e) {
-//                        logger.info("For the request ID: {} we got an Error during processing: {}", exchange.getRequest().getId(), e.getMessage());
-//                        logger.trace("For the request ID: {} the response body :: {}", exchange.getRequest().getId(), responseBody);
-//                    }
-                }));
+                return Mono.deferContextual(contextView ->
+                    super.writeWith(Flux.from(body).doOnNext(dataBuffer -> {
+                        String responseBody = dataBuffer.toString(StandardCharsets.UTF_8);
+                        restoreFromContextToMdc(contextView);
+                        logger.info("For the request ID: {} the Status code of the response: {}",
+                                exchange.getRequest().getId(), getStatusCode());
+                        logger.trace("For the request ID: {} the response is: {} ",
+                                exchange.getRequest().getId(), responseBody);
+                    })).doFinally(signalType -> MDC.clear())); // Clear MDC to prevent leakage
             }
         };
-        return chain.filter(exchange.mutate().request(loggingServerHttpRequestDecorator).response(loggingServerHttpResponseDecorator).build());
+        return chain.filter(exchange.mutate()
+                        .request(loggingServerHttpRequestDecorator)
+                        .response(loggingServerHttpResponseDecorator)
+                        .build())
+                .contextWrite(Context.of(FACILITY_KEY, facility, SUBJECT_KEY, subject))
+                .doFinally(signalType -> MDC.clear());
     }
 
+    private void auditLog(ServerHttpRequest request) {
+        String authHeader = request.getHeaders().getFirst("Authorization");
+        String subject = "n/av";
+        if (authHeader != null && authHeader.startsWith(BEARER_PREFIX)) {
+            String token = authHeader.substring(BEARER_PREFIX.length());
+            subject = this.getSubjectFromToken(token);
+        }
 
+        String facility = "log audit";
+
+        MDC.put(SUBJECT_KEY, subject);
+        MDC.put(FACILITY_KEY, facility);
+    }
+
+    private String getSubjectFromToken(String token) {
+        try {
+            String[] chunks = token.split("\\.");
+            if (chunks.length < 2) {
+                logger.warn("Invalid JWT: Missing payload");
+                return "n/av";
+            }
+
+            Base64.Decoder decoder = Base64.getUrlDecoder();
+            String payload = new String(decoder.decode(chunks[1]));
+            JsonObject jsonObject = JsonParser.parseString(payload).getAsJsonObject();
+
+            if (jsonObject.has("upn")) {
+                return sanitize(jsonObject.get("upn").getAsString());
+            } else if (jsonObject.has("preferred_username")) {
+                return sanitize(jsonObject.get("preferred_username").getAsString());
+            } else if (jsonObject.has("sub")) {
+                return sanitize(jsonObject.get("sub").getAsString());
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to extract subject from token: {}", e.getMessage());
+        }
+        return "n/av";
+    }
+
+    private String sanitize(String input) {
+        if (input == null) {
+            return "n/av";
+        }
+        // Replace dangerous characters
+        return input.replaceAll("[\r\n]", "")  // Remove newlines
+                .replaceAll("[{}()<>]", "") // Remove brackets
+                .replaceAll("[^\\p{Alnum}\\p{Punct}\\s]", ""); // Remove non-printable characters
+    }
+
+    private void restoreFromContextToMdc(ContextView context) {
+        context.getOrEmpty(FACILITY_KEY).ifPresent(value -> MDC.put(FACILITY_KEY, value.toString()));
+        context.getOrEmpty(SUBJECT_KEY).ifPresent(value -> MDC.put(SUBJECT_KEY, value.toString()));
+    }
 }

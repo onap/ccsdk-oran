@@ -62,7 +62,9 @@ app:
   validate-policy-instance-schema: NONE
 lifecycle:
   timeout-per-shutdown-phase: "20s"
+
 logging:
+  config: ${LOGBACK_CONFIG_FILE:classpath:logback-plain.xml}
   # Reactive logging filter
   reactive-entry-exit-filter-enabled: true
   # Configuration of logging
