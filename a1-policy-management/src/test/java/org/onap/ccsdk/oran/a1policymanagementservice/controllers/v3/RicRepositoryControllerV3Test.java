@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ class RicRepositoryControllerV3Test {
     @Test
     void testGetRic() throws IOException {
         testHelperTest.addPolicyType("1", "ricAdded");
-        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics/ric?ricId=ricAdded");
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics/ricAdded");
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
                 .contains("{\"ricId\":\"ricAdded\",\"managedElementIds\":[],\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]}"));
     }

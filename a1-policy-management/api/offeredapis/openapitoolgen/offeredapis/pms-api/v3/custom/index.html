@@ -844,20 +844,6 @@ ul.nav-tabs {
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-    defs["AuthorizationResult"] = {
-  "required" : [ "result" ],
-  "type" : "object",
-  "properties" : {
-    "result" : {
-      "type" : "boolean",
-      "description" : "If true, the access is granted"
-    }
-  },
-  "description" : "Result of authorization",
-  "example" : {
-    "result" : true
-  }
-};
     defs["ErrorInformation"] = {
   "type" : "object",
   "properties" : {
@@ -879,47 +865,6 @@ ul.nav-tabs {
     }
   },
   "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807"
-};
-    defs["input"] = {
-  "required" : [ "accessType", "authToken", "policyTypeId" ],
-  "type" : "object",
-  "properties" : {
-    "accessType" : {
-      "type" : "string",
-      "description" : "Access type",
-      "enum" : [ "READ", "WRITE", "DELETE" ]
-    },
-    "authToken" : {
-      "type" : "string",
-      "description" : "Authorization token"
-    },
-    "policyTypeId" : {
-      "type" : "string",
-      "description" : "Policy type identifier"
-    }
-  },
-  "description" : "input"
-};
-    defs["Link"] = {
-  "type" : "object",
-  "properties" : {
-    "templated" : {
-      "type" : "boolean"
-    },
-    "href" : {
-      "type" : "string"
-    }
-  }
-};
-    defs["PolicyAuthorization"] = {
-  "required" : [ "input" ],
-  "type" : "object",
-  "properties" : {
-    "input" : {
-      "$ref" : "#/components/schemas/input"
-    }
-  },
-  "description" : "Authorization request for A1 policy requests"
 };
     defs["PolicyInformation"] = {
   "required" : [ "nearRtRicId", "policyId" ],
@@ -971,20 +916,6 @@ ul.nav-tabs {
     }
   },
   "description" : "Information related to the creation of the policy"
-};
-    defs["PolicyStatusInfo"] = {
-  "type" : "object",
-  "properties" : {
-    "lastModified" : {
-      "type" : "string",
-      "description" : "timestamp, last modification time"
-    },
-    "status" : {
-      "type" : "object",
-      "description" : "the Policy status"
-    }
-  },
-  "description" : "Status for one A1-P Policy"
 };
     defs["PolicyTypeInformation"] = {
   "required" : [ "nearRtRicId", "policyTypeId" ],
@@ -1605,7 +1536,7 @@ $(document).ready(function() {
                             <h3 id="examples-A1PolicyManagement-createPolicy-title-201"></h3>
                             <p id="examples-A1PolicyManagement-createPolicy-description-201" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement201_description = `Success case 201 created`;
+                              var responseA1PolicyManagement201_description = `Created`;
                               var responseA1PolicyManagement201_description_break = responseA1PolicyManagement201_description.indexOf('\n');
                               if (responseA1PolicyManagement201_description_break == -1) {
                                 $("#examples-A1PolicyManagement-createPolicy-title-201").text("Status: 201 - " + responseA1PolicyManagement201_description);
@@ -1636,7 +1567,7 @@ $(document).ready(function() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Success case 201 created",
+  "description" : "Created",
   "headers" : {
     "Location" : {
       "description" : "Contains the URI of the newly created resource",
@@ -1645,6 +1576,15 @@ $(document).ready(function() {
       "explode" : false,
       "schema" : {
         "type" : "string"
+      }
+    },
+    "Content-Type" : {
+      "description" : "Media Type of the response",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "application/json"
       }
     }
   },
@@ -1704,6 +1644,12 @@ $(document).ready(function() {
                                                   <td>String</td>
                                                   <td></td>
                                                   <td>Contains the URI of the newly created resource</td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Content-Type</td>
+                                                  <td>String</td>
+                                                  <td></td>
+                                                  <td>Media Type of the response</td>
                                               </tr>
                                       </table>
                                   </div>
@@ -2476,7 +2422,7 @@ $(document).ready(function() {
                             <h3 id="examples-A1PolicyManagement-createPolicy-title-429"></h3>
                             <p id="examples-A1PolicyManagement-createPolicy-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-createPolicy-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -2504,7 +2450,7 @@ $(document).ready(function() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -3101,7 +3047,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-deletePolicy-title-204"></h3>
                             <p id="examples-A1PolicyManagement-deletePolicy-description-204" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement204_description = `The A1 policy was deleted`;
+                              var responseA1PolicyManagement204_description = `No Content`;
                               var responseA1PolicyManagement204_description_break = responseA1PolicyManagement204_description.indexOf('\n');
                               if (responseA1PolicyManagement204_description_break == -1) {
                                 $("#examples-A1PolicyManagement-deletePolicy-title-204").text("Status: 204 - " + responseA1PolicyManagement204_description);
@@ -3124,7 +3070,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "The A1 policy was deleted"
+  "description" : "No Content"
 };
                                       var schema = findNode('schema',schemaWrapper).schema;
                                       if (!schema) {
@@ -3702,7 +3648,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-deletePolicy-title-429"></h3>
                             <p id="examples-A1PolicyManagement-deletePolicy-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-deletePolicy-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -3730,7 +3676,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -4888,7 +4834,7 @@ Select policies of types with the given type name (type identity has the format 
                             <h3 id="examples-A1PolicyManagement-getAllPolicies-title-429"></h3>
                             <p id="examples-A1PolicyManagement-getAllPolicies-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getAllPolicies-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -4916,7 +4862,7 @@ Select policies of types with the given type name (type identity has the format 
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -5980,7 +5926,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-getPolicy-title-429"></h3>
                             <p id="examples-A1PolicyManagement-getPolicy-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicy-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -6008,7 +5954,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -7067,7 +7013,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-429"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyStatus-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyStatus-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -7095,7 +7041,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -8159,7 +8105,7 @@ Specifies the content type that the client expects to receive in response to the
                             <h3 id="examples-A1PolicyManagement-getPolicyTypeDefinition-title-429"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypeDefinition-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyTypeDefinition-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -8187,7 +8133,7 @@ Specifies the content type that the client expects to receive in response to the
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -9316,7 +9262,7 @@ Select types that are compatible with the given version. This parameter is only 
                             <h3 id="examples-A1PolicyManagement-getPolicyTypes-title-429"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypes-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyTypes-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -9344,7 +9290,7 @@ Select types that are compatible with the given version. This parameter is only 
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {
@@ -10738,7 +10684,7 @@ $(document).ready(function() {
                             <h3 id="examples-A1PolicyManagement-putPolicy-title-429"></h3>
                             <p id="examples-A1PolicyManagement-putPolicy-description-429" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement429_description = `Too Many Request`;
+                              var responseA1PolicyManagement429_description = `Too Many Requests`;
                               var responseA1PolicyManagement429_description_break = responseA1PolicyManagement429_description.indexOf('\n');
                               if (responseA1PolicyManagement429_description_break == -1) {
                                 $("#examples-A1PolicyManagement-putPolicy-title-429").text("Status: 429 - " + responseA1PolicyManagement429_description);
@@ -10766,7 +10712,7 @@ $(document).ready(function() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Too Many Request",
+  "description" : "Too Many Requests",
   "content" : {
     "application/problem+json" : {
       "schema" : {

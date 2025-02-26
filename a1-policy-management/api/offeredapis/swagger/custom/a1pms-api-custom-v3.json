@@ -60,32 +60,33 @@
               }
             },
             "description" : "OK- Service is living Ok"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
           }
         },
         "tags" : [ "Health Check" ]
       }
     },
-    "/rics/ric" : {
+    "/rics/{ricId}" : {
       "get" : {
-        "description" : "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).",
+        "description" : "A ricId path parameter must be specified to retrieve associated ric infomation",
         "operationId" : "getRic",
         "parameters" : [ {
-          "description" : "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.",
-          "explode" : true,
-          "in" : "query",
-          "name" : "managedElementId",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          },
-          "style" : "form"
-        }, {
           "description" : "The identity of a Near-RT RIC to get information for.",
           "explode" : true,
-          "in" : "query",
+          "in" : "path",
           "name" : "ricId",
-          "required" : false,
+          "required" : true,
           "schema" : {
+            "nullable" : false,
             "type" : "string"
           },
           "style" : "form"
@@ -312,7 +313,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -447,7 +448,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -510,7 +511,7 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "The A1 policy was deleted"
+            "description" : "No Content"
           },
           "400" : {
             "content" : {
@@ -595,7 +596,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -729,7 +730,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -906,7 +907,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -1036,7 +1037,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -1200,7 +1201,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -1258,13 +1259,22 @@
                 }
               }
             },
-            "description" : "Success case 201 created",
+            "description" : "Created",
             "headers" : {
               "Location" : {
                 "description" : "Contains the URI of the newly created resource",
                 "explode" : false,
                 "required" : true,
                 "schema" : {
+                  "type" : "string"
+                },
+                "style" : "simple"
+              },
+              "Content-Type" : {
+                "description" : "Media Type of the response",
+                "explode" : false,
+                "schema" : {
+                  "example" : "application/json",
                   "type" : "string"
                 },
                 "style" : "simple"
@@ -1384,7 +1394,7 @@
                 }
               }
             },
-            "description" : "Too Many Request"
+            "description" : "Too Many Requests"
           },
           "500" : {
             "content" : {
@@ -1464,7 +1474,7 @@
         "responses" : {
           "200" : {
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/void"
                 }
@@ -1524,7 +1534,7 @@
         "responses" : {
           "200" : {
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "type" : "object"
                 }
@@ -1662,7 +1672,7 @@
         "responses" : {
           "200" : {
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "type" : "object"
                 }
@@ -1672,7 +1682,7 @@
           },
           "201" : {
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "type" : "object"
                 }
@@ -1723,7 +1733,7 @@
         "responses" : {
           "204" : {
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "type" : "object"
                 }
@@ -1762,17 +1772,6 @@
             "keepAliveIntervalSeconds" : 0,
             "timeSinceLastActivitySeconds" : 6
           } ]
-        }
-      },
-      "PolicyStatusInfo" : {
-        "description" : "Status for one A1-P Policy",
-        "value" : {
-          "lastModified" : "last_modified",
-          "status" : {
-            "value" : {
-              "status" : "status"
-            }
-          }
         }
       },
       "StatusInfo" : {
@@ -2005,7 +2004,7 @@
             }
           }
         },
-        "description" : "Too Many Request"
+        "description" : "Too Many Requests"
       },
       "500" : {
         "content" : {
@@ -2092,6 +2091,7 @@
             "type" : "string"
           },
           "serviceId" : {
+            "default" : "",
             "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
             "example" : "rApp ID",
             "type" : "string"
@@ -2221,20 +2221,6 @@
         },
         "type" : "object"
       },
-      "AuthorizationResult" : {
-        "description" : "Result of authorization",
-        "example" : {
-          "result" : true
-        },
-        "properties" : {
-          "result" : {
-            "description" : "If true, the access is granted",
-            "type" : "boolean"
-          }
-        },
-        "required" : [ "result" ],
-        "type" : "object"
-      },
       "RicInfo" : {
         "description" : "Information for a Near-RT RIC",
         "properties" : {
@@ -2286,20 +2272,6 @@
         "required" : [ "serviceId" ],
         "type" : "object"
       },
-      "PolicyStatusInfo" : {
-        "description" : "Status for one A1-P Policy",
-        "properties" : {
-          "lastModified" : {
-            "description" : "timestamp, last modification time",
-            "type" : "string"
-          },
-          "status" : {
-            "description" : "the Policy status",
-            "type" : "object"
-          }
-        },
-        "type" : "object"
-      },
       "ServiceStatus" : {
         "properties" : {
           "callbackUrl" : {
@@ -2334,36 +2306,6 @@
             "type" : "array"
           }
         },
-        "type" : "object"
-      },
-      "input" : {
-        "description" : "input",
-        "properties" : {
-          "accessType" : {
-            "description" : "Access type",
-            "enum" : [ "READ", "WRITE", "DELETE" ],
-            "type" : "string"
-          },
-          "authToken" : {
-            "description" : "Authorization token",
-            "type" : "string"
-          },
-          "policyTypeId" : {
-            "description" : "Policy type identifier",
-            "type" : "string"
-          }
-        },
-        "required" : [ "accessType", "authToken", "policyTypeId" ],
-        "type" : "object"
-      },
-      "PolicyAuthorization" : {
-        "description" : "Authorization request for A1 policy requests",
-        "properties" : {
-          "input" : {
-            "$ref" : "#/components/schemas/input"
-          }
-        },
-        "required" : [ "input" ],
         "type" : "object"
       },
       "NearRtRicId" : {
@@ -2410,17 +2352,6 @@
           }
         },
         "required" : [ "eventType", "ricId" ],
-        "type" : "object"
-      },
-      "Link" : {
-        "properties" : {
-          "templated" : {
-            "type" : "boolean"
-          },
-          "href" : {
-            "type" : "string"
-          }
-        },
         "type" : "object"
       },
       "ProblemDetails" : {

@@ -84,31 +84,24 @@ paths:
                 status_info:
                   $ref: '#/components/examples/StatusInfo'
           description: OK- Service is living Ok
+        "404":
+          $ref: '#/components/responses/404'
       description: Returns status and statistics of this service
       tags:
         - Health Check
-  /rics/ric:
+  /rics/{ricId}:
     get:
-      description: Either a Near-RT RIC identity or a Managed Element identity can
-        be specified.<br>The intention with Managed Element identity is the ID used
-        in O1 for accessing the traffical element (such as the ID of CU).
+      description: A ricId path parameter must be specified to retrieve associated ric infomation
       operationId: getRic
       parameters:
-        - description: "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned."
-          explode: true
-          in: query
-          name: managedElementId
-          required: false
-          schema:
-            type: string
-          style: form
         - description: The identity of a Near-RT RIC to get information for.
           explode: true
-          in: query
+          in: path
           name: ricId
-          required: false
+          required: true
           schema:
             type: string
+            nullable: false
           style: form
         - description: Specifies the content type that the client expects to receive in response to the request.
             Only application/json is allowed.
@@ -363,7 +356,7 @@ paths:
             example: application/json
       responses:
         '204':
-          description: 'The A1 policy was deleted'
+          description: 'No Content'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -571,7 +564,7 @@ paths:
               $ref: '#/components/schemas/PolicyObjectInformation'
       responses:
         '201':
-          description: 'Success case 201 created'
+          description: 'Created'
           content:
             application/json:
               schema:
@@ -582,6 +575,12 @@ paths:
               required: true
               schema:
                 type: string
+            Content-Type:
+              description: 'Media Type of the response'
+              schema:
+                type: string
+                example: application/json
+
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -640,7 +639,7 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            'application/json':
               schema:
                 $ref: '#/components/schemas/void'
           description: OK - Configuration updated
@@ -681,7 +680,7 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: object
           description: "OK - Service supervision timer refreshed, OK"
@@ -742,13 +741,13 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: object
           description: OK - Service updated
         "201":
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: object
           description: Created - Service created
@@ -800,7 +799,7 @@ paths:
       responses:
         "204":
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: object
           description: No Content - Service unregistered
@@ -823,13 +822,6 @@ components:
             serviceId: serviceId
             keepAliveIntervalSeconds: 0
             timeSinceLastActivitySeconds: 6
-    PolicyStatusInfo:
-      description: Status for one A1-P Policy
-      value:
-        lastModified: last_modified
-        status:
-          value:
-            status: status
     StatusInfo:
       value:
         status: status
@@ -1074,17 +1066,6 @@ components:
           description: status text
           type: string
       type: object
-    AuthorizationResult:
-      description: Result of authorization
-      example:
-        result: true
-      properties:
-        result:
-          description: "If true, the access is granted"
-          type: boolean
-      required:
-        - result
-      type: object
     RicInfo:
       description: Information for a Near-RT RIC
       properties:
@@ -1134,16 +1115,6 @@ components:
       required:
         - serviceId
       type: object
-    PolicyStatusInfo:
-      description: Status for one A1-P Policy
-      properties:
-        lastModified:
-          description: "timestamp, last modification time"
-          type: string
-        status:
-          description: the Policy status
-          type: object
-      type: object
     ServiceStatus:
       properties:
         callbackUrl:
@@ -1169,35 +1140,6 @@ components:
           items:
             $ref: '#/components/schemas/RicInfo'
           type: array
-      type: object
-    input:
-      description: input
-      properties:
-        accessType:
-          description: Access type
-          enum:
-            - READ
-            - WRITE
-            - DELETE
-          type: string
-        authToken:
-          description: Authorization token
-          type: string
-        policyTypeId:
-          description: Policy type identifier
-          type: string
-      required:
-        - accessType
-        - authToken
-        - policyTypeId
-      type: object
-    PolicyAuthorization:
-      description: Authorization request for A1 policy requests
-      properties:
-        input:
-          $ref: '#/components/schemas/input'
-      required:
-        - input
       type: object
     NearRtRicId:
       description: Identity of the policy
@@ -1240,13 +1182,6 @@ components:
       required:
         - eventType
         - ricId
-      type: object
-    Link:
-      properties:
-        templated:
-          type: boolean
-        href:
-          type: string
       type: object
     ProblemDetails:
       description: >-
@@ -1333,7 +1268,7 @@ components:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
     '429':
-      description: Too Many Request
+      description: Too Many Requests
       content:
         application/problem+json:
           schema:

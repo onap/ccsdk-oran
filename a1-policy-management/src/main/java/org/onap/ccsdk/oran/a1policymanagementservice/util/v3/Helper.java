@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.util.v3;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
@@ -43,6 +44,7 @@ import reactor.core.publisher.Mono;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -148,5 +150,18 @@ public class Helper {
         return policyTypeCollection.stream()
                 .map(type -> new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()))
                 .collect(Collectors.toList());
+    }
+
+
+    public void validateQueryParameters(ServerWebExchange exchange, Set<String> allowedParams) throws InvalidRequestException {
+        Set<String> receivedParams = exchange.getRequest().getQueryParams().keySet();
+
+        Set<String> extraParams = receivedParams.stream()
+                .filter(param -> !allowedParams.contains(param))
+                .collect(Collectors.toSet());
+
+        if (!extraParams.isEmpty()) {
+            throw new InvalidRequestException("Unexpected query parameters: " + extraParams);
+        }
     }
 }
