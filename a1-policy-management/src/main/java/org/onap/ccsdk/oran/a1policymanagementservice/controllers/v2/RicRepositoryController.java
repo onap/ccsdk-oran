@@ -33,6 +33,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.models.v2.RicInfoList;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Ric;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
+import org.onap.ccsdk.oran.a1policymanagementservice.util.v3.Helper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController("ricRepositoryControllerV2")
 @RequiredArgsConstructor
@@ -63,12 +65,17 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
     private static final String GET_RIC_DETAILS =
             "Either a Near-RT RIC identity or a Managed Element identity can be specified.<br>" //
                     + "The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).";
+    private final Helper helper;
+
     @Override
     public Mono<ResponseEntity<RicInfo>> getRic(
             final String managedElementId, final String ricId, final ServerWebExchange exchange)
             throws Exception {
+
+        helper.validateQueryParameters(exchange, Set.of("managed_element_id", "ric_id"));
+
         if (managedElementId != null && ricId != null) {
-            throw new InvalidRequestException("Give one query parameter");
+            throw new InvalidRequestException("Only one parameter allowed");
         } else if (managedElementId != null) {
             Ric ric = this.rics.lookupRicForManagedElement(managedElementId);
             return Mono.just(new ResponseEntity<>(toRicInfo(ric), HttpStatus.OK));
@@ -76,7 +83,7 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
             RicInfo info = toRicInfo(this.rics.getRic(ricId));
             return Mono.just(new ResponseEntity<>(info, HttpStatus.OK));
         } else {
-            throw new InvalidRequestException("Give one query parameter");
+            throw new InvalidRequestException("Only one parameter allowed");
         }
     }
 

@@ -105,7 +105,7 @@ class RicRepositoryControllerV3Test {
     @Test
     void testGetRic() throws IOException {
         testHelperTest.addPolicyType("1", "ricAdded");
-        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics/ric?ricId=ricAdded");
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity("/rics/ricAdded");
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
                 .contains("{\"ricId\":\"ricAdded\",\"managedElementIds\":[],\"state\":\"AVAILABLE\",\"policyTypeIds\":[\"1\"]}"));
     }
