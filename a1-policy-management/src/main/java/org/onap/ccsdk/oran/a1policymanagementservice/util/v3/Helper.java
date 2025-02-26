@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.InvalidRequestException;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyInformation;
 import org.onap.ccsdk.oran.a1policymanagementservice.models.v3.PolicyObjectInformation;
@@ -46,6 +47,7 @@ import reactor.core.publisher.Mono;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -200,5 +202,18 @@ public class Helper {
         return policyTypeCollection.stream()
                 .map(type -> new PolicyTypeInformation(type.getId(), ric.getConfig().getRicId()))
                 .collect(Collectors.toList());
+    }
+
+
+    public void validateQueryParameters(ServerWebExchange exchange, Set<String> allowedParams) throws InvalidRequestException {
+        Set<String> receivedParams = exchange.getRequest().getQueryParams().keySet();
+
+        Set<String> extraParams = receivedParams.stream()
+                .filter(param -> !allowedParams.contains(param))
+                .collect(Collectors.toSet());
+
+        if (!extraParams.isEmpty()) {
+            throw new InvalidRequestException("Unexpected query parameters: " + extraParams);
+        }
     }
 }
