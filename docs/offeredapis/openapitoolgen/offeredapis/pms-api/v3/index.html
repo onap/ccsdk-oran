@@ -12284,10 +12284,10 @@ pub fn main() {
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Either a Near-RT RIC identity or a Managed Element identity can be specified.&lt;br&gt;The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).</p>
+                        <p class="marked">A ricId path parameter must be specified to retrieve associated ric infomation</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/rics/ric</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/rics/{ricId}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -12311,7 +12311,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-NearRTRICRepository-getRic-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: application/json,application/problem+json" \
- "https://example.com/a1-policy-management/v1/rics/ric?managedElementId=managedElementId_example&ricId=ricId_example"
+ "https://example.com/a1-policy-management/v1/rics/{ricId}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-NearRTRICRepository-getRic-0-java">
@@ -12328,12 +12328,11 @@ public class NearRTRICRepositoryApiExample {
 
         // Create an instance of the API class
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
-        String managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
         String ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
         try {
-            RicInfo result = apiInstance.getRic(managedElementId, ricId, accept);
+            RicInfo result = apiInstance.getRic(ricId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling NearRTRICRepositoryApi#getRic");
@@ -12349,12 +12348,11 @@ public class NearRTRICRepositoryApiExample {
 
 final api_instance = DefaultApi();
 
-final String managedElementId = new String(); // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
 final String ricId = new String(); // String | The identity of a Near-RT RIC to get information for.
 final String accept = new String(); // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
 try {
-    final result = await api_instance.getRic(managedElementId, ricId, accept);
+    final result = await api_instance.getRic(ricId, accept);
     print(result);
 } catch (e) {
     print('Exception when calling DefaultApi->getRic: $e\n');
@@ -12369,12 +12367,11 @@ try {
 public class NearRTRICRepositoryApiExample {
     public static void main(String[] args) {
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
-        String managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
         String ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
         try {
-            RicInfo result = apiInstance.getRic(managedElementId, ricId, accept);
+            RicInfo result = apiInstance.getRic(ricId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling NearRTRICRepositoryApi#getRic");
@@ -12392,13 +12389,11 @@ public class NearRTRICRepositoryApiExample {
 
 // Create an instance of the API class
 NearRTRICRepositoryApi *apiInstance = [[NearRTRICRepositoryApi alloc] init];
-String *managedElementId = managedElementId_example; // The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional) (default to null)
-String *ricId = ricId_example; // The identity of a Near-RT RIC to get information for. (optional) (default to null)
+String *ricId = ricId_example; // The identity of a Near-RT RIC to get information for. (default to null)
 String *accept = application/json; // Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
 
 // Returns info for one Near-RT RIC
-[apiInstance getRicWith:managedElementId
-    ricId:ricId
+[apiInstance getRicWith:ricId
     accept:accept
               completionHandler: ^(RicInfo output, NSError* error) {
     if (output) {
@@ -12416,9 +12411,8 @@ String *accept = application/json; // Specifies the content type that the client
 
 // Create an instance of the API class
 var api = new A1PolicyManagementApi.NearRTRICRepositoryApi()
+var ricId = ricId_example; // {String} The identity of a Near-RT RIC to get information for.
 var opts = {
-  'managedElementId': managedElementId_example, // {String} The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
-  'ricId': ricId_example, // {String} The identity of a Near-RT RIC to get information for.
   'accept': application/json // {String} Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 };
 
@@ -12429,7 +12423,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getRic(opts, callback);
+api.getRic(ricId, opts, callback);
 </code></pre>
                             </div>
 
@@ -12452,13 +12446,12 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new NearRTRICRepositoryApi();
-            var managedElementId = managedElementId_example;  // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional)  (default to null)
-            var ricId = ricId_example;  // String | The identity of a Near-RT RIC to get information for. (optional)  (default to null)
+            var ricId = ricId_example;  // String | The identity of a Near-RT RIC to get information for. (default to null)
             var accept = application/json;  // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional)  (default to null)
 
             try {
                 // Returns info for one Near-RT RIC
-                RicInfo result = apiInstance.getRic(managedElementId, ricId, accept);
+                RicInfo result = apiInstance.getRic(ricId, accept);
                 Debug.WriteLine(result);
             } catch (Exception e) {
                 Debug.Print("Exception when calling NearRTRICRepositoryApi.getRic: " + e.Message );
@@ -12475,12 +12468,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\NearRTRICRepositoryApi();
-$managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
 $ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
 $accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
 try {
-    $result = $api_instance->getRic($managedElementId, $ricId, $accept);
+    $result = $api_instance->getRic($ricId, $accept);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling NearRTRICRepositoryApi->getRic: ', $e->getMessage(), PHP_EOL;
@@ -12495,12 +12487,11 @@ use WWW::OPenAPIClient::NearRTRICRepositoryApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::NearRTRICRepositoryApi->new();
-my $managedElementId = managedElementId_example; # String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
 my $ricId = ricId_example; # String | The identity of a Near-RT RIC to get information for.
 my $accept = application/json; # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 
 eval {
-    my $result = $api_instance->getRic(managedElementId => $managedElementId, ricId => $ricId, accept => $accept);
+    my $result = $api_instance->getRic(ricId => $ricId, accept => $accept);
     print Dumper($result);
 };
 if ($@) {
@@ -12517,13 +12508,12 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.NearRTRICRepositoryApi()
-managedElementId = managedElementId_example # String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional) (default to null)
-ricId = ricId_example # String | The identity of a Near-RT RIC to get information for. (optional) (default to null)
+ricId = ricId_example # String | The identity of a Near-RT RIC to get information for. (default to null)
 accept = application/json # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
 
 try:
     # Returns info for one Near-RT RIC
-    api_response = api_instance.get_ric(managedElementId=managedElementId, ricId=ricId, accept=accept)
+    api_response = api_instance.get_ric(ricId, accept=accept)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling NearRTRICRepositoryApi->getRic: %s\n" % e)</code></pre>
@@ -12533,12 +12523,11 @@ except ApiException as e:
                               <pre class="prettyprint"><code class="language-rust">extern crate NearRTRICRepositoryApi;
 
 pub fn main() {
-    let managedElementId = managedElementId_example; // String
     let ricId = ricId_example; // String
     let accept = application/json; // String
 
     let mut context = NearRTRICRepositoryApi::Context::default();
-    let result = client.getRic(managedElementId, ricId, accept, &context).wait();
+    let result = client.getRic(ricId, accept, &context).wait();
 
     println!("{:?}", result);
 }
@@ -12553,6 +12542,36 @@ pub fn main() {
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">ricId*</td>
+<td>
+
+
+    <div id="d2e199_getRic_ricId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description marked">
+The identity of a Near-RT RIC to get information for.
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
 
                             <div class="methodsubtabletitle">Header parameters</div>
                             <table id="methodsubtable">
@@ -12584,53 +12603,6 @@ Specifies the content type that the client expects to receive in response to the
 
 
 
-                            <div class="methodsubtabletitle">Query parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">managedElementId</td>
-<td>
-
-
-    <div id="d2e199_getRic_managedElementId">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-                    <div class="inner description marked">
-The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
-                    </div>
-            </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                                <tr><td style="width:150px;">ricId</td>
-<td>
-
-
-    <div id="d2e199_getRic_ricId">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-                    <div class="inner description marked">
-The identity of a Near-RT RIC to get information for.
-                    </div>
-            </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                            </table>
 
                           <h2>Responses</h2>
                             <h3 id="examples-NearRTRICRepository-getRic-title-200"></h3>

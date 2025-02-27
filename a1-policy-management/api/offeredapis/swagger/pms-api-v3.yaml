@@ -89,28 +89,19 @@ paths:
       description: Returns status and statistics of this service
       tags:
         - Health Check
-  /rics/ric:
+  /rics/{ricId}:
     get:
-      description: Either a Near-RT RIC identity or a Managed Element identity can
-        be specified.<br>The intention with Managed Element identity is the ID used
-        in O1 for accessing the traffical element (such as the ID of CU).
+      description: A ricId path parameter must be specified to retrieve associated ric infomation
       operationId: getRic
       parameters:
-        - description: "The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned."
-          explode: true
-          in: query
-          name: managedElementId
-          required: false
-          schema:
-            type: string
-          style: form
         - description: The identity of a Near-RT RIC to get information for.
           explode: true
-          in: query
+          in: path
           name: ricId
-          required: false
+          required: true
           schema:
             type: string
+            nullable: false
           style: form
         - description: Specifies the content type that the client expects to receive in response to the request.
             Only application/json is allowed.
