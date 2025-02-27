@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5340ba63_4829502c",
+        "filename": "a1-policy-management/api/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-02-27T11:19:42Z",
+      "side": 1,
+      "message": "I would have thought this removes the need for the content-type addition below ????",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 5
+      },
+      "revId": "19f27c22f5ed4fa1a94dd52afd64b9b55962bc5d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04c66724_c4bee0bd",
+        "filename": "a1-policy-management/api/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-02-27T11:19:42Z",
+      "side": 1,
+      "message": "I think we may be able to remove this again later pending further investigation - but its OK for now.",
+      "range": {
+        "startLine": 587,
+        "startChar": 11,
+        "endLine": 591,
+        "endChar": 41
+      },
+      "revId": "19f27c22f5ed4fa1a94dd52afd64b9b55962bc5d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
