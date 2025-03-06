@@ -1,6 +1,6 @@
 ## General
 
-This source repository contains the code for the ORAN A1 related components.
+This source repository contains the code for the O-RAN A1 related components.
 
 More information on the CCSDK A1 Policy Management Service can be found in the 'a1-policy-management' sub-directory. 
 
@@ -10,7 +10,7 @@ See also additional information at:
   - https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP
   - https://docs.onap.org/projects/onap-ccsdk-oran/en/latest/index.html
 
-## Prerequisits
+## Prerequisites
 
 To compile this code:
 
@@ -21,7 +21,8 @@ To compile this code:
 ## License
 
 Copyright (C) 2022-2023 Nordix Foundation. All rights reserved.
-Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+
+Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

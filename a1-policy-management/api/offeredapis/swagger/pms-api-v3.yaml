@@ -1,5 +1,6 @@
 #  ============LICENSE_START=======================================================
-#  Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. All rights reserved.
+#  Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
 #  ================================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -18,62 +19,76 @@
 
 openapi: 3.0.3
 info:
-  title: 'A1 policy management API'
+  title: ONAP CCSDK - A1 Policy Management API
   version: 1.0.0
-  x-api-id: a31c510b-20e6-4a08-af16-368c44d7fba8
+  x-api-id: e9776a07-0813-4fca-9801-6f892f0a7c13
   x-audience: external-public
   description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service\
-        \ provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the\
-        \ service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
-        \ and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining\
-        \ a view of supported Near-RT RIC policy types</li><li>Supervision of using services\
-        \ (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs\
-        \ provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This\
-        \ is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation,\
-        \ modification and deletion.</li><li>Retrieval of supported A1 Policy types for\
-        \ a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management\
-        \ of configuration</h3><p>API for updating and retrieval of the component configuration.\
-        \ Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These\
-        \ are endpoints that are invoked by this service. The callbacks are registered\
-        \ in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This\
-        \ is an API that provides support for looking up a NearRT-RIC. Each A1 policy\
-        \ is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
-        \ of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used\
-        \ for registering services that uses PMS. Each A1 policy is optionally owned by\
-        \ a service. PMS can supervise each registered service by a heart-beat supervision\
-        \ and will automatically remove policies for unavailable services. Note that a\
-        \ service does not need to be registered in order to create A1 Policies. This\
-        \ is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used\
-        \ for access control of A1 Policy access. If configured, an external authorization\
-        \ provider is requested to grant access to the A1 Policy type.</p>"
+    \ provides a REST API for managing A1 policies. <br/>This document describes the latest API set 
+    \ to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
+    \ and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining\
+    \ a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services\
+    \ (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs\
+    \ provided or defined by the service</h2>\
+    \ <p>Note: parts of this API are strongly based on extracts of the O-RAN Alliance R1 Interface specification\
+    \ for A1 Policy Management, and those parts should be considered '© O-RAN ALLIANCE - All rights reserved.'</p>\
+    \ <h3>A1 Policy Management</h3>\
+    \ <p>This is the latest API for managing A1 Policies. This API is partially compliant with O-RAN\
+    \ Alliance R1 Interface specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation,\
+    \ modification and deletion.</li><li>Retrieval of supported A1 Policy Types for\
+    \ a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management\
+    \ of configuration</h3><p>API for updating and retrieval of the component configuration.\
+    \ Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These\
+    \ are endpoints that are invoked by this service. The callbacks are registered\
+    \ in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3>\
+    \ <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy\
+    \ is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
+    \ of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3>\
+    \ <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner.\
+    \ If the owner service is registered, then the service can be monitored by a heart-beat supervision\
+    \ mechanism, and if the registered service becomes unavailable, then its A1 Policies are removed. Note \
+    \ that services do not need to be registered to create A1 Policies, but unregistered services are not \
+    \ supervised. This is a feature that is optional to use.</p>"
   license:
     name: Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.
     url: http://www.apache.org/licenses/LICENSE-2.0
   contact:
     url: https://www.onap.org/
     email: discuss-list@onap.com
+externalDocs:
+  description: 'Based on parts of O-RAN ALLIANCE specification: O-RAN.WG2.R1AP-v07.00'
+  url: 'https://www.o-ran.org/specifications'
 servers:
   - url: '{apiRoot}/a1-policy-management/v1'
     variables:
       apiRoot:
         default: 'https://example.com'
         description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed.
-         Note: This URL path format aligns with the O-RAN Alliance (r) R1-AP specifiactions for A1 Policy Management'
+         Note: This URL path format aligns with the O-RAN Alliance R1-AP specifications for A1 Policy Management'
 tags:
   - name: A1 Policy Management
-    description: "**(Newer Version)** API used to create polices, Policy Instances and get \ them as individual using an ID or get all policies/Instances."
+    description: > 
+      API used to get, create, update and delete A1 Policy Instances. Also used to query A1 Policy Types.
   - name: NearRT-RIC Repository
-    description: "API used to get the NearRT-RIC for the managed element."
+    description: > 
+      API used to get information about registered Near-RT RICs.
   - name: Service Registry and Supervision
-    description: "API used to keep the service Alive with in the timeout period"
+    description: > 
+      API used to manage registered services, and control their keep-alive status via heart-beat messages.
   - name: Health Check
-    description: "API used to get the health status and statistics of this service"
+    description: > 
+      API used to get the health status and statistics of this service.
   - name: Configuration
-    description: "API used to create or fetch the application configuration."
+    description: > 
+      API used to create or fetch the application configuration.
 paths:
   /status:
     get:
       operationId: getStatus
+      description: Returns status and statistics of this service
+      summary: Get Status (getStatus)
+      tags:
+        - Health Check
       responses:
         "200":
           content:
@@ -86,13 +101,13 @@ paths:
           description: OK- Service is living Ok
         "404":
           $ref: '#/components/responses/404'
-      description: Returns status and statistics of this service
-      tags:
-        - Health Check
   /rics/{ricId}:
     get:
-      description: A ricId path parameter must be specified to retrieve associated ric infomation
       operationId: getRic
+      description: Get information about a Near-RT RIC 
+      summary: Get a Near-RT RIC (getRic)
+      tags:
+        - NearRT-RIC Repository
       parameters:
         - description: The identity of a Near-RT RIC to get information for.
           explode: true
@@ -102,7 +117,6 @@ paths:
           schema:
             type: string
             nullable: false
-          style: form
         - description: Specifies the content type that the client expects to receive in response to the request.
             Only application/json is allowed.
           in: header
@@ -122,16 +136,17 @@ paths:
           description: OK - Near-RT RIC is found OK
         "404":
           $ref: '#/components/responses/404'
-      summary: Returns info for one Near-RT RIC
-      tags:
-        - NearRT-RIC Repository
   /rics:
     get:
-      description: The call returns all Near-RT RICs that supports a given policy
-        type identity
       operationId: getRics
+      description: Get all Near-RT RICs that supports a given A1 Policy Type ID
+      summary: Get Near-RT RICs for A1 Policy Type (getRics)
+      tags:
+        - NearRT-RIC Repository
       parameters:
-        - description: "The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned"
+        - description: > 
+            The identity of an A1 Policy Type. If given, all Near-RT RICs supporting
+            the A1 Policy Type are returned.
           explode: true
           in: query
           name: policyTypeId
@@ -158,12 +173,13 @@ paths:
           description: OK
         "404":
           $ref: '#/components/responses/404'
-      summary: Query Near-RT RIC information
-      tags:
-        - NearRT-RIC Repository
   /policy-types:
     get:
+      description: Query A1 Policy Type identities using query parameters
       operationId: getPolicyTypes
+      summary: Get A1 Policy Types (getPolicyTypes)
+      tags:
+        - A1 Policy Management
       parameters:
         - description: Select types for the given Near-RT RIC identity.
           explode: true
@@ -173,8 +189,7 @@ paths:
           schema:
             type: string
           style: form
-        - description: Select types with the given type name (type identity has the
-            format <typename_version>)
+        - description: Select types compatible with the given type name (type identity has the format 'typename_version')
           explode: true
           in: query
           name: typeName
@@ -182,8 +197,9 @@ paths:
           schema:
             type: string
           style: form
-        - description: Select types that are compatible with the given version. This
-            parameter is only applicable in conjunction with type_name. As an example
+        - description: > 
+            Select types that are compatible with the given version. This
+            parameter is only applicable in conjunction with typeName. As an example
             version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching
             types will be returned sorted in ascending order.
           explode: true
@@ -230,12 +246,13 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: Query policy type identities
-      tags:
-        - A1 Policy Management
   /policy-types/{policyTypeId}:
     get:
       operationId: getPolicyTypeDefinition
+      description: Get an A1 Policy Type definition using its policy type ID
+      summary: Get an A1 Policy Type definition (getPolicyTypeDefinition)
+      tags:
+        - A1 Policy Management
       parameters:
         - explode: false
           in: path
@@ -260,7 +277,7 @@ paths:
               examples:
                 PolicyTypeObject:
                   $ref: '#/components/examples/PolicyTypeObject'
-          description: OK - schema of the given policy type
+          description: OK - details and schema of the requested A1 Policy Type
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -279,12 +296,13 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: Returns a policy type definition
-      tags:
-        - A1 Policy Management
   /policies/{policyId}:
     put:
-      operationId: putPolicy
+      operationId: updatePolicy
+      description: Update an existing A1 Policy instance's policy data using its policy ID.
+      summary: Update an A1 Policy's policy data (updatePolicy)
+      tags:
+        - A1 Policy Management
       parameters:
         - name: policyId
           in: path
@@ -333,12 +351,12 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: update a policy
+    delete:
+      operationId: deletePolicy
+      description: Delete an existing A1 Policy instance using its policy ID.
+      summary: Delete an A1 Policy instance (deletePolicy)
       tags:
         - A1 Policy Management
-    delete:
-      description: Deleting the policy using policyId.
-      operationId: deletePolicy
       parameters:
         - explode: false
           in: path
@@ -379,11 +397,12 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      summary: Delete a policy
-      tags:
-        - A1 Policy Management
     get:
       operationId: getPolicy
+      description: Get an A1 Policy instance's policy data using its policy ID
+      summary: Get an A1 Policy's policy data (getPolicy)
+      tags:
+        - A1 Policy Management
       parameters:
         - explode: false
           in: path
@@ -427,12 +446,13 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: Returns a policy
-      tags:
-        - A1 Policy Management
   /policies/{policyId}/status:
     get:
       operationId: getPolicyStatus
+      description: Retrieve the status information for an A1 Policy Instance using its policy ID.
+      summary: Get an A1 Policy Instance's status (getPolicyStatus)
+      tags:
+        - A1 Policy Management
       parameters:
         - explode: false
           in: path
@@ -473,18 +493,17 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: 'Query a policy status'
-      tags:
-        - A1 Policy Management
-
   /policies:
     get:
-      description: "Returns a list of A1 policies matching given search criteria.\
-            \ <br>If several query parameters are defined, the policies matching all conditions\
-            \ are returned."
-      operationId: getAllPolicies
+      operationId: getPolicyIds
+      description: > 
+        Returns a collection of A1 Policy Instance IDs for policies that match given search criteria. 
+        If several query parameters are defined, the policies matching all conditions are returned.
+      summary: Query for A1 Policy instances (getPolicyIds)
+      tags:
+        - A1 Policy Management
       parameters:
-        - description: Select policies of a given policy type identity.
+        - description: Select policies with a given A1 Policy Type ID.
           explode: true
           in: query
           name: policyTypeId
@@ -492,7 +511,7 @@ paths:
           schema:
             type: string
           style: form
-        - description: Select policies of a given Near-RT RIC identity.
+        - description: Select policies for a given Near-RT RIC identity.
           explode: true
           in: query
           name: nearRtRicId
@@ -500,7 +519,7 @@ paths:
           schema:
             type: string
           style: form
-        - description: Select policies owned by a given service.
+        - description: Select policies owned by a given service (registered or unregistered).
           explode: true
           in: query
           name: serviceId
@@ -508,8 +527,7 @@ paths:
           schema:
             type: string
           style: form
-        - description: Select policies of types with the given type name (type identity
-            has the format <typename_version>)
+        - description: Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
           explode: true
           in: query
           name: typeName
@@ -551,11 +569,12 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      summary: Query policy identities
-      tags:
-        - A1 Policy Management
     post:
       operationId: createPolicy
+      description: Create an A1 Policy Instance
+      summary: Create an A1 Policy Instance (createPolicy)
+      tags:
+        - A1 Policy Management
       requestBody:
         required: true
         content:
@@ -571,7 +590,10 @@ paths:
                 $ref: '#/components/schemas/PolicyObjectInformation'
           headers:
             Location:
-              description: 'Contains the URI of the newly created resource'
+              description: > 
+                Contains the URI of the newly created A1 Policy Instances.
+                This URI includes the A1 Policy Instance ID for the newly 
+                created policy instance.
               required: true
               schema:
                 type: string
@@ -609,12 +631,13 @@ paths:
           $ref: '#/components/responses/502'
         '503':
           $ref: '#/components/responses/503'
-      description: 'To create A1 policies'
-      tags:
-        - A1 Policy Management
   /configuration:
     get:
       operationId: getConfiguration
+      description: Returns the entire contents of the Application Configuration.
+      tags:
+        - Configuration
+      summary: Get the Application Configuration (getConfiguration)
       responses:
         "200":
           content:
@@ -624,12 +647,16 @@ paths:
           description: OK - Application configuration received
         "404":
           $ref: '#/components/responses/404'
-
-      description: Returns the contents of the application configuration
-      tags:
-        - Configuration
     put:
       operationId: putConfiguration
+      description: > 
+        Replace the current Application Configuration with a new configuration.
+        The new configuration, if accepted, will take effect after a short delay. 
+        The new configuration must comply with the Application Configuration schema, 
+        which can be found from the the Application Documentation (Developer Guide) 
+      tags:
+        - Configuration
+      summary: Set/Replace the Application Configuration (putConfiguration)
       requestBody:
         content:
           application/json:
@@ -645,17 +672,17 @@ paths:
           description: OK - Configuration updated
         "400":
           $ref: '#/components/responses/400'
-      description: Replace the current configuration file with the given configuration
-      tags:
-        - Configuration
   /services/{serviceId}/keepalive:
     put:
-      description: A registered service should invoke this operation regularly to
-        indicate that it is still alive. If a registered service fails to invoke this
-        operation before the end of a timeout period the service will be deregistered
-        and all its A1 policies wil be removed. (This timeout can be set or disabled
-        when each service is initially registered)
       operationId: keepAliveService
+      description: A registered service should invoke this operation regularly to
+        indicate that it is still alive. If a registered service fails to invoke some operation, 
+        or this operation, before the end of a timeout period the service will be deregistered
+        and all its A1 policies wil be removed. This operation is only intended for registered 
+        services. (This timeout can be set or disabled when each service is initially registered)
+      summary: Heartbeat message from a service (keepAliveService)
+      tags:
+        - Service Registry and Supervision
       parameters:
         - explode: false
           in: path
@@ -683,19 +710,22 @@ paths:
             'application/json':
               schema:
                 type: object
-          description: "OK - Service supervision timer refreshed, OK"
+          description: OK - Service supervision timer refreshed, OK
         "404":
           $ref: '#/components/responses/404'
-      summary: Heartbeat indicates that the service is running
-      tags:
-        - Service Registry and Supervision
   /services:
     get:
-      description: Either information about a registered service with given identity
-        or all registered services are returned.
       operationId: getServices
+      description: > 
+        Get information about all registered services, or a single registered service. 
+        If the service ID of a registered service is included in the query, information about that 
+        service is returned. Otherwise Information about all registered is returned.
+        This operation does not retrieve information about unregistered services.
+      summary: Get Services (getServices)
+      tags:
+        - Service Registry and Supervision
       parameters:
-        - description: The identity of the service
+        - description: The identity of the registered service
           explode: true
           in: query
           name: serviceId
@@ -722,16 +752,19 @@ paths:
           description: OK
         "404":
           $ref: '#/components/responses/404'
-      summary: Returns service information
+    put:
+      operationId: putService
+      description: > 
+        Register a single service, or update a previous registration. 
+        Service registration is required to get callbacks about available NearRT RICs 
+        and to enable supervision of the service's active status. If a registered
+        service becomes inactive, its policies can be automatically deleted.
+        A1 Policy instances can also be created for unregistered services. 
+        If an unregistered service is later registered, the service's policies are 
+        retained when the service becomes registered. This feature is optional to use.
+      summary: Register or update a Service (putService)
       tags:
         - Service Registry and Supervision
-    put:
-      description: "Registering a service is needed to:<ul><li>Get callbacks about\
-            \ available NearRT RICs.</li><li>Activate supervision of the service. If a\
-            \ service is inactive, its policies will automatically be deleted.</li></ul>Policies\
-            \ can be created even if the service is not registerred. This is a feature\
-            \ which it is optional to use."
-      operationId: putService
       requestBody:
         content:
           application/json:
@@ -753,15 +786,17 @@ paths:
           description: Created - Service created
         "400":
           $ref: '#/components/responses/400'
-      summary: Register a service
-      tags:
-        - Service Registry and Supervision
       callbacks:
         RICStatus:
           "{$request.body#/callback_url}":
             post:
-              description: 'The URL to this call is registered at Service registration. <br>Callouts to indicate status changes relevant for Services. Note that these calls are called by A1-PMS and they are not provided.'
               operationId: serviceCallback
+              description: | 
+                Callouts to indicate Near-RT RIC status changes relevant for Services. 
+                The URL invoked by this callback is provided at Service registration.
+              summary: Callback for Near-RT RIC status (serviceCallback)
+              tags:
+                - Service Registry and Supervision
               requestBody:
                 content:
                   application/json:
@@ -777,10 +812,16 @@ paths:
                   description: OK
                 "404":
                   $ref: '#/components/responses/404'
-              summary: "Callback for Near-RT RIC status."
   /services/{serviceId}:
     delete:
       operationId: deleteService
+      description: > 
+        Unregister a registered Service using its service ID. 
+        Only registered services can be unregistered. All A1 Policy Instances 
+        for the previously registered service will be removed.
+      tags:
+        - Service Registry and Supervision
+      summary: Unregister a Service (deleteService) 
       parameters:
         - explode: false
           in: path
@@ -805,55 +846,54 @@ paths:
           description: No Content - Service unregistered
         "404":
           $ref: '#/components/responses/404'
-      description: Unregister a service
-      tags:
-        - Service Registry and Supervision
+
 components:
+
   examples:
     ServiceStatusList:
       description: List of service information
       value:
         serviceList:
-          - callbackUrl: callbackUrl
-            serviceId: serviceId
+          - callbackUrl: http://callback.url
+            serviceId: serviceId1
             keepAliveIntervalSeconds: 0
             timeSinceLastActivitySeconds: 6
-          - callbackUrl: callbackUrl
-            serviceId: serviceId
-            keepAliveIntervalSeconds: 0
-            timeSinceLastActivitySeconds: 6
+          - callbackUrl: http://callback.url
+            serviceId: serviceId2
+            keepAliveIntervalSeconds: 500
+            timeSinceLastActivitySeconds: 401
     StatusInfo:
       value:
-        status: status
+        status: success
     RicInfo:
       value:
-        ricId: ricId
+        ricId: ricId1
         managedElementIds:
-          - managedElementId
-          - managedElementId
+          - managedElementId1
+          - managedElementId2
         state: UNAVAILABLE
         policyTypeIds:
-          - policyTypeId
-          - policyTypeId
+          - policyTypeId1
+          - policyTypeId2
     RicInfoList:
       value:
         rics:
-          - ricId: ricId
+          - ricId: ricId1
             managedElementIds:
-              - managedElementId
-              - managedElementId
+              - managedElementId1
+              - managedElementId2
             state: UNAVAILABLE
             policyTypeIds:
-              - policyTypeId
-              - policyTypeId
-          - ricId: ricId
+              - policyTypeId1
+              - policyTypeId2
+          - ricId: ricId2
             managedElementIds:
-              - managedElementId
-              - managedElementId
+              - managedElementId3
+              - managedElementId4
             state: UNAVAILABLE
             policyTypeIds:
-              - policyTypeId
-              - policyTypeId
+              - policyTypeId3
+              - policyTypeId4
     PolicyObject:
       value:
         scope:
@@ -885,13 +925,13 @@ components:
     PolicyTypeInformation:
       value:
       - policyTypeId: STD_QOS2_0.1.0
-        nearRtRicId: ricsim_g3_2
+        nearRtRicId: ric_g3_2
       - policyTypeId: STD_QOS_0_2_0
-        nearRtRicId: ricsim_g3_2
+        nearRtRicId: ric_g3_2
       - policyTypeId: STD_QOS2_0.1.0
-        nearRtRicId: ricsim_g3_1
+        nearRtRicId: ric_g3_1
       - policyTypeId: STD_QOS_0_2_0
-        nearRtRicId: ricsim_g3_1
+        nearRtRicId: ric_g3_1
     PolicyTypeObject:
       value:
         policySchema:
@@ -919,16 +959,15 @@ components:
               additionalProperties: false
               required:
                 - priorityLevel
+
   schemas:
     PolicyTypeInformation:
       description: >-
-        Available policy types and for each policy type identifier the Near-RT
-        RIC identifiers of those Near-RT RICs that support the related A1 policy
-        type
+        A data tuple to indicate that an identified A1 Policy Type is supported at an identified Near-RT RIC.
       type: object
       properties:
         policyTypeId:
-          description: Identity of the policy type
+          description: A1 Policy Type identifier
           type: string
         nearRtRicId:
           $ref: '#/components/schemas/NearRtRicId'
@@ -937,42 +976,50 @@ components:
         - nearRtRicId
       example:
         policyTypeId: STD_QOS2_0.1.0
-        nearRtRicId: ricsim_g3_2
+        nearRtRicId: ric_g3_2
     PolicyObjectInformation:
-      description: Information related to the creation of the policy
+      description: Information to create an A1 Policy Instance
       type: object
       properties:
         nearRtRicId:
           description: Identity of the target Near-RT RIC
           type: string
           example:
-            'Near-RT-Ric-ID'
+            'Near-RT-Ric-ID1'
         transient:
           default: false
-          description: "If true, the policy is deleted at RIC restart. If false, its\
-                \ value is maintained by this service until explicitly deleted. Default\
-                \ false."
+          description: > 
+            If true, the policy is automatically deleted if the targeted Near-RT RIC restarts 
+            or recovers. If false, the A1 Policy Instance remains, and is re-pushed to the targeted 
+            Near-RT RIC after a restart or recovery. If false, the A1 Policy Instance is maintained and 
+            must be deleted separately in the event of Near-RT RIC restart or recovery. Default is false.
           nullable: false
           type: boolean
         policyId:
-          description: The identity of the Policy. If this value is present, it must be unique; otherwise, a random UUID is generated.
+          description: > 
+            An optional identity to be used for the new A1 Policy Instance. 
+            If this value is present, it must be unique. If not present the new A1 
+            Policy Instance will be assigned a newly generated unique ID, and the 
+            new ID can be extracted from the 'Location' header in the response.
           type: string
           example:
-            'POLICY-ID'
+            'POLICY-ID1'
         serviceId:
           description: the identity of the service owning the policy. This can be
             used to group the policies (it is possible to get all policies associated
-            to a service). Note that the service does not need to be registered.
+            to a service). Note that the service does not need to be registered. 
+            If the service is registered, the newly created A1 Policy Instance will be 
+            subject to the same supervision rules as the the service's other policies.
           type: string
           example:
-            'rApp ID'
+            'rApp 1'
           default: ""
         policyObject:
           $ref: '#/components/schemas/PolicyObject'
         policyTypeId:
-          description: Identity of the policy type
+          description: A1 Policy Type identity
           type: string
-          example: 'ORAN_QOS_1.0.0(typeName_SemVersion)'
+          example: ORAN_QOS_1.0.0 '(typeName_SemVersion)'
       required:
         - nearRtRicId
         - policyObject
@@ -981,26 +1028,27 @@ components:
       description: Problem as defined in https://tools.ietf.org/html/rfc7807
       properties:
         detail:
-          description: ' A human-readable explanation specific to this occurrence
-                of the problem.'
+          description: A human-readable explanation specific to this occurrence of the problem.
           example: Policy type not found
           type: string
         title:
-          description: 'A specific error name'
+          description: A specific error name
           type: string
           example: Not Found
         status:
-          description: 'The HTTP status code generated by the origin server for this
-                occurrence of the problem. '
+          description: | 
+            The HTTP status code generated by the origin server for this occurrence of the problem.
           example: 404
           format: int32
           type: integer
       type: object
     PolicyObject:
-      description: 'Policy Object is a JSON representation of an A1 policy'
+      description: > 
+        Policy Object is a JSON representation policy data for an A1 Policy Instance.
+        The schema for this policy data is defined in the corresponding A1 Policy Type. 
       type: object
     PolicyTypeObject:
-         description: 'policy type object as defined in A1TD'
+         description: An A1 Policy Type, as defined in O-RAN Alliance A1TD
          type: object
          properties:
            policySchema:
@@ -1008,12 +1056,12 @@ components:
            statusSchema:
              $ref: '#/components/schemas/StatusSchema'
          required:
-           - "policySchema"
+           - policySchema
          example:
            policySchema:
              "$schema": http://json-schema.org/draft-07/schema#
              title: STD_QOS_0_2_0
-             description: STD QOS policy type
+             description: Policy data schema for STD_QOS_0.2.0 A1 Policy Instances.
              type: object
              properties:
                scope:
@@ -1038,7 +1086,7 @@ components:
            statusSchema:
              "$schema": http://json-schema.org/draft-07/schema#
              title: STD_QOS_0.2.0
-             description: STD QOS policy type status
+             description: Status schema for STD_QOS_0.2.0 A1 Policy Instances.
              type: object
              properties:
                enforceStatus:
@@ -1049,13 +1097,22 @@ components:
                required:
                  - enforceStatus
     PolicySchema:
-      description: 'The schemas are policy type specific'
+      description: > 
+        A schema to define the policy data contents of A1 Policy Instances. 
+        Policy data schemas are Policy Type specific. 
+        All A1 Policy Instances of an A1 Policy Type should comply with the type's policy data schema.
       type: object
     StatusSchema:
-      description: 'The optional schema for policy status'
+      description: > 
+        A schema to define the contents of the status information for A1 Policy Instances. 
+        Status schemas are Policy Type specific. 
+        All status information for all A1 Policy Instances of an A1 Policy Type should comply 
+        with the type's status schema.
       type: object
     PolicyStatusObject:
-      description: 'A generic policy status object that can be used to transport any policy status. Additionally, a policy status shall be valid according to the schema of its specific policy type.'
+      description: > 
+        A generic policy status object that can be used to transport any policy status. 
+        Additionally, a schema for policy status can be defined in the corresponding A1 Policy Type.
       type: object
     void:
       description: Void/empty
@@ -1063,7 +1120,7 @@ components:
     StatusInfo:
       properties:
         status:
-          description: status text
+          description: Status text
           type: string
       type: object
     RicInfo:
@@ -1073,13 +1130,13 @@ components:
           description: Identity of the Near-RT RIC
           type: string
         managedElementIds:
-          description: O1 identities for managed entities
+          description: Identities for managed entities
           items:
-            description: O1 identities for managed entities
+            description: Identity for a managed entity
             type: string
           type: array
         state:
-          description: Represents the states for a Near-RT RIC
+          description: Represents the state of a Near-RT RIC
           enum:
             - UNAVAILABLE
             - AVAILABLE
@@ -1087,72 +1144,80 @@ components:
             - CONSISTENCY_CHECK
           type: string
         policyTypeIds:
-          description: supported policy types
+          description: Supported A1 Policy Types
           items:
-            description: supported policy types
+            description: Supported A1 Policy Type ID
             type: string
           type: array
       type: object
     ServiceRegistrationInfo:
-      description: Information for one service
+      description: Information for a service to be registered
       properties:
         callbackUrl:
-          description: callback for notifying of Near-RT RIC state changes
+          description: Callback URL for notifying of Near-RT RIC state changes
           type: string
         serviceId:
           description: Identity of the service
           type: string
         keepAliveIntervalSeconds:
-          description: "keep alive interval for the service. This is used to enable\
-                \ optional heartbeat supervision of the service. If set (> 0) the registered\
-                \ service should regularly invoke a 'keepalive' REST call. When a service\
-                \ fails to invoke this 'keepalive' call within the configured time, the\
-                \ service is considered unavailable. An unavailable service will be automatically\
-                \ deregistered and its policies will be deleted. Value 0 means timeout\
-                \ supervision is disabled."
+          description: > 
+            Keep alive interval for the service. This is used to enable
+            optional heartbeat supervision of the service. If set (> 0) the registered
+            service should regularly invoke a 'keepalive' REST call. When a service
+            fails to invoke this 'keepalive' call within the configured time, the
+            service is considered unavailable. An unavailable service will be automatically
+            deregistered and its policies will be deleted. Value 0 means timeout
+            supervision is disabled.
           format: int64
           type: integer
       required:
         - serviceId
       type: object
     ServiceStatus:
+      description: Information about a previously registered service
       properties:
         callbackUrl:
-          description: callback for notifying of RIC synchronization
+          description: Callback URL for notifying of Near-RT RIC state changes
           type: string
         serviceId:
           description: Identity of the service
           type: string
         keepAliveIntervalSeconds:
-          description: policy keep alive timeout
+          description: > 
+            Keep alive interval (seconds) for the service. This is used to enable
+            optional heartbeat supervision of the service. If set (> 0) the registered
+            service should regularly invoke a 'keepalive' REST call. When a service
+            fails to invoke this 'keepalive' call within the configured time, the
+            service is considered unavailable. An unavailable service will be automatically
+            deregistered and its policies will be deleted. Value 0 means timeout
+            supervision is disabled.
           format: int64
           type: integer
         timeSinceLastActivitySeconds:
-          description: time since last invocation by the service
+          description: Time (seconds) since last recorded operation by the service
           format: int64
           type: integer
       type: object
     RicInfoList:
-      description: List of Near-RT RIC information
+      description: Collection of Near-RT RIC information objects
       properties:
         rics:
-          description: List of Near-RT RIC information
+          description: List of Near-RT RIC information objects
           items:
             $ref: '#/components/schemas/RicInfo'
           type: array
       type: object
     NearRtRicId:
-      description: Identity of the policy
+      description: Identity of the Near-RT RIC
       type: string
     PolicyInformation:
-      description: >-
-        Near-RT RIC identifiers where A1 policies exist and for each Near-RT RIC
-        identifier the policy identifiers of those policies that exist in that
-        Near-RT RIC
+      description: >
+        Information tuple for a single A1 Policy Instance. 
+        Contains the A1 Policy Instance ID, and the ID of the Near-RT RIC where the policy is created. 
       type: object
       properties:
         policyId:
-          description: Identity of the policy
+          description: Identity of the A1 Policy Instance
           type: string
         nearRtRicId:
           $ref: '#/components/schemas/NearRtRicId'
@@ -1162,20 +1227,23 @@ components:
     ServiceStatusList:
       properties:
         serviceList:
-          description: List of service information
+          description: List of Service Status objects, describing a collection of registered services.
           items:
             $ref: '#/components/schemas/ServiceStatus'
           type: array
       type: object
     ServiceCallbackInfo:
-      description: Information transferred as in Service callbacks (callback_url)
+      description: | 
+        Information transferred in Service callbacks, 
+        if a callback URL was provided for a registered service
       properties:
         ricId:
           description: Identity of a Near-RT RIC
           type: string
         eventType:
-          description: "values:\nAVAILABLE: the  Near-RT RIC has become available\
-                \ for A1 Policy management"
+          description: > 
+            values: 
+              AVAILABLE: the  Near-RT RIC has become available for A1 Policy management
           enum:
             - AVAILABLE
           type: string
@@ -1184,28 +1252,25 @@ components:
         - ricId
       type: object
     ProblemDetails:
-      description: >-
-        A problem detail to carry details in an HTTP response according to RFC
-        7807
+      description: Object to carry details about a problem in an HTTP response according to IETF RFC 7807
       type: object
       properties:
         type:
-          description: >-
-            a URI reference according to IETF RFC 3986 that identifies the
-            problem type
+          description: URI reference according to IETF RFC 3986 that identifies the problem type
           type: string
         title:
-          description: human-readable summary of the problem type
+          description: Human-readable summary of the problem type
           type: string
         status:
-          description: the HTTP status code
+          description: HTTP status code
           type: number
         detail:
-          description: 'human-readable explanation '
+          description: Human-readable explanation
           type: string
         instance:
           description: URI reference that identifies the specific occurrence of the problem
           type: string
+
   responses:
     '400':
       description: Bad Request
@@ -1292,7 +1357,7 @@ components:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
     Locked:
-      description: "Locked - HTTP Status code which can be used when the state is Locked"
+      description: Locked - HTTP Status code which can be used when the state is Locked
       content:
         application/problem+json:
           schema:
@@ -1300,4 +1365,4 @@ components:
           example:
             status: 423
             title: Locked
-            detail: State is Locked in the  provided request.
+            detail: State is Locked in the provided request.

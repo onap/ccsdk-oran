@@ -43,5 +43,5 @@ out/
 _build/
 .swagger*
 docs/offeredapis/**/README.md
-a1-policy-management/api/**/README.md
+a1-policy-management/api/offeredapis/openapigentool/**/README.md
 a1-policy-management/api/**/.openapi-generator**
