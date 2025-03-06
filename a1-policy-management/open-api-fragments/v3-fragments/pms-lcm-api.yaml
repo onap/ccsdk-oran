@@ -1,0 +1,462 @@
+policy-types:
+  get:
+    description: Query A1 Policy Type identities using query parameters
+    operationId: getPolicyTypes
+    summary: Get A1 Policy Types (getPolicyTypes)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - description: Select types for the given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: nearRtRicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select types compatible with the given type name (type identity has the format 'typename_version')
+        explode: true
+        in: query
+        name: typeName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: >
+          Select types that are compatible with the given version. This
+          parameter is only applicable in conjunction with typeName. As an example
+          version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching
+          types will be returned sorted in ascending order.
+        explode: true
+        in: query
+        name: compatibleWithVersion
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: 'schemas.yaml#/schemas/PolicyTypeInformation'
+              type: array
+            examples:
+              PolicyTypeInformation:
+                $ref: 'examples.yaml#/examples/PolicyTypeInformation'
+        description: OK - Policy Type IDs found Ok
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+
+policy-type:
+  get:
+    operationId: getPolicyTypeDefinition
+    description: Get an A1 Policy Type definition using its policy type ID
+    summary: Get an A1 Policy Type definition (getPolicyTypeDefinition)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policyTypeId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/PolicyTypeObject'
+            examples:
+              PolicyTypeObject:
+                $ref: 'examples.yaml#/examples/PolicyTypeObject'
+        description: OK - details and schema of the requested A1 Policy Type
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+
+policy:
+  put:
+    operationId: updatePolicy
+    description: Update an existing A1 Policy instance's policy data using its policy ID.
+    summary: Update an A1 Policy's policy data (updatePolicy)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yaml#/schemas/PolicyObject'
+          examples:
+            policyObject:
+              $ref: 'examples.yaml#/examples/PolicyObject'
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/PolicyObject'
+        description: OK - Policy updated
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '411':
+        $ref: 'responses.yaml#/responses/411'
+      '413':
+        $ref: 'responses.yaml#/responses/413'
+      '415':
+        $ref: 'responses.yaml#/responses/415'
+      '423':
+        $ref: 'responses.yaml#/responses/Locked'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+  delete:
+    operationId: deletePolicy
+    description: Delete an existing A1 Policy instance using its policy ID.
+    summary: Delete an A1 Policy instance (deletePolicy)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '204':
+        description: 'No Content'
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '405':
+        $ref: 'responses.yaml#/responses/405'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '423':
+        $ref: 'responses.yaml#/responses/Locked'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+  get:
+    operationId: getPolicy
+    description: Get an A1 Policy instance's policy data using its policy ID
+    summary: Get an A1 Policy's policy data (getPolicy)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/PolicyObject'
+            examples:
+              policyObject:
+                $ref: 'examples.yaml#/examples/PolicyObject'
+        description: OK - Policy found
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+
+policy-status:
+  get:
+    operationId: getPolicyStatus
+    description: Retrieve the status information for an A1 Policy Instance using its policy ID.
+    summary: Get an A1 Policy Instance's status (getPolicyStatus)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/PolicyStatusObject'
+        description: OK
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+
+policies:
+  get:
+    operationId: getPolicyIds
+    description: >
+      Returns a collection of A1 Policy Instance IDs for policies that match given search criteria. 
+      If several query parameters are defined, the policies matching all conditions are returned.
+    summary: Query for A1 Policy instances (getPolicyIds)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - description: Select policies with a given A1 Policy Type ID.
+        explode: true
+        in: query
+        name: policyTypeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies for a given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: nearRtRicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies owned by a given service (registered or unregistered).
+        explode: true
+        in: query
+        name: serviceId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
+        explode: true
+        in: query
+        name: typeName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: 'schemas.yaml#/schemas/PolicyInformation'
+              type: array
+        description: OK - Policy identities
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'
+  post:
+    operationId: createPolicy
+    description: Create an A1 Policy Instance
+    summary: Create an A1 Policy Instance (createPolicy)
+    tags:
+      - A1 Policy Management
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yaml#/schemas/PolicyObjectInformation'
+    responses:
+      '201':
+        description: 'Created'
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/PolicyObjectInformation'
+        headers:
+          Location:
+            description: >
+              Contains the URI of the newly created A1 Policy Instances.
+              This URI includes the A1 Policy Instance ID for the newly 
+              created policy instance.
+            required: true
+            schema:
+              type: string
+          Content-Type:
+            description: 'Media Type of the response'
+            schema:
+              type: string
+              example: application/json
+
+      '400':
+        $ref: 'responses.yaml#/responses/400'
+      '401':
+        $ref: 'responses.yaml#/responses/401'
+      '403':
+        $ref: 'responses.yaml#/responses/403'
+      '404':
+        $ref: 'responses.yaml#/responses/404'
+      '405':
+        $ref: 'responses.yaml#/responses/405'
+      '406':
+        $ref: 'responses.yaml#/responses/406'
+      '409':
+        $ref: 'responses.yaml#/responses/409'
+      '413':
+        $ref: 'responses.yaml#/responses/413'
+      '415':
+        $ref: 'responses.yaml#/responses/415'
+      '423':
+        $ref: 'responses.yaml#/responses/Locked'
+      '429':
+        $ref: 'responses.yaml#/responses/429'
+      '500':
+        $ref: 'responses.yaml#/responses/500'
+      '502':
+        $ref: 'responses.yaml#/responses/502'
+      '503':
+        $ref: 'responses.yaml#/responses/503'

@@ -1,6 +1,8 @@
 /*-
  * ========================LICENSE_START=================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe.
+ * All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,8 +66,6 @@ import reactor.test.StepVerifier;
         "app.config-file-schema-path=/application_configuration_schema.json" //
 })
 class ConfigurationControllerTest {
-    @Autowired
-    ApplicationContext context;
 
     @Autowired
     ApplicationConfig applicationConfig;
@@ -166,19 +166,28 @@ class ConfigurationControllerTest {
 
     private AsyncRestClient restClient() {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
-        config = WebClientConfig.builder() //
-                .keyStoreType(config.getKeyStoreType()) //
-                .keyStorePassword(config.getKeyStorePassword()) //
-                .keyStore(config.getKeyStore()) //
-                .keyPassword(config.getKeyPassword()) //
-                .isTrustStoreUsed(false) //
-                .trustStore(config.getTrustStore()) //
-                .trustStorePassword(config.getTrustStorePassword()) //
-                .httpProxyConfig(config.getHttpProxyConfig()) //
-                .build();
 
-        AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
-        return f.createRestClientNoHttpProxy("https://localhost:" + port);
+        if (applicationConfig.isSslEnabled()) {
+            config = WebClientConfig.builder() //
+                    .sslEnabled(applicationConfig.isSslEnabled())
+                    .keyStoreType(config.getKeyStoreType()) //
+                    .keyStorePassword(config.getKeyStorePassword()) //
+                    .keyStore(config.getKeyStore()) //
+                    .keyPassword(config.getKeyPassword()) //
+                    .isTrustStoreUsed(config.isTrustStoreUsed()) //
+                    .trustStore(config.getTrustStore()) //
+                    .trustStorePassword(config.getTrustStorePassword()) //
+                    .httpProxyConfig(config.getHttpProxyConfig()) //
+                    .build();
 
+            AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
+            return f.createRestClientNoHttpProxy("https://localhost:" + port);
+        } else {
+            config = WebClientConfig.builder()
+                    .httpProxyConfig(config.getHttpProxyConfig())
+                    .build();
+            AsyncRestClientFactory f = new AsyncRestClientFactory(config, new SecurityContext(""));
+            return f.createRestClientNoHttpProxy("http://localhost:" + port);
+        }
     }
 }

@@ -1,0 +1,104 @@
+examples:
+  service_status:
+    description: List of service information
+    value:
+      callback_url: callback_url
+      service_id: service_id
+      keep_alive_interval_seconds: 0
+      time_since_last_activity_seconds: 6
+
+  service_status_list:
+    description: List of service information
+    value:
+      service_list:
+        - callback_url: callback_url
+          service_id: service_id
+          keep_alive_interval_seconds: 0
+          time_since_last_activity_seconds: 6
+        - callback_url: callback_url
+          service_id: service_id
+          keep_alive_interval_seconds: 0
+          time_since_last_activity_seconds: 6
+  policy_type_definition:
+    description: Schema of the given A1 Policy Type
+    value:
+      policy_schema: "{}"
+  policy_type_id_list:
+    description: Array of A1 Policy Type id's
+    value:
+      policy_type_id_list:
+        - policytype_id
+        - policytype_id
+  policy_info:
+    description: Information for an A1 Policy Instance
+    value:
+      ric_id: ric_id1
+      policy_id: policy_id1
+      transient: false
+      service_id: service_id1
+      policy_data: "{}"
+      status_notification_uri: status_notification_uri
+      policytype_id: policytype_id1
+  policy_info_list:
+    description: List of policy information
+    value:
+      policies:
+        - ric_id: ric_id1
+          policy_id: policy_id1
+          transient: false
+          service_id: service_id1
+          policy_data: "{}"
+          status_notification_uri: status_notification_uri
+          policytype_id: policytype_id1
+        - ric_id: ric_id2
+          policy_id: policy_id2
+          transient: true
+          service_id: service_id2
+          policy_data: "{}"
+          status_notification_uri: status_notification_uri
+          policytype_id: policytype_id2
+  policy_id_list:
+    description: A list of policy identities
+    value:
+      policy_ids:
+        - some_policy_id
+        - some_policy_id
+  policy_status_info:
+    description: Status for one A1-P Policy
+    value:
+      last_modified: last_modified
+      status:
+        value:
+          status: status
+  status_info:
+    value:
+      status: status
+  ric_info:
+    value:
+      ric_id: ric_id
+      managed_element_ids:
+        - some_managed_element_id
+        - some_managed_element_id
+      state: UNAVAILABLE
+      policytype_ids:
+        - some_policytype_id
+        - some_policytype_id
+  ric_info_list:
+    value:
+      rics:
+        - ric_id: ric_id
+          managed_element_ids:
+            - some_managed_element_id
+            - some_managed_element_id
+          state: UNAVAILABLE
+          policytype_ids:
+            - policytype_id
+            - policytype_id
+        - ric_id: ric_id
+          managed_element_ids:
+            - managed_element_ids
+            - managed_element_ids
+          state: UNAVAILABLE
+          policytype_ids:
+            - policytype_ids
+            - policytype_ids

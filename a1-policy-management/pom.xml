@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-34-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -47,7 +47,6 @@
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <swagger-annotations.version>2.2.15</swagger-annotations.version>
-        <spring-boot-actuator-autoconfigure.version>3.4.0</spring-boot-actuator-autoconfigure.version>
         <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.35.0</spotless-maven-plugin.version>
         <commons-io.version>2.16.1</commons-io.version>
@@ -58,9 +57,13 @@
         <surefire-report-plugin.version>3.0.0-M8</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <software.amazon.awssdk.version>2.27.24</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.30.11</software.amazon.awssdk.version>
         <mapstruct.version>1.6.0</mapstruct.version>
+        <!-- Tracing Dependecies -->
+        <opentelemetry-bom.version>1.41.0</opentelemetry-bom.version>
+        <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <allowskiptests>false</allowskiptests>
+        <version.logback>8.0</version.logback>
     </properties>
     <repositories>
         <repository>
@@ -294,7 +297,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-actuator-autoconfigure</artifactId>
-            <version>3.3.0</version>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${version.logback}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -302,14 +310,14 @@
             <dependency>
                 <groupId>io.opentelemetry</groupId>
                 <artifactId>opentelemetry-bom</artifactId>
-                <version>1.46.0</version>
+                <version>${opentelemetry-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>io.opentelemetry.instrumentation</groupId>
                 <artifactId>opentelemetry-instrumentation-bom-alpha</artifactId>
-                <version>2.12.0-alpha</version>
+                <version>${opentelemetry-instrumentation-bom-alpha.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -428,13 +436,45 @@
                 <version>7.7.0</version>
                 <executions>
                     <execution>
+                        <id>openapi-yaml-gen</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <templateDirectory>open-api-fragments/custom-openapi-license-template</templateDirectory>
+                            <output>${project.basedir}/api/offeredapis/swagger</output>
+                            <configOptions>
+                                <outputFile>pms-api.yaml</outputFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>openapi-yaml-gen-v3</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <templateDirectory>open-api-fragments/custom-openapi-license-template</templateDirectory>
+                            <output>${project.basedir}/api/offeredapis/swagger</output>
+                            <configOptions>
+                                <outputFile>pms-api-v3.yaml</outputFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-openapi-json</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <output>${project.basedir}/api/offeredapis/swagger</output>
                             <configOptions>
@@ -449,7 +489,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <output>${project.basedir}/api/offeredapis/swagger</output>
                             <configOptions>
@@ -465,7 +505,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <apisToGenerate>A1PolicyManagement</apisToGenerate> <!-- Select which apis to include. Current pms-api-v3 only has one API -->
                             <output>${project.basedir}/api/offeredapis/swagger/custom</output>
@@ -552,7 +592,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
                             <invokerPackage>${project.groupId}.a1policymanagementservice.controllers.v2</invokerPackage>
                             <apiPackage>${project.groupId}.a1policymanagementservice.controllers.api.v2</apiPackage>
                             <modelPackage>${project.groupId}.a1policymanagementservice.models.v2</modelPackage>
@@ -582,7 +622,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <invokerPackage>${project.groupId}.a1policymanagementservice.controllers.v3</invokerPackage>
                             <apiPackage>${project.groupId}.a1policymanagementservice.controllers.api.v3</apiPackage>
                             <modelPackage>${project.groupId}.a1policymanagementservice.models.v3</modelPackage>

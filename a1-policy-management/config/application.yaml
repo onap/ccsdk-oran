@@ -3,7 +3,7 @@
 # ONAP : ccsdk oran
 # ================================================================================
 # Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
-# Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+# Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ app:
   # A URL to authorization provider such as OPA. Each time an A1 Policy is accessed, a call to this
   # authorization provider is done for access control. If this is empty, no fine grained access control is done.
   authorization-provider:
-  # the config-file-schema-path referres to a location in the jar file. If this property is empty or missing,
+  # the config-file-schema-path refers to a location in the jar file. If this property is empty or missing,
   # no schema validation will be executed.
   config-file-schema-path: /application_configuration_schema.json
   # Postgres database usage is enabled using the below parameter.
@@ -58,9 +58,13 @@ app:
     trust-store: /opt/app/policy-agent/etc/cert/truststore.jks
   # path where the service can store data. This parameter is not relevant if S3 Object store is configured.
   vardata-directory: /var/policy-management-service
+  # Options for schema validation of the policy and policy status. Options: NONE, INFO, WARN, FAIL
+  validate-policy-instance-schema: NONE
 lifecycle:
   timeout-per-shutdown-phase: "20s"
+
 logging:
+  config: ${LOGBACK_CONFIG_FILE:classpath:logback-plain.xml}
   # Reactive logging filter
   reactive-entry-exit-filter-enabled: true
   # Configuration of logging
@@ -103,6 +107,9 @@ otel:
   sdk:
     disabled: ${ONAP_SDK_DISABLED:true}
     south: ${ONAP_TRACING_SOUTHBOUND:true}
+  instrumentation:
+    spring-webflux:
+      enabled: ${ONAP_TRACING_NORTHBOUND:true}
   tracing:
     sampler:
       jaeger_remote:
@@ -114,6 +121,7 @@ server:
   http-port: 8081
   shutdown: "graceful"
   ssl:
+    enabled: true
     key-store-type: JKS
     key-store-password: policy_agent
     key-store: /opt/app/policy-agent/etc/cert/keystore.jks

@@ -1,3 +1,23 @@
+/*-
+ * ========================LICENSE_START=================================
+ * ONAP : ccsdk oran
+ * ======================================================================
+ * Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
+ * ======================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================LICENSE_END===================================
+ */
+
 package org.onap.ccsdk.oran.a1policymanagementservice.utils.v3;
 
 import org.junit.jupiter.api.AfterAll;
@@ -24,7 +44,6 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({OutputCaptureExtension.class})
@@ -74,7 +93,7 @@ class ReactiveEntryExitFilterDisableTest {
         Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
         testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
-        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
         assertFalse(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
         assertFalse(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
         assertFalse(capturedOutput.getOut().contains("the response is:"));

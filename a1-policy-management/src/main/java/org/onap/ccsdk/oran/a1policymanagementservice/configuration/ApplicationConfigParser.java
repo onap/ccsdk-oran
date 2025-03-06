@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2019-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,13 +148,20 @@ public class ApplicationConfigParser {
                         "Configuration error, controller configuration not found: " + controllerName);
             }
 
-            RicConfig ricConfig = RicConfig.builder() //
-                    .ricId(get(ricJsonObj, "name", "id", "ricId").getAsString()) //
-                    .baseUrl(get(ricJsonObj, "baseUrl").getAsString()) //
-                    .managedElementIds(parseManagedElementIds(get(ricJsonObj, "managedElementIds").getAsJsonArray())) //
+            RicConfig.RicConfigBuilder ricConfigBuilder = RicConfig.builder()
+                    .ricId(get(ricJsonObj, "name", "id", "ricId").getAsString())
+                    .baseUrl(get(ricJsonObj, "baseUrl").getAsString())
                     .controllerConfig(controllerConfig)
-                    .customAdapterClass(getString(ricJsonObj, "customAdapterClass", "")) //
-                    .build();
+                    .customAdapterClass(getString(ricJsonObj, "customAdapterClass", ""));
+
+            if (ricJsonObj.has("managedElementIds")) {
+                ricConfigBuilder
+                    .managedElementIds(parseManagedElementIds(get(ricJsonObj, "managedElementIds").getAsJsonArray()));
+            } else {
+                ricConfigBuilder.managedElementIds(null);
+            }
+
+            RicConfig ricConfig = ricConfigBuilder.build();
             if (!ricConfig.getBaseUrl().isEmpty()) {
                 result.add(ricConfig);
             } else {

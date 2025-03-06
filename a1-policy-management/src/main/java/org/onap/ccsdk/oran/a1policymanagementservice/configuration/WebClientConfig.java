@@ -3,6 +3,8 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe.
+ * All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +25,15 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-
 import reactor.netty.transport.ProxyProvider;
 
 @Builder
 @Getter
 @ToString
 public class WebClientConfig {
+
+    private boolean sslEnabled;
+
     private String keyStoreType;
 
     private String keyStorePassword;

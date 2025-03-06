@@ -3,6 +3,8 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2022 Nordix Foundation. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe.
+ * All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +61,12 @@ public class AsyncRestClientFactory {
 
     public AsyncRestClientFactory(WebClientConfig clientConfig, SecurityContext securityContext) {
         if (clientConfig != null) {
-            this.sslContextFactory = new CachingSslContextFactory(clientConfig);
+            if (clientConfig.isSslEnabled()) {
+                this.sslContextFactory = new CachingSslContextFactory(clientConfig);
+            } else {
+                this.sslContextFactory = null;
+                logger.debug("SSL is turned OFF for the web client");
+            }
             this.httpProxyConfig = clientConfig.getHttpProxyConfig();
         } else {
             logger.warn("No configuration for web client defined, HTTPS will not work");
