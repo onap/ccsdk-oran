@@ -1,0 +1,301 @@
+policy-types:
+  get:
+    operationId: getPolicyTypes
+    description: Query A1 Policy Type identities using query parameters
+    summary: Get A1 Policy Types (getPolicyTypes)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - description: Select types for the given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: ric_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select types compatible with the given type name (type identity has the
+          format 'typename_version')
+        explode: true
+        in: query
+        name: type_name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select types that are compatible with the given version. This
+          parameter is only applicable in conjunction with type_name. As an example
+          version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching
+          types will be returned sorted in ascending order.
+        explode: true
+        in: query
+        name: compatible_with_version
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            examples:
+              policy_type_id_list:
+                $ref: 'examples.yaml#/examples/policy_type_id_list'
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_type_id_list'
+        description: OK - Policy Type IDs Found
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+        description: 'Not Found - Requested Policy Type IDs Not Found'
+
+policy-type:
+  get:
+    description: Get an A1 Policy Type definition using its policy type ID
+    operationId: getPolicyTypeDefinition
+    summary: Get an A1 Policy Type definition (getPolicyTypeDefinition)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policytype_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_type_definition'
+            examples:
+              policy_type_definition:
+                $ref: 'examples.yaml#/examples/policy_type_definition'
+        description: OK - schema of the requested A1 Policy Type
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+
+policy-instances:
+  get:
+    description: >
+      Returns a collection of A1 Policy Instance information for policies that match given search criteria. 
+      If several query parameters are defined, the policies matching all conditions are returned.
+    operationId: getPolicyInstances
+    summary: Query for A1 Policy instances (getPolicyInstances)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - description: Select policies with a given A1 Policy Type ID.
+        explode: true
+        in: query
+        name: policytype_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies for a given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: ric_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies owned by a given service (registered or unregistered).
+        explode: true
+        in: query
+        name: service_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
+        explode: true
+        in: query
+        name: type_name
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            examples:
+              policy_info_list:
+                $ref: 'examples.yaml#/examples/policy_info_list'
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_info_list'
+        description: OK - Returns A1 Policy Instances which match the criteria
+      "404":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/error_information'
+        description: Not Found - Near-RT RIC, A1 Policy Type or service was not found
+
+policy-status:
+  get:
+    description: Retrieve the status information for an A1 Policy Instance.
+    tags:
+      - A1 Policy Management
+    operationId: getPolicyStatus
+    summary: Get an A1 Policy Instance's status (getPolicyStatus)
+    parameters:
+      - explode: false
+        in: path
+        name: policy_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_status_info'
+            examples:
+              policy_status_info:
+                $ref: 'examples.yaml#/examples/policy_status_info'
+        description: OK -  Policy status
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+
+policies:
+  get:
+    description: >
+      Retrieve a list of A1 Policy Instance IDs for policies that match given search criteria. 
+      If multiple query parameters are given, the policies matching all conditions are returned.
+    operationId: getPolicyIds
+    summary: Query A1 Policy Instances (getPolicyIds)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - description: Select policies of a given A1 Policy Type ID.
+        explode: true
+        in: query
+        name: policytype_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies of a given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: ric_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies owned by a given service. (Both registered and unregistered services)
+        explode: true
+        in: query
+        name: service_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: >
+          Select policies of types with the given A1 Policy Type name 
+          (type names have the format 'typename_version')
+        explode: true
+        in: query
+        name: type_name
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            examples:
+              policy_id_list:
+                $ref: 'examples.yaml#/examples/policy_id_list'
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_id_list'
+        description: OK - Policy identities
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+  put:
+    description: Create or Update an A1 Policy Instance
+    tags:
+      - A1 Policy Management
+    operationId: putPolicy
+    summary: Create or Update an A1 Policy Instance (putPolicy)
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yaml#/schemas/policy_info'
+      required: true
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/void'
+        description: OK - Policy updated
+      "201":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/void'
+        description: Created - Policy created
+      "423":
+        $ref: 'responses.yaml#/responses/Locked'
+
+policy:
+  delete:
+    description: Delete an A1 Policy instance using its policy ID.
+    operationId: deletePolicy
+    summary: Delete an A1 Policy instance (deletePolicy)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policy_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          '*/*':
+            schema:
+              $ref: 'schemas.yaml#/schemas/void'
+        description: OK - Policy deleted
+      "423":
+        $ref: 'responses.yaml#/responses/Locked'
+        description: 'The requested policy using policy_id is Locked'
+  get:
+    description: Get an A1 Policy instance using its policy ID
+    operationId: getPolicy
+    summary: Get an A1 Policy instance (getPolicy)
+    tags:
+      - A1 Policy Management
+    parameters:
+      - explode: false
+        in: path
+        name: policy_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/policy_info'
+            examples:
+              policy_info:
+                $ref: 'examples.yaml#/examples/policy_info'
+        description: OK - Policy found
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+        description: 'Not Found - Requested Policy using policy_id is not found'

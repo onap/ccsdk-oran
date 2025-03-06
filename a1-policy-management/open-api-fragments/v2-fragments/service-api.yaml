@@ -1,0 +1,150 @@
+keep-alive:
+  put:
+    description: A registered service should invoke this operation regularly to
+      indicate that it is still alive. If a registered service fails to invoke some operation,
+      or this operation, before the end of a timeout period the service will be deregistered
+      and all its A1 policies wil be removed. This operation is only intended for registered
+      services. (This timeout can be set or disabled when each service is initially registered)
+    operationId: keepAliveService
+    summary: Heartbeat message from a service (keepAliveService)
+    tags:
+      - Service Registry and Supervision
+    parameters:
+      - explode: false
+        in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: OK - Service supervision timer refreshed, OK
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+
+services:
+  get:
+    description: >
+      Get information about all registered services, or a single registered service. 
+      If the service ID of a registered service is included in the query, information about that 
+      service is returned. Otherwise Information about all registered is returned.
+      This operation does not retrieve information about unregistered services.
+    operationId: getServices
+    summary: Get Services (getServices)
+    tags:
+      - Service Registry and Supervision
+    parameters:
+      - description: The identity of the registered service
+        explode: true
+        in: query
+        name: service_id
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/service_status_list'
+            examples:
+              service_status_list:
+                $ref: 'examples.yaml#/examples/service_status_list'
+        description: OK
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+  put:
+    description: >
+      Register a single service, or update a previous registtration. 
+      Service registration is required to get callbacks about available NearRT RICs 
+      and to enable supervision of the service's active status. If a registered
+      service becomes inactive, its policies can be automatically deleted.
+      A1 Policy instances can also be created for unregistered services. 
+      If an unregistered service is later registered, the service's policies are 
+      retained when the service becomes registered. This feature is optional to use.
+    operationId: putService
+    summary: Register or update a Service (putService)
+    tags:
+      - Service Registry and Supervision
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yaml#/schemas/service_registration_info'
+      required: true
+    responses:
+      "200":
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: OK - Service updated
+      "201":
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: Created - Service created
+      "400":
+        $ref: 'responses.yaml#/responses/BadRequest'
+    callbacks:
+      RICStatus:
+        "{$request.body#/callback_url}":
+          post:
+            description: |
+              Callouts to indicate Near-RT RIC status changes relevant for Services. 
+              The URL invoked by this callback is provided at Service registration.
+            operationId: serviceCallback
+            summary: Callback for Near-RT RIC status (serviceCallback)
+            tags:
+              - Service Registry and Supervision
+              - Service Callbacks
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    $ref: 'schemas.yaml#/schemas/service_callback_info_v2'
+              required: true
+            responses:
+              "200":
+                content:
+                  application/json:
+                    schema:
+                      $ref: 'schemas.yaml#/schemas/void'
+                description: OK
+              "404":
+                $ref: 'responses.yaml#/responses/NotFound'
+
+service:
+  delete:
+    description: >
+      Unregister a registered Service using its service ID. 
+      Only registered services can be unregistered. All A1 Policy Instances 
+      for the previously registered service will be removed.
+    tags:
+      - Service Registry and Supervision
+    operationId: deleteService
+    summary: Unregister a Service (deleteService)
+    parameters:
+      - explode: false
+        in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "204":
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: No Content - Service unregistered
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'

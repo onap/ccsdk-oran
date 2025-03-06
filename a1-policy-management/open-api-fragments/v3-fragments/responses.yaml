@@ -1,0 +1,95 @@
+responses:
+  '400':
+    description: Bad Request
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '401':
+    description: Unauthorized
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '403':
+    description: Forbidden
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '404':
+    description: Not Found
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '405':
+    description: Method Not Allowed
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '406':
+    description: Not Acceptable
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '409':
+    description: Conflict
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '411':
+    description: Length Required
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '413':
+    description: Payload Too Large
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '415':
+    description: Unsupported Media Type
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '429':
+    description: Too Many Requests
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '500':
+    description: Internal Server Error
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '502':
+    description: Bad Gateway
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  '503':
+    description: Service Unavailable
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ProblemDetails'
+  Locked:
+    description: Locked - HTTP Status code which can be used when the state is Locked
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/ErrorInformation'
+        example:
+          status: 423
+          title: Locked
+          detail: State is Locked in the provided request.

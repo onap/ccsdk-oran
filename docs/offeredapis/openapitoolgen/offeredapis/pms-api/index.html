@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>ONAP CCSDK A1 Policy Management Service</title>
+  <title>ONAP CCSDK - Pre-Spec A1 Policy Management API</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8" />
@@ -864,7 +864,7 @@ ul.nav-tabs {
     "detail" : {
       "type" : "string",
       "description" : " A human-readable explanation specific to this occurrence of the problem.",
-      "example" : "Policy type not found"
+      "example" : "A1 Policy Type not found"
     },
     "title" : {
       "type" : "string",
@@ -895,7 +895,7 @@ ul.nav-tabs {
     },
     "policy_type_id" : {
       "type" : "string",
-      "description" : "Policy type identifier"
+      "description" : "A1 Policy Type identifier"
     }
   },
   "description" : "input"
@@ -952,14 +952,14 @@ ul.nav-tabs {
     },
     "transient" : {
       "type" : "boolean",
-      "description" : "if true, the policy is deleted at RIC restart. If false, its value is maintained by this service until explicitly deleted. Default false.",
+      "description" : "If true, the policy is automatically deleted if the targeted Near-RT RIC restarts  or recovers. If false, the A1 Policy Instance remains, and is re-pushed to the targeted  Near-RT RIC after a restart or recovery. If false, the A1 Policy Instance is maintained and  must be deleted separately in the event of Near-RT RIC restart or recovery. Default is false.\n",
       "nullable" : false,
       "example" : false,
       "default" : false
     },
     "service_id" : {
       "type" : "string",
-      "description" : "the identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.",
+      "description" : "The identity of the service owning the policy. This can be used to group the policies (it is possible to get all policies associated to a service). Note that the service does not need to be registered.  If the service is registered, the A1 Policy Instance will be  subject to the same supervision rules as the the service's other policies.\n",
       "default" : ""
     },
     "policy_data" : {
@@ -972,7 +972,7 @@ ul.nav-tabs {
     },
     "policytype_id" : {
       "type" : "string",
-      "description" : "identity of the policy type"
+      "description" : "identity of the A1 Policy Type"
     }
   },
   "description" : "Information for one A1-P Policy"
@@ -1009,24 +1009,24 @@ ul.nav-tabs {
   "properties" : {
     "policy_schema" : {
       "type" : "object",
-      "description" : "Policy type json schema. The schema is a json object following http://json-schema.org/draft-07/schema"
+      "description" : "A1 Policy Type json schema. The schema is a json object following http://json-schema.org/draft-07/schema"
     }
   },
-  "description" : "Contains policy type schema definition"
+  "description" : "Contains A1 Policy Type schema definition"
 };
     defs["policy_type_id_list"] = {
   "type" : "object",
   "properties" : {
     "policytype_ids" : {
       "type" : "array",
-      "description" : "Policy type identities",
+      "description" : "A1 Policy Type identities",
       "items" : {
         "type" : "string",
-        "description" : "Policy type identities"
+        "description" : "A1 Policy Type identities"
       }
     }
   },
-  "description" : "Information about policy types"
+  "description" : "Information about A1 Policy Types"
 };
     defs["ric_info"] = {
   "type" : "object",
@@ -1050,10 +1050,10 @@ ul.nav-tabs {
     },
     "policytype_ids" : {
       "type" : "array",
-      "description" : "supported policy types",
+      "description" : "supported A1 Policy Types",
       "items" : {
         "type" : "string",
-        "description" : "supported policy types"
+        "description" : "supported A1 Policy Types"
       }
     }
   },
@@ -1082,11 +1082,11 @@ ul.nav-tabs {
     },
     "event_type" : {
       "type" : "string",
-      "description" : "values:\nAVAILABLE: the  Near-RT RIC has become available for A1 Policy management",
+      "description" : "values: \n  AVAILABLE: the  Near-RT RIC has become available for A1 Policy management\n",
       "enum" : [ "AVAILABLE" ]
     }
   },
-  "description" : "Information transferred as in Service callbacks (callback_url)"
+  "description" : "Information transferred in Service callbacks, \nif a callback URL was provided for a registered service\n"
 };
     defs["service_registration_info"] = {
   "required" : [ "service_id" ],
@@ -1094,7 +1094,7 @@ ul.nav-tabs {
   "properties" : {
     "callback_url" : {
       "type" : "string",
-      "description" : "callback for notifying of Near-RT RIC state changes"
+      "description" : "Callback for notifying of Near-RT RIC state changes"
     },
     "service_id" : {
       "type" : "string",
@@ -1102,7 +1102,7 @@ ul.nav-tabs {
     },
     "keep_alive_interval_seconds" : {
       "type" : "integer",
-      "description" : "keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.",
+      "description" : "Keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.\n",
       "format" : "int64"
     }
   },
@@ -1240,7 +1240,7 @@ ul.nav-tabs {
       <div id="content">
         <div id="project">
           <div class="pull-left">
-            <h1>ONAP CCSDK A1 Policy Management Service</h1>
+            <h1>ONAP CCSDK - Pre-Spec A1 Policy Management API</h1>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -1250,7 +1250,7 @@ ul.nav-tabs {
               <div class="app-desc">Version: 1.3.0</div>
             <hr>
             <div id="app-description" class="app-desc">
-                <h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides a REST API for managemecnt of A1 policies. <br/>The main tasks of the service are:</p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 policies and the Near-RT RICs</li><li>Maintaining a view of supported Near-RT RIC policy types</li><li>Supervision of using services (R-APPs). When a service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management</h3><p>This is an API for management of A1 Policies.</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository</h3><p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted for one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the PMS component.</p><h3>Service Registry and Supervision</h3><p>API used for registering services that uses PMS. Each A1 policy is optionally owned by a service. PMS can supervise each registered service by a heart-beat supervision and will automatically remove policies for unavailable services. Note that a service does not need to be registered in order to create A1 Policies. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy type.</p><h3>Spring Boot Actuator</h3><p>Provides generic functions  used to monitor and manage the Spring web application.</p>
+                <h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides a REST API for managing A1 policies. <br/>This document describes an older pre-spec API set  to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2><h3>A1 Policy Management (Older pre-spec version) </h3> <p>This is an older API for managing A1 Policies:</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy Types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3> <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the A1 Policy Management Service .</p><h3>Service Registry and Supervision</h3> <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner. If the owner service is registered, then the service can be monitored by a heart-beat supervision mechanism, and if the registered service becomes unavailable, then its A1 Policies are removed. Note  that services do not need to be registered to create A1 Policies, but unregistered services are not  supervised. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used for access control of A1 Policy access. If configured, an external authorization provider is requested to grant access to the A1 Policy Type.</p><h3>Spring Boot Actuator</h3><p>Provides built-in functions used to monitor and configure the Spring web application hosting the service.</p>
 
             </div>
           </div>
@@ -1262,12 +1262,12 @@ ul.nav-tabs {
                       <article id="api-A1PolicyManagement-deletePolicy-0" data-group="User" data-name="deletePolicy" data-version="0">
                         <div class="pull-left">
                           <h1>deletePolicy</h1>
-                          <p>Delete a policy</p>
+                          <p>Delete an A1 Policy instance (deletePolicy)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Deleting the policy using the Policy&#39;s Policy ID.</p>
+                        <p class="marked">Delete an A1 Policy instance using its policy ID.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/a1-policy/v2/policies/{policy_id}</span></code></pre>
@@ -1371,7 +1371,7 @@ public class A1PolicyManagementApiExample {
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 String *policyId = policyId_example; //  (default to null)
 
-// Delete a policy
+// Delete an A1 Policy instance (deletePolicy)
 [apiInstance deletePolicyWith:policyId
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -1385,10 +1385,10 @@ String *policyId = policyId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-deletePolicy-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var policyId = policyId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -1424,7 +1424,7 @@ namespace Example
             var policyId = policyId_example;  // String |  (default to null)
 
             try {
-                // Delete a policy
+                // Delete an A1 Policy instance (deletePolicy)
                 Object result = apiInstance.deletePolicy(policyId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -1483,7 +1483,7 @@ api_instance = openapi_client.A1PolicyManagementApi()
 policyId = policyId_example # String |  (default to null)
 
 try:
-    # Delete a policy
+    # Delete an A1 Policy instance (deletePolicy)
     api_response = api_instance.delete_policy(policyId)
     pprint(api_response)
 except ApiException as e:
@@ -1709,12 +1709,12 @@ pub fn main() {
                       <article id="api-A1PolicyManagement-getPolicy-0" data-group="User" data-name="getPolicy" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicy</h1>
-                          <p></p>
+                          <p>Get an A1 Policy instance (getPolicy)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns a policy</p>
+                        <p class="marked">Get an A1 Policy instance using its policy ID</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policies/{policy_id}</span></code></pre>
@@ -1818,6 +1818,7 @@ public class A1PolicyManagementApiExample {
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 String *policyId = policyId_example; //  (default to null)
 
+// Get an A1 Policy instance (getPolicy)
 [apiInstance getPolicyWith:policyId
               completionHandler: ^(policy_info output, NSError* error) {
     if (output) {
@@ -1831,10 +1832,10 @@ String *policyId = policyId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicy-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var policyId = policyId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -1870,6 +1871,7 @@ namespace Example
             var policyId = policyId_example;  // String |  (default to null)
 
             try {
+                // Get an A1 Policy instance (getPolicy)
                 policy_info result = apiInstance.getPolicy(policyId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -1928,6 +1930,7 @@ api_instance = openapi_client.A1PolicyManagementApi()
 policyId = policyId_example # String |  (default to null)
 
 try:
+    # Get an A1 Policy instance (getPolicy)
     api_response = api_instance.get_policy(policyId)
     pprint(api_response)
 except ApiException as e:
@@ -2146,12 +2149,13 @@ pub fn main() {
                       <article id="api-A1PolicyManagement-getPolicyIds-0" data-group="User" data-name="getPolicyIds" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicyIds</h1>
-                          <p>Query policy identities</p>
+                          <p>Query A1 Policy Instances (getPolicyIds)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns a list of A1 policies matching given search criteria. &lt;br&gt;If several query parameters are defined, the policies matching all conditions are returned.</p>
+                        <p class="marked">Retrieve a list of A1 Policy Instance IDs for policies that match given search criteria.  If multiple query parameters are given, the policies matching all conditions are returned.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policies</span></code></pre>
@@ -2195,10 +2199,11 @@ public class A1PolicyManagementApiExample {
 
         // Create an instance of the API class
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
-        String policytypeId = policytypeId_example; // String | Select policies of a given policy type identity.
+        String policytypeId = policytypeId_example; // String | Select policies of a given A1 Policy Type ID.
         String ricId = ricId_example; // String | Select policies of a given Near-RT RIC identity.
-        String serviceId = serviceId_example; // String | Select policies owned by a given service.
-        String typeName = typeName_example; // String | Select policies of types with the given type name (type identity has the format <typename_version>)
+        String serviceId = serviceId_example; // String | Select policies owned by a given service. (Both registered and unregistered services)
+        String typeName = typeName_example; // String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 
         try {
             policy_id_list result = apiInstance.getPolicyIds(policytypeId, ricId, serviceId, typeName);
@@ -2217,10 +2222,11 @@ public class A1PolicyManagementApiExample {
 
 final api_instance = DefaultApi();
 
-final String policytypeId = new String(); // String | Select policies of a given policy type identity.
+final String policytypeId = new String(); // String | Select policies of a given A1 Policy Type ID.
 final String ricId = new String(); // String | Select policies of a given Near-RT RIC identity.
-final String serviceId = new String(); // String | Select policies owned by a given service.
-final String typeName = new String(); // String | Select policies of types with the given type name (type identity has the format <typename_version>)
+final String serviceId = new String(); // String | Select policies owned by a given service. (Both registered and unregistered services)
+final String typeName = new String(); // String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 
 try {
     final result = await api_instance.getPolicyIds(policytypeId, ricId, serviceId, typeName);
@@ -2238,10 +2244,11 @@ try {
 public class A1PolicyManagementApiExample {
     public static void main(String[] args) {
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
-        String policytypeId = policytypeId_example; // String | Select policies of a given policy type identity.
+        String policytypeId = policytypeId_example; // String | Select policies of a given A1 Policy Type ID.
         String ricId = ricId_example; // String | Select policies of a given Near-RT RIC identity.
-        String serviceId = serviceId_example; // String | Select policies owned by a given service.
-        String typeName = typeName_example; // String | Select policies of types with the given type name (type identity has the format <typename_version>)
+        String serviceId = serviceId_example; // String | Select policies owned by a given service. (Both registered and unregistered services)
+        String typeName = typeName_example; // String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 
         try {
             policy_id_list result = apiInstance.getPolicyIds(policytypeId, ricId, serviceId, typeName);
@@ -2262,12 +2269,13 @@ public class A1PolicyManagementApiExample {
 
 // Create an instance of the API class
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
-String *policytypeId = policytypeId_example; // Select policies of a given policy type identity. (optional) (default to null)
+String *policytypeId = policytypeId_example; // Select policies of a given A1 Policy Type ID. (optional) (default to null)
 String *ricId = ricId_example; // Select policies of a given Near-RT RIC identity. (optional) (default to null)
-String *serviceId = serviceId_example; // Select policies owned by a given service. (optional) (default to null)
-String *typeName = typeName_example; // Select policies of types with the given type name (type identity has the format <typename_version>) (optional) (default to null)
+String *serviceId = serviceId_example; // Select policies owned by a given service. (Both registered and unregistered services) (optional) (default to null)
+String *typeName = typeName_example; // Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+ (optional) (default to null)
 
-// Query policy identities
+// Query A1 Policy Instances (getPolicyIds)
 [apiInstance getPolicyIdsWith:policytypeId
     ricId:ricId
     serviceId:serviceId
@@ -2284,15 +2292,16 @@ String *typeName = typeName_example; // Select policies of types with the given 
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyIds-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var opts = {
-  'policytypeId': policytypeId_example, // {String} Select policies of a given policy type identity.
+  'policytypeId': policytypeId_example, // {String} Select policies of a given A1 Policy Type ID.
   'ricId': ricId_example, // {String} Select policies of a given Near-RT RIC identity.
-  'serviceId': serviceId_example, // {String} Select policies owned by a given service.
-  'typeName': typeName_example // {String} Select policies of types with the given type name (type identity has the format <typename_version>)
+  'serviceId': serviceId_example, // {String} Select policies owned by a given service. (Both registered and unregistered services)
+  'typeName': typeName_example // {String} Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 };
 
 var callback = function(error, data, response) {
@@ -2325,13 +2334,14 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new A1PolicyManagementApi();
-            var policytypeId = policytypeId_example;  // String | Select policies of a given policy type identity. (optional)  (default to null)
+            var policytypeId = policytypeId_example;  // String | Select policies of a given A1 Policy Type ID. (optional)  (default to null)
             var ricId = ricId_example;  // String | Select policies of a given Near-RT RIC identity. (optional)  (default to null)
-            var serviceId = serviceId_example;  // String | Select policies owned by a given service. (optional)  (default to null)
-            var typeName = typeName_example;  // String | Select policies of types with the given type name (type identity has the format <typename_version>) (optional)  (default to null)
+            var serviceId = serviceId_example;  // String | Select policies owned by a given service. (Both registered and unregistered services) (optional)  (default to null)
+            var typeName = typeName_example;  // String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+ (optional)  (default to null)
 
             try {
-                // Query policy identities
+                // Query A1 Policy Instances (getPolicyIds)
                 policy_id_list result = apiInstance.getPolicyIds(policytypeId, ricId, serviceId, typeName);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -2349,10 +2359,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\A1PolicyManagementApi();
-$policytypeId = policytypeId_example; // String | Select policies of a given policy type identity.
+$policytypeId = policytypeId_example; // String | Select policies of a given A1 Policy Type ID.
 $ricId = ricId_example; // String | Select policies of a given Near-RT RIC identity.
-$serviceId = serviceId_example; // String | Select policies owned by a given service.
-$typeName = typeName_example; // String | Select policies of types with the given type name (type identity has the format <typename_version>)
+$serviceId = serviceId_example; // String | Select policies owned by a given service. (Both registered and unregistered services)
+$typeName = typeName_example; // String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 
 try {
     $result = $api_instance->getPolicyIds($policytypeId, $ricId, $serviceId, $typeName);
@@ -2370,10 +2381,11 @@ use WWW::OPenAPIClient::A1PolicyManagementApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::A1PolicyManagementApi->new();
-my $policytypeId = policytypeId_example; # String | Select policies of a given policy type identity.
+my $policytypeId = policytypeId_example; # String | Select policies of a given A1 Policy Type ID.
 my $ricId = ricId_example; # String | Select policies of a given Near-RT RIC identity.
-my $serviceId = serviceId_example; # String | Select policies owned by a given service.
-my $typeName = typeName_example; # String | Select policies of types with the given type name (type identity has the format <typename_version>)
+my $serviceId = serviceId_example; # String | Select policies owned by a given service. (Both registered and unregistered services)
+my $typeName = typeName_example; # String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+
 
 eval {
     my $result = $api_instance->getPolicyIds(policytypeId => $policytypeId, ricId => $ricId, serviceId => $serviceId, typeName => $typeName);
@@ -2393,13 +2405,14 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.A1PolicyManagementApi()
-policytypeId = policytypeId_example # String | Select policies of a given policy type identity. (optional) (default to null)
+policytypeId = policytypeId_example # String | Select policies of a given A1 Policy Type ID. (optional) (default to null)
 ricId = ricId_example # String | Select policies of a given Near-RT RIC identity. (optional) (default to null)
-serviceId = serviceId_example # String | Select policies owned by a given service. (optional) (default to null)
-typeName = typeName_example # String | Select policies of types with the given type name (type identity has the format <typename_version>) (optional) (default to null)
+serviceId = serviceId_example # String | Select policies owned by a given service. (Both registered and unregistered services) (optional) (default to null)
+typeName = typeName_example # String | Select policies of types with the given A1 Policy Type name  (type names have the format 'typename_version')
+ (optional) (default to null)
 
 try:
-    # Query policy identities
+    # Query A1 Policy Instances (getPolicyIds)
     api_response = api_instance.get_policy_ids(policytypeId=policytypeId, ricId=ricId, serviceId=serviceId, typeName=typeName)
     pprint(api_response)
 except ApiException as e:
@@ -2453,7 +2466,7 @@ pub fn main() {
                 </span>
 
                     <div class="inner description marked">
-Select policies of a given policy type identity.
+Select policies of a given A1 Policy Type ID.
                     </div>
             </div>
         </div>
@@ -2493,7 +2506,7 @@ Select policies of a given Near-RT RIC identity.
                 </span>
 
                     <div class="inner description marked">
-Select policies owned by a given service.
+Select policies owned by a given service. (Both registered and unregistered services)
                     </div>
             </div>
         </div>
@@ -2513,7 +2526,8 @@ Select policies owned by a given service.
                 </span>
 
                     <div class="inner description marked">
-Select policies of types with the given type name (type identity has the format &lt;typename_version&gt;)
+Select policies of types with the given A1 Policy Type name  (type names have the format &#39;typename_version&#39;)
+
                     </div>
             </div>
         </div>
@@ -2681,12 +2695,13 @@ Select policies of types with the given type name (type identity has the format 
                       <article id="api-A1PolicyManagement-getPolicyInstances-0" data-group="User" data-name="getPolicyInstances" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicyInstances</h1>
-                          <p>Query for A1 policy instances</p>
+                          <p>Query for A1 Policy instances (getPolicyInstances)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns a list of A1 policies matching given search criteria. &lt;br&gt;If several query parameters are defined, the policies matching all conditions are returned.</p>
+                        <p class="marked">Returns a collection of A1 Policy Instance information for policies that match given search criteria.  If several query parameters are defined, the policies matching all conditions are returned.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policy-instances</span></code></pre>
@@ -2730,10 +2745,10 @@ public class A1PolicyManagementApiExample {
 
         // Create an instance of the API class
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
-        String policytypeId = policytypeId_example; // String | Select policies with a given type identity.
+        String policytypeId = policytypeId_example; // String | Select policies with a given A1 Policy Type ID.
         String ricId = ricId_example; // String | Select policies for a given Near-RT RIC identity.
-        String serviceId = serviceId_example; // String | Select policies owned by a given service.
-        String typeName = typeName_example; // String | Select policies of a given type name (type identity has the format <typename_version>)
+        String serviceId = serviceId_example; // String | Select policies owned by a given service (registered or unregistered).
+        String typeName = typeName_example; // String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 
         try {
             policy_info_list result = apiInstance.getPolicyInstances(policytypeId, ricId, serviceId, typeName);
@@ -2752,10 +2767,10 @@ public class A1PolicyManagementApiExample {
 
 final api_instance = DefaultApi();
 
-final String policytypeId = new String(); // String | Select policies with a given type identity.
+final String policytypeId = new String(); // String | Select policies with a given A1 Policy Type ID.
 final String ricId = new String(); // String | Select policies for a given Near-RT RIC identity.
-final String serviceId = new String(); // String | Select policies owned by a given service.
-final String typeName = new String(); // String | Select policies of a given type name (type identity has the format <typename_version>)
+final String serviceId = new String(); // String | Select policies owned by a given service (registered or unregistered).
+final String typeName = new String(); // String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 
 try {
     final result = await api_instance.getPolicyInstances(policytypeId, ricId, serviceId, typeName);
@@ -2773,10 +2788,10 @@ try {
 public class A1PolicyManagementApiExample {
     public static void main(String[] args) {
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
-        String policytypeId = policytypeId_example; // String | Select policies with a given type identity.
+        String policytypeId = policytypeId_example; // String | Select policies with a given A1 Policy Type ID.
         String ricId = ricId_example; // String | Select policies for a given Near-RT RIC identity.
-        String serviceId = serviceId_example; // String | Select policies owned by a given service.
-        String typeName = typeName_example; // String | Select policies of a given type name (type identity has the format <typename_version>)
+        String serviceId = serviceId_example; // String | Select policies owned by a given service (registered or unregistered).
+        String typeName = typeName_example; // String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 
         try {
             policy_info_list result = apiInstance.getPolicyInstances(policytypeId, ricId, serviceId, typeName);
@@ -2797,12 +2812,12 @@ public class A1PolicyManagementApiExample {
 
 // Create an instance of the API class
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
-String *policytypeId = policytypeId_example; // Select policies with a given type identity. (optional) (default to null)
+String *policytypeId = policytypeId_example; // Select policies with a given A1 Policy Type ID. (optional) (default to null)
 String *ricId = ricId_example; // Select policies for a given Near-RT RIC identity. (optional) (default to null)
-String *serviceId = serviceId_example; // Select policies owned by a given service. (optional) (default to null)
-String *typeName = typeName_example; // Select policies of a given type name (type identity has the format <typename_version>) (optional) (default to null)
+String *serviceId = serviceId_example; // Select policies owned by a given service (registered or unregistered). (optional) (default to null)
+String *typeName = typeName_example; // Select policies of a given A1 Policy Type name (type identity has the format 'typename_version'). (optional) (default to null)
 
-// Query for A1 policy instances
+// Query for A1 Policy instances (getPolicyInstances)
 [apiInstance getPolicyInstancesWith:policytypeId
     ricId:ricId
     serviceId:serviceId
@@ -2819,15 +2834,15 @@ String *typeName = typeName_example; // Select policies of a given type name (ty
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyInstances-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var opts = {
-  'policytypeId': policytypeId_example, // {String} Select policies with a given type identity.
+  'policytypeId': policytypeId_example, // {String} Select policies with a given A1 Policy Type ID.
   'ricId': ricId_example, // {String} Select policies for a given Near-RT RIC identity.
-  'serviceId': serviceId_example, // {String} Select policies owned by a given service.
-  'typeName': typeName_example // {String} Select policies of a given type name (type identity has the format <typename_version>)
+  'serviceId': serviceId_example, // {String} Select policies owned by a given service (registered or unregistered).
+  'typeName': typeName_example // {String} Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 };
 
 var callback = function(error, data, response) {
@@ -2860,13 +2875,13 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new A1PolicyManagementApi();
-            var policytypeId = policytypeId_example;  // String | Select policies with a given type identity. (optional)  (default to null)
+            var policytypeId = policytypeId_example;  // String | Select policies with a given A1 Policy Type ID. (optional)  (default to null)
             var ricId = ricId_example;  // String | Select policies for a given Near-RT RIC identity. (optional)  (default to null)
-            var serviceId = serviceId_example;  // String | Select policies owned by a given service. (optional)  (default to null)
-            var typeName = typeName_example;  // String | Select policies of a given type name (type identity has the format <typename_version>) (optional)  (default to null)
+            var serviceId = serviceId_example;  // String | Select policies owned by a given service (registered or unregistered). (optional)  (default to null)
+            var typeName = typeName_example;  // String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version'). (optional)  (default to null)
 
             try {
-                // Query for A1 policy instances
+                // Query for A1 Policy instances (getPolicyInstances)
                 policy_info_list result = apiInstance.getPolicyInstances(policytypeId, ricId, serviceId, typeName);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -2884,10 +2899,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\A1PolicyManagementApi();
-$policytypeId = policytypeId_example; // String | Select policies with a given type identity.
+$policytypeId = policytypeId_example; // String | Select policies with a given A1 Policy Type ID.
 $ricId = ricId_example; // String | Select policies for a given Near-RT RIC identity.
-$serviceId = serviceId_example; // String | Select policies owned by a given service.
-$typeName = typeName_example; // String | Select policies of a given type name (type identity has the format <typename_version>)
+$serviceId = serviceId_example; // String | Select policies owned by a given service (registered or unregistered).
+$typeName = typeName_example; // String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 
 try {
     $result = $api_instance->getPolicyInstances($policytypeId, $ricId, $serviceId, $typeName);
@@ -2905,10 +2920,10 @@ use WWW::OPenAPIClient::A1PolicyManagementApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::A1PolicyManagementApi->new();
-my $policytypeId = policytypeId_example; # String | Select policies with a given type identity.
+my $policytypeId = policytypeId_example; # String | Select policies with a given A1 Policy Type ID.
 my $ricId = ricId_example; # String | Select policies for a given Near-RT RIC identity.
-my $serviceId = serviceId_example; # String | Select policies owned by a given service.
-my $typeName = typeName_example; # String | Select policies of a given type name (type identity has the format <typename_version>)
+my $serviceId = serviceId_example; # String | Select policies owned by a given service (registered or unregistered).
+my $typeName = typeName_example; # String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
 
 eval {
     my $result = $api_instance->getPolicyInstances(policytypeId => $policytypeId, ricId => $ricId, serviceId => $serviceId, typeName => $typeName);
@@ -2928,13 +2943,13 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.A1PolicyManagementApi()
-policytypeId = policytypeId_example # String | Select policies with a given type identity. (optional) (default to null)
+policytypeId = policytypeId_example # String | Select policies with a given A1 Policy Type ID. (optional) (default to null)
 ricId = ricId_example # String | Select policies for a given Near-RT RIC identity. (optional) (default to null)
-serviceId = serviceId_example # String | Select policies owned by a given service. (optional) (default to null)
-typeName = typeName_example # String | Select policies of a given type name (type identity has the format <typename_version>) (optional) (default to null)
+serviceId = serviceId_example # String | Select policies owned by a given service (registered or unregistered). (optional) (default to null)
+typeName = typeName_example # String | Select policies of a given A1 Policy Type name (type identity has the format 'typename_version'). (optional) (default to null)
 
 try:
-    # Query for A1 policy instances
+    # Query for A1 Policy instances (getPolicyInstances)
     api_response = api_instance.get_policy_instances(policytypeId=policytypeId, ricId=ricId, serviceId=serviceId, typeName=typeName)
     pprint(api_response)
 except ApiException as e:
@@ -2988,7 +3003,7 @@ pub fn main() {
                 </span>
 
                     <div class="inner description marked">
-Select policies with a given type identity.
+Select policies with a given A1 Policy Type ID.
                     </div>
             </div>
         </div>
@@ -3028,7 +3043,7 @@ Select policies for a given Near-RT RIC identity.
                 </span>
 
                     <div class="inner description marked">
-Select policies owned by a given service.
+Select policies owned by a given service (registered or unregistered).
                     </div>
             </div>
         </div>
@@ -3048,7 +3063,7 @@ Select policies owned by a given service.
                 </span>
 
                     <div class="inner description marked">
-Select policies of a given type name (type identity has the format &lt;typename_version&gt;)
+Select policies of a given A1 Policy Type name (type identity has the format &#39;typename_version&#39;).
                     </div>
             </div>
         </div>
@@ -3062,7 +3077,7 @@ Select policies of a given type name (type identity has the format &lt;typename_
                             <h3 id="examples-A1PolicyManagement-getPolicyInstances-title-200"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyInstances-description-200" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement200_description = `OK - Returns A1 Policies which matches the criteria`;
+                              var responseA1PolicyManagement200_description = `OK - Returns A1 Policy Instances which match the criteria`;
                               var responseA1PolicyManagement200_description_break = responseA1PolicyManagement200_description.indexOf('\n');
                               if (responseA1PolicyManagement200_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyInstances-title-200").text("Status: 200 - " + responseA1PolicyManagement200_description);
@@ -3090,7 +3105,7 @@ Select policies of a given type name (type identity has the format &lt;typename_
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "OK - Returns A1 Policies which matches the criteria",
+  "description" : "OK - Returns A1 Policy Instances which match the criteria",
   "content" : {
     "application/json" : {
       "schema" : {
@@ -3143,7 +3158,7 @@ Select policies of a given type name (type identity has the format &lt;typename_
                             <h3 id="examples-A1PolicyManagement-getPolicyInstances-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyInstances-description-404" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement404_description = `Not Found - Near-RT RIC, policy type or service not found`;
+                              var responseA1PolicyManagement404_description = `Not Found - Near-RT RIC, A1 Policy Type or service was not found`;
                               var responseA1PolicyManagement404_description_break = responseA1PolicyManagement404_description.indexOf('\n');
                               if (responseA1PolicyManagement404_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyInstances-title-404").text("Status: 404 - " + responseA1PolicyManagement404_description);
@@ -3171,7 +3186,7 @@ Select policies of a given type name (type identity has the format &lt;typename_
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "Not Found - Near-RT RIC, policy type or service not found",
+  "description" : "Not Found - Near-RT RIC, A1 Policy Type or service was not found",
   "content" : {
     "application/json" : {
       "schema" : {
@@ -3223,12 +3238,12 @@ Select policies of a given type name (type identity has the format &lt;typename_
                       <article id="api-A1PolicyManagement-getPolicyStatus-0" data-group="User" data-name="getPolicyStatus" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicyStatus</h1>
-                          <p></p>
+                          <p>Get an A1 Policy Instance&#39;s status (getPolicyStatus)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns a policy status</p>
+                        <p class="marked">Retrieve the status information for an A1 Policy Instance.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policies/{policy_id}/status</span></code></pre>
@@ -3332,6 +3347,7 @@ public class A1PolicyManagementApiExample {
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 String *policyId = policyId_example; //  (default to null)
 
+// Get an A1 Policy Instance's status (getPolicyStatus)
 [apiInstance getPolicyStatusWith:policyId
               completionHandler: ^(policy_status_info output, NSError* error) {
     if (output) {
@@ -3345,10 +3361,10 @@ String *policyId = policyId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var policyId = policyId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -3384,6 +3400,7 @@ namespace Example
             var policyId = policyId_example;  // String |  (default to null)
 
             try {
+                // Get an A1 Policy Instance's status (getPolicyStatus)
                 policy_status_info result = apiInstance.getPolicyStatus(policyId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -3442,6 +3459,7 @@ api_instance = openapi_client.A1PolicyManagementApi()
 policyId = policyId_example # String |  (default to null)
 
 try:
+    # Get an A1 Policy Instance's status (getPolicyStatus)
     api_response = api_instance.get_policy_status(policyId)
     pprint(api_response)
 except ApiException as e:
@@ -3660,12 +3678,12 @@ pub fn main() {
                       <article id="api-A1PolicyManagement-getPolicyTypeDefinition-0" data-group="User" data-name="getPolicyTypeDefinition" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicyTypeDefinition</h1>
-                          <p></p>
+                          <p>Get an A1 Policy Type definition (getPolicyTypeDefinition)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns a policy type definition</p>
+                        <p class="marked">Get an A1 Policy Type definition using its policy type ID</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policy-types/{policytype_id}</span></code></pre>
@@ -3769,6 +3787,7 @@ public class A1PolicyManagementApiExample {
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 String *policytypeId = policytypeId_example; //  (default to null)
 
+// Get an A1 Policy Type definition (getPolicyTypeDefinition)
 [apiInstance getPolicyTypeDefinitionWith:policytypeId
               completionHandler: ^(policy_type_definition output, NSError* error) {
     if (output) {
@@ -3782,10 +3801,10 @@ String *policytypeId = policytypeId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypeDefinition-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var policytypeId = policytypeId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -3821,6 +3840,7 @@ namespace Example
             var policytypeId = policytypeId_example;  // String |  (default to null)
 
             try {
+                // Get an A1 Policy Type definition (getPolicyTypeDefinition)
                 policy_type_definition result = apiInstance.getPolicyTypeDefinition(policytypeId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -3879,6 +3899,7 @@ api_instance = openapi_client.A1PolicyManagementApi()
 policytypeId = policytypeId_example # String |  (default to null)
 
 try:
+    # Get an A1 Policy Type definition (getPolicyTypeDefinition)
     api_response = api_instance.get_policy_type_definition(policytypeId)
     pprint(api_response)
 except ApiException as e:
@@ -3943,7 +3964,7 @@ pub fn main() {
                             <h3 id="examples-A1PolicyManagement-getPolicyTypeDefinition-title-200"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypeDefinition-description-200" class="marked"></p>
                             <script>
-                              var responseA1PolicyManagement200_description = `OK - schema of the given policy type`;
+                              var responseA1PolicyManagement200_description = `OK - schema of the requested A1 Policy Type`;
                               var responseA1PolicyManagement200_description_break = responseA1PolicyManagement200_description.indexOf('\n');
                               if (responseA1PolicyManagement200_description_break == -1) {
                                 $("#examples-A1PolicyManagement-getPolicyTypeDefinition-title-200").text("Status: 200 - " + responseA1PolicyManagement200_description);
@@ -3971,7 +3992,7 @@ pub fn main() {
                                   <script>
                                     $(document).ready(function() {
                                       var schemaWrapper = {
-  "description" : "OK - schema of the given policy type",
+  "description" : "OK - schema of the requested A1 Policy Type",
   "content" : {
     "application/json" : {
       "schema" : {
@@ -4097,12 +4118,12 @@ pub fn main() {
                       <article id="api-A1PolicyManagement-getPolicyTypes-0" data-group="User" data-name="getPolicyTypes" data-version="0">
                         <div class="pull-left">
                           <h1>getPolicyTypes</h1>
-                          <p></p>
+                          <p>Get A1 Policy Types (getPolicyTypes)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Query policy type identities</p>
+                        <p class="marked">Query A1 Policy Type identities using query parameters</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/policy-types</span></code></pre>
@@ -4147,7 +4168,7 @@ public class A1PolicyManagementApiExample {
         // Create an instance of the API class
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
         String ricId = ricId_example; // String | Select types for the given Near-RT RIC identity.
-        String typeName = typeName_example; // String | Select types with the given type name (type identity has the format <typename_version>)
+        String typeName = typeName_example; // String | Select types compatible with the given type name (type identity has the format 'typename_version')
         String compatibleWithVersion = compatibleWithVersion_example; // String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 
         try {
@@ -4168,7 +4189,7 @@ public class A1PolicyManagementApiExample {
 final api_instance = DefaultApi();
 
 final String ricId = new String(); // String | Select types for the given Near-RT RIC identity.
-final String typeName = new String(); // String | Select types with the given type name (type identity has the format <typename_version>)
+final String typeName = new String(); // String | Select types compatible with the given type name (type identity has the format 'typename_version')
 final String compatibleWithVersion = new String(); // String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 
 try {
@@ -4188,7 +4209,7 @@ public class A1PolicyManagementApiExample {
     public static void main(String[] args) {
         A1PolicyManagementApi apiInstance = new A1PolicyManagementApi();
         String ricId = ricId_example; // String | Select types for the given Near-RT RIC identity.
-        String typeName = typeName_example; // String | Select types with the given type name (type identity has the format <typename_version>)
+        String typeName = typeName_example; // String | Select types compatible with the given type name (type identity has the format 'typename_version')
         String compatibleWithVersion = compatibleWithVersion_example; // String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 
         try {
@@ -4211,9 +4232,10 @@ public class A1PolicyManagementApiExample {
 // Create an instance of the API class
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 String *ricId = ricId_example; // Select types for the given Near-RT RIC identity. (optional) (default to null)
-String *typeName = typeName_example; // Select types with the given type name (type identity has the format <typename_version>) (optional) (default to null)
+String *typeName = typeName_example; // Select types compatible with the given type name (type identity has the format 'typename_version') (optional) (default to null)
 String *compatibleWithVersion = compatibleWithVersion_example; // Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order. (optional) (default to null)
 
+// Get A1 Policy Types (getPolicyTypes)
 [apiInstance getPolicyTypesWith:ricId
     typeName:typeName
     compatibleWithVersion:compatibleWithVersion
@@ -4229,13 +4251,13 @@ String *compatibleWithVersion = compatibleWithVersion_example; // Select types t
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypes-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var opts = {
   'ricId': ricId_example, // {String} Select types for the given Near-RT RIC identity.
-  'typeName': typeName_example, // {String} Select types with the given type name (type identity has the format <typename_version>)
+  'typeName': typeName_example, // {String} Select types compatible with the given type name (type identity has the format 'typename_version')
   'compatibleWithVersion': compatibleWithVersion_example // {String} Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 };
 
@@ -4270,10 +4292,11 @@ namespace Example
             // Create an instance of the API class
             var apiInstance = new A1PolicyManagementApi();
             var ricId = ricId_example;  // String | Select types for the given Near-RT RIC identity. (optional)  (default to null)
-            var typeName = typeName_example;  // String | Select types with the given type name (type identity has the format <typename_version>) (optional)  (default to null)
+            var typeName = typeName_example;  // String | Select types compatible with the given type name (type identity has the format 'typename_version') (optional)  (default to null)
             var compatibleWithVersion = compatibleWithVersion_example;  // String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order. (optional)  (default to null)
 
             try {
+                // Get A1 Policy Types (getPolicyTypes)
                 policy_type_id_list result = apiInstance.getPolicyTypes(ricId, typeName, compatibleWithVersion);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -4292,7 +4315,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\A1PolicyManagementApi();
 $ricId = ricId_example; // String | Select types for the given Near-RT RIC identity.
-$typeName = typeName_example; // String | Select types with the given type name (type identity has the format <typename_version>)
+$typeName = typeName_example; // String | Select types compatible with the given type name (type identity has the format 'typename_version')
 $compatibleWithVersion = compatibleWithVersion_example; // String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 
 try {
@@ -4312,7 +4335,7 @@ use WWW::OPenAPIClient::A1PolicyManagementApi;
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::A1PolicyManagementApi->new();
 my $ricId = ricId_example; # String | Select types for the given Near-RT RIC identity.
-my $typeName = typeName_example; # String | Select types with the given type name (type identity has the format <typename_version>)
+my $typeName = typeName_example; # String | Select types compatible with the given type name (type identity has the format 'typename_version')
 my $compatibleWithVersion = compatibleWithVersion_example; # String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
 
 eval {
@@ -4334,10 +4357,11 @@ from pprint import pprint
 # Create an instance of the API class
 api_instance = openapi_client.A1PolicyManagementApi()
 ricId = ricId_example # String | Select types for the given Near-RT RIC identity. (optional) (default to null)
-typeName = typeName_example # String | Select types with the given type name (type identity has the format <typename_version>) (optional) (default to null)
+typeName = typeName_example # String | Select types compatible with the given type name (type identity has the format 'typename_version') (optional) (default to null)
 compatibleWithVersion = compatibleWithVersion_example # String | Select types that are compatible with the given version. This parameter is only applicable in conjunction with type_name. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order. (optional) (default to null)
 
 try:
+    # Get A1 Policy Types (getPolicyTypes)
     api_response = api_instance.get_policy_types(ricId=ricId, typeName=typeName, compatibleWithVersion=compatibleWithVersion)
     pprint(api_response)
 except ApiException as e:
@@ -4410,7 +4434,7 @@ Select types for the given Near-RT RIC identity.
                 </span>
 
                     <div class="inner description marked">
-Select types with the given type name (type identity has the format &lt;typename_version&gt;)
+Select types compatible with the given type name (type identity has the format &#39;typename_version&#39;)
                     </div>
             </div>
         </div>
@@ -4598,12 +4622,12 @@ Select types that are compatible with the given version. This parameter is only 
                       <article id="api-A1PolicyManagement-putPolicy-0" data-group="User" data-name="putPolicy" data-version="0">
                         <div class="pull-left">
                           <h1>putPolicy</h1>
-                          <p></p>
+                          <p>Create or Update an A1 Policy Instance (putPolicy)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Create or update a policy</p>
+                        <p class="marked">Create or Update an A1 Policy Instance</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/a1-policy/v2/policies</span></code></pre>
@@ -4709,6 +4733,7 @@ public class A1PolicyManagementApiExample {
 A1PolicyManagementApi *apiInstance = [[A1PolicyManagementApi alloc] init];
 PolicyInfo *policyInfo = ; // 
 
+// Create or Update an A1 Policy Instance (putPolicy)
 [apiInstance putPolicyWith:policyInfo
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -4722,10 +4747,10 @@ PolicyInfo *policyInfo = ; //
                             </div>
 
                             <div class="tab-pane" id="examples-A1PolicyManagement-putPolicy-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.A1PolicyManagementApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.A1PolicyManagementApi()
 var policyInfo = ; // {PolicyInfo} 
 
 var callback = function(error, data, response) {
@@ -4761,6 +4786,7 @@ namespace Example
             var policyInfo = new PolicyInfo(); // PolicyInfo | 
 
             try {
+                // Create or Update an A1 Policy Instance (putPolicy)
                 Object result = apiInstance.putPolicy(policyInfo);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -4819,6 +4845,7 @@ api_instance = openapi_client.A1PolicyManagementApi()
 policyInfo =  # PolicyInfo | 
 
 try:
+    # Create or Update an A1 Policy Instance (putPolicy)
     api_response = api_instance.put_policy(policyInfo)
     pprint(api_response)
 except ApiException as e:
@@ -5144,12 +5171,13 @@ $(document).ready(function() {
                       <article id="api-AuthorizationAPI-performAccessControl-0" data-group="User" data-name="performAccessControl" data-version="0">
                         <div class="pull-left">
                           <h1>performAccessControl</h1>
-                          <p>Request for access authorization.</p>
+                          <p>Callout request for access authorization (performAccessControl)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">The authorization function decides if access is granted.</p>
+                        <p class="marked">A template endpoint for callout requests to an external authorization function.  The authorization function, if enabled, decides if individual operations are permitted.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/example-authz-check</span></code></pre>
@@ -5255,7 +5283,7 @@ public class AuthorizationAPIApiExample {
 AuthorizationAPIApi *apiInstance = [[AuthorizationAPIApi alloc] init];
 PolicyAuthorization *policyAuthorization = ; // 
 
-// Request for access authorization.
+// Callout request for access authorization (performAccessControl)
 [apiInstance performAccessControlWith:policyAuthorization
               completionHandler: ^(authorization_result output, NSError* error) {
     if (output) {
@@ -5269,10 +5297,10 @@ PolicyAuthorization *policyAuthorization = ; //
                             </div>
 
                             <div class="tab-pane" id="examples-AuthorizationAPI-performAccessControl-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.AuthorizationAPIApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.AuthorizationAPIApi()
 var policyAuthorization = ; // {PolicyAuthorization} 
 
 var callback = function(error, data, response) {
@@ -5308,7 +5336,7 @@ namespace Example
             var policyAuthorization = new PolicyAuthorization(); // PolicyAuthorization | 
 
             try {
-                // Request for access authorization.
+                // Callout request for access authorization (performAccessControl)
                 authorization_result result = apiInstance.performAccessControl(policyAuthorization);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -5367,7 +5395,7 @@ api_instance = openapi_client.AuthorizationAPIApi()
 policyAuthorization =  # PolicyAuthorization | 
 
 try:
-    # Request for access authorization.
+    # Callout request for access authorization (performAccessControl)
     api_response = api_instance.perform_access_control(policyAuthorization)
     pprint(api_response)
 except ApiException as e:
@@ -5617,12 +5645,12 @@ $(document).ready(function() {
                       <article id="api-Configuration-getConfiguration-0" data-group="User" data-name="getConfiguration" data-version="0">
                         <div class="pull-left">
                           <h1>getConfiguration</h1>
-                          <p></p>
+                          <p>Get the Application Configuration (getConfiguration)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Returns the contents of the application configuration file</p>
+                        <p class="marked">Returns the entire contents of the Application Configuration.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/configuration</span></code></pre>
@@ -5722,6 +5750,7 @@ public class ConfigurationApiExample {
 // Create an instance of the API class
 ConfigurationApi *apiInstance = [[ConfigurationApi alloc] init];
 
+// Get the Application Configuration (getConfiguration)
 [apiInstance getConfigurationWithCompletionHandler: 
               ^('String' output, NSError* error) {
     if (output) {
@@ -5735,10 +5764,10 @@ ConfigurationApi *apiInstance = [[ConfigurationApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Configuration-getConfiguration-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ConfigurationApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ConfigurationApi()
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -5771,6 +5800,7 @@ namespace Example
             var apiInstance = new ConfigurationApi();
 
             try {
+                // Get the Application Configuration (getConfiguration)
                 'String' result = apiInstance.getConfiguration();
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -5826,6 +5856,7 @@ from pprint import pprint
 api_instance = openapi_client.ConfigurationApi()
 
 try:
+    # Get the Application Configuration (getConfiguration)
     api_response = api_instance.get_configuration()
     pprint(api_response)
 except ApiException as e:
@@ -6011,12 +6042,13 @@ pub fn main() {
                       <article id="api-Configuration-putConfiguration-0" data-group="User" data-name="putConfiguration" data-version="0">
                         <div class="pull-left">
                           <h1>putConfiguration</h1>
-                          <p></p>
+                          <p>Set/Replace the Application Configuration (putConfiguration)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Replace the current configuration with the given configuration</p>
+                        <p class="marked">Replace the current Application Configuration with a new configuration. The new configuration, if accepted, will take effect after a short delay.  The new configuration must comply with the Application Configuration schema,  which can be found from the the Application Documentation (Developer Guide)
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/a1-policy/v2/configuration</span></code></pre>
@@ -6122,6 +6154,7 @@ public class ConfigurationApiExample {
 ConfigurationApi *apiInstance = [[ConfigurationApi alloc] init];
 Object *body = Object; // 
 
+// Set/Replace the Application Configuration (putConfiguration)
 [apiInstance putConfigurationWith:body
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -6135,10 +6168,10 @@ Object *body = Object; //
                             </div>
 
                             <div class="tab-pane" id="examples-Configuration-putConfiguration-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ConfigurationApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ConfigurationApi()
 var body = Object; // {Object} 
 
 var callback = function(error, data, response) {
@@ -6174,6 +6207,7 @@ namespace Example
             var body = Object;  // Object | 
 
             try {
+                // Set/Replace the Application Configuration (putConfiguration)
                 Object result = apiInstance.putConfiguration(body);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -6232,6 +6266,7 @@ api_instance = openapi_client.ConfigurationApi()
 body = Object # Object | 
 
 try:
+    # Set/Replace the Application Configuration (putConfiguration)
     api_response = api_instance.put_configuration(body)
     pprint(api_response)
 except ApiException as e:
@@ -6481,7 +6516,7 @@ $(document).ready(function() {
                       <article id="api-HealthCheck-getStatus-0" data-group="User" data-name="getStatus" data-version="0">
                         <div class="pull-left">
                           <h1>getStatus</h1>
-                          <p></p>
+                          <p>Get Status (getStatus)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
@@ -6586,6 +6621,7 @@ public class HealthCheckApiExample {
 // Create an instance of the API class
 HealthCheckApi *apiInstance = [[HealthCheckApi alloc] init];
 
+// Get Status (getStatus)
 [apiInstance getStatusWithCompletionHandler: 
               ^(status_info output, NSError* error) {
     if (output) {
@@ -6599,10 +6635,10 @@ HealthCheckApi *apiInstance = [[HealthCheckApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-HealthCheck-getStatus-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.HealthCheckApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.HealthCheckApi()
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -6635,6 +6671,7 @@ namespace Example
             var apiInstance = new HealthCheckApi();
 
             try {
+                // Get Status (getStatus)
                 status_info result = apiInstance.getStatus();
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -6690,6 +6727,7 @@ from pprint import pprint
 api_instance = openapi_client.HealthCheckApi()
 
 try:
+    # Get Status (getStatus)
     api_response = api_instance.get_status()
     pprint(api_response)
 except ApiException as e:
@@ -6811,7 +6849,7 @@ pub fn main() {
                       <article id="api-HealthCheck-getStatusV1-0" data-group="User" data-name="getStatusV1" data-version="0">
                         <div class="pull-left">
                           <h1>getStatusV1</h1>
-                          <p></p>
+                          <p>Get Status (getStatusV1)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
@@ -6916,6 +6954,7 @@ public class HealthCheckApiExample {
 // Create an instance of the API class
 HealthCheckApi *apiInstance = [[HealthCheckApi alloc] init];
 
+// Get Status (getStatusV1)
 [apiInstance getStatusV1WithCompletionHandler: 
               ^('String' output, NSError* error) {
     if (output) {
@@ -6929,10 +6968,10 @@ HealthCheckApi *apiInstance = [[HealthCheckApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-HealthCheck-getStatusV1-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.HealthCheckApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.HealthCheckApi()
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -6965,6 +7004,7 @@ namespace Example
             var apiInstance = new HealthCheckApi();
 
             try {
+                // Get Status (getStatusV1)
                 'String' result = apiInstance.getStatusV1();
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -7020,6 +7060,7 @@ from pprint import pprint
 api_instance = openapi_client.HealthCheckApi()
 
 try:
+    # Get Status (getStatusV1)
     api_response = api_instance.get_status_v1()
     pprint(api_response)
 except ApiException as e:
@@ -7139,12 +7180,13 @@ pub fn main() {
                       <article id="api-NearRTRICRepository-getRic-0" data-group="User" data-name="getRic" data-version="0">
                         <div class="pull-left">
                           <h1>getRic</h1>
-                          <p>Returns info of Near-RT RIC queried by the ric-id and managed-element-id</p>
+                          <p>Get a Near-RT RIC (getRic)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Either a Near-RT RIC identity or a Managed Element identity can be specified.&lt;br&gt;The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).</p>
+                        <p class="marked">Query information about a Near-RT RIC. Either a Near-RT RIC identity or a Managed Element  identity can be specified. The intention with Managed Element identity is the ID used in O1 for accessing the traffical element (such as the ID of CU).
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/rics/ric</span></code></pre>
@@ -7189,6 +7231,7 @@ public class NearRTRICRepositoryApiExample {
         // Create an instance of the API class
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
         String managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
         String ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
 
         try {
@@ -7209,6 +7252,7 @@ public class NearRTRICRepositoryApiExample {
 final api_instance = DefaultApi();
 
 final String managedElementId = new String(); // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
 final String ricId = new String(); // String | The identity of a Near-RT RIC to get information for.
 
 try {
@@ -7228,6 +7272,7 @@ public class NearRTRICRepositoryApiExample {
     public static void main(String[] args) {
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
         String managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
         String ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
 
         try {
@@ -7249,10 +7294,11 @@ public class NearRTRICRepositoryApiExample {
 
 // Create an instance of the API class
 NearRTRICRepositoryApi *apiInstance = [[NearRTRICRepositoryApi alloc] init];
-String *managedElementId = managedElementId_example; // The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional) (default to null)
+String *managedElementId = managedElementId_example; // The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+ (optional) (default to null)
 String *ricId = ricId_example; // The identity of a Near-RT RIC to get information for. (optional) (default to null)
 
-// Returns info of Near-RT RIC queried by the ric-id and managed-element-id
+// Get a Near-RT RIC (getRic)
 [apiInstance getRicWith:managedElementId
     ricId:ricId
               completionHandler: ^(ric_info output, NSError* error) {
@@ -7267,12 +7313,13 @@ String *ricId = ricId_example; // The identity of a Near-RT RIC to get informati
                             </div>
 
                             <div class="tab-pane" id="examples-NearRTRICRepository-getRic-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.NearRTRICRepositoryApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.NearRTRICRepositoryApi()
 var opts = {
   'managedElementId': managedElementId_example, // {String} The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
   'ricId': ricId_example // {String} The identity of a Near-RT RIC to get information for.
 };
 
@@ -7306,11 +7353,12 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new NearRTRICRepositoryApi();
-            var managedElementId = managedElementId_example;  // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional)  (default to null)
+            var managedElementId = managedElementId_example;  // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+ (optional)  (default to null)
             var ricId = ricId_example;  // String | The identity of a Near-RT RIC to get information for. (optional)  (default to null)
 
             try {
-                // Returns info of Near-RT RIC queried by the ric-id and managed-element-id
+                // Get a Near-RT RIC (getRic)
                 ric_info result = apiInstance.getRic(managedElementId, ricId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -7329,6 +7377,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\NearRTRICRepositoryApi();
 $managedElementId = managedElementId_example; // String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
 $ricId = ricId_example; // String | The identity of a Near-RT RIC to get information for.
 
 try {
@@ -7348,6 +7397,7 @@ use WWW::OPenAPIClient::NearRTRICRepositoryApi;
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::NearRTRICRepositoryApi->new();
 my $managedElementId = managedElementId_example; # String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
 my $ricId = ricId_example; # String | The identity of a Near-RT RIC to get information for.
 
 eval {
@@ -7368,11 +7418,12 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.NearRTRICRepositoryApi()
-managedElementId = managedElementId_example # String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned. (optional) (default to null)
+managedElementId = managedElementId_example # String | The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+ (optional) (default to null)
 ricId = ricId_example # String | The identity of a Near-RT RIC to get information for. (optional) (default to null)
 
 try:
-    # Returns info of Near-RT RIC queried by the ric-id and managed-element-id
+    # Get a Near-RT RIC (getRic)
     api_response = api_instance.get_ric(managedElementId=managedElementId, ricId=ricId)
     pprint(api_response)
 except ApiException as e:
@@ -7425,6 +7476,7 @@ pub fn main() {
 
                     <div class="inner description marked">
 The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+
                     </div>
             </div>
         </div>
@@ -7612,12 +7664,12 @@ The identity of a Near-RT RIC to get information for.
                       <article id="api-NearRTRICRepository-getRics-0" data-group="User" data-name="getRics" data-version="0">
                         <div class="pull-left">
                           <h1>getRics</h1>
-                          <p>Query Near-RT RIC information</p>
+                          <p>Get Near-RT RICs for A1 Policy Type (getRics)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">The call returns all Near-RT RICs that supports a given policy type identity</p>
+                        <p class="marked">Get all Near-RT RICs that supports a given A1 Policy Type ID</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/rics</span></code></pre>
@@ -7661,7 +7713,8 @@ public class NearRTRICRepositoryApiExample {
 
         // Create an instance of the API class
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
-        String policytypeId = policytypeId_example; // String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+        String policytypeId = policytypeId_example; // String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 
         try {
             ric_info_list result = apiInstance.getRics(policytypeId);
@@ -7680,7 +7733,8 @@ public class NearRTRICRepositoryApiExample {
 
 final api_instance = DefaultApi();
 
-final String policytypeId = new String(); // String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+final String policytypeId = new String(); // String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 
 try {
     final result = await api_instance.getRics(policytypeId);
@@ -7698,7 +7752,8 @@ try {
 public class NearRTRICRepositoryApiExample {
     public static void main(String[] args) {
         NearRTRICRepositoryApi apiInstance = new NearRTRICRepositoryApi();
-        String policytypeId = policytypeId_example; // String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+        String policytypeId = policytypeId_example; // String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 
         try {
             ric_info_list result = apiInstance.getRics(policytypeId);
@@ -7719,9 +7774,10 @@ public class NearRTRICRepositoryApiExample {
 
 // Create an instance of the API class
 NearRTRICRepositoryApi *apiInstance = [[NearRTRICRepositoryApi alloc] init];
-String *policytypeId = policytypeId_example; // The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned (optional) (default to null)
+String *policytypeId = policytypeId_example; // The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+ (optional) (default to null)
 
-// Query Near-RT RIC information
+// Get Near-RT RICs for A1 Policy Type (getRics)
 [apiInstance getRicsWith:policytypeId
               completionHandler: ^(ric_info_list output, NSError* error) {
     if (output) {
@@ -7735,12 +7791,13 @@ String *policytypeId = policytypeId_example; // The identity of a policy type. I
                             </div>
 
                             <div class="tab-pane" id="examples-NearRTRICRepository-getRics-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.NearRTRICRepositoryApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.NearRTRICRepositoryApi()
 var opts = {
-  'policytypeId': policytypeId_example // {String} The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+  'policytypeId': policytypeId_example // {String} The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 };
 
 var callback = function(error, data, response) {
@@ -7773,10 +7830,11 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new NearRTRICRepositoryApi();
-            var policytypeId = policytypeId_example;  // String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned (optional)  (default to null)
+            var policytypeId = policytypeId_example;  // String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+ (optional)  (default to null)
 
             try {
-                // Query Near-RT RIC information
+                // Get Near-RT RICs for A1 Policy Type (getRics)
                 ric_info_list result = apiInstance.getRics(policytypeId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -7794,7 +7852,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\NearRTRICRepositoryApi();
-$policytypeId = policytypeId_example; // String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+$policytypeId = policytypeId_example; // String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 
 try {
     $result = $api_instance->getRics($policytypeId);
@@ -7812,7 +7871,8 @@ use WWW::OPenAPIClient::NearRTRICRepositoryApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::NearRTRICRepositoryApi->new();
-my $policytypeId = policytypeId_example; # String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+my $policytypeId = policytypeId_example; # String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
 
 eval {
     my $result = $api_instance->getRics(policytypeId => $policytypeId);
@@ -7832,10 +7892,11 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.NearRTRICRepositoryApi()
-policytypeId = policytypeId_example # String | The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned (optional) (default to null)
+policytypeId = policytypeId_example # String | The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+ (optional) (default to null)
 
 try:
-    # Query Near-RT RIC information
+    # Get Near-RT RICs for A1 Policy Type (getRics)
     api_response = api_instance.get_rics(policytypeId=policytypeId)
     pprint(api_response)
 except ApiException as e:
@@ -7886,7 +7947,8 @@ pub fn main() {
                 </span>
 
                     <div class="inner description marked">
-The identity of a policy type. If given, all Near-RT RICs supporting the policy type are returned
+The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+
                     </div>
             </div>
         </div>
@@ -8057,12 +8119,13 @@ The identity of a policy type. If given, all Near-RT RICs supporting the policy 
                       <article id="api-ServiceRegistryAndSupervision-deleteService-0" data-group="User" data-name="deleteService" data-version="0">
                         <div class="pull-left">
                           <h1>deleteService</h1>
-                          <p></p>
+                          <p>Unregister a Service (deleteService)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Unregister a service</p>
+                        <p class="marked">Unregister a registered Service using its service ID.  Only registered services can be unregistered. All A1 Policy Instances  for the previously registered service will be removed.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/a1-policy/v2/services/{service_id}</span></code></pre>
@@ -8166,6 +8229,7 @@ public class ServiceRegistryAndSupervisionApiExample {
 ServiceRegistryAndSupervisionApi *apiInstance = [[ServiceRegistryAndSupervisionApi alloc] init];
 String *serviceId = serviceId_example; //  (default to null)
 
+// Unregister a Service (deleteService)
 [apiInstance deleteServiceWith:serviceId
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -8179,10 +8243,10 @@ String *serviceId = serviceId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-deleteService-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ServiceRegistryAndSupervisionApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ServiceRegistryAndSupervisionApi()
 var serviceId = serviceId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -8218,6 +8282,7 @@ namespace Example
             var serviceId = serviceId_example;  // String |  (default to null)
 
             try {
+                // Unregister a Service (deleteService)
                 Object result = apiInstance.deleteService(serviceId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -8276,6 +8341,7 @@ api_instance = openapi_client.ServiceRegistryAndSupervisionApi()
 serviceId = serviceId_example # String |  (default to null)
 
 try:
+    # Unregister a Service (deleteService)
     api_response = api_instance.delete_service(serviceId)
     pprint(api_response)
 except ApiException as e:
@@ -8489,12 +8555,13 @@ pub fn main() {
                       <article id="api-ServiceRegistryAndSupervision-getServices-0" data-group="User" data-name="getServices" data-version="0">
                         <div class="pull-left">
                           <h1>getServices</h1>
-                          <p>Returns service information</p>
+                          <p>Get Services (getServices)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Either information about a registered service with given identity or all registered services are returned.</p>
+                        <p class="marked">Get information about all registered services, or a single registered service.  If the service ID of a registered service is included in the query, information about that  service is returned. Otherwise Information about all registered is returned. This operation does not retrieve information about unregistered services.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/a1-policy/v2/services</span></code></pre>
@@ -8538,7 +8605,7 @@ public class ServiceRegistryAndSupervisionApiExample {
 
         // Create an instance of the API class
         ServiceRegistryAndSupervisionApi apiInstance = new ServiceRegistryAndSupervisionApi();
-        String serviceId = serviceId_example; // String | The identity of the service
+        String serviceId = serviceId_example; // String | The identity of the registered service
 
         try {
             service_status_list result = apiInstance.getServices(serviceId);
@@ -8557,7 +8624,7 @@ public class ServiceRegistryAndSupervisionApiExample {
 
 final api_instance = DefaultApi();
 
-final String serviceId = new String(); // String | The identity of the service
+final String serviceId = new String(); // String | The identity of the registered service
 
 try {
     final result = await api_instance.getServices(serviceId);
@@ -8575,7 +8642,7 @@ try {
 public class ServiceRegistryAndSupervisionApiExample {
     public static void main(String[] args) {
         ServiceRegistryAndSupervisionApi apiInstance = new ServiceRegistryAndSupervisionApi();
-        String serviceId = serviceId_example; // String | The identity of the service
+        String serviceId = serviceId_example; // String | The identity of the registered service
 
         try {
             service_status_list result = apiInstance.getServices(serviceId);
@@ -8596,9 +8663,9 @@ public class ServiceRegistryAndSupervisionApiExample {
 
 // Create an instance of the API class
 ServiceRegistryAndSupervisionApi *apiInstance = [[ServiceRegistryAndSupervisionApi alloc] init];
-String *serviceId = serviceId_example; // The identity of the service (optional) (default to null)
+String *serviceId = serviceId_example; // The identity of the registered service (optional) (default to null)
 
-// Returns service information
+// Get Services (getServices)
 [apiInstance getServicesWith:serviceId
               completionHandler: ^(service_status_list output, NSError* error) {
     if (output) {
@@ -8612,12 +8679,12 @@ String *serviceId = serviceId_example; // The identity of the service (optional)
                             </div>
 
                             <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-getServices-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ServiceRegistryAndSupervisionApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ServiceRegistryAndSupervisionApi()
 var opts = {
-  'serviceId': serviceId_example // {String} The identity of the service
+  'serviceId': serviceId_example // {String} The identity of the registered service
 };
 
 var callback = function(error, data, response) {
@@ -8650,10 +8717,10 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new ServiceRegistryAndSupervisionApi();
-            var serviceId = serviceId_example;  // String | The identity of the service (optional)  (default to null)
+            var serviceId = serviceId_example;  // String | The identity of the registered service (optional)  (default to null)
 
             try {
-                // Returns service information
+                // Get Services (getServices)
                 service_status_list result = apiInstance.getServices(serviceId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -8671,7 +8738,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\ServiceRegistryAndSupervisionApi();
-$serviceId = serviceId_example; // String | The identity of the service
+$serviceId = serviceId_example; // String | The identity of the registered service
 
 try {
     $result = $api_instance->getServices($serviceId);
@@ -8689,7 +8756,7 @@ use WWW::OPenAPIClient::ServiceRegistryAndSupervisionApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::ServiceRegistryAndSupervisionApi->new();
-my $serviceId = serviceId_example; # String | The identity of the service
+my $serviceId = serviceId_example; # String | The identity of the registered service
 
 eval {
     my $result = $api_instance->getServices(serviceId => $serviceId);
@@ -8709,10 +8776,10 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.ServiceRegistryAndSupervisionApi()
-serviceId = serviceId_example # String | The identity of the service (optional) (default to null)
+serviceId = serviceId_example # String | The identity of the registered service (optional) (default to null)
 
 try:
-    # Returns service information
+    # Get Services (getServices)
     api_response = api_instance.get_services(serviceId=serviceId)
     pprint(api_response)
 except ApiException as e:
@@ -8763,7 +8830,7 @@ pub fn main() {
                 </span>
 
                     <div class="inner description marked">
-The identity of the service
+The identity of the registered service
                     </div>
             </div>
         </div>
@@ -8931,12 +8998,12 @@ The identity of the service
                       <article id="api-ServiceRegistryAndSupervision-keepAliveService-0" data-group="User" data-name="keepAliveService" data-version="0">
                         <div class="pull-left">
                           <h1>keepAliveService</h1>
-                          <p>Heartbeat indicates that the service is running</p>
+                          <p>Heartbeat message from a service (keepAliveService)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke this operation before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. (This timeout can be set or disabled when each service is initially registered)</p>
+                        <p class="marked">A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke some operation, or this operation, before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. This operation is only intended for registered services. (This timeout can be set or disabled when each service is initially registered)</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/a1-policy/v2/services/{service_id}/keepalive</span></code></pre>
@@ -9040,7 +9107,7 @@ public class ServiceRegistryAndSupervisionApiExample {
 ServiceRegistryAndSupervisionApi *apiInstance = [[ServiceRegistryAndSupervisionApi alloc] init];
 String *serviceId = serviceId_example; //  (default to null)
 
-// Heartbeat indicates that the service is running
+// Heartbeat message from a service (keepAliveService)
 [apiInstance keepAliveServiceWith:serviceId
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -9054,10 +9121,10 @@ String *serviceId = serviceId_example; //  (default to null)
                             </div>
 
                             <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-keepAliveService-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ServiceRegistryAndSupervisionApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ServiceRegistryAndSupervisionApi()
 var serviceId = serviceId_example; // {String} 
 
 var callback = function(error, data, response) {
@@ -9093,7 +9160,7 @@ namespace Example
             var serviceId = serviceId_example;  // String |  (default to null)
 
             try {
-                // Heartbeat indicates that the service is running
+                // Heartbeat message from a service (keepAliveService)
                 Object result = apiInstance.keepAliveService(serviceId);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -9152,7 +9219,7 @@ api_instance = openapi_client.ServiceRegistryAndSupervisionApi()
 serviceId = serviceId_example # String |  (default to null)
 
 try:
-    # Heartbeat indicates that the service is running
+    # Heartbeat message from a service (keepAliveService)
     api_response = api_instance.keep_alive_service(serviceId)
     pprint(api_response)
 except ApiException as e:
@@ -9366,12 +9433,13 @@ pub fn main() {
                       <article id="api-ServiceRegistryAndSupervision-putService-0" data-group="User" data-name="putService" data-version="0">
                         <div class="pull-left">
                           <h1>putService</h1>
-                          <p>Register a service</p>
+                          <p>Register or update a Service (putService)</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Registering a service is needed to:&lt;ul&gt;&lt;li&gt;Get callbacks about available NearRT RICs.&lt;/li&gt;&lt;li&gt;Activate supervision of the service. If a service is inactive, its policies will automatically be deleted.&lt;/li&gt;&lt;/ul&gt;Policies can be created even if the service is not registerred. This is a feature which it is optional to use.</p>
+                        <p class="marked">Register a single service, or update a previous registtration.  Service registration is required to get callbacks about available NearRT RICs  and to enable supervision of the service&#39;s active status. If a registered service becomes inactive, its policies can be automatically deleted. A1 Policy instances can also be created for unregistered services.  If an unregistered service is later registered, the service&#39;s policies are  retained when the service becomes registered. This feature is optional to use.
+</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/a1-policy/v2/services</span></code></pre>
@@ -9477,7 +9545,7 @@ public class ServiceRegistryAndSupervisionApiExample {
 ServiceRegistryAndSupervisionApi *apiInstance = [[ServiceRegistryAndSupervisionApi alloc] init];
 ServiceRegistrationInfo *serviceRegistrationInfo = ; // 
 
-// Register a service
+// Register or update a Service (putService)
 [apiInstance putServiceWith:serviceRegistrationInfo
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
@@ -9491,10 +9559,10 @@ ServiceRegistrationInfo *serviceRegistrationInfo = ; //
                             </div>
 
                             <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-putService-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkA1PolicyManagementService = require('onap_ccsdk_a1_policy_management_service');
+                              <pre class="prettyprint"><code class="language-js">var OnapCcsdkPreSpecA1PolicyManagementApi = require('onap_ccsdk_pre_spec_a1_policy_management_api');
 
 // Create an instance of the API class
-var api = new OnapCcsdkA1PolicyManagementService.ServiceRegistryAndSupervisionApi()
+var api = new OnapCcsdkPreSpecA1PolicyManagementApi.ServiceRegistryAndSupervisionApi()
 var serviceRegistrationInfo = ; // {ServiceRegistrationInfo} 
 
 var callback = function(error, data, response) {
@@ -9530,7 +9598,7 @@ namespace Example
             var serviceRegistrationInfo = new ServiceRegistrationInfo(); // ServiceRegistrationInfo | 
 
             try {
-                // Register a service
+                // Register or update a Service (putService)
                 Object result = apiInstance.putService(serviceRegistrationInfo);
                 Debug.WriteLine(result);
             } catch (Exception e) {
@@ -9589,7 +9657,7 @@ api_instance = openapi_client.ServiceRegistryAndSupervisionApi()
 serviceRegistrationInfo =  # ServiceRegistrationInfo | 
 
 try:
-    # Register a service
+    # Register or update a Service (putService)
     api_response = api_instance.put_service(serviceRegistrationInfo)
     pprint(api_response)
 except ApiException as e:
@@ -9916,7 +9984,9 @@ $(document).ready(function() {
                   <div class="app-desc">Information URL: <a href="https://www.onap.org/">https://www.onap.org/</a></div>
                   <div class="app-desc">Contact Info: <a href="discuss-list@onap.com">discuss-list@onap.com</a></div>
               </p>
-                <div class="license-info">Copyright (C) 2020-2023 Nordix Foundation, and Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved. Licensed under the Apache 2 License.</div>
+                <div class="license-info">Copyright (C) 2020-2023 Nordix Foundation, and Copyright (C) 2024-2025 OpenInfra Foundation Europe. 
+All rights reserved. Licensed under the Apache 2 License.
+</div>
                 <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0</div>
             </div>
           </div>

@@ -110,6 +110,16 @@ class PolicyControllerV3Test {
     + "ImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
     + "O5QN_SWN4J1mWKyXk_-PCvOA6GF3ypv1rSdg2uTb_Ls";
 
+    private final String bearerTokenUpn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+            + "eyJpc3MiOiJleGFtcGxlX2lzc3VlciIsInVwbiI6IjEyMzQ1Njc4OTAiLCJhdWQiOiJteWNsaWVu"
+            + "dCIsImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
+            + "z3OqH4_a2jzt4XOJlUB5r9seP2ppkdYVdK1LYZXkSh4";
+
+    private final String bearerTokenPrefUser = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+            + "eyJpc3MiOiJleGFtcGxlX2lzc3VlciIsInByZWZlcnJlZF91c2VybmFtZSI6IjEyMzQ1Njc4OTAiLCJh"
+            + "dWQiOiJteWNsaWVudCIsImV4cCI6MzAwMDAwMDAwMCwiY2xpZW50X2lkIjoibXljbGllbnQiLCJyb2xlIjoidXNlciJ9."
+            + "vt5K1E68zHUBkvK8lTXSLHXH6gvHdZ1RwyrhPx9qQ-Q";
+
     private final String emptyBearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IiJ9."
     + "eyJpYXQiOjE1MTYyMzkwMjJ9.uE72OfhNzhIFuyHhZyI0eYVPG6QJ7s7A-SVeKsLubCQ";
 
@@ -117,6 +127,7 @@ class PolicyControllerV3Test {
     void init() {
         testHelperTest.port = port;
         this.applicationConfig.setAuthProviderUrl(testHelperTest.baseUrl() + OpenPolicyAgentSimulatorController.ACCESS_CONTROL_URL);
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.NONE);
     }
 
     @AfterEach
@@ -152,7 +163,94 @@ class PolicyControllerV3Test {
         Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
         testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
-        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
+    }
+
+
+    @Test
+    @DisplayName("test Create Policy Success when schema validation set to FAIL")
+    void testPolicyTypeSchemaValidationFail() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.FAIL);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
+    }
+
+
+    @Test
+    @DisplayName("test Create Policy Success when schema validation set to INFO")
+    void testPolicyTypeSchemaValidationInfo() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.INFO);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
+    }
+
+
+    @Test
+    @DisplayName("test Create Policy Success when schema validation set to WARN")
+    void testPolicyTypeSchemaValidationWarn() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.WARN);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
+    }
+
+    @Test
+    @DisplayName("test bad Create Policy when schema validation set to FAIL")
+    void testBadPolicyTypeSchemaValidationFail() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.FAIL);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postBadPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.BAD_REQUEST, "Policy Type Schema validation failed");
+    }
+
+    @Test
+    @DisplayName("test bad Create Policy when schema validation set to INFO")
+    void testBadPolicyTypeSchemaValidationInfo() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.INFO);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postBadPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
+    }
+
+    @Test
+    @DisplayName("test bad Create Policy when schema validation set to WARN")
+    void testBadPolicyTypeSchemaValidationWarn() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.WARN);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBody = testHelperTest.postBadPolicyBody(nonRtRicId, policyTypeName, "");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
     }
 
     @Test
@@ -164,7 +262,7 @@ class PolicyControllerV3Test {
         testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
         String policyBody = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "1");
         Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().postForEntity(url, policyBody);
-        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains("https://localhost:" + port + "/a1-policy-management/v1/policies/1"));
+        testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/1"));
     }
 
     @Test
@@ -320,6 +418,113 @@ class PolicyControllerV3Test {
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
     }
 
+
+    @Test
+    @DisplayName("test Update Policy Success when schema validation set to FAIL")
+    void testUpdatePolicyTypeSchemaValidationFail() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.FAIL);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0");
+        testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
+
+
+    @Test
+    @DisplayName("test Update Policy Success when schema validation set to INFO")
+    void testUpdatePolicyTypeSchemaValidationInfo() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.INFO);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0");
+        testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
+
+
+    @Test
+    @DisplayName("test Update Policy Success when schema validation set to WARN")
+    void testUpdatePolicyTypeSchemaValidationWarn() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.WARN);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0");
+        testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut).block();
+        Mono<ResponseEntity<String>> responseMonoGet = testHelperTest.restClientV3().getForEntity(url+"/policyOne");
+        testHelperTest.testSuccessResponse(responseMonoGet, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\"},\"qosObjectives\":{\"priorityLevel\":5200.0}"));
+    }
+
+    @Test
+    @DisplayName("test bad Update Policy when schema validation set to FAIL")
+    void testUpdateBadPolicyTypeSchemaValidationFail() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.FAIL);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putBadPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0", "bar");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut);
+        testHelperTest.testErrorCode(responseMono, HttpStatus.BAD_REQUEST, "Policy Type Schema validation failed");
+    }
+
+    @Test
+    @DisplayName("test bad Update Policy when schema validation set to WARN")
+    void testUpdateBadPolicyTypeSchemaValidationWarn() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.WARN);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putBadPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0", "bar");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\",\"foo\":\"bar\"},\"qosObjectives\":{\"priorityLevel\":5200.0}}"));
+    }
+
+    @Test
+    @DisplayName("test bad Update Policy when schema validation set to INFO")
+    void testUpdateBadPolicyTypeSchemaValidationInfo() throws Exception {
+        this.applicationConfig.setValidatePolicyInstanceSchema(ApplicationConfig.ValidateSchema.INFO);
+        String nonRtRicId = "ric.1";
+        String policyTypeName = "type1_1.2.3";
+        String url = "/policies";
+        testHelperTest.addPolicyType(policyTypeName, nonRtRicId);
+        String policyBodyForPost = testHelperTest.postPolicyBody(nonRtRicId, policyTypeName, "policyOne");
+        testHelperTest.restClientV3().postForEntity(url, policyBodyForPost).block();
+        String policyBodyForPut = testHelperTest.putBadPolicyBody(nonRtRicId, policyTypeName, "policyOne", "ue5200",
+                "qos5200", "5200.0", "bar");
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClientV3().putForEntity(url+"/policyOne", policyBodyForPut);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody ->
+                responseBody.contains("{\"scope\":{\"ueId\":\"ue5200\",\"qosId\":\"qos5200\",\"foo\":\"bar\"},\"qosObjectives\":{\"priorityLevel\":5200.0}}"));
+    }
+
     private void postPolicyWithTokenAndVerify(String clientId, String serviceId, String result) throws IOException {
         testHelperTest.addPolicyType("type1_1.2.3", "ric.1");
         String policyBody = testHelperTest.postPolicyBody("ric.1", "type1_1.2.3", "1");
@@ -339,6 +544,18 @@ class PolicyControllerV3Test {
     @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id")
     void testPostPolicyWithToken() throws IOException {
         postPolicyWithTokenAndVerify(bearerToken, null, "myclient");
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id with subject as upn")
+    void testPostPolicyWithTokenUpn() throws IOException {
+        postPolicyWithTokenAndVerify(bearerTokenUpn, null, "myclient");
+    }
+
+    @Test
+    @DisplayName("client_id VALID + service_id NULL/EMPTY = client_id with subject as preferred_username")
+    void testPostPolicyWithTokenPrefUser() throws IOException {
+        postPolicyWithTokenAndVerify(bearerTokenPrefUser, null, "myclient");
     }
 
     @Test

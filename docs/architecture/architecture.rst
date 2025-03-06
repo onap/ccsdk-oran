@@ -1,6 +1,8 @@
-.. SPDX-License-Identifier: CC-BY-4.0
-.. Copyright 2023 Nordix Foundation. All rights reserved.
-.. Copyright 2024 OpenInfra Foundation Europe. All rights reserved.
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. Copyright 2022-2024 Nordix Foundation
+.. Copyright 2024-202% OpenInfra Foundation Europe
+
 .. _architecture:
 
 
@@ -23,7 +25,7 @@ Architecture Review
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other components and API resource/operation provided.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Paris.png
    :width: 500pt
 
 The A1 Policy Management Service provides an API for accessing of A1 Policies. The A1-PMS

@@ -22,7 +22,7 @@ Overall architecture for O-RAN A1 Policy functions
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Paris.png
    :width: 500pt
 
 API Table

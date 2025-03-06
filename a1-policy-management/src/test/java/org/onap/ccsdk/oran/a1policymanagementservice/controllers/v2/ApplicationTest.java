@@ -3,6 +3,8 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe.
+ * All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1170,6 +1172,7 @@ class ApplicationTest {
     private AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
         config = WebClientConfig.builder()
+                .sslEnabled(config.isSslEnabled())
                 .keyStoreType(config.getKeyStoreType())
                 .keyStorePassword(config.getKeyStorePassword())
                 .keyStore(config.getKeyStore())
@@ -1185,8 +1188,12 @@ class ApplicationTest {
 
     }
 
-    private String baseUrl() {
-        return "https://localhost:" + port;
+    public String baseUrl() {
+        if (applicationConfig.isSslEnabled()) {
+            return "https://localhost:" + port;
+        } else {
+            return "http://localhost:" + port;
+        }
     }
 
     private AsyncRestClient restClient(boolean useTrustValidation) {

@@ -40,8 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController("ricRepositoryControllerV3")
 @RequiredArgsConstructor
@@ -93,10 +92,17 @@ public class RicRepositoryControllerV3 implements NearRtRicRepositoryApi {
     }
 
     private RicInfo toRicInfo(Ric ric) {
-        return new RicInfo().ricId(ric.id())
-                .managedElementIds((List<String>) ric.getManagedElementIds())
+        RicInfo ricInfo =  new RicInfo().ricId(ric.id())
                 .policyTypeIds((List<String>) ric.getSupportedPolicyTypeNames())
                 .state(toRicState(ric.getState()));
+
+        if (ric.getConfig().getManagedElementIds() == null) {
+            ricInfo.setManagedElementIds(new ArrayList<>());
+        } else {
+            ricInfo.managedElementIds((List<String>) ric.getConfig().getManagedElementIds());
+        }
+
+        return ricInfo;
     }
 
     private RicInfo.StateEnum toRicState(Ric.RicState state) {

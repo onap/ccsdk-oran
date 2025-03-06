@@ -1,0 +1,368 @@
+actuator:
+  get:
+    x-internal: true
+    operationId: actuatorLinks
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint. 
+      Returns a set of links to available/enabled actuator endpoints.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Root (actuatorLinks)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              additionalProperties:
+                additionalProperties:
+                  $ref: 'schemas.yaml#/schemas/Link'
+                type: object
+              type: object
+          application/json:
+            schema:
+              additionalProperties:
+                additionalProperties:
+                  $ref: 'schemas.yaml#/schemas/Link'
+                type: object
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              additionalProperties:
+                additionalProperties:
+                  $ref: 'schemas.yaml#/schemas/Link'
+                type: object
+              type: object
+        description: OK
+
+heapdump:
+  get:
+    x-internal: true
+    operationId: actuatorHeapdump
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - HeapDump.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Heapdump (actuatorHeapdump)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/octet-stream:
+            schema:
+              type: object
+        description: OK
+
+actuator-info:
+  get:
+    x-internal: true
+    operationId: actuatorInfo
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Info.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Info (actuatorInfo)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+threaddump:
+  get:
+    x-internal: true
+    operationId: actuatorThreaddump
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - ThreadDump.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Threaddump (actuatorThreaddump)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          text/plain;charset=UTF-8:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+loggers:
+  get:
+    x-internal: true
+    operationId: actuatorLoggers
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Get a list of Loggers.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Get Loggers (actuatorLoggers)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+logger:
+  get:
+    x-internal: true
+    operationId: actuatorGetLogger
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Get a single named Logger.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Get Logger (actuatorGetLogger)
+    tags:
+      - Actuator API
+    parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+  post:
+    x-internal: true
+    operationId: actuatorSetlogger
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Create or Update single named Logger.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Set Logger (actuatorSetlogger)
+    tags:
+      - Actuator API
+    parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            enum:
+              - TRACE
+              - DEBUG
+              - INFO
+              - WARN
+              - ERROR
+              - FATAL
+              - "OFF"
+            type: string
+    responses:
+      "200":
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: OK
+
+logfile:
+  get:
+    x-internal: true
+    operationId: actuatorGetLogFile
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Get the Log file.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Log File (actuatorGetLogFile)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          text/plain;charset=UTF-8:
+            schema:
+              type: object
+        description: OK
+
+health:
+  get:
+    x-internal: true
+    operationId: actuatorHealth
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Health Check.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Health (actuatorHealth)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+health-all:
+  get:
+    x-internal: true
+    operationId: actuatorHealthComponent
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Health Status for an Application Component.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Component Health (actuatorHealthComponent)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+shutdown:
+  post:
+    x-internal: true
+    operationId: actuatorShutdown
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Shutdown the Application.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Shutdown (actuatorShutdown)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+metrics:
+  get:
+    x-internal: true
+    operationId: actuatorMetrics
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Get a list of Application metrics names.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Metrics (actuatorMetrics)
+    tags:
+      - Actuator API
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK
+
+metric:
+  get:
+    x-internal: true
+    operationId: actuatorGetMetric
+    description: >
+      A1-PMS Springboot Service Actuator web endpoint - Get the value for a named Application metric.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+    summary: Actuator endpoint - Get Metric (actuatorGetMetric)
+    parameters:
+      - explode: false
+        in: path
+        name: requiredMetricName
+        required: true
+        schema:
+          type: string
+        style: simple
+    responses:
+      "200":
+        content:
+          application/vnd.spring-boot.actuator.v3+json:
+            schema:
+              type: object
+          application/json:
+            schema:
+              type: object
+          application/vnd.spring-boot.actuator.v2+json:
+            schema:
+              type: object
+        description: OK

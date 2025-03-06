@@ -1,0 +1,31 @@
+status:
+  get:
+    operationId: getStatusV1
+    description: Returns status and statistics of this service
+    summary: Get Status (getStatusV1)
+    tags:
+      - Health Check
+    responses:
+      "200":
+        content:
+          '*/*':
+            schema:
+              type: string
+        description: OK -  Service is living
+status-v2:
+  get:
+    operationId: getStatus
+    description: Returns status and statistics of this service
+    summary: Get Status (getStatus)
+    tags:
+      - Health Check
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/status_info'
+            examples:
+              status_info:
+                $ref: 'examples.yaml#/examples/status_info'
+        description: OK- Service is living Ok

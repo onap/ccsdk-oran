@@ -1,0 +1,24 @@
+authz:
+  post:
+    description: >
+      A template endpoint for callout requests to an external authorization function. 
+      The authorization function, if enabled, decides if individual operations are permitted.
+    operationId: performAccessControl
+    summary: Callout request for access authorization (performAccessControl)
+    tags:
+      - Authorization API
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yaml#/schemas/policy_authorization'
+      required: true
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/authorization_result'
+        description: OK
+      "403":
+        $ref: 'responses.yaml#/responses/Forbidden'

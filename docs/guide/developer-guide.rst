@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2023 Nordix Foundation. All rights reserved.
-.. Copyright 2024 OpenInfra Foundation Europe. All rights reserved.
+.. Copyright 2022-2024 Nordix Foundation. All rights reserved.
+.. Copyright 2024-2025 OpenInfra Foundation Europe. All rights reserved.
 
 .. _developer_guide:
 
@@ -10,7 +10,7 @@ Developer Guide
 
 This document provides a quickstart for developers of the CCSDK functions for O-RAN A1 Policies.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-NewDelhiOslo.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Paris.png
    :width: 500pt
 
 Additional guides for developers can be found on the `ONAP wiki (Development Guides) <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16445127/Development+guide+for+O-RAN+A1+Policies+Non-RealTime+RIC+applications>`_.
@@ -24,7 +24,8 @@ Each resource is implemented independently in a sub-directory corresponding to i
 A1 Policy Management Service
 ++++++++++++++++++++++++++++
 
-The ONAP CCSDK A1 Policy Management Service (A1-PMS) is a Java 17 web application built using the Spring Framework.
+The ONAP CCSDK A1 Policy Management Service (A1-PMS) is a Java 17 web application built using
+the Spring Framework.
 Using Spring Boot dependencies, it runs as a standalone application.
 
 A1 Policy Management Service provides a REST API for managing A1 Policies. It provides support for:
@@ -40,7 +41,8 @@ A1 Policy Management Service provides a REST API for managing A1 Policies. It pr
    * Create/Modify/Delete operations for A1 Policy Instances in each near-RT RIC
    * Query functions to check the status of each near-RT RIC, and their A1 Policy Instances. 
 
-The A1 Policy Management Service can be accessed over the REST API. See :ref:`pms_api` for more information about the API.
+The A1 Policy Management Service can be accessed over the REST APIs. See :ref:`pms_api` for more
+information about the API.
 
 The configured A1 Policies are stored persistently, and can survive service restart. This state information can be stored in a persistent volume or in an S3 Object Store bucket. 
 
@@ -55,7 +57,6 @@ dependency management tool (see *pom.xml* file at root level). For example:
 - `SpringDoc and OpenAPI <https://springdoc.org/>`_ Automated JSON API documentation for APIs built with Spring
 - `Lombok <https://github.com/projectlombok/lombok>`_ to generate code, such as getters and setters
 - `Awaitility <https://github.com/awaitility/awaitility>`_ to test asynchronous functionality
-
 
 To get a complete list of all dependencies, use command "mvn dependency:tree".
 

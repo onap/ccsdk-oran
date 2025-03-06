@@ -70,7 +70,7 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Flux<PolicyInformation>>> getAllPolicies(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<Flux<PolicyInformation>>> getPolicyIds(String policyTypeId, String nearRtRicId, String serviceId, String typeName, String accept, ServerWebExchange exchange) throws Exception {
         return policyService.getPolicyIdsService(policyTypeId, nearRtRicId, serviceId, typeName, exchange)
                 .doOnError(errorHandlingService::handleError);
     }
@@ -88,7 +88,7 @@ public class PolicyControllerV3 implements A1PolicyManagementApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> putPolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<Object>> updatePolicy(String policyId, Mono<Object> body, ServerWebExchange exchange) throws Exception {
         return body.flatMap(payload -> policyService.putPolicyService(policyId, payload, exchange))
                 .doOnError(errorHandlingService::handleError);
     }

@@ -1,0 +1,19 @@
+status:
+  get:
+    operationId: getStatus
+    description: Returns status and statistics of this service
+    summary: Get Status (getStatus)
+    tags:
+      - Health Check
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/StatusInfo'
+            examples:
+              status_info:
+                $ref: 'examples.yaml#/examples/StatusInfo'
+        description: OK- Service is living Ok
+      "404":
+        $ref: 'responses.yaml#/responses/404'
