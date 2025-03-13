@@ -635,6 +635,12 @@
                                         <include>openapitoolgen/offeredapis/pms-api/v3/custom/index.html</include>
                                     </includes>
                                 </resource>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/resources/</directory>
+                                    <includes>
+                                        <include>application_configuration_schema.json</include>
+                                    </includes>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>
