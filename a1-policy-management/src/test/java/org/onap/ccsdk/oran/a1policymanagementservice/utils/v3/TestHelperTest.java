@@ -324,4 +324,16 @@ public class TestHelperTest {
                 new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_application_configuration.json")).getFile());
         return FileUtils.readFileToString(configFile, "UTF-8");
     }
+
+    public String configAsStringNoMe() throws Exception {
+        File configFile =
+                new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_application_configuration_nome.json")).getFile());
+        return FileUtils.readFileToString(configFile, "UTF-8");
+    }
+
+    public String configAsStringBlankMe() throws Exception {
+        File configFile =
+                new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_application_configuration_blankme.json")).getFile());
+        return FileUtils.readFileToString(configFile, "UTF-8");
+    }
 }

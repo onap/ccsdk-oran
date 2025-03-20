@@ -1,6 +1,6 @@
 /*-
  * ========================LICENSE_START=================================
- * Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+ * Copyright (C) 2020-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,6 +117,30 @@ class ConfigurationControllerV3Test {
         //test Get Configuration
         Mono<ResponseEntity<String>> responseGetConfigMono = testHelperTest.restClientV3().getForEntity("/configuration");
         testHelperTest.testSuccessResponse(responseGetConfigMono, HttpStatus.OK, responseBody -> responseBody.contains("config"));
+    }
+
+    @Test
+    void testPutConfigurationWithoutMe() throws Exception {
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().putForEntity("/configuration",
+                testHelperTest.configAsStringNoMe());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, Objects::isNull);
+        //put Valid Configuration With New Ric should Update Repository. So, will wait until the ric size is 2
+        await().until(rics::size, equalTo(2));
+        //test Get Configuration
+        Mono<ResponseEntity<String>> responseGetConfigMono = testHelperTest.restClientV3().getForEntity("/configuration");
+        testHelperTest.testSuccessResponse(responseGetConfigMono, HttpStatus.OK, responseBody -> !responseBody.contains("\"managedElementIds\":[]"));
+    }
+
+    @Test
+    void testPutConfigurationBlankMe() throws Exception {
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().putForEntity("/configuration",
+                testHelperTest.configAsStringBlankMe());
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, Objects::isNull);
+        //put Valid Configuration With New Ric should Update Repository. So, will wait until the ric size is 2
+        await().until(rics::size, equalTo(2));
+        //test Get Configuration
+        Mono<ResponseEntity<String>> responseGetConfigMono = testHelperTest.restClientV3().getForEntity("/configuration");
+        testHelperTest.testSuccessResponse(responseGetConfigMono, HttpStatus.OK, responseBody -> responseBody.contains("\"managedElementIds\":[]"));
     }
 
     @Test
