@@ -72,7 +72,7 @@ logging:
     name: /var/log/policy-agent/application.log
   level:
     ROOT: ERROR
-    org.onap.ccsdk.oran.a1policymanagementservice: INFO
+    org.onap.ccsdk.oran.a1policymanagementservice: DEBUG
     org.springframework: ERROR
     org.springframework.data: ERROR
     org.springframework.web.reactive.function.client.ExchangeFunctions: ERROR

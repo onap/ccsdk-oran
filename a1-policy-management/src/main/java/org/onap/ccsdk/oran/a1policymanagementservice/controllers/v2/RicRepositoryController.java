@@ -41,9 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController("ricRepositoryControllerV2")
 @RequiredArgsConstructor
@@ -124,9 +122,16 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
     }
 
     private RicInfo toRicInfo(Ric ric) {
-        return new RicInfo().ricId(ric.id())
-                .managedElementIds((List<String>) ric.getManagedElementIds())
+        RicInfo ricInfo =  new RicInfo().ricId(ric.id())
                 .policytypeIds((List<String>) ric.getSupportedPolicyTypeNames())
                 .state(toRicState(ric.getState()));
+        
+        if (ric.getConfig().getManagedElementIds() == null) {
+            ricInfo.setManagedElementIds(new ArrayList<>());
+        } else {
+            ricInfo.managedElementIds((List<String>) ric.getConfig().getManagedElementIds());
+        }
+
+        return ricInfo;
     }
 }
