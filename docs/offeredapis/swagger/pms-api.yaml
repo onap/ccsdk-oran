@@ -69,7 +69,7 @@ tags:
       Older API used to get information about registered Near-RT RICs.
   - name: Service Registry and Supervision
     description: > 
-      Older API used to manage registered service, and control their keep-alive status via heart-beat messages.
+      Older API used to manage registered services, and control their keep-alive status via heart-beat messages.
   - name: Health Check
     description: > 
       API used to get the health status and statistics of this service
