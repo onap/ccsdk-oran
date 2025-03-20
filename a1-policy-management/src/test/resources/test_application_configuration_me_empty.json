@@ -1,0 +1,32 @@
+{
+   "config": {
+      "description": "Test",
+      "controller": [
+         {
+            "name": "controller1",
+            "baseUrl": "http://localhost:8083/",
+            "userName": "user",
+            "password": "password"
+         }
+      ],
+      "ric": [
+         {
+            "name": "ric1",
+            "controller": "controller1",
+            "baseUrl": "http://localhost:8083/",
+            "customAdapterClass": "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory",
+            "managedElementIds": []
+         },
+         {
+            "name": "ric2",
+            "baseUrl": "http://localhost:8085/",
+            "managedElementIds": []
+         },
+         {
+            "name": "ric3_noBaseURL",
+            "baseUrl": "",
+            "managedElementIds": []
+         }
+      ]      
+   }
+}
