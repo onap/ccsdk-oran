@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0dee00b_ae9d4412",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T11:56:19Z",
+      "side": 1,
+      "message": "Need to change all POMs in the whole repo to either \n3.1.0   (Preferred for now) \nor\n3.1.1-SNAPSHOT",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
