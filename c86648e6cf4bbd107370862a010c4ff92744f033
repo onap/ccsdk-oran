@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "578ee03d_8891543b",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0dee00b_ae9d4412",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e44d4e41_638befde",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-03-20T12:38:50Z",
       "side": 1,
       "message": "\"optionally monitored\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 62,
+        "endLine": 48,
+        "endChar": 71
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d18b0a9e_a1005797",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e44d4e41_638befde",
       "range": {
         "startLine": 48,
         "startChar": 62,
@@ -87,6 +135,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "729128c2_3c315f11",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d4cd0c2_834c1f68",
+      "range": {
+        "startLine": 49,
+        "startChar": 67,
+        "endLine": 49,
+        "endChar": 89
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08ae2af5_018a0904",
@@ -100,6 +172,30 @@
       "writtenOn": "2025-03-20T12:38:50Z",
       "side": 1,
       "message": "Please add: \n\"and the service is deleted\"",
+      "range": {
+        "startLine": 681,
+        "startChar": 40,
+        "endLine": 681,
+        "endChar": 53
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc5a12e1_73c132b3",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08ae2af5_018a0904",
       "range": {
         "startLine": 681,
         "startChar": 40,
@@ -133,6 +229,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd72a820_fb4403b0",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b05fc483_07dcfd2b",
+      "range": {
+        "startLine": 683,
+        "startChar": 47,
+        "endLine": 683,
+        "endChar": 48
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cb71d85_4a65b03c",
@@ -156,6 +276,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e69c772_3af49a7f",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cb71d85_4a65b03c",
+      "range": {
+        "startLine": 872,
+        "startChar": 11,
+        "endLine": 873,
+        "endChar": 29
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1609f4a6_6883f915",
@@ -169,6 +313,30 @@
       "writtenOn": "2025-03-20T12:38:50Z",
       "side": 1,
       "message": "as above",
+      "range": {
+        "startLine": 883,
+        "startChar": 16,
+        "endLine": 883,
+        "endChar": 33
+      },
+      "revId": "c86648e6cf4bbd107370862a010c4ff92744f033",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75c4a055_2a12b848",
+        "filename": "docs/offeredapis/swagger/pms-api-v3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-20T14:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1609f4a6_6883f915",
       "range": {
         "startLine": 883,
         "startChar": 16,
