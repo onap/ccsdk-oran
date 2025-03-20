@@ -45,10 +45,10 @@ info:
     \ is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
     \ of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3>\
     \ <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner.\
-    \ If the owner service is registered, then the service can be monitored by a heart-beat supervision\
-    \ mechanism, and if the registered service becomes unavailable, then its A1 Policies are removed. Note \
-    \ that services do not need to be registered to create A1 Policies, but unregistered services are not \
-    \ supervised. This is a feature that is optional to use.</p>"
+    \ If the owner service is registered, then the service can be optionally monitored by a heart-beat supervision\
+    \ mechanism, and if the registered service becomes unavailable, then it is removed and all its A1 Policies are \
+    \ deleted. Note that services do not need to be registered to create A1 Policies, but unregistered \ 
+    \ services are not supervised. This is a feature that is optional to use.</p>"
   license:
     name: Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.
     url: http://www.apache.org/licenses/LICENSE-2.0
@@ -678,8 +678,10 @@ paths:
       description: A registered service should invoke this operation regularly to
         indicate that it is still alive. If a registered service fails to invoke some operation, 
         or this operation, before the end of a timeout period the service will be deregistered
-        and all its A1 policies wil be removed. This operation is only intended for registered 
-        services. (This timeout can be set or disabled when each service is initially registered)
+        and all its A1 policies wil be removed and the service is deleted. 
+        This operation is only intended for registered services. (This timeout can be set or disabled when 
+        each service is initially registered). Unregistered services do not need to invoke this operation, 
+        since the optional keep-alive monitoring feature can only be enabled for registered services.
       summary: Heartbeat message from a service (keepAliveService)
       tags:
         - Service Registry and Supervision
@@ -869,8 +871,9 @@ components:
       value:
         ricId: ricId1
         managedElementIds:
-          - managedElementId1
-          - managedElementId2
+          - "Note #1"
+          - "Athlone small cells"
+          - "Some optional string"
         state: UNAVAILABLE
         policyTypeIds:
           - policyTypeId1
@@ -880,16 +883,17 @@ components:
         rics:
           - ricId: ricId1
             managedElementIds:
-              - managedElementId1
-              - managedElementId2
+              - "Note #1"
+              - "Athlone small cells"
+              - "Fake Cells"
             state: UNAVAILABLE
             policyTypeIds:
               - policyTypeId1
               - policyTypeId2
           - ricId: ricId2
             managedElementIds:
-              - managedElementId3
-              - managedElementId4
+              - "My test element"
+              - "Another test element"
             state: UNAVAILABLE
             policyTypeIds:
               - policyTypeId3

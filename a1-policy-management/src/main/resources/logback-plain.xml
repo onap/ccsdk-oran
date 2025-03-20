@@ -19,22 +19,17 @@
   ~
 -->
 <configuration>
-
-    <!-- Define a plain text console appender -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{55} - <!--
-                -->%replace(%X{facility}){'^(.+)$','facility=$1 | '} <!--
-                -->%replace(%X{subject}){'^(.+)$','subject=$1 | ' } <!--
-                -->%msg%n</pattern>
+            <pattern>
+                %d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] %-5level %logger - %msg [facility=%X{facility}, subject=%X{subject}, traceId=%mdc{traceId}] %n%xEx
+            </pattern>
         </encoder>
     </appender>
 
-
-
-    <!-- Configure root logger to use the plain text console appender for all log levels -->
-    <root level="INFO">
+    <root level="${ROOT_LOG_LEVEL:-INFO}">
         <appender-ref ref="console"/>
     </root>
 
+    <logger name="/" level="${ROOT_LOG_LEVEL:-INFO}"/>
 </configuration>

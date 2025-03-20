@@ -26,7 +26,7 @@
     "description" : "Older API used to get information about registered Near-RT RICs.\n",
     "name" : "NearRT-RIC Repository"
   }, {
-    "description" : "Older API used to manage registered service, and control their keep-alive status via heart-beat messages.\n",
+    "description" : "Older API used to manage registered services, and control their keep-alive status via heart-beat messages.\n",
     "name" : "Service Registry and Supervision"
   }, {
     "description" : "API used to get the health status and statistics of this service\n",

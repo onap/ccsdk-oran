@@ -5,7 +5,7 @@
       "email" : "discuss-list@onap.com",
       "url" : "https://www.onap.org/"
     },
-    "description" : "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides a REST API for managing A1 policies. <br/>This document describes the latest API set  to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2> <p>Note: parts of this API are strongly based on extracts of the O-RAN Alliance R1 Interface specification for A1 Policy Management, and those parts should be considered '© O-RAN ALLIANCE - All rights reserved.'</p> <h3>A1 Policy Management</h3> <p>This is the latest API for managing A1 Policies. This API is partially compliant with O-RAN Alliance R1 Interface specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy Types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3> <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3> <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner. If the owner service is registered, then the service can be monitored by a heart-beat supervision mechanism, and if the registered service becomes unavailable, then its A1 Policies are removed. Note  that services do not need to be registered to create A1 Policies, but unregistered services are not  supervised. This is a feature that is optional to use.</p>",
+    "description" : "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides a REST API for managing A1 policies. <br/>This document describes the latest API set  to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs provided or defined by the service</h2> <p>Note: parts of this API are strongly based on extracts of the O-RAN Alliance R1 Interface specification for A1 Policy Management, and those parts should be considered '© O-RAN ALLIANCE - All rights reserved.'</p> <h3>A1 Policy Management</h3> <p>This is the latest API for managing A1 Policies. This API is partially compliant with O-RAN Alliance R1 Interface specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation, modification and deletion.</li><li>Retrieval of supported A1 Policy Types for a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management of configuration</h3><p>API for updating and retrieval of the component configuration. Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These are endpoints that are invoked by this service. The callbacks are registered in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3> <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3> <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner. If the owner service is registered, then the service can be optionally monitored by a heart-beat supervision mechanism, and if the registered service becomes unavailable, then it is removed and all its A1 Policies are  deleted. Note that services do not need to be registered to create A1 Policies, but unregistered    services are not supervised. This is a feature that is optional to use.</p>",
     "license" : {
       "name" : "Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0"
@@ -35,7 +35,7 @@
     "description" : "API used to get information about registered Near-RT RICs.\n",
     "name" : "NearRT-RIC Repository"
   }, {
-    "description" : "API used to manage registered service, and control their keep-alive status via heart-beat messages.\n",
+    "description" : "API used to manage registered services, and control their keep-alive status via heart-beat messages.\n",
     "name" : "Service Registry and Supervision"
   }, {
     "description" : "API used to get the health status and statistics of this service.\n",
@@ -1511,7 +1511,7 @@
     },
     "/services/{serviceId}/keepalive" : {
       "put" : {
-        "description" : "A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke some operation, or this operation, before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed. This operation is only intended for registered services. (This timeout can be set or disabled when each service is initially registered)",
+        "description" : "A registered service should invoke this operation regularly to indicate that it is still alive. If a registered service fails to invoke some operation, or this operation, before the end of a timeout period the service will be deregistered and all its A1 policies wil be removed and the service is deleted. This operation is only intended for registered services. (This timeout can be set or disabled when each service is initially registered). Unregistered services do not need to invoke this operation, since the optional keep-alive monitoring feature can only be enabled for registered services.",
         "operationId" : "keepAliveService",
         "parameters" : [ {
           "explode" : false,
@@ -1791,13 +1791,13 @@
       },
       "StatusInfo" : {
         "value" : {
-          "status" : "status"
+          "status" : "success"
         }
       },
       "RicInfo" : {
         "value" : {
           "ricId" : "ricId1",
-          "managedElementIds" : [ "managedElementId1", "managedElementId2" ],
+          "managedElementIds" : [ "Note #1", "Athlone small cells", "Some optional string" ],
           "state" : "UNAVAILABLE",
           "policyTypeIds" : [ "policyTypeId1", "policyTypeId2" ]
         }
@@ -1806,12 +1806,12 @@
         "value" : {
           "rics" : [ {
             "ricId" : "ricId1",
-            "managedElementIds" : [ "managedElementId1", "managedElementId2" ],
+            "managedElementIds" : [ "Note #1", "Athlone small cells", "Fake Cells" ],
             "state" : "UNAVAILABLE",
             "policyTypeIds" : [ "policyTypeId1", "policyTypeId2" ]
           }, {
             "ricId" : "ricId2",
-            "managedElementIds" : [ "managedElementId3", "managedElementId4" ],
+            "managedElementIds" : [ "My test element", "Another test element" ],
             "state" : "UNAVAILABLE",
             "policyTypeIds" : [ "policyTypeId3", "policyTypeId4" ]
           } ]

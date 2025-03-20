@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-34-starter-parent</artifactId>
-        <version>3.1.0-SNAPSHOT</version>
+        <version>3.1.0</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -63,6 +63,7 @@
         <opentelemetry-bom.version>1.41.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <allowskiptests>false</allowskiptests>
+        <version.logback>8.0</version.logback>
     </properties>
     <repositories>
         <repository>
@@ -297,6 +298,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-actuator-autoconfigure</artifactId>
             <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${version.logback}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
