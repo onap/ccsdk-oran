@@ -33,6 +33,24 @@
       "message": "-1 for now - update coming soon :-)",
       "revId": "c578bf6b5ac1489791e984a678bcfba7ab562258",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6667320c_bff6f14f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-03-21T16:10:03Z",
+      "side": 1,
+      "message": "Tests added in ConfigurationControllerV3Test. In order to test effectively, the test has to wait for RefreshConfigTask to complete after updating the configuration. Only then could the /rics endpoints be tested. Should be fine now",
+      "parentUuid": "3b21ad82_cb12980f",
+      "revId": "c578bf6b5ac1489791e984a678bcfba7ab562258",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
