@@ -16,6 +16,23 @@
       "message": "Might also need a test / confirm behaviour of v2 \u0026 v3 getRic \u0026 getRics\ne.g. \nRicRepositoryControllerV3Test.testGetRic \nRicRepositoryControllerV3Test.testGetRics\nApplicationTest.testAddingRicFromConfiguration\nApplicationTest.testGetRics\nApplicationTest.testGetRic\nApplicationTest.testGetRic",
       "revId": "c578bf6b5ac1489791e984a678bcfba7ab562258",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "603de5d3_9b2d204e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-21T10:08:36Z",
+      "side": 1,
+      "message": "-1 for now - update coming soon :-)",
+      "revId": "c578bf6b5ac1489791e984a678bcfba7ab562258",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
