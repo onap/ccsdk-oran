@@ -874,7 +874,7 @@
         "tags" : [ "Configuration" ]
       },
       "put" : {
-        "description" : "Replace the current Application Configuration with a new configuration. The new configuration, if accepted, will take effect after a short delay.  The new configuration must comply with the Application Configuration schema,  which can be found from the the Application Documentation (Developer Guide) \n",
+        "description" : "Replace the current Application Configuration with a new configuration. The new configuration, if accepted, will take effect after a short delay.  The new configuration must comply with the Application Configuration schema,  which can be found from the the Application Documentation (Developer Guide)\n",
         "operationId" : "putConfiguration",
         "requestBody" : {
           "content" : {
@@ -1017,7 +1017,7 @@
     },
     "/actuator/heapdump" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - HeapDump. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - HeapDump.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1042,7 +1042,7 @@
     },
     "/actuator/info" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Info. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Info.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1077,7 +1077,7 @@
     },
     "/actuator/threaddump" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - ThreadDump. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - ThreadDump.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1117,7 +1117,7 @@
     },
     "/actuator/loggers" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a list of Loggers. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a list of Loggers.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1152,7 +1152,7 @@
     },
     "/actuator/loggers/{name}" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a single named Logger. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a single named Logger.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1195,7 +1195,7 @@
         "x-internal" : true
       },
       "post" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Create or Update single named Logger. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Create or Update single named Logger.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1240,7 +1240,7 @@
     },
     "/actuator/logfile" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get the Log file. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get the Log file.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1265,7 +1265,7 @@
     },
     "/actuator/health" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Health Check. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Health Check.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1300,7 +1300,7 @@
     },
     "/actuator/health/**" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Health Status for an Application Component. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Health Status for an Application Component.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1335,7 +1335,7 @@
     },
     "/actuator/shutdown" : {
       "post" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Shutdown the Application. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Shutdown the Application.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1370,7 +1370,7 @@
     },
     "/actuator/metrics" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a list of Application metrics names. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get a list of Application metrics names.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1405,7 +1405,7 @@
     },
     "/actuator/metrics/{requiredMetricName}" : {
       "get" : {
-        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get the value for a named Application metric. \n",
+        "description" : "A1-PMS Springboot Service Actuator web endpoint - Get the value for a named Application metric.\n",
         "externalDocs" : {
           "description" : "Spring Boot Actuator Web API Documentation",
           "url" : "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html"
@@ -1450,13 +1450,50 @@
   },
   "components" : {
     "examples" : {
-      "service_status" : {
-        "description" : "List of service information",
+      "status_info" : {
         "value" : {
-          "callback_url" : "callback_url",
-          "service_id" : "service_id",
-          "keep_alive_interval_seconds" : 0,
-          "time_since_last_activity_seconds" : 6
+          "status" : "status"
+        }
+      },
+      "ric_info" : {
+        "value" : {
+          "ric_id" : "ric_id",
+          "managed_element_ids" : [ "some_managed_element_id", "some_managed_element_id" ],
+          "state" : "UNAVAILABLE",
+          "policytype_ids" : [ "some_policytype_id", "some_policytype_id" ]
+        }
+      },
+      "policy_type_id_list" : {
+        "description" : "Array of A1 Policy Type id's",
+        "value" : {
+          "policy_type_id_list" : [ "policytype_id", "policytype_id" ]
+        }
+      },
+      "policy_info" : {
+        "description" : "Information for an A1 Policy Instance",
+        "value" : {
+          "ric_id" : "ric_id1",
+          "policy_id" : "policy_id1",
+          "transient" : false,
+          "service_id" : "service_id1",
+          "policy_data" : "{}",
+          "status_notification_uri" : "status_notification_uri",
+          "policytype_id" : "policytype_id1"
+        }
+      },
+      "ric_info_list" : {
+        "value" : {
+          "rics" : [ {
+            "ric_id" : "ric_id",
+            "managed_element_ids" : [ "some_managed_element_id", "some_managed_element_id" ],
+            "state" : "UNAVAILABLE",
+            "policytype_ids" : [ "policytype_id", "policytype_id" ]
+          }, {
+            "ric_id" : "ric_id",
+            "managed_element_ids" : [ "managed_element_ids", "managed_element_ids" ],
+            "state" : "UNAVAILABLE",
+            "policytype_ids" : [ "policytype_ids", "policytype_ids" ]
+          } ]
         }
       },
       "service_status_list" : {
@@ -1481,22 +1518,10 @@
           "policy_schema" : "{}"
         }
       },
-      "policy_type_id_list" : {
-        "description" : "Array of A1 Policy Type id's",
+      "policy_id_list" : {
+        "description" : "A list of policy identities",
         "value" : {
-          "policy_type_id_list" : [ "policytype_id", "policytype_id" ]
-        }
-      },
-      "policy_info" : {
-        "description" : "Information for an A1 Policy Instance",
-        "value" : {
-          "ric_id" : "ric_id1",
-          "policy_id" : "policy_id1",
-          "transient" : false,
-          "service_id" : "service_id1",
-          "policy_data" : "{}",
-          "status_notification_uri" : "status_notification_uri",
-          "policytype_id" : "policytype_id1"
+          "policy_ids" : [ "some_policy_id", "some_policy_id" ]
         }
       },
       "policy_info_list" : {
@@ -1521,12 +1546,6 @@
           } ]
         }
       },
-      "policy_id_list" : {
-        "description" : "A list of policy identities",
-        "value" : {
-          "policy_ids" : [ "some_policy_id", "some_policy_id" ]
-        }
-      },
       "policy_status_info" : {
         "description" : "Status for one A1-P Policy",
         "value" : {
@@ -1537,37 +1556,17 @@
             }
           }
         }
-      },
-      "status_info" : {
-        "value" : {
-          "status" : "status"
-        }
-      },
-      "ric_info" : {
-        "value" : {
-          "ric_id" : "ric_id",
-          "managed_element_ids" : [ "some_managed_element_id", "some_managed_element_id" ],
-          "state" : "UNAVAILABLE",
-          "policytype_ids" : [ "some_policytype_id", "some_policytype_id" ]
-        }
-      },
-      "ric_info_list" : {
-        "value" : {
-          "rics" : [ {
-            "ric_id" : "ric_id",
-            "managed_element_ids" : [ "some_managed_element_id", "some_managed_element_id" ],
-            "state" : "UNAVAILABLE",
-            "policytype_ids" : [ "policytype_id", "policytype_id" ]
-          }, {
-            "ric_id" : "ric_id",
-            "managed_element_ids" : [ "managed_element_ids", "managed_element_ids" ],
-            "state" : "UNAVAILABLE",
-            "policytype_ids" : [ "policytype_ids", "policytype_ids" ]
-          } ]
-        }
       }
     },
     "responses" : {
+      "NotFound" : {
+        "content" : {
+          "application/problem+json" : {
+            "example" : [ ]
+          }
+        },
+        "description" : "Not Found"
+      },
       "Locked" : {
         "content" : {
           "application/problem+json" : {
@@ -1612,53 +1611,9 @@
           }
         },
         "description" : "Forbidden"
-      },
-      "NotFound" : {
-        "content" : {
-          "application/problem+json" : {
-            "example" : [ ]
-          }
-        },
-        "description" : "Not Found"
       }
     },
     "schemas" : {
-      "policy_type_definition" : {
-        "description" : "Contains A1 Policy Type schema definition",
-        "properties" : {
-          "policy_schema" : {
-            "description" : "A1 Policy Type json schema. The schema is a json object following http://json-schema.org/draft-07/schema",
-            "type" : "object"
-          }
-        },
-        "type" : "object"
-      },
-      "error_information" : {
-        "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807",
-        "properties" : {
-          "detail" : {
-            "description" : " A human-readable explanation specific to this occurrence of the problem.",
-            "example" : "A1 Policy Type not found",
-            "type" : "string"
-          },
-          "title" : {
-            "description" : "A specific error name",
-            "example" : "Not Found",
-            "type" : "string"
-          },
-          "status" : {
-            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem. ",
-            "example" : 404,
-            "format" : "int32",
-            "type" : "integer"
-          }
-        },
-        "type" : "object"
-      },
-      "void" : {
-        "description" : "Void/empty",
-        "type" : "object"
-      },
       "status_info" : {
         "properties" : {
           "status" : {
@@ -1666,20 +1621,6 @@
             "type" : "string"
           }
         },
-        "type" : "object"
-      },
-      "authorization_result" : {
-        "description" : "Result of authorization",
-        "example" : {
-          "result" : true
-        },
-        "properties" : {
-          "result" : {
-            "description" : "If true, the access is granted",
-            "type" : "boolean"
-          }
-        },
-        "required" : [ "result" ],
         "type" : "object"
       },
       "ric_info" : {
@@ -1711,119 +1652,6 @@
             "type" : "array"
           }
         },
-        "type" : "object"
-      },
-      "service_registration_info" : {
-        "description" : "Information for one service",
-        "properties" : {
-          "callback_url" : {
-            "description" : "Callback for notifying of Near-RT RIC state changes",
-            "type" : "string"
-          },
-          "service_id" : {
-            "description" : "identity of the service",
-            "type" : "string"
-          },
-          "keep_alive_interval_seconds" : {
-            "description" : "Keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.\n",
-            "format" : "int64",
-            "type" : "integer"
-          }
-        },
-        "required" : [ "service_id" ],
-        "type" : "object"
-      },
-      "policy_info_list" : {
-        "description" : "List of policy information",
-        "properties" : {
-          "policies" : {
-            "description" : "List of policy information",
-            "items" : {
-              "$ref" : "#/components/schemas/policy_info"
-            },
-            "type" : "array"
-          }
-        },
-        "type" : "object"
-      },
-      "policy_status_info" : {
-        "description" : "Status for one A1-P Policy",
-        "properties" : {
-          "last_modified" : {
-            "description" : "timestamp, last modification time",
-            "type" : "string"
-          },
-          "status" : {
-            "description" : "the Policy status",
-            "type" : "object"
-          }
-        },
-        "type" : "object"
-      },
-      "service_status" : {
-        "properties" : {
-          "callback_url" : {
-            "description" : "callback for notifying of RIC synchronization",
-            "type" : "string"
-          },
-          "service_id" : {
-            "description" : "identity of the service",
-            "type" : "string"
-          },
-          "keep_alive_interval_seconds" : {
-            "description" : "policy keep alive timeout",
-            "format" : "int64",
-            "type" : "integer"
-          },
-          "time_since_last_activity_seconds" : {
-            "description" : "time since last invocation by the service",
-            "format" : "int64",
-            "type" : "integer"
-          }
-        },
-        "type" : "object"
-      },
-      "ric_info_list" : {
-        "description" : "List of Near-RT RIC information",
-        "properties" : {
-          "rics" : {
-            "description" : "List of Near-RT RIC information",
-            "items" : {
-              "$ref" : "#/components/schemas/ric_info"
-            },
-            "type" : "array"
-          }
-        },
-        "type" : "object"
-      },
-      "input" : {
-        "description" : "input",
-        "properties" : {
-          "access_type" : {
-            "description" : "Access type",
-            "enum" : [ "READ", "WRITE", "DELETE" ],
-            "type" : "string"
-          },
-          "auth_token" : {
-            "description" : "Authorization token",
-            "type" : "string"
-          },
-          "policy_type_id" : {
-            "description" : "A1 Policy Type identifier",
-            "type" : "string"
-          }
-        },
-        "required" : [ "access_type", "auth_token", "policy_type_id" ],
-        "type" : "object"
-      },
-      "policy_authorization" : {
-        "description" : "Authorization request for A1 policy requests",
-        "properties" : {
-          "input" : {
-            "$ref" : "#/components/schemas/input"
-          }
-        },
-        "required" : [ "input" ],
         "type" : "object"
       },
       "policy_type_id_list" : {
@@ -1879,17 +1707,39 @@
         "required" : [ "policy_data", "policy_id", "policytype_id", "ric_id" ],
         "type" : "object"
       },
-      "policy_id_list" : {
-        "description" : "A list of policy identities",
-        "example" : {
-          "policy_ids" : [ "policy_ids", "policy_ids" ]
-        },
+      "void" : {
+        "description" : "Void/empty",
+        "type" : "object"
+      },
+      "error_information" : {
+        "description" : "Problem as defined in https://tools.ietf.org/html/rfc7807",
         "properties" : {
-          "policy_ids" : {
-            "description" : "Policy identities",
+          "detail" : {
+            "description" : " A human-readable explanation specific to this occurrence of the problem.",
+            "example" : "A1 Policy Type not found",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A specific error name",
+            "example" : "Not Found",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem. ",
+            "example" : 404,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ric_info_list" : {
+        "description" : "List of Near-RT RIC information",
+        "properties" : {
+          "rics" : {
+            "description" : "List of Near-RT RIC information",
             "items" : {
-              "description" : "Policy identities",
-              "type" : "string"
+              "$ref" : "#/components/schemas/ric_info"
             },
             "type" : "array"
           }
@@ -1908,6 +1758,49 @@
         },
         "type" : "object"
       },
+      "service_status" : {
+        "properties" : {
+          "callback_url" : {
+            "description" : "callback for notifying of RIC synchronization",
+            "type" : "string"
+          },
+          "service_id" : {
+            "description" : "identity of the service",
+            "type" : "string"
+          },
+          "keep_alive_interval_seconds" : {
+            "description" : "policy keep alive timeout",
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "time_since_last_activity_seconds" : {
+            "description" : "time since last invocation by the service",
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "service_registration_info" : {
+        "description" : "Information for one service",
+        "properties" : {
+          "callback_url" : {
+            "description" : "Callback for notifying of Near-RT RIC state changes",
+            "type" : "string"
+          },
+          "service_id" : {
+            "description" : "identity of the service",
+            "type" : "string"
+          },
+          "keep_alive_interval_seconds" : {
+            "description" : "Keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.\n",
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "service_id" ],
+        "type" : "object"
+      },
       "service_callback_info_v2" : {
         "description" : "Information transferred in Service callbacks, \nif a callback URL was provided for a registered service\n",
         "properties" : {
@@ -1922,6 +1815,104 @@
           }
         },
         "required" : [ "event_type", "ric_id" ],
+        "type" : "object"
+      },
+      "policy_type_definition" : {
+        "description" : "Contains A1 Policy Type schema definition",
+        "properties" : {
+          "policy_schema" : {
+            "description" : "A1 Policy Type json schema. The schema is a json object following http://json-schema.org/draft-07/schema",
+            "type" : "object"
+          }
+        },
+        "type" : "object"
+      },
+      "policy_id_list" : {
+        "description" : "A list of policy identities",
+        "example" : {
+          "policy_ids" : [ "policy_ids", "policy_ids" ]
+        },
+        "properties" : {
+          "policy_ids" : {
+            "description" : "Policy identities",
+            "items" : {
+              "description" : "Policy identities",
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "policy_info_list" : {
+        "description" : "List of policy information",
+        "properties" : {
+          "policies" : {
+            "description" : "List of policy information",
+            "items" : {
+              "$ref" : "#/components/schemas/policy_info"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "policy_status_info" : {
+        "description" : "Status for one A1-P Policy",
+        "properties" : {
+          "last_modified" : {
+            "description" : "timestamp, last modification time",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "the Policy status",
+            "type" : "object"
+          }
+        },
+        "type" : "object"
+      },
+      "policy_authorization" : {
+        "description" : "Authorization request for A1 policy requests",
+        "properties" : {
+          "input" : {
+            "$ref" : "#/components/schemas/input"
+          }
+        },
+        "required" : [ "input" ],
+        "type" : "object"
+      },
+      "input" : {
+        "description" : "input",
+        "properties" : {
+          "access_type" : {
+            "description" : "Access type",
+            "enum" : [ "READ", "WRITE", "DELETE" ],
+            "type" : "string"
+          },
+          "auth_token" : {
+            "description" : "Authorization token",
+            "type" : "string"
+          },
+          "policy_type_id" : {
+            "description" : "A1 Policy Type identifier",
+            "type" : "string"
+          }
+        },
+        "required" : [ "access_type", "auth_token", "policy_type_id" ],
+        "type" : "object"
+      },
+      "authorization_result" : {
+        "description" : "Result of authorization",
+        "example" : {
+          "result" : true
+        },
+        "properties" : {
+          "result" : {
+            "description" : "If true, the access is granted",
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "result" ],
         "type" : "object"
       },
       "Link" : {

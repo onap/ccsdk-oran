@@ -1,0 +1,112 @@
+examples:
+  ServiceStatusList:
+    description: List of service information
+    value:
+      serviceList:
+        - callbackUrl: http://callback.url
+          serviceId: serviceId1
+          keepAliveIntervalSeconds: 0
+          timeSinceLastActivitySeconds: 6
+        - callbackUrl: http://callback.url
+          serviceId: serviceId2
+          keepAliveIntervalSeconds: 500
+          timeSinceLastActivitySeconds: 401
+  StatusInfo:
+    value:
+      status: success
+  RicInfo:
+    value:
+      ricId: ricId1
+      managedElementIds:
+        - "Note #1"
+        - "Athlone small cells"
+        - "Some optional string"
+      state: UNAVAILABLE
+      policyTypeIds:
+        - policyTypeId1
+        - policyTypeId2
+  RicInfoList:
+    value:
+      rics:
+        - ricId: ricId1
+          managedElementIds:
+            - "Note #1"
+            - "Athlone small cells"
+            - "Fake Cells"
+          state: UNAVAILABLE
+          policyTypeIds:
+            - policyTypeId1
+            - policyTypeId2
+        - ricId: ricId2
+          managedElementIds:
+            - "My test element"
+            - "Another test element"
+          state: UNAVAILABLE
+          policyTypeIds:
+            - policyTypeId3
+            - policyTypeId4
+  PolicyObject:
+    value:
+      scope:
+        ueId:
+          guRanUeId:
+            globalGnbId:
+              plmnId:
+                mcc: "123"
+                mnc: "45"
+              gnbId:
+                gnbIdLength: 24
+                gnbIdValue: 12345678
+            RanUeId: 'a31c510b20e64a74'
+        groupId:
+          spId: 123
+        qosId:
+          5qI: 1
+        cellId:
+          plmnId:
+            mcc: "123"
+            mnc: "45"
+          cId:
+            ncI: 123
+      qosObjectives:
+        gfbr: 100
+        mfbr: 200
+        priorityLevel: 3
+        pdb: 50
+  PolicyTypeInformation:
+    value:
+      - policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ric_g3_2
+      - policyTypeId: STD_QOS_0_2_0
+        nearRtRicId: ric_g3_2
+      - policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ric_g3_1
+      - policyTypeId: STD_QOS_0_2_0
+        nearRtRicId: ric_g3_1
+  PolicyTypeObject:
+    value:
+      policySchema:
+        "$schema": http://json-schema.org/draft-07/schema#
+        title: STD_QOS_0_2_0
+        description: STD QOS2 policy type
+        type: object
+        properties:
+          scope:
+            type: object
+            properties:
+              ueId:
+                type: string
+              qosId:
+                type: string
+            additionalProperties: false
+            required:
+              - ueId
+              - qosId
+          qosObjectives:
+            type: object
+            properties:
+              priorityLevel:
+                type: number
+            additionalProperties: false
+            required:
+              - priorityLevel

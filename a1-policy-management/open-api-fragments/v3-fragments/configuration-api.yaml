@@ -1,0 +1,41 @@
+configuration:
+  get:
+    operationId: getConfiguration
+    description: Returns the entire contents of the Application Configuration.
+    tags:
+      - Configuration
+    summary: Get the Application Configuration (getConfiguration)
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              type: string
+        description: OK - Application configuration received
+      "404":
+        $ref: 'responses.yaml#/responses/404'
+  put:
+    operationId: putConfiguration
+    description: >
+      Replace the current Application Configuration with a new configuration.
+      The new configuration, if accepted, will take effect after a short delay. 
+      The new configuration must comply with the Application Configuration schema, 
+      which can be found from the the Application Documentation (Developer Guide)
+    tags:
+      - Configuration
+    summary: Set/Replace the Application Configuration (putConfiguration)
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+      required: true
+    responses:
+      "200":
+        content:
+          'application/json':
+            schema:
+              $ref: 'schemas.yaml#/schemas/void'
+        description: OK - Configuration updated
+      "400":
+        $ref: 'responses.yaml#/responses/400'

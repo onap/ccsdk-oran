@@ -436,13 +436,45 @@
                 <version>7.7.0</version>
                 <executions>
                     <execution>
+                        <id>openapi-yaml-gen</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <templateDirectory>open-api-fragments/custom-openapi-license-template</templateDirectory>
+                            <output>${project.basedir}/api/offeredapis/swagger</output>
+                            <configOptions>
+                                <outputFile>pms-api.yaml</outputFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>openapi-yaml-gen-v3</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
+                            <generatorName>openapi-yaml</generatorName>
+                            <templateDirectory>open-api-fragments/custom-openapi-license-template</templateDirectory>
+                            <output>${project.basedir}/api/offeredapis/swagger</output>
+                            <configOptions>
+                                <outputFile>pms-api-v3.yaml</outputFile>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-openapi-json</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <output>${project.basedir}/api/offeredapis/swagger</output>
                             <configOptions>
@@ -457,7 +489,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <output>${project.basedir}/api/offeredapis/swagger</output>
                             <configOptions>
@@ -473,7 +505,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <generatorName>openapi</generatorName>
                             <apisToGenerate>A1PolicyManagement</apisToGenerate> <!-- Select which apis to include. Current pms-api-v3 only has one API -->
                             <output>${project.basedir}/api/offeredapis/swagger/custom</output>
@@ -560,7 +592,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v2-fragments/pms-api.yaml</inputSpec>
                             <invokerPackage>${project.groupId}.a1policymanagementservice.controllers.v2</invokerPackage>
                             <apiPackage>${project.groupId}.a1policymanagementservice.controllers.api.v2</apiPackage>
                             <modelPackage>${project.groupId}.a1policymanagementservice.models.v2</modelPackage>
@@ -590,7 +622,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/api/offeredapis/swagger/pms-api-v3.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/open-api-fragments/v3-fragments/pms-api-v3.yaml</inputSpec>
                             <invokerPackage>${project.groupId}.a1policymanagementservice.controllers.v3</invokerPackage>
                             <apiPackage>${project.groupId}.a1policymanagementservice.controllers.api.v3</apiPackage>
                             <modelPackage>${project.groupId}.a1policymanagementservice.models.v3</modelPackage>

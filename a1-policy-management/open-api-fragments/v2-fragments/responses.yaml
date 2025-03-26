@@ -1,0 +1,37 @@
+responses:
+  Locked:
+    description: Locked - HTTP Status code which can be used when the state is Locked
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/error_information'
+        example:
+          status: 423
+          title: Locked
+          detail: Requested resource is in a locked state.
+  BadRequest:
+    description: Bad Request
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/error_information'
+        example:
+          status: 400
+          title: Bad Request
+          detail: The provided request is not valid.
+  Forbidden:
+    description: Forbidden
+    content:
+      application/problem+json:
+        schema:
+          $ref: 'schemas.yaml#/schemas/error_information'
+        example:
+          status: 403
+          title: Forbidden
+          detail: Your role does not allow to perform this action. Contact System Administrator to change your access rights.
+  NotFound:
+    description: Not Found
+    content:
+      application/problem+json:
+        example:
+          [ ]

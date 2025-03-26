@@ -1,0 +1,149 @@
+#  ============LICENSE_START=======================================================
+#  Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#  ============LICENSE_END=========================================================
+
+openapi: 3.0.3
+info:
+  x-api-id: a31c510b-20e6-4a08-af16-368c44d7fba8
+  x-audience: external-public
+  description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service\
+    \ provides a REST API for managing A1 policies. <br/>This document describes an older pre-spec API set 
+    \ to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
+    \ and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining\
+    \ a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services\
+    \ (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs\
+    \ provided or defined by the service</h2><h3>A1 Policy Management (Older pre-spec version) </h3>\
+    \ <p>This is an older API for managing A1 Policies:</p><ul><li>A1 Policy retrieval, creation,\
+    \ modification and deletion.</li><li>Retrieval of supported A1 Policy Types for\
+    \ a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management\
+    \ of configuration</h3><p>API for updating and retrieval of the component configuration.\
+    \ Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These\
+    \ are endpoints that are invoked by this service. The callbacks are registered\
+    \ in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3>\
+    \ <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy\
+    \ is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
+    \ of the A1 Policy Management Service .</p><h3>Service Registry and Supervision</h3>\
+    \ <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner.\
+    \ If the owner service is registered, then the service can be monitored by a heart-beat supervision\
+    \ mechanism, and if the registered service becomes unavailable, then its A1 Policies are removed. Note \
+    \ that services do not need to be registered to create A1 Policies, but unregistered services are not \
+    \ supervised. This is a feature that is optional to use.</p><h3>Authorization API</h3><p>API used\
+    \ for access control of A1 Policy access. If configured, an external authorization\
+    \ provider is requested to grant access to the A1 Policy Type.</p><h3>Spring Boot\
+    \ Actuator</h3><p>Provides built-in functions used to monitor and configure the Spring\
+    \ web application hosting the service.</p>"
+  license:
+    name: |
+      Copyright (C) 2020-2023 Nordix Foundation, and Copyright (C) 2024-2025 OpenInfra Foundation Europe. 
+      All rights reserved. Licensed under the Apache 2 License.
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  title: ONAP CCSDK - Pre-Spec A1 Policy Management API
+  version: 1.3.0
+  contact:
+    name: ONAP CCSDK Project
+    url: https://www.onap.org/
+    email: discuss-list@onap.com
+servers:
+  - url: /
+tags:
+  - name: A1 Policy Management
+    description: >
+      Older pre-spec API used to get, create, update and delete A1 Policy Instances. Also used to query A1 Policy Types.
+  - name: NearRT-RIC Repository
+    description: >
+      Older API used to get information about registered Near-RT RICs.
+  - name: Service Registry and Supervision
+    description: >
+      Older API used to manage registered services, and control their keep-alive status via heart-beat messages.
+  - name: Health Check
+    description: >
+      API used to get the health status and statistics of this service
+  - name: Service Callbacks
+    description: >
+      Callout to registered services to indicate a status changes for a Near-RT RIC.
+      Note that these operations are called by the A1 Policy Management Service, not provided.
+  - name: Authorization API
+    description: >
+      API used for authorization of information A1 policy access (this is
+      provided by an authorization producer such as OPA). 
+      Note that these operations are called by the A1 Policy Management Service, not provided.
+  - name: Configuration
+    description: >
+      API used to create or fetch the application configuration.
+  - name: Actuator API
+    description: >
+      API used to monitor and configure the A1-PMS Springboot Service.
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
+
+paths:
+  /status:
+    $ref: 'healthcheck-api.yaml#/status'
+  /a1-policy/v2/status:
+    $ref: 'healthcheck-api.yaml#/status-v2'
+  /a1-policy/v2/rics/ric:
+    $ref: 'ric-api.yaml#/ric'
+  /a1-policy/v2/policy-types:
+    $ref: 'pms-lcm-api.yaml#/policy-types'
+  /a1-policy/v2/policies/{policy_id}:
+    $ref: 'pms-lcm-api.yaml#/policy'
+  /a1-policy/v2/services/{service_id}/keepalive:
+    $ref: 'service-api.yaml#/keep-alive'
+  /a1-policy/v2/rics:
+    $ref: 'ric-api.yaml#/rics'
+  /a1-policy/v2/services:
+    $ref: 'service-api.yaml#/services'
+  /a1-policy/v2/policy-types/{policytype_id}:
+    $ref: 'pms-lcm-api.yaml#/policy-type'
+  /a1-policy/v2/policies:
+    $ref: 'pms-lcm-api.yaml#/policies'
+  /a1-policy/v2/policy-instances:
+    $ref: 'pms-lcm-api.yaml#/policy-instances'
+  /a1-policy/v2/services/{service_id}:
+    $ref: 'service-api.yaml#/service'
+  /a1-policy/v2/policies/{policy_id}/status:
+    $ref: 'pms-lcm-api.yaml#/policy-status'
+  /a1-policy/v2/configuration:
+    $ref: 'configuration-api.yaml#/configuration'
+  /example-authz-check:
+    $ref: 'authz-api.yaml#/authz'
+  /actuator:
+    $ref: 'actuator-api.yaml#/actuator'
+  /actuator/heapdump:
+    $ref: 'actuator-api.yaml#/heapdump'
+  /actuator/info:
+    $ref: 'actuator-api.yaml#/actuator-info'
+  /actuator/threaddump:
+    $ref: 'actuator-api.yaml#/threaddump'
+  /actuator/loggers:
+    $ref: 'actuator-api.yaml#/loggers'
+  /actuator/loggers/{name}:
+    $ref: 'actuator-api.yaml#/logger'
+  /actuator/logfile:
+    $ref: 'actuator-api.yaml#/logfile'
+  /actuator/health:
+    $ref: 'actuator-api.yaml#/health'
+  /actuator/health/**:
+    $ref: 'actuator-api.yaml#/health-all'
+  /actuator/shutdown:
+    $ref: 'actuator-api.yaml#/shutdown'
+  /actuator/metrics:
+    $ref: 'actuator-api.yaml#/metrics'
+  /actuator/metrics/{requiredMetricName}:
+    $ref: 'actuator-api.yaml#/metric'

@@ -19,531 +19,794 @@
 
 openapi: 3.0.3
 info:
-  title: ONAP CCSDK - A1 Policy Management API
-  version: 1.0.0
-  x-api-id: e9776a07-0813-4fca-9801-6f892f0a7c13
-  x-audience: external-public
-  description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service\
-    \ provides a REST API for managing A1 policies. <br/>This document describes the latest API set 
-    \ to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
-    \ and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining\
-    \ a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services\
-    \ (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs\
-    \ provided or defined by the service</h2>\
-    \ <p>Note: parts of this API are strongly based on extracts of the O-RAN Alliance R1 Interface specification\
-    \ for A1 Policy Management, and those parts should be considered '© O-RAN ALLIANCE - All rights reserved.'</p>\
-    \ <h3>A1 Policy Management</h3>\
-    \ <p>This is the latest API for managing A1 Policies. This API is partially compliant with O-RAN\
-    \ Alliance R1 Interface specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation,\
+  contact:
+    email: discuss-list@onap.com
+    url: https://www.onap.org/
+  description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service provides\
+    \ a REST API for managing A1 policies. <br/>This document describes the latest\
+    \ API set  to perform tasks for: </p><ul><li>A1 Policy creation, modification\
+    \ and deletion.</li><li>Monitoring and maintaining consistency of the SMO view\
+    \ of A1 Policies and the Near-RT RICs</li><li>Maintaining a view of each Near-RT\
+    \ RIC's supported A1 Policy Types</li><li>Supervision of registered services (rApps).\
+    \ When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs\
+    \ provided or defined by the service</h2> <p>Note: parts of this API are strongly\
+    \ based on extracts of the O-RAN Alliance R1 Interface specification for A1 Policy\
+    \ Management, and those parts should be considered '© O-RAN ALLIANCE - All rights\
+    \ reserved.'</p> <h3>A1 Policy Management</h3> <p>This is the latest API for managing\
+    \ A1 Policies. This API is partially compliant with O-RAN Alliance R1 Interface\
+    \ specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation,\
     \ modification and deletion.</li><li>Retrieval of supported A1 Policy Types for\
     \ a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management\
     \ of configuration</h3><p>API for updating and retrieval of the component configuration.\
     \ Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These\
     \ are endpoints that are invoked by this service. The callbacks are registered\
-    \ in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3>\
-    \ <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy\
-    \ is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
-    \ of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3>\
-    \ <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner.\
-    \ If the owner service is registered, then the service can be optionally monitored by a heart-beat supervision\
-    \ mechanism, and if the registered service becomes unavailable, then it is removed and all its A1 Policies are \
-    \ deleted. Note that services do not need to be registered to create A1 Policies, but unregistered \ 
-    \ services are not supervised. This is a feature that is optional to use.</p>"
+    \ in this service at service registration.</p><h3>NearRT-RIC Repository  (Older\
+    \ version)</h3> <p>This is an API that provides support for looking up a NearRT-RIC.\
+    \ Each A1 policy is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API\
+    \ used for supervision of the A1 Policy Management Service.</p><h3>Service Registry\
+    \ and Supervision</h3> <p>API used for registering services/clients/rApps. Each\
+    \ A1 Policy can be tagged with an owner. If the owner service is registered, then\
+    \ the service can be optionally monitored by a heart-beat supervision mechanism,\
+    \ and if the registered service becomes unavailable, then it is removed and all\
+    \ its A1 Policies are  deleted. Note that services do not need to be registered\
+    \ to create A1 Policies, but unregistered    services are not supervised. This\
+    \ is a feature that is optional to use.</p>"
   license:
-    name: Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.
+    name: Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the
+      Apache 2 License.
     url: http://www.apache.org/licenses/LICENSE-2.0
-  contact:
-    url: https://www.onap.org/
-    email: discuss-list@onap.com
+  title: ONAP CCSDK - A1 Policy Management API
+  version: 1.0.0
+  x-api-id: e9776a07-0813-4fca-9801-6f892f0a7c13
+  x-audience: external-public
 externalDocs:
-  description: 'Based on parts of O-RAN ALLIANCE specification: O-RAN.WG2.R1AP-v07.00'
-  url: 'https://www.o-ran.org/specifications'
+  description: "Based on parts of O-RAN ALLIANCE specification: O-RAN.WG2.R1AP-v07.00"
+  url: https://www.o-ran.org/specifications
 servers:
-  - url: '{apiRoot}/a1-policy-management/v1'
-    variables:
-      apiRoot:
-        default: 'https://example.com'
-        description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed.
-         Note: This URL path format aligns with the O-RAN Alliance R1-AP specifications for A1 Policy Management'
+- url: "{apiRoot}/a1-policy-management/v1"
+  variables:
+    apiRoot:
+      default: https://example.com
+      description: "This is the Host:Port or Address where the A1-Policy Management\
+        \ Service can be accessed. Note: This URL path format aligns with the O-RAN\
+        \ Alliance R1-AP specifications for A1 Policy Management"
 tags:
-  - name: A1 Policy Management
-    description: > 
-      API used to get, create, update and delete A1 Policy Instances. Also used to query A1 Policy Types.
-  - name: NearRT-RIC Repository
-    description: > 
-      API used to get information about registered Near-RT RICs.
-  - name: Service Registry and Supervision
-    description: > 
-      API used to manage registered services, and control their keep-alive status via heart-beat messages.
-  - name: Health Check
-    description: > 
-      API used to get the health status and statistics of this service.
-  - name: Configuration
-    description: > 
-      API used to create or fetch the application configuration.
+- description: |
+    API used to get, create, update and delete A1 Policy Instances. Also used to query A1 Policy Types.
+  name: A1 Policy Management
+- description: |
+    API used to get information about registered Near-RT RICs.
+  name: NearRT-RIC Repository
+- description: |
+    API used to manage registered services, and control their keep-alive status via heart-beat messages.
+  name: Service Registry and Supervision
+- description: |
+    API used to get the health status and statistics of this service.
+  name: Health Check
+- description: |
+    API used to create or fetch the application configuration.
+  name: Configuration
 paths:
   /status:
     get:
-      operationId: getStatus
       description: Returns status and statistics of this service
-      summary: Get Status (getStatus)
-      tags:
-        - Health Check
+      operationId: getStatus
       responses:
         "200":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/StatusInfo'
               examples:
                 status_info:
                   $ref: '#/components/examples/StatusInfo'
+              schema:
+                $ref: '#/components/schemas/StatusInfo'
           description: OK- Service is living Ok
         "404":
-          $ref: '#/components/responses/404'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Get Status (getStatus)
+      tags:
+      - Health Check
   /rics/{ricId}:
     get:
+      description: Get information about a Near-RT RIC
       operationId: getRic
-      description: Get information about a Near-RT RIC 
-      summary: Get a Near-RT RIC (getRic)
-      tags:
-        - NearRT-RIC Repository
       parameters:
-        - description: The identity of a Near-RT RIC to get information for.
-          explode: true
-          in: path
-          name: ricId
-          required: true
-          schema:
-            type: string
-            nullable: false
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - description: The identity of a Near-RT RIC to get information for.
+        explode: true
+        in: path
+        name: ricId
+        required: true
+        schema:
+          nullable: false
+          type: string
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
         "200":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/RicInfo'
               examples:
                 ric_info:
                   $ref: '#/components/examples/RicInfo'
+              schema:
+                $ref: '#/components/schemas/RicInfo'
           description: OK - Near-RT RIC is found OK
         "404":
-          $ref: '#/components/responses/404'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Get a Near-RT RIC (getRic)
+      tags:
+      - NearRT-RIC Repository
   /rics:
     get:
-      operationId: getRics
       description: Get all Near-RT RICs that supports a given A1 Policy Type ID
-      summary: Get Near-RT RICs for A1 Policy Type (getRics)
-      tags:
-        - NearRT-RIC Repository
+      operationId: getRics
       parameters:
-        - description: > 
-            The identity of an A1 Policy Type. If given, all Near-RT RICs supporting
-            the A1 Policy Type are returned.
-          explode: true
-          in: query
-          name: policyTypeId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - description: |
+          The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 Policy Type are returned.
+        explode: true
+        in: query
+        name: policyTypeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
         "200":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/RicInfoList'
               examples:
                 ric_info_list:
                   $ref: '#/components/examples/RicInfoList'
+              schema:
+                $ref: '#/components/schemas/RicInfoList'
           description: OK
         "404":
-          $ref: '#/components/responses/404'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Get Near-RT RICs for A1 Policy Type (getRics)
+      tags:
+      - NearRT-RIC Repository
   /policy-types:
     get:
       description: Query A1 Policy Type identities using query parameters
       operationId: getPolicyTypes
-      summary: Get A1 Policy Types (getPolicyTypes)
-      tags:
-        - A1 Policy Management
       parameters:
-        - description: Select types for the given Near-RT RIC identity.
-          explode: true
-          in: query
-          name: nearRtRicId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Select types compatible with the given type name (type identity has the format 'typename_version')
-          explode: true
-          in: query
-          name: typeName
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: > 
-            Select types that are compatible with the given version. This
-            parameter is only applicable in conjunction with typeName. As an example
-            version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching
-            types will be returned sorted in ascending order.
-          explode: true
-          in: query
-          name: compatibleWithVersion
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - description: Select types for the given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: nearRtRicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select types compatible with the given type name (type identity
+          has the format 'typename_version')
+        explode: true
+        in: query
+        name: typeName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |
+          Select types that are compatible with the given version. This parameter is only applicable in conjunction with typeName. As an example version 1.9.1 is compatible with 1.0.0 but not the other way around. Matching types will be returned sorted in ascending order.
+        explode: true
+        in: query
+        name: compatibleWithVersion
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
+              examples:
+                PolicyTypeInformation:
+                  $ref: '#/components/examples/PolicyTypeInformation'
               schema:
                 items:
                   $ref: '#/components/schemas/PolicyTypeInformation'
                 type: array
-              examples:
-                PolicyTypeInformation:
-                  $ref: '#/components/examples/PolicyTypeInformation'
           description: OK - Policy Type IDs found Ok
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Get A1 Policy Types (getPolicyTypes)
+      tags:
+      - A1 Policy Management
   /policy-types/{policyTypeId}:
     get:
-      operationId: getPolicyTypeDefinition
       description: Get an A1 Policy Type definition using its policy type ID
-      summary: Get an A1 Policy Type definition (getPolicyTypeDefinition)
-      tags:
-        - A1 Policy Management
+      operationId: getPolicyTypeDefinition
       parameters:
-        - explode: false
-          in: path
-          name: policyTypeId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - explode: false
+        in: path
+        name: policyTypeId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/PolicyTypeObject'
               examples:
                 PolicyTypeObject:
                   $ref: '#/components/examples/PolicyTypeObject'
+              schema:
+                $ref: '#/components/schemas/PolicyTypeObject'
           description: OK - details and schema of the requested A1 Policy Type
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
-  /policies/{policyId}:
-    put:
-      operationId: updatePolicy
-      description: Update an existing A1 Policy instance's policy data using its policy ID.
-      summary: Update an A1 Policy's policy data (updatePolicy)
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Get an A1 Policy Type definition (getPolicyTypeDefinition)
       tags:
-        - A1 Policy Management
+      - A1 Policy Management
+  /policies/{policyId}:
+    delete:
+      description: Delete an existing A1 Policy instance using its policy ID.
+      operationId: deletePolicy
       parameters:
-        - name: policyId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
+      - explode: false
+        in: path
+        name: policyId
         required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "405":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Method Not Allowed
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "423":
+          content:
+            application/problem+json:
+              example:
+                status: 423
+                title: Locked
+                detail: State is Locked in the provided request.
+              schema:
+                $ref: '#/components/schemas/ErrorInformation'
+          description: Locked - HTTP Status code which can be used when the state
+            is Locked
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Delete an A1 Policy instance (deletePolicy)
+      tags:
+      - A1 Policy Management
+    get:
+      description: Get an A1 Policy instance's policy data using its policy ID
+      operationId: getPolicy
+      parameters:
+      - explode: false
+        in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                policyObject:
+                  $ref: '#/components/examples/PolicyObject'
+              schema:
+                $ref: '#/components/schemas/PolicyObject'
+          description: OK - Policy found
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Get an A1 Policy's policy data (getPolicy)
+      tags:
+      - A1 Policy Management
+    put:
+      description: Update an existing A1 Policy instance's policy data using its policy
+        ID.
+      operationId: updatePolicy
+      parameters:
+      - in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/PolicyObject'
             examples:
               policyObject:
                 $ref: '#/components/examples/PolicyObject'
+            schema:
+              $ref: '#/components/schemas/PolicyObject'
+        required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyObject'
           description: OK - Policy updated
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '411':
-          $ref: '#/components/responses/411'
-        '413':
-          $ref: '#/components/responses/413'
-        '415':
-          $ref: '#/components/responses/415'
-        '423':
-          $ref: '#/components/responses/Locked'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
-    delete:
-      operationId: deletePolicy
-      description: Delete an existing A1 Policy instance using its policy ID.
-      summary: Delete an A1 Policy instance (deletePolicy)
-      tags:
-        - A1 Policy Management
-      parameters:
-        - explode: false
-          in: path
-          name: policyId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
-      responses:
-        '204':
-          description: 'No Content'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '405':
-          $ref: '#/components/responses/405'
-        '406':
-          $ref: '#/components/responses/406'
-        '423':
-          $ref: '#/components/responses/Locked'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
-    get:
-      operationId: getPolicy
-      description: Get an A1 Policy instance's policy data using its policy ID
-      summary: Get an A1 Policy's policy data (getPolicy)
-      tags:
-        - A1 Policy Management
-      parameters:
-        - explode: false
-          in: path
-          name: policyId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
-      responses:
-        '200':
+        "400":
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: '#/components/schemas/PolicyObject'
-              examples:
-                policyObject:
-                  $ref: '#/components/examples/PolicyObject'
-          description: OK - Policy found
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "411":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Length Required
+        "413":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Payload Too Large
+        "415":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unsupported Media Type
+        "423":
+          content:
+            application/problem+json:
+              example:
+                status: 423
+                title: Locked
+                detail: State is Locked in the provided request.
+              schema:
+                $ref: '#/components/schemas/ErrorInformation'
+          description: Locked - HTTP Status code which can be used when the state
+            is Locked
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Update an A1 Policy's policy data (updatePolicy)
+      tags:
+      - A1 Policy Management
   /policies/{policyId}/status:
     get:
+      description: Retrieve the status information for an A1 Policy Instance using
+        its policy ID.
       operationId: getPolicyStatus
-      description: Retrieve the status information for an A1 Policy Instance using its policy ID.
-      summary: Get an A1 Policy Instance's status (getPolicyStatus)
-      tags:
-        - A1 Policy Management
       parameters:
-        - explode: false
-          in: path
-          name: policyId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - explode: false
+        in: path
+        name: policyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyStatusObject'
           description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Get an A1 Policy Instance's status (getPolicyStatus)
+      tags:
+      - A1 Policy Management
   /policies:
     get:
+      description: |
+        Returns a collection of A1 Policy Instance IDs for policies that match given search criteria.  If several query parameters are defined, the policies matching all conditions are returned.
       operationId: getPolicyIds
-      description: > 
-        Returns a collection of A1 Policy Instance IDs for policies that match given search criteria. 
-        If several query parameters are defined, the policies matching all conditions are returned.
-      summary: Query for A1 Policy instances (getPolicyIds)
-      tags:
-        - A1 Policy Management
       parameters:
-        - description: Select policies with a given A1 Policy Type ID.
-          explode: true
-          in: query
-          name: policyTypeId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Select policies for a given Near-RT RIC identity.
-          explode: true
-          in: query
-          name: nearRtRicId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Select policies owned by a given service (registered or unregistered).
-          explode: true
-          in: query
-          name: serviceId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Select policies of a given A1 Policy Type name (type identity has the format 'typename_version').
-          explode: true
-          in: query
-          name: typeName
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - description: Select policies with a given A1 Policy Type ID.
+        explode: true
+        in: query
+        name: policyTypeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies for a given Near-RT RIC identity.
+        explode: true
+        in: query
+        name: nearRtRicId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies owned by a given service (registered or unregistered).
+        explode: true
+        in: query
+        name: serviceId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Select policies of a given A1 Policy Type name (type identity
+          has the format 'typename_version').
+        explode: true
+        in: query
+        name: typeName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -551,93 +814,187 @@ paths:
                   $ref: '#/components/schemas/PolicyInformation'
                 type: array
           description: OK - Policy identities
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '406':
-          $ref: '#/components/responses/406'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
-    post:
-      operationId: createPolicy
-      description: Create an A1 Policy Instance
-      summary: Create an A1 Policy Instance (createPolicy)
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Query for A1 Policy instances (getPolicyIds)
       tags:
-        - A1 Policy Management
+      - A1 Policy Management
+    post:
+      description: Create an A1 Policy Instance
+      operationId: createPolicy
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PolicyObjectInformation'
+        required: true
       responses:
-        '201':
-          description: 'Created'
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyObjectInformation'
+          description: Created
           headers:
             Location:
-              description: > 
-                Contains the URI of the newly created A1 Policy Instances.
-                This URI includes the A1 Policy Instance ID for the newly 
-                created policy instance.
+              description: |
+                Contains the URI of the newly created A1 Policy Instances. This URI includes the A1 Policy Instance ID for the newly  created policy instance.
               required: true
               schema:
                 type: string
             Content-Type:
-              description: 'Media Type of the response'
+              description: Media Type of the response
               schema:
-                type: string
                 example: application/json
-
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '405':
-          $ref: '#/components/responses/405'
-        '406':
-          $ref: '#/components/responses/406'
-        '409':
-          $ref: '#/components/responses/409'
-        '413':
-          $ref: '#/components/responses/413'
-        '415':
-          $ref: '#/components/responses/415'
-        '423':
-          $ref: '#/components/responses/Locked'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-        '502':
-          $ref: '#/components/responses/502'
-        '503':
-          $ref: '#/components/responses/503'
+                type: string
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+        "401":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unauthorized
+        "403":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Forbidden
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+        "405":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Method Not Allowed
+        "406":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Acceptable
+        "409":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Conflict
+        "413":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Payload Too Large
+        "415":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Unsupported Media Type
+        "423":
+          content:
+            application/problem+json:
+              example:
+                status: 423
+                title: Locked
+                detail: State is Locked in the provided request.
+              schema:
+                $ref: '#/components/schemas/ErrorInformation'
+          description: Locked - HTTP Status code which can be used when the state
+            is Locked
+        "429":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Too Many Requests
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Internal Server Error
+        "502":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Gateway
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Service Unavailable
+      summary: Create an A1 Policy Instance (createPolicy)
+      tags:
+      - A1 Policy Management
   /configuration:
     get:
-      operationId: getConfiguration
       description: Returns the entire contents of the Application Configuration.
-      tags:
-        - Configuration
-      summary: Get the Application Configuration (getConfiguration)
+      operationId: getConfiguration
       responses:
         "200":
           content:
@@ -646,17 +1003,18 @@ paths:
                 type: string
           description: OK - Application configuration received
         "404":
-          $ref: '#/components/responses/404'
-    put:
-      operationId: putConfiguration
-      description: > 
-        Replace the current Application Configuration with a new configuration.
-        The new configuration, if accepted, will take effect after a short delay. 
-        The new configuration must comply with the Application Configuration schema, 
-        which can be found from the the Application Documentation (Developer Guide) 
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Get the Application Configuration (getConfiguration)
       tags:
-        - Configuration
-      summary: Set/Replace the Application Configuration (putConfiguration)
+      - Configuration
+    put:
+      description: |
+        Replace the current Application Configuration with a new configuration. The new configuration, if accepted, will take effect after a short delay.  The new configuration must comply with the Application Configuration schema,  which can be found from the the Application Documentation (Developer Guide)
+      operationId: putConfiguration
       requestBody:
         content:
           application/json:
@@ -666,139 +1024,116 @@ paths:
       responses:
         "200":
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/void'
           description: OK - Configuration updated
         "400":
-          $ref: '#/components/responses/400'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+      summary: Set/Replace the Application Configuration (putConfiguration)
+      tags:
+      - Configuration
   /services/{serviceId}/keepalive:
     put:
+      description: "A registered service should invoke this operation regularly to\
+        \ indicate that it is still alive. If a registered service fails to invoke\
+        \ some operation, or this operation, before the end of a timeout period the\
+        \ service will be deregistered and all its A1 policies wil be removed and\
+        \ the service is deleted. This operation is only intended for registered services.\
+        \ (This timeout can be set or disabled when each service is initially registered).\
+        \ Unregistered services do not need to invoke this operation, since the optional\
+        \ keep-alive monitoring feature can only be enabled for registered services."
       operationId: keepAliveService
-      description: A registered service should invoke this operation regularly to
-        indicate that it is still alive. If a registered service fails to invoke some operation, 
-        or this operation, before the end of a timeout period the service will be deregistered
-        and all its A1 policies wil be removed and the service is deleted. 
-        This operation is only intended for registered services. (This timeout can be set or disabled when 
-        each service is initially registered). Unregistered services do not need to invoke this operation, 
-        since the optional keep-alive monitoring feature can only be enabled for registered services.
-      summary: Heartbeat message from a service (keepAliveService)
-      tags:
-        - Service Registry and Supervision
       parameters:
-        - explode: false
-          in: path
-          name: serviceId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - explode: false
+        in: path
+        name: serviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       requestBody:
-        required: false
         content:
           application/json:
             schema:
               type: string
-      responses:
-        "200":
-          content:
-            'application/json':
-              schema:
-                type: object
-          description: OK - Service supervision timer refreshed, OK
-        "404":
-          $ref: '#/components/responses/404'
-  /services:
-    get:
-      operationId: getServices
-      description: > 
-        Get information about all registered services, or a single registered service. 
-        If the service ID of a registered service is included in the query, information about that 
-        service is returned. Otherwise Information about all registered is returned.
-        This operation does not retrieve information about unregistered services.
-      summary: Get Services (getServices)
-      tags:
-        - Service Registry and Supervision
-      parameters:
-        - description: The identity of the registered service
-          explode: true
-          in: query
-          name: serviceId
-          required: false
-          schema:
-            type: string
-          style: form
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+        required: false
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceStatusList'
-              examples:
-                service_status_list:
-                  $ref: '#/components/examples/ServiceStatusList'
-          description: OK
+                type: object
+          description: "OK - Service supervision timer refreshed, OK"
         "404":
-          $ref: '#/components/responses/404'
-    put:
-      operationId: putService
-      description: > 
-        Register a single service, or update a previous registration. 
-        Service registration is required to get callbacks about available NearRT RICs 
-        and to enable supervision of the service's active status. If a registered
-        service becomes inactive, its policies can be automatically deleted.
-        A1 Policy instances can also be created for unregistered services. 
-        If an unregistered service is later registered, the service's policies are 
-        retained when the service becomes registered. This feature is optional to use.
-      summary: Register or update a Service (putService)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Heartbeat message from a service (keepAliveService)
       tags:
-        - Service Registry and Supervision
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ServiceRegistrationInfo'
-        required: true
+      - Service Registry and Supervision
+  /services:
+    get:
+      description: |
+        Get information about all registered services, or a single registered service.  If the service ID of a registered service is included in the query, information about that  service is returned. Otherwise Information about all registered is returned. This operation does not retrieve information about unregistered services.
+      operationId: getServices
+      parameters:
+      - description: The identity of the registered service
+        explode: true
+        in: query
+        name: serviceId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
         "200":
           content:
-            'application/json':
+            application/json:
+              examples:
+                service_status_list:
+                  $ref: '#/components/examples/ServiceStatusList'
               schema:
-                type: object
-          description: OK - Service updated
-        "201":
+                $ref: '#/components/schemas/ServiceStatusList'
+          description: OK
+        "404":
           content:
-            'application/json':
+            application/problem+json:
               schema:
-                type: object
-          description: Created - Service created
-        "400":
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Get Services (getServices)
+      tags:
+      - Service Registry and Supervision
+    put:
       callbacks:
         RICStatus:
-          "{$request.body#/callback_url}":
+          '{$request.body#/callback_url}':
             post:
+              description: "Callouts to indicate Near-RT RIC status changes relevant\
+                \ for Services. \nThe URL invoked by this callback is provided at\
+                \ Service registration.\n"
               operationId: serviceCallback
-              description: | 
-                Callouts to indicate Near-RT RIC status changes relevant for Services. 
-                The URL invoked by this callback is provided at Service registration.
-              summary: Callback for Near-RT RIC status (serviceCallback)
-              tags:
-                - Service Registry and Supervision
               requestBody:
                 content:
                   application/json:
@@ -813,57 +1148,84 @@ paths:
                         $ref: '#/components/schemas/void'
                   description: OK
                 "404":
-                  $ref: '#/components/responses/404'
+                  content:
+                    application/problem+json:
+                      schema:
+                        $ref: '#/components/schemas/ProblemDetails'
+                  description: Not Found
+              summary: Callback for Near-RT RIC status (serviceCallback)
+              tags:
+              - Service Registry and Supervision
+              x-callback-request: true
+      description: |
+        Register a single service, or update a previous registration.  Service registration is required to get callbacks about available NearRT RICs  and to enable supervision of the service's active status. If a registered service becomes inactive, its policies can be automatically deleted. A1 Policy instances can also be created for unregistered services.  If an unregistered service is later registered, the service's policies are  retained when the service becomes registered. This feature is optional to use.
+      operationId: putService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRegistrationInfo'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK - Service updated
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: Created - Service created
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+      summary: Register or update a Service (putService)
+      tags:
+      - Service Registry and Supervision
   /services/{serviceId}:
     delete:
+      description: |
+        Unregister a registered Service using its service ID.  Only registered services can be unregistered. All A1 Policy Instances  for the previously registered service will be removed.
       operationId: deleteService
-      description: > 
-        Unregister a registered Service using its service ID. 
-        Only registered services can be unregistered. All A1 Policy Instances 
-        for the previously registered service will be removed.
-      tags:
-        - Service Registry and Supervision
-      summary: Unregister a Service (deleteService) 
       parameters:
-        - explode: false
-          in: path
-          name: serviceId
-          required: true
-          schema:
-            type: string
-          style: simple
-        - description: Specifies the content type that the client expects to receive in response to the request.
-            Only application/json is allowed.
-          in: header
-          name: Accept
-          schema:
-            type: string
-            example: application/json
+      - explode: false
+        in: path
+        name: serviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Specifies the content type that the client expects to receive
+          in response to the request. Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          example: application/json
+          type: string
       responses:
         "204":
           content:
-            'application/json':
+            application/json:
               schema:
                 type: object
           description: No Content - Service unregistered
         "404":
-          $ref: '#/components/responses/404'
-
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      summary: Unregister a Service (deleteService)
+      tags:
+      - Service Registry and Supervision
 components:
-
   examples:
-    ServiceStatusList:
-      description: List of service information
-      value:
-        serviceList:
-          - callbackUrl: http://callback.url
-            serviceId: serviceId1
-            keepAliveIntervalSeconds: 0
-            timeSinceLastActivitySeconds: 6
-          - callbackUrl: http://callback.url
-            serviceId: serviceId2
-            keepAliveIntervalSeconds: 500
-            timeSinceLastActivitySeconds: 401
     StatusInfo:
       value:
         status: success
@@ -871,61 +1233,33 @@ components:
       value:
         ricId: ricId1
         managedElementIds:
-          - "Note #1"
-          - "Athlone small cells"
-          - "Some optional string"
+        - "Note #1"
+        - Athlone small cells
+        - Some optional string
         state: UNAVAILABLE
         policyTypeIds:
-          - policyTypeId1
-          - policyTypeId2
+        - policyTypeId1
+        - policyTypeId2
     RicInfoList:
       value:
         rics:
-          - ricId: ricId1
-            managedElementIds:
-              - "Note #1"
-              - "Athlone small cells"
-              - "Fake Cells"
-            state: UNAVAILABLE
-            policyTypeIds:
-              - policyTypeId1
-              - policyTypeId2
-          - ricId: ricId2
-            managedElementIds:
-              - "My test element"
-              - "Another test element"
-            state: UNAVAILABLE
-            policyTypeIds:
-              - policyTypeId3
-              - policyTypeId4
-    PolicyObject:
-      value:
-        scope:
-          ueId:
-            guRanUeId:
-              globalGnbId:
-                plmnId:
-                  mcc: "123"
-                  mnc: "45"
-                gnbId:
-                  gnbIdLength: 24
-                  gnbIdValue: 12345678
-              RanUeId: 'a31c510b20e64a74'
-          groupId:
-            spId: 123
-          qosId:
-            5qI: 1
-          cellId:
-            plmnId:
-              mcc: "123"
-              mnc: "45"
-            cId:
-              ncI: 123
-        qosObjectives:
-          gfbr: 100
-          mfbr: 200
-          priorityLevel: 3
-          pdb: 50
+        - ricId: ricId1
+          managedElementIds:
+          - "Note #1"
+          - Athlone small cells
+          - Fake Cells
+          state: UNAVAILABLE
+          policyTypeIds:
+          - policyTypeId1
+          - policyTypeId2
+        - ricId: ricId2
+          managedElementIds:
+          - My test element
+          - Another test element
+          state: UNAVAILABLE
+          policyTypeIds:
+          - policyTypeId3
+          - policyTypeId4
     PolicyTypeInformation:
       value:
       - policyTypeId: STD_QOS2_0.1.0
@@ -939,7 +1273,7 @@ components:
     PolicyTypeObject:
       value:
         policySchema:
-          "$schema": http://json-schema.org/draft-07/schema#
+          $schema: http://json-schema.org/draft-07/schema#
           title: STD_QOS_0_2_0
           description: STD QOS2 policy type
           type: object
@@ -953,8 +1287,8 @@ components:
                   type: string
               additionalProperties: false
               required:
-                - ueId
-                - qosId
+              - ueId
+              - qosId
             qosObjectives:
               type: object
               properties:
@@ -962,173 +1296,184 @@ components:
                   type: number
               additionalProperties: false
               required:
-                - priorityLevel
-
-  schemas:
-    PolicyTypeInformation:
-      description: >-
-        A data tuple to indicate that an identified A1 Policy Type is supported at an identified Near-RT RIC.
-      type: object
-      properties:
-        policyTypeId:
-          description: A1 Policy Type identifier
-          type: string
-        nearRtRicId:
-          $ref: '#/components/schemas/NearRtRicId'
-      required:
-        - policyTypeId
-        - nearRtRicId
-      example:
-        policyTypeId: STD_QOS2_0.1.0
-        nearRtRicId: ric_g3_2
-    PolicyObjectInformation:
-      description: Information to create an A1 Policy Instance
-      type: object
-      properties:
-        nearRtRicId:
-          description: Identity of the target Near-RT RIC
-          type: string
-          example:
-            'Near-RT-Ric-ID1'
-        transient:
-          default: false
-          description: > 
-            If true, the policy is automatically deleted if the targeted Near-RT RIC restarts 
-            or recovers. If false, the A1 Policy Instance remains, and is re-pushed to the targeted 
-            Near-RT RIC after a restart or recovery. If false, the A1 Policy Instance is maintained and 
-            must be deleted separately in the event of Near-RT RIC restart or recovery. Default is false.
-          nullable: false
-          type: boolean
-        policyId:
-          description: > 
-            An optional identity to be used for the new A1 Policy Instance. 
-            If this value is present, it must be unique. If not present the new A1 
-            Policy Instance will be assigned a newly generated unique ID, and the 
-            new ID can be extracted from the 'Location' header in the response.
-          type: string
-          example:
-            'POLICY-ID1'
-        serviceId:
-          description: the identity of the service owning the policy. This can be
-            used to group the policies (it is possible to get all policies associated
-            to a service). Note that the service does not need to be registered. 
-            If the service is registered, the newly created A1 Policy Instance will be 
-            subject to the same supervision rules as the the service's other policies.
-          type: string
-          example:
-            'rApp 1'
-          default: ""
-        policyObject:
-          $ref: '#/components/schemas/PolicyObject'
-        policyTypeId:
-          description: A1 Policy Type identity
-          type: string
-          example: ORAN_QOS_1.0.0 '(typeName_SemVersion)'
-      required:
-        - nearRtRicId
-        - policyObject
-        - policyTypeId
-    ErrorInformation:
-      description: Problem as defined in https://tools.ietf.org/html/rfc7807
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          example: Policy type not found
-          type: string
-        title:
-          description: A specific error name
-          type: string
-          example: Not Found
-        status:
-          description: | 
-            The HTTP status code generated by the origin server for this occurrence of the problem.
-          example: 404
-          format: int32
-          type: integer
-      type: object
+              - priorityLevel
     PolicyObject:
-      description: > 
-        Policy Object is a JSON representation policy data for an A1 Policy Instance.
-        The schema for this policy data is defined in the corresponding A1 Policy Type. 
-      type: object
-    PolicyTypeObject:
-         description: An A1 Policy Type, as defined in O-RAN Alliance A1TD
-         type: object
-         properties:
-           policySchema:
-             $ref: '#/components/schemas/PolicySchema'
-           statusSchema:
-             $ref: '#/components/schemas/StatusSchema'
-         required:
-           - policySchema
-         example:
-           policySchema:
-             "$schema": http://json-schema.org/draft-07/schema#
-             title: STD_QOS_0_2_0
-             description: Policy data schema for STD_QOS_0.2.0 A1 Policy Instances.
-             type: object
-             properties:
-               scope:
-                 type: object
-                 properties:
-                   ueId:
-                     type: string
-                   qosId:
-                     type: string
-                 additionalProperties: false
-                 required:
-                   - ueId
-                   - qosId
-               qosObjectives:
-                 type: object
-                 properties:
-                   priorityLevel:
-                     type: number
-                 additionalProperties: false
-                 required:
-                   - priorityLevel
-           statusSchema:
-             "$schema": http://json-schema.org/draft-07/schema#
-             title: STD_QOS_0.2.0
-             description: Status schema for STD_QOS_0.2.0 A1 Policy Instances.
-             type: object
-             properties:
-               enforceStatus:
-                 type: string
-               enforceReason:
-                 type: string
-               additionalProperties: false
-               required:
-                 - enforceStatus
-    PolicySchema:
-      description: > 
-        A schema to define the policy data contents of A1 Policy Instances. 
-        Policy data schemas are Policy Type specific. 
-        All A1 Policy Instances of an A1 Policy Type should comply with the type's policy data schema.
-      type: object
-    StatusSchema:
-      description: > 
-        A schema to define the contents of the status information for A1 Policy Instances. 
-        Status schemas are Policy Type specific. 
-        All status information for all A1 Policy Instances of an A1 Policy Type should comply 
-        with the type's status schema.
-      type: object
-    PolicyStatusObject:
-      description: > 
-        A generic policy status object that can be used to transport any policy status. 
-        Additionally, a schema for policy status can be defined in the corresponding A1 Policy Type.
-      type: object
-    void:
-      description: Void/empty
-      type: object
+      value:
+        scope:
+          ueId:
+            guRanUeId:
+              globalGnbId:
+                plmnId:
+                  mcc: "123"
+                  mnc: "45"
+                gnbId:
+                  gnbIdLength: 24
+                  gnbIdValue: 12345678
+              RanUeId: a31c510b20e64a74
+          groupId:
+            spId: 123
+          qosId:
+            "5qI": 1
+          cellId:
+            plmnId:
+              mcc: "123"
+              mnc: "45"
+            cId:
+              ncI: 123
+        qosObjectives:
+          gfbr: 100
+          mfbr: 200
+          priorityLevel: 3
+          pdb: 50
+    ServiceStatusList:
+      description: List of service information
+      value:
+        serviceList:
+        - callbackUrl: http://callback.url
+          serviceId: serviceId1
+          keepAliveIntervalSeconds: 0
+          timeSinceLastActivitySeconds: 6
+        - callbackUrl: http://callback.url
+          serviceId: serviceId2
+          keepAliveIntervalSeconds: 500
+          timeSinceLastActivitySeconds: 401
+  responses:
+    "404":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Not Found
+    "400":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Bad Request
+    "401":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Unauthorized
+    "403":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Forbidden
+    "406":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Not Acceptable
+    "429":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Too Many Requests
+    "500":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Internal Server Error
+    "502":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Bad Gateway
+    "503":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Service Unavailable
+    "411":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Length Required
+    "413":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Payload Too Large
+    "415":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Unsupported Media Type
+    Locked:
+      content:
+        application/problem+json:
+          example:
+            status: 423
+            title: Locked
+            detail: State is Locked in the provided request.
+          schema:
+            $ref: '#/components/schemas/ErrorInformation'
+      description: Locked - HTTP Status code which can be used when the state is Locked
+    "405":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Method Not Allowed
+    "409":
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      description: Conflict
+  schemas:
     StatusInfo:
+      example:
+        status: status
       properties:
         status:
           description: Status text
           type: string
       type: object
+    ProblemDetails:
+      description: Object to carry details about a problem in an HTTP response according
+        to IETF RFC 7807
+      properties:
+        type:
+          description: URI reference according to IETF RFC 3986 that identifies the
+            problem type
+          type: string
+        title:
+          description: Human-readable summary of the problem type
+          type: string
+        status:
+          description: HTTP status code
+          type: number
+        detail:
+          description: Human-readable explanation
+          type: string
+        instance:
+          description: URI reference that identifies the specific occurrence of the
+            problem
+          type: string
+      type: object
     RicInfo:
       description: Information for a Near-RT RIC
+      example:
+        ricId: ricId
+        policyTypeIds:
+        - policyTypeIds
+        - policyTypeIds
+        managedElementIds:
+        - managedElementIds
+        - managedElementIds
+        state: UNAVAILABLE
       properties:
         ricId:
           description: Identity of the Near-RT RIC
@@ -1142,10 +1487,10 @@ components:
         state:
           description: Represents the state of a Near-RT RIC
           enum:
-            - UNAVAILABLE
-            - AVAILABLE
-            - SYNCHRONIZING
-            - CONSISTENCY_CHECK
+          - UNAVAILABLE
+          - AVAILABLE
+          - SYNCHRONIZING
+          - CONSISTENCY_CHECK
           type: string
         policyTypeIds:
           description: Supported A1 Policy Types
@@ -1154,56 +1499,26 @@ components:
             type: string
           type: array
       type: object
-    ServiceRegistrationInfo:
-      description: Information for a service to be registered
-      properties:
-        callbackUrl:
-          description: Callback URL for notifying of Near-RT RIC state changes
-          type: string
-        serviceId:
-          description: Identity of the service
-          type: string
-        keepAliveIntervalSeconds:
-          description: > 
-            Keep alive interval for the service. This is used to enable
-            optional heartbeat supervision of the service. If set (> 0) the registered
-            service should regularly invoke a 'keepalive' REST call. When a service
-            fails to invoke this 'keepalive' call within the configured time, the
-            service is considered unavailable. An unavailable service will be automatically
-            deregistered and its policies will be deleted. Value 0 means timeout
-            supervision is disabled.
-          format: int64
-          type: integer
-      required:
-        - serviceId
-      type: object
-    ServiceStatus:
-      description: Information about a previously registered service
-      properties:
-        callbackUrl:
-          description: Callback URL for notifying of Near-RT RIC state changes
-          type: string
-        serviceId:
-          description: Identity of the service
-          type: string
-        keepAliveIntervalSeconds:
-          description: > 
-            Keep alive interval (seconds) for the service. This is used to enable
-            optional heartbeat supervision of the service. If set (> 0) the registered
-            service should regularly invoke a 'keepalive' REST call. When a service
-            fails to invoke this 'keepalive' call within the configured time, the
-            service is considered unavailable. An unavailable service will be automatically
-            deregistered and its policies will be deleted. Value 0 means timeout
-            supervision is disabled.
-          format: int64
-          type: integer
-        timeSinceLastActivitySeconds:
-          description: Time (seconds) since last recorded operation by the service
-          format: int64
-          type: integer
-      type: object
     RicInfoList:
       description: Collection of Near-RT RIC information objects
+      example:
+        rics:
+        - ricId: ricId
+          policyTypeIds:
+          - policyTypeIds
+          - policyTypeIds
+          managedElementIds:
+          - managedElementIds
+          - managedElementIds
+          state: UNAVAILABLE
+        - ricId: ricId
+          policyTypeIds:
+          - policyTypeIds
+          - policyTypeIds
+          managedElementIds:
+          - managedElementIds
+          - managedElementIds
+          state: UNAVAILABLE
       properties:
         rics:
           description: List of Near-RT RIC information objects
@@ -1211,162 +1526,263 @@ components:
             $ref: '#/components/schemas/RicInfo'
           type: array
       type: object
+    PolicyTypeInformation:
+      description: A data tuple to indicate that an identified A1 Policy Type is supported
+        at an identified Near-RT RIC.
+      example:
+        policyTypeId: STD_QOS2_0.1.0
+        nearRtRicId: ric_g3_2
+      properties:
+        policyTypeId:
+          description: A1 Policy Type identifier
+          type: string
+        nearRtRicId:
+          description: Identity of the Near-RT RIC
+          type: string
+      required:
+      - nearRtRicId
+      - policyTypeId
+      type: object
     NearRtRicId:
       description: Identity of the Near-RT RIC
       type: string
-    PolicyInformation:
-      description: >
-        Information tuple for a single A1 Policy Instance. 
-        Contains the A1 Policy Instance ID, and the ID of the Near-RT RIC where the policy is created. 
+    PolicyTypeObject:
+      description: "An A1 Policy Type, as defined in O-RAN Alliance A1TD"
+      example:
+        policySchema:
+          $schema: http://json-schema.org/draft-07/schema#
+          title: STD_QOS_0_2_0
+          description: Policy data schema for STD_QOS_0.2.0 A1 Policy Instances.
+          type: object
+          properties:
+            scope:
+              type: object
+              properties:
+                ueId:
+                  type: string
+                qosId:
+                  type: string
+              additionalProperties: false
+              required:
+              - ueId
+              - qosId
+            qosObjectives:
+              type: object
+              properties:
+                priorityLevel:
+                  type: number
+              additionalProperties: false
+              required:
+              - priorityLevel
+        statusSchema:
+          $schema: http://json-schema.org/draft-07/schema#
+          title: STD_QOS_0.2.0
+          description: Status schema for STD_QOS_0.2.0 A1 Policy Instances.
+          type: object
+          properties:
+            enforceStatus:
+              type: string
+            enforceReason:
+              type: string
+            additionalProperties: false
+            required:
+            - enforceStatus
+      properties:
+        policySchema:
+          description: |
+            A schema to define the policy data contents of A1 Policy Instances.  Policy data schemas are Policy Type specific.  All A1 Policy Instances of an A1 Policy Type should comply with the type's policy data schema.
+          type: object
+        statusSchema:
+          description: |
+            A schema to define the contents of the status information for A1 Policy Instances.  Status schemas are Policy Type specific.  All status information for all A1 Policy Instances of an A1 Policy Type should comply  with the type's status schema.
+          type: object
+      required:
+      - policySchema
       type: object
+    PolicySchema:
+      description: |
+        A schema to define the policy data contents of A1 Policy Instances.  Policy data schemas are Policy Type specific.  All A1 Policy Instances of an A1 Policy Type should comply with the type's policy data schema.
+      type: object
+    StatusSchema:
+      description: |
+        A schema to define the contents of the status information for A1 Policy Instances.  Status schemas are Policy Type specific.  All status information for all A1 Policy Instances of an A1 Policy Type should comply  with the type's status schema.
+      type: object
+    PolicyObject:
+      description: |
+        Policy Object is a JSON representation policy data for an A1 Policy Instance. The schema for this policy data is defined in the corresponding A1 Policy Type.
+      type: object
+    ErrorInformation:
+      description: Problem as defined in https://tools.ietf.org/html/rfc7807
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of
+            the problem.
+          example: Policy type not found
+          type: string
+        title:
+          description: A specific error name
+          example: Not Found
+          type: string
+        status:
+          description: |
+            The HTTP status code generated by the origin server for this occurrence of the problem.
+          example: 404
+          format: int32
+          type: integer
+      type: object
+    PolicyStatusObject:
+      description: |
+        A generic policy status object that can be used to transport any policy status.  Additionally, a schema for policy status can be defined in the corresponding A1 Policy Type.
+      type: object
+    PolicyInformation:
+      description: |
+        Information tuple for a single A1 Policy Instance.  Contains the A1 Policy Instance ID, and the ID of the Near-RT RIC where the policy is created.
+      example:
+        policyId: policyId
+        nearRtRicId: nearRtRicId
       properties:
         policyId:
           description: Identity of the A1 Policy Instance
           type: string
         nearRtRicId:
-          $ref: '#/components/schemas/NearRtRicId'
+          description: Identity of the Near-RT RIC
+          type: string
       required:
-        - policyId
-        - nearRtRicId
+      - nearRtRicId
+      - policyId
+      type: object
+    PolicyObjectInformation:
+      description: Information to create an A1 Policy Instance
+      example:
+        policyId: POLICY-ID1
+        nearRtRicId: Near-RT-Ric-ID1
+        transient: false
+        policyObject: "{}"
+        serviceId: rApp 1
+        policyTypeId: ORAN_QOS_1.0.0 '(typeName_SemVersion)'
+      properties:
+        nearRtRicId:
+          description: Identity of the target Near-RT RIC
+          example: Near-RT-Ric-ID1
+          type: string
+        transient:
+          default: false
+          description: |
+            If true, the policy is automatically deleted if the targeted Near-RT RIC restarts  or recovers. If false, the A1 Policy Instance remains, and is re-pushed to the targeted  Near-RT RIC after a restart or recovery. If false, the A1 Policy Instance is maintained and  must be deleted separately in the event of Near-RT RIC restart or recovery. Default is false.
+          nullable: false
+          type: boolean
+        policyId:
+          description: |
+            An optional identity to be used for the new A1 Policy Instance.  If this value is present, it must be unique. If not present the new A1  Policy Instance will be assigned a newly generated unique ID, and the  new ID can be extracted from the 'Location' header in the response.
+          example: POLICY-ID1
+          type: string
+        serviceId:
+          default: ""
+          description: "the identity of the service owning the policy. This can be\
+            \ used to group the policies (it is possible to get all policies associated\
+            \ to a service). Note that the service does not need to be registered.\
+            \ If the service is registered, the newly created A1 Policy Instance will\
+            \ be subject to the same supervision rules as the the service's other\
+            \ policies."
+          example: rApp 1
+          type: string
+        policyObject:
+          description: |
+            Policy Object is a JSON representation policy data for an A1 Policy Instance. The schema for this policy data is defined in the corresponding A1 Policy Type.
+          type: object
+        policyTypeId:
+          description: A1 Policy Type identity
+          example: ORAN_QOS_1.0.0 '(typeName_SemVersion)'
+          type: string
+      required:
+      - nearRtRicId
+      - policyObject
+      - policyTypeId
+      type: object
+    void:
+      description: Void/empty
+      type: object
     ServiceStatusList:
+      example:
+        serviceList:
+        - keepAliveIntervalSeconds: 0
+          callbackUrl: callbackUrl
+          timeSinceLastActivitySeconds: 6
+          serviceId: serviceId
+        - keepAliveIntervalSeconds: 0
+          callbackUrl: callbackUrl
+          timeSinceLastActivitySeconds: 6
+          serviceId: serviceId
       properties:
         serviceList:
-          description: List of Service Status objects, describing a collection of registered services.
+          description: "List of Service Status objects, describing a collection of\
+            \ registered services."
           items:
             $ref: '#/components/schemas/ServiceStatus'
           type: array
       type: object
+    ServiceStatus:
+      description: Information about a previously registered service
+      example:
+        keepAliveIntervalSeconds: 0
+        callbackUrl: callbackUrl
+        timeSinceLastActivitySeconds: 6
+        serviceId: serviceId
+      properties:
+        callbackUrl:
+          description: Callback URL for notifying of Near-RT RIC state changes
+          type: string
+        serviceId:
+          description: Identity of the service
+          type: string
+        keepAliveIntervalSeconds:
+          description: |
+            Keep alive interval (seconds) for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.
+          format: int64
+          type: integer
+        timeSinceLastActivitySeconds:
+          description: Time (seconds) since last recorded operation by the service
+          format: int64
+          type: integer
+      type: object
+    ServiceRegistrationInfo:
+      description: Information for a service to be registered
+      example:
+        keepAliveIntervalSeconds: 0
+        callbackUrl: callbackUrl
+        serviceId: serviceId
+      properties:
+        callbackUrl:
+          description: Callback URL for notifying of Near-RT RIC state changes
+          type: string
+        serviceId:
+          description: Identity of the service
+          type: string
+        keepAliveIntervalSeconds:
+          description: |
+            Keep alive interval for the service. This is used to enable optional heartbeat supervision of the service. If set (> 0) the registered service should regularly invoke a 'keepalive' REST call. When a service fails to invoke this 'keepalive' call within the configured time, the service is considered unavailable. An unavailable service will be automatically deregistered and its policies will be deleted. Value 0 means timeout supervision is disabled.
+          format: int64
+          type: integer
+      required:
+      - serviceId
+      type: object
     ServiceCallbackInfo:
-      description: | 
-        Information transferred in Service callbacks, 
-        if a callback URL was provided for a registered service
+      description: "Information transferred in Service callbacks, \nif a callback\
+        \ URL was provided for a registered service\n"
+      example:
+        ricId: ricId
+        eventType: AVAILABLE
       properties:
         ricId:
           description: Identity of a Near-RT RIC
           type: string
         eventType:
-          description: > 
-            values: 
-              AVAILABLE: the  Near-RT RIC has become available for A1 Policy management
+          description: "values: \n  AVAILABLE: the  Near-RT RIC has become available\
+            \ for A1 Policy management\n"
           enum:
-            - AVAILABLE
+          - AVAILABLE
           type: string
       required:
-        - eventType
-        - ricId
+      - eventType
+      - ricId
       type: object
-    ProblemDetails:
-      description: Object to carry details about a problem in an HTTP response according to IETF RFC 7807
-      type: object
-      properties:
-        type:
-          description: URI reference according to IETF RFC 3986 that identifies the problem type
-          type: string
-        title:
-          description: Human-readable summary of the problem type
-          type: string
-        status:
-          description: HTTP status code
-          type: number
-        detail:
-          description: Human-readable explanation
-          type: string
-        instance:
-          description: URI reference that identifies the specific occurrence of the problem
-          type: string
-
-  responses:
-    '400':
-      description: Bad Request
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '401':
-      description: Unauthorized
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '403':
-      description: Forbidden
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '404':
-      description: Not Found
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '405':
-      description: Method Not Allowed
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '406':
-      description: Not Acceptable
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '409':
-      description: Conflict
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '411':
-      description: Length Required
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '413':
-      description: Payload Too Large
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '415':
-      description: Unsupported Media Type
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '429':
-      description: Too Many Requests
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '500':
-      description: Internal Server Error
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '502':
-      description: Bad Gateway
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    '503':
-      description: Service Unavailable
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    Locked:
-      description: Locked - HTTP Status code which can be used when the state is Locked
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ErrorInformation'
-          example:
-            status: 423
-            title: Locked
-            detail: State is Locked in the provided request.

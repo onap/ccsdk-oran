@@ -1,0 +1,72 @@
+ric:
+  get:
+    operationId: getRic
+    description: Get information about a Near-RT RIC
+    summary: Get a Near-RT RIC (getRic)
+    tags:
+      - NearRT-RIC Repository
+    parameters:
+      - description: The identity of a Near-RT RIC to get information for.
+        explode: true
+        in: path
+        name: ricId
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/RicInfo'
+            examples:
+              ric_info:
+                $ref: 'examples.yaml#/examples/RicInfo'
+        description: OK - Near-RT RIC is found OK
+      "404":
+        $ref: 'responses.yaml#/responses/404'
+rics:
+  get:
+    operationId: getRics
+    description: Get all Near-RT RICs that supports a given A1 Policy Type ID
+    summary: Get Near-RT RICs for A1 Policy Type (getRics)
+    tags:
+      - NearRT-RIC Repository
+    parameters:
+      - description: >
+          The identity of an A1 Policy Type. If given, all Near-RT RICs supporting
+          the A1 Policy Type are returned.
+        explode: true
+        in: query
+        name: policyTypeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Specifies the content type that the client expects to receive in response to the request.
+          Only application/json is allowed.
+        in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/RicInfoList'
+            examples:
+              ric_info_list:
+                $ref: 'examples.yaml#/examples/RicInfoList'
+        description: OK
+      "404":
+        $ref: 'responses.yaml#/responses/404'

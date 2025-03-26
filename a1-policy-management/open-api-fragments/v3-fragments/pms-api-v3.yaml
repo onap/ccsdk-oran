@@ -1,0 +1,108 @@
+#  ============LICENSE_START=======================================================
+#  Copyright (C) 2020-2023 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#  ============LICENSE_END=========================================================
+
+openapi: 3.0.3
+info:
+  title: ONAP CCSDK - A1 Policy Management API
+  version: 1.0.0
+  x-api-id: e9776a07-0813-4fca-9801-6f892f0a7c13
+  x-audience: external-public
+  description: "<h2>General</h2><p>The ONAP CCSDK A1 Policy Management Service\
+    \ provides a REST API for managing A1 policies. <br/>This document describes the latest API set 
+    \ to perform tasks for: </p><ul><li>A1 Policy creation, modification and deletion.</li><li>Monitoring\
+    \ and maintaining consistency of the SMO view of A1 Policies and the Near-RT RICs</li><li>Maintaining\
+    \ a view of each Near-RT RIC's supported A1 Policy Types</li><li>Supervision of registered services\
+    \ (rApps). When a registered service is unavailable, its policies are removed.</li></ul><h2>APIs\
+    \ provided or defined by the service</h2>\
+    \ <p>Note: parts of this API are strongly based on extracts of the O-RAN Alliance R1 Interface specification\
+    \ for A1 Policy Management, and those parts should be considered '© O-RAN ALLIANCE - All rights reserved.'</p>\
+    \ <h3>A1 Policy Management</h3>\
+    \ <p>This is the latest API for managing A1 Policies. This API is partially compliant with O-RAN\
+    \ Alliance R1 Interface specifications for A1 Policy Management:</p><ul><li>A1 Policy retrieval, creation,\
+    \ modification and deletion.</li><li>Retrieval of supported A1 Policy Types for\
+    \ a Near-RT RIC</li><li>Retrieval of status for existing A1 policies</li></ul><h3>Management\
+    \ of configuration</h3><p>API for updating and retrieval of the component configuration.\
+    \ Note that there other ways to maintain the configuration.</p><h3>Service Callbacks</h3><p>These\
+    \ are endpoints that are invoked by this service. The callbacks are registered\
+    \ in this service at service registration.</p><h3>NearRT-RIC Repository  (Older version)</h3>\
+    \ <p>This is an API that provides support for looking up a NearRT-RIC. Each A1 policy\
+    \ is targeted towards one Near-RT RIC.</p><h3>Health Check</h3><p>API used for supervision\
+    \ of the A1 Policy Management Service.</p><h3>Service Registry and Supervision</h3>\
+    \ <p>API used for registering services/clients/rApps. Each A1 Policy can be tagged with an owner.\
+    \ If the owner service is registered, then the service can be optionally monitored by a heart-beat supervision\
+    \ mechanism, and if the registered service becomes unavailable, then it is removed and all its A1 Policies are \
+    \ deleted. Note that services do not need to be registered to create A1 Policies, but unregistered \ 
+    \ services are not supervised. This is a feature that is optional to use.</p>"
+  license:
+    name: Copyright (C) 2024 - 2025 OpenInfra Foundation Europe. Licensed under the Apache 2 License.
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    url: https://www.onap.org/
+    email: discuss-list@onap.com
+externalDocs:
+  description: 'Based on parts of O-RAN ALLIANCE specification: O-RAN.WG2.R1AP-v07.00'
+  url: 'https://www.o-ran.org/specifications'
+servers:
+  - url: '{apiRoot}/a1-policy-management/v1'
+    variables:
+      apiRoot:
+        default: 'https://example.com'
+        description: 'This is the Host:Port or Address where the A1-Policy Management Service can be accessed.
+         Note: This URL path format aligns with the O-RAN Alliance R1-AP specifications for A1 Policy Management'
+tags:
+  - name: A1 Policy Management
+    description: > 
+      API used to get, create, update and delete A1 Policy Instances. Also used to query A1 Policy Types.
+  - name: NearRT-RIC Repository
+    description: > 
+      API used to get information about registered Near-RT RICs.
+  - name: Service Registry and Supervision
+    description: > 
+      API used to manage registered services, and control their keep-alive status via heart-beat messages.
+  - name: Health Check
+    description: > 
+      API used to get the health status and statistics of this service.
+  - name: Configuration
+    description: > 
+      API used to create or fetch the application configuration.
+paths:
+  /status:
+    $ref: 'healthcheck-api.yaml#/status'
+  /rics/{ricId}:
+    $ref: 'ric-api.yaml#/ric'
+  /rics:
+    $ref: 'ric-api.yaml#/rics'
+  /policy-types:
+    $ref: 'pms-lcm-api.yaml#/policy-types'
+  /policy-types/{policyTypeId}:
+    $ref: 'pms-lcm-api.yaml#/policy-type'
+  /policies/{policyId}:
+    $ref: 'pms-lcm-api.yaml#/policy'
+  /policies/{policyId}/status:
+    $ref: 'pms-lcm-api.yaml#/policy-status'
+  /policies:
+    $ref: 'pms-lcm-api.yaml#/policies'
+  /configuration:
+    $ref: 'configuration-api.yaml#/configuration'
+  /services/{serviceId}/keepalive:
+    $ref: 'service-api.yaml#/keep-alive'
+  /services:
+    $ref: 'service-api.yaml#/services'
+  /services/{serviceId}:
+    $ref: 'service-api.yaml#/service'

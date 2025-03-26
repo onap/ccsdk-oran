@@ -1,0 +1,71 @@
+ric:
+  get:
+    description: >
+      Query information about a Near-RT RIC. Either a Near-RT RIC identity or a Managed Element 
+      identity can be specified. The intention with Managed Element identity is the ID used
+      in O1 for accessing the traffical element (such as the ID of CU).
+    operationId: getRic
+    summary: Get a Near-RT RIC (getRic)
+    tags:
+      - NearRT-RIC Repository
+    parameters:
+      - description: >
+          The identity of a Managed Element. If given, the Near-RT RIC managing the ME is returned.
+        explode: true
+        in: query
+        name: managed_element_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The identity of a Near-RT RIC to get information for.
+        explode: true
+        in: query
+        name: ric_id
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/ric_info'
+            examples:
+              ric_info:
+                $ref: 'examples.yaml#/examples/ric_info'
+        description: OK - Near-RT RIC is found
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
+        description: NotFound - Requested NearRT-RIC Not Found
+rics:
+  get:
+    description: Get all Near-RT RICs that supports a given A1 Policy Type ID
+    operationId: getRics
+    summary: Get Near-RT RICs for A1 Policy Type (getRics)
+    tags:
+      - NearRT-RIC Repository
+    parameters:
+      - description: >
+          The identity of an A1 Policy Type. If given, all Near-RT RICs supporting
+          the A1 Policy Type are returned.
+        explode: true
+        in: query
+        name: policytype_id
+        required: false
+        schema:
+          type: string
+        style: form
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/schemas/ric_info_list'
+            examples:
+              ric_info_list:
+                $ref: 'examples.yaml#/examples/ric_info_list'
+        description: OK
+      "404":
+        $ref: 'responses.yaml#/responses/NotFound'
