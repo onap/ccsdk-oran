@@ -36,7 +36,7 @@ The target paths in the container should not be modified.
 It is also possible to configure a HTTP(S) Proxy for southbound connections. This can be set in the application.yaml configuration file.
 
 Example docker run command for mounting new files (assuming they are located in the current directory):
-docker run -p 8081:8081 -p 8433:8433 --name=PMS-container --network=oran-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:1.0.0-SNAPSHOT
+docker run -p 8081:8081 -p 8433:8433 --name=PMS-container --network=oran-docker-net --volume "$PWD/new_keystore.jks:/opt/app/policy-agent/etc/cert/keystore.jks" --volume "$PWD/new_truststore.jks:/opt/app/policy-agent/etc/cert/truststore.jks" --volume "$PWD/new_application.yaml:/opt/app/policy-agent/config/application.yaml" onap/ccsdk-oran-a1policymanagementservice:2.0.1-SNAPSHOT
 
 To run A1 Policy Management Service in a local environment:
 In the folder /opt/app/policy-agent/config/, create a soft link with below command,
@@ -58,7 +58,7 @@ More information about the ONAP CCSDK A1 Policy Management Service can be found 
 
 ONAP : ccsdk oran
 Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
-Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
+Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
