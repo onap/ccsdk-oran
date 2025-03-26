@@ -45,3 +45,4 @@ _build/
 docs/offeredapis/**/README.md
 a1-policy-management/api/**/README.md
 a1-policy-management/api/**/.openapi-generator**
+a1-policy-management/custom/
