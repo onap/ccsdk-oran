@@ -31,6 +31,9 @@ build:
     post_build:
       - mkdir -p ${READTHEDOCS_OUTPUT}html/openapi
       - cp -v -r docs/offeredapis/openapitoolgen/offeredapis/pms-api/* ${READTHEDOCS_OUTPUT}html/openapi
+      - cp -v -r docs/offeredapis/swagger/*.json ${READTHEDOCS_OUTPUT}html/openapi
+      - cp -v -r docs/offeredapis/swagger/*.yaml ${READTHEDOCS_OUTPUT}html/openapi
+      - cp -v -r docs/offeredapis/*.json ${READTHEDOCS_OUTPUT}html/openapi
 
 python:
   install:

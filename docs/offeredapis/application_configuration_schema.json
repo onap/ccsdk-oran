@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "config": {
+      "type": "object",
+      "properties": {
+        "//description": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "controller": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "baseUrl": {
+                  "type": "string"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "baseUrl",
+                "userName",
+                "password"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "ric": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "baseUrl": {
+                  "type": "string"
+                },
+                "controller": {
+                  "type": "string"
+                },
+                "customAdapterClass": {
+                  "type": "string"
+                },
+                "managedElementIds": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "baseUrl"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "ric"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "config"
+  ]
+}

@@ -84,6 +84,9 @@ spelling_lang = "en_GB"
 
 html_extra_path = [
     'offeredapis/openapitoolgen'
+    # note:
+    #   during the readthedocs build, additional files are copied, e.g. into directory "/openapi"
+    #   See .readthedocs.yaml file
 ]
 
 #
