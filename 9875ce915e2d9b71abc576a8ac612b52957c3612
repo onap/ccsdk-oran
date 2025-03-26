@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615298f8_b270f19d",
+        "filename": ".readthedocs.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-26T17:55:21Z",
+      "side": 1,
+      "message": "This line causes a build error upstream in readthedocs since no .yaml file exists in this directory. Updated in patchset#2\nAlso needs to be fixed on master :-(",
+      "range": {
+        "startLine": 37,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 74
+      },
+      "revId": "9875ce915e2d9b71abc576a8ac612b52957c3612",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
