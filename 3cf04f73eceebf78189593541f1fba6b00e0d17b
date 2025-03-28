@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8606d6b_38bdd96e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-03-28T12:05:28Z",
+      "side": 1,
+      "message": "Looks good for now. \nI think we\u0027ll need another round of really cleaning up the dynamically-generated but checked-in files - far too many of them \u0026 copies. \nCould tweak paths \u0026 actual contents of the constituent openapi files - again in follow-up work. \n\nHopefully the upstream RTD jobs will all work - but committing is the only way yo really test this.",
+      "revId": "3cf04f73eceebf78189593541f1fba6b00e0d17b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
