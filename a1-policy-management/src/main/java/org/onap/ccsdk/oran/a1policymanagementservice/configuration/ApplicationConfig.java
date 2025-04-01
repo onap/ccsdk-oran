@@ -3,7 +3,8 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
- * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe.
+ * All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,36 +40,40 @@ import reactor.netty.transport.ProxyProvider;
 public class ApplicationConfig {
 
     @Getter
-    @Value("${app.filepath}")
+    @Value("${app.filepath:null}")
     private String localConfigurationFilePath;
 
     @Getter
-    @Value("${app.config-file-schema-path:}")
+    @Value("${app.config-file-schema-path:null}")
     private String configurationFileSchemaPath;
 
     @Getter
     @Value("${app.vardata-directory:null}")
     private String vardataDirectory;
 
-    @Value("${server.ssl.key-store-type}")
+    @Getter
+    @Value("${server.ssl.enabled:true}")
+    private boolean sslEnabled;
+
+    @Value("${server.ssl.key-store-type:null}")
     private String sslKeyStoreType = "";
 
-    @Value("${server.ssl.key-store-password}")
+    @Value("${server.ssl.key-store-password:null}")
     private String sslKeyStorePassword = "";
 
-    @Value("${server.ssl.key-store}")
+    @Value("${server.ssl.key-store:null}")
     private String sslKeyStore = "";
 
-    @Value("${server.ssl.key-password}")
+    @Value("${server.ssl.key-password:null}")
     private String sslKeyPassword = "";
 
-    @Value("${app.webclient.trust-store-used}")
+    @Value("${app.webclient.trust-store-used:false}")
     private boolean sslTrustStoreUsed = false;
 
-    @Value("${app.webclient.trust-store-password}")
+    @Value("${app.webclient.trust-store-password:null}")
     private String sslTrustStorePassword = "";
 
-    @Value("${app.webclient.trust-store}")
+    @Value("${app.webclient.trust-store:null}")
     private String sslTrustStore = "";
 
     @Value("${app.webclient.http.proxy-host:}")
@@ -133,17 +138,26 @@ public class ApplicationConfig {
                     .httpProxyPort(this.httpProxyPort) //
                     .httpProxyType(ProxyProvider.Proxy.valueOf(this.httpProxyType)) //
                     .build();
+            if (sslEnabled) {
+                this.webClientConfig = WebClientConfig.builder() //
+                        .sslEnabled(true)
+                        .keyStoreType(this.sslKeyStoreType) //
+                        .keyStorePassword(this.sslKeyStorePassword) //
+                        .keyStore(this.sslKeyStore) //
+                        .keyPassword(this.sslKeyPassword) //
+                        .isTrustStoreUsed(this.sslTrustStoreUsed) //
+                        .trustStore(this.sslTrustStore) //
+                        .trustStorePassword(this.sslTrustStorePassword) //
+                        .httpProxyConfig(httpProxyConfig) //
+                        .build();
+            } else {
+                this.webClientConfig = WebClientConfig.builder() //
+                        .sslEnabled(false)
+                        .isTrustStoreUsed(false)
+                        .httpProxyConfig(httpProxyConfig) //
+                        .build();
+            }
 
-            this.webClientConfig = WebClientConfig.builder() //
-                    .keyStoreType(this.sslKeyStoreType) //
-                    .keyStorePassword(this.sslKeyStorePassword) //
-                    .keyStore(this.sslKeyStore) //
-                    .keyPassword(this.sslKeyPassword) //
-                    .isTrustStoreUsed(this.sslTrustStoreUsed) //
-                    .trustStore(this.sslTrustStore) //
-                    .trustStorePassword(this.sslTrustStorePassword) //
-                    .httpProxyConfig(httpProxyConfig) //
-                    .build();
         }
         return this.webClientConfig;
     }

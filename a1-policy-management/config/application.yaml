@@ -121,6 +121,7 @@ server:
   http-port: 8081
   shutdown: "graceful"
   ssl:
+    enabled: true
     key-store-type: JKS
     key-store-password: policy_agent
     key-store: /opt/app/policy-agent/etc/cert/keystore.jks

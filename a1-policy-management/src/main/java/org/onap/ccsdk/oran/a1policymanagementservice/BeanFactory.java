@@ -3,7 +3,7 @@
  * ONAP : ccsdk oran
  * ======================================================================
  * Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
- * Copyright (C) 2023-2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BeanFactory {
 
-    @Value("${server.http-port}")
+    @Value("${server.http-port:0}")
     private int httpPort = 0;
 
     @Bean

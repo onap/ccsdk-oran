@@ -93,6 +93,7 @@ public class TestHelperTest {
     public AsyncRestClient restClient(String baseUrl, boolean useTrustValidation) {
         WebClientConfig config = this.applicationConfig.getWebClientConfig();
         config = WebClientConfig.builder()
+                .sslEnabled(config.isSslEnabled())
                 .keyStoreType(config.getKeyStoreType())
                 .keyStorePassword(config.getKeyStorePassword())
                 .keyStore(config.getKeyStore())
@@ -109,7 +110,11 @@ public class TestHelperTest {
     }
 
     public String baseUrl() {
-        return "https://localhost:" + port;
+        if (applicationConfig.isSslEnabled()) {
+            return "https://localhost:" + port;
+        } else {
+            return "http://localhost:" + port;
+        }
     }
 
     public AsyncRestClient restClientV3(boolean useTrustValidation) {
