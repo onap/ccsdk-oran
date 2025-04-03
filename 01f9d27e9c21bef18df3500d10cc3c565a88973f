@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c661e68a_9382ed67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-04-03T13:05:09Z",
+      "side": 1,
+      "message": "This disables ssl for northbound AND southbound. \nWe might need to be able to support SSL for Southbound only ... \n(SSL northbound \u0026 http-only southbound is support, but not vice-versa)\nBut its hard to see a scenario when this would make sense. \nSo, we\u0027ll go with this for now, and if a need arises later we add an additional config param to enable SSL on the southbound only. \n\nSee also https://lf-onap.atlassian.net/wiki/spaces/DW/pages/147521539/Keystore+and+Truststore+in+A1PMS+WIP",
+      "revId": "01f9d27e9c21bef18df3500d10cc3c565a88973f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
