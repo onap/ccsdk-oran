@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class ServiceControllerV3 implements ServiceRegistryAndSupervisionApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Object>> keepAliveService(String serviceId, String accept, Mono<String> body, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<Object>> keepAliveService(String serviceId, String accept, ServerWebExchange exchange) throws Exception {
         return serviceController.keepAliveService(serviceId, exchange);
     }
 

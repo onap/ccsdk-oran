@@ -14335,9 +14335,7 @@ The identity of the registered service
                           <div class="tab-pane active" id="examples-ServiceRegistryAndSupervision-keepAliveService-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: application/json,application/problem+json" \
- -H "Content-Type: application/json" \
- "https://example.com/a1-policy-management/v1/services/{serviceId}/keepalive" \
- -d ''
+ "https://example.com/a1-policy-management/v1/services/{serviceId}/keepalive"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-keepAliveService-0-java">
@@ -14356,10 +14354,9 @@ public class ServiceRegistryAndSupervisionApiExample {
         ServiceRegistryAndSupervisionApi apiInstance = new ServiceRegistryAndSupervisionApi();
         String serviceId = serviceId_example; // String | 
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-        String body = body_example; // String | 
 
         try {
-            Object result = apiInstance.keepAliveService(serviceId, accept, body);
+            Object result = apiInstance.keepAliveService(serviceId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ServiceRegistryAndSupervisionApi#keepAliveService");
@@ -14377,10 +14374,9 @@ final api_instance = DefaultApi();
 
 final String serviceId = new String(); // String | 
 final String accept = new String(); // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-final String body = new String(); // String | 
 
 try {
-    final result = await api_instance.keepAliveService(serviceId, accept, body);
+    final result = await api_instance.keepAliveService(serviceId, accept);
     print(result);
 } catch (e) {
     print('Exception when calling DefaultApi->keepAliveService: $e\n');
@@ -14397,10 +14393,9 @@ public class ServiceRegistryAndSupervisionApiExample {
         ServiceRegistryAndSupervisionApi apiInstance = new ServiceRegistryAndSupervisionApi();
         String serviceId = serviceId_example; // String | 
         String accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-        String body = body_example; // String | 
 
         try {
-            Object result = apiInstance.keepAliveService(serviceId, accept, body);
+            Object result = apiInstance.keepAliveService(serviceId, accept);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ServiceRegistryAndSupervisionApi#keepAliveService");
@@ -14420,12 +14415,10 @@ public class ServiceRegistryAndSupervisionApiExample {
 ServiceRegistryAndSupervisionApi *apiInstance = [[ServiceRegistryAndSupervisionApi alloc] init];
 String *serviceId = serviceId_example; //  (default to null)
 String *accept = application/json; // Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
-String *body = body_example; //  (optional)
 
 // Heartbeat message from a service (keepAliveService)
 [apiInstance keepAliveServiceWith:serviceId
     accept:accept
-    body:body
               completionHandler: ^(Object output, NSError* error) {
     if (output) {
         NSLog(@"%@", output);
@@ -14444,8 +14437,7 @@ String *body = body_example; //  (optional)
 var api = new OnapCcsdkA1PolicyManagementApi.ServiceRegistryAndSupervisionApi()
 var serviceId = serviceId_example; // {String} 
 var opts = {
-  'accept': application/json, // {String} Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-  'body': body_example // {String} 
+  'accept': application/json // {String} Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
 };
 
 var callback = function(error, data, response) {
@@ -14480,11 +14472,10 @@ namespace Example
             var apiInstance = new ServiceRegistryAndSupervisionApi();
             var serviceId = serviceId_example;  // String |  (default to null)
             var accept = application/json;  // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional)  (default to null)
-            var body = body_example;  // String |  (optional) 
 
             try {
                 // Heartbeat message from a service (keepAliveService)
-                Object result = apiInstance.keepAliveService(serviceId, accept, body);
+                Object result = apiInstance.keepAliveService(serviceId, accept);
                 Debug.WriteLine(result);
             } catch (Exception e) {
                 Debug.Print("Exception when calling ServiceRegistryAndSupervisionApi.keepAliveService: " + e.Message );
@@ -14503,10 +14494,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $api_instance = new OpenAPITools\Client\Api\ServiceRegistryAndSupervisionApi();
 $serviceId = serviceId_example; // String | 
 $accept = application/json; // String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-$body = body_example; // String | 
 
 try {
-    $result = $api_instance->keepAliveService($serviceId, $accept, $body);
+    $result = $api_instance->keepAliveService($serviceId, $accept);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ServiceRegistryAndSupervisionApi->keepAliveService: ', $e->getMessage(), PHP_EOL;
@@ -14523,10 +14513,9 @@ use WWW::OPenAPIClient::ServiceRegistryAndSupervisionApi;
 my $api_instance = WWW::OPenAPIClient::ServiceRegistryAndSupervisionApi->new();
 my $serviceId = serviceId_example; # String | 
 my $accept = application/json; # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed.
-my $body = WWW::OPenAPIClient::Object::String->new(); # String | 
 
 eval {
-    my $result = $api_instance->keepAliveService(serviceId => $serviceId, accept => $accept, body => $body);
+    my $result = $api_instance->keepAliveService(serviceId => $serviceId, accept => $accept);
     print Dumper($result);
 };
 if ($@) {
@@ -14545,11 +14534,10 @@ from pprint import pprint
 api_instance = openapi_client.ServiceRegistryAndSupervisionApi()
 serviceId = serviceId_example # String |  (default to null)
 accept = application/json # String | Specifies the content type that the client expects to receive in response to the request. Only application/json is allowed. (optional) (default to null)
-body = body_example # String |  (optional)
 
 try:
     # Heartbeat message from a service (keepAliveService)
-    api_response = api_instance.keep_alive_service(serviceId, accept=accept, body=body)
+    api_response = api_instance.keep_alive_service(serviceId, accept=accept)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ServiceRegistryAndSupervisionApi->keepAliveService: %s\n" % e)</code></pre>
@@ -14561,10 +14549,9 @@ except ApiException as e:
 pub fn main() {
     let serviceId = serviceId_example; // String
     let accept = application/json; // String
-    let body = body_example; // String
 
     let mut context = ServiceRegistryAndSupervisionApi::Context::default();
-    let result = client.keepAliveService(serviceId, accept, body, &context).wait();
+    let result = client.keepAliveService(serviceId, accept, &context).wait();
 
     println!("{:?}", result);
 }
@@ -14635,54 +14622,6 @@ Specifies the content type that the client expects to receive in response to the
 
                             </table>
 
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body </td>
-<td>
-<p class="marked"></p>
-<script>
-$(document).ready(function() {
-  var schemaWrapper = {
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "type" : "string"
-      }
-    }
-  },
-  "required" : false
-};
-
-  var schema = findNode('schema',schemaWrapper).schema;
-  if (!schema) {
-    schema = schemaWrapper.schema;
-  }
-  if (schema.$ref != null) {
-    schema = defsParser.$refs.get(schema.$ref);
-  } else if (schema.items != null && schema.items.$ref != null) {
-    schema.items = defsParser.$refs.get(schema.items.$ref);
-  } else {
-    schemaWrapper.definitions = Object.assign({}, defs);
-    $RefParser.dereference(schemaWrapper).catch(function(err) {
-      console.log(err);
-    });
-  }
-
-  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_keepAliveService_body');
-  result.empty();
-  result.append(view.render());
-});
-</script>
-<div id="d2e199_keepAliveService_body"></div>
-</td>
-</tr>
-
-                            </table>
 
 
 
