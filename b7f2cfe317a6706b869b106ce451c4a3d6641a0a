@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b756f27_f2b41549",
+        "filename": "a1-policy-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-04-08T13:18:30Z",
+      "side": 1,
+      "message": "not sure if this config option is needed for all generators - or just java/spring?",
+      "range": {
+        "startLine": 518,
+        "startChar": 33,
+        "endLine": 518,
+        "endChar": 45
+      },
+      "revId": "b7f2cfe317a6706b869b106ce451c4a3d6641a0a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
