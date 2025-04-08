@@ -3,6 +3,7 @@
 # ONAP : ccsdk oran
 # ================================================================================
 # Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+# Modifications Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
-FROM openjdk:24-slim
+FROM openjdk:17-jdk-slim
 
 #install vim editor
 RUN apt-get update
