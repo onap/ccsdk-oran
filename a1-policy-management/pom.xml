@@ -42,11 +42,11 @@
         <kotlin.version>1.8.22</kotlin.version>
         <localstack.version>1.20.1</localstack.version>
         <junit.jupiter.version>1.20.1</junit.jupiter.version>
-        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
-        <everit-json-schema.version>1.14.4</everit-json-schema.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <everit-json-schema.version>1.14.5</everit-json-schema.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
-        <swagger-annotations.version>2.2.15</swagger-annotations.version>
+        <validation-api.version>3.1.1</validation-api.version>
+        <swagger-annotations.version>2.2.29</swagger-annotations.version>
         <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.35.0</spotless-maven-plugin.version>
         <commons-io.version>2.16.1</commons-io.version>
@@ -58,7 +58,7 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <software.amazon.awssdk.version>2.30.11</software.amazon.awssdk.version>
-        <mapstruct.version>1.6.0</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <!-- Tracing Dependecies -->
         <opentelemetry-bom.version>1.41.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
@@ -93,14 +93,14 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
             <version>${validation-api.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax.annotation-api.version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta.annotation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -612,6 +612,7 @@
                                 <unhandledException>true</unhandledException>
                                 <openApiNullable>false</openApiNullable>
                                 <skipDefaultInterface>true</skipDefaultInterface>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -642,6 +643,7 @@
                                 <unhandledException>true</unhandledException>
                                 <openApiNullable>false</openApiNullable>
                                 <skipDefaultInterface>true</skipDefaultInterface>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
                         </configuration>
                     </execution>
