@@ -3,6 +3,7 @@
 # ONAP : ccsdk oran
 # ================================================================================
 # Copyright (C) 2019-2020 Nordix Foundation. All rights reserved.
+# Modifications Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,14 +20,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
-FROM openjdk:24-slim
+FROM amazoncorretto:17-alpine3.17-jdk
 
 #install vim editor
-RUN apt-get update
-RUN apt-get install -y vim
+RUN apk update
+RUN apk add vim
 
 #install curl
-RUN apt-get install -y curl
+RUN apk add curl
 
 EXPOSE 8081 8433
 
@@ -40,7 +41,7 @@ RUN chmod -R 777 /var/policy-management-service
 
 
 
-RUN groupadd -r onap && useradd -ms /bin/bash a1pms -g onap
+RUN addgroup -S onap && adduser --shell /bin/bash --gecos "" --ingroup onap --disabled-password a1pms
 RUN chown -R a1pms:onap /var/log/policy-agent
 
 ADD /config/application.yaml /opt/app/policy-agent/config/application.yaml
