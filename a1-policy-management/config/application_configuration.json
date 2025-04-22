@@ -14,26 +14,26 @@
             "name": "ric1",
             "baseUrl": "http://ric1:8085/",
             "managedElementIds": [
-               "kista_1",
-               "kista_2"
+               "optional_1",
+               "optional_2"
             ]
          },
          {
             "name": "ric2",
-            "baseUrl": "http://localhost:8081/",
+            "baseUrl": "http://ric2:8085/",
             "customAdapterClass": "org.onap.ccsdk.oran.a1policymanagementservice.clients.StdA1ClientVersion2$Factory",
             "managedElementIds": [
-               "kista_3",
-               "kista_4"
+               "optional_3",
+               "optional_4"
             ]
          },
          {
             "name": "ric3",
-            "baseUrl": "http://ric1:8085/",
+            "baseUrl": "http://ric3:8085/",
             "controller": "controller1",
             "managedElementIds": [
-               "kista_5",
-               "kista_6"
+               "optional_5",
+               "optional_6"
             ]
          }
       ]
