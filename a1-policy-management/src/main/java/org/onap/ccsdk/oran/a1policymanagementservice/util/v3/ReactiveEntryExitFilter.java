@@ -24,7 +24,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
+
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
+import org.springframework.web.util.pattern.PathPattern;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
@@ -49,8 +54,22 @@ public class ReactiveEntryExitFilter implements WebFilter {
     private static final String FACILITY_KEY = "facility";
     private static final String SUBJECT_KEY = "subject";
 
+    private final List<PathPattern> excludedPatterns = new ArrayList<>();
+
+    public ReactiveEntryExitFilter excludePathPatterns(PathPattern... patterns) {
+        excludedPatterns.addAll(Arrays.asList(patterns));
+        return this;
+    }
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+
+        // Skip processing for excluded patterns
+        for (PathPattern pattern : excludedPatterns) {
+            if (pattern.matches(exchange.getRequest().getPath().pathWithinApplication())) {
+                return chain.filter(exchange);
+            }
+        }
 
         // sets FACILITY_KEY and SUBJECT_KEY in MDC
         auditLog(exchange.getRequest());

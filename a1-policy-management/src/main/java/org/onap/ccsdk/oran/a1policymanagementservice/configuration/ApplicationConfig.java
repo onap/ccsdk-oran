@@ -111,6 +111,10 @@ public class ApplicationConfig {
     @Value("${app.database-enabled:}")
     private boolean databaseEnabled;
 
+    @Getter
+    @Value("${logging.reactive-entry-exit-filter-exclude-path:null}")
+    private String loggingReactiveEntryExitFilterExcludePath;
+
     public enum ValidateSchema {
         NONE,
         INFO,
