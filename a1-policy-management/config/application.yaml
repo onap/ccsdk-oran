@@ -67,6 +67,7 @@ logging:
   config: ${LOGBACK_CONFIG_FILE:classpath:logback-plain.xml}
   # Reactive logging filter
   reactive-entry-exit-filter-enabled: true
+  reactive-entry-exit-filter-exclude-paths: ""
   # Configuration of logging
   file:
     name: /var/log/policy-agent/application.log
