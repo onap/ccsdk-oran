@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0096ea4_e1015fe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2025-06-05T18:49:25Z",
+      "side": 1,
+      "message": "I\u0027m okay, but please address John\u0027s comments",
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b285367b_ed2c17aa",
