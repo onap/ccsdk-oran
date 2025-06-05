@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b285367b_ed2c17aa",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-05T16:01:19Z",
+      "side": 1,
+      "message": "Just one?",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1fd3bdf_329df13d",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-05T16:01:19Z",
+      "side": 1,
+      "message": "Do we need to set case in-sensitivity? Is the springboot server case sensitive?",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed9a2bb_8775bd2a",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-05T16:01:19Z",
+      "side": 1,
+      "message": "I think the parser.parse call just returns one PathPattern. But the  excludePathPatterns call seems to expect 0..* Patterns?",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdedec5_eb621d31",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-05T16:01:19Z",
+      "side": 1,
+      "message": "an array of 0+ Pathpatterns\nSee comment above.",
+      "range": {
+        "startLine": 59,
+        "startChar": 66,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
