@@ -56,8 +56,8 @@ public class ReactiveEntryExitFilter implements WebFilter {
 
     private final List<PathPattern> excludedPatterns = new ArrayList<>();
 
-    public ReactiveEntryExitFilter excludePathPatterns(PathPattern... patterns) {
-        excludedPatterns.addAll(Arrays.asList(patterns));
+    public ReactiveEntryExitFilter excludePathPatterns(PathPattern pattern) {
+        excludedPatterns.addAll(Arrays.asList(pattern));
         return this;
     }
 
