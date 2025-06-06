@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cf5bfa6_e0bcba4c",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-06-06T08:37:26Z",
+      "side": 1,
+      "message": "Fixed - please mark resolved if you are happy @John",
+      "parentUuid": "b285367b_ed2c17aa",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1fd3bdf_329df13d",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2025-06-05T16:01:19Z",
       "side": 1,
       "message": "Do we need to set case in-sensitivity? Is the springboot server case sensitive?",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "133fb2d9_8a43264a",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-06-06T08:37:26Z",
+      "side": 1,
+      "message": "The server is case-sensitive. e.g. a GET to /rics works but a GET to /RiCs does not work (404). The paths provided will have to match the endpoints in terms of case. So, although a call to RiCs gives a 404, it will get past the exclusion filter and be logged by ReactiveEntryExitFilter because it is  /RiCs and not /rics. Is there a further change you recommend here?",
+      "parentUuid": "f1fd3bdf_329df13d",
       "range": {
         "startLine": 48,
         "startChar": 39,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82e7a90a_a4bcee0e",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-06-06T08:37:26Z",
+      "side": 1,
+      "message": "Now multiple comma-separated paths are supported. Please mark resolved if happy @John",
+      "parentUuid": "3ed9a2bb_8775bd2a",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcdedec5_eb621d31",
         "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
         "patchSetId": 2
@@ -100,6 +172,30 @@
       "writtenOn": "2025-06-05T16:01:19Z",
       "side": 1,
       "message": "an array of 0+ Pathpatterns\nSee comment above.",
+      "range": {
+        "startLine": 59,
+        "startChar": 66,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cd91c24_4a55bfd8",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2025-06-06T08:37:26Z",
+      "side": 1,
+      "message": "This is fixed. The environment variable now supports multiple comma-separated paths to exclude. Please mark resolved if happy.",
+      "parentUuid": "dcdedec5_eb621d31",
       "range": {
         "startLine": 59,
         "startChar": 66,
