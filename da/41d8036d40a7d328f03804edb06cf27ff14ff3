@@ -1,0 +1,10 @@
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: John Keeney <john.keeney@est.tech>
+Code-Review+2: KAPIL SINGAL <ks220y@att.com>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: John Keeney <john.keeney@est.tech>
+Submitted-at: Fri, 06 Jun 2025 14:27:06 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/141134
+Project: ccsdk/oran
+Branch: refs/heads/master
