@@ -65,6 +65,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a5b1eb1_d2ba0174",
+        "filename": "a1-policy-management/config/application.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-06T10:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cf5bfa6_e0bcba4c",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1fd3bdf_329df13d",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "The server is case-sensitive. e.g. a GET to /rics works but a GET to /RiCs does not work (404). The paths provided will have to match the endpoints in terms of case. So, although a call to RiCs gives a 404, it will get past the exclusion filter and be logged by ReactiveEntryExitFilter because it is  /RiCs and not /rics. Is there a further change you recommend here?",
       "parentUuid": "f1fd3bdf_329df13d",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d474dd_c4c03967",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-06T10:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133fb2d9_8a43264a",
       "range": {
         "startLine": 48,
         "startChar": 39,
@@ -159,6 +207,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "329297a5_c25a7576",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/configuration/ReactiveEntryExitFilterConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-06T10:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e7a90a_a4bcee0e",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcdedec5_eb621d31",
@@ -196,6 +268,30 @@
       "side": 1,
       "message": "This is fixed. The environment variable now supports multiple comma-separated paths to exclude. Please mark resolved if happy.",
       "parentUuid": "dcdedec5_eb621d31",
+      "range": {
+        "startLine": 59,
+        "startChar": 66,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "01a3fb68c5e72cd5da3ae1905034219910c0b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "923e350c_2e01960b",
+        "filename": "a1-policy-management/src/main/java/org/onap/ccsdk/oran/a1policymanagementservice/util/v3/ReactiveEntryExitFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-06-06T10:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cd91c24_4a55bfd8",
       "range": {
         "startLine": 59,
         "startChar": 66,
