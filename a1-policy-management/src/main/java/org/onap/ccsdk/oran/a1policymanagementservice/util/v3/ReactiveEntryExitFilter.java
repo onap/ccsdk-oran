@@ -98,18 +98,24 @@ public class ReactiveEntryExitFilter implements WebFilter {
                             .doFinally(signal -> MDC.clear())); // Clear MDC after the request body is processed
             }
         };
+
+        StringBuilder responseBodyBuilder = new StringBuilder();
+
         ServerHttpResponseDecorator loggingServerHttpResponseDecorator = new ServerHttpResponseDecorator(exchange.getResponse()) {
             @Override
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                 return Mono.deferContextual(contextView ->
                     super.writeWith(Flux.from(body).doOnNext(dataBuffer -> {
                         String responseBody = dataBuffer.toString(StandardCharsets.UTF_8);
+                        responseBodyBuilder.append(responseBody);
+                    })).doFinally(signalType -> {
                         restoreFromContextToMdc(contextView);
                         logger.info("For the request ID: {} the Status code of the response: {}",
-                                exchange.getRequest().getId(), getStatusCode());
+                                exchange.getRequest().getId(), exchange.getResponse().getStatusCode());
                         logger.trace("For the request ID: {} the response is: {} ",
-                                exchange.getRequest().getId(), responseBody);
-                    })).doFinally(signalType -> MDC.clear())); // Clear MDC to prevent leakage
+                                exchange.getRequest().getId(), responseBodyBuilder);
+                        MDC.clear();
+                    })); // Clear MDC to prevent leakage
             }
         };
         return chain.filter(exchange.mutate()
