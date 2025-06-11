@@ -174,7 +174,7 @@ public class PolicyService {
     }
 
     public Mono<ResponseEntity<PolicyTypeObject>> getPolicyTypeDefinitionService(String policyTypeId)
-            throws EntityNotFoundException{
+            throws EntityNotFoundException {
         PolicyType singlePolicyType = policyTypes.get(policyTypeId);
         if (singlePolicyType == null)
             throw new EntityNotFoundException("PolicyType not found with ID: " + policyTypeId);
@@ -183,7 +183,7 @@ public class PolicyService {
         try {
             policyTypeObject.setPolicySchema(gson.fromJson(singlePolicyType.getSchema(), Object.class));
         } catch (JsonSyntaxException e) {
-            throw new RuntimeException("Failed to deserialize policy schema", e);
+            logger.error("Failed to deserialize policy schema for policy type ID: {}", policyTypeId, e);
         }
 
         return Mono.just(new ResponseEntity<PolicyTypeObject>(policyTypeObject, HttpStatus.OK));
@@ -224,8 +224,12 @@ public class PolicyService {
                 .doOnError(errorHandlingService::handleError);
     }
 
-    public Mono<ResponseEntity<Object>> getPolicyStatus(String policyId, ServerWebExchange exchange) throws Exception {
+    public Mono<ResponseEntity<Object>> getPolicyStatus(String policyId, ServerWebExchange exchange) throws EntityNotFoundException {
         Policy policy = policies.getPolicy(policyId);
+
+        if (policy == null) {
+            throw new EntityNotFoundException("Policy not found with ID: " + policyId);
+        }
 
         return authorizationService.authCheck(exchange, policy, AccessType.READ)
                 .doOnError(errorHandlingService::handleError)
