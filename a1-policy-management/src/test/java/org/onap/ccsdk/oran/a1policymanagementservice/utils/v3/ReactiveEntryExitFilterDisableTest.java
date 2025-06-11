@@ -42,7 +42,9 @@ import reactor.core.publisher.Mono;
 
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+import java.time.Duration;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -94,8 +96,13 @@ class ReactiveEntryExitFilterDisableTest {
         testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
         testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
-        assertFalse(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
-        assertFalse(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
-        assertFalse(capturedOutput.getOut().contains("the response is:"));
+
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
+                assertFalse(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
+                assertFalse(capturedOutput.getOut().contains("the response is:"));
+            });
     }
 }

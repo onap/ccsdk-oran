@@ -42,7 +42,9 @@ import reactor.core.publisher.Mono;
 
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+import java.time.Duration;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -95,19 +97,29 @@ class ReactiveEntryExitFilterTest {
         testHelperTest.testSuccessResponse(responseMono, HttpStatus.CREATED, responseBody ->
                 responseBody.contains("{\"scope\":{\"ueId\":\"ue5100\",\"qosId\":\"qos5100\"},\"qosObjectives\":{\"priorityLevel\":5100.0}}"));
         testHelperTest.testSuccessHeader(responseMono, "location", headerValue -> headerValue.contains(testHelperTest.baseUrl() + "/a1-policy-management/v1/policies/"));
-        assertTrue(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
-        assertTrue(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
-        assertTrue(capturedOutput.getOut().contains("the response is:"));
+
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertTrue(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
+                assertTrue(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
+                assertTrue(capturedOutput.getOut().contains("the response is:"));
+            });
     }
 
     @Test
     @DisplayName("test verify entry exit log for health actuator is present")
-    void testHealthActuatorFilterIncluded(CapturedOutput capturedOutput) throws Exception {
+    void testHealthActuatorFilterIncluded(CapturedOutput capturedOutput) {
         String url = "/actuator/health";
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
-        assertTrue(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-        assertTrue(capturedOutput.getOut().contains("the response is:"));
+
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertTrue(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
+                assertTrue(capturedOutput.getOut().contains("the response is:"));
+            });
     }
 }

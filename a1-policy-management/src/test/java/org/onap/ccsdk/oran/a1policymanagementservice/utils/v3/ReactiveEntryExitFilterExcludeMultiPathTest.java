@@ -36,8 +36,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
+import java.time.Duration;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -70,18 +71,23 @@ class ReactiveEntryExitFilterExcludeMultiPathTest {
 
     @Test
     @DisplayName("test verify entry exit log for health actuator is absent")
-    void testHealthActuatorFilterOmitted(CapturedOutput capturedOutput) throws Exception {
+    void testHealthActuatorFilterOmitted(CapturedOutput capturedOutput) {
         String url = "/actuator/health";
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
-        assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-        assertFalse(capturedOutput.getOut().contains("the response is:"));
+
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
+                assertFalse(capturedOutput.getOut().contains("the response is:"));
+            });
     }
 
     @Test
     @DisplayName("test verify entry exit log for the rics endpoint is absent")
-    void testGetRicsFilterOmitted(CapturedOutput capturedOutput) throws Exception {
+    void testGetRicsFilterOmitted(CapturedOutput capturedOutput) {
         String url = "/rics";
         Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity(url);
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody

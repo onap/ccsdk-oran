@@ -37,6 +37,9 @@ import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 
 
+import java.time.Duration;
+
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -69,12 +72,17 @@ class ReactiveEntryExitFilterExcludePathTest {
 
     @Test
     @DisplayName("test verify entry exit log for health actuator is absent")
-    void testHealthActuatorFilterOmitted(CapturedOutput capturedOutput) throws Exception {
+    void testHealthActuatorFilterOmitted(CapturedOutput capturedOutput) {
         String url = "/actuator/health";
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
-        assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-        assertFalse(capturedOutput.getOut().contains("the response is:"));
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
+                assertFalse(capturedOutput.getOut().contains("the response is:"));
+            });
+
     }
 }
