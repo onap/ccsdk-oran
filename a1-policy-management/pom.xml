@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-35-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
@@ -59,14 +59,13 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <software.amazon.awssdk.version>2.31.57</software.amazon.awssdk.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <postgres.version>42.7.7</postgres.version>
-        <springweb.version>6.2.8</springweb.version>
         <!-- Tracing Dependecies -->
         <opentelemetry-bom.version>1.49.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <allowskiptests>false</allowskiptests>
         <version.logback>8.1</version.logback>
         <version.kotlin>2.1.21</version.kotlin>
+        <version.java.protobuf>4.31.1</version.java.protobuf>
     </properties>
     <repositories>
         <repository>
@@ -138,7 +137,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgres.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -314,9 +312,9 @@
             <version>${version.kotlin}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${springweb.version}</version>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${version.java.protobuf}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
