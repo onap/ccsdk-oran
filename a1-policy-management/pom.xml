@@ -57,7 +57,7 @@
         <surefire-report-plugin.version>3.5.3</surefire-report-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <software.amazon.awssdk.version>2.31.57</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.32.33</software.amazon.awssdk.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <!-- Tracing Dependecies -->
         <opentelemetry-bom.version>1.49.0</opentelemetry-bom.version>
