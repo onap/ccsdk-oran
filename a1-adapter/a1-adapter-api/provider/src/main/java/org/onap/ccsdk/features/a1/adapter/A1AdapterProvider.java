@@ -29,31 +29,51 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.annotation.PreDestroy;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+
+import org.checkerframework.checker.fenum.qual.SwingElementOrientation;
 import org.onap.ccsdk.sli.core.sli.provider.MdsalHelper;
+import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.opendaylight.mdsal.binding.api.NotificationPublishService;
 import org.opendaylight.mdsal.binding.api.RpcProviderService;
-import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.A1ADAPTERAPIService;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1Policy;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.DeleteA1PolicyOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1Policy;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatus;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyStatusOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyType;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.GetA1PolicyTypeOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1Policy;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.a1.adapter.rev200122.PutA1PolicyOutputBuilder;
 import org.opendaylight.yangtools.concepts.ObjectRegistration;
+import org.opendaylight.yangtools.concepts.Registration;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
@@ -65,7 +85,9 @@ import org.slf4j.LoggerFactory;
  * corresponding Near-RT RIC over Rest API.
  */
 @SuppressWarnings("squid:S1874") // "@Deprecated" code should not be used
-public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
+@Singleton
+@Component(service = PutA1Policy.class, immediate=true)
+public class A1AdapterProvider implements AutoCloseable, PutA1Policy {
 
     private static final String START_OPERATION_MESSAGE = "Start of {}";
     private static final String END_OPERATION_MESSAGE = "End of {}";
@@ -80,26 +102,32 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
     private static final String APPLICATION_NAME = "a1Adapter-api";
 
     private final ExecutorService executor;
-    protected NotificationPublishService notificationService;
     protected RpcProviderService rpcService;
     private final A1AdapterClient a1AdapterClient;
-    private ObjectRegistration<A1ADAPTERAPIService> rpcRegistration;
+    private final Registration rpcRegistration;
 
-    public A1AdapterProvider(final NotificationPublishService notificationPublishService,
-        final RpcProviderService rpcProviderService, final A1AdapterClient a1AdapterClient) {
+    @Inject
+    @Activate
+    public A1AdapterProvider(@Reference final RpcProviderService rpcService)
+    {
+        this(rpcService, new A1AdapterClient(findSvcLogicService()));
+    }
+
+
+    public A1AdapterProvider (final RpcProviderService rpcProviderService, final A1AdapterClient a1AdapterClient) {
 
         log.info("Creating provider for {}", APPLICATION_NAME);
         executor = Executors.newFixedThreadPool(1);
-        this.notificationService = notificationPublishService;
         this.rpcService = rpcProviderService;
         this.a1AdapterClient = a1AdapterClient;
-        initialize();
-    }
 
-    public void initialize() {
         log.info("Initializing provider for {}", APPLICATION_NAME);
-        rpcRegistration = rpcService.registerRpcImplementation(A1ADAPTERAPIService.class, this);
-        log.info("Initialization complete for {}", APPLICATION_NAME);
+        rpcRegistration = rpcService.registerRpcImplementations(this,
+                                                                 (DeleteA1Policy) this::deleteA1Policy,
+                                                                 (GetA1Policy) this::getA1Policy,
+                                                                 (GetA1PolicyStatus) this::getA1PolicyStatus,
+                                                                 (GetA1PolicyType) this::getA1PolicyType);   
+        log.info("Initialization complete for {}", APPLICATION_NAME);  
     }
 
     @Override
@@ -110,7 +138,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         log.info("Successfully closed provider for {}", APPLICATION_NAME);
     }
 
-    @Override
+
     public ListenableFuture<RpcResult<DeleteA1PolicyOutput>> deleteA1Policy(DeleteA1PolicyInput deletePolicyInput) {
         final String svcOperation = "deleteA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
@@ -123,7 +151,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return Futures.immediateFuture(deletePolicyResult);
     }
 
-    @Override
+
     public ListenableFuture<RpcResult<GetA1PolicyOutput>> getA1Policy(GetA1PolicyInput getPolicyInput) {
         final String svcOperation = "getA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
@@ -136,7 +164,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return Futures.immediateFuture(getPolicyResult);
     }
 
-    @Override
+
     public ListenableFuture<RpcResult<GetA1PolicyStatusOutput>> getA1PolicyStatus(
         GetA1PolicyStatusInput getPolicyStatusInput) {
         final String svcOperation = "getA1PolicyStatus";
@@ -151,7 +179,7 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
         return Futures.immediateFuture(getPolicyStatusResult);
     }
 
-    @Override
+
     public ListenableFuture<RpcResult<GetA1PolicyTypeOutput>> getA1PolicyType(GetA1PolicyTypeInput getPolicyTypeInput) {
         final String svcOperation = "getA1PolicyType";
         log.info(START_OPERATION_MESSAGE, svcOperation);
@@ -166,6 +194,10 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
     }
 
     @Override
+    public ListenableFuture<RpcResult<PutA1PolicyOutput>> invoke(PutA1PolicyInput putPolicyInput) {
+        return(putA1Policy(putPolicyInput));
+    }
+
     public ListenableFuture<RpcResult<PutA1PolicyOutput>> putA1Policy(PutA1PolicyInput putPolicyInput) {
         final String svcOperation = "putA1Policy";
         log.info(START_OPERATION_MESSAGE, svcOperation);
@@ -490,4 +522,22 @@ public class A1AdapterProvider implements AutoCloseable, A1ADAPTERAPIService {
             super(e);
         }
     }
+
+    	private static SvcLogicService findSvcLogicService() {
+		BundleContext bctx = FrameworkUtil.getBundle(SvcLogicService.class).getBundleContext();
+
+		SvcLogicService svcLogic = null;
+
+		// Get SvcLogicService reference
+		ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
+		if (sref != null) {
+			svcLogic = (SvcLogicService) bctx.getService(sref);
+
+		} else {
+			log.warn("Cannot find service reference for " + SvcLogicService.NAME);
+
+		}
+
+		return (svcLogic);
+	}
 }
