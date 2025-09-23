@@ -50,6 +50,23 @@
       "message": "recheck",
       "revId": "b6b422c41c1c94c5d1424ecaf26d1faab0028cd6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df545e9a_57852aec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-09-23T10:05:03Z",
+      "side": 1,
+      "message": "Still waiting for a ci-management upgrade ... \nhttps://gerrit.onap.org/r/c/ci-management/+/142036 \nShould verify once that change is merged.",
+      "revId": "b6b422c41c1c94c5d1424ecaf26d1faab0028cd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
