@@ -101,6 +101,24 @@
       "message": "Unfortunately, this is still failing since the verification job needs to run on a docker build node (our Maven job itself does not need docker perhaps, but the build node itself tries to do a docker login and fails since docker in is not installed on the build node ... so those non-docker build nodes are basically useless)",
       "revId": "b6b422c41c1c94c5d1424ecaf26d1faab0028cd6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03a70a7_c30f270f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2025-10-01T13:42:18Z",
+      "side": 1,
+      "message": "\u003e Unfortunately, this is still failing since the verification job needs to run on a docker build node (our Maven job itself does not need docker perhaps, but the build node itself tries to do a docker login and fails since docker in is not installed on the build node ... so those non-docker build nodes are basically useless)\n\nSubmitted a review that should hopefully fix this:\nhttps://gerrit.onap.org/r/c/ci-management/+/142046",
+      "parentUuid": "65318055_43da26f9",
+      "revId": "b6b422c41c1c94c5d1424ecaf26d1faab0028cd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
