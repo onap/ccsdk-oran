@@ -20,7 +20,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
-FROM nexus3.onap.org:10001/library/amazoncorretto:17-alpine
+FROM nexus3.onap.org:10001/library/amazoncorretto:25.0.0-alpine3.22
 
 #install vim editor
 RUN apk update
