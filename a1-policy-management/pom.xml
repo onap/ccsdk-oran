@@ -63,7 +63,8 @@
         <opentelemetry-bom.version>1.49.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <allowskiptests>false</allowskiptests>
-        <version.logback>8.1</version.logback>
+        <version.logstash>8.1</version.logstash>
+        <version.logback>1.5.19</version.logback>
         <version.kotlin>2.1.21</version.kotlin>
         <version.java.protobuf>4.31.1</version.java.protobuf>
     </properties>
@@ -304,6 +305,11 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
+            <version>${version.logstash}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
             <version>${version.logback}</version>
         </dependency>
         <dependency>
