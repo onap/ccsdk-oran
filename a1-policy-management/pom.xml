@@ -38,7 +38,7 @@
         <java.version.target>17</java.version.target>
         <gson.version>2.13.1</gson.version>
         <json.version>20250517</json.version>
-        <squareup.okhttp.version>5.0.0-alpha.16</squareup.okhttp.version>
+        <squareup.okhttp.version>5.1.0</squareup.okhttp.version>
         <kotlin.version>1.8.22</kotlin.version>
         <localstack.version>1.21.1</localstack.version>
         <junit.jupiter.version>1.21.1</junit.jupiter.version>
@@ -310,6 +310,11 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
+            <version>${version.logback}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
             <version>${version.logback}</version>
         </dependency>
         <dependency>
