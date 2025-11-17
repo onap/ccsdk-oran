@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdfc63b9_c48aae26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2025-11-17T12:25:47Z",
+      "side": 1,
+      "message": "Experimenting: \nFTC github action (https://github.com/onap/ccsdk-oran/actions/workflows/gerrit-oran-functional-test-case-verify.yaml) failed on child review (https://gerrit.onap.org/r/c/ccsdk/oran/+/142448) as it was not using the correct URL for git-checkout of the patchset after a new patchset was created using the gerrit dashboard editing tool.  \nWill try create a new patchset here using the same mechanism to see if that is the case.",
+      "revId": "85a3834f529f061bddae4565a113463808f499d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
