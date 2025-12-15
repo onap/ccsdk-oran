@@ -98,7 +98,7 @@ jobs:
           sudo bash ./onap-verify-jobs.sh
       # Step 6: uploading the logs
       - name: uploading the logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: FTC-Logs
           retention-days: 3
