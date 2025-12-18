@@ -42,4 +42,21 @@
         <module>a1-adapter-api</module>
         <module>features</module>
     </modules>
+
+    <properties>
+        <allowIncompleteProjects>true</allowIncompleteProjects>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <allowIncompleteProjects>${allowIncompleteProjects}</allowIncompleteProjects>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
