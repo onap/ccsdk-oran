@@ -66,7 +66,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
         with:
           egress-policy: audit
 
@@ -96,16 +96,23 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
         with:
           egress-policy: audit
 
+      # Checkout for Gerrit generated events
       # yamllint disable-line rule:line-length
-      - uses: lfreleng-actions/checkout-gerrit-change-action@54d751e8bd167bc91f7d665dabe33fae87aaaa63 # v0.9
+      - uses: lfreleng-actions/checkout-gerrit-change-action@54d751e8bd167bc91f7d665dabe33fae87aaaa63  # v0.9
+        if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true
         with:
           gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
           gerrit-url: ${{ vars.GERRIT_URL }}
           delay: "0s"
+
+      # Checkout for manual workflow_dispatch
+      # yamllint disable-line rule:line-length
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+        if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true
 
       - name: 'Find Python projects'
         id: find-python
@@ -118,14 +125,14 @@ jobs:
               PYTHON_DIRS+=("$dir")
             fi
           done < <(find . -type f \( -name "setup.py" -o -name "pyproject.toml" \))
-          
+
           echo "Found ${#PYTHON_DIRS[@]} Python project(s)"
-          
+
           if [ ${#PYTHON_DIRS[@]} -gt 0 ]; then
             echo "has-python=true" >> "$GITHUB_OUTPUT"
             echo "Python projects found in:"
             printf '%s\n' "${PYTHON_DIRS[@]}"
-            
+
             # Save directories for iteration
             printf '%s\n' "${PYTHON_DIRS[@]}" > /tmp/python_dirs.txt
             echo "DEBUG: has-python output set to: true"
@@ -323,7 +330,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
         with:
           egress-policy: audit
 
