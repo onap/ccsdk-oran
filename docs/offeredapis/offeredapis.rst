@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2022-2024 Nordix Foundation. All rights reserved.
-.. Copyright 2024-2025 OpenInfra Foundation Europe. All rights reserved.
+.. Copyright 2024-2026 OpenInfra Foundation Europe. All rights reserved.
 
 
 .. _offered_apis:
@@ -22,7 +22,7 @@ Overall architecture for O-RAN A1 Policy functions
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other ONAP components and API resource/operation provided.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-Paris.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Quebec.png
    :width: 500pt
 
 API Table
