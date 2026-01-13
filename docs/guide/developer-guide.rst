@@ -1,7 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2022-2024 Nordix Foundation. All rights reserved.
-.. Copyright 2024-2025 OpenInfra Foundation Europe. All rights reserved.
+.. Copyright 2024-2026 OpenInfra Foundation Europe. All rights reserved.
 
 .. _developer_guide:
 
@@ -10,7 +10,7 @@ Developer Guide
 
 This document provides a quick-start for developers of the CCSDK functions for O-RAN A1 Policies.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-Paris.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Quebec.png
    :width: 500pt
 
 Additional guides for developers can be found on the `ONAP wiki (Development Guides) <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16445127/Development+guide+for+O-RAN+A1+Policies+Non-RealTime+RIC+applications>`_.
