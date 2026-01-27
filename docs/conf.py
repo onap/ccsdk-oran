@@ -44,7 +44,6 @@ extensions = [
     'sphinx.ext.graphviz',
     'sphinxcontrib.blockdiag',
     'sphinxcontrib.seqdiag',
-    'sphinxcontrib.swaggerdoc',
     'sphinxcontrib.plantuml',
     'sphinxcontrib.redoc',
     'sphinx_tabs.tabs'
