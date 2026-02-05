@@ -69,7 +69,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository to build
       - name: Checkout ccsdk-oran Maven Project Repository
-        uses: lfit/checkout-gerrit-change-action@v0.9
+        uses: lfit/checkout-gerrit-change-action@v1.0.0
         with:
           gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
           gerrit-url: ${{ inputs.GERRIT_CHANGE_URL }}
