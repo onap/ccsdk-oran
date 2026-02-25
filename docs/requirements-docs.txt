@@ -1,9 +1,25 @@
-sphinx>=4.2.0  # BSD
-sphinx-rtd-theme>=1.0.0  # MIT
-sphinxcontrib-blockdiag  # BSD
-sphinxcontrib-seqdiag # BSD
-sphinxcontrib-spelling
-sphinxcontrib-plantuml
+# from onap global https://git.onap.org/doc/plain/etc/upper-constraints.onap.txt
+# Compatibility
+setuptools===69.0.3
+Pillow===10.4.0
+# Core Sphinx
+sphinx===7.1.2
+sphinx-rtd-theme===2.0.0
+# Diagram extensions
+sphinxcontrib-blockdiag===3.0.0
+sphinxcontrib-seqdiag===3.0.0
+sphinxcontrib-plantuml===0.29
+# API documentation
+sphinxcontrib-openapi===0.8.4
+# Quality & tooling
+sphinxcontrib-spelling===8.0.0
+sphinx-toolbox===3.5.0
+# Code quality tools
+autopep8===2.3.1
+pylint===3.0.3
+
+
+#Additional requirements
 sphinxcontrib-redoc
 sphinx-tabs
 six
