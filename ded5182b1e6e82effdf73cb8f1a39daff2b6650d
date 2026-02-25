@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf2833b_63f7770b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2026-02-25T17:07:25Z",
+      "side": 1,
+      "message": "Removed LOTs of requirements/dependencies - so needs a good test afterwards to see if the generated docs are OK.",
+      "revId": "ded5182b1e6e82effdf73cb8f1a39daff2b6650d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
