@@ -42,8 +42,7 @@ html_extra_path = ["offeredapis/openapitoolgen"]
 extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.graphviz',
-    'sphinxcontrib.blockdiag',
-    'sphinxcontrib.seqdiag',
+    'sphinxcontrib.mermaid',
     'sphinxcontrib.plantuml',
     'sphinxcontrib.redoc',
     'sphinx_tabs.tabs'
