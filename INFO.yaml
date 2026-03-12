@@ -58,8 +58,13 @@ committers:
       timezone: 'Canada/Montreal'
     - name: 'John Keeney'
       email: 'john.keeney@est.tech'
-      company: 'Ericcson Software Technology'
+      company: 'Ericsson Software Technology'
       id: 'JohnKeeney'
+      timezone: 'Europe/Dublin'
+    - name: 'Saul Gill'
+      email: 'saul.gill@est.tech'
+      company: 'Ericsson Software Technology'
+      id: 'saul.gill'
       timezone: 'Europe/Dublin'
 repositories:
     - ccsdk/oran
@@ -84,3 +89,5 @@ tsc:
         - type: 'Addition'
           name: 'John Keeney'
           link: 'https://wiki.onap.org/display/Meetings/TSC+2024-09-12'
+        - type: 'Addition'
+          name: 'Saul Gill'
