@@ -70,6 +70,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
 @TestPropertySource(properties = { //
+        "spring.http.codecs.preferred-json-mapper=jackson2",
         "app.vardata-directory=/tmp/pmstestv3", //
 })
 class PolicyServiceTest {

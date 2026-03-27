@@ -24,7 +24,7 @@ import io.micrometer.observation.ObservationRegistry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
-import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemetry;
+import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxClientTelemetry;
 import io.opentelemetry.sdk.extension.trace.jaeger.sampler.JaegerRemoteSampler;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
 
@@ -40,7 +40,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationRegistryCustomizer;
+import org.springframework.boot.micrometer.observation.autoconfigure.ObservationRegistryCustomizer;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -106,8 +106,8 @@ public class OtelConfig {
 
     @Bean
     @ConditionalOnExpression("!${otel.sdk.disabled:true} and ${otel.sdk.south:true}")
-    public SpringWebfluxTelemetry webfluxTelemetry (OpenTelemetry openTelemetry) {
-        return SpringWebfluxTelemetry.builder(openTelemetry).build();
+    public SpringWebfluxClientTelemetry webfluxTelemetry (OpenTelemetry openTelemetry) {
+        return SpringWebfluxClientTelemetry.builder(openTelemetry).build();
     }
 
     @Bean

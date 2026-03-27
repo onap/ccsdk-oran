@@ -105,7 +105,7 @@ class OscA1ClientTest {
 
     @Test
     @DisplayName("test Get Valid PolicyType")
-    void testGetValidPolicyType() {
+    void testGetValidPolicyType() throws JSONException{
         String policyType = "{\"create_schema\": " + POLICY_TYPE_SCHEMA_VALID + "}";
         Mono<String> policyTypeResp = Mono.just(policyType);
 
@@ -184,7 +184,7 @@ class OscA1ClientTest {
         verify(asyncRestClientMock).delete(POLICYTYPES_URL + POLICY_TYPE_2_ID + POLICIES + "/" + POLICY_2_ID);
     }
 
-    private String getCreateSchema(String policyType, String policyTypeId) {
+    private String getCreateSchema(String policyType, String policyTypeId) throws JSONException{
         JSONObject obj = new JSONObject(policyType);
         JSONObject schemaObj = obj.getJSONObject("create_schema");
         schemaObj.put("title", policyTypeId);
