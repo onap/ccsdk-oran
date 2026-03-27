@@ -42,6 +42,7 @@ import java.time.Duration;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({OutputCaptureExtension.class})
 @TestPropertySource(properties = {
+        "spring.http.codecs.preferred-json-mapper=jackson2",
         "server.ssl.key-store=./config/keystore.jks",
         "app.webclient.trust-store=./config/truststore.jks",
         "app.vardata-directory=./target",

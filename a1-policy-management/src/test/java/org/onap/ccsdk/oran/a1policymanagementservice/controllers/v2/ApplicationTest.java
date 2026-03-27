@@ -95,8 +95,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -113,6 +113,7 @@ import reactor.util.annotation.Nullable;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
+        "spring.http.codecs.preferred-json-mapper=jackson2",
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //
@@ -951,7 +952,7 @@ class ApplicationTest {
         testErrorCode(restClient().put("/services/junk/keepalive", ""), HttpStatus.NOT_FOUND);
 
         // PUT service with bad payload
-        testErrorCode(restClient().put("/services", "crap"), HttpStatus.BAD_REQUEST, false);
+        testErrorCode(restClient().put("/services", "notgood"), HttpStatus.BAD_REQUEST, false);
         testErrorCode(restClient().put("/services", "{}"), HttpStatus.BAD_REQUEST, false);
         testErrorCode(restClient().put("/services", createServiceJson(serviceName, -123)), HttpStatus.BAD_REQUEST,
                 false);

@@ -28,17 +28,34 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Rics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.embedded.tomcat.TomcatReactiveWebServerFactory;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.boot.tomcat.reactive.TomcatReactiveWebServerFactory;
+import org.springframework.boot.web.server.reactive.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @Configuration
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class BeanFactory {
 
     @Value("${server.http-port:0}")
     private int httpPort = 0;
+
+    @Bean 
+    public ObjectMapper objectMapper() {
+    	return new ObjectMapper();
+    }
+
+    @Bean
+    public Gson gson() {
+      GsonBuilder gsonBuilder = new GsonBuilder();
+      return gsonBuilder.create();
+    }
 
     @Bean
     public ApplicationConfig getApplicationConfig() {
@@ -56,21 +73,21 @@ public class BeanFactory {
         return new A1ClientFactory(applicationConfig, securityContext);
     }
 
-    @Bean
-    public ReactiveWebServerFactory servletContainer() {
-        TomcatReactiveWebServerFactory tomcat = new TomcatReactiveWebServerFactory();
-        if (httpPort > 0) {
-            tomcat.addAdditionalTomcatConnectors(getHttpConnector(httpPort));
-        }
-        return tomcat;
-    }
+  @Bean
+  public ReactiveWebServerFactory servletContainer() {
+      TomcatReactiveWebServerFactory tomcat = new TomcatReactiveWebServerFactory();
+      if (httpPort > 0) {
+          tomcat.addAdditionalConnectors(getHttpConnector(httpPort));
+      }
+      return tomcat;
+  }
 
-    private static Connector getHttpConnector(int httpPort) {
-        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-        connector.setScheme("http");
-        connector.setPort(httpPort);
-        connector.setSecure(false);
-        return connector;
-    }
+  private static Connector getHttpConnector(int httpPort) {
+      Connector connector = new Connector(TomcatReactiveWebServerFactory.DEFAULT_PROTOCOL);
+      connector.setScheme("http");
+      connector.setPort(httpPort);
+      connector.setSecure(false);
+      return connector;
+  }
 
 }

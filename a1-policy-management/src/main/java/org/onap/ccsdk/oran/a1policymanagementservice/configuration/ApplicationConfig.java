@@ -221,7 +221,4 @@ public class ApplicationConfig {
         return !(Strings.isNullOrEmpty(s3EndpointOverride) || Strings.isNullOrEmpty(s3Bucket));
     }
 
-    public boolean isDatabaseEnabled() {
-        return databaseEnabled;
-    }
 }

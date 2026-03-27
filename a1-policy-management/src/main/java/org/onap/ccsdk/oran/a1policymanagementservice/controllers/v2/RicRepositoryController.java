@@ -22,8 +22,6 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.onap.ccsdk.oran.a1policymanagementservice.controllers.api.v2.NearRtRicRepositoryApi;
@@ -57,8 +55,6 @@ public class RicRepositoryController implements NearRtRicRepositoryApi {
     private final Rics rics;
     final PolicyTypes types;
     final ObjectMapper objectMapper;
-
-    private static final Gson gson = new GsonBuilder().create();
 
     private static final String GET_RIC_BRIEF = "Returns info for one Near-RT RIC";
     private static final String GET_RIC_DETAILS =

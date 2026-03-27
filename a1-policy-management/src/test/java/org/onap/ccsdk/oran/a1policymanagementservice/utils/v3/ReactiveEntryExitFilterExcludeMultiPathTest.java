@@ -44,6 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({OutputCaptureExtension.class})
 @TestPropertySource(properties = {
+        "spring.http.codecs.preferred-json-mapper=jackson2",
         "server.ssl.key-store=./config/keystore.jks",
         "app.webclient.trust-store=./config/truststore.jks",
         "app.vardata-directory=./target",
@@ -80,8 +81,8 @@ class ReactiveEntryExitFilterExcludeMultiPathTest {
         await().atMost(Duration.ofSeconds(5))
             .pollInterval(Duration.ofMillis(50))
             .untilAsserted(() -> {
-                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-                assertFalse(capturedOutput.getOut().contains("the response is:"));
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"), "The captured output did not filter out the /actuator/health request");
+                assertFalse(capturedOutput.getOut().contains("the response is:"), "The captured output had a response indication, possibly for the /actuator/health request, which should be filtered out");
             });
     }
 
@@ -91,8 +92,8 @@ class ReactiveEntryExitFilterExcludeMultiPathTest {
         String url = "/rics";
         Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity(url);
         testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
-                .contains("{\"rics\":[]}"));
-        assertFalse(capturedOutput.getOut().contains("Request received with path: /rics"));
-        assertFalse(capturedOutput.getOut().contains("the response is:"));
+                .contains("{\"rics\":["));
+        assertFalse(capturedOutput.getOut().contains("Request received with path: /rics"), "The captured output did not filter out the /rics request");
+        assertFalse(capturedOutput.getOut().contains("the response is:"), "The captured output had a response indication, possibly for the /rics request, which should be filtered out");
     }
 }

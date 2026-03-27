@@ -34,7 +34,8 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
+import org.springframework.boot.micrometer.metrics.test.autoconfigure.AutoConfigureMetrics;
+import org.springframework.boot.micrometer.tracing.test.autoconfigure.AutoConfigureTracing;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.ApplicationContext;
@@ -45,6 +46,7 @@ import org.springframework.util.AntPathMatcher;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
+    "spring.http.codecs.preferred-json-mapper=jackson2",
     "server.ssl.key-store=./config/keystore.jks",
     "app.webclient.trust-store=./config/truststore.jks",
     "app.webclient.trust-store-used=true",
@@ -58,7 +60,8 @@ import org.springframework.util.AntPathMatcher;
     "otel.tracing.sampler.jaeger-remote.endpoint=http://127.0.0.1:14250",
     "management.tracing.propagator.type=W3C"
 })
-@AutoConfigureObservability
+@AutoConfigureMetrics
+@AutoConfigureTracing
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class OtelConfigTest {
 
