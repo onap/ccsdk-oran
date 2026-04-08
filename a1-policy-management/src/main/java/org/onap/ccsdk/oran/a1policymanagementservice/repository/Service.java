@@ -92,7 +92,7 @@ public class Service {
     }
 
     public synchronized boolean isExpired() {
-        return this.keepAliveInterval.getSeconds() > 0 && timeSinceLastPing().compareTo(this.keepAliveInterval) > 0;
+        return !this.keepAliveInterval.isZero() && timeSinceLastPing().compareTo(this.keepAliveInterval) > 0;
     }
 
     public synchronized Duration timeSinceLastPing() {

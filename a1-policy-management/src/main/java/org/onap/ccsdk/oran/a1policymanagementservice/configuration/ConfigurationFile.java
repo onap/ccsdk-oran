@@ -21,6 +21,7 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedInputStream;
@@ -31,6 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -67,7 +70,7 @@ public class ConfigurationFile {
             JsonObject rootObject = getJsonElement(inputStream).getAsJsonObject();
             logger.debug("Local configuration file read: {}", filepath);
             return Optional.of(rootObject);
-        } catch (Exception e) {
+        } catch (IOException | JsonParseException e) {
             logger.error("Local configuration file not read: {}, {}", filepath, e.getMessage());
             return Optional.empty();
         }
@@ -82,7 +85,7 @@ public class ConfigurationFile {
     }
 
     FileWriter getFileWriter(String filepath) throws IOException {
-        return new FileWriter(filepath);
+        return new FileWriter(getValidatedPath(filepath).toFile());
     }
 
     private JsonElement getJsonElement(InputStream inputStream) {
@@ -90,6 +93,15 @@ public class ConfigurationFile {
     }
 
     private InputStream createInputStream(String filepath) throws IOException {
-        return new BufferedInputStream(new FileInputStream(filepath));
+        return new BufferedInputStream(new FileInputStream(getValidatedPath(filepath).toFile()));
+    }
+
+    private Path getValidatedPath(String filepath) throws IOException {
+        Path basePath = Paths.get(filepath).toRealPath().getParent();
+        Path resolvedPath = basePath.resolve(Paths.get(filepath).getFileName()).normalize();
+        if (!resolvedPath.startsWith(basePath)) {
+            throw new IOException("Invalid file path, path traversal detected: " + filepath);
+        }
+        return resolvedPath;
     }
 }
