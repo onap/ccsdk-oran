@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.oran.a1policymanagementservice.clients;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,7 +68,7 @@ public class SecurityContext {
                 this.authToken = Files.readString(authTokenFilePath);
                 this.tokenTimestamp = lastModified;
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.warn("Could not read auth token file: {}, reason: {}", authTokenFilePath, e.getMessage());
         }
         return this.authToken;
