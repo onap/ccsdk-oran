@@ -37,6 +37,7 @@ import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationCo
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfig.RicConfigUpdate;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ApplicationConfigParser;
 import org.onap.ccsdk.oran.a1policymanagementservice.configuration.ConfigurationFile;
+import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Lock.LockType;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.Policies;
 import org.onap.ccsdk.oran.a1policymanagementservice.repository.PolicyTypes;
@@ -148,9 +149,8 @@ public class RefreshConfigTask {
         try {
             ApplicationConfigParser parser = new ApplicationConfigParser(this.appConfig);
             return Mono.just(parser.parse(jsonObject));
-        } catch (Exception e) {
-            String str = e.toString();
-            logger.error("Could not parse configuration {}", str);
+        } catch (ServiceException e) {
+            logger.error("Could not parse configuration {}", e.getMessage());
             return Mono.empty();
         }
     }
