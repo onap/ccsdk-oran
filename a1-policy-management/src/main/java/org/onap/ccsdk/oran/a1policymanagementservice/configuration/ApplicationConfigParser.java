@@ -41,6 +41,7 @@ import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 
+import org.everit.json.schema.ValidationException;
 import org.json.JSONObject;
 import org.onap.ccsdk.oran.a1policymanagementservice.exceptions.ServiceException;
 import org.slf4j.Logger;
@@ -107,20 +108,23 @@ public class ApplicationConfigParser {
             String objectAsString = object.toString();
             JSONObject json = new JSONObject(objectAsString);
             schema.validate(json);
-        } catch (Exception e) {
+        } catch (IOException | ServiceException | ValidationException e) {
             throw new ServiceException("Json schema validation failure: " + e.toString());
         }
     }
 
     private String readSchemaFile() throws IOException, ServiceException {
         String filePath = applicationConfig.getConfigurationFileSchemaPath();
-        InputStream in = getClass().getResourceAsStream(filePath);
-        logger.debug("Reading application schema file from: {} with: {}", filePath, in);
-        if (in == null) {
-            throw new ServiceException("Could not read application configuration schema file: " + filePath,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+        try (InputStream inputStream = getClass().getResourceAsStream(filePath)) {
+            logger.debug("Reading application schema file from: {} with: {}", filePath, inputStream);
+            if (inputStream == null) {
+                throw new ServiceException("Could not read application configuration schema file: " + filePath,
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                return CharStreams.toString(reader);
+            }
         }
-        return CharStreams.toString(new InputStreamReader(in, StandardCharsets.UTF_8));
     }
 
     private void checkConfigurationConsistency(List<RicConfig> ricConfigs) throws ServiceException {

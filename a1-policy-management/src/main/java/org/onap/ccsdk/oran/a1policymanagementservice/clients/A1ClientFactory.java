@@ -115,8 +115,6 @@ public class A1ClientFactory {
         } catch (NoSuchMethodException e) {
             throw new ServiceException("Could not find the required constructor in class "
                                                + ric.getConfig().getCustomAdapterClass(), e);
-        } catch (ServiceException e) {
-            throw e;
         } catch (Exception e) {
             throw new ServiceException("Cannot create custom adapter: " + ric.getConfig().getCustomAdapterClass(), e);
         }
