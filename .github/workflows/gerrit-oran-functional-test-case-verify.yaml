@@ -98,11 +98,13 @@ jobs:
           sudo bash ./onap-verify-jobs.sh
       # Step 6: uploading the logs
       - name: uploading the logs
-        uses: actions/upload-artifact@v4
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
           name: FTC-Logs
           retention-days: 3
           path: nonrtric/test/auto-test/logs
+          if-no-files-found: warn
   report-status:
     if: ${{ always() }}
     needs: [ notify, ftc-run ]
