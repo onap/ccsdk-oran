@@ -22,8 +22,6 @@ package org.onap.ccsdk.oran.a1policymanagementservice.controllers.v2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
@@ -61,8 +59,6 @@ class ConcurrencyTestRunnable implements Runnable {
     private boolean failed = false;
 
     private ObjectMapper objectMapper = new ObjectMapper();
-
-    private static Gson gson = new GsonBuilder().create();
 
     ConcurrencyTestRunnable(AsyncRestClient client, RicSupervision supervision, MockA1ClientFactory a1ClientFactory,
             Rics rics, PolicyTypes types) {

@@ -48,6 +48,7 @@ import java.lang.invoke.MethodHandles;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = TestConfig.class)
 @TestPropertySource(properties = { //
+        "spring.http.codecs.preferred-json-mapper=jackson2",
         "server.ssl.key-store=./config/keystore.jks", //
         "app.webclient.trust-store=./config/truststore.jks", //
         "app.webclient.trust-store-used=true", //

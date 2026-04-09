@@ -29,8 +29,8 @@ import org.onap.ccsdk.oran.a1policymanagementservice.tasks.ServiceSupervision;
 import org.onap.ccsdk.oran.a1policymanagementservice.utils.MockA1ClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 
 import java.time.Duration;

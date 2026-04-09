@@ -25,48 +25,45 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-35-starter-parent</artifactId>
+        <artifactId>spring-boot-40-starter-parent</artifactId>
         <version>3.3.1-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../../parent/springboot/springboot40/pom.xml</relativePath>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-policy-management-service</artifactId>
-    <version>2.3.0-SNAPSHOT</version>
+    <version>2.3.1-SNAPSHOT</version>
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
-        <java.version.source>17</java.version.source>
-        <java.version.target>17</java.version.target>
+        <java.version>17</java.version>
+        <spring.boot.version>4.0.4</spring.boot.version>
+        <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <gson.version>2.13.1</gson.version>
         <json.version>20250517</json.version>
-        <squareup.okhttp.version>5.1.0</squareup.okhttp.version>
-        <kotlin.version>1.8.22</kotlin.version>
-        <localstack.version>2.0.3</localstack.version>
-        <junit.jupiter.version>2.0.3</junit.jupiter.version>
-        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
-        <everit-json-schema.version>1.14.6</everit-json-schema.version>
-        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <validation-api.version>3.1.1</validation-api.version>
-        <swagger-annotations.version>2.2.31</swagger-annotations.version>
-        <formatter-maven-plugin.version>2.26.0</formatter-maven-plugin.version>
-        <spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
         <commons-io.version>2.19.0</commons-io.version>
         <guava.version>33.4.8-jre</guava.version>
-        <springdoc.version>2.0.2</springdoc.version>
-        <docker-maven-plugin>0.46.0</docker-maven-plugin>
-        <surefire-maven-plugin.version>3.5.3</surefire-maven-plugin.version>
-        <surefire-report-plugin.version>3.5.3</surefire-report-plugin.version>
-        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-        <ccsdk.project.version>${project.version}</ccsdk.project.version>
+        <squareup.okhttp.version>5.1.0</squareup.okhttp.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <everit-json-schema.version>1.14.6</everit-json-schema.version>
+        <jackson-databind-nullable.version>0.2.10</jackson-databind-nullable.version>
+        <validation-api.version>3.1.1</validation-api.version>
+        <swagger-annotations.version>2.2.45</swagger-annotations.version>
         <software.amazon.awssdk.version>2.32.33</software.amazon.awssdk.version>
+        <localstack.version>2.0.3</localstack.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <!-- Tracing Dependecies -->
-        <opentelemetry-bom.version>1.49.0</opentelemetry-bom.version>
-        <opentelemetry-instrumentation-bom-alpha.version>2.7.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
-        <allowskiptests>false</allowskiptests>
+        <!-- Plugins versions -->
+        <docker-maven-plugin>0.48.1</docker-maven-plugin>
+        <surefire-maven-plugin.version>3.5.5</surefire-maven-plugin.version>
+        <surefire-report-plugin.version>3.5.5</surefire-report-plugin.version>
+        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+        <formatter-maven-plugin.version>2.26.0</formatter-maven-plugin.version>
+        <spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
+        <!-- Tracing Dependencies -->
+        <opentelemetry-bom.version>1.60.1</opentelemetry-bom.version>
+        <opentelemetry-instrumentation-bom-alpha.version>2.26.1-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <version.logstash>8.1</version.logstash>
-        <version.logback>1.5.19</version.logback>
-        <version.kotlin>2.1.21</version.kotlin>
-        <version.java.protobuf>4.31.1</version.java.protobuf>
+        <version.logback>1.5.32</version.logback>
+        <version.java.protobuf>4.34.1</version.java.protobuf>
+        <allowskiptests>false</allowskiptests>
     </properties>
     <repositories>
         <repository>
@@ -98,12 +95,10 @@
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>${validation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta.annotation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -129,11 +124,53 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+<!-- remove later -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-properties-migrator</artifactId>
+	<scope>runtime</scope>
+</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-r2dbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-r2dbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-r2dbc-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -155,10 +192,6 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
@@ -166,7 +199,6 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -200,7 +232,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
@@ -223,13 +255,11 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-localstack</artifactId>
-            <version>${localstack.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -281,6 +311,25 @@
         </dependency>
         <!-- For Tracing -->
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-micrometer-metrics-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-micrometer-tracing-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
@@ -290,18 +339,13 @@
         </dependency>
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-webflux-5.3</artifactId>
+            <artifactId>opentelemetry-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-starter</artifactId>
+            <artifactId>opentelemetry-spring-webflux-5.3</artifactId>
         </dependency>
         <!-- For ObservationRegistryCustomizer -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
@@ -320,7 +364,6 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
-            <version>${version.kotlin}</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -348,6 +391,13 @@
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
                 <version>${localstack.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -402,6 +452,17 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-maven-plugin.version}</version>
                 <configuration>
@@ -420,6 +481,10 @@
                         <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
                         <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
                     </statelessTestsetInfoReporter>
+                    <argLine>
+                        -javaagent:${org.mockito:mockito-core:jar}
+                        -Xshare:off
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -617,7 +682,7 @@
                     </execution>
                     <execution>
                         <id>generate-policy-api</id>
-                        <phase>generate-sources	</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -648,7 +713,7 @@
                     </execution>
                     <execution>
                         <id>generate-policy-api-v3</id>
-                        <phase>generate-sources	</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>

@@ -51,7 +51,8 @@ import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { //
-    "management.tracing.enabled=false",
+    "spring.http.codecs.preferred-json-mapper=jackson2",
+    "management.tracing.export.enabled=false",
     "server.ssl.key-store=./config/keystore.jks", //
     "app.webclient.trust-store=./config/truststore.jks", //
     "app.webclient.trust-store-used=true", //

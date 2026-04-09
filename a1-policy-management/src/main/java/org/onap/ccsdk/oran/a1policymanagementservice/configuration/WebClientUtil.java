@@ -19,7 +19,7 @@
  */
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxTelemetry;
+import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxClientTelemetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,9 @@ public class WebClientUtil {
 
     private static OtelConfig otelConfig;
 
-    private static SpringWebfluxTelemetry springWebfluxTelemetry;
+    private static SpringWebfluxClientTelemetry springWebfluxTelemetry;
 
-    WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) SpringWebfluxTelemetry springWebfluxTelemetry) {
+    WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) SpringWebfluxClientTelemetry springWebfluxTelemetry) {
         WebClientUtil.otelConfig = otelConfig;
         if (otelConfig.isTracingEnabled()) {
             WebClientUtil.springWebfluxTelemetry = springWebfluxTelemetry;
@@ -79,7 +79,7 @@ public class WebClientUtil {
                 .filter(respLogger);
 
         if (otelConfig.isSouthTracingEnabled()) {
-            webClientBuilder.filters(springWebfluxTelemetry::addClientTracingFilter);
+            webClientBuilder.filters(springWebfluxTelemetry::addFilter);
         }
 
         return webClientBuilder.build();

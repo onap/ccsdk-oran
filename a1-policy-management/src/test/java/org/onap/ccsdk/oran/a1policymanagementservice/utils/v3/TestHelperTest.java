@@ -21,10 +21,10 @@
 package org.onap.ccsdk.oran.a1policymanagementservice.utils.v3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.commons.io.FileUtils;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClient;
 import org.onap.ccsdk.oran.a1policymanagementservice.clients.AsyncRestClientFactory;
@@ -168,44 +168,44 @@ public class TestHelperTest {
         return type;
     }
 
-    public String postPolicyBody(String nearRtRicId, String policyTypeName, String policyId) {
+    public String postPolicyBody(String nearRtRicId, String policyTypeName, String policyId) throws JsonProcessingException {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObject(), policyTypeName);
         if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
             policyObjectInfo.setPolicyId(policyId);
-        return gson.toJson(policyObjectInfo);
+        return objectMapper.writeValueAsString(policyObjectInfo);
     }
 
-    public String postBadPolicyBody(String nearRtRicId, String policyTypeName, String policyId) {
+    public String postBadPolicyBody(String nearRtRicId, String policyTypeName, String policyId) throws JsonProcessingException {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyBadPolicyObject(), policyTypeName);
         if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
             policyObjectInfo.setPolicyId(policyId);
-        return gson.toJson(policyObjectInfo);
+        return objectMapper.writeValueAsString(policyObjectInfo);
     }
 
     public String putPolicyBody(String nearRtRicId, String policyTypeName, String policyId, String ueId, String qosId,
-                                String priorityLevel) {
+                                String priorityLevel) throws JsonProcessingException {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyPolicyObjectForPut(
                 ueId, qosId, priorityLevel), policyTypeName);
         if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
             policyObjectInfo.setPolicyId(policyId);
-        return gson.toJson(policyObjectInfo);
+        return objectMapper.writeValueAsString(policyObjectInfo);
     }
 
     public String putBadPolicyBody(String nearRtRicId, String policyTypeName, String policyId, String ueId, String qosId,
-                                String priorityLevel, String foo) {
+                                String priorityLevel, String foo) throws JsonProcessingException {
         PolicyObjectInformation policyObjectInfo = new PolicyObjectInformation(nearRtRicId, dummyBadPolicyObjectForPut(
                 ueId, qosId, priorityLevel, foo), policyTypeName);
         if (policyId != null && !policyId.isEmpty() && !policyId.isBlank())
             policyObjectInfo.setPolicyId(policyId);
-        return gson.toJson(policyObjectInfo);
+        return objectMapper.writeValueAsString(policyObjectInfo);
     }
 
-    public PolicyObjectInformation policyObjectInfo(String nearRtRicId, String policyTypeName) {
-        return gson.fromJson(postPolicyBody(nearRtRicId, policyTypeName, ""), PolicyObjectInformation.class);
+    public PolicyObjectInformation policyObjectInfo(String nearRtRicId, String policyTypeName) throws JsonProcessingException {
+        return objectMapper.readValue(postPolicyBody(nearRtRicId, policyTypeName, ""), PolicyObjectInformation.class);
     }
 
-    public JsonObject dummyPolicyObjectForPut(String... values) {
-        return JsonParser.parseString("{\n" +
+    public JsonNode dummyPolicyObjectForPut(String... values) throws JsonProcessingException {
+        return objectMapper.readTree("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"" + values[0] + "\",\n" +
                 "            \"qosId\": \"" + values[1] + "\"\n" +
@@ -213,11 +213,11 @@ public class TestHelperTest {
                 "        \"qosObjectives\": {\n" +
                 "            \"priorityLevel\": " + values[2] + "\n" +
                 "        }\n" +
-                "    }").getAsJsonObject();
+                "    }");
     }
 
-    public JsonObject dummyBadPolicyObjectForPut(String... values) {
-        return JsonParser.parseString("{\n" +
+    public JsonNode dummyBadPolicyObjectForPut(String... values) throws JsonProcessingException {
+        return objectMapper.readTree("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"" + values[0] + "\",\n" +
                 "            \"qosId\": \"" + values[1] + "\",\n" +
@@ -226,11 +226,11 @@ public class TestHelperTest {
                 "        \"qosObjectives\": {\n" +
                 "            \"priorityLevel\": " + values[2] + "\n" +
                 "        }\n" +
-                "    }").getAsJsonObject();
+                "    }");
     }
 
-    public JsonObject dummyPolicyObject() {
-        return JsonParser.parseString("{\n" +
+    public JsonNode dummyPolicyObject() throws JsonProcessingException {
+        return objectMapper.readTree("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"ue5100\",\n" +
                 "            \"qosId\": \"qos5100\"\n" +
@@ -238,11 +238,11 @@ public class TestHelperTest {
                 "        \"qosObjectives\": {\n" +
                 "            \"priorityLevel\": 5100.0\n" +
                 "        }\n" +
-                "    }").getAsJsonObject();
+                "    }");
     }
 
-    public JsonObject dummyBadPolicyObject() {
-        return JsonParser.parseString("{\n" +
+    public JsonNode dummyBadPolicyObject() throws JsonProcessingException {
+        return objectMapper.readTree("{\n" +
                 "        \"scope\": {\n" +
                 "            \"ueId\": \"ue5100\",\n" +
                 "            \"qosId\": \"qos5100\",\n" +
@@ -251,7 +251,7 @@ public class TestHelperTest {
                 "        \"qosObjectives\": {\n" +
                 "            \"priorityLevel\": 5100.0\n" +
                 "        }\n" +
-                "    }").getAsJsonObject();
+                "    }");
     }
 
     public Policy buidTestPolicy(PolicyObjectInformation policyInfo, String id) throws Exception{

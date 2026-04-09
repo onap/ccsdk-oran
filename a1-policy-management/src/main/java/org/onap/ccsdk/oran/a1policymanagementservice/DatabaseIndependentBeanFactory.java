@@ -27,14 +27,14 @@ import org.onap.ccsdk.oran.a1policymanagementservice.repository.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
-import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.boot.flyway.autoconfigure.FlywayAutoConfiguration;
+import org.springframework.boot.r2dbc.autoconfigure.R2dbcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "database-enabled", havingValue = "false")
-@EnableAutoConfiguration(exclude = { R2dbcAutoConfiguration.class, FlywayAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = { R2dbcAutoConfiguration.class, FlywayAutoConfiguration.class})
 public class DatabaseIndependentBeanFactory {
     @Bean
     public Services getServices(@Autowired ApplicationConfig applicationConfig) {

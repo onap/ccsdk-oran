@@ -21,6 +21,7 @@
 package org.onap.ccsdk.oran.a1policymanagementservice;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Map;
 
 import org.onap.ccsdk.oran.a1policymanagementservice.tasks.RefreshConfigTask;
 import org.slf4j.Logger;
@@ -43,8 +44,13 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class);
-
+    	SpringApplication app = new SpringApplication(Application.class);
+        app.setDefaultProperties(
+            Map.of(
+                "spring.http.codecs.preferred-json-mapper", "jackson2",
+                "use-jackson2-defaults", "true"
+        ));
+        ConfigurableApplicationContext context = app.run();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
