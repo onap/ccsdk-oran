@@ -89,9 +89,9 @@ public class AsyncRestClientFactory {
             try {
                 return new AsyncRestClient(baseUrl, this.sslContextFactory.createSslContext(),
                         useHttpProxy ? httpProxyConfig : null, this.securityContext);
-            } catch (Exception e) {
-                String exceptionString = e.toString();
-                logger.error("Could not init SSL context, reason: {}", exceptionString);
+            } catch (UnrecoverableKeyException | NoSuchAlgorithmException | CertificateException
+                    | KeyStoreException | IOException e) {
+                logger.error("Could not init SSL context, reason: {}", e.getMessage());
             }
         }
         return new AsyncRestClient(baseUrl, null, httpProxyConfig, this.securityContext);
@@ -176,7 +176,9 @@ public class AsyncRestClientFactory {
                 throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
 
             KeyStore store = KeyStore.getInstance(KeyStore.getDefaultType());
-            store.load(new FileInputStream(ResourceUtils.getFile(trustStorePath)), trustStorePass.toCharArray());
+            try (InputStream inputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath))) {
+                store.load(inputStream, trustStorePass.toCharArray());
+            }
             return store;
         }
     }

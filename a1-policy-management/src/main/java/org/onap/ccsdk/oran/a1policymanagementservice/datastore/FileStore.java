@@ -66,7 +66,7 @@ class FileStore implements DataStore {
             stream.forEach(path -> filterListFiles(path, prefix, result));
 
             return Flux.fromIterable(result);
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.warn("Could not list filed in {}, reason; {}", root, e.getMessage());
             return Flux.error(e);
         }
@@ -94,7 +94,7 @@ class FileStore implements DataStore {
         try {
             byte[] contents = Files.readAllBytes(path(fileName));
             return Mono.just(contents);
-        } catch (Exception e) {
+        } catch (IOException e) {
             return Mono.error(e);
         }
     }
@@ -104,8 +104,8 @@ class FileStore implements DataStore {
         try {
             Files.delete(path(name));
             return Mono.just(true);
-        } catch (Exception e) {
-            logger.debug("Could not delete file: {}, reason: {}", path(name), e.getMessage());
+        } catch (IOException e) {
+            logger.debug("Could not delete file: {}, reason: {}", name, e.getMessage());
             return Mono.just(false);
         }
     }
@@ -122,8 +122,13 @@ class FileStore implements DataStore {
         return Mono.just("OK");
     }
 
-    private Path path(String name) {
-        return Path.of(path().toString(), name);
+    private Path path(String name) throws IOException {
+        Path base = path().normalize();
+        Path resolved = base.resolve(name).normalize();
+        if (!resolved.startsWith(base)) {
+            throw new IOException("Invalid file path, path traversal detected: " + name);
+        }
+        return resolved;
     }
 
     private Path path() {
@@ -141,16 +146,15 @@ class FileStore implements DataStore {
     @Override
     public Mono<byte[]> writeObject(String fileName, byte[] fileData) {
         try {
+            Path filePath = path(fileName);
             if (!Strings.isNullOrEmpty(applicationConfig.getVardataDirectory())) {
-                Files.createDirectories(path(fileName).getParent());
+                Files.createDirectories(filePath.getParent());
             }
-            File outputFile = path(fileName).toFile();
-
-            try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+            try (FileOutputStream outputStream = new FileOutputStream(filePath.toFile())) {
                 outputStream.write(fileData);
             }
         } catch (IOException e) {
-            logger.warn("Could not write file: {}, reason; {}", path(fileName), e.getMessage());
+            logger.warn("Could not write file: {}, reason; {}", fileName, e.getMessage());
         }
         return Mono.just(fileData);
     }
