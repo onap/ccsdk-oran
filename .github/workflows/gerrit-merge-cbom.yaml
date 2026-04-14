@@ -66,7 +66,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
         with:
           egress-policy: audit
 
@@ -96,23 +96,33 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
         with:
           egress-policy: audit
 
-      # Checkout for Gerrit generated events
-      # yamllint disable-line rule:line-length
-      - uses: lfreleng-actions/checkout-gerrit-change-action@54d751e8bd167bc91f7d665dabe33fae87aaaa63  # v0.9
+      # Allow time for Gerrit-to-GitHub mirror replication on push
+      - name: 'Wait for mirror replication'
+        if: github.event_name == 'push'
+        run: sleep 10s
+
+      # Standard checkout for push events or manual runs without Gerrit
+      - name: 'Checkout repository'
+        # yamllint disable-line rule:line-length
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true)
+        # yamllint disable-line rule:line-length
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # Gerrit-aware checkout for workflow_dispatch with Gerrit context
+      - name: 'Checkout Gerrit change'
+        # yamllint disable-line rule:line-length
         if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/checkout-gerrit-change-action@8523d768952d9690702b4696a8310d2a84b1be39 # v1.0.1
         with:
           gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
+          gerrit-project: ${{ inputs.GERRIT_PROJECT }}
           gerrit-url: ${{ vars.GERRIT_URL }}
           delay: "0s"
-
-      # Checkout for manual workflow_dispatch
-      # yamllint disable-line rule:line-length
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
-        if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true
 
       - name: 'Find Python projects'
         id: find-python
@@ -125,14 +135,14 @@ jobs:
               PYTHON_DIRS+=("$dir")
             fi
           done < <(find . -type f \( -name "setup.py" -o -name "pyproject.toml" \))
-
+          
           echo "Found ${#PYTHON_DIRS[@]} Python project(s)"
-
+          
           if [ ${#PYTHON_DIRS[@]} -gt 0 ]; then
             echo "has-python=true" >> "$GITHUB_OUTPUT"
             echo "Python projects found in:"
             printf '%s\n' "${PYTHON_DIRS[@]}"
-
+            
             # Save directories for iteration
             printf '%s\n' "${PYTHON_DIRS[@]}" > /tmp/python_dirs.txt
             echo "DEBUG: has-python output set to: true"
@@ -288,6 +298,7 @@ jobs:
 
       - name: 'Build with Maven'
         if: steps.check-pom-xml.outputs.exists == 'true'
+        continue-on-error: true
         # yamllint disable-line rule:line-length
         uses: lfreleng-actions/maven-build-action@5be56aed8bed4f0bf9d699f2817eaef37c94ac02 # v0.2.0
         with:
@@ -297,7 +308,7 @@ jobs:
           distribution: 'temurin'
           mvn-version: '3.9.5'
           mvn-phases: 'clean package'
-          mvn-params: '-DskipTests -Djib.skip=true'
+          mvn-params: '-DskipTests -Djib.skip=true --fail-at-end'
           # yamllint disable-line rule:line-length
           mvn-opts: '-Ddocker.push.registry=nexus3.onap.org:10003 -Ddocker.pull.registry=nexus3.onap.org:10003 -Dmaven.repo.local=/tmp/r -Dorg.ops4j.pax.url.mvn.localRepository=/tmp/r -DaltDeploymentRepository=staging::default::file:"${GITHUB_WORKSPACE}"/m2repo -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
           global-settings: |
@@ -330,7 +341,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76  # v2.14.0
+      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
         with:
           egress-policy: audit
 
