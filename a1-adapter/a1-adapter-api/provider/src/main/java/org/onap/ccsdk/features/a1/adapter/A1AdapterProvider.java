@@ -106,15 +106,16 @@ public class A1AdapterProvider implements AutoCloseable, PutA1Policy {
     private final A1AdapterClient a1AdapterClient;
     private final Registration rpcRegistration;
 
-    @Inject
-    @Activate
-    public A1AdapterProvider(@Reference final RpcProviderService rpcService)
+  
+    public A1AdapterProvider(final RpcProviderService rpcService)
     {
         this(rpcService, new A1AdapterClient(findSvcLogicService()));
     }
 
-
-    public A1AdapterProvider (final RpcProviderService rpcProviderService, final A1AdapterClient a1AdapterClient) {
+    @Inject
+    @Activate
+    public A1AdapterProvider (@Reference final RpcProviderService rpcProviderService,
+                             @Reference final A1AdapterClient a1AdapterClient) {
 
         log.info("Creating provider for {}", APPLICATION_NAME);
         executor = Executors.newFixedThreadPool(1);
