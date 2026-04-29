@@ -24,9 +24,13 @@ import java.util.Properties;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.MdsalHelper;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Component(service = A1AdapterClient.class, immediate=true)
 public class A1AdapterClient {
 
     private static final String PARAMETERS_PASSED_TO_SLI = "Parameters passed to SLI";
@@ -38,7 +42,8 @@ public class A1AdapterClient {
 
     private SvcLogicService svcLogicService = null;
 
-    public A1AdapterClient(final SvcLogicService svcLogicService) {
+    @Activate
+    public A1AdapterClient(@Reference final SvcLogicService svcLogicService) {
         this.svcLogicService = svcLogicService;
     }
 
