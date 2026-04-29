@@ -398,6 +398,7 @@
                 <version>${surefire-maven-plugin.version}</version>
                 <configuration>
                     <skipTests>${allowskiptests}</skipTests>
+                    <argLine>-Dapi.version=1.41</argLine>
                     <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <usePhrasedFileName>false</usePhrasedFileName>
                         <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
