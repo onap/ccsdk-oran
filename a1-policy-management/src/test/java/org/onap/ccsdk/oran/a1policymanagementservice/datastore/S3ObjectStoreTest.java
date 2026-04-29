@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 @ExtendWith({MockitoExtension.class, OutputCaptureExtension.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class S3ObjectStoreTest {
