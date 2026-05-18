@@ -216,7 +216,7 @@ jobs:
         with:
           jdk-version: '17'
           distribution: 'temurin'
-          mvn-version: '3.8.2'
+          mvn-version: '3.9.5'
           mvn-phases: 'clean package'
           mvn-params: '-DskipTests -Djib.skip=true'
           # yamllint disable-line rule:line-length
