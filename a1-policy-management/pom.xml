@@ -35,7 +35,7 @@
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
         <java.version>17</java.version>
-        <spring.boot.version>4.0.4</spring.boot.version>
+        <spring.boot.version>4.0.6</spring.boot.version>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <gson.version>2.13.1</gson.version>
         <json.version>20250517</json.version>
@@ -48,7 +48,7 @@
         <validation-api.version>3.1.1</validation-api.version>
         <swagger-annotations.version>2.2.45</swagger-annotations.version>
         <software.amazon.awssdk.version>2.32.33</software.amazon.awssdk.version>
-        <localstack.version>2.0.3</localstack.version>
+        <testcontainers.version>2.0.3</testcontainers.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <!-- Plugins versions -->
         <docker-maven-plugin>0.48.1</docker-maven-plugin>
@@ -59,7 +59,7 @@
         <spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
         <!-- Tracing Dependencies -->
         <opentelemetry-bom.version>1.60.1</opentelemetry-bom.version>
-        <opentelemetry-instrumentation-bom-alpha.version>2.26.1-alpha</opentelemetry-instrumentation-bom-alpha.version>
+        <opentelemetry-instrumentation-bom-alpha.version>2.27.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <version.logstash>8.1</version.logstash>
         <version.logback>1.5.32</version.logback>
         <version.java.protobuf>4.34.1</version.java.protobuf>
@@ -336,11 +336,6 @@
             <artifactId>opentelemetry-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-webflux-5.3</artifactId>
-        </dependency>
-        <!-- For ObservationRegistryCustomizer -->
-        <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${version.logstash}</version>
@@ -384,7 +379,7 @@
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
-                <version>${localstack.version}</version>
+                <version>${testcontainers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -394,6 +389,11 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -522,7 +522,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.7.0</version>
+                <version>7.13.0</version>
                 <executions>
                     <execution>
                         <id>openapi-yaml-gen</id>

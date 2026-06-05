@@ -41,6 +41,7 @@ import java.time.Duration;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({OutputCaptureExtension.class})
@@ -52,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
         "app.config-file-schema-path=/application_configuration_schema.json",
         "logging.reactive-entry-exit-filter-enabled=true",
         "logging.level.org.onap.ccsdk.oran.a1policymanagementservice=TRACE",
-        "logging.reactive-entry-exit-filter-exclude-paths=/actuator/**"
+        "logging.reactive-entry-exit-filter-exclude-paths=/a1-policy-management/v1/rics/**"
 })
 class ReactiveEntryExitFilterExcludePathTest {
 
@@ -78,12 +79,36 @@ class ReactiveEntryExitFilterExcludePathTest {
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
+
         await().atMost(Duration.ofSeconds(5))
             .pollInterval(Duration.ofMillis(50))
             .untilAsserted(() -> {
-                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-                assertFalse(capturedOutput.getOut().contains("the response is:"));
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"), "The captured output did not filter out the /actuator/health request");
+                assertFalse(capturedOutput.getOut().contains("the response is:"), "The captured output had a response indication, possibly for the /actuator/health request, which should be filtered out");
             });
+    }
 
+    @Test
+    @DisplayName("test verify entry exit log for the rics endpoint is absent")
+    void testGetRicsFilterOmitted(CapturedOutput capturedOutput) {
+        String url = "/rics";
+        Mono<ResponseEntity<String>> responseEntityMono = testHelperTest.restClientV3().getForEntity(url);
+        testHelperTest.testSuccessResponse(responseEntityMono, HttpStatus.OK, responseBody -> responseBody
+                .contains("{\"rics\":["));
+        assertFalse(capturedOutput.getOut().contains("Request received with path: /rics"), "The captured output did not filter out the /rics request");
+        assertFalse(capturedOutput.getOut().contains("the response is:"), "The captured output had a response indication, possibly for the /rics request, which should be filtered out");
+    }
+
+    @Test
+    @DisplayName("test verify entry exit log for the status endpoint is present")
+    void testGetStatusFilterPresent(CapturedOutput capturedOutput) {
+        String url = "/status";
+        Mono<ResponseEntity<String>> responseMono = testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody -> responseBody.contains("success"));
+        await().atMost(Duration.ofSeconds(5))
+            .pollInterval(Duration.ofMillis(50))
+            .untilAsserted(() -> {
+                assertTrue(capturedOutput.getOut().contains("Request received with path: /status"), "The captured output filtered out the /status request");
+            });
     }
 }

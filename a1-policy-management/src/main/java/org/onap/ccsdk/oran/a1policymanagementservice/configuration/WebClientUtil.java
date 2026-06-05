@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2026 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  */
 package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
-import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxClientTelemetry;
+import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +44,12 @@ public class WebClientUtil {
 
     private static OtelConfig otelConfig;
 
-    private static SpringWebfluxClientTelemetry springWebfluxTelemetry;
+    private static ObservationRegistry observationRegistry;
 
-    WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) SpringWebfluxClientTelemetry springWebfluxTelemetry) {
+    WebClientUtil(OtelConfig otelConfig, @Autowired(required = false) ObservationRegistry observationRegistry) {
         WebClientUtil.otelConfig = otelConfig;
-        if (otelConfig.isTracingEnabled()) {
-            WebClientUtil.springWebfluxTelemetry = springWebfluxTelemetry;
+        if (otelConfig.isTracingEnabled() && observationRegistry != null) {
+            WebClientUtil.observationRegistry = observationRegistry;
         }
     }
 
@@ -78,8 +78,8 @@ public class WebClientUtil {
                 .filter(reqLogger)
                 .filter(respLogger);
 
-        if (otelConfig.isSouthTracingEnabled()) {
-            webClientBuilder.filters(springWebfluxTelemetry::addFilter);
+        if (otelConfig.isSouthTracingEnabled() && observationRegistry != null) {
+            webClientBuilder.observationRegistry(observationRegistry);
         }
 
         return webClientBuilder.build();
