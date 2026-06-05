@@ -36,6 +36,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.awaitility.Awaitility.await;
 import java.time.Duration;
 
@@ -68,17 +69,22 @@ class ReactiveEntryExitFilterNullPathTest {
     }
 
     @Test
-    @DisplayName("test verify entry exit log for health actuator is present")
+    @DisplayName("test verify entry exit log for health actuator is not present")
     void testHealthActuatorFilterOmitted(CapturedOutput capturedOutput) {
         String url = "/actuator/health";
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
-        await().atMost(Duration.ofSeconds(5))
+        url = "/status";
+        Mono<ResponseEntity<String>> responseMono =
+                testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
+        testHelperTest.testSuccessResponse(responseMono, HttpStatus.OK, responseBody -> responseBody.contains("success"));
+
+        await().atMost(Duration.ofSeconds(2))
             .pollInterval(Duration.ofMillis(50))
             .untilAsserted(() -> {
-                assertTrue(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-                assertTrue(capturedOutput.getOut().contains("the response is:"));
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
+                assertTrue(capturedOutput.getOut().contains("Request received with path: /status"));
             });
     }
 }
