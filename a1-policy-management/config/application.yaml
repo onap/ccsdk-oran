@@ -111,6 +111,7 @@ otel:
   instrumentation:
     spring-webflux:
       enabled: ${ONAP_TRACING_NORTHBOUND:true}
+  # To disable actuator trace logging (e.g. actuator/prometheus) in jaeger set otel.java.excluded-urls = /actuator,/actuator/.*
   tracing:
     sampler:
       jaeger_remote:

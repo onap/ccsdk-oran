@@ -46,6 +46,7 @@ import java.time.Duration;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({OutputCaptureExtension.class})
@@ -109,18 +110,17 @@ class ReactiveEntryExitFilterTest {
     }
 
     @Test
-    @DisplayName("test verify entry exit log for health actuator is present")
+    @DisplayName("test verify entry exit log for health actuator is not present")
     void testHealthActuatorFilterIncluded(CapturedOutput capturedOutput) {
         String url = "/actuator/health";
         Mono<ResponseEntity<String>> responseGetHealthMono =
                 testHelperTest.restClient(testHelperTest.baseUrl(), false).getForEntity(url);
         testHelperTest.testSuccessResponse(responseGetHealthMono, HttpStatus.OK, responseBody -> responseBody.contains("UP"));
 
-        await().atMost(Duration.ofSeconds(5))
+        await().atMost(Duration.ofSeconds(2))
             .pollInterval(Duration.ofMillis(50))
             .untilAsserted(() -> {
-                assertTrue(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
-                assertTrue(capturedOutput.getOut().contains("the response is:"));
+                assertFalse(capturedOutput.getOut().contains("Request received with path: /actuator/health"));
             });
     }
 }

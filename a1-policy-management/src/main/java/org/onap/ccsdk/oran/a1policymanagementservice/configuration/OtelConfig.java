@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2024-2025 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2024-2026 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,8 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import io.micrometer.observation.ObservationPredicate;
 import io.micrometer.observation.ObservationRegistry;
-import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
-import io.opentelemetry.instrumentation.spring.webflux.v5_3.SpringWebfluxClientTelemetry;
 import io.opentelemetry.sdk.extension.trace.jaeger.sampler.JaegerRemoteSampler;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
 
@@ -39,7 +37,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.observation.ServerRequestObservationContext;
 import org.springframework.boot.micrometer.observation.autoconfigure.ObservationRegistryCustomizer;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -105,12 +102,6 @@ public class OtelConfig {
     }
 
     @Bean
-    @ConditionalOnExpression("!${otel.sdk.disabled:true} and ${otel.sdk.south:true}")
-    public SpringWebfluxClientTelemetry webfluxTelemetry (OpenTelemetry openTelemetry) {
-        return SpringWebfluxClientTelemetry.builder(openTelemetry).build();
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
@@ -120,10 +111,16 @@ public class OtelConfig {
 
     static ObservationPredicate observationPredicate(PathMatcher pathMatcher) {
         return (name, context) -> {
-            if (context instanceof ServerRequestObservationContext observationContext) {
+            if (context instanceof org.springframework.http.server.observation.ServerRequestObservationContext observationContext) {
+                logger.info("observationPredicate - filteroption 1 URI = " + observationContext.getCarrier().getRequestURI() + "Result: "+pathMatcher.match("/actuator/**", observationContext.getCarrier().getRequestURI())+" context: "+observationContext);
                 return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getRequestURI());
-            } else {
-                return false;
+            }
+            else if (context instanceof org.springframework.http.server.reactive.observation.ServerRequestObservationContext observationContext){
+                logger.info("observationPredicate - filteroption 2 URI = " + observationContext.getCarrier().getPath().value() + "Result: "+pathMatcher.match("/actuator/**", observationContext.getCarrier().getPath().value())+" context: "+observationContext);
+                return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getPath().value());
+            }
+            else {
+                return true;
             }
         };
     }

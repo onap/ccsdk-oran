@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * ONAP : ccsdk oran
  * ======================================================================
- * Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
+ * Copyright (C) 2025-2026 OpenInfra Foundation Europe. All rights reserved.
  * ======================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,8 @@ import org.springframework.web.util.pattern.PathPatternParser;
 @Configuration
 public class ReactiveEntryExitFilterConfig {
 
-    private ApplicationConfig applicationConfig;
+    private final ApplicationConfig applicationConfig;
+    private final static String actuatorpathpattern = "/actuator/**";
 
     public ReactiveEntryExitFilterConfig(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
@@ -42,12 +43,13 @@ public class ReactiveEntryExitFilterConfig {
     public WebFilter reactiveEntryExitFilter() {
         // Check if the exclude paths are set in the application configuration
         String excludePaths = this.applicationConfig.getLoggingReactiveEntryExitFilterExcludePaths();
-        if (excludePaths == null || excludePaths.isEmpty()) {
-            return new ReactiveEntryExitFilter();
-        }
         PathPatternParser parser = new PathPatternParser();
-        String[] paths = excludePaths.split(",");
         ReactiveEntryExitFilter filter = new ReactiveEntryExitFilter();
+        filter.excludePathPatterns(parser.parse(actuatorpathpattern));
+        if (excludePaths == null || excludePaths.isBlank()) {
+            return filter;
+        }
+        String[] paths = excludePaths.split(",");
         for (String path : paths) {
             filter.excludePathPatterns(parser.parse(path.trim()));
         }
