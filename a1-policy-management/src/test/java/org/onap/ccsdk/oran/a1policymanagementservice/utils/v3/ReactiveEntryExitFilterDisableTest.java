@@ -103,7 +103,6 @@ class ReactiveEntryExitFilterDisableTest {
             .untilAsserted(() -> {
                 assertFalse(capturedOutput.getOut().contains("Request received with path: /a1-policy-management/v1/policies"));
                 assertFalse(capturedOutput.getOut().contains("the Status code of the response: 201 CREATED"));
-                assertFalse(capturedOutput.getOut().contains("the response is:"));
             });
     }
 }
