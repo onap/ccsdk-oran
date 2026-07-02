@@ -163,10 +163,10 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
         } else {
             // Use a for loop instead of forEach to avoid nested functions
             // Otherwise "return" will not work properly
-            for(var propt in currentNode){
-                if (currentNode.hasOwnProperty(propt)) {
-                    currentChild = currentNode[propt]
-                    if (id == propt) {
+            for(var property in currentNode){
+                if (currentNode.hasOwnProperty(property)) {
+                    currentChild = currentNode[property]
+                    if (id == property) {
                         return currentChild;
                     } else {
                         // Search in the current child
@@ -4364,6 +4364,9 @@ Specifies the content type that the client expects to receive in response to the
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicy-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicy-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicy-title-400"></h3>
                             <p id="examples-A1PolicyManagement-getPolicy-description-400" class="marked"></p>
@@ -7736,6 +7739,9 @@ Specifies the content type that the client expects to receive in response to the
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyTypeDefinition-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypeDefinition-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyTypeDefinition-title-400"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypeDefinition-description-400" class="marked"></p>
@@ -8906,6 +8912,9 @@ Select types that are compatible with the given version. This parameter is only 
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyTypes-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypes-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyTypes-title-400"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypes-description-400" class="marked"></p>

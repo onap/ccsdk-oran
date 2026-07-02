@@ -55,7 +55,7 @@
         <jackson-databind-nullable.version>0.2.10</jackson-databind-nullable.version>
         <validation-api.version>3.1.1</validation-api.version>
         <swagger-annotations.version>2.2.45</swagger-annotations.version>
-        <software.amazon.awssdk.version>2.32.33</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.44.3</software.amazon.awssdk.version>
         <testcontainers.version>2.0.3</testcontainers.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <!-- Plugins versions -->
