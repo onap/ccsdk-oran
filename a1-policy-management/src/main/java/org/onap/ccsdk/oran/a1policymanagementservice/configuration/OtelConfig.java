@@ -112,11 +112,9 @@ public class OtelConfig {
     static ObservationPredicate observationPredicate(PathMatcher pathMatcher) {
         return (name, context) -> {
             if (context instanceof org.springframework.http.server.observation.ServerRequestObservationContext observationContext) {
-                logger.info("observationPredicate - filteroption 1 URI = " + observationContext.getCarrier().getRequestURI() + "Result: "+pathMatcher.match("/actuator/**", observationContext.getCarrier().getRequestURI())+" context: "+observationContext);
                 return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getRequestURI());
             }
             else if (context instanceof org.springframework.http.server.reactive.observation.ServerRequestObservationContext observationContext){
-                logger.info("observationPredicate - filteroption 2 URI = " + observationContext.getCarrier().getPath().value() + "Result: "+pathMatcher.match("/actuator/**", observationContext.getCarrier().getPath().value())+" context: "+observationContext);
                 return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getPath().value());
             }
             else {
