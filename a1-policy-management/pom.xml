@@ -25,9 +25,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-40-starter-parent</artifactId>
+        <artifactId>spring-boot-41-starter-parent</artifactId>
         <version>3.3.3-SNAPSHOT</version>
-        <relativePath>../../parent/springboot/springboot40/pom.xml</relativePath>
+        <relativePath>../../parent/springboot/springboot41/pom.xml</relativePath>
     </parent>
     <groupId>org.onap.ccsdk.oran</groupId>
     <artifactId>a1-policy-management-service</artifactId>
@@ -35,14 +35,10 @@
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
         <java.version>17</java.version>
-        <spring.boot.version>4.0.6</spring.boot.version>
+        <spring.boot.version>4.1.0</spring.boot.version>
         <!-- Start Temp overrides -->
-        <!-- Override Tomcat version. Remove after upgrading to springboot 4.0.7+ (Spring Boot 4.0.6 manages 11.0.21 which has CVEs) -->
-		<tomcat.version>11.0.22</tomcat.version>
-        <!-- Override Netty version. Remove after upgrading to springboot 4.0.7+ (Spring Boot 4.0.6 manages 4.2.12 which has CVEs) -->
-        <netty.version>4.2.13.Final</netty.version>
-        <!-- Override postgresql version. Remove after upgrading to springboot 4.0.7+ (Spring Boot 4.0.6 manages 42.7.10 which has CVEs) -->
-        <postgresql.version>42.7.11</postgresql.version>
+        <!-- Override Tomcat version. Remove after upgrading to springboot 4.1.0+ (Spring Boot 4.1.0 managed tomcat has CVEs) -->
+		<tomcat.version>11.0.23</tomcat.version>
         <!-- End Temp overrides -->
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <gson.version>2.13.1</gson.version>
@@ -55,7 +51,7 @@
         <jackson-databind-nullable.version>0.2.10</jackson-databind-nullable.version>
         <validation-api.version>3.1.1</validation-api.version>
         <swagger-annotations.version>2.2.45</swagger-annotations.version>
-        <software.amazon.awssdk.version>2.32.33</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.44.3</software.amazon.awssdk.version>
         <testcontainers.version>2.0.3</testcontainers.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <!-- Plugins versions -->

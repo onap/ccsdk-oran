@@ -60,8 +60,7 @@ import org.springframework.util.StringUtils;
         "app.vardata-directory=./target", //
         "app.config-file-schema-path=/application_configuration_schema.json"})
 @SuppressWarnings("java:S3577") // Class name should start or end with Test. This is not a test class per se,
-                                // but a mock
-                                // of the server.
+                                // but a mock of the server.
 class MockPolicyManagementService {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
