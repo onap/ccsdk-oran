@@ -163,10 +163,10 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
         } else {
             // Use a for loop instead of forEach to avoid nested functions
             // Otherwise "return" will not work properly
-            for(var propt in currentNode){
-                if (currentNode.hasOwnProperty(propt)) {
-                    currentChild = currentNode[propt]
-                    if (id == propt) {
+            for(var property in currentNode){
+                if (currentNode.hasOwnProperty(property)) {
+                    currentChild = currentNode[property]
+                    if (id == property) {
                         return currentChild;
                     } else {
                         // Search in the current child
@@ -2072,6 +2072,9 @@ pub fn main() {
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicy-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicy-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicy-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicy-description-404" class="marked"></p>
@@ -2618,6 +2621,9 @@ Select policies of types with the given A1 Policy Type name  (type names have th
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyIds-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyIds-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyIds-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyIds-description-404" class="marked"></p>
@@ -3154,6 +3160,9 @@ Select policies of a given A1 Policy Type name (type identity has the format &#3
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyInstances-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyInstances-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyInstances-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyInstances-description-404" class="marked"></p>
@@ -3601,6 +3610,9 @@ pub fn main() {
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyStatus-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyStatus-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyStatus-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyStatus-description-404" class="marked"></p>
@@ -4041,6 +4053,9 @@ pub fn main() {
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyTypeDefinition-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypeDefinition-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyTypeDefinition-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypeDefinition-description-404" class="marked"></p>
@@ -4545,6 +4560,9 @@ Select types that are compatible with the given version. This parameter is only 
                                 </div>
                                 <input id='responses-A1PolicyManagement-getPolicyTypes-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-A1PolicyManagement-getPolicyTypes-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-A1PolicyManagement-getPolicyTypes-title-404"></h3>
                             <p id="examples-A1PolicyManagement-getPolicyTypes-description-404" class="marked"></p>
@@ -6841,6 +6859,9 @@ pub fn main() {
                                 </div>
                                 <input id='responses-HealthCheck-getStatus-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-HealthCheck-getStatus-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                         </article>
                       </div>
@@ -7587,6 +7608,9 @@ The identity of a Near-RT RIC to get information for.
                                 </div>
                                 <input id='responses-NearRTRICRepository-getRic-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-NearRTRICRepository-getRic-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-NearRTRICRepository-getRic-title-404"></h3>
                             <p id="examples-NearRTRICRepository-getRic-description-404" class="marked"></p>
@@ -8039,6 +8063,9 @@ The identity of an A1 Policy Type. If given, all Near-RT RICs supporting the A1 
                                 </div>
                                 <input id='responses-NearRTRICRepository-getRics-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-NearRTRICRepository-getRics-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-NearRTRICRepository-getRics-title-404"></h3>
                             <p id="examples-NearRTRICRepository-getRics-description-404" class="marked"></p>
@@ -8921,6 +8948,9 @@ The identity of the registered service
                                 </div>
                                 <input id='responses-ServiceRegistryAndSupervision-getServices-200-schema-data' type='hidden' value=''></input>
                               </div>
+                                <div class="tab-pane" id="examples-ServiceRegistryAndSupervision-getServices-200-example">
+                                  <pre class="prettyprint"><code class="json"></code></pre>
+                                </div>
                             </div>
                             <h3 id="examples-ServiceRegistryAndSupervision-getServices-title-404"></h3>
                             <p id="examples-ServiceRegistryAndSupervision-getServices-description-404" class="marked"></p>
