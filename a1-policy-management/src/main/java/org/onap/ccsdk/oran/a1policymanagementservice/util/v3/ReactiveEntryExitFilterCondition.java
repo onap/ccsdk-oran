@@ -35,7 +35,7 @@ public class ReactiveEntryExitFilterCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String reactiveFilterEnabled = context.getEnvironment().getProperty("logging.reactive-entry-exit-filter-enabled", "false");
-        logger.info("Reactive Entry Exit filter is enabled: {}", reactiveFilterEnabled);
+        logger.trace("Reactive Entry Exit filter is enabled: {}", reactiveFilterEnabled);
         return Boolean.parseBoolean(reactiveFilterEnabled);
     }
 }
