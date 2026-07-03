@@ -78,7 +78,7 @@ public class ReactiveEntryExitFilter implements WebFilter {
 
         ServerHttpRequest httpRequest = exchange.getRequest();
         MultiValueMap<String, String> queryParams = httpRequest.getQueryParams();
-        logger.info("Request received with path: {}, and the Request Id: {}, with HTTP Method: {}", httpRequest.getPath(),
+        logger.trace("Request received with path: {}, and the Request Id: {}, with HTTP Method: {}", httpRequest.getPath(),
                 exchange.getRequest().getId(), exchange.getRequest().getMethod());
         if (!queryParams.isEmpty())
             logger.trace("For the request Id: {}, the Query parameters are: {}", exchange.getRequest().getId(), queryParams);
@@ -109,7 +109,7 @@ public class ReactiveEntryExitFilter implements WebFilter {
                         responseBodyBuilder.append(responseBody);
                     })).doFinally(signalType -> {
                         restoreFromContextToMdc(contextView);
-                        logger.info("For the request ID: {} the Status code of the response: {}",
+                        logger.trace("For the request ID: {} the Status code of the response: {}",
                                 exchange.getRequest().getId(), exchange.getResponse().getStatusCode());
                         logger.trace("For the request ID: {} the response is: {} ",
                                 exchange.getRequest().getId(), responseBodyBuilder);
