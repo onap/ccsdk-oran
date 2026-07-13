@@ -62,10 +62,10 @@
         <formatter-maven-plugin.version>2.26.0</formatter-maven-plugin.version>
         <spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
         <!-- Tracing Dependencies -->
-        <opentelemetry-bom.version>1.60.1</opentelemetry-bom.version>
-        <opentelemetry-instrumentation-bom-alpha.version>2.27.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
+        <opentelemetry-bom.version>1.63.0</opentelemetry-bom.version>
+        <opentelemetry-instrumentation-bom-alpha.version>2.29.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <version.logstash>8.1</version.logstash>
-        <version.logback>1.5.32</version.logback>
+        <version.logback>1.5.33</version.logback>
         <version.java.protobuf>4.34.1</version.java.protobuf>
         <allowskiptests>false</allowskiptests>
     </properties>
