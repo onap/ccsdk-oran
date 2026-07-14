@@ -49,6 +49,8 @@ mvn -Dtest=MockPolicyManagementService test
 The backend server publishes live API documentation at the
 URL `http://your-host-name-here:8081/swagger-ui.html`
 
+(Note: Use the latest released version where possible)
+
 More information about the ONAP CCSDK A1 Policy Management Service can be found at: 
   - https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP
   - https://docs.onap.org/projects/onap-ccsdk-oran/en/latest/index.html
@@ -57,8 +59,8 @@ More information about the ONAP CCSDK A1 Policy Management Service can be found 
 ## License
 
 ONAP : ccsdk oran
-Copyright (C) 2019-2023 Nordix Foundation. All rights reserved.
-Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+Copyright (C) 2022-2023 Nordix Foundation. All rights reserved.
+Copyright (C) 2024-2026 OpenInfra Foundation Europe. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
