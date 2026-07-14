@@ -25,7 +25,7 @@ Architecture Review
 This picture provides a overview of ONAP's A1 Controller architecture,
 integration with other components and API resource/operation provided.
 
-.. image:: ../media/ONAP-A1ControllerArchitecture-Quebec.png
+.. image:: ../media/ONAP-A1ControllerArchitecture-Rabat.png
    :width: 500pt
 
 The A1 Policy Management Service provides an API for accessing of A1 Policies. The A1-PMS
