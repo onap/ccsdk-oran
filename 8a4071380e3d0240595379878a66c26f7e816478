@@ -16,6 +16,23 @@
       "message": "Currently blocked pending an interim release from ccsdk/parent (Springboot41-parent. \nWill continue here after that is unblocked.",
       "revId": "8a4071380e3d0240595379878a66c26f7e816478",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19428440_2e95401b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5519
+      },
+      "writtenOn": "2026-07-15T08:33:32Z",
+      "side": 1,
+      "message": "Recheck",
+      "revId": "8a4071380e3d0240595379878a66c26f7e816478",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
