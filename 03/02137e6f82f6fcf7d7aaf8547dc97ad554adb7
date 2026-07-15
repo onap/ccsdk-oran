@@ -1,0 +1,9 @@
+Code-Review+2: Saul Gill <saul.gill@est.tech>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: John Keeney <john.keeney@est.tech>
+Submitted-at: Wed, 15 Jul 2026 15:14:03 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/oran/+/146257
+Project: ccsdk/oran
+Branch: refs/heads/master
