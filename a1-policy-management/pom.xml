@@ -35,10 +35,14 @@
     <name>ccsdk-oran :: ${project.artifactId}</name>
     <properties>
         <java.version>17</java.version>
-        <spring.boot.version>4.1.0</spring.boot.version>
+        <spring.boot.version>4.1.1</spring.boot.version>
         <!-- Start Temp overrides -->
-        <!-- Override Tomcat version. Remove after upgrading to springboot 4.1.0+ (Spring Boot 4.1.0 managed tomcat has CVEs) -->
-		<tomcat.version>11.0.23</tomcat.version>
+            <!-- Override Tomcat version. Remove when Spring Boot BOM manages 11.0.26+ -->
+            <tomcat.version>11.0.25</tomcat.version>
+            <!-- Override PostgreSQL version. Remove when Spring Boot BOM manages 42.7.14+  -->
+            <postgresql.version>42.7.13</postgresql.version>
+            <!-- Override log4j version. Remove when Spring Boot BOM manages 2.26.2+ -->
+            <log4j2.version>2.26.1</log4j2.version>
         <!-- End Temp overrides -->
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <gson.version>2.13.1</gson.version>
@@ -65,8 +69,8 @@
         <opentelemetry-bom.version>1.63.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.29.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
         <version.logstash>8.1</version.logstash>
-        <version.logback>1.5.33</version.logback>
-        <version.java.protobuf>4.34.1</version.java.protobuf>
+        <version.logback>1.5.38</version.logback>
+        <version.java.protobuf>4.35.1</version.java.protobuf>
         <allowskiptests>false</allowskiptests>
     </properties>
     <repositories>
@@ -115,16 +119,8 @@
             <version>${jackson-databind-nullable.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -184,10 +180,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -346,11 +338,6 @@
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${version.logback}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${version.logback}</version>
         </dependency>
@@ -399,6 +386,20 @@
                 <artifactId>json</artifactId>
                 <version>${json.version}</version>
             </dependency>
+            <!-- Start Temp overrides -->
+                <!-- 20260907: Override scram versions. Remove when r2dbc-postgresql manages 3.5+ (CVE-2026-53712) -->
+                <dependency>
+                    <groupId>com.ongres.scram</groupId>
+                    <artifactId>scram-client</artifactId>
+                    <version>3.4</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.ongres.scram</groupId>
+                    <artifactId>scram-common</artifactId>
+                    <version>3.4</version>
+                </dependency>
+            <!-- End Temp overrides -->
+
         </dependencies>
     </dependencyManagement>
     <build>
@@ -624,7 +625,7 @@
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
-                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2025 OpenInfra Foundation Europe.
+                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2026 OpenInfra Foundation Europe.
                                     All rights reserved. Licensed under the Apache 2 License, </licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
@@ -647,7 +648,7 @@
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
-                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2025 OpenInfra Foundation Europe.
+                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2026 OpenInfra Foundation Europe.
                                     All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
@@ -672,7 +673,7 @@
                                     provides a REST API for managing O-RAN A1 Policies.</appDescription>
                                 <appName>ONAP CCSDK A1 Policy Management Service</appName>
                                 <infoUrl>https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16444961/O-RAN+A1+Policies+in+ONAP</infoUrl>
-                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2025 OpenInfra Foundation Europe.
+                                <licenseInfo>Copyright (C) 2020-2023 Nordix Foundation and Copyright (C) 2024-2026 OpenInfra Foundation Europe.
                                     All rights reserved.</licenseInfo>
                                 <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
                             </configOptions>
