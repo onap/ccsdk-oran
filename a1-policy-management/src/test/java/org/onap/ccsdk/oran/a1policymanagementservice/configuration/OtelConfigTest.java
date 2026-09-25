@@ -111,6 +111,11 @@ class OtelConfigTest {
             OtelConfig.observationPredicate(antPathMatcher)
                 .test("anything", serverRequestObservationContext);
         assertFalse(result);
+        when(httpServletRequest.getRequestURI()).thenReturn("/status");
+        result =
+            OtelConfig.observationPredicate(antPathMatcher)
+                .test("anything", serverRequestObservationContext);
+        assertFalse(result);
         when(httpServletRequest.getRequestURI()).thenReturn("/api/v1/anything");
         result =
             OtelConfig.observationPredicate(antPathMatcher)

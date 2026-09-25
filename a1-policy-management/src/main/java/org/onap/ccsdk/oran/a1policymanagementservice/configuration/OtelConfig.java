@@ -21,12 +21,17 @@ package org.onap.ccsdk.oran.a1policymanagementservice.configuration;
 
 import io.micrometer.observation.ObservationPredicate;
 import io.micrometer.observation.ObservationRegistry;
+import io.opentelemetry.api.trace.SpanKind;
+import io.opentelemetry.contrib.sampler.RuleBasedRoutingSampler;
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
+import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import io.opentelemetry.sdk.extension.trace.jaeger.sampler.JaegerRemoteSampler;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
+import io.opentelemetry.semconv.UrlAttributes;
 
 import java.time.Duration;
+import java.util.List;
 import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -47,6 +52,12 @@ public class OtelConfig {
     private static final Logger logger = LoggerFactory.getLogger(OtelConfig.class);
 
     public static final int JAEGER_REMOTE_SAMPLER_POLLING_INTERVAL_IN_SECOND = 30;
+
+    private static final List<String> UNTRACED_OBSERVATION_PATHS =
+            List.of("/actuator/**", "/status", "/a1-policy/v2/status", "/a1-policy-management/v1/status");
+
+    static final String UNTRACED_SERVER_PATHS =
+            "^(/a1-policy/v2|/a1-policy-management/v1)?/status$|^/actuator(/.*)?$";
 
     @Value("${spring.application.name}")
     private String serviceId;
@@ -112,14 +123,31 @@ public class OtelConfig {
     static ObservationPredicate observationPredicate(PathMatcher pathMatcher) {
         return (name, context) -> {
             if (context instanceof org.springframework.http.server.observation.ServerRequestObservationContext observationContext) {
-                return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getRequestURI());
+                return !isUntraced(pathMatcher, observationContext.getCarrier().getRequestURI());
             }
             else if (context instanceof org.springframework.http.server.reactive.observation.ServerRequestObservationContext observationContext){
-                return !pathMatcher.match("/actuator/**", observationContext.getCarrier().getPath().value());
+                return !isUntraced(pathMatcher, observationContext.getCarrier().getPath().value());
             }
             else {
                 return true;
             }
         };
+    }
+
+    private static boolean isUntraced(PathMatcher pathMatcher, String path) {
+        return UNTRACED_OBSERVATION_PATHS.stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
+    }
+
+    // The OpenTelemetry starter's WebFlux instrumentation creates its own server spans next to the
+    // Micrometer ones, without going through observations, so observationPredicate never sees them.
+    @Bean
+    @ConditionalOnProperty(prefix = "otel.sdk", name = "disabled", havingValue = "false", matchIfMissing = false)
+    AutoConfigurationCustomizerProvider skipProbeEndpointsFromTracing() {
+        return customizer -> customizer.addSamplerCustomizer((sampler, config) -> untracedServerPathsSampler(sampler));
+    }
+
+    static Sampler untracedServerPathsSampler(Sampler fallback) {
+        return RuleBasedRoutingSampler.builder(SpanKind.SERVER, fallback)
+                .drop(UrlAttributes.URL_PATH, UNTRACED_SERVER_PATHS).build();
     }
 }

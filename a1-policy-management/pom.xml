@@ -68,6 +68,7 @@
         <!-- Tracing Dependencies -->
         <opentelemetry-bom.version>1.63.0</opentelemetry-bom.version>
         <opentelemetry-instrumentation-bom-alpha.version>2.29.0-alpha</opentelemetry-instrumentation-bom-alpha.version>
+        <opentelemetry-samplers.version>1.57.0-alpha</opentelemetry-samplers.version>
         <version.logstash>8.1</version.logstash>
         <version.logback>1.5.38</version.logback>
         <version.java.protobuf>4.35.1</version.java.protobuf>
@@ -330,6 +331,11 @@
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.contrib</groupId>
+            <artifactId>opentelemetry-samplers</artifactId>
+            <version>${opentelemetry-samplers.version}</version>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
